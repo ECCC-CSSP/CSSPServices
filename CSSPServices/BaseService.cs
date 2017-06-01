@@ -62,7 +62,7 @@ namespace CSSPServices
             }
             this.User = User;
             this.CanSendEmail = true;
-            this.DBName = "CSSPWebToolsDB";
+            this.DBName = "CSSPWebToolsDBTest";
             this.FromEmail = "ec.pccsm-cssp.ec@canada.ca";
             this.IsTest = false;
         }
