@@ -97,11 +97,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteProvince, "4"), new[] { ModelsRes.ClimateSiteProvince });
             }
 
-            if (climateSite.Elevation_m < 0 || climateSite.Elevation_m > 10000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteElevation_m, "0", "10000"), new[] { ModelsRes.ClimateSiteElevation_m });
-            }
-
+                //Error: Type not implemented [Elevation_m] of type [double]
             if (!string.IsNullOrWhiteSpace(climateSite.ClimateID) && climateSite.ClimateID.Length > 10)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteClimateID, "10"), new[] { ModelsRes.ClimateSiteClimateID });
@@ -122,11 +118,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteProvSiteID, "50"), new[] { ModelsRes.ClimateSiteProvSiteID });
             }
 
-            if (climateSite.TimeOffset_hour < -12 || climateSite.TimeOffset_hour > 12)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteTimeOffset_hour, "-12", "12"), new[] { ModelsRes.ClimateSiteTimeOffset_hour });
-            }
-
+                //Error: Type not implemented [TimeOffset_hour] of type [double]
             if (!string.IsNullOrWhiteSpace(climateSite.File_desc) && climateSite.File_desc.Length > 50)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteFile_desc, "50"), new[] { ModelsRes.ClimateSiteFile_desc });
@@ -137,6 +129,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ClimateSiteLastUpdateContactTVItemID, "1"), new[] { ModelsRes.ClimateSiteLastUpdateContactTVItemID });
             }
 
+                //Error: Type not implemented [Elevation_m] of type [double]
+                //Error: Type not implemented [TimeOffset_hour] of type [double]
 
         }
         #endregion Validation

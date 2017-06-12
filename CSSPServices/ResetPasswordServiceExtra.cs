@@ -52,7 +52,7 @@ namespace CSSPServices
         }
         public bool ResetPasswordDB(ResetPassword resetPassword)
         {
-            AspNetUserService aspNetUserService = new AspNetUserService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactService contactService = new ContactService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
 
             using (TransactionScope ts = new TransactionScope())
             {
@@ -69,36 +69,23 @@ namespace CSSPServices
                     return false;
                 }
 
-                AspNetUser aspNetUser = new AspNetUser()
+                Contact contact = contactService.GetEdit().Where(c => c.LoginEmail == resetPassword.Email).FirstOrDefault();
+                if (contact == null)
                 {
-                    Email = "unique" + resetPassword.Email,
-                    Password = resetPassword.Password
-                };
-
-                if (!aspNetUserService.Add(aspNetUser))
-                {
-                    validationResults = aspNetUser.ValidationResults;
+                    validationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ResetPasswordEmail, resetPassword.Email)) };
                     return false;
                 }
 
-                if (!aspNetUserService.Delete(aspNetUser))
-                {
-                    validationResults = aspNetUser.ValidationResults;
-                    return false;
-                }
+                // -------------------------------------------------------------
+                // todo create passwordhash and save it to Contact
+                // -------------------------------------------------------------
 
-                aspNetUser = aspNetUserService.GetRead().Where(c => c.Email == resetPassword.Email).FirstOrDefault();
-                if (aspNetUser == null)
-                {
-                    validationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AspNetUser, ModelsRes.ResetPasswordEmail, resetPassword.Email)) };
-                    return false;
-                }
+                contact.PasswordHash = contact.PasswordHash; // should be the new password hash
+                //aspNetUser.Password = resetPassword.Password;
 
-                aspNetUser.Password = resetPassword.Password;
-
-                if (!aspNetUserService.Update(aspNetUser))
+                if (!contactService.Update(contact))
                 {
-                    validationResults = aspNetUser.ValidationResults;
+                    validationResults = contact.ValidationResults;
                     return false;
                 };
 

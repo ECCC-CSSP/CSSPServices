@@ -45,9 +45,12 @@ namespace CSSPServices.Tests
             Contact contact = new Contact();
 
             if (OmitPropName != "ContactID") contact.ContactID = ContactID;
-            if (OmitPropName != "Id") contact.Id = GetRandomString("", 5);
             if (OmitPropName != "ContactTVItemID") contact.ContactTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "LoginEmail") contact.LoginEmail = GetRandomEmail();
+            //Error: Type not implemented [PasswordHash]
+            //Error: Type not implemented [PasswordSalt]
+            if (OmitPropName != "Token") contact.Token = GetRandomString("", 5);
+            if (OmitPropName != "RandomToken") contact.RandomToken = GetRandomString("", 5);
             if (OmitPropName != "FirstName") contact.FirstName = GetRandomString("", 5);
             if (OmitPropName != "LastName") contact.LastName = GetRandomString("", 5);
             if (OmitPropName != "Initial") contact.Initial = GetRandomString("", 5);
@@ -96,14 +99,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            contact = null;
-            contact = GetFilledRandomContact("Id");
-            Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(1, contact.ValidationResults.Count());
-            Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactId)).Any());
-            Assert.AreEqual(null, contact.Id);
-            Assert.AreEqual(0, contactService.GetRead().Count());
-
             // ContactTVItemID will automatically be initialized at 0 --> not null
 
             contact = null;
@@ -113,6 +108,10 @@ namespace CSSPServices.Tests
             Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail)).Any());
             Assert.AreEqual(null, contact.LoginEmail);
             Assert.AreEqual(0, contactService.GetRead().Count());
+
+            //Error: Type not implemented [PasswordHash]
+
+            //Error: Type not implemented [PasswordSalt]
 
             contact = null;
             contact = GetFilledRandomContact("FirstName");
@@ -169,39 +168,6 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Id] of type [string]
-            //-----------------------------------
-
-            contact = null;
-            contact = GetFilledRandomContact("");
-
-            // Id has MinLength [empty] and MaxLength [128]. At Max should return true and no errors
-            string contactIdMin = GetRandomString("", 128);
-            contact.Id = contactIdMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactIdMin, contact.Id);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(0, contactService.GetRead().Count());
-
-            // Id has MinLength [empty] and MaxLength [128]. At Max - 1 should return true and no errors
-            contactIdMin = GetRandomString("", 127);
-            contact.Id = contactIdMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactIdMin, contact.Id);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(0, contactService.GetRead().Count());
-
-            // Id has MinLength [empty] and MaxLength [128]. At Max + 1 should return false with one error
-            contactIdMin = GetRandomString("", 129);
-            contact.Id = contactIdMin;
-            Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactId, "128")).Any());
-            Assert.AreEqual(contactIdMin, contact.Id);
-            Assert.AreEqual(0, contactService.GetRead().Count());
-
-            //-----------------------------------
             // doing property [ContactTVItemID] of type [int]
             //-----------------------------------
 
@@ -251,6 +217,80 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, contact.ValidationResults.Count());
             Assert.AreEqual(contactLoginEmailMin, contact.LoginEmail);
             Assert.AreEqual(true, contactService.Delete(contact));
+            Assert.AreEqual(0, contactService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [PasswordHash] of type [Byte[]]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [PasswordSalt] of type [Byte[]]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [Token] of type [string]
+            //-----------------------------------
+
+            contact = null;
+            contact = GetFilledRandomContact("");
+
+            // Token has MinLength [empty] and MaxLength [255]. At Max should return true and no errors
+            string contactTokenMin = GetRandomString("", 255);
+            contact.Token = contactTokenMin;
+            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
+            Assert.AreEqual(0, contact.ValidationResults.Count());
+            Assert.AreEqual(contactTokenMin, contact.Token);
+            Assert.AreEqual(true, contactService.Delete(contact));
+            Assert.AreEqual(0, contactService.GetRead().Count());
+
+            // Token has MinLength [empty] and MaxLength [255]. At Max - 1 should return true and no errors
+            contactTokenMin = GetRandomString("", 254);
+            contact.Token = contactTokenMin;
+            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
+            Assert.AreEqual(0, contact.ValidationResults.Count());
+            Assert.AreEqual(contactTokenMin, contact.Token);
+            Assert.AreEqual(true, contactService.Delete(contact));
+            Assert.AreEqual(0, contactService.GetRead().Count());
+
+            // Token has MinLength [empty] and MaxLength [255]. At Max + 1 should return false with one error
+            contactTokenMin = GetRandomString("", 256);
+            contact.Token = contactTokenMin;
+            Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
+            Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactToken, "255")).Any());
+            Assert.AreEqual(contactTokenMin, contact.Token);
+            Assert.AreEqual(0, contactService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [RandomToken] of type [string]
+            //-----------------------------------
+
+            contact = null;
+            contact = GetFilledRandomContact("");
+
+            // RandomToken has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
+            string contactRandomTokenMin = GetRandomString("", 50);
+            contact.RandomToken = contactRandomTokenMin;
+            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
+            Assert.AreEqual(0, contact.ValidationResults.Count());
+            Assert.AreEqual(contactRandomTokenMin, contact.RandomToken);
+            Assert.AreEqual(true, contactService.Delete(contact));
+            Assert.AreEqual(0, contactService.GetRead().Count());
+
+            // RandomToken has MinLength [empty] and MaxLength [50]. At Max - 1 should return true and no errors
+            contactRandomTokenMin = GetRandomString("", 49);
+            contact.RandomToken = contactRandomTokenMin;
+            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
+            Assert.AreEqual(0, contact.ValidationResults.Count());
+            Assert.AreEqual(contactRandomTokenMin, contact.RandomToken);
+            Assert.AreEqual(true, contactService.Delete(contact));
+            Assert.AreEqual(0, contactService.GetRead().Count());
+
+            // RandomToken has MinLength [empty] and MaxLength [50]. At Max + 1 should return false with one error
+            contactRandomTokenMin = GetRandomString("", 51);
+            contact.RandomToken = contactRandomTokenMin;
+            Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
+            Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactRandomToken, "50")).Any());
+            Assert.AreEqual(contactRandomTokenMin, contact.RandomToken);
             Assert.AreEqual(0, contactService.GetRead().Count());
 
             //-----------------------------------

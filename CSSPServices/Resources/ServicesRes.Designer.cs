@@ -340,6 +340,24 @@ namespace CSSPServices.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid length of password hash. Should be 64 bytes..
+        /// </summary>
+        public static string InvalidLengthOfPasswordHashShouldBe64Bytes {
+            get {
+                return ResourceManager.GetString("InvalidLengthOfPasswordHashShouldBe64Bytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid length of password salt. Should be 128 bytes..
+        /// </summary>
+        public static string InvalidLengthOfPasswordSaltShouldBe128Bytes {
+            get {
+                return ResourceManager.GetString("InvalidLengthOfPasswordSaltShouldBe128Bytes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Need to be logged in.
         /// </summary>
         public static string NeedToBeLoggedIn {

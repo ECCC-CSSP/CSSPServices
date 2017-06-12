@@ -54,11 +54,6 @@ namespace CSSPServices
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(contact.Id))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactId), new[] { ModelsRes.ContactId });
-            }
-
             //ContactTVItemID (int) is required but no testing needed as it is automatically set to 0
 
             if (string.IsNullOrWhiteSpace(contact.LoginEmail))
@@ -124,11 +119,6 @@ namespace CSSPServices
             // Property other validation
             // ----------------------------------------------------
 
-            if (!string.IsNullOrWhiteSpace(contact.Id) && contact.Id.Length > 128)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactId, "128"), new[] { ModelsRes.ContactId });
-            }
-
             if (contact.ContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactContactTVItemID, "1"), new[] { ModelsRes.ContactContactTVItemID });
@@ -137,6 +127,18 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(contact.LoginEmail) && contact.LoginEmail.Length > 255)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginEmail, "255"), new[] { ModelsRes.ContactLoginEmail });
+            }
+
+                //Error: Type not implemented [PasswordHash] of type [Byte[]]
+                //Error: Type not implemented [PasswordSalt] of type [Byte[]]
+            if (!string.IsNullOrWhiteSpace(contact.Token) && contact.Token.Length > 255)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactToken, "255"), new[] { ModelsRes.ContactToken });
+            }
+
+            if (!string.IsNullOrWhiteSpace(contact.RandomToken) && contact.RandomToken.Length > 50)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactRandomToken, "50"), new[] { ModelsRes.ContactRandomToken });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.FirstName) && contact.FirstName.Length > 100)
@@ -211,6 +213,8 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [PasswordHash] of type [Byte[]]
+                //Error: Type not implemented [PasswordSalt] of type [Byte[]]
             if (addContactType == AddContactType.Register)
             {
                 if (!string.IsNullOrWhiteSpace(contact.Password) && (contact.Password.Length < 6) || (contact.Password.Length > 100))

@@ -26,11 +26,6 @@ namespace CSSPServices.Tests
         AppErrLogService appErrLogService { get; set; }
         AppTaskService appTaskService { get; set; }
         AppTaskLanguageService appTaskLanguageService { get; set; }
-        AspNetRoleService aspNetRoleService { get; set; }
-        AspNetUserService aspNetUserService { get; set; }
-        AspNetUserClaimService aspNetUserClaimService { get; set; }
-        AspNetUserLoginService aspNetUserLoginService { get; set; }
-        AspNetUserRoleService aspNetUserRoleService { get; set; }
         BoxModelService boxModelService { get; set; }
         BoxModelLanguageService boxModelLanguageService { get; set; }
         BoxModelResultService boxModelResultService { get; set; }
@@ -102,11 +97,6 @@ namespace CSSPServices.Tests
             appErrLogService = new AppErrLogService(LanguageRequest, User, DatabaseTypeEnum.MemoryWithDBShape);
             appTaskService = new AppTaskService(LanguageRequest, User, DatabaseTypeEnum.MemoryWithDBShape);
             appTaskLanguageService = new AppTaskLanguageService(LanguageRequest, User, DatabaseTypeEnum.MemoryWithDBShape);
-            aspNetRoleService = new AspNetRoleService(LanguageRequest, User, DatabaseTypeEnum.MemoryWithDBShape);
-            aspNetUserService = new AspNetUserService(LanguageRequest, User, DatabaseTypeEnum.MemoryWithDBShape);
-            aspNetUserClaimService = new AspNetUserClaimService(LanguageRequest, User, DatabaseTypeEnum.MemoryWithDBShape);
-            aspNetUserLoginService = new AspNetUserLoginService(LanguageRequest, User, DatabaseTypeEnum.MemoryWithDBShape);
-            aspNetUserRoleService = new AspNetUserRoleService(LanguageRequest, User, DatabaseTypeEnum.MemoryWithDBShape);
             boxModelService = new BoxModelService(LanguageRequest, User, DatabaseTypeEnum.MemoryWithDBShape);
             boxModelLanguageService = new BoxModelLanguageService(LanguageRequest, User, DatabaseTypeEnum.MemoryWithDBShape);
             boxModelResultService = new BoxModelResultService(LanguageRequest, User, DatabaseTypeEnum.MemoryWithDBShape);
@@ -202,23 +192,6 @@ namespace CSSPServices.Tests
             Assert.AreEqual(tvItemRoot.TVItemID, tvItemRoot.TVItemLanguages.First().TVItemID);
 
             // -------------------------------
-            // Adding First AspNetUser Object
-            // -------------------------------
-
-            AspNetUser aspNetUser = new AspNetUser();
-            aspNetUser.UserName = "Charles.LeBlanc2@canada.ca";
-            aspNetUser.Email = "Charles.LeBlanc2@canada.ca";
-            aspNetUser.Password = GetRandomPassword();
-            aspNetUser.Id = GetRandomString("", 30);
-
-            aspNetUserService.Add(aspNetUser);
-            Assert.AreEqual(1, aspNetUserService.GetRead().Count());
-            Assert.AreEqual(0, aspNetUser.ValidationResults.Count());
-            Assert.AreEqual(aspNetUser.UserName, aspNetUserService.GetRead().First().UserName);
-            Assert.AreEqual(aspNetUser.Email, aspNetUserService.GetRead().First().Email);
-            Assert.AreEqual(aspNetUser.Id, aspNetUserService.GetRead().First().Id);
-
-            // -------------------------------
             // Adding First Contact Object
             // -------------------------------
 
@@ -226,9 +199,19 @@ namespace CSSPServices.Tests
             contact.FirstName = "Charles";
             contact.Initial = "G";
             contact.LastName = "LeBlanc";
-            contact.Id = aspNetUser.Id;
             contact.WebName = GetRandomString("", 20);
-            contact.LoginEmail = aspNetUser.Email;
+            contact.LoginEmail = "Charles.LeBlanc2@canada.ca";
+            contact.LoginEmail = "aaaaaa";
+
+            byte[] PasswordHash;
+            byte[] PasswordSalt;
+            string RandomToken = "";
+
+            contactService.CreatePasswordHash_Salt_RandomToken(contact, out PasswordHash, out PasswordSalt, out RandomToken);
+            contact.PasswordHash = PasswordHash;
+            contact.PasswordSalt = PasswordSalt;
+            contact.RandomToken = RandomToken;
+
             contact.LastUpdateDate_UTC = DateTime.UtcNow;
             contact.LastUpdateContactTVItemID = 1;
 

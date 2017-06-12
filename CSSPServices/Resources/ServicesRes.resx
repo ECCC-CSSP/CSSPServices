@@ -243,4 +243,10 @@
   <data name="_IsNotAValidEmail" xml:space="preserve">
     <value>{0} is not a valid email</value>
   </data>
+  <data name="InvalidLengthOfPasswordHashShouldBe64Bytes" xml:space="preserve">
+    <value>Invalid length of password hash. Should be 64 bytes.</value>
+  </data>
+  <data name="InvalidLengthOfPasswordSaltShouldBe128Bytes" xml:space="preserve">
+    <value>Invalid length of password salt. Should be 128 bytes.</value>
+  </data>
 </root>

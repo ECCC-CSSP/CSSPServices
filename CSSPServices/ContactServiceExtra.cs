@@ -15,6 +15,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Transactions;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace CSSPServices
 {
@@ -366,9 +369,7 @@ namespace CSSPServices
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryNoDBShape))
             {
                 Contact contact = (from c in db.Contacts
-                                   from a in db.AspNetUsers
-                                   where c.Id == a.Id
-                                   && a.UserName == Email
+                                   where c.LoginEmail == Email
                                    select c).FirstOrDefault<Contact>();
 
                 if (contact != null)
@@ -383,26 +384,20 @@ namespace CSSPServices
             {
 
                 Contact contact = (from c in db.Contacts
-                                   from a in db.AspNetUsers
-                                   where c.Id == a.Id
-                                   && a.Email == User.Identity.Name
+                                   where c.LoginEmail == User.Identity.Name
                                    select c).FirstOrDefault<Contact>();
 
                 if (contact != null)
                 {
                     contact = (from c in db.Contacts
-                               from a in db.AspNetUsers
-                               where c.Id == a.Id
-                               && a.Email == Email
-                               && a.Email != User.Identity.Name
+                               where c.LoginEmail == Email
+                               && c.LoginEmail != User.Identity.Name
                                select c).FirstOrDefault<Contact>();
                 }
                 else
                 {
                     contact = (from c in db.Contacts
-                               from a in db.AspNetUsers
-                               where c.Id == a.Id
-                               && a.Email == Email
+                               where c.LoginEmail == Email
                                select c).FirstOrDefault<Contact>();
                 }
 
@@ -444,28 +439,22 @@ namespace CSSPServices
             {
 
                 Contact contact = (from c in db.Contacts
-                                   from a in db.AspNetUsers
-                                   where c.Id == a.Id
-                                   && a.Email == User.Identity.Name
+                                   where c.LoginEmail == User.Identity.Name
                                    select c).FirstOrDefault<Contact>();
 
                 if (contact != null)
                 {
                     contact = (from c in db.Contacts
-                               from a in db.AspNetUsers
-                               where c.Id == a.Id
-                               && c.FirstName == FirstName
+                               where c.FirstName == FirstName
                                && c.LastName == LastName
                                && c.Initial == Initial
-                               && a.Email != User.Identity.Name
+                               && c.LoginEmail != User.Identity.Name
                                select c).FirstOrDefault<Contact>();
                 }
                 else
                 {
                     contact = (from c in db.Contacts
-                               from a in db.AspNetUsers
-                               where c.Id == a.Id
-                               && c.FirstName == FirstName
+                               where c.FirstName == FirstName
                                && c.LastName == LastName
                                && c.Initial == Initial
                                select c).FirstOrDefault<Contact>();
@@ -482,26 +471,20 @@ namespace CSSPServices
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryNoDBShape))
             {
                 Contact contact = (from c in db.Contacts
-                                   from a in db.AspNetUsers
-                                   where c.Id == a.Id
-                                   && a.Email == User.Identity.Name
+                                   where c.LoginEmail == User.Identity.Name
                                    select c).FirstOrDefault<Contact>();
 
                 if (contact != null)
                 {
                     contact = (from c in db.Contacts
-                               from a in db.AspNetUsers
-                               where c.Id == a.Id
-                               && c.WebName == WebName
-                               && a.Email != User.Identity.Name
+                               where c.WebName == WebName
+                               && c.LoginEmail != User.Identity.Name
                                select c).FirstOrDefault<Contact>();
                 }
                 else
                 {
                     contact = (from c in db.Contacts
-                               from a in db.AspNetUsers
-                               where c.Id == a.Id
-                               && c.WebName == WebName
+                               where c.WebName == WebName
                                select c).FirstOrDefault<Contact>();
                 }
 
@@ -511,15 +494,164 @@ namespace CSSPServices
                     return string.Format(ServicesRes._IsAlreadyTaken, WebName);
             }
         }
+        public bool Login(Contact contact)
+        {
+            Random rand = new Random();
 
+            if (string.IsNullOrWhiteSpace(contact.LoginEmail))
+            {
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail)) }.AsEnumerable();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(contact.Password))
+            {
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPassword)) }.AsEnumerable();
+                return false;
+            }
+
+            Contact contactExist = (from c in db.Contacts
+                                    where c.LoginEmail == contact.LoginEmail
+                                    && c.Password == contact.Password
+                                    select c).FirstOrDefault();
+
+            if (contactExist == null)
+            {
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPassword)) }.AsEnumerable();
+                return false;
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("CSSPWebTools");
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, contactExist.ContactID.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenString = tokenHandler.WriteToken(token);
+
+            var randomKeyString = "";
+            for (int i = 0; i < 20; i++)
+            {
+                randomKeyString += (char)rand.Next(65, 91);
+            }
+
+            if (!TryToSave(contact)) return false;
+
+
+            contact = new Contact();
+            contact.ContactID = contactExist.ContactID;
+            contact.FirstName = contactExist.FirstName;
+            contact.Initial = contactExist.Initial;
+            contact.LastName = contactExist.LastName;
+            contact.Token = contactExist.Token;
+            contact.RandomToken = contactExist.RandomToken;
+
+            return true;
+        }
+        public bool Register(Contact contact)
+        {
+            if (string.IsNullOrWhiteSpace(contact.LoginEmail))
+            {
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail)) }.AsEnumerable();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(contact.Password))
+            {
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPassword)) }.AsEnumerable();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(contact.FirstName))
+            {
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactFirstName)) }.AsEnumerable();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(contact.LastName))
+            {
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLastName)) }.AsEnumerable();
+                return false;
+            }
+            
+            // need to verify is LoginEmail is unique, full name is unique, web name is unique etc...
+
+            byte[] passwordHash;
+            byte[] passwordSalt;
+            string randomToken;
+            CreatePasswordHash_Salt_RandomToken(contact, out passwordHash, out passwordSalt, out randomToken);
+
+            contact.PasswordHash = passwordHash;
+            contact.PasswordSalt = passwordSalt;
+
+            db.Contacts.Add(contact);
+
+            if (!TryToSave(contact)) return false;
+
+            return true;
+        }
+        public void CreatePasswordHash_Salt_RandomToken(Contact contact, out byte[] passwordHash, out byte[] passwordSalt, out string randomToken)
+        {
+            Random rand = new Random((int)DateTime.Now.Ticks);
+            var randomKeyString = "";
+
+            if (string.IsNullOrWhiteSpace(contact.Password))
+            {
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPassword)) }.AsEnumerable();
+            }
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(contact.Password));
+            }
+
+            for (int i = 0; i < 20; i++)
+            {
+                randomKeyString += (char)rand.Next(65, 91);
+            }
+
+            randomToken = randomKeyString;
+        }
+
+        public bool VerifyPasswordHashAndSalt(Contact contact, byte[] storedHash, byte[] storedSalt)
+        {
+            if (string.IsNullOrWhiteSpace(contact.Password))
+            {
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPassword)) }.AsEnumerable();
+            }
+            if (storedHash.Length != 64)
+            {
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.InvalidLengthOfPasswordHashShouldBe64Bytes) }.AsEnumerable();
+            }
+            if (storedSalt.Length != 128)
+            {
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.InvalidLengthOfPasswordSaltShouldBe128Bytes) }.AsEnumerable();
+            }
+
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
+            {
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(contact.Password));
+                for (int i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] != storedHash[i]) return false;
+                }
+            }
+
+            return true;
+        }
         // Get
         public IQueryable<Contact> GetAdminContactListDB()
         {
             return (from c in db.Contacts
-                    from a in db.AspNetUsers
                     from t in db.TVTypeUserAuthorizations
-                    where c.Id == a.Id
-                    && c.ContactTVItemID == t.ContactTVItemID
+                    where c.ContactTVItemID == t.ContactTVItemID
                     && t.TVType == TVTypeEnum.Root
                     && t.TVAuth == TVAuthEnum.Admin
                     select c);

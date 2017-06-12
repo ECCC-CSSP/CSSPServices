@@ -300,11 +300,6 @@
     <Compile Include="AppErrLogTestGenerated.cs" />
     <Compile Include="AppTaskLanguageTestGenerated.cs" />
     <Compile Include="AppTaskTestGenerated.cs" />
-    <Compile Include="AspNetRoleTestGenerated.cs" />
-    <Compile Include="AspNetUserClaimTestGenerated.cs" />
-    <Compile Include="AspNetUserLoginTestGenerated.cs" />
-    <Compile Include="AspNetUserRoleTestGenerated.cs" />
-    <Compile Include="AspNetUserTestGenerated.cs" />
     <Compile Include="BoxModelLanguageTestGenerated.cs" />
     <Compile Include="BoxModelResultTestGenerated.cs" />
     <Compile Include="BoxModelTestGenerated.cs" />
