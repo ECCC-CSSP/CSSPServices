@@ -32,10 +32,6 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        //public ContactService(LanguageEnum LanguageRequest, IPrincipal User)
-        //    : base(LanguageRequest, User)
-        //{
-        //}
         #endregion Constructors
 
         #region Validation
@@ -338,7 +334,7 @@ namespace CSSPServices
                 return string.Format(ServicesRes._EmailNotWellFormed, Email);
             }
 
-            ResetPasswordService resetPasswordService = new ResetPasswordService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            ResetPasswordService resetPasswordService = new ResetPasswordService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
 
             ResetPassword resetPassword = resetPasswordService.GetRead().Where(c => c.Email == Email && c.Code == Code).OrderByDescending(c => c.ResetPasswordID).FirstOrDefault<ResetPassword>();
 
@@ -384,14 +380,14 @@ namespace CSSPServices
             {
 
                 Contact contact = (from c in db.Contacts
-                                   where c.LoginEmail == User.Identity.Name
+                                   where c.ContactID == ContactID
                                    select c).FirstOrDefault<Contact>();
 
                 if (contact != null)
                 {
                     contact = (from c in db.Contacts
                                where c.LoginEmail == Email
-                               && c.LoginEmail != User.Identity.Name
+                               && c.ContactID != ContactID
                                select c).FirstOrDefault<Contact>();
                 }
                 else
@@ -439,7 +435,7 @@ namespace CSSPServices
             {
 
                 Contact contact = (from c in db.Contacts
-                                   where c.LoginEmail == User.Identity.Name
+                                   where c.ContactID == ContactID
                                    select c).FirstOrDefault<Contact>();
 
                 if (contact != null)
@@ -448,7 +444,7 @@ namespace CSSPServices
                                where c.FirstName == FirstName
                                && c.LastName == LastName
                                && c.Initial == Initial
-                               && c.LoginEmail != User.Identity.Name
+                               && c.ContactID != ContactID
                                select c).FirstOrDefault<Contact>();
                 }
                 else
@@ -471,14 +467,14 @@ namespace CSSPServices
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryNoDBShape))
             {
                 Contact contact = (from c in db.Contacts
-                                   where c.LoginEmail == User.Identity.Name
+                                   where c.ContactID == ContactID
                                    select c).FirstOrDefault<Contact>();
 
                 if (contact != null)
                 {
                     contact = (from c in db.Contacts
                                where c.WebName == WebName
-                               && c.LoginEmail != User.Identity.Name
+                               && c.ContactID != ContactID
                                select c).FirstOrDefault<Contact>();
                 }
                 else
@@ -494,32 +490,14 @@ namespace CSSPServices
                     return string.Format(ServicesRes._IsAlreadyTaken, WebName);
             }
         }
-        public bool Login(Contact contact)
+        public bool Login(ContactLogin contactLogin)
         {
-            Random rand = new Random();
-
-            if (string.IsNullOrWhiteSpace(contact.LoginEmail))
+            if (string.IsNullOrWhiteSpace(contactLogin.LoginEmail))
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail)) }.AsEnumerable();
+                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail)) }.AsEnumerable();
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(contact.Password))
-            {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPassword)) }.AsEnumerable();
-                return false;
-            }
-
-            Contact contactExist = (from c in db.Contacts
-                                    where c.LoginEmail == contact.LoginEmail
-                                    && c.Password == contact.Password
-                                    select c).FirstOrDefault();
-
-            if (contactExist == null)
-            {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPassword)) }.AsEnumerable();
-                return false;
-            }
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("CSSPWebTools");
@@ -527,7 +505,7 @@ namespace CSSPServices
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, contactExist.ContactID.ToString())
+                    new Claim(ClaimTypes.Name, contactLogin.ContactID.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -535,109 +513,152 @@ namespace CSSPServices
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            var randomKeyString = "";
-            for (int i = 0; i < 20; i++)
-            {
-                randomKeyString += (char)rand.Next(65, 91);
-            }
-
-            if (!TryToSave(contact)) return false;
-
-
-            contact = new Contact();
-            contact.ContactID = contactExist.ContactID;
-            contact.FirstName = contactExist.FirstName;
-            contact.Initial = contactExist.Initial;
-            contact.LastName = contactExist.LastName;
-            contact.Token = contactExist.Token;
-            contact.RandomToken = contactExist.RandomToken;
-
             return true;
         }
-        public bool Register(Contact contact)
+        public bool Register(Register register)
         {
-            if (string.IsNullOrWhiteSpace(contact.LoginEmail))
+            if (string.IsNullOrWhiteSpace(register.LoginEmail))
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail)) }.AsEnumerable();
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RegisterLoginEmail)) }.AsEnumerable();
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(contact.Password))
+            if (string.IsNullOrWhiteSpace(register.Password))
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPassword)) }.AsEnumerable();
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RegisterPassword)) }.AsEnumerable();
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(contact.FirstName))
+            if (string.IsNullOrWhiteSpace(register.FirstName))
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactFirstName)) }.AsEnumerable();
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RegisterFirstName)) }.AsEnumerable();
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(contact.LastName))
+            if (string.IsNullOrWhiteSpace(register.LastName))
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLastName)) }.AsEnumerable();
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RegisterLastName)) }.AsEnumerable();
                 return false;
             }
-            
+
+            Contact contact = GetRead().Where(c => c.LoginEmail == register.LoginEmail).FirstOrDefault();
+            if (contact != null)
+            {
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.UserWithLoginEmail_AlreadyExist, register.LoginEmail)) }.AsEnumerable();
+                return false;
+            }
+
+            contact = GetRead().Where(c => c.FirstName == register.FirstName && c.Initial == register.Initial && c.LastName == register.LastName).FirstOrDefault();
+            if (contact != null)
+            {
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._AlreadyExists, ServicesRes.FullName)) }.AsEnumerable();
+                return false;
+            }
             // need to verify is LoginEmail is unique, full name is unique, web name is unique etc...
 
             byte[] passwordHash;
             byte[] passwordSalt;
-            string randomToken;
-            CreatePasswordHash_Salt_RandomToken(contact, out passwordHash, out passwordSalt, out randomToken);
+            CreatePasswordHashAndSalt(register, out passwordHash, out passwordSalt);
 
-            contact.PasswordHash = passwordHash;
-            contact.PasswordSalt = passwordSalt;
+            TVItemService tvItemService = new TVItemService(LanguageRequest, ContactID, DatabaseType);
 
-            db.Contacts.Add(contact);
+            TVItem tvItemRoot = tvItemService.GetRead().Where(c => c.TVLevel == 0 && c.TVItemID == 1).FirstOrDefault();
+            if (tvItemRoot == null)
+            {
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.CouldNotFindRoot) }.AsEnumerable();
+                return false;
+            }
 
-            if (!TryToSave(contact)) return false;
+            contact = new Contact();
+            contact.ParentTVItemID = tvItemRoot.TVItemID;
+            contact.LoginEmail = register.LoginEmail;
+            contact.FirstName = register.FirstName;
+            contact.Initial = register.Initial;
+            contact.LastName = register.LastName;
+            contact.WebName = register.WebName;
+            contact.ContactTitle = ContactTitleEnum.Error;
+            contact.IsAdmin = false;
+            contact.EmailValidated = false;
+            contact.Disabled = false;
+            contact.IsNew = false;
+            contact.SamplingPlanner_ProvincesTVItemID = "";
+            contact.LastUpdateDate_UTC = DateTime.UtcNow;
+
+            string TVText = CreateTVText(contact);
+            if (string.IsNullOrWhiteSpace(TVText))
+            {
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ServicesRes.TVText)) }.AsEnumerable();
+                return false;
+            }
+
+            TVItem tvItemContact = new TVItem();
+            if (!tvItemService.AddChildContactTVItemDB(tvItemRoot.TVItemID, TVText, TVTypeEnum.Contact, tvItemContact))
+            {
+                register.ValidationResults = tvItemContact.ValidationResults;
+                return false;
+            }
+
+            contact.ContactTVItemID = tvItemContact.TVItemID;
+            contact.LastUpdateContactTVItemID = tvItemContact.TVItemID;
+
+            if (!Add(contact, AddContactType.Register))
+            {
+                register.ValidationResults = contact.ValidationResults;
+                return false;
+            }
+
+            ContactLogin contactLogin = new ContactLogin();
+            contactLogin.ContactID = contact.ContactID;
+            contactLogin.LoginEmail = register.LoginEmail;
+            contactLogin.PasswordHash = passwordHash;
+            contactLogin.PasswordSalt = passwordSalt;
+            contactLogin.LastUpdateDate_UTC = DateTime.UtcNow;
+            contactLogin.LastUpdateContactTVItemID = contact.ContactTVItemID;
+
+            ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, ContactID, DatabaseType);
+
+            if (!contactLoginService.Add(contactLogin))
+            {
+                register.ValidationResults = contactLogin.ValidationResults;
+                return false;
+            }
 
             return true;
         }
-        public void CreatePasswordHash_Salt_RandomToken(Contact contact, out byte[] passwordHash, out byte[] passwordSalt, out string randomToken)
+        public void CreatePasswordHashAndSalt(Register register, out byte[] passwordHash, out byte[] passwordSalt)
         {
             Random rand = new Random((int)DateTime.Now.Ticks);
-            var randomKeyString = "";
 
-            if (string.IsNullOrWhiteSpace(contact.Password))
+            if (string.IsNullOrWhiteSpace(register.Password))
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPassword)) }.AsEnumerable();
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RegisterPassword)) }.AsEnumerable();
             }
 
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
                 passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(contact.Password));
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(register.Password));
             }
-
-            for (int i = 0; i < 20; i++)
-            {
-                randomKeyString += (char)rand.Next(65, 91);
-            }
-
-            randomToken = randomKeyString;
         }
 
-        public bool VerifyPasswordHashAndSalt(Contact contact, byte[] storedHash, byte[] storedSalt)
+        public bool VerifyPasswordHashAndSalt(ContactLogin contactLogin, byte[] storedHash, byte[] storedSalt)
         {
-            if (string.IsNullOrWhiteSpace(contact.Password))
+            if (string.IsNullOrWhiteSpace(contactLogin.Password))
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPassword)) }.AsEnumerable();
+                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginPassword)) }.AsEnumerable();
             }
             if (storedHash.Length != 64)
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.InvalidLengthOfPasswordHashShouldBe64Bytes) }.AsEnumerable();
+                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.InvalidLengthOfPasswordHashShouldBe64Bytes) }.AsEnumerable();
             }
             if (storedSalt.Length != 128)
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.InvalidLengthOfPasswordSaltShouldBe128Bytes) }.AsEnumerable();
+                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.InvalidLengthOfPasswordSaltShouldBe128Bytes) }.AsEnumerable();
             }
 
             using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
             {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(contact.Password));
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(contactLogin.Password));
                 for (int i = 0; i < computedHash.Length; i++)
                 {
                     if (computedHash[i] != storedHash[i]) return false;
@@ -721,7 +742,7 @@ namespace CSSPServices
         // Helper
         public string AddTVTypeUserAuthorization(TVTypeUserAuthorization tvTypeUserAuthorizationNew)
         {
-            TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
             if (!tvTypeUserAuthorizationService.Add(tvTypeUserAuthorizationNew))
             {
                 return tvTypeUserAuthorizationNew.ValidationResults.FirstOrDefault().ErrorMessage;
@@ -749,17 +770,17 @@ namespace CSSPServices
             // PolSourceObservations ContactTVItemID
             // TVItemLinks FromTVItemID, ToTVItemID
 
-            MWQMRunService mwqmRunService = new MWQMRunService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            MWQMRunService mwqmRunService = new MWQMRunService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
             List<MWQMRun> mwqmRunModelList = mwqmRunService.GetRead().Where(c => c.LabSampleApprovalContactTVItemID == ContactTVItemID).ToList();
             if (mwqmRunModelList.Count > 0)
                 return true;
 
-            PolSourceObservationService polSourceObservationService = new PolSourceObservationService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            PolSourceObservationService polSourceObservationService = new PolSourceObservationService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
             PolSourceObservation polSourceObservation = polSourceObservationService.GetRead().Where(c => c.ContactTVItemID == ContactTVItemID).FirstOrDefault();
             if (polSourceObservation != null)
                 return true;
 
-            TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
             int countTVItemLink = tvItemLinkService.GetRead().Where(c => c.FromTVItemID == ContactTVItemID).Count();
             if (countTVItemLink > 0)
                 return true;
@@ -900,7 +921,7 @@ namespace CSSPServices
 
         //    contact.WebName = CreateUniqueWebName(contact.FirstName, contact.LastName);
 
-        //    ContactService contactService = new ContactService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //    ContactService contactService = new ContactService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //    contact.ValidationResults = contactService.Validate(new ValidationContext(contact), ActionDBTypeEnum.Create);
         //    if (contact.ValidationResults.Count() > 0)
         //    {
@@ -924,10 +945,10 @@ namespace CSSPServices
         //    {
         //        if (contact.ContactTVItemID == 0)
         //        {
-        //            ContactService contactService = new ContactService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //            ContactService contactService = new ContactService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //            contact.ValidationResults = contactService.Validate(new ValidationContext(contact), ActionDBTypeEnum.Create);
 
-        //            TVItemService tvItemService = new TVItemService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //            TVItemService tvItemService = new TVItemService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
 
         //            TVItem tvItemParent = tvItemService.GetRead().Where(c => c.TVItemID == contact.ParentTVItemID).FirstOrDefault();
         //            if (tvItemParent == null)
@@ -960,11 +981,11 @@ namespace CSSPServices
         //                TVPath = "p" + tvItemParent.TVItemID + "p" + contact.ContactTVItemID,
         //            };
 
-        //            TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //            TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //            TVItemLink tvItemLinkExist = tvItemLinkService.GetRead().Where(c => c.FromTVItemID == tvItemParent.TVItemID && c.ToTVItemID == contact.ContactTVItemID).FirstOrDefault();
         //            if (tvItemLinkExist != null)
         //            {
-        //                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //                string TVText = tvItemLanguageService.GetRead().Where(c => c.TVItemID == tvItemContact.TVItemID && c.Language == LanguageRequest).Select(c => c.TVText).FirstOrDefault();
         //                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._AlreadyExists, TVText)) };
         //                return false;
@@ -978,10 +999,10 @@ namespace CSSPServices
         //        }
         //        else
         //        {
-        //            ContactService contactService = new ContactService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //            ContactService contactService = new ContactService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //            contact.ValidationResults = contactService.Validate(new ValidationContext(contact), ActionDBTypeEnum.Create);
 
-        //            TVItemService tvItemService = new TVItemService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //            TVItemService tvItemService = new TVItemService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
 
         //            TVItem tvItemParent = tvItemService.GetRead().Where(c => c.TVItemID == contact.ParentTVItemID).FirstOrDefault();
         //            if (tvItemParent == null)
@@ -995,7 +1016,7 @@ namespace CSSPServices
         //                return false;
         //            }
 
-        //            //ContactService contactService = new ContactService(LanguageRequest, User, new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryNoDBShape));
+        //            //ContactService contactService = new ContactService(LanguageRequest, ContactID, new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryNoDBShape));
 
         //            Contact contactToChange = db.Contacts.Where(c => c.ContactTVItemID == contact.ContactTVItemID).FirstOrDefault();
         //            if (contactToChange == null)
@@ -1006,7 +1027,7 @@ namespace CSSPServices
 
         //            if (contactToChange.LoginEmail != contact.LoginEmail)
         //            {
-        //                TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //                TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //                IQueryable<TVItemLink> tvItemLinkQueryFrom = tvItemLinkService.GetRead().Where(c => c.FromTVItemID == tvItemParent.TVItemID && c.ToTVItemID == contact.ContactTVItemID);
         //                foreach (TVItemLink tvItemLink in tvItemLinkQueryFrom)
         //                {
@@ -1027,7 +1048,7 @@ namespace CSSPServices
         //                        return false;
         //                    }
         //                }
-        //                AspNetUserService aspNetUserService = new AspNetUserService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //                AspNetUserService aspNetUserService = new AspNetUserService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //                AspNetUser aspNetUser = aspNetUserService.GetRead().Where(c => c.Id == contactToChange.Id).FirstOrDefault();
         //                if (aspNetUser != null)
         //                {
@@ -1038,7 +1059,7 @@ namespace CSSPServices
         //                        return false;
         //                    }
         //                }
-        //                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //                IQueryable<TVItemLanguage> tvItemLanguageListToDelete = tvItemLanguageService.GetRead().Where(c => c.TVItemID == contactToChange.ContactTVItemID);
         //                foreach (TVItemLanguage tvItemLanguage in tvItemLanguageListToDelete)
         //                {
@@ -1079,7 +1100,7 @@ namespace CSSPServices
         //                    return false;
         //                }
 
-        //                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //                foreach (LanguageEnum Lang in LanguageListAllowable)
         //                {
         //                    TVItemLanguage tvItemLanguageToChange = tvItemLanguageService.GetRead().Where(c => c.TVItemID == contactToChange.ContactTVItemID && c.Language == LanguageRequest).FirstOrDefault();
@@ -1161,17 +1182,17 @@ namespace CSSPServices
             Contact LoggedInContact = null;
             TVItem tvItem = new TVItem();
 
-            TVItemService tvItemService = new TVItemService(LanguageRequest, User, DatabaseType);
-            ContactService contactService = new ContactService(LanguageRequest, User, DatabaseType);
-            TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
-            TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, User, DatabaseType);
+            TVItemService tvItemService = new TVItemService(LanguageRequest, ContactID, DatabaseType);
+            ContactService contactService = new ContactService(LanguageRequest, ContactID, DatabaseType);
+            TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, ContactID, DatabaseType);
 
             if (addContactType != AddContactType.First)
             {
-                LoggedInContact = GetRead().Where(c => c.LoginEmail == User.Identity.Name).FirstOrDefault();
+                LoggedInContact = GetRead().Where(c => c.ContactID == ContactID).FirstOrDefault();
                 if (LoggedInContact == null)
                 {
-                    contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactLoginEmail, User.Identity.Name), new[] { ModelsRes.ContactContactID }) };
+                    contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactContactID, ContactID), new[] { ModelsRes.ContactContactID }) };
                     return false;
                 }
             }
@@ -1203,7 +1224,7 @@ namespace CSSPServices
                 tvItem.LastUpdateDate_UTC = DateTime.UtcNow;
                 tvItem.LastUpdateContactTVItemID = tvItemRoot.TVItemID;
 
-                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
                 foreach (LanguageEnum Lang in LanguageListAllowable)
                 {
                     string TVText = CreateTVText(contact);
@@ -1310,7 +1331,7 @@ namespace CSSPServices
         }
         //public async Task<bool> LoggedInUserCreateNewUserDB(Contact contact)
         //{
-        //    TVItemService tvItemService = new TVItemService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //    TVItemService tvItemService = new TVItemService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
 
         //    Contact ContactLoggedIn = GetRead().Where(c => c.LoginEmail == User.Identity.Name).FirstOrDefault();
         //    if (ContactLoggedIn == null)
@@ -1326,7 +1347,7 @@ namespace CSSPServices
         //        return false;
         //    }
 
-        //    AspNetUserService aspNetUserService = new AspNetUserService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //    AspNetUserService aspNetUserService = new AspNetUserService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
 
         //    AspNetUser aspNetUserNew = new AspNetUser();
         //    aspNetUserNew.Email = contact.LoginEmail;
@@ -1375,7 +1396,7 @@ namespace CSSPServices
         //        }
 
         //        contactToAdd.ContactTVItemID = tvItemContact.TVItemID;
-        //        ContactService contactService = new ContactService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //        ContactService contactService = new ContactService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //        if (!contactService.Add(contactToAdd))
         //        {
         //            //contactToAdd.ValidationResults = contactToAdd.ValidationResults;
@@ -1389,7 +1410,7 @@ namespace CSSPServices
         //        tvTypeUserAuthorizationNew.LastUpdateDate_UTC = DateTime.UtcNow;
         //        tvTypeUserAuthorizationNew.LastUpdateContactTVItemID = ContactLoggedIn.ContactTVItemID;
 
-        //        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //        if (!tvTypeUserAuthorizationService.Add(tvTypeUserAuthorizationNew))
         //        {
         //            contactToAdd.ValidationResults = tvTypeUserAuthorizationNew.ValidationResults;
@@ -1402,7 +1423,7 @@ namespace CSSPServices
         //}
         //public bool ContactRegisterDB(Contact contact)
         //{
-        //    ContactService contactService = new ContactService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //    ContactService contactService = new ContactService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //    IEnumerable<ValidationResult> validationResultList = contactService.Validate(new ValidationContext(contact), ActionDBTypeEnum.Create);
         //    if (validationResultList.Count() > 0)
         //    {
@@ -1412,7 +1433,7 @@ namespace CSSPServices
 
         //    using (TransactionScope ts = new TransactionScope())
         //    {
-        //        AspNetUserService aspNetUserService = new AspNetUserService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //        AspNetUserService aspNetUserService = new AspNetUserService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //        AspNetUser aspNetUser = new AspNetUser()
         //        {
         //            Email = contact.LoginEmail,
@@ -1425,7 +1446,7 @@ namespace CSSPServices
         //            contact.ValidationResults = aspNetUser.ValidationResults;
         //        }
 
-        //        TVItemService tvItemService = new TVItemService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //        TVItemService tvItemService = new TVItemService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //        TVItem tvItemRoot = tvItemService.GetRead().Where(c => c.TVLevel == 0).FirstOrDefault();
         //        if (tvItemRoot == null)
         //        {
@@ -1464,7 +1485,7 @@ namespace CSSPServices
 
         //        base.User = new GenericPrincipal(new GenericIdentity(contact.LoginEmail, "Forms"), null);
 
-        //        contactService = new ContactService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //        contactService = new ContactService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
         //        Contact contactRet = contactService.GetEdit().Where(c => c.ContactID == contact.ContactID).FirstOrDefault();
         //        if (contactRet == null)
         //        {
@@ -1481,7 +1502,7 @@ namespace CSSPServices
         //            return false;
         //        }
 
-        //        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+        //        TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
 
         //        TVTypeUserAuthorization tvTypeUserAuthorizationNew = new TVTypeUserAuthorization();
         //        tvTypeUserAuthorizationNew.ContactTVItemID = contactRet.ContactTVItemID;
@@ -1514,7 +1535,7 @@ namespace CSSPServices
                 return false;
             }
 
-            Contact contactLoggedIn = GetRead().Where(c => c.LoginEmail == User.Identity.Name).Select(c => c).FirstOrDefault();
+            Contact contactLoggedIn = GetRead().Where(c => c.ContactID == ContactID).Select(c => c).FirstOrDefault();
             if (contactLoggedIn == null)
             {
                 contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.NeedToBeLoggedIn) };
@@ -1531,7 +1552,7 @@ namespace CSSPServices
             contact.LastUpdateDate_UTC = DateTime.UtcNow;
             contact.LastUpdateContactTVItemID = contact.ContactTVItemID;
 
-            ContactService contactService = new ContactService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactService contactService = new ContactService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
             if (!contactService.Update(contact))
             {
                 return false;
@@ -1631,7 +1652,7 @@ namespace CSSPServices
                 }
 
                 // remove all old ResetPassword in the DB
-                ResetPasswordService resetPasswordService = new ResetPasswordService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+                ResetPasswordService resetPasswordService = new ResetPasswordService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
 
                 List<ResetPassword> ResetPasswordList = GetResetPasswordWithExpireDate_LocalSmallerThanToday();
                 foreach (ResetPassword resetPasswordToDelete in ResetPasswordList)

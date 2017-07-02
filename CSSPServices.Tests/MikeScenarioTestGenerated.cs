@@ -82,8 +82,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MikeScenario_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            MikeScenarioService mikeScenarioService = new MikeScenarioService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            MikeScenarioService mikeScenarioService = new MikeScenarioService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

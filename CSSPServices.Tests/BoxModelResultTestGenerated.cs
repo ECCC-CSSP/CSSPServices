@@ -71,8 +71,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void BoxModelResult_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            BoxModelResultService boxModelResultService = new BoxModelResultService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            BoxModelResultService boxModelResultService = new BoxModelResultService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

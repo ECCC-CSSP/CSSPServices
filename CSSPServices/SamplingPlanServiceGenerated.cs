@@ -27,8 +27,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public SamplingPlanService(LanguageEnum LanguageRequest, IPrincipal User, DatabaseTypeEnum DatabaseType)
-            : base(LanguageRequest, User)
+        public SamplingPlanService(LanguageEnum LanguageRequest, int ContactID, DatabaseTypeEnum DatabaseType)
+            : base(LanguageRequest, ContactID)
         {
             this.DatabaseType = DatabaseType;
             this.db = new CSSPWebToolsDBContext(this.DatabaseType);

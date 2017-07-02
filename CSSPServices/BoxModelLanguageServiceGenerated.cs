@@ -27,8 +27,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public BoxModelLanguageService(LanguageEnum LanguageRequest, IPrincipal User, DatabaseTypeEnum DatabaseType)
-            : base(LanguageRequest, User)
+        public BoxModelLanguageService(LanguageEnum LanguageRequest, int ContactID, DatabaseTypeEnum DatabaseType)
+            : base(LanguageRequest, ContactID)
         {
             this.DatabaseType = DatabaseType;
             this.db = new CSSPWebToolsDBContext(this.DatabaseType);

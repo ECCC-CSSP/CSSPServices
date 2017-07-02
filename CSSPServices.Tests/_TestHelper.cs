@@ -23,9 +23,8 @@ namespace CSSPServices.Tests
 
         #region Properties
         public LanguageEnum LanguageRequest { get; set; }
-        public IPrincipal User { get; set; }
         public List<CultureInfo> AllowableCulture { get; set; }
-        public string LoginEmail = "Charles.LeBlanc2@Canada.ca";
+        public int ID = 1;
         #endregion Properties
 
         #region Constructors
@@ -40,7 +39,7 @@ namespace CSSPServices.Tests
         public Contact GetRandomContact()
         {
 
-            ContactService contactService = new ContactService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactService contactService = new ContactService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             int Count = contactService.GetRead().Count();
 
@@ -140,7 +139,7 @@ namespace CSSPServices.Tests
         }
         public TVItem GetRandomTVItem(TVTypeEnum TVType)
         {
-            TVItemService tvItemService = new TVItemService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            TVItemService tvItemService = new TVItemService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             int Count = tvItemService.GetRead().Where(c => c.TVType == TVType).Count();
 
@@ -177,7 +176,7 @@ namespace CSSPServices.Tests
 
             return retValue;
         }
-        public void SetupTestHelper(string LoginEmail, CultureInfo culture)
+        public void SetupTestHelper(CultureInfo culture)
         {
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
@@ -194,7 +193,6 @@ namespace CSSPServices.Tests
             {
                 LanguageRequest = LanguageEnum.en;
             }
-            User = new GenericPrincipal(new GenericIdentity(LoginEmail, "Forms"), null);
         }
         #endregion Functions public
 

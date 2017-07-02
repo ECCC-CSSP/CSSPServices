@@ -27,8 +27,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public LabSheetTubeMPNDetailService(LanguageEnum LanguageRequest, IPrincipal User, DatabaseTypeEnum DatabaseType)
-            : base(LanguageRequest, User)
+        public LabSheetTubeMPNDetailService(LanguageEnum LanguageRequest, int ContactID, DatabaseTypeEnum DatabaseType)
+            : base(LanguageRequest, ContactID)
         {
             this.DatabaseType = DatabaseType;
             this.db = new CSSPWebToolsDBContext(this.DatabaseType);

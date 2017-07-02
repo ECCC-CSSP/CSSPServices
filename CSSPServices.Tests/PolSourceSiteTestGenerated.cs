@@ -64,8 +64,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void PolSourceSite_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            PolSourceSiteService polSourceSiteService = new PolSourceSiteService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            PolSourceSiteService polSourceSiteService = new PolSourceSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

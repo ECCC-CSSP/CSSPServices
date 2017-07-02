@@ -59,8 +59,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TideSite_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            TideSiteService tideSiteService = new TideSiteService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            TideSiteService tideSiteService = new TideSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

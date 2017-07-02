@@ -235,11 +235,11 @@
     <Reference Include="Microsoft.Extensions.WebEncoders, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.WebEncoders.1.1.2\lib\netstandard1.0\Microsoft.Extensions.WebEncoders.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Logging, Version=1.1.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Logging.1.1.3\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=1.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.1.1.4\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.1.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.1.3\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.1.4\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Net.Http.Headers, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.Headers.1.1.2\lib\netstandard1.1\Microsoft.Net.Http.Headers.dll</HintPath>
@@ -248,10 +248,10 @@
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Remotion.Linq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Remotion.Linq.2.1.1\lib\net45\Remotion.Linq.dll</HintPath>
+      <HintPath>..\packages\Remotion.Linq.2.1.2\lib\net45\Remotion.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -283,8 +283,8 @@
     <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
     </Reference>
-    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.1.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.3\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.4\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
     <Reference Include="System.Interactive.Async, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Interactive.Async.3.1.1\lib\net46\System.Interactive.Async.dll</HintPath>
@@ -369,27 +369,56 @@
     <Compile Include="AddressServiceGenerated.cs" />
     <Compile Include="AppErrLogServiceGenerated.cs" />
     <Compile Include="AppTaskLanguageServiceGenerated.cs" />
+    <Compile Include="AppTaskParameterServiceGenerated.cs" />
     <Compile Include="AppTaskServiceGenerated.cs" />
+    <Compile Include="BoxModelCalNumbServiceGenerated.cs" />
     <Compile Include="BoxModelLanguageServiceGenerated.cs" />
     <Compile Include="BoxModelResultServiceGenerated.cs" />
     <Compile Include="BoxModelServiceGenerated.cs" />
+    <Compile Include="CalDecayServiceGenerated.cs" />
     <Compile Include="ClimateDataValueServiceGenerated.cs" />
     <Compile Include="ClimateSiteServiceGenerated.cs" />
+    <Compile Include="ContactLoginServiceExtra.cs" />
+    <Compile Include="ContactLoginServiceGenerated.cs" />
+    <Compile Include="ContactOKServiceGenerated.cs" />
     <Compile Include="ContactPreferenceServiceGenerated.cs" />
+    <Compile Include="ContactSearchServiceGenerated.cs" />
     <Compile Include="ContactServiceGenerated.cs" />
     <Compile Include="ContactShortcutServiceGenerated.cs" />
+    <Compile Include="ContourPolygonServiceGenerated.cs" />
+    <Compile Include="CoordServiceGenerated.cs" />
+    <Compile Include="CSSPMPNTableServiceGenerated.cs" />
+    <Compile Include="CSSPWQInputAppServiceGenerated.cs" />
+    <Compile Include="CSSPWQInputParamServiceGenerated.cs" />
+    <Compile Include="DataPathOfTideServiceGenerated.cs" />
+    <Compile Include="DBTableServiceGenerated.cs" />
     <Compile Include="DocTemplateServiceGenerated.cs" />
+    <Compile Include="ElementLayerServiceGenerated.cs" />
+    <Compile Include="ElementServiceGenerated.cs" />
     <Compile Include="EmailServiceGenerated.cs" />
+    <Compile Include="FileItemListServiceGenerated.cs" />
+    <Compile Include="FileItemServiceGenerated.cs" />
+    <Compile Include="FilePurposeAndTextServiceGenerated.cs" />
+    <Compile Include="FillPolSourceObsInfoChildServiceGenerated.cs" />
     <Compile Include="HydrometricDataValueServiceGenerated.cs" />
     <Compile Include="HydrometricSiteServiceGenerated.cs" />
     <Compile Include="InfrastructureLanguageServiceGenerated.cs" />
     <Compile Include="InfrastructureServiceGenerated.cs" />
+    <Compile Include="InputSummaryServiceGenerated.cs" />
+    <Compile Include="LabSheetA1MeasurementServiceGenerated.cs" />
+    <Compile Include="LabSheetA1SheetServiceGenerated.cs" />
+    <Compile Include="LabSheetAndA1SheetServiceGenerated.cs" />
     <Compile Include="LabSheetDetailServiceGenerated.cs" />
     <Compile Include="LabSheetServiceGenerated.cs" />
     <Compile Include="LabSheetTubeMPNDetailServiceGenerated.cs" />
+    <Compile Include="LastUpdateAndContactServiceGenerated.cs" />
+    <Compile Include="LastUpdateAndTVTextServiceGenerated.cs" />
+    <Compile Include="LatLngServiceGenerated.cs" />
+    <Compile Include="LoginServiceGenerated.cs" />
     <Compile Include="LogServiceGenerated.cs" />
     <Compile Include="MapInfoPointServiceGenerated.cs" />
     <Compile Include="MapInfoServiceGenerated.cs" />
+    <Compile Include="MapObjServiceGenerated.cs" />
     <Compile Include="MikeBoundaryConditionServiceGenerated.cs" />
     <Compile Include="MikeScenarioServiceGenerated.cs" />
     <Compile Include="MikeSourceServiceGenerated.cs" />
@@ -397,38 +426,66 @@
     <Compile Include="MWQMLookupMPNServiceGenerated.cs" />
     <Compile Include="MWQMRunLanguageServiceGenerated.cs" />
     <Compile Include="MWQMRunServiceGenerated.cs" />
+    <Compile Include="MWQMSampleDuplicateItemServiceGenerated.cs" />
     <Compile Include="MWQMSampleLanguageServiceGenerated.cs" />
     <Compile Include="MWQMSampleServiceGenerated.cs" />
+    <Compile Include="MWQMSiteSampleFCServiceGenerated.cs" />
     <Compile Include="MWQMSiteServiceGenerated.cs" />
     <Compile Include="MWQMSiteStartEndDateServiceGenerated.cs" />
     <Compile Include="MWQMSubsectorLanguageServiceGenerated.cs" />
     <Compile Include="MWQMSubsectorServiceGenerated.cs" />
+    <Compile Include="NewContactServiceGenerated.cs" />
+    <Compile Include="NodeLayerServiceGenerated.cs" />
+    <Compile Include="NodeServiceGenerated.cs" />
+    <Compile Include="OtherFilesToUploadServiceGenerated.cs" />
+    <Compile Include="PolSourceInactiveReasonEnumTextAndIDServiceGenerated.cs" />
     <Compile Include="PolSourceObservationIssueServiceGenerated.cs" />
     <Compile Include="PolSourceObservationServiceGenerated.cs" />
+    <Compile Include="PolSourceObsInfoChildServiceGenerated.cs" />
+    <Compile Include="PolSourceObsInfoEnumTextAndIDServiceGenerated.cs" />
     <Compile Include="PolSourceSiteServiceGenerated.cs" />
+    <Compile Include="PolyPointServiceGenerated.cs" />
     <Compile Include="RatingCurveServiceGenerated.cs" />
     <Compile Include="RatingCurveValueServiceGenerated.cs" />
+    <Compile Include="RegisterServiceGenerated.cs" />
     <Compile Include="ResetPasswordServiceGenerated.cs" />
+    <Compile Include="RTBStringPosServiceGenerated.cs" />
+    <Compile Include="SamplingPlanAndFilesLabSheetCountServiceGenerated.cs" />
     <Compile Include="SamplingPlanServiceGenerated.cs" />
     <Compile Include="SamplingPlanSubsectorServiceGenerated.cs" />
     <Compile Include="SamplingPlanSubsectorSiteServiceGenerated.cs" />
+    <Compile Include="SearchServiceGenerated.cs" />
+    <Compile Include="SearchTagAndTermsServiceGenerated.cs" />
     <Compile Include="SpillLanguageServiceGenerated.cs" />
     <Compile Include="SpillServiceGenerated.cs" />
+    <Compile Include="SubsectorMWQMSampleYearServiceGenerated.cs" />
     <Compile Include="TelServiceGenerated.cs" />
     <Compile Include="TideDataValueServiceGenerated.cs" />
     <Compile Include="TideLocationServiceGenerated.cs" />
     <Compile Include="TideSiteServiceGenerated.cs" />
     <Compile Include="TVFileLanguageServiceGenerated.cs" />
     <Compile Include="TVFileServiceGenerated.cs" />
+    <Compile Include="TVFullTextServiceGenerated.cs" />
+    <Compile Include="TVItemInfrastructureTypeTVItemLinkServiceGenerated.cs" />
     <Compile Include="TVItemLanguageServiceGenerated.cs" />
     <Compile Include="TVItemLinkServiceGenerated.cs" />
     <Compile Include="TVItemServiceGenerated.cs" />
     <Compile Include="TVItemStatServiceGenerated.cs" />
+    <Compile Include="TVItemSubsectorAndMWQMSiteServiceGenerated.cs" />
+    <Compile Include="TVItemTVAuthServiceGenerated.cs" />
     <Compile Include="TVItemUserAuthorizationServiceGenerated.cs" />
+    <Compile Include="TVLocationServiceGenerated.cs" />
+    <Compile Include="TVTextLanguageServiceGenerated.cs" />
+    <Compile Include="TVTypeNamesAndPathServiceGenerated.cs" />
     <Compile Include="TVTypeUserAuthorizationServiceGenerated.cs" />
+    <Compile Include="URLNumberOfSamplesServiceGenerated.cs" />
     <Compile Include="UseOfSiteServiceGenerated.cs" />
+    <Compile Include="VectorServiceGenerated.cs" />
     <Compile Include="VPAmbientServiceGenerated.cs" />
+    <Compile Include="VPFullServiceGenerated.cs" />
     <Compile Include="VPResultServiceGenerated.cs" />
+    <Compile Include="VPResValuesServiceGenerated.cs" />
+    <Compile Include="VPScenarioIDAndRawResultsServiceGenerated.cs" />
     <Compile Include="VPScenarioLanguageServiceGenerated.cs" />
     <Compile Include="VPScenarioServiceExtra.cs" />
     <Compile Include="VPScenarioLanguageServiceExtra.cs" />

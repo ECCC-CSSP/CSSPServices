@@ -69,8 +69,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void SamplingPlan_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            SamplingPlanService samplingPlanService = new SamplingPlanService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            SamplingPlanService samplingPlanService = new SamplingPlanService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

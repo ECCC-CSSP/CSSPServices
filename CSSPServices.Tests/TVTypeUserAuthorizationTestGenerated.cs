@@ -59,8 +59,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVTypeUserAuthorization_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

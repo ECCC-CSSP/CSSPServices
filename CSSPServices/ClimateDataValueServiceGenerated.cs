@@ -27,8 +27,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ClimateDataValueService(LanguageEnum LanguageRequest, IPrincipal User, DatabaseTypeEnum DatabaseType)
-            : base(LanguageRequest, User)
+        public ClimateDataValueService(LanguageEnum LanguageRequest, int ContactID, DatabaseTypeEnum DatabaseType)
+            : base(LanguageRequest, ContactID)
         {
             this.DatabaseType = DatabaseType;
             this.db = new CSSPWebToolsDBContext(this.DatabaseType);

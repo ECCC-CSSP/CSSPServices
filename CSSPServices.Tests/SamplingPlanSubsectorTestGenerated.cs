@@ -58,8 +58,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void SamplingPlanSubsector_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

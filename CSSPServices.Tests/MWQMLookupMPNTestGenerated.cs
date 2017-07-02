@@ -60,8 +60,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MWQMLookupMPN_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

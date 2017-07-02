@@ -63,8 +63,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void VPResult_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            VPResultService vpResultService = new VPResultService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            VPResultService vpResultService = new VPResultService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

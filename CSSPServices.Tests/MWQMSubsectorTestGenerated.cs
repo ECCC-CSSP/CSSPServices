@@ -82,8 +82,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MWQMSubsector_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

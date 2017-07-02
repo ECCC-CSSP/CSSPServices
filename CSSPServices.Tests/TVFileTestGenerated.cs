@@ -68,8 +68,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVFile_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            TVFileService tvFileService = new TVFileService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            TVFileService tvFileService = new TVFileService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

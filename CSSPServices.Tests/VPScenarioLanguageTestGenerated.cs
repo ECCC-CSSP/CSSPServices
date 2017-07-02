@@ -60,8 +60,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void VPScenarioLanguage_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

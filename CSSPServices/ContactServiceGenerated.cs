@@ -27,8 +27,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ContactService(LanguageEnum LanguageRequest, IPrincipal User, DatabaseTypeEnum DatabaseType)
-            : base(LanguageRequest, User)
+        public ContactService(LanguageEnum LanguageRequest, int ContactID, DatabaseTypeEnum DatabaseType)
+            : base(LanguageRequest, ContactID)
         {
             this.DatabaseType = DatabaseType;
             this.db = new CSSPWebToolsDBContext(this.DatabaseType);
@@ -91,22 +91,6 @@ namespace CSSPServices
 
             //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
 
-            if (addContactType == AddContactType.Register)
-            {
-                if (string.IsNullOrWhiteSpace(contact.Password))
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPassword), new[] { ModelsRes.ContactPassword });
-                }
-            }
-
-            if (addContactType == AddContactType.Register)
-            {
-                if (string.IsNullOrWhiteSpace(contact.ConfirmPassword))
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactConfirmPassword), new[] { ModelsRes.ContactConfirmPassword });
-                }
-            }
-
             if (addContactType == AddContactType.LoggedIn)
             {
                 if (contact.ParentTVItemID == 0)
@@ -127,18 +111,6 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(contact.LoginEmail) && contact.LoginEmail.Length > 255)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginEmail, "255"), new[] { ModelsRes.ContactLoginEmail });
-            }
-
-                //Error: Type not implemented [PasswordHash] of type [Byte[]]
-                //Error: Type not implemented [PasswordSalt] of type [Byte[]]
-            if (!string.IsNullOrWhiteSpace(contact.Token) && contact.Token.Length > 255)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactToken, "255"), new[] { ModelsRes.ContactToken });
-            }
-
-            if (!string.IsNullOrWhiteSpace(contact.RandomToken) && contact.RandomToken.Length > 50)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactRandomToken, "50"), new[] { ModelsRes.ContactRandomToken });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.FirstName) && contact.FirstName.Length > 100)
@@ -180,22 +152,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactLastUpdateContactTVItemID, "1"), new[] { ModelsRes.ContactLastUpdateContactTVItemID });
             }
 
-            if (addContactType == AddContactType.Register)
-            {
-                if (!string.IsNullOrWhiteSpace(contact.Password) && (contact.Password.Length < 6) || (contact.Password.Length > 100))
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactPassword, "6", "100"), new[] { ModelsRes.ContactPassword });
-                }
-            }
-
-            if (addContactType == AddContactType.Register)
-            {
-                if (!string.IsNullOrWhiteSpace(contact.ConfirmPassword) && (contact.ConfirmPassword.Length < 6) || (contact.ConfirmPassword.Length > 100))
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactConfirmPassword, "6", "100"), new[] { ModelsRes.ContactConfirmPassword });
-                }
-            }
-
             if (addContactType == AddContactType.LoggedIn)
             {
                 if (contact.ParentTVItemID < 1)
@@ -210,32 +166,6 @@ namespace CSSPServices
                 if (!regex.IsMatch(contact.LoginEmail))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.ContactLoginEmail), new[] { ModelsRes.ContactLoginEmail });
-                }
-            }
-
-                //Error: Type not implemented [PasswordHash] of type [Byte[]]
-                //Error: Type not implemented [PasswordSalt] of type [Byte[]]
-            if (addContactType == AddContactType.Register)
-            {
-                if (!string.IsNullOrWhiteSpace(contact.Password) && (contact.Password.Length < 6) || (contact.Password.Length > 100))
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactPassword, "6", "100"), new[] { ModelsRes.ContactPassword });
-                }
-            }
-
-            if (addContactType == AddContactType.Register)
-            {
-                if (!string.IsNullOrWhiteSpace(contact.ConfirmPassword) && (contact.ConfirmPassword.Length < 6) || (contact.ConfirmPassword.Length > 100))
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactConfirmPassword, "6", "100"), new[] { ModelsRes.ContactConfirmPassword });
-                }
-            }
-
-            if (addContactType == AddContactType.LoggedIn)
-            {
-                if (contact.ParentTVItemID < 1)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactParentTVItemID, "1"), new[] { ModelsRes.ContactParentTVItemID });
                 }
             }
 

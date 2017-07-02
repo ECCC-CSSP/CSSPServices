@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\MSTest.TestAdapter.1.1.17\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.1.1.17\build\net45\MSTest.TestAdapter.props')" />
+  <Import Project="..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -190,19 +190,19 @@
       <HintPath>..\packages\Microsoft.Net.Http.Headers.1.1.2\lib\netstandard1.1\Microsoft.Net.Http.Headers.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MSTest.TestFramework.1.1.17\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
+      <HintPath>..\packages\MSTest.TestFramework.1.1.18\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MSTest.TestFramework.1.1.17\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
+      <HintPath>..\packages\MSTest.TestFramework.1.1.18\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Remotion.Linq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Remotion.Linq.2.1.1\lib\net45\Remotion.Linq.dll</HintPath>
+      <HintPath>..\packages\Remotion.Linq.2.1.2\lib\net45\Remotion.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -299,27 +299,54 @@
     <Compile Include="AddressTestGenerated.cs" />
     <Compile Include="AppErrLogTestGenerated.cs" />
     <Compile Include="AppTaskLanguageTestGenerated.cs" />
+    <Compile Include="AppTaskParameterTestGenerated.cs" />
     <Compile Include="AppTaskTestGenerated.cs" />
+    <Compile Include="BoxModelCalNumbTestGenerated.cs" />
     <Compile Include="BoxModelLanguageTestGenerated.cs" />
     <Compile Include="BoxModelResultTestGenerated.cs" />
     <Compile Include="BoxModelTestGenerated.cs" />
+    <Compile Include="CalDecayTestGenerated.cs" />
     <Compile Include="ClimateDataValueTestGenerated.cs" />
     <Compile Include="ClimateSiteTestGenerated.cs" />
+    <Compile Include="ContactLoginTestGenerated.cs" />
+    <Compile Include="ContactOKTestGenerated.cs" />
     <Compile Include="ContactPreferenceTestGenerated.cs" />
+    <Compile Include="ContactSearchTestGenerated.cs" />
     <Compile Include="ContactShortcutTestGenerated.cs" />
     <Compile Include="ContactTestGenerated.cs" />
+    <Compile Include="ContourPolygonTestGenerated.cs" />
+    <Compile Include="CoordTestGenerated.cs" />
+    <Compile Include="CSSPMPNTableTestGenerated.cs" />
+    <Compile Include="CSSPWQInputAppTestGenerated.cs" />
+    <Compile Include="CSSPWQInputParamTestGenerated.cs" />
+    <Compile Include="DataPathOfTideTestGenerated.cs" />
+    <Compile Include="DBTableTestGenerated.cs" />
     <Compile Include="DocTemplateTestGenerated.cs" />
+    <Compile Include="ElementLayerTestGenerated.cs" />
+    <Compile Include="ElementTestGenerated.cs" />
     <Compile Include="EmailTestGenerated.cs" />
+    <Compile Include="FileItemListTestGenerated.cs" />
+    <Compile Include="FileItemTestGenerated.cs" />
+    <Compile Include="FilePurposeAndTextTestGenerated.cs" />
     <Compile Include="HydrometricDataValueTestGenerated.cs" />
     <Compile Include="HydrometricSiteTestGenerated.cs" />
     <Compile Include="InfrastructureLanguageTestGenerated.cs" />
     <Compile Include="InfrastructureTestGenerated.cs" />
+    <Compile Include="InputSummaryTestGenerated.cs" />
+    <Compile Include="LabSheetA1MeasurementTestGenerated.cs" />
+    <Compile Include="LabSheetA1SheetTestGenerated.cs" />
+    <Compile Include="LabSheetAndA1SheetTestGenerated.cs" />
     <Compile Include="LabSheetDetailTestGenerated.cs" />
     <Compile Include="LabSheetTestGenerated.cs" />
     <Compile Include="LabSheetTubeMPNDetailTestGenerated.cs" />
+    <Compile Include="LastUpdateAndContactTestGenerated.cs" />
+    <Compile Include="LastUpdateAndTVTextTestGenerated.cs" />
+    <Compile Include="LatLngTestGenerated.cs" />
+    <Compile Include="LoginTestGenerated.cs" />
     <Compile Include="LogTestGenerated.cs" />
     <Compile Include="MapInfoPointTestGenerated.cs" />
     <Compile Include="MapInfoTestGenerated.cs" />
+    <Compile Include="MapObjTestGenerated.cs" />
     <Compile Include="MikeBoundaryConditionTestGenerated.cs" />
     <Compile Include="MikeScenarioTestGenerated.cs" />
     <Compile Include="MikeSourceStartEndTestGenerated.cs" />
@@ -327,25 +354,53 @@
     <Compile Include="MWQMLookupMPNTestGenerated.cs" />
     <Compile Include="MWQMRunLanguageTestGenerated.cs" />
     <Compile Include="MWQMRunTestGenerated.cs" />
+    <Compile Include="MWQMSampleDuplicateItemTestGenerated.cs" />
     <Compile Include="MWQMSampleLanguageTestGenerated.cs" />
     <Compile Include="MWQMSampleTestGenerated.cs" />
+    <Compile Include="MWQMSiteSampleFCTestGenerated.cs" />
     <Compile Include="MWQMSiteStartEndDateTestGenerated.cs" />
     <Compile Include="MWQMSiteTestGenerated.cs" />
     <Compile Include="MWQMSubsectorLanguageTestGenerated.cs" />
     <Compile Include="MWQMSubsectorTestGenerated.cs" />
+    <Compile Include="NewContactTestGenerated.cs" />
+    <Compile Include="NodeLayerTestGenerated.cs" />
+    <Compile Include="NodeTestGenerated.cs" />
+    <Compile Include="OtherFilesToUploadTestGenerated.cs" />
+    <Compile Include="PolSourceInactiveReasonEnumTextAndIDTestGenerated.cs" />
     <Compile Include="PolSourceObservationIssueTestGenerated.cs" />
     <Compile Include="PolSourceObservationTestGenerated.cs" />
+    <Compile Include="PolSourceObsInfoChildTestGenerated.cs" />
+    <Compile Include="PolSourceObsInfoEnumTextAndIDTestGenerated.cs" />
     <Compile Include="PolSourceSiteTestGenerated.cs" />
+    <Compile Include="PolyPointTestGenerated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RatingCurveTestGenerated.cs" />
     <Compile Include="RatingCurveValueTestGenerated.cs" />
+    <Compile Include="RegisterTestGenerated.cs" />
     <Compile Include="ResetPasswordTestGenerated.cs" />
+    <Compile Include="RTBStringPosTestGenerated.cs" />
+    <Compile Include="SamplingPlanAndFilesLabSheetCountTestGenerated.cs" />
     <Compile Include="SamplingPlanSubsectorSiteTestGenerated.cs" />
     <Compile Include="SamplingPlanSubsectorTestGenerated.cs" />
     <Compile Include="SamplingPlanTestGenerated.cs" />
+    <Compile Include="SearchTagAndTermsTestGenerated.cs" />
+    <Compile Include="SearchTestGenerated.cs" />
     <Compile Include="SpillLanguageTestGenerated.cs" />
     <Compile Include="SpillTestGenerated.cs" />
+    <Compile Include="SubsectorMWQMSampleYearTestGenerated.cs" />
     <Compile Include="TelTestGenerated.cs" />
+    <Compile Include="TVFullTextTestGenerated.cs" />
+    <Compile Include="TVItemInfrastructureTypeTVItemLinkTestGenerated.cs" />
+    <Compile Include="TVItemSubsectorAndMWQMSiteTestGenerated.cs" />
+    <Compile Include="TVItemTVAuthTestGenerated.cs" />
+    <Compile Include="TVLocationTestGenerated.cs" />
+    <Compile Include="TVTextLanguageTestGenerated.cs" />
+    <Compile Include="TVTypeNamesAndPathTestGenerated.cs" />
+    <Compile Include="URLNumberOfSamplesTestGenerated.cs" />
+    <Compile Include="VectorTestGenerated.cs" />
+    <Compile Include="VPFullTestGenerated.cs" />
+    <Compile Include="VPResValuesTestGenerated.cs" />
+    <Compile Include="VPScenarioIDAndRawResultsTestGenerated.cs" />
     <Compile Include="_TestHelper.cs" />
     <Compile Include="TideDataValueTestGenerated.cs" />
     <Compile Include="TideLocationTestGenerated.cs" />
@@ -380,8 +435,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.1.17\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.1.17\build\net45\MSTest.TestAdapter.props'))" />
-    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.1.17\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.1.17\build\net45\MSTest.TestAdapter.targets'))" />
+    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.props'))" />
+    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.targets'))" />
   </Target>
-  <Import Project="..\packages\MSTest.TestAdapter.1.1.17\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.1.1.17\build\net45\MSTest.TestAdapter.targets')" />
+  <Import Project="..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.1.1.18\build\net45\MSTest.TestAdapter.targets')" />
 </Project>

@@ -66,8 +66,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TideDataValue_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            TideDataValueService tideDataValueService = new TideDataValueService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            TideDataValueService tideDataValueService = new TideDataValueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

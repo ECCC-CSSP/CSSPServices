@@ -61,8 +61,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MWQMSite_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            MWQMSiteService mwqmSiteService = new MWQMSiteService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            MWQMSiteService mwqmSiteService = new MWQMSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

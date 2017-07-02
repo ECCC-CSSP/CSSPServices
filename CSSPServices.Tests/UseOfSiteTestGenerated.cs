@@ -69,8 +69,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void UseOfSite_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            UseOfSiteService useOfSiteService = new UseOfSiteService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            UseOfSiteService useOfSiteService = new UseOfSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

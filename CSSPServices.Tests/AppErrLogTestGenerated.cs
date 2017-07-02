@@ -61,8 +61,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void AppErrLog_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            AppErrLogService appErrLogService = new AppErrLogService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            AppErrLogService appErrLogService = new AppErrLogService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

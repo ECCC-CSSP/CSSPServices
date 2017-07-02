@@ -49,13 +49,13 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ECDBID") climateSite.ECDBID = GetRandomInt(1, 11);
             if (OmitPropName != "ClimateSiteName") climateSite.ClimateSiteName = GetRandomString("", 5);
             if (OmitPropName != "Province") climateSite.Province = GetRandomString("", 4);
-            //Error: Type not implemented [Elevation_m]
+            if (OmitPropName != "Elevation_m") climateSite.Elevation_m = GetRandomDouble(1.0f, 1000.0f);
             if (OmitPropName != "ClimateID") climateSite.ClimateID = GetRandomString("", 5);
             if (OmitPropName != "WMOID") climateSite.WMOID = GetRandomInt(1, 1000000);
             if (OmitPropName != "TCID") climateSite.TCID = GetRandomString("", 3);
             if (OmitPropName != "IsProvincial") climateSite.IsProvincial = true;
             if (OmitPropName != "ProvSiteID") climateSite.ProvSiteID = GetRandomString("", 5);
-            //Error: Type not implemented [TimeOffset_hour]
+            if (OmitPropName != "TimeOffset_hour") climateSite.TimeOffset_hour = GetRandomDouble(1.0f, 1000.0f);
             if (OmitPropName != "File_desc") climateSite.File_desc = GetRandomString("", 5);
             if (OmitPropName != "HourlyStartDate_Local") climateSite.HourlyStartDate_Local = GetRandomDateTime();
             if (OmitPropName != "HourlyEndDate_Local") climateSite.HourlyEndDate_Local = GetRandomDateTime();
@@ -77,8 +77,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void ClimateSite_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            ClimateSiteService climateSiteService = new ClimateSiteService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            ClimateSiteService climateSiteService = new ClimateSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

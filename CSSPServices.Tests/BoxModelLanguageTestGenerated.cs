@@ -60,8 +60,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void BoxModelLanguage_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

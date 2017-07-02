@@ -59,8 +59,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Email_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            EmailService emailService = new EmailService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            EmailService emailService = new EmailService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

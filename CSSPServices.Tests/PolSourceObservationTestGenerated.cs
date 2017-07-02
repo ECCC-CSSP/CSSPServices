@@ -60,8 +60,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void PolSourceObservation_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            PolSourceObservationService polSourceObservationService = new PolSourceObservationService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            PolSourceObservationService polSourceObservationService = new PolSourceObservationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

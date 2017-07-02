@@ -66,8 +66,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVItemLink_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

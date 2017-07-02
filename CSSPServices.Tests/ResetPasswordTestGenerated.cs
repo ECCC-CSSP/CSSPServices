@@ -61,8 +61,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void ResetPassword_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            ResetPasswordService resetPasswordService = new ResetPasswordService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            ResetPasswordService resetPasswordService = new ResetPasswordService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

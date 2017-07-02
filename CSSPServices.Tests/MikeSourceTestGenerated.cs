@@ -61,8 +61,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MikeSource_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            MikeSourceService mikeSourceService = new MikeSourceService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            MikeSourceService mikeSourceService = new MikeSourceService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

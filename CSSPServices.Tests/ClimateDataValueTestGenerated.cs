@@ -49,17 +49,17 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DateTime_Local") climateDataValue.DateTime_Local = GetRandomDateTime();
             if (OmitPropName != "Keep") climateDataValue.Keep = true;
             if (OmitPropName != "StorageDataType") climateDataValue.StorageDataType = (StorageDataTypeEnum)GetRandomEnumType(typeof(StorageDataTypeEnum));
-            //Error: Type not implemented [Snow_cm]
-            //Error: Type not implemented [Rainfall_mm]
-            //Error: Type not implemented [RainfallEntered_mm]
-            //Error: Type not implemented [TotalPrecip_mm_cm]
-            //Error: Type not implemented [MaxTemp_C]
-            //Error: Type not implemented [MinTemp_C]
-            //Error: Type not implemented [HeatDegDays_C]
-            //Error: Type not implemented [CoolDegDays_C]
-            //Error: Type not implemented [SnowOnGround_cm]
-            //Error: Type not implemented [DirMaxGust_0North]
-            //Error: Type not implemented [SpdMaxGust_kmh]
+            if (OmitPropName != "Snow_cm") climateDataValue.Snow_cm = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "Rainfall_mm") climateDataValue.Rainfall_mm = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "RainfallEntered_mm") climateDataValue.RainfallEntered_mm = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "TotalPrecip_mm_cm") climateDataValue.TotalPrecip_mm_cm = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "MaxTemp_C") climateDataValue.MaxTemp_C = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "MinTemp_C") climateDataValue.MinTemp_C = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "HeatDegDays_C") climateDataValue.HeatDegDays_C = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "CoolDegDays_C") climateDataValue.CoolDegDays_C = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "SnowOnGround_cm") climateDataValue.SnowOnGround_cm = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "DirMaxGust_0North") climateDataValue.DirMaxGust_0North = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "SpdMaxGust_kmh") climateDataValue.SpdMaxGust_kmh = GetRandomDouble(1.0f, 1000.0f);
             if (OmitPropName != "HourlyValues") climateDataValue.HourlyValues = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") climateDataValue.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") climateDataValue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -72,8 +72,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void ClimateDataValue_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            ClimateDataValueService climateDataValueService = new ClimateDataValueService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            ClimateDataValueService climateDataValueService = new ClimateDataValueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

@@ -59,8 +59,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void ContactPreference_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            ContactPreferenceService contactPreferenceService = new ContactPreferenceService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            ContactPreferenceService contactPreferenceService = new ContactPreferenceService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

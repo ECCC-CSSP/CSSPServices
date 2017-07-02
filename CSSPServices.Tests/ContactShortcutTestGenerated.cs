@@ -59,8 +59,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void ContactShortcut_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            ContactShortcutService contactShortcutService = new ContactShortcutService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            ContactShortcutService contactShortcutService = new ContactShortcutService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

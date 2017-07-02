@@ -249,4 +249,7 @@
   <data name="InvalidLengthOfPasswordSaltShouldBe128Bytes" xml:space="preserve">
     <value>Invalid length of password salt. Should be 128 bytes.</value>
   </data>
+  <data name="TVText" xml:space="preserve">
+    <value>TVText</value>
+  </data>
 </root>

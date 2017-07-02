@@ -66,8 +66,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Address_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            AddressService addressService = new AddressService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            AddressService addressService = new AddressService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

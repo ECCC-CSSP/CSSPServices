@@ -75,8 +75,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void LabSheet_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            LabSheetService labSheetService = new LabSheetService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            LabSheetService labSheetService = new LabSheetService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

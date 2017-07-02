@@ -60,8 +60,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void InfrastructureLanguage_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

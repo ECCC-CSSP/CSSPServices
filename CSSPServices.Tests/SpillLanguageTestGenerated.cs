@@ -60,8 +60,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void SpillLanguage_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            SpillLanguageService spillLanguageService = new SpillLanguageService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            SpillLanguageService spillLanguageService = new SpillLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

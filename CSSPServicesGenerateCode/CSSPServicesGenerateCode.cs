@@ -41,7 +41,7 @@ namespace CSSPServicesGenerateCode
             // -----------------------------------------------------------------
 
             GenerateClassServices generateClassServices = new GenerateClassServices(textBoxCSSPModelsDLL.Text, textBoxBaseDir.Text + textBoxFile2ToGenerate.Text, richTextBoxStatus, lblStatus);
-            generateClassServices.GenerateCodeOf_ClassServiceGenerated_cs();
+            generateClassServices.GenerateCodeOf_ClassServiceGenerated();
         }
         private void butGenerateClassTestGenerated_Click(object sender, EventArgs e)
         {
@@ -52,7 +52,7 @@ namespace CSSPServicesGenerateCode
             // -----------------------------------------------------------------
 
             GenerateClassServicesTest generateClassServicesTest = new GenerateClassServicesTest(textBoxCSSPModelsDLL.Text, textBoxBaseDir.Text + textBoxFile1ToGenerate.Text, richTextBoxStatus, lblStatus);
-            generateClassServicesTest.GenerateCodeOf_ClassTestGenerated_cs();
+            generateClassServicesTest.GenerateCodeOf_ClassTestGenerated();
         }
         private void ButGenerateFillDBTestingGenerated_Click(object sender, EventArgs e)
         {
@@ -62,7 +62,7 @@ namespace CSSPServicesGenerateCode
             // -----------------------------------------------------------------
             // -----------------------------------------------------------------
 
-            GenerateFillDBTesting generateFillDBTesting = new GenerateFillDBTesting(textBoxCSSPModelsDLL.Text, textBoxBaseDir.Text + textBoxFile1ToGenerate.Text, richTextBoxStatus, lblStatus);
+            GenerateFillDBTesting generateFillDBTesting = new GenerateFillDBTesting(textBoxCSSPModelsDLL.Text, textBoxBaseDir.Text + textBoxFile3ToGenerate.Text, richTextBoxStatus, lblStatus);
             generateFillDBTesting.GenerateCodeOf__FillDBTestGenerated();
         }
         #endregion Events

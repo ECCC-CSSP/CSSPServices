@@ -65,9 +65,9 @@ namespace CSSPServices
         }
         public bool AddChildTVItemDB(int ParentTVItemID, string TVText, TVTypeEnum TVType, TVItem tvItem)
         {
-            ContactService contactService = new ContactService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactService contactService = new ContactService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
 
-            Contact contactLoggedIn = contactService.GetRead().Where(c => c.LoginEmail == User.Identity.Name).FirstOrDefault();
+            Contact contactLoggedIn = contactService.GetRead().Where(c => c.ContactID == ContactID).FirstOrDefault();
 
             TVItem tvItemParent = GetRead().Where(c => c.TVItemID == ParentTVItemID).FirstOrDefault();
             if (tvItemParent == null)
@@ -116,7 +116,7 @@ namespace CSSPServices
                     return false;
                 }
 
-                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
                 foreach (LanguageEnum Lang in LanguageListAllowable)
                 {
                     TVItemLanguage tvItemLanguage = new TVItemLanguage()
@@ -188,7 +188,7 @@ namespace CSSPServices
                     return false;
                 }
 
-                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
                 foreach (LanguageEnum Lang in LanguageListAllowable)
                 {
                     TVItemLanguage tvItemLanguage = new TVItemLanguage()

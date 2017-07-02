@@ -52,7 +52,7 @@ namespace CSSPServices
         }
         public bool ResetPasswordDB(ResetPassword resetPassword)
         {
-            ContactService contactService = new ContactService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
 
             using (TransactionScope ts = new TransactionScope())
             {
@@ -69,8 +69,8 @@ namespace CSSPServices
                     return false;
                 }
 
-                Contact contact = contactService.GetEdit().Where(c => c.LoginEmail == resetPassword.Email).FirstOrDefault();
-                if (contact == null)
+                ContactLogin contactLogin = contactLoginService.GetEdit().Where(c => c.LoginEmail == resetPassword.Email).FirstOrDefault();
+                if (contactLogin == null)
                 {
                     validationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ResetPasswordEmail, resetPassword.Email)) };
                     return false;
@@ -80,12 +80,12 @@ namespace CSSPServices
                 // todo create passwordhash and save it to Contact
                 // -------------------------------------------------------------
 
-                contact.PasswordHash = contact.PasswordHash; // should be the new password hash
+                contactLogin.PasswordHash = contactLogin.PasswordHash; // should be the new password hash
                 //aspNetUser.Password = resetPassword.Password;
 
-                if (!contactService.Update(contact))
+                if (!contactLoginService.Update(contactLogin))
                 {
-                    validationResults = contact.ValidationResults;
+                    validationResults = contactLogin.ValidationResults;
                     return false;
                 };
 

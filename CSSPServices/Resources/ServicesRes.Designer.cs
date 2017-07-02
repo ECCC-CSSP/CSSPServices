@@ -430,6 +430,15 @@ namespace CSSPServices.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to TVText.
+        /// </summary>
+        public static string TVText {
+            get {
+                return ResourceManager.GetString("TVText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User with LoginEmail {0} already exist.
         /// </summary>
         public static string UserWithLoginEmail_AlreadyExist {

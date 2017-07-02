@@ -58,8 +58,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void RatingCurve_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            RatingCurveService ratingCurveService = new RatingCurveService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            RatingCurveService ratingCurveService = new RatingCurveService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

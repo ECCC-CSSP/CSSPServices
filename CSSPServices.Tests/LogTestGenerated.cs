@@ -60,8 +60,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Log_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            LogService logService = new LogService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            LogService logService = new LogService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

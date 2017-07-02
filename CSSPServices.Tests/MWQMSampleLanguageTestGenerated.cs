@@ -60,8 +60,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MWQMSampleLanguage_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

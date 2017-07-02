@@ -75,8 +75,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void VPScenario_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            VPScenarioService vpScenarioService = new VPScenarioService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            VPScenarioService vpScenarioService = new VPScenarioService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

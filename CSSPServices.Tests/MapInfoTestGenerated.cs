@@ -63,8 +63,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MapInfo_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            MapInfoService mapInfoService = new MapInfoService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            MapInfoService mapInfoService = new MapInfoService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

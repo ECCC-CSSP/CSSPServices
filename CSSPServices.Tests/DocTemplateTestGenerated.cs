@@ -60,8 +60,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void DocTemplate_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            DocTemplateService docTemplateService = new DocTemplateService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            DocTemplateService docTemplateService = new DocTemplateService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

@@ -59,8 +59,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVItemStat_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            TVItemStatService tvItemStatService = new TVItemStatService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            TVItemStatService tvItemStatService = new TVItemStatService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

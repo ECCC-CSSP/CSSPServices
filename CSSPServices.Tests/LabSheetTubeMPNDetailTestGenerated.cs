@@ -69,8 +69,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void LabSheetTubeMPNDetail_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

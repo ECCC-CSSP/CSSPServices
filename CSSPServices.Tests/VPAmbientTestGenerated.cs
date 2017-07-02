@@ -68,8 +68,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void VPAmbient_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            VPAmbientService vpAmbientService = new VPAmbientService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            VPAmbientService vpAmbientService = new VPAmbientService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

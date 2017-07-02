@@ -59,8 +59,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Tel_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            TelService telService = new TelService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            TelService telService = new TelService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

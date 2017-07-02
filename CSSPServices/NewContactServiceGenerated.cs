@@ -1,0 +1,87 @@
+using CSSPEnums;
+using CSSPModels;
+using CSSPModels.Resources;
+using CSSPServices.Resources;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Reflection;
+using System.Security.Principal;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace CSSPServices
+{
+    public partial class NewContactService : BaseService
+    {
+        #region Variables
+        #endregion Variables
+
+        #region Properties
+        #endregion Properties
+
+        #region Constructors
+        public NewContactService(LanguageEnum LanguageRequest, int ContactID, DatabaseTypeEnum DatabaseType)
+            : base(LanguageRequest, ContactID)
+        {
+        }
+        #endregion Constructors
+
+        #region Validation
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
+        {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
+            NewContact newContact = validationContext.ObjectInstance as NewContact;
+
+            // ----------------------------------------------------
+            // Property is required validation
+            // ----------------------------------------------------
+
+            if (string.IsNullOrWhiteSpace(newContact.LoginEmail))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.NewContactLoginEmail), new[] { ModelsRes.NewContactLoginEmail });
+            }
+
+            if (string.IsNullOrWhiteSpace(newContact.FirstName))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.NewContactFirstName), new[] { ModelsRes.NewContactFirstName });
+            }
+
+            if (string.IsNullOrWhiteSpace(newContact.LastName))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.NewContactLastName), new[] { ModelsRes.NewContactLastName });
+            }
+
+            // ----------------------------------------------------
+            // Property other validation
+            // ----------------------------------------------------
+
+            if (!string.IsNullOrWhiteSpace(newContact.LoginEmail) && (newContact.LoginEmail.Length < 1) || (newContact.LoginEmail.Length > 200))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.NewContactLoginEmail, "1", "200"), new[] { ModelsRes.NewContactLoginEmail });
+            }
+
+            if (!string.IsNullOrWhiteSpace(newContact.FirstName) && (newContact.FirstName.Length < 1) || (newContact.FirstName.Length > 200))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.NewContactFirstName, "1", "200"), new[] { ModelsRes.NewContactFirstName });
+            }
+
+            if (!string.IsNullOrWhiteSpace(newContact.LastName) && (newContact.LastName.Length < 1) || (newContact.LastName.Length > 200))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.NewContactLastName, "1", "200"), new[] { ModelsRes.NewContactLastName });
+            }
+
+            // Initial no min or max length set
+            // ContactTitle no min or max length set
+                //LoginEmail will need to implement Email Not Mapped
+
+        }
+        #endregion Validation
+
+    }
+}

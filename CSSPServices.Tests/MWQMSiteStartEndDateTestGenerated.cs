@@ -59,8 +59,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MWQMSiteStartEndDate_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            MWQMSiteStartEndDateService mwqmSiteStartEndDateService = new MWQMSiteStartEndDateService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            MWQMSiteStartEndDateService mwqmSiteStartEndDateService = new MWQMSiteStartEndDateService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

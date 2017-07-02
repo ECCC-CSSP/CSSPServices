@@ -67,8 +67,8 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void AppTask_Testing()
         {
-            SetupTestHelper(LoginEmail, culture);
-            AppTaskService appTaskService = new AppTaskService(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);
+            SetupTestHelper(culture);
+            AppTaskService appTaskService = new AppTaskService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
 
             // -------------------------------
             // -------------------------------

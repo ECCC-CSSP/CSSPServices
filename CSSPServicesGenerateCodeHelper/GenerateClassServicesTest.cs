@@ -55,11 +55,8 @@ namespace CSSPServicesGenerateCodeHelper
             {
                 propertyInfo = type.GetProperties().Skip(1).Take(1).FirstOrDefault();
             }
-            if (TypeName.StartsWith("AspNet"))
-            {
-                // nothing for now
-            }
-            else if (propertyInfo != null)
+
+            if (propertyInfo != null && entityType != null)
             {
                 IProperty entProp = entityType.GetProperties().Where(c => c.Name == propertyInfo.Name).FirstOrDefault();
 
@@ -1095,6 +1092,33 @@ namespace CSSPServicesGenerateCodeHelper
                                     }
                                 }
                                 break;
+                            case "double":
+                                {
+                                    if (entityProp.MinFloat != null && entityProp.MaxFloat != null)
+                                    {
+                                        if (entityProp.MinFloat > entityProp.MaxFloat)
+                                        {
+                                            sb.AppendLine(@"            " + prop.Name + @" = Custom_MinLengthBiggerCustom_MaxLengthPleaseFix,");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + entityProp.MinFloat.ToString() + ", " + entityProp.MaxFloat.ToString() + ");");
+                                        }
+                                    }
+                                    else if (entityProp.MinFloat != null)
+                                    {
+                                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + entityProp.MinFloat.ToString() + ", " + (entityProp.MinFloat + 10.0f).ToString() + ");");
+                                    }
+                                    else if (entityProp.MaxFloat != null)
+                                    {
+                                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + (entityProp.MaxFloat - 10.0f).ToString() + ", " + entityProp.MaxFloat.ToString() + ");");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(1.0f, 1000.0f);");
+                                    }
+                                }
+                                break;
                             case "DateTime":
                             case "DateTimeOffset":
                                 {
@@ -1192,7 +1216,7 @@ namespace CSSPServicesGenerateCodeHelper
             {
                 if (prop.Name.Contains("Email"))
                 {
-                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomEmail()");
+                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomEmail();");
                 }
                 else
                 {
@@ -1232,7 +1256,7 @@ namespace CSSPServicesGenerateCodeHelper
             {
                 sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = true;");
             }
-            else if (prop.PropertyType.FullName == "System.Int32")
+            else if (prop.PropertyType.FullName.Contains("System.Int32"))
             {
                 if (MinInt != null && MaxInt != null)
                 {
@@ -1267,12 +1291,61 @@ namespace CSSPServicesGenerateCodeHelper
                 }
                 else
                 {
-                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(1.0f, 5.0f)");
+                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(1.0f, 5.0f);");
                 }
+            }
+            else if (prop.PropertyType.FullName.Contains("System.Double"))
+            {
+                if (MinFloat != null && MaxFloat != null)
+                {
+                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + MinFloat.ToString() + @", " + MaxFloat.ToString() + @");");
+                }
+                else if (MinFloat != null)
+                {
+                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + MinFloat.ToString() + @", " + (MinFloat + 10.0f).ToString() + @");");
+                }
+                else if (MaxFloat != null)
+                {
+                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + (MaxFloat - 10.0f).ToString() + @", " + MaxFloat.ToString() + @");");
+                }
+                else
+                {
+                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(1.0f, 5.0f);");
+                }
+            }
+            else if (prop.PropertyType.FullName.Contains("System.DateTime"))
+            {
+                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDateTime();");
             }
             else
             {
-                sb.AppendLine(@"            " + prop.Name + @" = GetRandomSomethingElse(),");
+                if (prop.PropertyType.FullName.Contains("Enum"))
+                {
+                    if (prop.PropertyType.FullName.Contains("LanguageEnum"))
+                    {
+                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + " = language;");
+                    }
+                    else
+                    {
+                        string enumPropName = "";
+                        if (prop.PropertyType.FullName.StartsWith("System.Nullable"))
+                        {
+                            enumPropName = prop.PropertyType.FullName.Substring(prop.PropertyType.FullName.IndexOf("[[") + 2);
+                            enumPropName = enumPropName.Substring(enumPropName.IndexOf(".") + 1);
+                            enumPropName = enumPropName.Substring(0, enumPropName.IndexOf(","));
+
+                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + " = (" + enumPropName + @")GetRandomEnumType(typeof(" + enumPropName + "));");
+                        }
+                        else
+                        {
+                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + " = (" + prop.PropertyType.FullName + @")GetRandomEnumType(typeof(" + prop.PropertyType.FullName + "));");
+                        }
+                    }
+                }
+                else
+                {
+                    sb.AppendLine(@"            //Error: Type not implemented [" + prop.Name + "]");
+                }
             }
         }
         private void WritePropNotMapped(PropertyInfo prop, string TypeName, string TypeNameLower, StringBuilder sb)
@@ -1333,7 +1406,7 @@ namespace CSSPServicesGenerateCodeHelper
         #endregion Functions private
 
         #region Functions private
-        public void GenerateCodeOf_ClassTestGenerated_cs()
+        public void GenerateCodeOf_ClassTestGenerated()
         {
             FileInfo fiDLL = new FileInfo(DLLFileName);
 
@@ -1349,6 +1422,7 @@ namespace CSSPServicesGenerateCodeHelper
             Type[] types = importAssembly.GetTypes();
             foreach (Type type in types)
             {
+                bool ClassNotMapped = false;
                 StringBuilder sb = new StringBuilder();
                 string TypeName = type.Name;
                 IEntityType entityType = null;
@@ -1375,6 +1449,15 @@ namespace CSSPServicesGenerateCodeHelper
                 if (TypeName.StartsWith("<") || TypeName.StartsWith("ModelsRes") || TypeName.StartsWith("Application") || TypeName.StartsWith("CSSPWebToolsDBContext"))
                 {
                     continue;
+                }
+
+                foreach (CustomAttributeData customAttributeData in type.CustomAttributes)
+                {
+                    if (customAttributeData.AttributeType.Name == "NotMappedAttribute")
+                    {
+                        ClassNotMapped = true;
+                        break;
+                    }
                 }
 
                 //if (TypeName != "AppTaskLanguage")
@@ -1433,8 +1516,8 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"        [TestMethod]");
                 sb.AppendLine(@"        public void " + TypeName + @"_Testing()");
                 sb.AppendLine(@"        {");
-                sb.AppendLine(@"            SetupTestHelper(LoginEmail, culture);");
-                sb.AppendLine(@"            " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(LanguageRequest, User, DatabaseTypeEnum.MemoryNoDBShape);");
+                sb.AppendLine(@"            SetupTestHelper(culture);");
+                sb.AppendLine(@"            " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);");
                 sb.AppendLine(@"");
 
                 sb.AppendLine(@"            // -------------------------------");
@@ -1444,8 +1527,11 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"            // -------------------------------");
                 sb.AppendLine(@"");
 
-                CreateClass_CRUD_Testing(entityType, type, TypeName, TypeNameLower, sb);
-                sb.AppendLine(@"");
+                if (!ClassNotMapped)
+                {
+                    CreateClass_CRUD_Testing(entityType, type, TypeName, TypeNameLower, sb);
+                    sb.AppendLine(@"");
+                }
 
                 sb.AppendLine(@"            // -------------------------------");
                 sb.AppendLine(@"            // -------------------------------");

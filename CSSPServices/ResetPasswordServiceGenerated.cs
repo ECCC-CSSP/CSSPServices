@@ -27,8 +27,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public ResetPasswordService(LanguageEnum LanguageRequest, IPrincipal User, DatabaseTypeEnum DatabaseType)
-            : base(LanguageRequest, User)
+        public ResetPasswordService(LanguageEnum LanguageRequest, int ContactID, DatabaseTypeEnum DatabaseType)
+            : base(LanguageRequest, ContactID)
         {
             this.DatabaseType = DatabaseType;
             this.db = new CSSPWebToolsDBContext(this.DatabaseType);
@@ -110,16 +110,6 @@ namespace CSSPServices
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.ResetPasswordEmail), new[] { ModelsRes.ResetPasswordEmail });
                 }
-            }
-
-            if (!string.IsNullOrWhiteSpace(resetPassword.Password) && (resetPassword.Password.Length < 6) || (resetPassword.Password.Length > 100))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordPassword, "6", "100"), new[] { ModelsRes.ResetPasswordPassword });
-            }
-
-            if (!string.IsNullOrWhiteSpace(resetPassword.ConfirmPassword) && (resetPassword.ConfirmPassword.Length < 6) || (resetPassword.ConfirmPassword.Length > 100))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordConfirmPassword, "6", "100"), new[] { ModelsRes.ResetPasswordConfirmPassword });
             }
 
 
