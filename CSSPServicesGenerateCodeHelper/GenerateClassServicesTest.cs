@@ -65,8 +65,8 @@ namespace CSSPServicesGenerateCodeHelper
                     case "System.Int32":
                     case "System.Int64":
                         {
-                            int? Min = GetEntityValueInt(entProp, "Min");
-                            int? Max = GetEntityValueInt(entProp, "Max");
+                            int? Min = GetEntityValueInt(entProp, "Range", 0);
+                            int? Max = GetEntityValueInt(entProp, "Range", 1);
 
                             if (Min != null && Max != null)
                             {
@@ -88,8 +88,8 @@ namespace CSSPServicesGenerateCodeHelper
                         break;
                     case "System.String":
                         {
-                            int? Min = GetEntityValueInt(entProp, "Min");
-                            int? Max = GetEntityValueInt(entProp, "Max");
+                            int? Min = GetEntityValueInt(entProp, "Range", 0);
+                            int? Max = GetEntityValueInt(entProp, "Range", 1);
 
                             if (Min != null && Max != null)
                             {
@@ -139,7 +139,7 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
 
-                    EntityProp entityProp = FillEntityProp(entProp, entityType, type, TypeName, TypeNameLower);
+                    EntityProp entityProp = FillEntityProp(prop, entProp, entityType, type, TypeName, TypeNameLower);
                     if (entProp != null)
                     {
                         if (TypeName.StartsWith("AspNet"))
@@ -156,8 +156,8 @@ namespace CSSPServicesGenerateCodeHelper
                             {
                                 case "int":
                                     {
-                                        int? Min = GetEntityValueInt(entProp, "Min");
-                                        int? Max = GetEntityValueInt(entProp, "Max");
+                                        int? Min = GetEntityValueInt(entProp, "Range", 0);
+                                        int? Max = GetEntityValueInt(entProp, "Range", 1);
 
                                         if (!entityProp.IsKey)
                                         {
@@ -353,8 +353,8 @@ namespace CSSPServicesGenerateCodeHelper
                                     break;
                                 case "float":
                                     {
-                                        float? Min = GetEntityValueFloat(entProp, "Min");
-                                        float? Max = GetEntityValueFloat(entProp, "Max");
+                                        float? Min = GetEntityValueFloat(entProp, "Range", 0);
+                                        float? Max = GetEntityValueFloat(entProp, "Range", 1);
 
                                         if (!entityProp.IsKey)
                                         {
@@ -561,7 +561,7 @@ namespace CSSPServicesGenerateCodeHelper
                                     break;
                                 case "string":
                                     {
-                                        int? Min = GetEntityValueInt(entProp, "Min");
+                                        int? Min = GetEntityValueInt(entProp, "Range", 0);
 
                                         if (!entityProp.IsKey)
                                         {
@@ -885,7 +885,7 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
 
-                    EntityProp entityProp = FillEntityProp(entProp, entityType, type, TypeName, TypeNameLower);
+                    EntityProp entityProp = FillEntityProp(prop, entProp, entityType, type, TypeName, TypeNameLower);
                     if (entProp != null)
                     {
                         if (TypeName.StartsWith("AspNet"))
@@ -1019,7 +1019,7 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
 
-                    EntityProp entityProp = FillEntityProp(entProp, entityType, type, TypeName, TypeNameLower);
+                    EntityProp entityProp = FillEntityProp(prop, entProp, entityType, type, TypeName, TypeNameLower);
                     if (entProp != null)
                     {
                         switch (entityProp.PropType)

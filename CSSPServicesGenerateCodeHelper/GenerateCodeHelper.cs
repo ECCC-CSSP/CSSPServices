@@ -12,7 +12,7 @@ namespace CSSPServicesGenerateCodeHelper
     public partial class GenerateCodeHelper
     {
         #region Functions private
-        protected EntityProp FillEntityProp(IProperty entProp, IEntityType entityType, Type type, string typeName, string typeNameLower)
+        protected EntityProp FillEntityProp(PropertyInfo propInfo, IProperty entProp, IEntityType entityType, Type type, string typeName, string typeNameLower)
         {
             EntityProp entityProp = new EntityProp();
 
@@ -54,17 +54,22 @@ namespace CSSPServicesGenerateCodeHelper
 
                 if (entityProp.PropType == "int" || entityProp.PropType == "string")
                 {
-                    entityProp.MinInt = GetEntityValueInt(entProp, "Min");
-                    entityProp.MaxInt = GetEntityValueInt(entProp, "Max");
+                    entityProp.MinInt = GetEntityValueInt(entProp, "Range", 0);
+                    entityProp.MaxInt = GetEntityValueInt(entProp, "Range", 1);
                 }
                 else if (entityProp.PropType == "float")
                 {
-                    entityProp.MinFloat = GetEntityValueFloat(entProp, "Min");
-                    entityProp.MaxFloat = GetEntityValueFloat(entProp, "Max");
+                    entityProp.MinFloat = GetEntityValueFloat(entProp, "Range", 0);
+                    entityProp.MaxFloat = GetEntityValueFloat(entProp, "Range", 1);
+                }
+                else if (entityProp.PropType == "float")
+                {
+                    entityProp.MinDouble = GetEntityValueDouble(entProp, "Range", 0);
+                    entityProp.MaxDouble = GetEntityValueDouble(entProp, "Range", 1);
                 }
 
                 entityProp.DateBiggerThanOtherField = GetEntityValueString(entProp, "DateBiggerThanOtherField");
-                entityProp.DateAfterYear = GetEntityValueInt(entProp, "DateOfYear");
+                entityProp.DateAfterYear = GetEntityValueInt(entProp, "DateOfYear", 0);
                 entityProp.Equal = GetEntityValueString(entProp, "Equal");
                 entityProp.ObjectExist = GetEntityValueString(entProp, "ObjectExist");
             }
@@ -74,7 +79,7 @@ namespace CSSPServicesGenerateCodeHelper
 
             return entityProp;
         }
-        protected float? GetEntityValueFloat(IProperty entProp, string AnnotationText)
+        protected double? GetEntityValueDouble(IProperty entProp, string AnnotationText, int Ordinal)
         {
             IAnnotation entityAnn = null;
             try
@@ -91,9 +96,9 @@ namespace CSSPServicesGenerateCodeHelper
                 return null;
             }
 
-            return (float?)entityAnn.Value;
+            return ((double[])entityAnn.Value)[Ordinal];
         }
-        protected int? GetEntityValueInt(IProperty entProp, string AnnotationText)
+        protected float? GetEntityValueFloat(IProperty entProp, string AnnotationText, int Ordinal)
         {
             IAnnotation entityAnn = null;
             try
@@ -110,7 +115,26 @@ namespace CSSPServicesGenerateCodeHelper
                 return null;
             }
 
-            return (int?)entityAnn.Value;
+            return ((float[])entityAnn.Value)[Ordinal];
+        }
+        protected int? GetEntityValueInt(IProperty entProp, string AnnotationText, int Ordinal)
+        {
+            IAnnotation entityAnn = null;
+            try
+            {
+                entityAnn = entProp.FindAnnotation(AnnotationText);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+            if (entityAnn == null)
+            {
+                return null;
+            }
+
+            return ((int[])entityAnn.Value)[Ordinal];
         }
         protected string GetEntityValueString(IProperty entProp, string AnnotationText)
         {
@@ -172,6 +196,8 @@ namespace CSSPServicesGenerateCodeHelper
                 MaxInt = null;
                 MinFloat = null;
                 MaxFloat = null;
+                MinDouble = null;
+                MaxDouble = null;
                 DateBiggerThanOtherField = "";
                 DateAfterYear = null;
                 Equal = "";
@@ -188,6 +214,8 @@ namespace CSSPServicesGenerateCodeHelper
             public int? MaxInt { get; set; }
             public float? MinFloat { get; set; }
             public float? MaxFloat { get; set; }
+            public double? MinDouble { get; set; }
+            public double? MaxDouble { get; set; }
             public string DateBiggerThanOtherField { get; set; }
             public int? DateAfterYear { get; set; }
             public string Equal { get; set; }

@@ -255,7 +255,7 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
 
-                    EntityProp entityProp = FillEntityProp(entProp, entityType, type, TypeName, TypeNameLower);
+                    EntityProp entityProp = FillEntityProp(prop, entProp, entityType, type, TypeName, TypeNameLower);
                     if (entProp != null)
                     {
                         if (!entityProp.IsKey)
@@ -382,7 +382,7 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
 
-                    EntityProp entityProp = FillEntityProp(entProp, entityType, type, TypeName, TypeNameLower);
+                    EntityProp entityProp = FillEntityProp(prop, entProp, entityType, type, TypeName, TypeNameLower);
                     if (entProp != null)
                     {
                         if (!entityProp.IsKey)
@@ -939,7 +939,7 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
 
-                    EntityProp entityProp = FillEntityProp(entProp, entityType, type, TypeName, TypeNameLower);
+                    EntityProp entityProp = FillEntityProp(prop, entProp, entityType, type, TypeName, TypeNameLower);
                     if (entProp != null)
                     {
                         if (!entityProp.IsKey && entityProp.IsRequired)
@@ -1127,7 +1127,7 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
 
-                    EntityProp entityProp = FillEntityProp(entProp, entityType, type, TypeName, TypeNameLower);
+                    EntityProp entityProp = FillEntityProp(prop, entProp, entityType, type, TypeName, TypeNameLower);
                     if (entProp != null)
                     {
                         if (entityProp.IsKey)

@@ -79,34 +79,22 @@ namespace CSSPServices
             // Property other validation
             // ----------------------------------------------------
 
-            if (address.AddressTVItemID < 1)
+                //AddressTVItemID = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_Int,
+
+                //CountryTVItemID = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_Int,
+
+                //ProvinceTVItemID = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_Int,
+
+                //MunicipalityTVItemID = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_Int,
+
+            if (!string.IsNullOrWhiteSpace(address.StreetName) && address.StreetName.Length > 200)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressAddressTVItemID, "1"), new[] { ModelsRes.AddressAddressTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressStreetName, "200"), new[] { ModelsRes.AddressStreetName });
             }
 
-            if (address.CountryTVItemID < 1)
+            if (!string.IsNullOrWhiteSpace(address.StreetNumber) && address.StreetNumber.Length > 50)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressCountryTVItemID, "1"), new[] { ModelsRes.AddressCountryTVItemID });
-            }
-
-            if (address.ProvinceTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressProvinceTVItemID, "1"), new[] { ModelsRes.AddressProvinceTVItemID });
-            }
-
-            if (address.MunicipalityTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressMunicipalityTVItemID, "1"), new[] { ModelsRes.AddressMunicipalityTVItemID });
-            }
-
-            if (!string.IsNullOrWhiteSpace(address.StreetName) && (address.StreetName.Length < 1 || address.StreetName.Length > 200))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressStreetName, "1", "200"), new[] { ModelsRes.AddressStreetName });
-            }
-
-            if (!string.IsNullOrWhiteSpace(address.StreetNumber) && (address.StreetNumber.Length < 1 || address.StreetNumber.Length > 50))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressStreetNumber, "1", "50"), new[] { ModelsRes.AddressStreetNumber });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressStreetNumber, "50"), new[] { ModelsRes.AddressStreetNumber });
             }
 
             if (address.StreetType != null)
@@ -118,20 +106,17 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(address.PostalCode) && (address.PostalCode.Length < 6 || address.PostalCode.Length > 11))
+            if (!string.IsNullOrWhiteSpace(address.PostalCode) && address.PostalCode.Length > 11)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressPostalCode, "6", "11"), new[] { ModelsRes.AddressPostalCode });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressPostalCode, "11"), new[] { ModelsRes.AddressPostalCode });
             }
 
-            if (!string.IsNullOrWhiteSpace(address.GoogleAddressText) && (address.GoogleAddressText.Length < 1 || address.GoogleAddressText.Length > 200))
+            if (!string.IsNullOrWhiteSpace(address.GoogleAddressText) && address.GoogleAddressText.Length > 200)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressGoogleAddressText, "1", "200"), new[] { ModelsRes.AddressGoogleAddressText });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressGoogleAddressText, "200"), new[] { ModelsRes.AddressGoogleAddressText });
             }
 
-            if (address.LastUpdateContactTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressLastUpdateContactTVItemID, "1"), new[] { ModelsRes.AddressLastUpdateContactTVItemID });
-            }
+                //LastUpdateContactTVItemID = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_Int,
 
 
         }
