@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             Address address = validationContext.ObjectInstance as Address;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (address.AddressID == 0)
@@ -54,7 +50,19 @@ namespace CSSPServices
                 }
             }
 
-            //AddressTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //AddressID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //AddressTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (address.AddressTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressAddressTVItemID, "1"), new[] { ModelsRes.AddressAddressTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == address.AddressTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressAddressTVItemID, address.AddressTVItemID.ToString()), new[] { ModelsRes.AddressAddressTVItemID });
+            }
 
             retStr = enums.AddressTypeOK(address.AddressType);
             if (address.AddressType == AddressTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -62,30 +70,41 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AddressAddressType), new[] { ModelsRes.AddressAddressType });
             }
 
-            //CountryTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //CountryTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //ProvinceTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            //MunicipalityTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            if (address.LastUpdateDate_UTC == null || address.LastUpdateDate_UTC.Year < 1900 )
+            if (address.CountryTVItemID < 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AddressLastUpdateDate_UTC), new[] { ModelsRes.AddressLastUpdateDate_UTC });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressCountryTVItemID, "1"), new[] { ModelsRes.AddressCountryTVItemID });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
+            if (!((from c in db.TVItems where c.TVItemID == address.CountryTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressCountryTVItemID, address.CountryTVItemID.ToString()), new[] { ModelsRes.AddressCountryTVItemID });
+            }
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //ProvinceTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-                //AddressTVItemID = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_Int,
+            if (address.ProvinceTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressProvinceTVItemID, "1"), new[] { ModelsRes.AddressProvinceTVItemID });
+            }
 
-                //CountryTVItemID = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_Int,
+            if (!((from c in db.TVItems where c.TVItemID == address.ProvinceTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressProvinceTVItemID, address.ProvinceTVItemID.ToString()), new[] { ModelsRes.AddressProvinceTVItemID });
+            }
 
-                //ProvinceTVItemID = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_Int,
+            //MunicipalityTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-                //MunicipalityTVItemID = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_Int,
+            if (address.MunicipalityTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressMunicipalityTVItemID, "1"), new[] { ModelsRes.AddressMunicipalityTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == address.MunicipalityTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressMunicipalityTVItemID, address.MunicipalityTVItemID.ToString()), new[] { ModelsRes.AddressMunicipalityTVItemID });
+            }
 
             if (!string.IsNullOrWhiteSpace(address.StreetName) && address.StreetName.Length > 200)
             {
@@ -106,17 +125,37 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(address.PostalCode) && address.PostalCode.Length > 11)
+            if (!string.IsNullOrWhiteSpace(address.PostalCode) && (address.PostalCode.Length < 6 || address.PostalCode.Length > 11))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressPostalCode, "11"), new[] { ModelsRes.AddressPostalCode });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressPostalCode, "6", "11"), new[] { ModelsRes.AddressPostalCode });
             }
 
-            if (!string.IsNullOrWhiteSpace(address.GoogleAddressText) && address.GoogleAddressText.Length > 200)
+            if (!string.IsNullOrWhiteSpace(address.GoogleAddressText) && (address.GoogleAddressText.Length < 10 || address.GoogleAddressText.Length > 200))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressGoogleAddressText, "200"), new[] { ModelsRes.AddressGoogleAddressText });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressGoogleAddressText, "10", "200"), new[] { ModelsRes.AddressGoogleAddressText });
             }
 
-                //LastUpdateContactTVItemID = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_Int,
+            if (address.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AddressLastUpdateDate_UTC), new[] { ModelsRes.AddressLastUpdateDate_UTC });
+            }
+
+            if (address.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AddressLastUpdateDate_UTC, "1980"), new[] { ModelsRes.AddressLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (address.LastUpdateContactTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressLastUpdateContactTVItemID, "1"), new[] { ModelsRes.AddressLastUpdateContactTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == address.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressLastUpdateContactTVItemID, address.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.AddressLastUpdateContactTVItemID });
+            }
 
 
         }

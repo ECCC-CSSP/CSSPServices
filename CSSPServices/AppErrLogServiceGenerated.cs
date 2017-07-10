@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             AppErrLog appErrLog = validationContext.ObjectInstance as AppErrLog;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,56 +50,69 @@ namespace CSSPServices
                 }
             }
 
+            //AppErrLogID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (string.IsNullOrWhiteSpace(appErrLog.Tag))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogTag), new[] { ModelsRes.AppErrLogTag });
             }
-
-            //LineNumber (int) is required but no testing needed as it is automatically set to 0
-
-            if (string.IsNullOrWhiteSpace(appErrLog.Source))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogSource), new[] { ModelsRes.AppErrLogSource });
-            }
-
-            if (string.IsNullOrWhiteSpace(appErrLog.Message))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogMessage), new[] { ModelsRes.AppErrLogMessage });
-            }
-
-            if (appErrLog.DateTime_UTC == null || appErrLog.DateTime_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogDateTime_UTC), new[] { ModelsRes.AppErrLogDateTime_UTC });
-            }
-
-            if (appErrLog.LastUpdateDate_UTC == null || appErrLog.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogLastUpdateDate_UTC), new[] { ModelsRes.AppErrLogLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
 
             if (!string.IsNullOrWhiteSpace(appErrLog.Tag) && appErrLog.Tag.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogTag, "100"), new[] { ModelsRes.AppErrLogTag });
             }
 
-            if (appErrLog.LineNumber < 1 || appErrLog.LineNumber > 100000)
+            //LineNumber (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (appErrLog.LineNumber < 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppErrLogLineNumber, "1", "100000"), new[] { ModelsRes.AppErrLogLineNumber });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppErrLogLineNumber, "1"), new[] { ModelsRes.AppErrLogLineNumber });
+            }
+
+            if (string.IsNullOrWhiteSpace(appErrLog.Source))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogSource), new[] { ModelsRes.AppErrLogSource });
             }
 
             // Source has no validation
 
+            if (string.IsNullOrWhiteSpace(appErrLog.Message))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogMessage), new[] { ModelsRes.AppErrLogMessage });
+            }
+
             // Message has no validation
+
+            if (appErrLog.DateTime_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogDateTime_UTC), new[] { ModelsRes.AppErrLogDateTime_UTC });
+            }
+
+            if (appErrLog.DateTime_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppErrLogDateTime_UTC, "1980"), new[] { ModelsRes.AppErrLogDateTime_UTC });
+            }
+
+            if (appErrLog.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogLastUpdateDate_UTC), new[] { ModelsRes.AppErrLogLastUpdateDate_UTC });
+            }
+
+            if (appErrLog.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppErrLogLastUpdateDate_UTC, "1980"), new[] { ModelsRes.AppErrLogLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (appErrLog.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppErrLogLastUpdateContactTVItemID, "1"), new[] { ModelsRes.AppErrLogLastUpdateContactTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == appErrLog.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppErrLogLastUpdateContactTVItemID, appErrLog.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.AppErrLogLastUpdateContactTVItemID });
             }
 
 

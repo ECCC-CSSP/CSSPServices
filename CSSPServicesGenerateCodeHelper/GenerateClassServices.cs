@@ -11,6 +11,7 @@ using System.IO;
 using CSSPModels;
 using CSSPEnums;
 using System.Text.RegularExpressions;
+using System.ComponentModel.DataAnnotations;
 
 namespace CSSPServicesGenerateCodeHelper
 {
@@ -39,7 +40,7 @@ namespace CSSPServicesGenerateCodeHelper
         #endregion Constructors
 
         #region Functions private
-        private void CreateClassServiceFunctionsPrivateRegion(IEntityType entityType, Type type, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateClassServiceFunctionsPrivateRegion(Type type, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             sb.AppendLine(@"        #region Functions private");
             sb.AppendLine(@"        private bool TryToSave(" + TypeName + @" " + TypeNameLower + @")");
@@ -72,7 +73,7 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"        }");
             sb.AppendLine(@"        #endregion Functions private");
         }
-        private void CreateClassServiceFunctionsPublicRegion(IEntityType entityType, Type type, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateClassServiceFunctionsPublicRegion(Type type, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             List<string> TypeNameWithPlurial_es = new List<string>() { "Address", };
 
@@ -247,811 +248,297 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"        #endregion Functions public");
             sb.AppendLine(@"");
         }
-        private void CreateValidation_Emails(IEntityType entityType, Type type, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_AfterYear(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
-            foreach (PropertyInfo prop in type.GetProperties())
+            if (csspProp.Year != null)
             {
-                if (entityType != null)
+                sb.AppendLine(@"            if (" + TypeNameLower + "." + csspProp.PropName + ".Year < " + csspProp.Year + ")");
+                sb.AppendLine(@"            {");
+                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Year + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                sb.AppendLine(@"            }");
+                sb.AppendLine(@"");
+            }
+        }
+        private void CreateValidation_Bigger(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        {
+            if (!string.IsNullOrWhiteSpace(csspProp.OtherField))
+            {
+                sb.AppendLine(@"            if (" + TypeNameLower + "." + csspProp.OtherField + " < " + TypeNameLower + "." + csspProp.PropName + ")");
+                sb.AppendLine(@"            {");
+                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes." + TypeName + csspProp.PropName + ", ModelsRes." + TypeName + csspProp.OtherField + "), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                sb.AppendLine(@"            }");
+                sb.AppendLine(@"");
+            }
+        }
+        private void CreateValidation_Email(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        {
+            if (csspProp.dataType == DataType.EmailAddress)
+            {
+                sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @"))");
+                sb.AppendLine(@"            {");
+                sb.AppendLine(@"                Regex regex = new Regex(@""^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$"");");
+                sb.AppendLine(@"                if (!regex.IsMatch(" + TypeNameLower + @"." + prop.Name + @"))");
+                sb.AppendLine(@"                {");
+                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes." + TypeName + prop.Name + @"), new[] { ModelsRes." + TypeName + prop.Name + @" });");
+                sb.AppendLine(@"                }");
+                sb.AppendLine(@"            }");
+                sb.AppendLine(@"");
+            }
+        }
+        private void CreateValidation_EnumType(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        {
+            if (csspProp.IsEnumType)
+            {
+                if (csspProp.IsNullable)
                 {
-                    IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
-
-                    EntityProp entityProp = FillEntityProp(prop, entProp, entityType, type, TypeName, TypeNameLower);
-                    if (entProp != null)
-                    {
-                        if (!entityProp.IsKey)
-                        {
-                            switch (entityProp.PropType)
-                            {
-                                case "bool":
-                                case "DateTime":
-                                case "DateTimeOffset":
-                                case "int":
-                                case "float":
-                                    {
-                                        // nothing
-                                    }
-                                    break;
-                                case "string":
-                                    {
-                                        if (prop.Name.Contains("Email"))
-                                        {
-                                            sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @"))");
-                                            sb.AppendLine(@"            {");
-                                            sb.AppendLine(@"                Regex regex = new Regex(@""^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$"");");
-                                            sb.AppendLine(@"                if (!regex.IsMatch(" + TypeNameLower + @"." + prop.Name + @"))");
-                                            sb.AppendLine(@"                {");
-                                            sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes." + TypeName + entityProp.PropName + @"), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                            sb.AppendLine(@"                }");
-                                            sb.AppendLine(@"            }");
-                                            sb.AppendLine(@"");
-                                        }
-                                    }
-                                    break;
-                                default:
-                                    {
-                                        if (prop.PropertyType.FullName.Contains("Enum"))
-                                        {
-                                            // nothing
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"                //Error: Type not implemented [" + entityProp.PropName + "] of type [" + entityProp.PropType + "]");
-                                        }
-                                    }
-                                    break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (prop.Name.Contains("Email"))
-                        {
-                            CreateValidation_EmailsNotMapped(prop, TypeName, TypeNameLower, sb);
-                        }
-                    }
+                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" != null)");
+                    sb.AppendLine(@"            {");
+                    sb.AppendLine(@"                retStr = enums." + csspProp.PropType.Replace("Enum", "") + @"OK(" + TypeNameLower + @"." + prop.Name + @");");
+                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" == " + csspProp.PropType + ".Error || !string.IsNullOrWhiteSpace(retStr))");
+                    sb.AppendLine(@"                {");
+                    sb.AppendLine(@"                    yield return new ValidationResult(retStr, new[] { ModelsRes." + TypeName + @"" + prop.Name + @" });");
+                    sb.AppendLine(@"                }");
+                    sb.AppendLine(@"            }");
+                    sb.AppendLine(@"");
                 }
                 else
                 {
-                    if (prop.Name.Contains("Email"))
-                    {
-                        CreateValidation_EmailsNotMapped(prop, TypeName, TypeNameLower, sb);
-                    }
+                    sb.AppendLine(@"            retStr = enums." + prop.PropertyType.Name.Replace("Enum", "") + @"OK(" + TypeNameLower + @"." + prop.Name + @");");
+                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" == " + prop.PropertyType.Name + @".Error || !string.IsNullOrWhiteSpace(retStr))");
+                    sb.AppendLine(@"            {");
+                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { ModelsRes." + TypeName + prop.Name + @" });");
+                    sb.AppendLine(@"            }");
+                    sb.AppendLine(@"");
                 }
             }
         }
-        private void CreateValidation_EmailsNotMapped(PropertyInfo prop, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_Length(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
-            if (!prop.GetGetMethod().IsVirtual)
+            if (!csspProp.IsKey)
             {
-                bool? Required = null;
-                int? MinInt = null;
-                int? MaxInt = null;
-                float? MinFloat = null;
-                float? MaxFloat = null;
-                foreach (CustomAttributeData attr in prop.CustomAttributes)
+                switch (csspProp.PropType)
                 {
-                    if (attr.AttributeType.Name == "RequiredAttribute")
-                    {
-                        Required = true;
-                    }
-                    if (attr.AttributeType.Name == "RangeAttribute")
-                    {
-                        if (prop.PropertyType.FullName.Contains("System.Int32") || prop.PropertyType.FullName.Contains("System.String"))
+                    case "Boolean":
                         {
-                            MinInt = ((int?)attr.ConstructorArguments[0].Value);
-                            if (MinInt == -1)
-                            {
-                                MinInt = null;
-                            }
-                            MaxInt = ((int?)attr.ConstructorArguments[1].Value);
-                            if (MaxInt == -1)
-                            {
-                                MaxInt = null;
-                            }
+                            // nothing
                         }
-                        else if (prop.PropertyType.FullName.Contains("System.Single") || prop.PropertyType.FullName.Contains("System.Double"))
+                        break;
+                    case "DateTime":
+                    case "DateTimeOffset":
                         {
-                            MinFloat = ((float?)((double)attr.ConstructorArguments[0].Value));
-                            if (MinFloat == -1.0f)
-                            {
-                                MinFloat = null;
-                            }
-                            MaxFloat = ((float?)((double)attr.ConstructorArguments[1].Value));
-                            if (MaxFloat == -1.0f)
-                            {
-                                MaxFloat = null;
-                            }
+                            // nothing
                         }
-                        else
+                        break;
+                    case "Int16":
+                    case "Int32":
+                    case "Int64":
                         {
-                        }
-                    }
-                }
-
-                if (prop.Name != "ValidationResults")
-                {
-                    sb.AppendLine(@"                //" + prop.Name + @" will need to implement Email Not Mapped");
-                }
-            }
-        }
-        private void CreateValidation_Lengths(IEntityType entityType, Type type, string TypeName, string TypeNameLower, StringBuilder sb)
-        {
-            foreach (PropertyInfo prop in type.GetProperties())
-            {
-                if (entityType != null)
-                {
-                    IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
-
-                    EntityProp entityProp = FillEntityProp(prop, entProp, entityType, type, TypeName, TypeNameLower);
-                    if (entProp != null)
-                    {
-                        if (!entityProp.IsKey)
-                        {
-                            switch (entityProp.PropType)
+                            if (csspProp.MinInt != null && csspProp.MaxInt != null)
                             {
-                                case "bool":
-                                    {
-                                        // nothing
-                                    }
-                                    break;
-                                case "DateTime":
-                                case "DateTimeOffset":
-                                    {
-                                        // nothing
-                                    }
-                                    break;
-                                case "int":
-                                    {
-                                        if (entityProp.MinInt != null && entityProp.MaxInt != null)
-                                        {
-                                            if (entityProp.MinInt > entityProp.MaxInt)
-                                            {
-                                                sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
-                                            }
-                                            else
-                                            {
-                                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + entityProp.PropName + @" < " + entityProp.MinInt.ToString() + @" || " + TypeNameLower + @"." + entityProp.PropName + @" > " + entityProp.MaxInt.ToString() + @")");
-                                                sb.AppendLine(@"            {");
-                                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + entityProp.PropName + @", """ + entityProp.MinInt.ToString() + @""", """ + entityProp.MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                                sb.AppendLine(@"            }");
-                                                sb.AppendLine(@"");
-                                            }
-                                        }
-                                        else if (entityProp.MinInt != null)
-                                        {
-                                            sb.AppendLine(@"            if (" + TypeNameLower + @"." + entityProp.PropName + @" < " + entityProp.MinInt.ToString() + @")");
-                                            sb.AppendLine(@"            {");
-                                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + entityProp.PropName + @", """ + entityProp.MinInt.ToString() + @"""), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                            sb.AppendLine(@"            }");
-                                            sb.AppendLine(@"");
-                                        }
-                                        else if (entityProp.MaxInt != null)
-                                        {
-                                            sb.AppendLine(@"            if (" + TypeNameLower + @"." + entityProp.PropName + @" > " + entityProp.MaxInt.ToString() + @")");
-                                            sb.AppendLine(@"            {");
-                                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + entityProp.PropName + @", """ + entityProp.MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                            sb.AppendLine(@"            }");
-                                            sb.AppendLine(@"");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"                " + prop.Name + @" = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_Int,");
-                                            sb.AppendLine(@"");
-                                        }
-                                    }
-                                    break;
-                                case "float":
-                                    {
-                                        if (entityProp.MinFloat != null && entityProp.MaxFloat != null)
-                                        {
-                                            if (entityProp.MinFloat > entityProp.MaxFloat)
-                                            {
-                                                sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
-                                            }
-                                            else
-                                            {
-                                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + entityProp.PropName + @" < " + entityProp.MinFloat.ToString() + @" || " + TypeNameLower + @"." + entityProp.PropName + @" > " + entityProp.MaxFloat.ToString() + @")");
-                                                sb.AppendLine(@"            {");
-                                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + entityProp.PropName + @", """ + entityProp.MinFloat.ToString() + @""", """ + entityProp.MaxFloat.ToString() + @"""), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                                sb.AppendLine(@"            }");
-                                                sb.AppendLine(@"");
-                                            }
-                                        }
-                                        else if (entityProp.MinFloat != null)
-                                        {
-                                            sb.AppendLine(@"            if (" + TypeNameLower + @"." + entityProp.PropName + @" < " + entityProp.MinFloat.ToString() + @")");
-                                            sb.AppendLine(@"            {");
-                                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + entityProp.PropName + @", """ + entityProp.MinFloat.ToString() + @"""), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                            sb.AppendLine(@"            }");
-                                            sb.AppendLine(@"");
-                                        }
-                                        else if (entityProp.MaxFloat != null)
-                                        {
-                                            sb.AppendLine(@"            if (" + TypeNameLower + @"." + entityProp.PropName + @" > " + entityProp.MaxFloat.ToString() + @")");
-                                            sb.AppendLine(@"            {");
-                                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + entityProp.PropName + @", """ + entityProp.MaxFloat.ToString() + @"""), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                            sb.AppendLine(@"            }");
-                                            sb.AppendLine(@"");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"                " + prop.Name + @" = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_double_or_single,");
-                                            sb.AppendLine(@"");
-                                        }
-                                    }
-                                    break;
-                                case "string":
-                                    {
-                                        if (entityProp.MinInt != null && entityProp.MaxLength != 0)
-                                        {
-                                            if (entityProp.MinInt > entityProp.MaxLength)
-                                            {
-                                                sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
-                                            }
-                                            else
-                                            {
-                                                sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && (" + TypeNameLower + @"." + entityProp.PropName + @".Length < " + entityProp.MinInt.ToString() + @" || " + TypeNameLower + @"." + entityProp.PropName + @".Length > " + entityProp.MaxLength.ToString() + @"))");
-                                                sb.AppendLine(@"            {");
-                                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + entityProp.PropName + @", """ + entityProp.MinInt.ToString() + @""", """ + entityProp.MaxLength.ToString() + @"""), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                                sb.AppendLine(@"            }");
-                                                sb.AppendLine(@"");
-                                            }
-                                        }
-                                        else if (entityProp.MinInt != null)
-                                        {
-                                            sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + entityProp.PropName + @".Length < " + entityProp.MinInt.ToString() + @")");
-                                            sb.AppendLine(@"            {");
-                                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes." + TypeName + entityProp.PropName + @", """ + entityProp.MinInt.ToString() + @"""), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                            sb.AppendLine(@"            }");
-                                            sb.AppendLine(@"");
-                                        }
-                                        else if (entityProp.MaxLength != 0)
-                                        {
-                                            sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + entityProp.PropName + @".Length > " + entityProp.MaxLength.ToString() + @")");
-                                            sb.AppendLine(@"            {");
-                                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes." + TypeName + entityProp.PropName + @", """ + entityProp.MaxLength.ToString() + @"""), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                            sb.AppendLine(@"            }");
-                                            sb.AppendLine(@"");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"            // " + prop.Name + @" has no validation");
-                                            sb.AppendLine(@"");
-                                        }
-                                    }
-                                    break;
-                                default:
-                                    {
-                                        if (prop.PropertyType.FullName.Contains("Enum"))
-                                        {
-                                            if (!entityProp.IsRequired)
-                                            {
-                                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" != null)");
-                                                sb.AppendLine(@"            {");
-                                                sb.AppendLine(@"                retStr = enums." + entityProp.PropType.Replace("Enum", "") + @"OK(" + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" == " + entityProp.PropType + ".Error || !string.IsNullOrWhiteSpace(retStr))");
-                                                sb.AppendLine(@"                {");
-                                                sb.AppendLine(@"                    yield return new ValidationResult(retStr, new[] { ModelsRes." + TypeName + @"" + prop.Name + @" });");
-                                                sb.AppendLine(@"                }");
-                                                sb.AppendLine(@"            }");
-                                                sb.AppendLine(@"");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"                //Error: Type not implemented [" + entityProp.PropName + "] of type [" + entityProp.PropType + "]");
-                                        }
-                                    }
-                                    break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        CreateValidation_LengthsNotMapped(prop, TypeName, TypeNameLower, sb);
-                    }
-                }
-                else
-                {
-                    CreateValidation_LengthsNotMapped(prop, TypeName, TypeNameLower, sb);
-                }
-            }
-        }
-        private void CreateValidation_LengthsNotMapped(PropertyInfo prop, string TypeName, string TypeNameLower, StringBuilder sb)
-        {
-            if (!prop.GetGetMethod().IsVirtual)
-            {
-                bool? Required = null;
-                int? MinInt = null;
-                int? MaxInt = null;
-                float? MinFloat = null;
-                float? MaxFloat = null;
-                foreach (CustomAttributeData attr in prop.CustomAttributes)
-                {
-                    if (attr.AttributeType.Name == "RequiredAttribute")
-                    {
-                        Required = true;
-                    }
-                    if (attr.AttributeType.Name == "RangeAttribute")
-                    {
-                        if (prop.PropertyType.FullName.Contains("System.Int32") || prop.PropertyType.FullName.Contains("System.String"))
-                        {
-                            MinInt = ((int?)attr.ConstructorArguments[0].Value);
-                            if (MinInt == -1)
-                            {
-                                MinInt = null;
-                            }
-                            MaxInt = ((int?)attr.ConstructorArguments[1].Value);
-                            if (MaxInt == -1)
-                            {
-                                MaxInt = null;
-                            }
-                        }
-                        else if (prop.PropertyType.FullName.Contains("System.Single") || prop.PropertyType.FullName.Contains("System.Double"))
-                        {
-                            MinFloat = ((float?)((double)attr.ConstructorArguments[0].Value));
-                            if (MinFloat == -1.0f)
-                            {
-                                MinFloat = null;
-                            }
-                            MaxFloat = ((float?)((double)attr.ConstructorArguments[1].Value));
-                            if (MaxFloat == -1.0f)
-                            {
-                                MaxFloat = null;
-                            }
-                        }
-                        else
-                        {
-                        }
-                    }
-                }
-
-                if (prop.Name != "ValidationResults")
-                {
-                    if (prop.PropertyType.FullName.Contains("System.String"))
-                    {
-                        if (MinInt == null && MaxInt == null)
-                        {
-                            sb.AppendLine(@"            // " + prop.Name + @" no min or max length set");
-                        }
-                        else if (MinInt != null && MaxInt != null)
-                        {
-                            if (MinInt > MaxInt)
-                            {
-                                sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
-                            }
-                            else
-                            {
-                                if ((TypeName == "Contact" && prop.Name == "Password") || (TypeName == "Contact" && prop.Name == "ConfirmPassword"))
+                                if (csspProp.MinInt > csspProp.MaxInt)
                                 {
-                                    sb.AppendLine(@"            if (addContactType == AddContactType.Register)");
-                                    sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && (" + TypeNameLower + @"." + prop.Name + @".Length < " + MinInt.ToString() + @") || (" + TypeNameLower + @"." + prop.Name + @".Length > " + MaxInt.ToString() + @"))");
-                                    sb.AppendLine(@"                {");
-                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + MinInt.ToString() + @""", """ + MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                                    sb.AppendLine(@"                }");
-                                    sb.AppendLine(@"            }");
-                                    sb.AppendLine(@"");
+                                    sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
                                 }
                                 else
                                 {
-                                    sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && (" + TypeNameLower + @"." + prop.Name + @".Length < " + MinInt.ToString() + @") || (" + TypeNameLower + @"." + prop.Name + @".Length > " + MaxInt.ToString() + @"))");
+                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinInt.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxInt.ToString() + @")");
                                     sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + MinInt.ToString() + @""", """ + MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
+                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinInt.ToString() + @""", """ + csspProp.MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
                                 }
                             }
-                        }
-                        else if (MinInt != null)
-                        {
-                            if ((TypeName == "Contact" && prop.Name == "Password") || (TypeName == "Contact" && prop.Name == "ConfirmPassword"))
+                            else if (csspProp.MinInt != null)
                             {
-                                sb.AppendLine(@"            if (addContactType == AddContactType.Register)");
+                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinInt.ToString() + @")");
                                 sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + prop.Name + @".Length < " + MinInt.ToString() + @")");
-                                sb.AppendLine(@"                {");
-                                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes." + TypeName + prop.Name + @", """ + MinInt.ToString() + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                                sb.AppendLine(@"                }");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinInt.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                sb.AppendLine(@"            }");
+                                sb.AppendLine(@"");
+                            }
+                            else if (csspProp.MaxInt != null)
+                            {
+                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxInt.ToString() + @")");
+                                sb.AppendLine(@"            {");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                 sb.AppendLine(@"            }");
                                 sb.AppendLine(@"");
                             }
                             else
                             {
-                                sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + prop.Name + @".Length < " + MinInt.ToString() + @")");
-                                sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes." + TypeName + prop.Name + @", """ + MinInt.ToString() + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                                sb.AppendLine(@"            }");
+                                sb.AppendLine(@"                " + prop.Name + @" = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_Int,");
                                 sb.AppendLine(@"");
                             }
                         }
-                        else if (MaxInt != null)
+                        break;
+                    case "Single":
                         {
-                            if ((TypeName == "Contact" && prop.Name == "Password") || (TypeName == "Contact" && prop.Name == "ConfirmPassword"))
+                            if (csspProp.MinFloat != null && csspProp.MaxFloat != null)
                             {
-                                sb.AppendLine(@"            if (addContactType == AddContactType.Register)");
-                                sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + prop.Name + @".Length > " + MaxInt.ToString() + @")");
-                                sb.AppendLine(@"                {");
-                                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes." + TypeName + prop.Name + @", """ + MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                                sb.AppendLine(@"                }");
-                                sb.AppendLine(@"            }");
-                                sb.AppendLine(@"");
-                            }
-                            else
-                            {
-                                sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + prop.Name + @".Length > " + MaxInt.ToString() + @")");
-                                sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes." + TypeName + prop.Name + @", """ + MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                                sb.AppendLine(@"            }");
-                                sb.AppendLine(@"");
-                            }
-                        }
-                        else
-                        {
-                            sb.AppendLine(@"                " + prop.Name + @" = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_string,");
-                            sb.AppendLine(@"");
-                        }
-                    }
-                    else if (prop.PropertyType.FullName.Contains("System.Boolean"))
-                    {
-                        // nothing
-                    }
-                    else if (prop.PropertyType.FullName.Contains("System.DateTime"))
-                    {
-                        // nothing
-                    }
-                    else if (prop.PropertyType.FullName.Contains("System.Int32"))
-                    {
-                        if (MinInt == null && MaxInt == null)
-                        {
-                            sb.AppendLine(@"            // " + prop.Name + @" no min or max length set");
-                        }
-                        else if (MinInt != null && MaxInt != null)
-                        {
-                            if (MinInt > MaxInt)
-                            {
-                                sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
-                            }
-                            else
-                            {
-                                if (TypeName == "Contact" && prop.Name == "ParentTVItemID")
+                                if (csspProp.MinFloat > csspProp.MaxFloat)
                                 {
-                                    sb.AppendLine(@"            if (addContactType == AddContactType.LoggedIn)");
-                                    sb.AppendLine(@"            {");
-                                    if (Required != null && Required == true)
-                                    {
-                                        sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" < " + MinInt.ToString() + @" || " + TypeNameLower + @"." + prop.Name + @" > " + MaxInt.ToString() + @")");
-                                    }
-                                    else
-                                    {
-                                        sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" != null && (" + TypeNameLower + @"." + prop.Name + @" < " + MinInt.ToString() + @" || " + TypeNameLower + @"." + prop.Name + @" > " + MaxInt.ToString() + @"))");
-                                    }
-                                    sb.AppendLine(@"                {");
-                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + MinInt.ToString() + @""", """ + MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                                    sb.AppendLine(@"                }");
-                                    sb.AppendLine(@"            }");
-                                    sb.AppendLine(@"");
+                                    sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
                                 }
                                 else
                                 {
-                                    if (Required != null && Required == true)
-                                    {
-                                        sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" < " + MinInt.ToString() + @" || " + TypeNameLower + @"." + prop.Name + @" > " + MaxInt.ToString() + @")");
-                                    }
-                                    else
-                                    {
-                                        sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" != null && (" + TypeNameLower + @"." + prop.Name + @" < " + MinInt.ToString() + @" || " + TypeNameLower + @"." + prop.Name + @" > " + MaxInt.ToString() + @"))");
-                                    }
+                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinFloat.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxFloat.ToString() + @")");
                                     sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + MinInt.ToString() + @""", """ + MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
+                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinFloat.ToString() + @""", """ + csspProp.MaxFloat.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
                                 }
                             }
-                        }
-                        else if (MinInt != null)
-                        {
-                            if (TypeName == "Contact" && prop.Name == "ParentTVItemID")
+                            else if (csspProp.MinFloat != null)
                             {
-                                sb.AppendLine(@"            if (addContactType == AddContactType.LoggedIn)");
+                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinFloat.ToString() + @")");
                                 sb.AppendLine(@"            {");
-                                if (Required != null && Required == true)
-                                {
-                                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" < " + MinInt.ToString() + @")");
-                                }
-                                else
-                                {
-                                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" != null && " + TypeNameLower + @"." + prop.Name + @" < " + MinInt.ToString() + @")");
-                                }
-                                sb.AppendLine(@"                {");
-                                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + prop.Name + @", """ + MinInt.ToString() + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                                sb.AppendLine(@"                }");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinFloat.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                sb.AppendLine(@"            }");
+                                sb.AppendLine(@"");
+                            }
+                            else if (csspProp.MaxFloat != null)
+                            {
+                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxFloat.ToString() + @")");
+                                sb.AppendLine(@"            {");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MaxFloat.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                 sb.AppendLine(@"            }");
                                 sb.AppendLine(@"");
                             }
                             else
                             {
-                                if (Required != null && Required == true)
-                                {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" < " + MinInt.ToString() + @")");
-                                }
-                                else
-                                {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" != null && " + TypeNameLower + @"." + prop.Name + @" < " + MinInt.ToString() + @")");
-                                }
-                                sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + prop.Name + @", """ + MinInt.ToString() + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                                sb.AppendLine(@"            }");
+                                sb.AppendLine(@"                " + prop.Name + @" = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_double_or_single,");
                                 sb.AppendLine(@"");
                             }
                         }
-                        else if (MaxInt != null)
+                        break;
+                    case "Double":
                         {
-                            if (TypeName == "Contact" && prop.Name == "ParentTVItemID")
+                            if (csspProp.MinDouble != null && csspProp.MaxDouble != null)
                             {
-                                sb.AppendLine(@"            if (addContactType == AddContactType.LoggedIn)");
-                                sb.AppendLine(@"            {");
-                                if (Required != null && Required == true)
+                                if (csspProp.MinDouble > csspProp.MaxDouble)
                                 {
-                                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" > " + MaxInt.ToString() + @")");
+                                    sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
                                 }
                                 else
                                 {
-                                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" != null && " + TypeNameLower + @"." + prop.Name + @" > " + MaxInt.ToString() + @")");
+                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinDouble.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxDouble.ToString() + @")");
+                                    sb.AppendLine(@"            {");
+                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinDouble.ToString() + @""", """ + csspProp.MaxDouble.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                    sb.AppendLine(@"            }");
+                                    sb.AppendLine(@"");
                                 }
-                                sb.AppendLine(@"                {");
-                                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + prop.Name + @", """ + MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                                sb.AppendLine(@"                }");
+                            }
+                            else if (csspProp.MinDouble != null)
+                            {
+                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinDouble.ToString() + @")");
+                                sb.AppendLine(@"            {");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinDouble.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                sb.AppendLine(@"            }");
+                                sb.AppendLine(@"");
+                            }
+                            else if (csspProp.MaxDouble != null)
+                            {
+                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxDouble.ToString() + @")");
+                                sb.AppendLine(@"            {");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MaxDouble.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                 sb.AppendLine(@"            }");
                                 sb.AppendLine(@"");
                             }
                             else
                             {
-                                if (Required != null && Required == true)
-                                {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" > " + MaxInt.ToString() + @")");
-                                }
-                                else
-                                {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" != null && " + TypeNameLower + @"." + prop.Name + @" > " + MaxInt.ToString() + @")");
-                                }
-                                sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + prop.Name + @", """ + MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                                sb.AppendLine(@"            }");
+                                sb.AppendLine(@"                " + prop.Name + @" = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_double_or_single,");
                                 sb.AppendLine(@"");
                             }
                         }
-                        else
+                        break;
+                    case "String":
                         {
-                            sb.AppendLine(@"                " + prop.Name + @" = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_Int,");
-                            sb.AppendLine(@"");
-                        }
-                    }
-                    else if (prop.PropertyType.FullName.Contains("System.Single") || prop.PropertyType.FullName.Contains("System.Double"))
-                    {
-                        string PostLetter = "D";
-                        if (prop.PropertyType.FullName.Contains("System.Single"))
-                        {
-                            PostLetter = "f";
-                        }
-
-                        if (MinFloat == null && MaxFloat == null)
-                        {
-                            sb.AppendLine(@"            // " + prop.Name + @" no min or max length set");
-                        }
-                        else if (MinFloat != null && MaxFloat != null)
-                        {
-                            if (MinFloat > MaxFloat)
+                            if (csspProp.MinLength != null && csspProp.MaxLength != null)
                             {
-                                sb.AppendLine(@"                " + prop.Name + @" = MinBiggerMaxPleaseFix,");
-                            }
-                            else
-                            {
-                                if (Required != null && Required == true)
+                                if (csspProp.MinLength > csspProp.MaxLength)
                                 {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" < " + MinFloat.ToString() + PostLetter + @" || " + TypeNameLower + @"." + prop.Name + @" > " + MaxFloat.ToString() + PostLetter + @")");
+                                    sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
                                 }
                                 else
                                 {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" != null && (" + TypeNameLower + @"." + prop.Name + @" < " + MinFloat.ToString() + PostLetter + @" || " + TypeNameLower + @"." + prop.Name + @" > " + MaxFloat.ToString() + PostLetter + @"))");
+                                    sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && (" + TypeNameLower + @"." + csspProp.PropName + @".Length < " + csspProp.MinLength.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @".Length > " + csspProp.MaxLength.ToString() + @"))");
+                                    sb.AppendLine(@"            {");
+                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinLength.ToString() + @""", """ + csspProp.MaxLength.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                    sb.AppendLine(@"            }");
+                                    sb.AppendLine(@"");
                                 }
+                            }
+                            else if (csspProp.MinLength != null)
+                            {
+                                sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + csspProp.PropName + @".Length < " + csspProp.MinLength.ToString() + @")");
                                 sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + MinFloat.ToString() + PostLetter + @""", """ + MaxFloat.ToString() + PostLetter + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinLength.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                 sb.AppendLine(@"            }");
                                 sb.AppendLine(@"");
                             }
-                        }
-                        else if (MinFloat != null)
-                        {
-                            if (Required != null && Required == true)
+                            else if (csspProp.MaxLength != null)
                             {
-                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" < " + MinFloat.ToString() + PostLetter + @")");
+                                sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + csspProp.PropName + @".Length > " + csspProp.MaxLength.ToString() + @")");
+                                sb.AppendLine(@"            {");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MaxLength.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                sb.AppendLine(@"            }");
+                                sb.AppendLine(@"");
                             }
                             else
                             {
-                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" != null && " + TypeNameLower + @"." + prop.Name + @" < " + MinFloat.ToString() + PostLetter + @")");
+                                sb.AppendLine(@"            // " + prop.Name + @" has no validation");
+                                sb.AppendLine(@"");
                             }
-                            sb.AppendLine(@"            {");
-                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + prop.Name + @", """ + MinFloat.ToString() + PostLetter + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                            sb.AppendLine(@"            }");
-                            sb.AppendLine(@"");
                         }
-                        else if (MaxFloat != null)
+                        break;
+                    default:
                         {
-                            if (Required != null && Required == true)
+                            if (!csspProp.IsEnumType)
                             {
-                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" > " + MaxFloat.ToString() + PostLetter + @")");
+                                sb.AppendLine(@"                //Error: Type not implemented [" + csspProp.PropName + "] of type [" + csspProp.PropType + "]");
                             }
-                            else
-                            {
-                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" != null && " + TypeNameLower + @"." + prop.Name + @" > " + MaxFloat.ToString() + PostLetter + @")");
-                            }
-                            sb.AppendLine(@"            {");
-                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + prop.Name + @", """ + MaxFloat.ToString() + PostLetter + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                            sb.AppendLine(@"            }");
-                            sb.AppendLine(@"");
                         }
-                        else
-                        {
-                            sb.AppendLine(@"                " + prop.Name + @" = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_double_or_single,");
-                            sb.AppendLine(@"");
-                        }
-                    }
-                    else if (prop.PropertyType.FullName.Contains("Enum"))
-                    {
-                        sb.AppendLine(@"            // " + prop.Name + @" no min or max length set");
-                        //if (Required != null && Required == true)
-                        //{
-                        //    sb.AppendLine(@"            retStr = enums." + prop.PropertyType.Name.Replace("Enum", "") + @"OK(" + TypeNameLower + @"." + prop.Name + @");");
-                        //    sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" == " + prop.PropertyType.Name + ".Error || !string.IsNullOrWhiteSpace(retStr))");
-                        //    sb.AppendLine(@"            {");
-                        //    sb.AppendLine(@"                yield return new ValidationResult(retStr, new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                        //    sb.AppendLine(@"            }");
-                        //    sb.AppendLine(@"");
-                        //}
-                        //else
-                        //{
-                        //    sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" != null)");
-                        //    sb.AppendLine(@"            {");
-                        //    sb.AppendLine(@"                retStr = enums." + prop.PropertyType.Name.Replace("Enum", "") + @"OK(" + TypeNameLower + @"." + prop.Name + @");");
-                        //    sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" == " + prop.PropertyType.Name + ".Error || !string.IsNullOrWhiteSpace(retStr))");
-                        //    sb.AppendLine(@"                {");
-                        //    sb.AppendLine(@"                    yield return new ValidationResult(retStr, new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                        //    sb.AppendLine(@"                }");
-                        //    sb.AppendLine(@"            }");
-                        //    sb.AppendLine(@"");
-                        //}
-                    }
-                    else
-                    {
-                        sb.AppendLine(@"                " + prop.Name + @" = GetRandomSomethingElse(),");
-                    }
-
+                        break;
                 }
             }
         }
-        private void CreateValidation_Required(IEntityType entityType, Type type, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_NotNullable(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
-            foreach (PropertyInfo prop in type.GetProperties())
-            {
-                if (entityType != null)
+            if (!csspProp.IsNullable)
+                switch (prop.PropertyType.Name)
                 {
-                    IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
-
-                    EntityProp entityProp = FillEntityProp(prop, entProp, entityType, type, TypeName, TypeNameLower);
-                    if (entProp != null)
-                    {
-                        if (!entityProp.IsKey && entityProp.IsRequired)
+                    case "Int16":
+                    case "Int32":
+                    case "Int64":
+                    case "Single":
+                    case "Double":
                         {
-                            switch (entityProp.PropType)
-                            {
-                                case "int":
-                                    {
-                                        sb.AppendLine(@"            //" + entityProp.PropName + @" (" + entityProp.PropType + @") is required but no testing needed as it is automatically set to 0");
-                                        sb.AppendLine(@"");
-                                    }
-                                    break;
-                                case"float":
-                                    {
-                                        sb.AppendLine(@"            //" + entityProp.PropName + @" (" + entityProp.PropType + @") is required but no testing needed as it is automatically set to 0.0f");
-                                        sb.AppendLine(@"");
-                                    }
-                                    break;
-                                case "bool":
-                                    {
-                                        sb.AppendLine(@"            //" + entityProp.PropName + @" (bool) is required but no testing needed ");
-                                        sb.AppendLine(@"");
-                                    }
-                                    break;
-                                case "DateTime":
-                                case "DateTimeOffset":
-                                    {
-                                        if (!entityProp.IsKey && entityProp.IsRequired)
-                                        {
-                                            sb.AppendLine(@"            if (" + TypeNameLower + @"." + entityProp.PropName + @" == null || " + TypeNameLower + @"." + entityProp.PropName + @".Year < 1900 )");
-                                            sb.AppendLine(@"            {");
-                                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + entityProp.PropName + @"), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                            sb.AppendLine(@"            }");
-                                            sb.AppendLine(@"");
-                                        }
-                                    }
-                                    break;
-                                case "string":
-                                    {
-                                        if (!entityProp.IsKey && entityProp.IsRequired)
-                                        {
-                                            sb.AppendLine(@"            if (string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + entityProp.PropName + @"))");
-                                            sb.AppendLine(@"            {");
-                                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + entityProp.PropName + @"), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                            sb.AppendLine(@"            }");
-                                            sb.AppendLine(@"");
-                                        }
-                                    }
-                                    break;
-                                default:
-                                    {
-                                        if (prop.PropertyType.FullName.Contains("Enum"))
-                                        {
-                                            sb.AppendLine(@"            retStr = enums." + entityProp.PropType.Replace("Enum", "") + @"OK(" + TypeNameLower + @"." + prop.Name + @");");
-                                            sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" == " + entityProp.PropType + @".Error || !string.IsNullOrWhiteSpace(retStr))");
-                                            sb.AppendLine(@"            {");
-                                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + entityProp.PropName + @"), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                            sb.AppendLine(@"            }");
-                                            sb.AppendLine(@"");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"                //Error: Type not implemented [" + entityProp.PropName + "] of type [" + entityProp.PropType + "]");
-                                            sb.AppendLine(@"");
-                                        }
-                                    }
-                                    break;
-                            }
+                            sb.AppendLine(@"            //" + prop.Name + @" (" + prop.PropertyType.Name + @") is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D");
+                            sb.AppendLine(@"");
                         }
-                    }
-                    else
-                    {
-                        CreateValidation_RequiredNotMapped(prop, TypeName, TypeNameLower, sb);
-                    }
-                }
-                else
-                {
-                    CreateValidation_RequiredNotMapped(prop, TypeName, TypeNameLower, sb);
-                }
-            }
-        }
-        private void CreateValidation_RequiredNotMapped(PropertyInfo prop, string TypeName, string TypeNameLower, StringBuilder sb)
-        {
-            if (!prop.GetGetMethod().IsVirtual)
-            {
-                bool? Required = null;
-                foreach (CustomAttributeData attr in prop.CustomAttributes)
-                {
-                    if (attr.AttributeType.Name == "RequiredAttribute")
-                    {
-                        Required = true;
-                    }
-                }
-
-                if (prop.Name != "ValidationResults")
-                {
-                    if (Required != null && Required == true)
-                    {
-                        if (prop.PropertyType.FullName == "System.String")
+                        break;
+                    case "Boolean":
                         {
-                            if ((TypeName == "Contact" && prop.Name == "Password") || (TypeName == "Contact" && prop.Name == "ConfirmPassword"))
+                            sb.AppendLine(@"            //" + prop.Name + @" (bool) is required but no testing needed ");
+                            sb.AppendLine(@"");
+                        }
+                        break;
+                    case "DateTime":
+                    case "DateTimeOffset":
+                        {
+                            if (!csspProp.IsKey)
                             {
-                                sb.AppendLine(@"            if (addContactType == AddContactType.Register)");
+                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" == null)");
                                 sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                if (string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @"))");
-                                sb.AppendLine(@"                {");
-                                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                                sb.AppendLine(@"                }");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { ModelsRes." + TypeName + prop.Name + @" });");
                                 sb.AppendLine(@"            }");
                                 sb.AppendLine(@"");
                             }
-                            else
+                        }
+                        break;
+                    case "String":
+                        {
+                            if (!csspProp.IsKey)
                             {
                                 sb.AppendLine(@"            if (string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @"))");
                                 sb.AppendLine(@"            {");
@@ -1060,205 +547,43 @@ namespace CSSPServicesGenerateCodeHelper
                                 sb.AppendLine(@"");
                             }
                         }
-                        else if (prop.PropertyType.FullName == "System.Boolean")
+                        break;
+                    default:
                         {
-                            sb.AppendLine(@"            //" + prop.Name + @" (bool) is required but no testing needed ");
-                            sb.AppendLine(@"");
-                        }
-                        else if (prop.PropertyType.FullName == "System.Int32")
-                        {
-                            if ((TypeName == "Contact" && prop.Name == "ParentTVItemID"))
+                            if (!csspProp.IsEnumType)
                             {
-                                sb.AppendLine(@"            if (addContactType == AddContactType.LoggedIn)");
-                                sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" == 0)");
-                                sb.AppendLine(@"                {");
-                                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                                sb.AppendLine(@"                }");
-                                sb.AppendLine(@"            }");
-                                sb.AppendLine(@"");
-                            }
-                            else
-                            {
-                                sb.AppendLine(@"            //" + prop.Name + @" is required but no testing needed as it is automatically set to 0");
+                                sb.AppendLine(@"                //Error: Type not implemented [" + prop.Name + "] of type [" + prop.PropertyType.Name + "]");
                                 sb.AppendLine(@"");
                             }
                         }
-                        else if (prop.PropertyType.FullName == "System.Single")
-                        {
-                            sb.AppendLine(@"            //" + prop.Name + @" is required but no testing needed as it is automatically set to 0.0f");
-                            sb.AppendLine(@"");
-                        }
-                        else if (prop.PropertyType.FullName == "System.Double")
-                        {
-                            sb.AppendLine(@"            //" + prop.Name + @" is required but no testing needed as it is automatically set to 0.0f");
-                            sb.AppendLine(@"");
-                        }
-                        else if (prop.PropertyType.FullName.StartsWith("Nullable"))
-                        {
-                            sb.AppendLine(@"            " + prop.Name + @" = GetRandomSomething(),");
-                        }
-                        else
-                        {
-                            if (prop.PropertyType.FullName.Contains("Enum"))
-                            {
-                                sb.AppendLine(@"            retStr = enums." + prop.PropertyType.Name.Replace("Enum", "") + @"OK(" + TypeNameLower + @"." + prop.Name + @");");
-                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" == " + prop.Name.Replace("PolSourceObsInfoChildStart", "PolSourceObsInfo") + @"Enum.Error || !string.IsNullOrWhiteSpace(retStr))");
-                                sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                                sb.AppendLine(@"            }");
-                                sb.AppendLine(@"");
-                            }
-                            else
-                            {
-                                sb.AppendLine(@"                //Error: Type not implemented [" + prop.Name + "] of type [" + prop.PropertyType + "]");
-                                sb.AppendLine(@"");
-                            }
-                        }
-                    }
+                        break;
                 }
-            }
         }
-        private void CreateValidation_Keys(IEntityType entityType, Type type, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_Key(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
-            foreach (PropertyInfo prop in type.GetProperties())
+            if (prop.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("KeyAttribute")).Any())
             {
-                if (entityType != null)
-                {
-                    IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
+                sb.AppendLine(@"            if (actionDBType == ActionDBTypeEnum.Update)");
+                sb.AppendLine(@"            {");
+                sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" == 0)");
+                sb.AppendLine(@"                {");
+                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { ModelsRes." + TypeName + prop.Name + @" });");
+                sb.AppendLine(@"                }");
+                sb.AppendLine(@"            }");
+                sb.AppendLine(@"");
 
-                    EntityProp entityProp = FillEntityProp(prop, entProp, entityType, type, TypeName, TypeNameLower);
-                    if (entProp != null)
-                    {
-                        if (entityProp.IsKey)
-                        {
-                            if (prop.PropertyType.FullName == "System.String")
-                            {
-                                sb.AppendLine(@"                if (string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + entityProp.PropName + @"))");
-                                sb.AppendLine(@"                {");
-                                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + entityProp.PropName + @"), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                sb.AppendLine(@"                }");
-                            }
-                            else if (prop.PropertyType.FullName == "System.Int32" || prop.PropertyType.FullName == "System.Int64")
-                            {
-                                //int? Min = GetEntityValueInt(entProp, "Min");
-                                //int? Max = GetEntityValueInt(entProp, "Max");
-
-                                //if (Min == 0)
-                                //{
-                                //    sb.AppendLine(@"                if (" + TypeNameLower + @"." + entityProp.PropName + @" < " + Min.ToString() + @")");
-                                //    sb.AppendLine(@"                {");
-                                //    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + entityProp.PropName + @"), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                //    sb.AppendLine(@"                }");
-                                //}
-                                //else
-                                //{
-                                sb.AppendLine(@"                if (" + TypeNameLower + @"." + entityProp.PropName + @" == 0)");
-                                sb.AppendLine(@"                {");
-                                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + entityProp.PropName + @"), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-                                sb.AppendLine(@"                }");
-                                //}
-                            }
-                            else
-                            {
-                                sb.AppendLine(@"                NeedToImplement_" + prop.PropertyType.FullName + "_InCreateValidationOfKeys=0;");
-                            }
-                        }
-                    }
-                }
             }
         }
-        private void CreateValidation_ObjectExist(IEntityType entityType, Type type, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_Exist(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
-            //foreach (PropertyInfo prop in type.GetProperties())
-            //{
-            //    if (entityType != null)
-            //    {
-            //        IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
-
-            //        EntityProp entityProp = FillEntityProp(entProp, entityType, type, TypeName, TypeNameLower);
-            //        if (entProp != null)
-            //        {
-            //            if (!entityProp.IsKey && entityProp.IsRequired)
-            //            {
-            //                switch (entityProp.PropType)
-            //                {
-            //                    case "int":
-            //                        {
-            //                            sb.AppendLine(@"            //" + entityProp.PropName + @" (" + entityProp.PropType + @") is required but no testing needed as it is automatically set to 0");
-            //                            sb.AppendLine(@"");
-            //                        }
-            //                        break;
-            //                    case "float":
-            //                        {
-            //                            sb.AppendLine(@"            //" + entityProp.PropName + @" (" + entityProp.PropType + @") is required but no testing needed as it is automatically set to 0.0f");
-            //                            sb.AppendLine(@"");
-            //                        }
-            //                        break;
-            //                    case "bool":
-            //                        {
-            //                            sb.AppendLine(@"            //" + entityProp.PropName + @" (bool) is required but no testing needed ");
-            //                            sb.AppendLine(@"");
-            //                        }
-            //                        break;
-            //                    case "DateTime":
-            //                    case "DateTimeOffset":
-            //                        {
-            //                            if (!entityProp.IsKey && entityProp.IsRequired)
-            //                            {
-            //                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + entityProp.PropName + @" == null || " + TypeNameLower + @"." + entityProp.PropName + @".Year < 1900 )");
-            //                                sb.AppendLine(@"            {");
-            //                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + entityProp.PropName + @"), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-            //                                sb.AppendLine(@"            }");
-            //                                sb.AppendLine(@"");
-            //                            }
-            //                        }
-            //                        break;
-            //                    case "string":
-            //                        {
-            //                            if (!entityProp.IsKey && entityProp.IsRequired)
-            //                            {
-            //                                sb.AppendLine(@"            if (string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + entityProp.PropName + @"))");
-            //                                sb.AppendLine(@"            {");
-            //                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + entityProp.PropName + @"), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-            //                                sb.AppendLine(@"            }");
-            //                                sb.AppendLine(@"");
-            //                            }
-            //                        }
-            //                        break;
-            //                    default:
-            //                        {
-            //                            if (prop.PropertyType.FullName.Contains("Enum"))
-            //                            {
-            //                                sb.AppendLine(@"            retStr = enums." + entityProp.PropType.Replace("Enum", "") + @"OK(" + TypeNameLower + @"." + prop.Name + @");");
-            //                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" == " + entityProp.PropType + @".Error || !string.IsNullOrWhiteSpace(retStr))");
-            //                                sb.AppendLine(@"            {");
-            //                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + entityProp.PropName + @"), new[] { ModelsRes." + TypeName + entityProp.PropName + @" });");
-            //                                sb.AppendLine(@"            }");
-            //                                sb.AppendLine(@"");
-            //                            }
-            //                            else
-            //                            {
-            //                                sb.AppendLine(@"                //Error: Type not implemented [" + entityProp.PropName + "] of type [" + entityProp.PropType + "]");
-            //                                sb.AppendLine(@"");
-            //                            }
-            //                        }
-            //                        break;
-            //                }
-            //            }
-            //        }
-            //        else
-            //        {
-            //            CreateValidationOfIsRequiredNotMapped(prop, TypeName, TypeNameLower, sb);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        CreateValidationOfIsRequiredNotMapped(prop, TypeName, TypeNameLower, sb);
-            //    }
-            //}
-
-            sb.AppendLine(@"                yield return new ValidationResult(""DatabaseType is > MemoryNoDBShape"");");
+            if (!string.IsNullOrWhiteSpace(csspProp.ObjectExistTypeName) && !string.IsNullOrWhiteSpace(csspProp.ObjectExistPlurial) && !string.IsNullOrWhiteSpace(csspProp.ObjectExistFieldID))
+            {
+                sb.AppendLine(@"            if (!((from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).Any()))");
+                sb.AppendLine(@"            {");
+                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                sb.AppendLine(@"            }");
+                sb.AppendLine(@"");
+            }
         }
         #endregion Functions private
 
@@ -1285,7 +610,7 @@ namespace CSSPServicesGenerateCodeHelper
                 bool ClassNotMapped = false;
                 StringBuilder sb = new StringBuilder();
                 string TypeName = type.Name;
-                IEntityType entityType = null;
+                //IEntityType entityType = null;
 
                 string TypeNameLower = "";
 
@@ -1306,18 +631,23 @@ namespace CSSPServicesGenerateCodeHelper
                 LabelStatus.Refresh();
                 Application.DoEvents();
 
-                if (TypeName.StartsWith("<") || TypeName.StartsWith("ModelsRes") || TypeName.StartsWith("Application") || TypeName.StartsWith("CSSPWebToolsDBContext"))
+                if (type.Name.StartsWith("<")
+                                   || type.Name.StartsWith("ModelsRes")
+                                   || type.Name.StartsWith("Application")
+                                   || type.Name.StartsWith("CSSPAllowNull")
+                                   || type.Name.StartsWith("CSSPDateAfterYear")
+                                   || type.Name.StartsWith("CSSPDateBiggerThanOtherField")
+                                   || type.Name.StartsWith("CSSPObjectExist")
+                                   || type.Name.StartsWith("CSSPEnumTypeExist")
+                                   || type.Name.StartsWith("CSSPWebToolsDBContext"))
                 {
                     continue;
                 }
 
-                entityType = db.Model.GetEntityTypes().Where(c => c.Name == "CSSPModels." + TypeName).FirstOrDefault();
-
-
-                //if (type.Name != "PolSourceObsInfoChild")
-                //{
-                //    continue;
-                //}
+                if (type.Name != "AppTask")
+                {
+                    continue;
+                }
 
                 foreach (CustomAttributeData customAttributeData in type.CustomAttributes)
                 {
@@ -1387,55 +717,60 @@ namespace CSSPServicesGenerateCodeHelper
                         sb.AppendLine(@"        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)");
                     }
                     sb.AppendLine(@"        {");
-                    if (TypePropHasEnum(entityType, type, TypeName, TypeNameLower))
-                    {
-                        sb.AppendLine(@"            string retStr = """";");
-                        sb.AppendLine(@"            Enums enums = new Enums(LanguageRequest);");
-                    }
+                    sb.AppendLine(@"            string retStr = """";");
+                    sb.AppendLine(@"            Enums enums = new Enums(LanguageRequest);");
                     sb.AppendLine(@"            " + TypeName + @" " + TypeNameLower + @" = validationContext.ObjectInstance as " + TypeName + @";");
                     sb.AppendLine(@"");
-                    sb.AppendLine(@"            // ----------------------------------------------------");
-                    sb.AppendLine(@"            // Property is required validation");
-                    sb.AppendLine(@"            // ----------------------------------------------------");
-                    sb.AppendLine(@"");
 
-                    if (!ClassNotMapped)
+                    foreach (PropertyInfo prop in type.GetProperties())
                     {
-                        sb.AppendLine(@"            if (actionDBType == ActionDBTypeEnum.Update)");
-                        sb.AppendLine(@"            {");
+                        if (prop.GetGetMethod().IsVirtual)
+                        {
+                            continue;
+                        }
 
-                        CreateValidation_Keys(entityType, type, TypeName, TypeNameLower, sb);
+                        if (prop.Name == "ValidationResults")
+                        {
+                            continue;
+                        }
 
-                        sb.AppendLine(@"            }");
-                        sb.AppendLine(@"");
+                        CSSPProp csspProp = new CSSPProp();
+                        if (!FillCSSPProp(prop, csspProp))
+                        {
+                            RichTextBoxStatus.AppendText("Error while creating code [" + csspProp.Error + "]");
+                            return;
+                        }
+
+                        if (!ClassNotMapped)
+                        {
+                            CreateValidation_Key(prop, csspProp, TypeName, TypeNameLower, sb);
+                        }
+
+                        CreateValidation_NotNullable(prop, csspProp, TypeName, TypeNameLower, sb);
+
+                        CreateValidation_Length(prop, csspProp, TypeName, TypeNameLower, sb);
+
+                        if (TypeName == "TVItem")
+                        {
+                            sb.AppendLine(@"            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)");
+                            sb.AppendLine(@"            {");
+                            sb.AppendLine(@"                if (tvItem.TVType == TVTypeEnum.Root)");
+                            sb.AppendLine(@"                {");
+                            sb.AppendLine(@"                    if (GetRead().Count() > 0)");
+                            sb.AppendLine(@"                    {");
+                            sb.AppendLine(@"                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });");
+                            sb.AppendLine(@"                    }");
+                            sb.AppendLine(@"                }");
+                            sb.AppendLine(@"            }");
+                        }
+
+                        CreateValidation_Email(prop, csspProp, TypeName, TypeNameLower, sb);
+
+                        CreateValidation_AfterYear(prop, csspProp, TypeName, TypeNameLower, sb);
+                        CreateValidation_Bigger(prop, csspProp, TypeName, TypeNameLower, sb);
+                        CreateValidation_Exist(prop, csspProp, TypeName, TypeNameLower, sb);
+                        CreateValidation_EnumType(prop, csspProp, TypeName, TypeNameLower, sb);
                     }
-
-                    CreateValidation_Required(entityType, type, TypeName, TypeNameLower, sb);
-
-                    sb.AppendLine(@"            // ----------------------------------------------------");
-                    sb.AppendLine(@"            // Property other validation");
-                    sb.AppendLine(@"            // ----------------------------------------------------");
-                    sb.AppendLine(@"");
-
-                    CreateValidation_Lengths(entityType, type, TypeName, TypeNameLower, sb);
-
-                    if (TypeName == "TVItem")
-                    {
-                        sb.AppendLine(@"            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)");
-                        sb.AppendLine(@"            {");
-                        sb.AppendLine(@"                if (tvItem.TVType == TVTypeEnum.Root)");
-                        sb.AppendLine(@"                {");
-                        sb.AppendLine(@"                    if (GetRead().Count() > 0)");
-                        sb.AppendLine(@"                    {");
-                        sb.AppendLine(@"                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });");
-                        sb.AppendLine(@"                    }");
-                        sb.AppendLine(@"                }");
-                        sb.AppendLine(@"            }");
-                    }
-
-                    CreateValidation_Emails(entityType, type, TypeName, TypeNameLower, sb);
-
-                    //CreateValidationOfObjectExist(entityType, type, TypeName, TypeNameLower, sb);
 
                     sb.AppendLine(@"");
                     sb.AppendLine(@"        }");
@@ -1445,9 +780,9 @@ namespace CSSPServicesGenerateCodeHelper
 
                 if (!ClassNotMapped)
                 {
-                    CreateClassServiceFunctionsPublicRegion(entityType, type, TypeName, TypeNameLower, sb);
+                    CreateClassServiceFunctionsPublicRegion(type, TypeName, TypeNameLower, sb);
 
-                    CreateClassServiceFunctionsPrivateRegion(entityType, type, TypeName, TypeNameLower, sb);
+                    CreateClassServiceFunctionsPrivateRegion(type, TypeName, TypeNameLower, sb);
                 }
 
                 sb.AppendLine(@"    }");

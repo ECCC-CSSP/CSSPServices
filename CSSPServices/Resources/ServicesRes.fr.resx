@@ -246,4 +246,10 @@
   <data name="TVText" xml:space="preserve">
     <value>TVText</value>
   </data>
+  <data name="_YearShouldBeBiggerThan_" xml:space="preserve">
+    <value>[{0}] année devrait être plus grand que [{1}]</value>
+  </data>
+  <data name="_DateIsBiggerThan_" xml:space="preserve">
+    <value>[{0}] date est plus grand que [{1}]</value>
+  </data>
 </root>

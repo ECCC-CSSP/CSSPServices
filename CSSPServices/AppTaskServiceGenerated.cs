@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             AppTask appTask = validationContext.ObjectInstance as AppTask;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (appTask.AppTaskID == 0)
@@ -54,9 +50,31 @@ namespace CSSPServices
                 }
             }
 
-            //TVItemID (int) is required but no testing needed as it is automatically set to 0
+            //AppTaskID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //TVItemID2 (int) is required but no testing needed as it is automatically set to 0
+            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (appTask.TVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskTVItemID, "1"), new[] { ModelsRes.AppTaskTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == appTask.TVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID, appTask.TVItemID.ToString()), new[] { ModelsRes.AppTaskTVItemID });
+            }
+
+            //TVItemID2 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (appTask.TVItemID2 < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskTVItemID2, "1"), new[] { ModelsRes.AppTaskTVItemID2 });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == appTask.TVItemID2 select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID2, appTask.TVItemID2.ToString()), new[] { ModelsRes.AppTaskTVItemID2 });
+            }
 
             retStr = enums.AppTaskCommandOK(appTask.Command);
             if (appTask.Command == AppTaskCommandEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -70,12 +88,19 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskStatus), new[] { ModelsRes.AppTaskStatus });
             }
 
-            //PercentCompleted (int) is required but no testing needed as it is automatically set to 0
+            //PercentCompleted (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (appTask.PercentCompleted < 0 || appTask.PercentCompleted > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskPercentCompleted, "0", "100"), new[] { ModelsRes.AppTaskPercentCompleted });
+            }
 
             if (string.IsNullOrWhiteSpace(appTask.Parameters))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskParameters), new[] { ModelsRes.AppTaskParameters });
             }
+
+            // Parameters has no validation
 
             retStr = enums.LanguageOK(appTask.Language);
             if (appTask.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -83,52 +108,57 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguage), new[] { ModelsRes.AppTaskLanguage });
             }
 
-            if (appTask.StartDateTime_UTC == null || appTask.StartDateTime_UTC.Year < 1900 )
+            if (appTask.StartDateTime_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskStartDateTime_UTC), new[] { ModelsRes.AppTaskStartDateTime_UTC });
             }
 
-            if (appTask.LastUpdateDate_UTC == null || appTask.LastUpdateDate_UTC.Year < 1900 )
+            if (appTask.StartDateTime_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLastUpdateDate_UTC), new[] { ModelsRes.AppTaskLastUpdateDate_UTC });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppTaskStartDateTime_UTC, "1980"), new[] { ModelsRes.AppTaskStartDateTime_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (appTask.TVItemID < 1)
+            if (appTask.EndDateTime_UTC < appTask.StartDateTime_UTC)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskTVItemID, "1"), new[] { ModelsRes.AppTaskTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.AppTaskStartDateTime_UTC, ModelsRes.AppTaskEndDateTime_UTC), new[] { ModelsRes.AppTaskStartDateTime_UTC });
             }
 
-            if (appTask.TVItemID2 < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskTVItemID2, "1"), new[] { ModelsRes.AppTaskTVItemID2 });
-            }
+                //Error: Type not implemented [EndDateTime_UTC] of type [Nullable`1]
 
-            if (appTask.PercentCompleted < 0 || appTask.PercentCompleted > 100)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskPercentCompleted, "0", "100"), new[] { ModelsRes.AppTaskPercentCompleted });
-            }
-
-            // Parameters has no validation
+                //Error: Type not implemented [EstimatedLength_second] of type [Nullable`1]
 
             if (appTask.EstimatedLength_second < 0 || appTask.EstimatedLength_second > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), new[] { ModelsRes.AppTaskEstimatedLength_second });
             }
 
+                //Error: Type not implemented [RemainingTime_second] of type [Nullable`1]
+
             if (appTask.RemainingTime_second < 0 || appTask.RemainingTime_second > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000"), new[] { ModelsRes.AppTaskRemainingTime_second });
             }
 
+            if (appTask.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLastUpdateDate_UTC), new[] { ModelsRes.AppTaskLastUpdateDate_UTC });
+            }
+
+            if (appTask.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppTaskLastUpdateDate_UTC, "1980"), new[] { ModelsRes.AppTaskLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (appTask.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskLastUpdateContactTVItemID, "1"), new[] { ModelsRes.AppTaskLastUpdateContactTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == appTask.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskLastUpdateContactTVItemID, appTask.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.AppTaskLastUpdateContactTVItemID });
             }
 
 

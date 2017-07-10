@@ -88,6 +88,15 @@ namespace CSSPServices.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [{0}] date is bigger than [{1}].
+        /// </summary>
+        public static string _DateIsBiggerThan_ {
+            get {
+                return ResourceManager.GetString("_DateIsBiggerThan_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} does not exist..
         /// </summary>
         public static string _DoesNotExist {
@@ -237,6 +246,15 @@ namespace CSSPServices.Resources {
         public static string _ValueShouldBeBetween_And_ {
             get {
                 return ResourceManager.GetString("_ValueShouldBeBetween_And_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [{0}] year should be bigger than [{1}].
+        /// </summary>
+        public static string _YearShouldBeBiggerThan_ {
+            get {
+                return ResourceManager.GetString("_YearShouldBeBiggerThan_", resourceCulture);
             }
         }
         

@@ -6,220 +6,254 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Reflection;
+using System.ComponentModel.DataAnnotations;
 
 namespace CSSPServicesGenerateCodeHelper
 {
     public partial class GenerateCodeHelper
     {
         #region Functions private
-        protected EntityProp FillEntityProp(PropertyInfo propInfo, IProperty entProp, IEntityType entityType, Type type, string typeName, string typeNameLower)
+        protected bool FillCSSPProp(PropertyInfo propInfo, CSSPProp csspProp)
         {
-            EntityProp entityProp = new EntityProp();
+            csspProp.PropName = propInfo.Name;
 
-            if (entProp != null)
+            if (propInfo.PropertyType.FullName.StartsWith("System.Nullable"))
             {
-                string EntStr = entProp.ToString();
-                EntStr = EntStr.Substring(EntStr.IndexOf(".") + 1);
-                entityProp.PropName = EntStr.Substring(0, EntStr.IndexOf(" "));
-                EntStr = EntStr.Substring(EntStr.IndexOf("(") + 1);
-                entityProp.PropType = EntStr.Substring(0, EntStr.IndexOf(")"));
-                entityProp.IsNullable = false;
-                if (entityProp.PropType.StartsWith("Nullable"))
-                {
-                    entityProp.IsNullable = true;
-                }
-                entityProp.PropType = entityProp.PropType.Replace("Nullable<", "").Replace(">", "");
-                entityProp.IsRequired = false;
-                if (EntStr.Contains(" Required "))
-                {
-                    entityProp.IsRequired = true;
-                }
-                entityProp.IsKey = false;
-                if (EntStr.Contains(" PK "))
-                {
-                    entityProp.IsKey = true;
-                }
-                entityProp.IsIndexed = false;
-                if (EntStr.Contains(" Index "))
-                {
-                    entityProp.IsIndexed = true;
-                }
-                entityProp.MaxLength = 0;
-                if (EntStr.Contains(" MaxLength"))
-                {
-                    string TempEntStr = EntStr.Substring(EntStr.IndexOf(" MaxLength") + " MaxLength".Length);
-                    TempEntStr = TempEntStr.Substring(0, TempEntStr.IndexOf(" "));
-                    entityProp.MaxLength = int.Parse(TempEntStr);
-                }
+                string typeTxt = propInfo.PropertyType.FullName;
+                typeTxt = typeTxt.Substring(typeTxt.IndexOf("[[") + 2);
+                typeTxt = typeTxt.Substring(typeTxt.IndexOf(".") + 1);
+                typeTxt = typeTxt.Substring(0, typeTxt.IndexOf(","));
 
-                if (entityProp.PropType == "int" || entityProp.PropType == "string")
-                {
-                    entityProp.MinInt = GetEntityValueInt(entProp, "Range", 0);
-                    entityProp.MaxInt = GetEntityValueInt(entProp, "Range", 1);
-                }
-                else if (entityProp.PropType == "float")
-                {
-                    entityProp.MinFloat = GetEntityValueFloat(entProp, "Range", 0);
-                    entityProp.MaxFloat = GetEntityValueFloat(entProp, "Range", 1);
-                }
-                else if (entityProp.PropType == "float")
-                {
-                    entityProp.MinDouble = GetEntityValueDouble(entProp, "Range", 0);
-                    entityProp.MaxDouble = GetEntityValueDouble(entProp, "Range", 1);
-                }
-
-                entityProp.DateBiggerThanOtherField = GetEntityValueString(entProp, "DateBiggerThanOtherField");
-                entityProp.DateAfterYear = GetEntityValueInt(entProp, "DateOfYear", 0);
-                entityProp.Equal = GetEntityValueString(entProp, "Equal");
-                entityProp.ObjectExist = GetEntityValueString(entProp, "ObjectExist");
+                csspProp.PropType = typeTxt;
             }
             else
             {
+                csspProp.PropType = propInfo.PropertyType.Name.ToString();
             }
 
-            return entityProp;
-        }
-        protected double? GetEntityValueDouble(IProperty entProp, string AnnotationText, int Ordinal)
-        {
-            IAnnotation entityAnn = null;
-            try
-            {
-                entityAnn = entProp.FindAnnotation(AnnotationText);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            csspProp.IsKey = propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("KeyAttribute")).Any();
 
-            if (entityAnn == null)
+            if (propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("DataTypeAttribute")).Any())
             {
-                return null;
-            }
-
-            return ((double[])entityAnn.Value)[Ordinal];
-        }
-        protected float? GetEntityValueFloat(IProperty entProp, string AnnotationText, int Ordinal)
-        {
-            IAnnotation entityAnn = null;
-            try
-            {
-                entityAnn = entProp.FindAnnotation(AnnotationText);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-
-            if (entityAnn == null)
-            {
-                return null;
-            }
-
-            return ((float[])entityAnn.Value)[Ordinal];
-        }
-        protected int? GetEntityValueInt(IProperty entProp, string AnnotationText, int Ordinal)
-        {
-            IAnnotation entityAnn = null;
-            try
-            {
-                entityAnn = entProp.FindAnnotation(AnnotationText);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-
-            if (entityAnn == null)
-            {
-                return null;
-            }
-
-            return ((int[])entityAnn.Value)[Ordinal];
-        }
-        protected string GetEntityValueString(IProperty entProp, string AnnotationText)
-        {
-            IAnnotation entityAnn = null;
-            try
-            {
-                entityAnn = entProp.FindAnnotation(AnnotationText);
-            }
-            catch (Exception)
-            {
-                return "";
-            }
-
-            if (entityAnn == null)
-            {
-                return "";
-            }
-
-            return (string)entityAnn.Value;
-        }
-        protected bool TypePropHasEnum(IEntityType entityType, Type type, string typeName, string typeNameLower)
-        {
-            foreach (PropertyInfo prop in type.GetProperties())
-            {
-                if (prop.Name != "ValidationResults")
+                CustomAttributeData customAttributeData = propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("DataTypeAttribute")).First();
+                DataType dataType = ((DataType)customAttributeData.ConstructorArguments[0].Value);
+                switch (dataType)
                 {
-                    if (prop.PropertyType.FullName.Contains("Enum"))
-                    {
-                        //IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
+                    case DataType.Custom:
+                    case DataType.DateTime:
+                    case DataType.Date:
+                    case DataType.Time:
+                    case DataType.Duration:
+                    case DataType.PhoneNumber:
+                    case DataType.Currency:
+                    case DataType.Text:
+                    case DataType.Html:
+                    case DataType.MultilineText:
+                        {
+                            csspProp.Error = "DataType [" + dataType.ToString() + "] is not implemented yet.";
+                            return false;
+                        }
+                    case DataType.EmailAddress:
+                        {
+                            csspProp.dataType = ((DataType)customAttributeData.ConstructorArguments[0].Value);
+                        }
+                        break;
+                    case DataType.Password:
+                    case DataType.Url:
+                    case DataType.ImageUrl:
+                    case DataType.CreditCard:
+                    case DataType.PostalCode:
+                    case DataType.Upload:
+                        {
+                            csspProp.Error = "DataType [" + dataType.ToString() + "] is not implemented yet.";
+                            return false;
+                        }
+                    default:
+                        break;
+                }
+            }
 
-                        //if (entProp != null)
-                        //{
-                        //    if (!entProp.ToString().Contains(" Required "))
-                        //    {
-                        return true;
-                        //    }
-                        //}
+            if (propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("StringLengthAttribute")).Any())
+            {
+                if (propInfo.PropertyType != typeof(System.String))
+                {
+                    csspProp.Error = propInfo.Name + " should not contain the StringLength Attribute. StringLength Attribute can only be set for System.String";
+                    return false;
+                }
+                CustomAttributeData customAttributeData = propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("StringLengthAttribute")).First();
+                csspProp.MaxLength = ((int)customAttributeData.ConstructorArguments.ToArray()[0].Value);
+                if (customAttributeData.NamedArguments.ToArray().Count() > 0)
+                {
+                    for (int i = 0, count = customAttributeData.NamedArguments.ToArray().Count(); i < count; i++)
+                    {
+                        if (customAttributeData.NamedArguments.ToArray()[i].MemberName == "MinimumLength")
+                        {
+                            csspProp.MinLength = ((int)customAttributeData.NamedArguments.ToArray()[i].TypedValue.Value);
+                        }
                     }
                 }
             }
 
-            return false;
+            if (propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("RangeAttribute")).Any())
+            {
+                CustomAttributeData customAttributeData = propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("RangeAttribute")).First();
+                if (csspProp.PropType == "Int16" || csspProp.PropType == "Int32" || csspProp.PropType == "Int64")
+                {
+                    csspProp.MinInt = ((int)customAttributeData.ConstructorArguments.ToArray()[0].Value);
+                    csspProp.MaxInt = ((int)customAttributeData.ConstructorArguments.ToArray()[1].Value);
+
+                    if (csspProp.MinInt > csspProp.MaxInt && csspProp.MaxInt == -1)
+                    {
+                        csspProp.MaxInt = null;
+                    }
+                }
+                else if (csspProp.PropType == "Single")
+                {
+                    csspProp.MinFloat = ((float)((double)customAttributeData.ConstructorArguments.ToArray()[0].Value));
+                    csspProp.MaxFloat = ((float)((double)customAttributeData.ConstructorArguments.ToArray()[1].Value));
+
+                    if (csspProp.MinFloat > csspProp.MaxFloat && csspProp.MaxFloat == -1)
+                    {
+                        csspProp.MaxFloat = null;
+                    }
+                }
+                else if (csspProp.PropType == "Double")
+                {
+                    csspProp.MinDouble = ((double)customAttributeData.ConstructorArguments.ToArray()[0].Value);
+                    csspProp.MaxDouble = ((double)customAttributeData.ConstructorArguments.ToArray()[1].Value);
+
+                    if (csspProp.MinDouble > csspProp.MaxDouble && csspProp.MaxDouble == -1)
+                    {
+                        csspProp.MaxDouble = null;
+                    }
+                }
+                else
+                {
+                    csspProp.Error = "Property [" + csspProp.PropName  + "] of type [" + csspProp.PropType + "] should not use RangeAttribute. Only types [Int,Single,Double] can use RangeAttributre";
+                    return false;
+                }
+            }
+
+            if (propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("CompareAttribute")).Any())
+            {
+                CustomAttributeData customAttributeData = propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("CompareAttribute")).First();
+                csspProp.Compare = ((string)customAttributeData.ConstructorArguments.ToArray()[0].Value);
+            }
+
+            csspProp.IsNullable = propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("CSSPAllowNullAttribute")).Any();
+
+            if (propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("CSSPBiggerAttribute")).Any())
+            {
+                CustomAttributeData customAttributeData = propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("CSSPBiggerAttribute")).First();
+                for (int i = 0, count = customAttributeData.NamedArguments.ToArray().Count(); i < count; i++)
+                {
+                    if (customAttributeData.NamedArguments.ToArray()[i].MemberName == "OtherField")
+                    {
+                        csspProp.OtherField = ((string)customAttributeData.NamedArguments.ToArray()[i].TypedValue.Value);
+                    }
+                }
+            }
+
+            if (propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("CSSPAfterAttribute")).Any())
+            {
+                if (csspProp.PropType != "DateTime")
+                {
+                    csspProp.Error = "Property [" + csspProp.PropName + "] of type [" + csspProp.PropType + "] CSSPAfterAttribute should only be user for DateTime Type";
+                    return false;
+                }
+                CustomAttributeData customAttributeData = propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("CSSPAfterAttribute")).First();
+                for (int i = 0, count = customAttributeData.NamedArguments.ToArray().Count(); i < count; i++)
+                {
+                    if (customAttributeData.NamedArguments.ToArray()[i].MemberName == "Year")
+                    {
+                        csspProp.Year = ((int)customAttributeData.NamedArguments.ToArray()[i].TypedValue.Value);
+                    }
+                }
+            }
+
+            if (propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("CSSPExistAttribute")).Any())
+            {
+                CustomAttributeData customAttributeData = propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("CSSPExistAttribute")).First();
+                for (int i = 0, count = customAttributeData.NamedArguments.ToArray().Count(); i < count; i++)
+                {
+                    switch (customAttributeData.NamedArguments.ToArray()[i].MemberName)
+                    {
+                        case "TypeName":
+                            {
+                                csspProp.ObjectExistTypeName = ((string)customAttributeData.NamedArguments.ToArray()[i].TypedValue.Value);
+                            }
+                            break;
+                        case "Plurial":
+                            {
+                                csspProp.ObjectExistPlurial = ((string)customAttributeData.NamedArguments.ToArray()[i].TypedValue.Value);
+                            }
+                            break;
+                        case "FieldID":
+                            {
+                                csspProp.ObjectExistFieldID = ((string)customAttributeData.NamedArguments.ToArray()[i].TypedValue.Value);
+                            }
+                            break;
+                        default:
+                            csspProp.Error = "Property [" + csspProp.PropName + "] of type [" + csspProp.PropType + "] --- member name " + customAttributeData.NamedArguments.ToArray()[i].MemberName + " does not exist for CSSPExistAttribute";
+                            return false;
+                    }
+                }
+            }
+
+            csspProp.IsEnumType = propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("CSSPEnumTypeAttribute")).Any();
+
+            return true;
         }
         #endregion Functions private
 
         #region Sub Class
-        protected class EntityProp
+        protected class CSSPProp
         {
-            public EntityProp()
+            public CSSPProp()
             {
+                Error = "";
                 PropName = "";
                 PropType = "";
                 IsNullable = false;
-                IsRequired = false;
                 IsKey = false;
-                IsIndexed = false;
                 MaxLength = null;
+                MinLength = null;
                 MinInt = null;
                 MaxInt = null;
                 MinFloat = null;
                 MaxFloat = null;
                 MinDouble = null;
                 MaxDouble = null;
-                DateBiggerThanOtherField = "";
-                DateAfterYear = null;
-                Equal = "";
-                ObjectExist = "";
+                OtherField = "";
+                Year = null;
+                Compare = "";
+                ObjectExistTypeName = "";
+                ObjectExistPlurial = "";
+                ObjectExistFieldID = "";
+                IsEnumType = false;
+                dataType = DataType.Custom;
             }
+            public string Error { get; set; }
             public string PropName { get; set; }
             public string PropType { get; set; }
             public bool IsNullable { get; set; }
-            public bool IsRequired { get; set; }
             public bool IsKey { get; set; }
-            public bool IsIndexed { get; set; }
             public int? MaxLength { get; set; }
+            public int? MinLength { get; set; }
             public int? MinInt { get; set; }
             public int? MaxInt { get; set; }
             public float? MinFloat { get; set; }
             public float? MaxFloat { get; set; }
             public double? MinDouble { get; set; }
             public double? MaxDouble { get; set; }
-            public string DateBiggerThanOtherField { get; set; }
-            public int? DateAfterYear { get; set; }
-            public string Equal { get; set; }
-            public string ObjectExist { get; set; }
+            public string OtherField { get; set; }
+            public int? Year { get; set; }
+            public string Compare { get; set; }
+            public string ObjectExistTypeName { get; set; }
+            public string ObjectExistPlurial { get; set; }
+            public string ObjectExistFieldID { get; set; }
+            public bool IsEnumType { get; set; }
+            public DataType dataType { get; set; }
 
         }
         #endregion Sub Class

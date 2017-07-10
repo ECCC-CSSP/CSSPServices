@@ -38,7 +38,7 @@ namespace CSSPServicesGenerateCodeHelper
         #endregion Constructors
 
         #region Functions private
-        private void CreateClass_CRUD_Testing(IEntityType entityType, Type type, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateClass_CRUD_Testing(Type type, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             sb.AppendLine(@"            " + TypeName + @" " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
             if (TypeName == "Contact")
@@ -50,46 +50,51 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
             }
             sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.GetRead().Where(c => c == " + TypeNameLower + @").Any());");
-            PropertyInfo propertyInfo = type.GetProperties().Where(c => c.Name == "LastUpdateContactTVItemID").FirstOrDefault();
-            if (propertyInfo == null)
+            PropertyInfo prop = type.GetProperties().Where(c => c.Name == "LastUpdateContactTVItemID").FirstOrDefault();
+            if (prop == null)
             {
-                propertyInfo = type.GetProperties().Skip(1).Take(1).FirstOrDefault();
+                prop = type.GetProperties().Skip(1).Take(1).FirstOrDefault();
             }
 
-            if (propertyInfo != null && entityType != null)
+            if (prop != null)
             {
-                IProperty entProp = entityType.GetProperties().Where(c => c.Name == propertyInfo.Name).FirstOrDefault();
-
-                switch (propertyInfo.PropertyType.FullName)
+                CSSPProp csspProp = new CSSPProp();
+                if (!FillCSSPProp(prop, csspProp))
                 {
+                    return;
+                }
+
+                switch (prop.PropertyType.FullName)
+                {
+                    case "System.Int16":
                     case "System.Int32":
                     case "System.Int64":
                         {
-                            int? Min = GetEntityValueInt(entProp, "Range", 0);
-                            int? Max = GetEntityValueInt(entProp, "Range", 1);
+                            int? Min = csspProp.MinInt;
+                            int? Max = csspProp.MaxInt;
 
                             if (Min != null && Max != null)
                             {
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + propertyInfo.Name + @" = GetRandomInt(" + Min.ToString() + @", " + Max.ToString() + @");");
+                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + Min.ToString() + @", " + Max.ToString() + @");");
                             }
                             else if (Min != null)
                             {
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + propertyInfo.Name + @" = GetRandomInt(" + Min.ToString() + @", " + (Min + 10).ToString() + @");");
+                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + Min.ToString() + @", " + (Min + 10).ToString() + @");");
                             }
                             else if (Max != null)
                             {
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + propertyInfo.Name + @" = GetRandomInt(" + (Max - 10).ToString() + @", " + Max.ToString() + @");");
+                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + (Max - 10).ToString() + @", " + Max.ToString() + @");");
                             }
                             else
                             {
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + propertyInfo.Name + @" = GetRandomInt(1, 1000);");
+                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(1, 1000);");
                             }
                         }
                         break;
                     case "System.String":
                         {
-                            int? Min = GetEntityValueInt(entProp, "Range", 0);
-                            int? Max = GetEntityValueInt(entProp, "Range", 1);
+                            int? Min = csspProp.MinInt;
+                            int? Max = csspProp.MaxInt;
 
                             if (Min != null && Max != null)
                             {
@@ -98,25 +103,25 @@ namespace CSSPServicesGenerateCodeHelper
                                 {
                                     NumberOfCharacter = (int)Max;
                                 }
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + propertyInfo.Name + @" = GetRandomString("""", " + NumberOfCharacter.ToString() + @");");
+                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", " + NumberOfCharacter.ToString() + @");");
                             }
                             else if (Min != null)
                             {
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + propertyInfo.Name + @" = GetRandomString("""", " + (Min + 3).ToString() + @");");
+                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", " + (Min + 3).ToString() + @");");
                             }
                             else if (Max != null)
                             {
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + propertyInfo.Name + @" = GetRandomString("""", " + (Max - 3).ToString() + @");");
+                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", " + (Max - 3).ToString() + @");");
                             }
                             else
                             {
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + propertyInfo.Name + @" = GetRandomString("""", 5);");
+                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", 5);");
                             }
                         }
                         break;
                     default:
                         {
-                            sb.AppendLine(@"            //Need To Implement " + propertyInfo.Name + @" Of Type " + propertyInfo.PropertyType.FullName);
+                            sb.AppendLine(@"            //Need To Implement " + prop.Name + @" Of Type " + prop.PropertyType.FullName);
                             sb.AppendLine(@"            ImplementLineAbove = 1;");
                         }
                         break;
@@ -135,824 +140,497 @@ namespace CSSPServicesGenerateCodeHelper
         {
             foreach (PropertyInfo prop in type.GetProperties())
             {
-                if (entityType != null)
+                CSSPProp csspProp = new CSSPProp();
+                if (!FillCSSPProp(prop, csspProp))
                 {
-                    IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
+                    return;
+                }
 
-                    EntityProp entityProp = FillEntityProp(prop, entProp, entityType, type, TypeName, TypeNameLower);
-                    if (entProp != null)
-                    {
-                        if (TypeName.StartsWith("AspNet"))
+                sb.AppendLine(@"");
+                sb.AppendLine(@"            //-----------------------------------");
+                sb.AppendLine(@"            // doing property [" + prop.Name + "] of type [" + prop.PropertyType.Name + "]");
+                sb.AppendLine(@"            //-----------------------------------");
+                switch (prop.PropertyType.Name)
+                {
+                    case "System.Int16":
+                    case "System.Int32":
+                    case "System.Int64":
                         {
-                            // nothing for now
-                        }
-                        else
-                        {
-                            sb.AppendLine(@"");
-                            sb.AppendLine(@"            //-----------------------------------");
-                            sb.AppendLine(@"            // doing property [" + prop.Name + "] of type [" + entityProp.PropType + "]");
-                            sb.AppendLine(@"            //-----------------------------------");
-                            switch (entityProp.PropType)
+                            int? Min = csspProp.MinInt;
+                            int? Max = csspProp.MaxInt;
+
+                            if (!csspProp.IsKey)
                             {
-                                case "int":
+                                sb.AppendLine(@"");
+                                sb.AppendLine(@"            " + TypeNameLower + @" = null;");
+                                sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
+
+                                if (Min != null && Max != null)
+                                {
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Min should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + Min.ToString() + ";");
+                                    if (TypeName == "Contact")
                                     {
-                                        int? Min = GetEntityValueInt(entProp, "Range", 0);
-                                        int? Max = GetEntityValueInt(entProp, "Range", 1);
-
-                                        if (!entityProp.IsKey)
-                                        {
-                                            sb.AppendLine(@"");
-                                            sb.AppendLine(@"            " + TypeNameLower + @" = null;");
-                                            sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
-
-                                            if (Min != null && Max != null)
-                                            {
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Min should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + Min.ToString() + ";");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + Min.ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Min + 1 should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Min + 1).ToString() + ";");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + (Min + 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Min - 1 should return false with one error");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Min - 1).ToString() + ";");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""", """ + Max.ToString() + @""")).Any());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + (Min - 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Max should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + Max.ToString() + ";");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + Max.ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Max - 1 should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Max - 1).ToString() + ";");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + (Max - 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Max + 1 should return false with one error");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Max + 1).ToString() + ";");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""", """ + Max.ToString() + @""")).Any());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + (Max + 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                            }
-                                            else if (Min != null)
-                                            {
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [empty]. At Min should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + Min.ToString() + ";");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + Min.ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [empty]. At Min + 1 should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Min + 1).ToString() + ";");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + (Min + 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [empty]. At Min - 1 should return false with one error");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Min - 1).ToString() + ";");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""")).Any());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + (Min - 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-                                            }
-                                            else if (Max != null)
-                                            {
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [empty] and Max [" + Max + "]. At Max should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + Max.ToString() + ";");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + Max.ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [empty] and Max [" + Max + "]. At Max - 1 should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Max - 1).ToString() + ";");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + (Max - 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [empty] and Max [" + Max + "]. At Max + 1 should return false with one error");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Max + 1).ToString() + ";");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + prop.Name + @", """ + Max.ToString() + @""")).Any());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + (Max + 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-                                            }
-                                        }
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
                                     }
-                                    break;
-                                case "float":
+                                    else
                                     {
-                                        float? Min = GetEntityValueFloat(entProp, "Range", 0);
-                                        float? Max = GetEntityValueFloat(entProp, "Range", 1);
-
-                                        if (!entityProp.IsKey)
-                                        {
-                                            sb.AppendLine(@"");
-                                            sb.AppendLine(@"            " + TypeNameLower + @" = null;");
-                                            sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
-
-                                            if (Min != null && Max != null)
-                                            {
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Min should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)Min).ToString("F1") + "f;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + ((float)Min).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Min + 1 should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Min + 1)).ToString("F1") + "f;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Min + 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Min - 1 should return false with one error");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Min - 1)).ToString("F1") + "f;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""", """ + Max.ToString() + @""")).Any());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Min - 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Max should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)Max).ToString("F1") + "f;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + ((float)Max).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Max - 1 should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Max - 1)).ToString("F1") + "f;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Max - 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Max + 1 should return false with one error");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Max + 1)).ToString("F1") + "f;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""", """ + Max.ToString() + @""")).Any());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Max + 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                            }
-                                            else if (Min != null)
-                                            {
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [empty]. At Min should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)Min).ToString("F1") + "f;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + ((float)Min).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [empty]. At Min + 1 should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Min + 1)).ToString("F1") + "f;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Min + 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [empty]. At Min - 1 should return false with one error");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Min - 1)).ToString("F1") + "f;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""")).Any());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Min - 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-                                            }
-                                            else if (Max != null)
-                                            {
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [empty] and Max [" + Max + "]. At Max should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)Max).ToString("F1") + "f;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + ((float)Max).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [empty] and Max [" + Max + "]. At Max - 1 should return true and no errors");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Max - 1)).ToString("F1") + "f;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Max - 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"            // " + prop.Name + @" has Min [empty] and Max [" + Max + "]. At Max + 1 should return false with one error");
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Max + 1)).ToString("F1") + ";");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + prop.Name + @", """ + Max.ToString() + @""")).Any());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Max + 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-                                            }
-                                        }
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
                                     }
-                                    break;
-                                case "bool":
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + Min.ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Min + 1 should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Min + 1).ToString() + ";");
+                                    if (TypeName == "Contact")
                                     {
-                                        // nothing
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
                                     }
-                                    break;
-                                case "DateTime":
-                                case "DateTimeOffset":
+                                    else
                                     {
-                                        // nothing
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
                                     }
-                                    break;
-                                case "string":
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + (Min + 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Min - 1 should return false with one error");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Min - 1).ToString() + ";");
+                                    if (TypeName == "Contact")
                                     {
-                                        int? Min = GetEntityValueInt(entProp, "Range", 0);
-
-                                        if (!entityProp.IsKey)
-                                        {
-                                            sb.AppendLine(@"");
-                                            sb.AppendLine(@"            " + TypeNameLower + @" = null;");
-                                            sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
-
-                                            if (Min != null && entityProp.MaxLength > 0)
-                                            {
-                                                sb.AppendLine(@"");
-                                                sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [" + entityProp.MaxLength + "]. At Min should return true and no errors");
-                                                if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
-                                                {
-                                                    sb.AppendLine(@"            string " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            string " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + Min.ToString() + ");");
-                                                }
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                if (Min + 1 < entityProp.MaxLength)
-                                                {
-                                                    sb.AppendLine(@"");
-                                                    sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [" + entityProp.MaxLength + "]. At Min + 1 should return true and no errors");
-                                                    if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
-                                                    {
-                                                        sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
-                                                    }
-                                                    else
-                                                    {
-                                                        sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (Min + 1).ToString() + ");");
-                                                    }
-                                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
-                                                    if (TypeName == "Contact")
-                                                    {
-                                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                    }
-                                                    else
-                                                    {
-                                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                    }
-                                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-                                                }
-
-                                                if (Min - 1 > 0)
-                                                {
-                                                    if (!(prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName")))
-                                                    {
-                                                        sb.AppendLine(@"");
-                                                        sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [" + entityProp.MaxLength + "]. At Min - 1 should return false with one error");
-                                                        sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (Min - 1).ToString() + ");");
-                                                        sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
-                                                        if (TypeName == "Contact")
-                                                        {
-                                                            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                        }
-                                                        else
-                                                        {
-                                                            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                        }
-                                                        sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""", """ + entityProp.MaxLength.ToString() + @""")).Any());");
-                                                        sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
-                                                        sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-                                                    }
-                                                }
-
-                                                sb.AppendLine(@"");
-                                                sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [" + entityProp.MaxLength + "]. At Max should return true and no errors");
-                                                if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
-                                                {
-                                                    sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + entityProp.MaxLength.ToString() + ");");
-                                                }
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                if (entityProp.MaxLength - 1 > 0 && entityProp.MaxLength - 1 > Min)
-                                                {
-                                                    sb.AppendLine(@"");
-                                                    sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [" + entityProp.MaxLength + "]. At Max - 1 should return true and no errors");
-                                                    if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
-                                                    {
-                                                        sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
-                                                    }
-                                                    else
-                                                    {
-                                                        sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (entityProp.MaxLength - 1).ToString() + ");");
-                                                    }
-                                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
-                                                    if (TypeName == "Contact")
-                                                    {
-                                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                    }
-                                                    else
-                                                    {
-                                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                    }
-                                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-                                                }
-
-                                                if (!(prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName")))
-                                                {
-                                                    sb.AppendLine(@"");
-                                                    sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [" + entityProp.MaxLength + "]. At Max + 1 should return false with one error");
-                                                    sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (entityProp.MaxLength + 1).ToString() + ");");
-                                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
-                                                    if (TypeName == "Contact")
-                                                    {
-                                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                    }
-                                                    else
-                                                    {
-                                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                    }
-                                                    sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""", """ + entityProp.MaxLength.ToString() + @""")).Any());");
-                                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
-                                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-                                                }
-                                            }
-                                            else if (Min != null)
-                                            {
-                                                sb.AppendLine(@"");
-                                                sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [empty]. At Min should return true and no errors");
-                                                if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
-                                                {
-                                                    sb.AppendLine(@"            string " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            string " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + Min.ToString() + ");");
-                                                }
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                sb.AppendLine(@"");
-                                                sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [empty]. At Min + 1 should return true and no errors");
-                                                if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
-                                                {
-                                                    sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (Min + 1).ToString() + ");");
-                                                }
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                if (Min - 1 > 0)
-                                                {
-                                                    if (!(prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName")))
-                                                    {
-                                                        sb.AppendLine(@"");
-                                                        sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [empty]. At Min - 1 should return false with one error");
-                                                        sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (Min - 1).ToString() + ");");
-                                                        sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
-                                                        if (TypeName == "Contact")
-                                                        {
-                                                            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                        }
-                                                        else
-                                                        {
-                                                            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                        }
-                                                        sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinLengthIs_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""")).Any());");
-                                                        sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
-                                                        sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-                                                    }
-                                                }
-                                            }
-                                            else if (entityProp.MaxLength > 0)
-                                            {
-                                                sb.AppendLine(@"");
-                                                sb.AppendLine(@"            // " + prop.Name + @" has MinLength [empty] and MaxLength [" + entityProp.MaxLength + "]. At Max should return true and no errors");
-                                                if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
-                                                {
-                                                    sb.AppendLine(@"            string " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            string " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + entityProp.MaxLength.ToString() + ");");
-                                                }
-                                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                                if (entityProp.MaxLength - 1 > 0)
-                                                {
-                                                    sb.AppendLine(@"");
-                                                    sb.AppendLine(@"            // " + prop.Name + @" has MinLength [empty] and MaxLength [" + entityProp.MaxLength + "]. At Max - 1 should return true and no errors");
-                                                    if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
-                                                    {
-                                                        sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
-                                                    }
-                                                    else
-                                                    {
-                                                        sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (entityProp.MaxLength - 1).ToString() + ");");
-                                                    }
-                                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
-                                                    if (TypeName == "Contact")
-                                                    {
-                                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                    }
-                                                    else
-                                                    {
-                                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                    }
-                                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
-                                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-                                                }
-
-                                                if (!(prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName")))
-                                                {
-                                                    sb.AppendLine(@"");
-                                                    sb.AppendLine(@"            // " + prop.Name + @" has MinLength [empty] and MaxLength [" + entityProp.MaxLength + "]. At Max + 1 should return false with one error");
-                                                    sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (entityProp.MaxLength + 1).ToString() + ");");
-                                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
-                                                    if (TypeName == "Contact")
-                                                    {
-                                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                    }
-                                                    else
-                                                    {
-                                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                    }
-                                                    sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes." + TypeName + prop.Name + @", """ + entityProp.MaxLength.ToString() + @""")).Any());");
-                                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
-                                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-                                                }
-                                            }
-                                        }
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
                                     }
-                                    break;
-                                default:
+                                    else
                                     {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
                                     }
-                                    break;
+                                    sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""", """ + Max.ToString() + @""")).Any());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + (Min - 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Max should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + Max.ToString() + ";");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + Max.ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Max - 1 should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Max - 1).ToString() + ";");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + (Max - 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Max + 1 should return false with one error");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Max + 1).ToString() + ";");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""", """ + Max.ToString() + @""")).Any());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + (Max + 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                }
+                                else if (Min != null)
+                                {
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [empty]. At Min should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + Min.ToString() + ";");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + Min.ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [empty]. At Min + 1 should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Min + 1).ToString() + ";");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + (Min + 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [empty]. At Min - 1 should return false with one error");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Min - 1).ToString() + ";");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""")).Any());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + (Min - 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+                                }
+                                else if (Max != null)
+                                {
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [empty] and Max [" + Max + "]. At Max should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + Max.ToString() + ";");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + Max.ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [empty] and Max [" + Max + "]. At Max - 1 should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Max - 1).ToString() + ";");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + (Max - 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [empty] and Max [" + Max + "]. At Max + 1 should return false with one error");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + (Max + 1).ToString() + ";");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + prop.Name + @", """ + Max.ToString() + @""")).Any());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + (Max + 1).ToString() + ", " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+                                }
                             }
                         }
-                    }
-                    else
-                    {
-                    }
-                }
-                else
-                {
-                }
-            }
-        }
-        private void CreateClass_Required_Properties_Testing(IEntityType entityType, Type type, string TypeName, string TypeNameLower, StringBuilder sb)
-        {
-            foreach (PropertyInfo prop in type.GetProperties())
-            {
-                if (entityType != null)
-                {
-                    IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
+                        break;
+                    case "System.Single":
+                        {
+                            float? Min = csspProp.MinFloat;
+                            float? Max = csspProp.MaxFloat;
 
-                    EntityProp entityProp = FillEntityProp(prop, entProp, entityType, type, TypeName, TypeNameLower);
-                    if (entProp != null)
-                    {
-                        if (TypeName.StartsWith("AspNet"))
-                        {
-                            // nothing for now
-                        }
-                        else
-                        {
-                            switch (entityProp.PropType)
+                            if (!csspProp.IsKey)
                             {
-                                case "int":
+                                sb.AppendLine(@"");
+                                sb.AppendLine(@"            " + TypeNameLower + @" = null;");
+                                sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
+
+                                if (Min != null && Max != null)
+                                {
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Min should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)Min).ToString("F1") + "f;");
+                                    if (TypeName == "Contact")
                                     {
-                                        if (!entityProp.IsKey && entityProp.IsRequired)
-                                        {
-                                            sb.AppendLine(@"            // " + prop.Name + @" will automatically be initialized at 0 --> not null");
-                                            sb.AppendLine(@"");
-                                        }
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
                                     }
-                                    break;
-                                case "float":
+                                    else
                                     {
-                                        if (!entityProp.IsKey && entityProp.IsRequired)
-                                        {
-                                            if (!entityProp.IsKey && entityProp.IsRequired)
-                                            {
-                                                sb.AppendLine(@"            // " + prop.Name + @" will automatically be initialized at 0.0f --> not null");
-                                                sb.AppendLine(@"");
-                                            }
-                                        }
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
                                     }
-                                    break;
-                                case "bool":
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + ((float)Min).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Min + 1 should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Min + 1)).ToString("F1") + "f;");
+                                    if (TypeName == "Contact")
                                     {
-                                        if (!entityProp.IsKey && entityProp.IsRequired)
-                                        {
-                                            sb.AppendLine(@"            // " + prop.Name + @" will automatically be initialized at false --> not null");
-                                            sb.AppendLine(@"");
-                                        }
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
                                     }
-                                    break;
-                                case "DateTime":
-                                case "DateTimeOffset":
-                                    if (!entityProp.IsKey && entityProp.IsRequired)
+                                    else
                                     {
-                                        sb.AppendLine(@"            " + TypeNameLower + @" = null;");
-                                        sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"(""" + prop.Name + @""");");
-                                        if (TypeName == "Contact")
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Min + 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Min - 1 should return false with one error");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Min - 1)).ToString("F1") + "f;");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""", """ + Max.ToString() + @""")).Any());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Min - 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Max should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)Max).ToString("F1") + "f;");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + ((float)Max).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Max - 1 should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Max - 1)).ToString("F1") + "f;");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Max - 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [" + Max + "]. At Max + 1 should return false with one error");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Max + 1)).ToString("F1") + "f;");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""", """ + Max.ToString() + @""")).Any());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Max + 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                }
+                                else if (Min != null)
+                                {
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [empty]. At Min should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)Min).ToString("F1") + "f;");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + ((float)Min).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [empty]. At Min + 1 should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Min + 1)).ToString("F1") + "f;");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Min + 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [" + Min + "] and Max [empty]. At Min - 1 should return false with one error");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Min - 1)).ToString("F1") + "f;");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""")).Any());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Min - 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+                                }
+                                else if (Max != null)
+                                {
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [empty] and Max [" + Max + "]. At Max should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)Max).ToString("F1") + "f;");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + ((float)Max).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [empty] and Max [" + Max + "]. At Max - 1 should return true and no errors");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Max - 1)).ToString("F1") + "f;");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Max - 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"            // " + prop.Name + @" has Min [empty] and Max [" + Max + "]. At Max + 1 should return false with one error");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + ((float)(Max + 1)).ToString("F1") + ";");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + prop.Name + @", """ + Max.ToString() + @""")).Any());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + ((float)(Max + 1)).ToString("F1") + "f, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+                                }
+                            }
+                        }
+                        break;
+                    case "System.Boolean":
+                        {
+                            // nothing
+                        }
+                        break;
+                    case "System.DateTime":
+                    case "System.DateTimeOffset":
+                        {
+                            // nothing
+                        }
+                        break;
+                    case "System.String":
+                        {
+                            int? Min = csspProp.MinInt;
+                            int? Max = csspProp.MaxInt;
+
+                            if (!csspProp.IsKey)
+                            {
+                                sb.AppendLine(@"");
+                                sb.AppendLine(@"            " + TypeNameLower + @" = null;");
+                                sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
+
+                                if (Min != null && Max > 0)
+                                {
+                                    sb.AppendLine(@"");
+                                    sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [" + Max + "]. At Min should return true and no errors");
+                                    if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
+                                    {
+                                        sb.AppendLine(@"            string " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            string " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + Min.ToString() + ");");
+                                    }
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    if (Min + 1 < Max)
+                                    {
+                                        sb.AppendLine(@"");
+                                        sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [" + Max + "]. At Min + 1 should return true and no errors");
+                                        if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
                                         {
-                                            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                            sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
                                         }
                                         else
                                         {
-                                            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                            sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (Min + 1).ToString() + ");");
                                         }
-                                        sb.AppendLine(@"            Assert.AreEqual(1, " + TypeNameLower + @".ValidationResults.Count());");
-                                        sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @")).Any());");
-                                        sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @"." + prop.Name + @".Year < 1900);");
-                                        sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-                                        sb.AppendLine(@"");
-                                    }
-                                    break;
-                                case "string":
-                                    {
-                                        if (!entityProp.IsKey && entityProp.IsRequired)
+                                        sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
+                                        if (TypeName == "Contact")
                                         {
-                                            sb.AppendLine(@"            " + TypeNameLower + @" = null;");
-                                            sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"(""" + prop.Name + @""");");
+                                            sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                        }
+                                        sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                        sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                        sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+                                    }
+
+                                    if (Min - 1 > 0)
+                                    {
+                                        if (!(prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName")))
+                                        {
+                                            sb.AppendLine(@"");
+                                            sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [" + Max + "]. At Min - 1 should return false with one error");
+                                            sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (Min - 1).ToString() + ");");
+                                            sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
                                             if (TypeName == "Contact")
                                             {
                                                 sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
@@ -961,51 +639,337 @@ namespace CSSPServicesGenerateCodeHelper
                                             {
                                                 sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
                                             }
-                                            sb.AppendLine(@"            Assert.AreEqual(1, " + TypeNameLower + @".ValidationResults.Count());");
-                                            sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @")).Any());");
-                                            sb.AppendLine(@"            Assert.AreEqual(null, " + TypeNameLower + @"." + prop.Name + @");");
+                                            sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""", """ + Max.ToString() + @""")).Any());");
+                                            sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
                                             sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-                                            sb.AppendLine(@"");
                                         }
                                     }
-                                    break;
-                                default:
+
+                                    sb.AppendLine(@"");
+                                    sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [" + Max + "]. At Max should return true and no errors");
+                                    if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
                                     {
-                                        if (prop.PropertyType.FullName.Contains("Enum"))
+                                        sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + Max.ToString() + ");");
+                                    }
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    if (Max - 1 > 0 && Max - 1 > Min)
+                                    {
+                                        sb.AppendLine(@"");
+                                        sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [" + Max + "]. At Max - 1 should return true and no errors");
+                                        if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
                                         {
-                                            if (!entityProp.IsKey && entityProp.IsRequired)
-                                            {
-                                                sb.AppendLine(@"            " + TypeNameLower + @" = null;");
-                                                sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"(""" + prop.Name + @""");");
-                                                if (TypeName == "Contact")
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                                }
-                                                else
-                                                {
-                                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                                }
-                                                sb.AppendLine(@"            Assert.AreEqual(1, " + TypeNameLower + @".ValidationResults.Count());");
-                                                sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @")).Any());");
-                                                sb.AppendLine(@"            Assert.AreEqual(" + entityProp.PropType + ".Error, " + TypeNameLower + @"." + prop.Name + @");");
-                                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
-                                                sb.AppendLine(@"");
-                                            }
+                                            sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
                                         }
                                         else
                                         {
-                                            sb.AppendLine(@"            //Error: Type not implemented [" + entityProp.PropName + "]");
+                                            sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (Max - 1).ToString() + ");");
+                                        }
+                                        sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
+                                        if (TypeName == "Contact")
+                                        {
+                                            sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                        }
+                                        sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                        sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                        sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+                                    }
+
+                                    if (!(prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName")))
+                                    {
+                                        sb.AppendLine(@"");
+                                        sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [" + Max + "]. At Max + 1 should return false with one error");
+                                        sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (Max + 1).ToString() + ");");
+                                        sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
+                                        if (TypeName == "Contact")
+                                        {
+                                            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                        }
+                                        sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""", """ + Max.ToString() + @""")).Any());");
+                                        sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
+                                        sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+                                    }
+                                }
+                                else if (Min != null)
+                                {
+                                    sb.AppendLine(@"");
+                                    sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [empty]. At Min should return true and no errors");
+                                    if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
+                                    {
+                                        sb.AppendLine(@"            string " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            string " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + Min.ToString() + ");");
+                                    }
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    sb.AppendLine(@"");
+                                    sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [empty]. At Min + 1 should return true and no errors");
+                                    if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
+                                    {
+                                        sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (Min + 1).ToString() + ");");
+                                    }
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    if (Min - 1 > 0)
+                                    {
+                                        if (!(prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName")))
+                                        {
                                             sb.AppendLine(@"");
+                                            sb.AppendLine(@"            // " + prop.Name + @" has MinLength [" + Min + "] and MaxLength [empty]. At Min - 1 should return false with one error");
+                                            sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (Min - 1).ToString() + ");");
+                                            sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
+                                            if (TypeName == "Contact")
+                                            {
+                                                sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                            }
+                                            else
+                                            {
+                                                sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                            }
+                                            sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinLengthIs_, ModelsRes." + TypeName + prop.Name + @", """ + Min.ToString() + @""")).Any());");
+                                            sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
+                                            sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
                                         }
                                     }
-                                    break;
+                                }
+                                else if (Max > 0)
+                                {
+                                    sb.AppendLine(@"");
+                                    sb.AppendLine(@"            // " + prop.Name + @" has MinLength [empty] and MaxLength [" + Max + "]. At Max should return true and no errors");
+                                    if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
+                                    {
+                                        sb.AppendLine(@"            string " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            string " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + Max.ToString() + ");");
+                                    }
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
+                                    if (TypeName == "Contact")
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                                    if (Max - 1 > 0)
+                                    {
+                                        sb.AppendLine(@"");
+                                        sb.AppendLine(@"            // " + prop.Name + @" has MinLength [empty] and MaxLength [" + Max + "]. At Max - 1 should return true and no errors");
+                                        if (prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName"))
+                                        {
+                                            sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomEmail();");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (Max - 1).ToString() + ");");
+                                        }
+                                        sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
+                                        if (TypeName == "Contact")
+                                        {
+                                            sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                        }
+                                        sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                        sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
+                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                        sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+                                    }
+
+                                    if (!(prop.Name.Contains("Email") || (TypeName == "Contact" && prop.Name == "UserName")))
+                                    {
+                                        sb.AppendLine(@"");
+                                        sb.AppendLine(@"            // " + prop.Name + @" has MinLength [empty] and MaxLength [" + Max + "]. At Max + 1 should return false with one error");
+                                        sb.AppendLine(@"            " + TypeNameLower + prop.Name + @"Min = GetRandomString("""", " + (Max + 1).ToString() + ");");
+                                        sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + prop.Name + @"Min;");
+                                        if (TypeName == "Contact")
+                                        {
+                                            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                        }
+                                        else
+                                        {
+                                            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                        }
+                                        sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes." + TypeName + prop.Name + @", """ + Max.ToString() + @""")).Any());");
+                                        sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + prop.Name + @"Min, " + TypeNameLower + @"." + prop.Name + @");");
+                                        sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+                                    }
+                                }
                             }
                         }
-                    }
+                        break;
+                    default:
+                        {
+                        }
+                        break;
                 }
             }
         }
-        private void CreateGetFilledRandomClass(IEntityType entityType, Type type, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateClass_Required_Properties_Testing(Type type, string TypeName, string TypeNameLower, StringBuilder sb)
+        {
+            foreach (PropertyInfo prop in type.GetProperties())
+            {
+                CSSPProp csspProp = new CSSPProp();
+                if (!FillCSSPProp(prop, csspProp))
+                {
+                    return;
+                }
+                switch (prop.PropertyType.Name)
+                {
+                    case "System.Int16":
+                    case "System.Int32":
+                    case "System.Int64":
+                    case "System.Boolean":
+                    case "System.Single":
+                        {
+                            if (!csspProp.IsKey && !csspProp.IsNullable)
+                            {
+                                sb.AppendLine(@"            // " + prop.Name + @" will automatically be initialized at 0 --> not null");
+                                sb.AppendLine(@"");
+                            }
+                        }
+                        break;
+                    case "System.DateTime":
+                    case "System.DateTimeOffset":
+                        if (!csspProp.IsKey && !csspProp.IsNullable)
+                        {
+                            sb.AppendLine(@"            " + TypeNameLower + @" = null;");
+                            sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"(""" + prop.Name + @""");");
+                            if (TypeName == "Contact")
+                            {
+                                sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                            }
+                            sb.AppendLine(@"            Assert.AreEqual(1, " + TypeNameLower + @".ValidationResults.Count());");
+                            sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @")).Any());");
+                            sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @"." + prop.Name + @".Year < 1900);");
+                            sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+                            sb.AppendLine(@"");
+                        }
+                        break;
+                    case "System.String":
+                        {
+                            if (!csspProp.IsKey && !csspProp.IsNullable)
+                            {
+                                sb.AppendLine(@"            " + TypeNameLower + @" = null;");
+                                sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"(""" + prop.Name + @""");");
+                                if (TypeName == "Contact")
+                                {
+                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                }
+                                else
+                                {
+                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                }
+                                sb.AppendLine(@"            Assert.AreEqual(1, " + TypeNameLower + @".ValidationResults.Count());");
+                                sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @")).Any());");
+                                sb.AppendLine(@"            Assert.AreEqual(null, " + TypeNameLower + @"." + prop.Name + @");");
+                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+                                sb.AppendLine(@"");
+                            }
+                        }
+                        break;
+                    default:
+                        {
+                            //if (prop.PropertyType.FullName.Contains("Enum"))
+                            //{
+                            //    if (!entityProp.IsKey && entityProp.IsRequired)
+                            //    {
+                            //        sb.AppendLine(@"            " + TypeNameLower + @" = null;");
+                            //        sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"(""" + prop.Name + @""");");
+                            //        if (TypeName == "Contact")
+                            //        {
+                            //            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                            //        }
+                            //        else
+                            //        {
+                            //            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                            //        }
+                            //        sb.AppendLine(@"            Assert.AreEqual(1, " + TypeNameLower + @".ValidationResults.Count());");
+                            //        sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @")).Any());");
+                            //        sb.AppendLine(@"            Assert.AreEqual(" + entityProp.PropType + ".Error, " + TypeNameLower + @"." + prop.Name + @");");
+                            //        sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+                            //        sb.AppendLine(@"");
+                            //    }
+                            //}
+                            //else
+                            //{
+                            sb.AppendLine(@"            //Error: Type not implemented [" + prop.Name + "]");
+                            sb.AppendLine(@"");
+                            //}
+                        }
+                        break;
+                }
+            }
+        }
+        private void CreateGetFilledRandomClass(Type type, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             sb.AppendLine(@"        private " + TypeName + @" GetFilledRandom" + TypeName + @"(string OmitPropName)");
             sb.AppendLine(@"        {");
@@ -1015,195 +979,185 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"");
             foreach (PropertyInfo prop in type.GetProperties())
             {
-                if (entityType != null)
+                CSSPProp csspProp = new CSSPProp();
+                if (!FillCSSPProp(prop, csspProp))
                 {
-                    IProperty entProp = entityType.GetProperties().Where(c => c.Name == prop.Name).FirstOrDefault();
-
-                    EntityProp entityProp = FillEntityProp(prop, entProp, entityType, type, TypeName, TypeNameLower);
-                    if (entProp != null)
-                    {
-                        switch (entityProp.PropType)
-                        {
-                            case "int":
-                                {
-                                    if (entityProp.IsKey)
-                                    {
-                                        if (type.Name == "AspNetUserClaim")
-                                        {
-                                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = AspNetUserClaimID; ");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = " + prop.Name + @";");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (entityProp.MinInt != null && entityProp.MaxInt != null)
-                                        {
-                                            if (entityProp.MinInt > entityProp.MaxInt)
-                                            {
-                                                sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
-                                            }
-                                            else
-                                            {
-                                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + entityProp.MinInt.ToString() + ", " + entityProp.MaxInt.ToString() + ");");
-                                            }
-                                        }
-                                        else if (entityProp.MinInt != null)
-                                        {
-                                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + entityProp.MinInt.ToString() + ", " + (entityProp.MinInt + 10).ToString() + ");");
-                                        }
-                                        else if (entityProp.MaxInt != null)
-                                        {
-                                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + (entityProp.MaxInt - 10).ToString() + ", " + entityProp.MaxInt.ToString() + ");");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(1, 1000);");
-                                        }
-                                    }
-                                }
-                                break;
-                            case "float":
-                                {
-                                    if (entityProp.MinFloat != null && entityProp.MaxFloat != null)
-                                    {
-                                        if (entityProp.MinFloat > entityProp.MaxFloat)
-                                        {
-                                            sb.AppendLine(@"            " + prop.Name + @" = Custom_MinLengthBiggerCustom_MaxLengthPleaseFix,");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + entityProp.MinFloat.ToString() + ", " + entityProp.MaxFloat.ToString() + ");");
-                                        }
-                                    }
-                                    else if (entityProp.MinFloat != null)
-                                    {
-                                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + entityProp.MinFloat.ToString() + ", " + (entityProp.MinFloat + 10.0f).ToString() + ");");
-                                    }
-                                    else if (entityProp.MaxFloat != null)
-                                    {
-                                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + (entityProp.MaxFloat - 10.0f).ToString() + ", " + entityProp.MaxFloat.ToString() + ");");
-                                    }
-                                    else
-                                    {
-                                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(1.0f, 1000.0f);");
-                                    }
-                                }
-                                break;
-                            case "double":
-                                {
-                                    if (entityProp.MinFloat != null && entityProp.MaxFloat != null)
-                                    {
-                                        if (entityProp.MinFloat > entityProp.MaxFloat)
-                                        {
-                                            sb.AppendLine(@"            " + prop.Name + @" = Custom_MinLengthBiggerCustom_MaxLengthPleaseFix,");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + entityProp.MinFloat.ToString() + ", " + entityProp.MaxFloat.ToString() + ");");
-                                        }
-                                    }
-                                    else if (entityProp.MinFloat != null)
-                                    {
-                                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + entityProp.MinFloat.ToString() + ", " + (entityProp.MinFloat + 10.0f).ToString() + ");");
-                                    }
-                                    else if (entityProp.MaxFloat != null)
-                                    {
-                                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + (entityProp.MaxFloat - 10.0f).ToString() + ", " + entityProp.MaxFloat.ToString() + ");");
-                                    }
-                                    else
-                                    {
-                                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(1.0f, 1000.0f);");
-                                    }
-                                }
-                                break;
-                            case "DateTime":
-                            case "DateTimeOffset":
-                                {
-                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDateTime();");
-                                }
-                                break;
-                            case "bool":
-                                {
-                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = true;");
-                                }
-                                break;
-                            case "string":
-                                {
-                                    if (prop.Name.Contains("Email") || (TypeName == "AspNetUser" && prop.Name == "UserName"))
-                                    {
-                                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomEmail();");
-                                    }
-                                    else
-                                    {
-                                        if (entityProp.MinInt != null && entityProp.MaxLength > 0)
-                                        {
-                                            if (entityProp.MinInt > entityProp.MaxLength)
-                                            {
-                                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = MinBiggerMaxLengthPleaseFix;");
-                                            }
-                                            else
-                                            {
-                                                int? StrLen = (int)entityProp.MinInt + 5;
-                                                if (StrLen > entityProp.MaxLength)
-                                                {
-                                                    StrLen = entityProp.MaxLength;
-                                                }
-                                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString(""""" + ", " + StrLen.ToString() + ");");
-                                            }
-                                        }
-                                        else if (entityProp.MinInt != null)
-                                        {
-                                            int StrLen = (int)entityProp.MinInt + 5;
-                                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString(""""" + ", " + StrLen.ToString() + ");");
-                                        }
-                                        else if (entityProp.MaxLength > 0)
-                                        {
-                                            int? StrLen = 5;
-                                            if (StrLen > entityProp.MaxLength)
-                                            {
-                                                StrLen = entityProp.MaxLength;
-                                            }
-                                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString(""""" + ", " + StrLen.ToString() + ");");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", 20);");
-                                        }
-                                    }
-                                }
-                                break;
-                            default:
-                                {
-                                    if (prop.PropertyType.FullName.Contains("Enum"))
-                                    {
-                                        if (prop.PropertyType.FullName.Contains("LanguageEnum"))
-                                        {
-                                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + " = language;");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + " = (" + entityProp.PropType + @")GetRandomEnumType(typeof(" + entityProp.PropType + "));");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        sb.AppendLine(@"            //Error: Type not implemented [" + entityProp.PropName + "]");
-                                    }
-                                }
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        WritePropNotMapped(prop, TypeName, TypeNameLower, sb);
-                    }
+                    return;
                 }
-                else
+                switch (prop.PropertyType.Name)
                 {
-                    WritePropNotMapped(prop, TypeName, TypeNameLower, sb);
+                    case "System.Int16":
+                    case "System.Int32":
+                    case "System.Int64":
+                        {
+                            if (csspProp.IsKey)
+                            {
+                                if (type.Name == "AspNetUserClaim")
+                                {
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = AspNetUserClaimID; ");
+                                }
+                                else
+                                {
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = " + prop.Name + @";");
+                                }
+                            }
+                            else
+                            {
+                                if (csspProp.MinInt != null && csspProp.MaxInt != null)
+                                {
+                                    if (csspProp.MinInt > csspProp.MaxInt)
+                                    {
+                                        sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
+                                    }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + csspProp.MinInt.ToString() + ", " + csspProp.MaxInt.ToString() + ");");
+                                    }
+                                }
+                                else if (csspProp.MinInt != null)
+                                {
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + csspProp.MinInt.ToString() + ", " + (csspProp.MinInt + 10).ToString() + ");");
+                                }
+                                else if (csspProp.MaxInt != null)
+                                {
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + (csspProp.MaxInt - 10).ToString() + ", " + csspProp.MaxInt.ToString() + ");");
+                                }
+                                else
+                                {
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(1, 1000);");
+                                }
+                            }
+                        }
+                        break;
+                    case "System.Single":
+                        {
+                            if (csspProp.MinFloat != null && csspProp.MaxFloat != null)
+                            {
+                                if (csspProp.MinFloat > csspProp.MaxFloat)
+                                {
+                                    sb.AppendLine(@"            " + prop.Name + @" = Custom_MinLengthBiggerCustom_MaxLengthPleaseFix,");
+                                }
+                                else
+                                {
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + csspProp.MinFloat.ToString() + ", " + csspProp.MaxFloat.ToString() + ");");
+                                }
+                            }
+                            else if (csspProp.MinFloat != null)
+                            {
+                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + csspProp.MinFloat.ToString() + ", " + (csspProp.MinFloat + 10.0f).ToString() + ");");
+                            }
+                            else if (csspProp.MaxFloat != null)
+                            {
+                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + (csspProp.MaxFloat - 10.0f).ToString() + ", " + csspProp.MaxFloat.ToString() + ");");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(1.0f, 1000.0f);");
+                            }
+                        }
+                        break;
+                    case "System.Double":
+                        {
+                            if (csspProp.MinFloat != null && csspProp.MaxFloat != null)
+                            {
+                                if (csspProp.MinFloat > csspProp.MaxFloat)
+                                {
+                                    sb.AppendLine(@"            " + prop.Name + @" = Custom_MinLengthBiggerCustom_MaxLengthPleaseFix,");
+                                }
+                                else
+                                {
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + csspProp.MinFloat.ToString() + ", " + csspProp.MaxFloat.ToString() + ");");
+                                }
+                            }
+                            else if (csspProp.MinFloat != null)
+                            {
+                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + csspProp.MinFloat.ToString() + ", " + (csspProp.MinFloat + 10.0f).ToString() + ");");
+                            }
+                            else if (csspProp.MaxFloat != null)
+                            {
+                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + (csspProp.MaxFloat - 10.0f).ToString() + ", " + csspProp.MaxFloat.ToString() + ");");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(1.0f, 1000.0f);");
+                            }
+                        }
+                        break;
+                    case "System.DateTime":
+                    case "System.DateTimeOffset":
+                        {
+                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDateTime();");
+                        }
+                        break;
+                    case "System.Boolean":
+                        {
+                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = true;");
+                        }
+                        break;
+                    case "System.String":
+                        {
+                            if (prop.Name.Contains("Email") || (TypeName == "AspNetUser" && prop.Name == "UserName"))
+                            {
+                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomEmail();");
+                            }
+                            else
+                            {
+                                if (csspProp.MinInt != null && csspProp.MaxLength > 0)
+                                {
+                                    if (csspProp.MinInt > csspProp.MaxLength)
+                                    {
+                                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = MinBiggerMaxLengthPleaseFix;");
+                                    }
+                                    else
+                                    {
+                                        int? StrLen = (int)csspProp.MinInt + 5;
+                                        if (StrLen > csspProp.MaxLength)
+                                        {
+                                            StrLen = csspProp.MaxLength;
+                                        }
+                                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString(""""" + ", " + StrLen.ToString() + ");");
+                                    }
+                                }
+                                else if (csspProp.MinInt != null)
+                                {
+                                    int StrLen = (int)csspProp.MinInt + 5;
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString(""""" + ", " + StrLen.ToString() + ");");
+                                }
+                                else if (csspProp.MaxLength > 0)
+                                {
+                                    int? StrLen = 5;
+                                    if (StrLen > csspProp.MaxLength)
+                                    {
+                                        StrLen = csspProp.MaxLength;
+                                    }
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString(""""" + ", " + StrLen.ToString() + ");");
+                                }
+                                else
+                                {
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", 20);");
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        {
+                            if (prop.PropertyType.FullName.Contains("Enum"))
+                            {
+                                if (prop.PropertyType.FullName.Contains("LanguageEnum"))
+                                {
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + " = language;");
+                                }
+                                else
+                                {
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + " = (" + csspProp.PropType + @")GetRandomEnumType(typeof(" + csspProp.PropType + "));");
+                                }
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"            //Error: Type not implemented [" + csspProp.PropName + "]");
+                            }
+                        }
+                        break;
                 }
             }
             sb.AppendLine(@"");
@@ -1446,7 +1400,13 @@ namespace CSSPServicesGenerateCodeHelper
                 LabelStatus.Refresh();
                 Application.DoEvents();
 
-                if (TypeName.StartsWith("<") || TypeName.StartsWith("ModelsRes") || TypeName.StartsWith("Application") || TypeName.StartsWith("CSSPWebToolsDBContext"))
+                if (type.Name.StartsWith("<")
+                                   || type.Name.StartsWith("ModelsRes")
+                                   || type.Name.StartsWith("Application")
+                                   || type.Name.StartsWith("CSSPWebToolsDBContext")
+                                   || type.Name.StartsWith("CSSPDateAfterYear")
+                                   || type.Name.StartsWith("CSSPObjectExist")
+                                   || type.Name.StartsWith("CSSPTypeExist"))
                 {
                     continue;
                 }
@@ -1460,10 +1420,10 @@ namespace CSSPServicesGenerateCodeHelper
                     }
                 }
 
-                //if (TypeName != "AppTaskLanguage")
-                //{
-                //    continue;
-                //}
+                if (TypeName != "Address")
+                {
+                    continue;
+                }
 
                 entityType = db.Model.GetEntityTypes().Where(c => c.Name == "CSSPModels." + TypeName).FirstOrDefault();
 
@@ -1508,7 +1468,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"");
                 sb.AppendLine(@"        #region Functions private");
 
-                CreateGetFilledRandomClass(entityType, type, TypeName, TypeNameLower, sb);
+                CreateGetFilledRandomClass(type, TypeName, TypeNameLower, sb);
 
                 sb.AppendLine(@"        #endregion Functions private");
                 sb.AppendLine(@"");
@@ -1529,7 +1489,7 @@ namespace CSSPServicesGenerateCodeHelper
 
                 if (!ClassNotMapped)
                 {
-                    CreateClass_CRUD_Testing(entityType, type, TypeName, TypeNameLower, sb);
+                    CreateClass_CRUD_Testing(type, TypeName, TypeNameLower, sb);
                     sb.AppendLine(@"");
                 }
 
@@ -1540,7 +1500,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"            // -------------------------------");
                 sb.AppendLine(@"");
 
-                CreateClass_Required_Properties_Testing(entityType, type, TypeName, TypeNameLower, sb);
+                CreateClass_Required_Properties_Testing(type, TypeName, TypeNameLower, sb);
                 sb.AppendLine(@"");
 
                 sb.AppendLine(@"            // -------------------------------");

@@ -151,9 +151,6 @@ namespace CSSPServicesFillDB.Tests
         public FillDBTest() : base()
         {
             AllowableLanguageList = new List<LanguageEnum>() { LanguageEnum.en, LanguageEnum.fr };
-            cSSPTypeAttributeService = new CSSPTypeAttributeService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);
-            cSSPObjectExistAttributeService = new CSSPObjectExistAttributeService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);
-            cSSPDateAfterYearService = new CSSPDateAfterYearService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);
             addressService = new AddressService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);
             appErrLogService = new AppErrLogService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);
             appTaskService = new AppTaskService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);
