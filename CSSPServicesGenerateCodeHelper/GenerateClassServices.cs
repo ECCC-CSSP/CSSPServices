@@ -644,7 +644,7 @@ namespace CSSPServicesGenerateCodeHelper
                     continue;
                 }
 
-                if (type.Name != "AppTask")
+                if (type.Name != "AppTaskParameter")
                 {
                     continue;
                 }
