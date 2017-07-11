@@ -38,21 +38,14 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             SearchTagAndTerms searchTagAndTerms = validationContext.ObjectInstance as SearchTagAndTerms;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+                //Error: Type not implemented [SearchTag] of type [SearchTagEnum]
 
-            retStr = enums.SearchTagOK(searchTagAndTerms.SearchTag);
-            if (searchTagAndTerms.SearchTag == SearchTagEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                //Error: Type not implemented [SearchTag] of type [SearchTagEnum]
+            retStr = "";
+            if (retStr != "")
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SearchTagAndTermsSearchTag), new[] { ModelsRes.SearchTagAndTermsSearchTag });
+                yield return new ValidationResult("AAA", new[] { "AAA" });
             }
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            // SearchTag no min or max length set
 
         }
         #endregion Validation

@@ -34,32 +34,43 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             RTBStringPos rTBStringPos = validationContext.ObjectInstance as RTBStringPos;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
-            //StartPos is required but no testing needed as it is automatically set to 0
-
-            //EndPos is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //StartPos (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (rTBStringPos.StartPos < 0)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.RTBStringPosStartPos, "0"), new[] { ModelsRes.RTBStringPosStartPos });
             }
 
+            //EndPos (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (rTBStringPos.EndPos < 0)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.RTBStringPosEndPos, "0"), new[] { ModelsRes.RTBStringPosEndPos });
             }
 
-            // Text no min or max length set
-            // TagText no min or max length set
+            if (string.IsNullOrWhiteSpace(rTBStringPos.Text))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RTBStringPosText), new[] { ModelsRes.RTBStringPosText });
+            }
+
+            //Text has no StringLength Attribute
+
+            if (string.IsNullOrWhiteSpace(rTBStringPos.TagText))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RTBStringPosTagText), new[] { ModelsRes.RTBStringPosTagText });
+            }
+
+            //TagText has no StringLength Attribute
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

@@ -481,6 +481,7 @@
     <Compile Include="URLNumberOfSamplesServiceGenerated.cs" />
     <Compile Include="UseOfSiteServiceGenerated.cs" />
     <Compile Include="VectorServiceGenerated.cs" />
+    <Compile Include="VPFullServiceExtra.cs" />
     <Compile Include="VPAmbientServiceGenerated.cs" />
     <Compile Include="VPFullServiceGenerated.cs" />
     <Compile Include="VPResultServiceGenerated.cs" />

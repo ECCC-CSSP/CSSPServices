@@ -34,15 +34,18 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             MWQMSampleDuplicateItem mwqmSampleDuplicateItem = validationContext.ObjectInstance as MWQMSampleDuplicateItem;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.ParentSite))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleDuplicateItemParentSite), new[] { ModelsRes.MWQMSampleDuplicateItemParentSite });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.ParentSite) && (mwqmSampleDuplicateItem.ParentSite.Length < 1 || mwqmSampleDuplicateItem.ParentSite.Length > 200))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMSampleDuplicateItemParentSite, "1", "200"), new[] { ModelsRes.MWQMSampleDuplicateItemParentSite });
             }
 
             if (string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.DuplicateSite))
@@ -50,20 +53,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleDuplicateItemDuplicateSite), new[] { ModelsRes.MWQMSampleDuplicateItemDuplicateSite });
             }
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (!string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.ParentSite) && (mwqmSampleDuplicateItem.ParentSite.Length < 1) || (mwqmSampleDuplicateItem.ParentSite.Length > 200))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMSampleDuplicateItemParentSite, "1", "200"), new[] { ModelsRes.MWQMSampleDuplicateItemParentSite });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.DuplicateSite) && (mwqmSampleDuplicateItem.DuplicateSite.Length < 1) || (mwqmSampleDuplicateItem.DuplicateSite.Length > 200))
+            if (!string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.DuplicateSite) && (mwqmSampleDuplicateItem.DuplicateSite.Length < 1 || mwqmSampleDuplicateItem.DuplicateSite.Length > 200))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMSampleDuplicateItemDuplicateSite, "1", "200"), new[] { ModelsRes.MWQMSampleDuplicateItemDuplicateSite });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

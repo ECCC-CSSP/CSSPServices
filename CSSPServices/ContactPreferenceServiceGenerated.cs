@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             ContactPreference contactPreference = validationContext.ObjectInstance as ContactPreference;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (contactPreference.ContactPreferenceID == 0)
@@ -54,7 +50,19 @@ namespace CSSPServices
                 }
             }
 
-            //ContactID (int) is required but no testing needed as it is automatically set to 0
+            //ContactPreferenceID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //ContactID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (contactPreference.ContactID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactPreferenceContactID, "1"), new[] { ModelsRes.ContactPreferenceContactID });
+            }
+
+            if (!((from c in db.Contacts where c.ContactID == contactPreference.ContactID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactPreferenceContactID, contactPreference.ContactID.ToString()), new[] { ModelsRes.ContactPreferenceContactID });
+            }
 
             retStr = enums.TVTypeOK(contactPreference.TVType);
             if (contactPreference.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -62,34 +70,37 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPreferenceTVType), new[] { ModelsRes.ContactPreferenceTVType });
             }
 
-            //MarkerSize (int) is required but no testing needed as it is automatically set to 0
+            //MarkerSize (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (contactPreference.LastUpdateDate_UTC == null || contactPreference.LastUpdateDate_UTC.Year < 1900 )
+            //MarkerSize has no Range Attribute
+
+            if (contactPreference.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPreferenceLastUpdateDate_UTC), new[] { ModelsRes.ContactPreferenceLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (contactPreference.ContactID < 1)
+            if (contactPreference.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactPreferenceContactID, "1"), new[] { ModelsRes.ContactPreferenceContactID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ContactPreferenceLastUpdateDate_UTC, "1980"), new[] { ModelsRes.ContactPreferenceLastUpdateDate_UTC });
             }
 
-            if (contactPreference.MarkerSize < 1 || contactPreference.MarkerSize > 1000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContactPreferenceMarkerSize, "1", "1000"), new[] { ModelsRes.ContactPreferenceMarkerSize });
-            }
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contactPreference.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactPreferenceLastUpdateContactTVItemID, "1"), new[] { ModelsRes.ContactPreferenceLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == contactPreference.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactPreferenceLastUpdateContactTVItemID, contactPreference.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.ContactPreferenceLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

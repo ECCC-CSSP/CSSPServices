@@ -42,98 +42,84 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             UseOfSite useOfSite = validationContext.ObjectInstance as UseOfSite;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            //UseOfSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (actionDBType == ActionDBTypeEnum.Update)
-            {
-                if (useOfSite.UseOfSiteID == 0)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteUseOfSiteID), new[] { ModelsRes.UseOfSiteUseOfSiteID });
-                }
-            }
+            //UseOfSiteID has no Range Attribute
 
-            //SiteTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //SiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //SubsectorTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //SiteTVItemID has no Range Attribute
 
-            retStr = enums.SiteTypeOK(useOfSite.SiteType);
-            if (useOfSite.SiteType == SiteTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteSiteType), new[] { ModelsRes.UseOfSiteSiteType });
-            }
+            //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Ordinal (int) is required but no testing needed as it is automatically set to 0
+            //SubsectorTVItemID has no Range Attribute
 
-            //StartYear (int) is required but no testing needed as it is automatically set to 0
+                //Error: Type not implemented [SiteType] of type [SiteTypeEnum]
 
-            if (useOfSite.LastUpdateDate_UTC == null || useOfSite.LastUpdateDate_UTC.Year < 1900 )
+                //Error: Type not implemented [SiteType] of type [SiteTypeEnum]
+            //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //Ordinal has no Range Attribute
+
+            //StartYear (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //StartYear has no Range Attribute
+
+                //Error: Type not implemented [EndYear] of type [Nullable`1]
+
+            //EndYear has no Range Attribute
+
+                //Error: Type not implemented [UseWeight] of type [Nullable`1]
+
+                //Error: Type not implemented [Weight_perc] of type [Nullable`1]
+
+            //Weight_perc has no Range Attribute
+
+                //Error: Type not implemented [UseEquation] of type [Nullable`1]
+
+                //Error: Type not implemented [Param1] of type [Nullable`1]
+
+            //Param1 has no Range Attribute
+
+                //Error: Type not implemented [Param2] of type [Nullable`1]
+
+            //Param2 has no Range Attribute
+
+                //Error: Type not implemented [Param3] of type [Nullable`1]
+
+            //Param3 has no Range Attribute
+
+                //Error: Type not implemented [Param4] of type [Nullable`1]
+
+            //Param4 has no Range Attribute
+
+            if (useOfSite.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteLastUpdateDate_UTC), new[] { ModelsRes.UseOfSiteLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (useOfSite.SiteTVItemID < 1)
+            if (useOfSite.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.UseOfSiteSiteTVItemID, "1"), new[] { ModelsRes.UseOfSiteSiteTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.UseOfSiteLastUpdateDate_UTC, "1980"), new[] { ModelsRes.UseOfSiteLastUpdateDate_UTC });
             }
 
-            if (useOfSite.SubsectorTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.UseOfSiteSubsectorTVItemID, "1"), new[] { ModelsRes.UseOfSiteSubsectorTVItemID });
-            }
-
-            if (useOfSite.Ordinal < 0 || useOfSite.Ordinal > 1000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteOrdinal, "0", "1000"), new[] { ModelsRes.UseOfSiteOrdinal });
-            }
-
-            if (useOfSite.StartYear < 1980 || useOfSite.StartYear > 2050)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteStartYear, "1980", "2050"), new[] { ModelsRes.UseOfSiteStartYear });
-            }
-
-            if (useOfSite.EndYear < 1980 || useOfSite.EndYear > 2050)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteEndYear, "1980", "2050"), new[] { ModelsRes.UseOfSiteEndYear });
-            }
-
-            if (useOfSite.Weight_perc < 0 || useOfSite.Weight_perc > 1000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteWeight_perc, "0", "1000"), new[] { ModelsRes.UseOfSiteWeight_perc });
-            }
-
-            if (useOfSite.Param1 < 0 || useOfSite.Param1 > 1000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam1, "0", "1000"), new[] { ModelsRes.UseOfSiteParam1 });
-            }
-
-            if (useOfSite.Param2 < 0 || useOfSite.Param2 > 1000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam2, "0", "1000"), new[] { ModelsRes.UseOfSiteParam2 });
-            }
-
-            if (useOfSite.Param3 < 0 || useOfSite.Param3 > 1000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam3, "0", "1000"), new[] { ModelsRes.UseOfSiteParam3 });
-            }
-
-            if (useOfSite.Param4 < 0 || useOfSite.Param4 > 1000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam4, "0", "1000"), new[] { ModelsRes.UseOfSiteParam4 });
-            }
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (useOfSite.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.UseOfSiteLastUpdateContactTVItemID, "1"), new[] { ModelsRes.UseOfSiteLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == useOfSite.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteLastUpdateContactTVItemID, useOfSite.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.UseOfSiteLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

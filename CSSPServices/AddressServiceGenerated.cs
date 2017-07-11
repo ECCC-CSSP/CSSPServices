@@ -157,6 +157,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressLastUpdateContactTVItemID, address.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.AddressLastUpdateContactTVItemID });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

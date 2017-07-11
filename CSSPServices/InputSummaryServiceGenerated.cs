@@ -34,23 +34,29 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             InputSummary inputSummary = validationContext.ObjectInstance as InputSummary;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            if (string.IsNullOrWhiteSpace(inputSummary.Error))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InputSummaryError), new[] { ModelsRes.InputSummaryError });
+            }
+
+            //Error has no StringLength Attribute
 
             if (string.IsNullOrWhiteSpace(inputSummary.Summary))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InputSummarySummary), new[] { ModelsRes.InputSummarySummary });
             }
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //Summary has no StringLength Attribute
 
-            // Error no min or max length set
-            // Summary no min or max length set
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

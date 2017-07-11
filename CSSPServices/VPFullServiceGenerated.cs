@@ -32,7 +32,19 @@ namespace CSSPServices
         #endregion Constructors
 
         #region Validation
-        // no validation for [VPFull]
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
+        {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
+            VPFull vpFull = validationContext.ObjectInstance as VPFull;
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
+
+        }
         #endregion Validation
 
     }

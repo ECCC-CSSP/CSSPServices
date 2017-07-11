@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             SpillLanguage spillLanguage = validationContext.ObjectInstance as SpillLanguage;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (spillLanguage.SpillLanguageID == 0)
@@ -54,7 +50,19 @@ namespace CSSPServices
                 }
             }
 
-            //SpillID (int) is required but no testing needed as it is automatically set to 0
+            //SpillLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //SpillID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (spillLanguage.SpillID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SpillLanguageSpillID, "1"), new[] { ModelsRes.SpillLanguageSpillID });
+            }
+
+            if (!((from c in db.Spills where c.SpillID == spillLanguage.SpillID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Spill, ModelsRes.SpillLanguageSpillID, spillLanguage.SpillID.ToString()), new[] { ModelsRes.SpillLanguageSpillID });
+            }
 
             retStr = enums.LanguageOK(spillLanguage.Language);
             if (spillLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -67,35 +75,41 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageSpillComment), new[] { ModelsRes.SpillLanguageSpillComment });
             }
 
+            //SpillComment has no StringLength Attribute
+
             retStr = enums.TranslationStatusOK(spillLanguage.TranslationStatus);
             if (spillLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageTranslationStatus), new[] { ModelsRes.SpillLanguageTranslationStatus });
             }
 
-            if (spillLanguage.LastUpdateDate_UTC == null || spillLanguage.LastUpdateDate_UTC.Year < 1900 )
+            if (spillLanguage.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageLastUpdateDate_UTC), new[] { ModelsRes.SpillLanguageLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (spillLanguage.SpillID < 1)
+            if (spillLanguage.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SpillLanguageSpillID, "1"), new[] { ModelsRes.SpillLanguageSpillID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SpillLanguageLastUpdateDate_UTC, "1980"), new[] { ModelsRes.SpillLanguageLastUpdateDate_UTC });
             }
 
-            // SpillComment has no validation
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (spillLanguage.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SpillLanguageLastUpdateContactTVItemID, "1"), new[] { ModelsRes.SpillLanguageLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == spillLanguage.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillLanguageLastUpdateContactTVItemID, spillLanguage.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.SpillLanguageLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

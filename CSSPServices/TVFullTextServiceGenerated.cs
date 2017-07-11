@@ -34,15 +34,18 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             TVFullText tvFullText = validationContext.ObjectInstance as TVFullText;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (string.IsNullOrWhiteSpace(tvFullText.TVPath))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFullTextTVPath), new[] { ModelsRes.TVFullTextTVPath });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvFullText.TVPath) && (tvFullText.TVPath.Length < 1 || tvFullText.TVPath.Length > 255))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFullTextTVPath, "1", "255"), new[] { ModelsRes.TVFullTextTVPath });
             }
 
             if (string.IsNullOrWhiteSpace(tvFullText.FullText))
@@ -50,20 +53,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFullTextFullText), new[] { ModelsRes.TVFullTextFullText });
             }
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (!string.IsNullOrWhiteSpace(tvFullText.TVPath) && (tvFullText.TVPath.Length < 1) || (tvFullText.TVPath.Length > 255))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFullTextTVPath, "1", "255"), new[] { ModelsRes.TVFullTextTVPath });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvFullText.FullText) && (tvFullText.FullText.Length < 1) || (tvFullText.FullText.Length > 255))
+            if (!string.IsNullOrWhiteSpace(tvFullText.FullText) && (tvFullText.FullText.Length < 1 || tvFullText.FullText.Length > 255))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFullTextFullText, "1", "255"), new[] { ModelsRes.TVFullTextFullText });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

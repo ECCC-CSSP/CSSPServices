@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             MWQMRunLanguage mwqmRunLanguage = validationContext.ObjectInstance as MWQMRunLanguage;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (mwqmRunLanguage.MWQMRunLanguageID == 0)
@@ -54,7 +50,19 @@ namespace CSSPServices
                 }
             }
 
-            //MWQMRunID (int) is required but no testing needed as it is automatically set to 0
+            //MWQMRunLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //MWQMRunID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mwqmRunLanguage.MWQMRunID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunLanguageMWQMRunID, "1"), new[] { ModelsRes.MWQMRunLanguageMWQMRunID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == mwqmRunLanguage.MWQMRunID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLanguageMWQMRunID, mwqmRunLanguage.MWQMRunID.ToString()), new[] { ModelsRes.MWQMRunLanguageMWQMRunID });
+            }
 
             retStr = enums.LanguageOK(mwqmRunLanguage.Language);
             if (mwqmRunLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -67,6 +75,8 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLanguageRunComment), new[] { ModelsRes.MWQMRunLanguageRunComment });
             }
 
+            //RunComment has no StringLength Attribute
+
             retStr = enums.TranslationStatusOK(mwqmRunLanguage.TranslationStatusRunComment);
             if (mwqmRunLanguage.TranslationStatusRunComment == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
@@ -78,37 +88,41 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLanguageRunWeatherComment), new[] { ModelsRes.MWQMRunLanguageRunWeatherComment });
             }
 
+            //RunWeatherComment has no StringLength Attribute
+
             retStr = enums.TranslationStatusOK(mwqmRunLanguage.TranslationStatusRunWeatherComment);
             if (mwqmRunLanguage.TranslationStatusRunWeatherComment == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLanguageTranslationStatusRunWeatherComment), new[] { ModelsRes.MWQMRunLanguageTranslationStatusRunWeatherComment });
             }
 
-            if (mwqmRunLanguage.LastUpdateDate_UTC == null || mwqmRunLanguage.LastUpdateDate_UTC.Year < 1900 )
+            if (mwqmRunLanguage.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLanguageLastUpdateDate_UTC), new[] { ModelsRes.MWQMRunLanguageLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (mwqmRunLanguage.MWQMRunID < 1)
+            if (mwqmRunLanguage.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunLanguageMWQMRunID, "1"), new[] { ModelsRes.MWQMRunLanguageMWQMRunID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLanguageLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MWQMRunLanguageLastUpdateDate_UTC });
             }
 
-            // RunComment has no validation
-
-            // RunWeatherComment has no validation
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmRunLanguage.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunLanguageLastUpdateContactTVItemID, "1"), new[] { ModelsRes.MWQMRunLanguageLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == mwqmRunLanguage.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLanguageLastUpdateContactTVItemID, mwqmRunLanguage.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.MWQMRunLanguageLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

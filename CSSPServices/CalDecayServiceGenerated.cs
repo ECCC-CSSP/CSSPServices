@@ -34,28 +34,27 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             CalDecay calDecay = validationContext.ObjectInstance as CalDecay;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
-            //Decay is required but no testing needed as it is automatically set to 0.0f
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (!string.IsNullOrWhiteSpace(calDecay.Error) && (calDecay.Error.Length < 0) || (calDecay.Error.Length > 255))
+            if (!string.IsNullOrWhiteSpace(calDecay.Error) && calDecay.Error.Length > 255)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.CalDecayError, "0", "255"), new[] { ModelsRes.CalDecayError });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.CalDecayError, "255"), new[] { ModelsRes.CalDecayError });
             }
 
-            if (calDecay.Decay < 0D)
+            //Decay (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (calDecay.Decay < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.CalDecayDecay, "0D"), new[] { ModelsRes.CalDecayDecay });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.CalDecayDecay, "0"), new[] { ModelsRes.CalDecayDecay });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

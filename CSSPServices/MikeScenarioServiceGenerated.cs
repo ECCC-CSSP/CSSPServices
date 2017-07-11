@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             MikeScenario mikeScenario = validationContext.ObjectInstance as MikeScenario;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (mikeScenario.MikeScenarioID == 0)
@@ -54,7 +50,31 @@ namespace CSSPServices
                 }
             }
 
-            //MikeScenarioTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //MikeScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //MikeScenarioTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mikeScenario.MikeScenarioTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeScenarioMikeScenarioTVItemID, "1"), new[] { ModelsRes.MikeScenarioMikeScenarioTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == mikeScenario.MikeScenarioTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeScenarioMikeScenarioTVItemID, mikeScenario.MikeScenarioTVItemID.ToString()), new[] { ModelsRes.MikeScenarioMikeScenarioTVItemID });
+            }
+
+                //Error: Type not implemented [ParentMikeScenarioID] of type [Nullable`1]
+
+            if (mikeScenario.ParentMikeScenarioID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeScenarioParentMikeScenarioID, "1"), new[] { ModelsRes.MikeScenarioParentMikeScenarioID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == mikeScenario.ParentMikeScenarioID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeScenarioParentMikeScenarioID, mikeScenario.ParentMikeScenarioID.ToString()), new[] { ModelsRes.MikeScenarioParentMikeScenarioID });
+            }
 
             retStr = enums.ScenarioStatusOK(mikeScenario.ScenarioStatus);
             if (mikeScenario.ScenarioStatus == ScenarioStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -62,141 +82,185 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeScenarioScenarioStatus), new[] { ModelsRes.MikeScenarioScenarioStatus });
             }
 
-            if (mikeScenario.MikeScenarioStartDateTime_Local == null || mikeScenario.MikeScenarioStartDateTime_Local.Year < 1900 )
+            if (string.IsNullOrWhiteSpace(mikeScenario.ErrorInfo))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeScenarioErrorInfo), new[] { ModelsRes.MikeScenarioErrorInfo });
+            }
+
+            //ErrorInfo has no StringLength Attribute
+
+            if (mikeScenario.MikeScenarioStartDateTime_Local == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeScenarioMikeScenarioStartDateTime_Local), new[] { ModelsRes.MikeScenarioMikeScenarioStartDateTime_Local });
             }
 
-            if (mikeScenario.MikeScenarioEndDateTime_Local == null || mikeScenario.MikeScenarioEndDateTime_Local.Year < 1900 )
+            if (mikeScenario.MikeScenarioStartDateTime_Local.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeScenarioMikeScenarioStartDateTime_Local, "1980"), new[] { ModelsRes.MikeScenarioMikeScenarioStartDateTime_Local });
+            }
+
+            if (mikeScenario.MikeScenarioEndDateTime_Local == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeScenarioMikeScenarioEndDateTime_Local), new[] { ModelsRes.MikeScenarioMikeScenarioEndDateTime_Local });
             }
 
-            //WindSpeed_km_h (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //WindDirection_deg (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //DecayFactor_per_day (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //DecayIsConstant (bool) is required but no testing needed 
-
-            //DecayFactorAmplitude (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //ResultFrequency_min (int) is required but no testing needed as it is automatically set to 0
-
-            //AmbientTemperature_C (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //AmbientSalinity_PSU (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //ManningNumber (float) is required but no testing needed as it is automatically set to 0.0f
-
-            if (mikeScenario.LastUpdateDate_UTC == null || mikeScenario.LastUpdateDate_UTC.Year < 1900 )
+            if (mikeScenario.MikeScenarioEndDateTime_Local.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeScenarioLastUpdateDate_UTC), new[] { ModelsRes.MikeScenarioLastUpdateDate_UTC });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeScenarioMikeScenarioEndDateTime_Local, "1980"), new[] { ModelsRes.MikeScenarioMikeScenarioEndDateTime_Local });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
+                //Error: Type not implemented [MikeScenarioStartExecutionDateTime_Local] of type [Nullable`1]
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+                //Error: Type not implemented [MikeScenarioExecutionTime_min] of type [Nullable`1]
 
-            if (mikeScenario.MikeScenarioTVItemID < 1)
+            if (mikeScenario.MikeScenarioExecutionTime_min < 1 || mikeScenario.MikeScenarioExecutionTime_min > 100000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeScenarioMikeScenarioTVItemID, "1"), new[] { ModelsRes.MikeScenarioMikeScenarioTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioMikeScenarioExecutionTime_min, "1", "100000"), new[] { ModelsRes.MikeScenarioMikeScenarioExecutionTime_min });
             }
 
-            if (mikeScenario.ParentMikeScenarioID < 1)
+            //WindSpeed_km_h (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mikeScenario.WindSpeed_km_h < 0 || mikeScenario.WindSpeed_km_h > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeScenarioParentMikeScenarioID, "1"), new[] { ModelsRes.MikeScenarioParentMikeScenarioID });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioWindSpeed_km_h, "0", "100"), new[] { ModelsRes.MikeScenarioWindSpeed_km_h });
             }
 
-            // ErrorInfo has no validation
-
-            if (mikeScenario.MikeScenarioExecutionTime_min < 0 || mikeScenario.MikeScenarioExecutionTime_min > 10000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioMikeScenarioExecutionTime_min, "0", "10000"), new[] { ModelsRes.MikeScenarioMikeScenarioExecutionTime_min });
-            }
-
-            if (mikeScenario.WindSpeed_km_h < 0 || mikeScenario.WindSpeed_km_h > 200)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioWindSpeed_km_h, "0", "200"), new[] { ModelsRes.MikeScenarioWindSpeed_km_h });
-            }
+            //WindDirection_deg (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeScenario.WindDirection_deg < 0 || mikeScenario.WindDirection_deg > 360)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioWindDirection_deg, "0", "360"), new[] { ModelsRes.MikeScenarioWindDirection_deg });
             }
 
-            if (mikeScenario.DecayFactor_per_day < 0 || mikeScenario.DecayFactor_per_day > 1000)
+            //DecayFactor_per_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mikeScenario.DecayFactor_per_day < 0 || mikeScenario.DecayFactor_per_day > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioDecayFactor_per_day, "0", "1000"), new[] { ModelsRes.MikeScenarioDecayFactor_per_day });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioDecayFactor_per_day, "0", "100"), new[] { ModelsRes.MikeScenarioDecayFactor_per_day });
             }
 
-            if (mikeScenario.DecayFactorAmplitude < 0 || mikeScenario.DecayFactorAmplitude > 1000)
+            //DecayIsConstant (bool) is required but no testing needed 
+
+            //DecayFactorAmplitude (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mikeScenario.DecayFactorAmplitude < 0 || mikeScenario.DecayFactorAmplitude > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioDecayFactorAmplitude, "0", "1000"), new[] { ModelsRes.MikeScenarioDecayFactorAmplitude });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioDecayFactorAmplitude, "0", "100"), new[] { ModelsRes.MikeScenarioDecayFactorAmplitude });
             }
 
-            if (mikeScenario.ResultFrequency_min < 15 || mikeScenario.ResultFrequency_min > 60)
+            //ResultFrequency_min (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mikeScenario.ResultFrequency_min < 0 || mikeScenario.ResultFrequency_min > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioResultFrequency_min, "15", "60"), new[] { ModelsRes.MikeScenarioResultFrequency_min });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioResultFrequency_min, "0", "100"), new[] { ModelsRes.MikeScenarioResultFrequency_min });
             }
 
-            if (mikeScenario.AmbientTemperature_C < 0 || mikeScenario.AmbientTemperature_C > 50)
+            //AmbientTemperature_C (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mikeScenario.AmbientTemperature_C < -10 || mikeScenario.AmbientTemperature_C > 40)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioAmbientTemperature_C, "0", "50"), new[] { ModelsRes.MikeScenarioAmbientTemperature_C });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioAmbientTemperature_C, "-10", "40"), new[] { ModelsRes.MikeScenarioAmbientTemperature_C });
             }
+
+            //AmbientSalinity_PSU (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeScenario.AmbientSalinity_PSU < 0 || mikeScenario.AmbientSalinity_PSU > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioAmbientSalinity_PSU, "0", "40"), new[] { ModelsRes.MikeScenarioAmbientSalinity_PSU });
             }
 
+            //ManningNumber (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (mikeScenario.ManningNumber < 0 || mikeScenario.ManningNumber > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioManningNumber, "0", "100"), new[] { ModelsRes.MikeScenarioManningNumber });
             }
 
-            if (mikeScenario.NumberOfElements < 1 || mikeScenario.NumberOfElements > 1000000)
+                //Error: Type not implemented [UseWebTide] of type [Nullable`1]
+
+                //Error: Type not implemented [NumberOfElements] of type [Nullable`1]
+
+            if (mikeScenario.NumberOfElements < 1 || mikeScenario.NumberOfElements > 10000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfElements, "1", "1000000"), new[] { ModelsRes.MikeScenarioNumberOfElements });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfElements, "1", "10000"), new[] { ModelsRes.MikeScenarioNumberOfElements });
             }
 
-            if (mikeScenario.NumberOfTimeSteps < 1 || mikeScenario.NumberOfTimeSteps > 1000000)
+                //Error: Type not implemented [NumberOfTimeSteps] of type [Nullable`1]
+
+            if (mikeScenario.NumberOfTimeSteps < 1 || mikeScenario.NumberOfTimeSteps > 10000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfTimeSteps, "1", "1000000"), new[] { ModelsRes.MikeScenarioNumberOfTimeSteps });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfTimeSteps, "1", "10000"), new[] { ModelsRes.MikeScenarioNumberOfTimeSteps });
             }
 
-            if (mikeScenario.NumberOfSigmaLayers < 1 || mikeScenario.NumberOfSigmaLayers > 1000000)
+                //Error: Type not implemented [NumberOfSigmaLayers] of type [Nullable`1]
+
+            if (mikeScenario.NumberOfSigmaLayers < 0 || mikeScenario.NumberOfSigmaLayers > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfSigmaLayers, "1", "1000000"), new[] { ModelsRes.MikeScenarioNumberOfSigmaLayers });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfSigmaLayers, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfSigmaLayers });
             }
 
-            if (mikeScenario.NumberOfZlayers < 1 || mikeScenario.NumberOfZlayers > 1000000)
+                //Error: Type not implemented [NumberOfZlayers] of type [Nullable`1]
+
+            if (mikeScenario.NumberOfZlayers < 0 || mikeScenario.NumberOfZlayers > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfZlayers, "1", "1000000"), new[] { ModelsRes.MikeScenarioNumberOfZlayers });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfZlayers, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfZlayers });
             }
 
-            if (mikeScenario.NumberOfHydroOutputParameters < 1 || mikeScenario.NumberOfHydroOutputParameters > 1000000)
+                //Error: Type not implemented [NumberOfHydroOutputParameters] of type [Nullable`1]
+
+            if (mikeScenario.NumberOfHydroOutputParameters < 0 || mikeScenario.NumberOfHydroOutputParameters > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfHydroOutputParameters, "1", "1000000"), new[] { ModelsRes.MikeScenarioNumberOfHydroOutputParameters });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfHydroOutputParameters, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfHydroOutputParameters });
             }
 
-            if (mikeScenario.NumberOfTransOutputParameters < 1 || mikeScenario.NumberOfTransOutputParameters > 1000000)
+                //Error: Type not implemented [NumberOfTransOutputParameters] of type [Nullable`1]
+
+            if (mikeScenario.NumberOfTransOutputParameters < 0 || mikeScenario.NumberOfTransOutputParameters > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfTransOutputParameters, "1", "1000000"), new[] { ModelsRes.MikeScenarioNumberOfTransOutputParameters });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfTransOutputParameters, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfTransOutputParameters });
             }
 
-                //Error: Type not implemented [EstimatedHydroFileSize] of type [long]
-                //Error: Type not implemented [EstimatedTransFileSize] of type [long]
+                //Error: Type not implemented [EstimatedHydroFileSize] of type [Nullable`1]
+
+            if (mikeScenario.EstimatedHydroFileSize < 0 || mikeScenario.EstimatedHydroFileSize > 100000000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioEstimatedHydroFileSize, "0", "100000000"), new[] { ModelsRes.MikeScenarioEstimatedHydroFileSize });
+            }
+
+                //Error: Type not implemented [EstimatedTransFileSize] of type [Nullable`1]
+
+            if (mikeScenario.EstimatedTransFileSize < 0 || mikeScenario.EstimatedTransFileSize > 100000000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioEstimatedTransFileSize, "0", "100000000"), new[] { ModelsRes.MikeScenarioEstimatedTransFileSize });
+            }
+
+            if (mikeScenario.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeScenarioLastUpdateDate_UTC), new[] { ModelsRes.MikeScenarioLastUpdateDate_UTC });
+            }
+
+            if (mikeScenario.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeScenarioLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MikeScenarioLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (mikeScenario.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeScenarioLastUpdateContactTVItemID, "1"), new[] { ModelsRes.MikeScenarioLastUpdateContactTVItemID });
             }
 
-                //Error: Type not implemented [EstimatedHydroFileSize] of type [long]
-                //Error: Type not implemented [EstimatedTransFileSize] of type [long]
+            if (!((from c in db.TVItems where c.TVItemID == mikeScenario.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeScenarioLastUpdateContactTVItemID, mikeScenario.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.MikeScenarioLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

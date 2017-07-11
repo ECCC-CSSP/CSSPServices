@@ -38,28 +38,17 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             PolSourceObsInfoChild polSourceObsInfoChild = validationContext.ObjectInstance as PolSourceObsInfoChild;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+                //Error: Type not implemented [PolSourceObsInfo] of type [PolSourceObsInfoEnum]
 
-            retStr = enums.PolSourceObsInfoOK(polSourceObsInfoChild.PolSourceObsInfo);
-            if (polSourceObsInfoChild.PolSourceObsInfo == PolSourceObsInfoEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                //Error: Type not implemented [PolSourceObsInfo] of type [PolSourceObsInfoEnum]
+                //Error: Type not implemented [PolSourceObsInfoChildStart] of type [PolSourceObsInfoEnum]
+
+                //Error: Type not implemented [PolSourceObsInfoChildStart] of type [PolSourceObsInfoEnum]
+            retStr = "";
+            if (retStr != "")
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObsInfoChildPolSourceObsInfo), new[] { ModelsRes.PolSourceObsInfoChildPolSourceObsInfo });
+                yield return new ValidationResult("AAA", new[] { "AAA" });
             }
-
-            retStr = enums.PolSourceObsInfoOK(polSourceObsInfoChild.PolSourceObsInfoChildStart);
-            if (polSourceObsInfoChild.PolSourceObsInfoChildStart == PolSourceObsInfoEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObsInfoChildPolSourceObsInfoChildStart), new[] { ModelsRes.PolSourceObsInfoChildPolSourceObsInfoChildStart });
-            }
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            // PolSourceObsInfo no min or max length set
-            // PolSourceObsInfoChildStart no min or max length set
 
         }
         #endregion Validation

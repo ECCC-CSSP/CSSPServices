@@ -34,28 +34,32 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             FileItem fileItem = validationContext.ObjectInstance as FileItem;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            if (string.IsNullOrWhiteSpace(fileItem.Name))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FileItemName), new[] { ModelsRes.FileItemName });
+            }
 
-            //TVItemID is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (!string.IsNullOrWhiteSpace(fileItem.Name) && (fileItem.Name.Length < 0) || (fileItem.Name.Length > 255))
+            if (!string.IsNullOrWhiteSpace(fileItem.Name) && (fileItem.Name.Length < 0 || fileItem.Name.Length > 255))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FileItemName, "0", "255"), new[] { ModelsRes.FileItemName });
             }
+
+            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (fileItem.TVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.FileItemTVItemID, "1"), new[] { ModelsRes.FileItemTVItemID });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

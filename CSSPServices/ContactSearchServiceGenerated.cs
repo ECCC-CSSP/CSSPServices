@@ -34,40 +34,39 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             ContactSearch contactSearch = validationContext.ObjectInstance as ContactSearch;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
-            //ContactID is required but no testing needed as it is automatically set to 0
-
-            //ContactTVItemID is required but no testing needed as it is automatically set to 0
-
-            if (string.IsNullOrWhiteSpace(contactSearch.FullName))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactSearchFullName), new[] { ModelsRes.ContactSearchFullName });
-            }
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //ContactID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contactSearch.ContactID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactSearchContactID, "1"), new[] { ModelsRes.ContactSearchContactID });
             }
 
+            //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (contactSearch.ContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactSearchContactTVItemID, "1"), new[] { ModelsRes.ContactSearchContactTVItemID });
             }
 
-            if (!string.IsNullOrWhiteSpace(contactSearch.FullName) && (contactSearch.FullName.Length < 1) || (contactSearch.FullName.Length > 255))
+            if (string.IsNullOrWhiteSpace(contactSearch.FullName))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactSearchFullName, "1", "255"), new[] { ModelsRes.ContactSearchFullName });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactSearchFullName), new[] { ModelsRes.ContactSearchFullName });
             }
 
+            if (!string.IsNullOrWhiteSpace(contactSearch.FullName) && contactSearch.FullName.Length > 255)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactSearchFullName, "255"), new[] { ModelsRes.ContactSearchFullName });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

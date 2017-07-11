@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             MWQMSite mwqmSite = validationContext.ObjectInstance as MWQMSite;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (mwqmSite.MWQMSiteID == 0)
@@ -54,16 +50,38 @@ namespace CSSPServices
                 }
             }
 
-            //MWQMSiteTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //MWQMSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //MWQMSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mwqmSite.MWQMSiteTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSiteMWQMSiteTVItemID, "1"), new[] { ModelsRes.MWQMSiteMWQMSiteTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == mwqmSite.MWQMSiteTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteMWQMSiteTVItemID, mwqmSite.MWQMSiteTVItemID.ToString()), new[] { ModelsRes.MWQMSiteMWQMSiteTVItemID });
+            }
 
             if (string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteNumber))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteNumber), new[] { ModelsRes.MWQMSiteMWQMSiteNumber });
             }
 
+            if (!string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteNumber) && mwqmSite.MWQMSiteNumber.Length > 8)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteNumber, "8"), new[] { ModelsRes.MWQMSiteMWQMSiteNumber });
+            }
+
             if (string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteDescription))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteDescription), new[] { ModelsRes.MWQMSiteMWQMSiteDescription });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteDescription) && mwqmSite.MWQMSiteDescription.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteDescription, "200"), new[] { ModelsRes.MWQMSiteMWQMSiteDescription });
             }
 
             retStr = enums.MWQMSiteLatestClassificationOK(mwqmSite.MWQMSiteLatestClassification);
@@ -72,44 +90,40 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteLatestClassification), new[] { ModelsRes.MWQMSiteMWQMSiteLatestClassification });
             }
 
-            //Ordinal (int) is required but no testing needed as it is automatically set to 0
-
-            if (mwqmSite.LastUpdateDate_UTC == null || mwqmSite.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteLastUpdateDate_UTC), new[] { ModelsRes.MWQMSiteLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (mwqmSite.MWQMSiteTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSiteMWQMSiteTVItemID, "1"), new[] { ModelsRes.MWQMSiteMWQMSiteTVItemID });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteNumber) && mwqmSite.MWQMSiteNumber.Length > 8)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteNumber, "8"), new[] { ModelsRes.MWQMSiteMWQMSiteNumber });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteDescription) && mwqmSite.MWQMSiteDescription.Length > 200)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteDescription, "200"), new[] { ModelsRes.MWQMSiteMWQMSiteDescription });
-            }
+            //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmSite.Ordinal < 0 || mwqmSite.Ordinal > 1000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteOrdinal, "0", "1000"), new[] { ModelsRes.MWQMSiteOrdinal });
             }
 
+            if (mwqmSite.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteLastUpdateDate_UTC), new[] { ModelsRes.MWQMSiteLastUpdateDate_UTC });
+            }
+
+            if (mwqmSite.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSiteLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MWQMSiteLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (mwqmSite.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSiteLastUpdateContactTVItemID, "1"), new[] { ModelsRes.MWQMSiteLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == mwqmSite.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteLastUpdateContactTVItemID, mwqmSite.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.MWQMSiteLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

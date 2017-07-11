@@ -38,85 +38,69 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             VPResult vpResult = validationContext.ObjectInstance as VPResult;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            //VPResultID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (actionDBType == ActionDBTypeEnum.Update)
-            {
-                if (vpResult.VPResultID == 0)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPResultVPResultID), new[] { ModelsRes.VPResultVPResultID });
-                }
-            }
+            //VPResultID has no Range Attribute
 
-            //VPScenarioID (int) is required but no testing needed as it is automatically set to 0
+            //VPScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Ordinal (int) is required but no testing needed as it is automatically set to 0
+            //VPScenarioID has no Range Attribute
 
-            //Concentration_MPN_100ml (int) is required but no testing needed as it is automatically set to 0
+            //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Dilution (float) is required but no testing needed as it is automatically set to 0.0f
+            //Ordinal has no Range Attribute
 
-            //FarFieldWidth_m (float) is required but no testing needed as it is automatically set to 0.0f
+            //Concentration_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //DispersionDistance_m (float) is required but no testing needed as it is automatically set to 0.0f
+            //Concentration_MPN_100ml has no Range Attribute
 
-            //TravelTime_hour (float) is required but no testing needed as it is automatically set to 0.0f
+            //Dilution (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (vpResult.LastUpdateDate_UTC == null || vpResult.LastUpdateDate_UTC.Year < 1900 )
+            //Dilution has no Range Attribute
+
+            //FarFieldWidth_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //FarFieldWidth_m has no Range Attribute
+
+            //DispersionDistance_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //DispersionDistance_m has no Range Attribute
+
+            //TravelTime_hour (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //TravelTime_hour has no Range Attribute
+
+            if (vpResult.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPResultLastUpdateDate_UTC), new[] { ModelsRes.VPResultLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (vpResult.VPScenarioID < 1)
+            if (vpResult.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPResultVPScenarioID, "1"), new[] { ModelsRes.VPResultVPScenarioID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.VPResultLastUpdateDate_UTC, "1980"), new[] { ModelsRes.VPResultLastUpdateDate_UTC });
             }
 
-            if (vpResult.Ordinal < 0 || vpResult.Ordinal > 100)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultOrdinal, "0", "100"), new[] { ModelsRes.VPResultOrdinal });
-            }
-
-            if (vpResult.Concentration_MPN_100ml < 0 || vpResult.Concentration_MPN_100ml > 20000000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultConcentration_MPN_100ml, "0", "20000000"), new[] { ModelsRes.VPResultConcentration_MPN_100ml });
-            }
-
-            if (vpResult.Dilution < 0 || vpResult.Dilution > 1000000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultDilution, "0", "1000000"), new[] { ModelsRes.VPResultDilution });
-            }
-
-            if (vpResult.FarFieldWidth_m < 0 || vpResult.FarFieldWidth_m > 100000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultFarFieldWidth_m, "0", "100000"), new[] { ModelsRes.VPResultFarFieldWidth_m });
-            }
-
-            if (vpResult.DispersionDistance_m < 0 || vpResult.DispersionDistance_m > 100000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultDispersionDistance_m, "0", "100000"), new[] { ModelsRes.VPResultDispersionDistance_m });
-            }
-
-            if (vpResult.TravelTime_hour < 0 || vpResult.TravelTime_hour > 1000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultTravelTime_hour, "0", "1000"), new[] { ModelsRes.VPResultTravelTime_hour });
-            }
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpResult.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPResultLastUpdateContactTVItemID, "1"), new[] { ModelsRes.VPResultLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == vpResult.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPResultLastUpdateContactTVItemID, vpResult.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.VPResultLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

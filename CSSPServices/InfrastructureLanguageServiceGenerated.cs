@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             InfrastructureLanguage infrastructureLanguage = validationContext.ObjectInstance as InfrastructureLanguage;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (infrastructureLanguage.InfrastructureLanguageID == 0)
@@ -54,7 +50,19 @@ namespace CSSPServices
                 }
             }
 
-            //InfrastructureID (int) is required but no testing needed as it is automatically set to 0
+            //InfrastructureLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //InfrastructureID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (infrastructureLanguage.InfrastructureID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.InfrastructureLanguageInfrastructureID, "1"), new[] { ModelsRes.InfrastructureLanguageInfrastructureID });
+            }
+
+            if (!((from c in db.Infrastructures where c.InfrastructureID == infrastructureLanguage.InfrastructureID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Infrastructure, ModelsRes.InfrastructureLanguageInfrastructureID, infrastructureLanguage.InfrastructureID.ToString()), new[] { ModelsRes.InfrastructureLanguageInfrastructureID });
+            }
 
             retStr = enums.LanguageOK(infrastructureLanguage.Language);
             if (infrastructureLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -67,35 +75,41 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageComment), new[] { ModelsRes.InfrastructureLanguageComment });
             }
 
+            //Comment has no StringLength Attribute
+
             retStr = enums.TranslationStatusOK(infrastructureLanguage.TranslationStatus);
             if (infrastructureLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageTranslationStatus), new[] { ModelsRes.InfrastructureLanguageTranslationStatus });
             }
 
-            if (infrastructureLanguage.LastUpdateDate_UTC == null || infrastructureLanguage.LastUpdateDate_UTC.Year < 1900 )
+            if (infrastructureLanguage.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageLastUpdateDate_UTC), new[] { ModelsRes.InfrastructureLanguageLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (infrastructureLanguage.InfrastructureID < 1)
+            if (infrastructureLanguage.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.InfrastructureLanguageInfrastructureID, "1"), new[] { ModelsRes.InfrastructureLanguageInfrastructureID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.InfrastructureLanguageLastUpdateDate_UTC, "1980"), new[] { ModelsRes.InfrastructureLanguageLastUpdateDate_UTC });
             }
 
-            // Comment has no validation
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (infrastructureLanguage.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.InfrastructureLanguageLastUpdateContactTVItemID, "1"), new[] { ModelsRes.InfrastructureLanguageLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == infrastructureLanguage.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureLanguageLastUpdateContactTVItemID, infrastructureLanguage.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.InfrastructureLanguageLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

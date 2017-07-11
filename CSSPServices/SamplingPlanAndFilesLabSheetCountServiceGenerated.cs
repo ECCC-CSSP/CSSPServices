@@ -34,26 +34,29 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             SamplingPlanAndFilesLabSheetCount samplingPlanAndFilesLabSheetCount = validationContext.ObjectInstance as SamplingPlanAndFilesLabSheetCount;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            //LabSheetHistoryCount (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (samplingPlanAndFilesLabSheetCount.LabSheetHistoryCount != null && samplingPlanAndFilesLabSheetCount.LabSheetHistoryCount < 0)
+            if (samplingPlanAndFilesLabSheetCount.LabSheetHistoryCount < 0)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetHistoryCount, "0"), new[] { ModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetHistoryCount });
             }
 
-            if (samplingPlanAndFilesLabSheetCount.LabSheetTransferredCount != null && samplingPlanAndFilesLabSheetCount.LabSheetTransferredCount < 0)
+            //LabSheetTransferredCount (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (samplingPlanAndFilesLabSheetCount.LabSheetTransferredCount < 0)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetTransferredCount, "0"), new[] { ModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetTransferredCount });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

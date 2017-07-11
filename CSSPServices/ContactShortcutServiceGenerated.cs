@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             ContactShortcut contactShortcut = validationContext.ObjectInstance as ContactShortcut;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,32 +50,23 @@ namespace CSSPServices
                 }
             }
 
-            //ContactID (int) is required but no testing needed as it is automatically set to 0
+            //ContactShortcutID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (string.IsNullOrWhiteSpace(contactShortcut.ShortCutText))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutShortCutText), new[] { ModelsRes.ContactShortcutShortCutText });
-            }
-
-            if (string.IsNullOrWhiteSpace(contactShortcut.ShortCutAddress))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutShortCutAddress), new[] { ModelsRes.ContactShortcutShortCutAddress });
-            }
-
-            if (contactShortcut.LastUpdateDate_UTC == null || contactShortcut.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutLastUpdateDate_UTC), new[] { ModelsRes.ContactShortcutLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //ContactID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contactShortcut.ContactID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactShortcutContactID, "1"), new[] { ModelsRes.ContactShortcutContactID });
+            }
+
+            if (!((from c in db.Contacts where c.ContactID == contactShortcut.ContactID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactShortcutContactID, contactShortcut.ContactID.ToString()), new[] { ModelsRes.ContactShortcutContactID });
+            }
+
+            if (string.IsNullOrWhiteSpace(contactShortcut.ShortCutText))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutShortCutText), new[] { ModelsRes.ContactShortcutShortCutText });
             }
 
             if (!string.IsNullOrWhiteSpace(contactShortcut.ShortCutText) && contactShortcut.ShortCutText.Length > 100)
@@ -85,16 +74,43 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactShortcutShortCutText, "100"), new[] { ModelsRes.ContactShortcutShortCutText });
             }
 
+            if (string.IsNullOrWhiteSpace(contactShortcut.ShortCutAddress))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutShortCutAddress), new[] { ModelsRes.ContactShortcutShortCutAddress });
+            }
+
             if (!string.IsNullOrWhiteSpace(contactShortcut.ShortCutAddress) && contactShortcut.ShortCutAddress.Length > 200)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactShortcutShortCutAddress, "200"), new[] { ModelsRes.ContactShortcutShortCutAddress });
             }
+
+            if (contactShortcut.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutLastUpdateDate_UTC), new[] { ModelsRes.ContactShortcutLastUpdateDate_UTC });
+            }
+
+            if (contactShortcut.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ContactShortcutLastUpdateDate_UTC, "1980"), new[] { ModelsRes.ContactShortcutLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contactShortcut.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactShortcutLastUpdateContactTVItemID, "1"), new[] { ModelsRes.ContactShortcutLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == contactShortcut.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactShortcutLastUpdateContactTVItemID, contactShortcut.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.ContactShortcutLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             MWQMRun mwqmRun = validationContext.ObjectInstance as MWQMRun;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (mwqmRun.MWQMRunID == 0)
@@ -54,9 +50,31 @@ namespace CSSPServices
                 }
             }
 
-            //SubsectorTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //MWQMRunID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //MWQMRunTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mwqmRun.SubsectorTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunSubsectorTVItemID, "1"), new[] { ModelsRes.MWQMRunSubsectorTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == mwqmRun.SubsectorTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunSubsectorTVItemID, mwqmRun.SubsectorTVItemID.ToString()), new[] { ModelsRes.MWQMRunSubsectorTVItemID });
+            }
+
+            //MWQMRunTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mwqmRun.MWQMRunTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunMWQMRunTVItemID, "1"), new[] { ModelsRes.MWQMRunMWQMRunTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == mwqmRun.MWQMRunTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunMWQMRunTVItemID, mwqmRun.MWQMRunTVItemID.ToString()), new[] { ModelsRes.MWQMRunMWQMRunTVItemID });
+            }
 
             retStr = enums.SampleTypeOK(mwqmRun.RunSampleType);
             if (mwqmRun.RunSampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -64,47 +82,41 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunRunSampleType), new[] { ModelsRes.MWQMRunRunSampleType });
             }
 
-            if (mwqmRun.DateTime_Local == null || mwqmRun.DateTime_Local.Year < 1900 )
+            if (mwqmRun.DateTime_Local == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunDateTime_Local), new[] { ModelsRes.MWQMRunDateTime_Local });
             }
 
-            //RunNumber (int) is required but no testing needed as it is automatically set to 0
-
-            if (mwqmRun.LastUpdateDate_UTC == null || mwqmRun.LastUpdateDate_UTC.Year < 1900 )
+            if (mwqmRun.DateTime_Local.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLastUpdateDate_UTC), new[] { ModelsRes.MWQMRunLastUpdateDate_UTC });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunDateTime_Local });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (mwqmRun.SubsectorTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunSubsectorTVItemID, "1"), new[] { ModelsRes.MWQMRunSubsectorTVItemID });
-            }
-
-            if (mwqmRun.MWQMRunTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunMWQMRunTVItemID, "1"), new[] { ModelsRes.MWQMRunMWQMRunTVItemID });
-            }
+            //RunNumber (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmRun.RunNumber < 1 || mwqmRun.RunNumber > 1000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRunNumber, "1", "1000"), new[] { ModelsRes.MWQMRunRunNumber });
             }
 
-            if (mwqmRun.TemperatureControl1_C < 0 || mwqmRun.TemperatureControl1_C > 40)
+                //Error: Type not implemented [StartDateTime_Local] of type [Nullable`1]
+
+                //Error: Type not implemented [EndDateTime_Local] of type [Nullable`1]
+
+                //Error: Type not implemented [LabReceivedDateTime_Local] of type [Nullable`1]
+
+                //Error: Type not implemented [TemperatureControl1_C] of type [Nullable`1]
+
+            if (mwqmRun.TemperatureControl1_C < -10 || mwqmRun.TemperatureControl1_C > 40)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl1_C, "0", "40"), new[] { ModelsRes.MWQMRunTemperatureControl1_C });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl1_C, "-10", "40"), new[] { ModelsRes.MWQMRunTemperatureControl1_C });
             }
 
-            if (mwqmRun.TemperatureControl2_C < 0 || mwqmRun.TemperatureControl2_C > 40)
+                //Error: Type not implemented [TemperatureControl2_C] of type [Nullable`1]
+
+            if (mwqmRun.TemperatureControl2_C < -10 || mwqmRun.TemperatureControl2_C > 40)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl2_C, "0", "40"), new[] { ModelsRes.MWQMRunTemperatureControl2_C });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl2_C, "-10", "40"), new[] { ModelsRes.MWQMRunTemperatureControl2_C });
             }
 
             if (mwqmRun.SeaStateAtStart_BeaufortScale != null)
@@ -125,22 +137,31 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [WaterLevelAtBrook_m] of type [Nullable`1]
+
             if (mwqmRun.WaterLevelAtBrook_m < 0 || mwqmRun.WaterLevelAtBrook_m > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaterLevelAtBrook_m, "0", "100"), new[] { ModelsRes.MWQMRunWaterLevelAtBrook_m });
             }
+
+                //Error: Type not implemented [WaveHightAtStart_m] of type [Nullable`1]
 
             if (mwqmRun.WaveHightAtStart_m < 0 || mwqmRun.WaveHightAtStart_m > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtStart_m, "0", "100"), new[] { ModelsRes.MWQMRunWaveHightAtStart_m });
             }
 
+                //Error: Type not implemented [WaveHightAtEnd_m] of type [Nullable`1]
+
             if (mwqmRun.WaveHightAtEnd_m < 0 || mwqmRun.WaveHightAtEnd_m > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtEnd_m, "0", "100"), new[] { ModelsRes.MWQMRunWaveHightAtEnd_m });
             }
 
-            // SampleCrewInitials has no validation
+            if (!string.IsNullOrWhiteSpace(mwqmRun.SampleCrewInitials) && mwqmRun.SampleCrewInitials.Length > 20)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSampleCrewInitials, "20"), new[] { ModelsRes.MWQMRunSampleCrewInitials });
+            }
 
             if (mwqmRun.AnalyzeMethod != null)
             {
@@ -178,10 +199,22 @@ namespace CSSPServices
                 }
             }
 
-            if (mwqmRun.LabSampleApprovalContactTVItemID < 1)
+                //Error: Type not implemented [LabSampleApprovalContactTVItemID] of type [Nullable`1]
+
+            //LabSampleApprovalContactTVItemID has no Range Attribute
+
+            if (!((from c in db.TVItems where c.TVItemID == mwqmRun.LabSampleApprovalContactTVItemID select c).Any()))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, "1"), new[] { ModelsRes.MWQMRunLabSampleApprovalContactTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, mwqmRun.LabSampleApprovalContactTVItemID.ToString()), new[] { ModelsRes.MWQMRunLabSampleApprovalContactTVItemID });
             }
+
+                //Error: Type not implemented [LabAnalyzeBath1IncubationStartDateTime_Local] of type [Nullable`1]
+
+                //Error: Type not implemented [LabAnalyzeBath2IncubationStartDateTime_Local] of type [Nullable`1]
+
+                //Error: Type not implemented [LabAnalyzeBath3IncubationStartDateTime_Local] of type [Nullable`1]
+
+                //Error: Type not implemented [LabRunSampleApprovalDateTime_Local] of type [Nullable`1]
 
             if (mwqmRun.Tide_Start != null)
             {
@@ -201,66 +234,112 @@ namespace CSSPServices
                 }
             }
 
-            if (mwqmRun.RainDay0_mm < 0 || mwqmRun.RainDay0_mm > 1000)
+                //Error: Type not implemented [RainDay0_mm] of type [Nullable`1]
+
+            if (mwqmRun.RainDay0_mm < 0 || mwqmRun.RainDay0_mm > 300)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay0_mm, "0", "1000"), new[] { ModelsRes.MWQMRunRainDay0_mm });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay0_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay0_mm });
             }
 
-            if (mwqmRun.RainDay1_mm < 0 || mwqmRun.RainDay1_mm > 1000)
+                //Error: Type not implemented [RainDay1_mm] of type [Nullable`1]
+
+            if (mwqmRun.RainDay1_mm < 0 || mwqmRun.RainDay1_mm > 300)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay1_mm, "0", "1000"), new[] { ModelsRes.MWQMRunRainDay1_mm });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay1_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay1_mm });
             }
 
-            if (mwqmRun.RainDay2_mm < 0 || mwqmRun.RainDay2_mm > 1000)
+                //Error: Type not implemented [RainDay2_mm] of type [Nullable`1]
+
+            if (mwqmRun.RainDay2_mm < 0 || mwqmRun.RainDay2_mm > 300)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay2_mm, "0", "1000"), new[] { ModelsRes.MWQMRunRainDay2_mm });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay2_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay2_mm });
             }
 
-            if (mwqmRun.RainDay3_mm < 0 || mwqmRun.RainDay3_mm > 1000)
+                //Error: Type not implemented [RainDay3_mm] of type [Nullable`1]
+
+            if (mwqmRun.RainDay3_mm < 0 || mwqmRun.RainDay3_mm > 300)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay3_mm, "0", "1000"), new[] { ModelsRes.MWQMRunRainDay3_mm });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay3_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay3_mm });
             }
 
-            if (mwqmRun.RainDay4_mm < 0 || mwqmRun.RainDay4_mm > 1000)
+                //Error: Type not implemented [RainDay4_mm] of type [Nullable`1]
+
+            if (mwqmRun.RainDay4_mm < 0 || mwqmRun.RainDay4_mm > 300)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay4_mm, "0", "1000"), new[] { ModelsRes.MWQMRunRainDay4_mm });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay4_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay4_mm });
             }
 
-            if (mwqmRun.RainDay5_mm < 0 || mwqmRun.RainDay5_mm > 1000)
+                //Error: Type not implemented [RainDay5_mm] of type [Nullable`1]
+
+            if (mwqmRun.RainDay5_mm < 0 || mwqmRun.RainDay5_mm > 300)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay5_mm, "0", "1000"), new[] { ModelsRes.MWQMRunRainDay5_mm });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay5_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay5_mm });
             }
 
-            if (mwqmRun.RainDay6_mm < 0 || mwqmRun.RainDay6_mm > 1000)
+                //Error: Type not implemented [RainDay6_mm] of type [Nullable`1]
+
+            if (mwqmRun.RainDay6_mm < 0 || mwqmRun.RainDay6_mm > 300)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay6_mm, "0", "1000"), new[] { ModelsRes.MWQMRunRainDay6_mm });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay6_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay6_mm });
             }
 
-            if (mwqmRun.RainDay7_mm < 0 || mwqmRun.RainDay7_mm > 1000)
+                //Error: Type not implemented [RainDay7_mm] of type [Nullable`1]
+
+            if (mwqmRun.RainDay7_mm < 0 || mwqmRun.RainDay7_mm > 300)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay7_mm, "0", "1000"), new[] { ModelsRes.MWQMRunRainDay7_mm });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay7_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay7_mm });
             }
 
-            if (mwqmRun.RainDay8_mm < 0 || mwqmRun.RainDay8_mm > 1000)
+                //Error: Type not implemented [RainDay8_mm] of type [Nullable`1]
+
+            if (mwqmRun.RainDay8_mm < 0 || mwqmRun.RainDay8_mm > 300)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay8_mm, "0", "1000"), new[] { ModelsRes.MWQMRunRainDay8_mm });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay8_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay8_mm });
             }
 
-            if (mwqmRun.RainDay9_mm < 0 || mwqmRun.RainDay9_mm > 1000)
+                //Error: Type not implemented [RainDay9_mm] of type [Nullable`1]
+
+            if (mwqmRun.RainDay9_mm < 0 || mwqmRun.RainDay9_mm > 300)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay9_mm, "0", "1000"), new[] { ModelsRes.MWQMRunRainDay9_mm });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay9_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay9_mm });
             }
 
-            if (mwqmRun.RainDay10_mm < 0 || mwqmRun.RainDay10_mm > 1000)
+                //Error: Type not implemented [RainDay10_mm] of type [Nullable`1]
+
+            if (mwqmRun.RainDay10_mm < 0 || mwqmRun.RainDay10_mm > 300)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay10_mm, "0", "1000"), new[] { ModelsRes.MWQMRunRainDay10_mm });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay10_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay10_mm });
             }
+
+                //Error: Type not implemented [RemoveFromStat] of type [Nullable`1]
+
+            if (mwqmRun.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLastUpdateDate_UTC), new[] { ModelsRes.MWQMRunLastUpdateDate_UTC });
+            }
+
+            if (mwqmRun.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MWQMRunLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmRun.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunLastUpdateContactTVItemID, "1"), new[] { ModelsRes.MWQMRunLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == mwqmRun.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLastUpdateContactTVItemID, mwqmRun.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.MWQMRunLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

@@ -34,33 +34,33 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             PolyPoint polyPoint = validationContext.ObjectInstance as PolyPoint;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            //XCoord (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //XCoord is required but no testing needed as it is automatically set to 0.0f
-
-            //YCoord is required but no testing needed as it is automatically set to 0.0f
-
-            //Z is required but no testing needed as it is automatically set to 0.0f
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (polyPoint.XCoord < -180f || polyPoint.XCoord > 180f)
+            if (polyPoint.XCoord < -180 || polyPoint.XCoord > 180)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolyPointXCoord, "-180f", "180f"), new[] { ModelsRes.PolyPointXCoord });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolyPointXCoord, "-180", "180"), new[] { ModelsRes.PolyPointXCoord });
             }
 
-            if (polyPoint.YCoord < -90f || polyPoint.YCoord > 90f)
+            //YCoord (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (polyPoint.YCoord < -90 || polyPoint.YCoord > 90)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolyPointYCoord, "-90f", "90f"), new[] { ModelsRes.PolyPointYCoord });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolyPointYCoord, "-90", "90"), new[] { ModelsRes.PolyPointYCoord });
             }
 
-            // Z no min or max length set
+            //Z (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //Z has no Range Attribute
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

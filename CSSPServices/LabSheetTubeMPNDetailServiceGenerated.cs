@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             LabSheetTubeMPNDetail labSheetTubeMPNDetail = validationContext.ObjectInstance as LabSheetTubeMPNDetail;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (labSheetTubeMPNDetail.LabSheetTubeMPNDetailID == 0)
@@ -54,72 +50,81 @@ namespace CSSPServices
                 }
             }
 
-            //LabSheetDetailID (int) is required but no testing needed as it is automatically set to 0
+            //LabSheetTubeMPNDetailID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Ordinal (int) is required but no testing needed as it is automatically set to 0
-
-            //MWQMSiteTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            retStr = enums.SampleTypeOK(labSheetTubeMPNDetail.SampleType);
-            if (labSheetTubeMPNDetail.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetTubeMPNDetailSampleType), new[] { ModelsRes.LabSheetTubeMPNDetailSampleType });
-            }
-
-            if (labSheetTubeMPNDetail.LastUpdateDate_UTC == null || labSheetTubeMPNDetail.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC), new[] { ModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //LabSheetDetailID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (labSheetTubeMPNDetail.LabSheetDetailID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetTubeMPNDetailLabSheetDetailID, "1"), new[] { ModelsRes.LabSheetTubeMPNDetailLabSheetDetailID });
             }
 
+            if (!((from c in db.LabSheetDetails where c.LabSheetDetailID == labSheetTubeMPNDetail.LabSheetDetailID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheetDetail, ModelsRes.LabSheetTubeMPNDetailLabSheetDetailID, labSheetTubeMPNDetail.LabSheetDetailID.ToString()), new[] { ModelsRes.LabSheetTubeMPNDetailLabSheetDetailID });
+            }
+
+            //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (labSheetTubeMPNDetail.Ordinal < 0 || labSheetTubeMPNDetail.Ordinal > 1000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailOrdinal, "0", "1000"), new[] { ModelsRes.LabSheetTubeMPNDetailOrdinal });
             }
+
+            //MWQMSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (labSheetTubeMPNDetail.MWQMSiteTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetTubeMPNDetailMWQMSiteTVItemID, "1"), new[] { ModelsRes.LabSheetTubeMPNDetailMWQMSiteTVItemID });
             }
 
-            if (labSheetTubeMPNDetail.MPN < 1 || labSheetTubeMPNDetail.MPN > 20000000)
+            if (!((from c in db.TVItems where c.TVItemID == labSheetTubeMPNDetail.MWQMSiteTVItemID select c).Any()))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailMPN, "1", "20000000"), new[] { ModelsRes.LabSheetTubeMPNDetailMPN });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetTubeMPNDetailMWQMSiteTVItemID, labSheetTubeMPNDetail.MWQMSiteTVItemID.ToString()), new[] { ModelsRes.LabSheetTubeMPNDetailMWQMSiteTVItemID });
             }
+
+                //Error: Type not implemented [SampleDateTime] of type [Nullable`1]
+
+                //Error: Type not implemented [MPN] of type [Nullable`1]
+
+            if (labSheetTubeMPNDetail.MPN < 1 || labSheetTubeMPNDetail.MPN > 10000000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailMPN, "1", "10000000"), new[] { ModelsRes.LabSheetTubeMPNDetailMPN });
+            }
+
+                //Error: Type not implemented [Tube10] of type [Nullable`1]
 
             if (labSheetTubeMPNDetail.Tube10 < 0 || labSheetTubeMPNDetail.Tube10 > 5)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailTube10, "0", "5"), new[] { ModelsRes.LabSheetTubeMPNDetailTube10 });
             }
 
+                //Error: Type not implemented [Tube1_0] of type [Nullable`1]
+
             if (labSheetTubeMPNDetail.Tube1_0 < 0 || labSheetTubeMPNDetail.Tube1_0 > 5)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailTube1_0, "0", "5"), new[] { ModelsRes.LabSheetTubeMPNDetailTube1_0 });
             }
+
+                //Error: Type not implemented [Tube0_1] of type [Nullable`1]
 
             if (labSheetTubeMPNDetail.Tube0_1 < 0 || labSheetTubeMPNDetail.Tube0_1 > 5)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailTube0_1, "0", "5"), new[] { ModelsRes.LabSheetTubeMPNDetailTube0_1 });
             }
 
+                //Error: Type not implemented [Salinity] of type [Nullable`1]
+
             if (labSheetTubeMPNDetail.Salinity < 0 || labSheetTubeMPNDetail.Salinity > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailSalinity, "0", "40"), new[] { ModelsRes.LabSheetTubeMPNDetailSalinity });
             }
 
-            if (labSheetTubeMPNDetail.Temperature < 0 || labSheetTubeMPNDetail.Temperature > 40)
+                //Error: Type not implemented [Temperature] of type [Nullable`1]
+
+            if (labSheetTubeMPNDetail.Temperature < -10 || labSheetTubeMPNDetail.Temperature > 40)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailTemperature, "0", "40"), new[] { ModelsRes.LabSheetTubeMPNDetailTemperature });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailTemperature, "-10", "40"), new[] { ModelsRes.LabSheetTubeMPNDetailTemperature });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail.ProcessedBy) && labSheetTubeMPNDetail.ProcessedBy.Length > 10)
@@ -127,16 +132,44 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetTubeMPNDetailProcessedBy, "10"), new[] { ModelsRes.LabSheetTubeMPNDetailProcessedBy });
             }
 
+            retStr = enums.SampleTypeOK(labSheetTubeMPNDetail.SampleType);
+            if (labSheetTubeMPNDetail.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetTubeMPNDetailSampleType), new[] { ModelsRes.LabSheetTubeMPNDetailSampleType });
+            }
+
             if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail.SiteComment) && labSheetTubeMPNDetail.SiteComment.Length > 250)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetTubeMPNDetailSiteComment, "250"), new[] { ModelsRes.LabSheetTubeMPNDetailSiteComment });
             }
+
+            if (labSheetTubeMPNDetail.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC), new[] { ModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC });
+            }
+
+            if (labSheetTubeMPNDetail.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC, "1980"), new[] { ModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (labSheetTubeMPNDetail.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVItemID, "1"), new[] { ModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == labSheetTubeMPNDetail.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVItemID, labSheetTubeMPNDetail.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

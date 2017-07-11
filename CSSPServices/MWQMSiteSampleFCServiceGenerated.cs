@@ -34,37 +34,86 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             MWQMSiteSampleFC mwqmSiteSampleFC = validationContext.ObjectInstance as MWQMSiteSampleFC;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            if (string.IsNullOrWhiteSpace(mwqmSiteSampleFC.Error))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteSampleFCError), new[] { ModelsRes.MWQMSiteSampleFCError });
+            }
 
-                //Error: Type not implemented [SampleDate] of type [System.DateTime]
+            //Error has no StringLength Attribute
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            if (mwqmSiteSampleFC.SampleDate == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteSampleFCSampleDate), new[] { ModelsRes.MWQMSiteSampleFCSampleDate });
+            }
 
-            // Error no min or max length set
-            if (mwqmSiteSampleFC.FC != null && (mwqmSiteSampleFC.FC < 1 || mwqmSiteSampleFC.FC > 100000000))
+                //Error: Type not implemented [FC] of type [Nullable`1]
+
+            if (mwqmSiteSampleFC.FC < 1 || mwqmSiteSampleFC.FC > 100000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteSampleFCFC, "1", "100000000"), new[] { ModelsRes.MWQMSiteSampleFCFC });
             }
 
-            // Sal no min or max length set
-            // Temp no min or max length set
-            // PH no min or max length set
-            // DO no min or max length set
-            // Depth no min or max length set
-            // SampCount no min or max length set
-            // MinFC no min or max length set
-            // MaxFC no min or max length set
-            // GeoMean no min or max length set
-            // Median no min or max length set
-            // P90 no min or max length set
-            // PercOver43 no min or max length set
-            // PercOver260 no min or max length set
+                //Error: Type not implemented [Sal] of type [Nullable`1]
+
+            //Sal has no Range Attribute
+
+                //Error: Type not implemented [Temp] of type [Nullable`1]
+
+            //Temp has no Range Attribute
+
+                //Error: Type not implemented [PH] of type [Nullable`1]
+
+            //PH has no Range Attribute
+
+                //Error: Type not implemented [DO] of type [Nullable`1]
+
+            //DO has no Range Attribute
+
+                //Error: Type not implemented [Depth] of type [Nullable`1]
+
+            //Depth has no Range Attribute
+
+                //Error: Type not implemented [SampCount] of type [Nullable`1]
+
+            //SampCount has no Range Attribute
+
+                //Error: Type not implemented [MinFC] of type [Nullable`1]
+
+            //MinFC has no Range Attribute
+
+                //Error: Type not implemented [MaxFC] of type [Nullable`1]
+
+            //MaxFC has no Range Attribute
+
+                //Error: Type not implemented [GeoMean] of type [Nullable`1]
+
+            //GeoMean has no Range Attribute
+
+                //Error: Type not implemented [Median] of type [Nullable`1]
+
+            //Median has no Range Attribute
+
+                //Error: Type not implemented [P90] of type [Nullable`1]
+
+            //P90 has no Range Attribute
+
+                //Error: Type not implemented [PercOver43] of type [Nullable`1]
+
+            //PercOver43 has no Range Attribute
+
+                //Error: Type not implemented [PercOver260] of type [Nullable`1]
+
+            //PercOver260 has no Range Attribute
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

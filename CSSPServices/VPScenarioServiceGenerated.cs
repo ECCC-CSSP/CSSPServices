@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             VPScenario vpScenario = validationContext.ObjectInstance as VPScenario;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (vpScenario.VPScenarioID == 0)
@@ -54,144 +50,111 @@ namespace CSSPServices
                 }
             }
 
-            //InfrastructureTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //VPScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            retStr = enums.ScenarioStatusOK(vpScenario.VPScenarioStatus);
-            if (vpScenario.VPScenarioStatus == ScenarioStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioVPScenarioStatus), new[] { ModelsRes.VPScenarioVPScenarioStatus });
-            }
+            //InfrastructureTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
+            //InfrastructureTVItemID has no Range Attribute
+
+                //Error: Type not implemented [VPScenarioStatus] of type [ScenarioStatusEnum]
+
+                //Error: Type not implemented [VPScenarioStatus] of type [ScenarioStatusEnum]
             //UseAsBestEstimate (bool) is required but no testing needed 
 
-            //EffluentFlow_m3_s (float) is required but no testing needed as it is automatically set to 0.0f
+            //EffluentFlow_m3_s (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //EffluentConcentration_MPN_100ml (int) is required but no testing needed as it is automatically set to 0
+            //EffluentFlow_m3_s has no Range Attribute
 
-            //FroudeNumber (float) is required but no testing needed as it is automatically set to 0.0f
+            //EffluentConcentration_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //PortDiameter_m (float) is required but no testing needed as it is automatically set to 0.0f
+            //EffluentConcentration_MPN_100ml has no Range Attribute
 
-            //PortDepth_m (float) is required but no testing needed as it is automatically set to 0.0f
+            //FroudeNumber (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //PortElevation_m (float) is required but no testing needed as it is automatically set to 0.0f
+            //FroudeNumber has no Range Attribute
 
-            //VerticalAngle_deg (float) is required but no testing needed as it is automatically set to 0.0f
+            //PortDiameter_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //HorizontalAngle_deg (float) is required but no testing needed as it is automatically set to 0.0f
+            //PortDiameter_m has no Range Attribute
 
-            //NumberOfPorts (int) is required but no testing needed as it is automatically set to 0
+            //PortDepth_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //PortSpacing_m (float) is required but no testing needed as it is automatically set to 0.0f
+            //PortDepth_m has no Range Attribute
 
-            //AcuteMixZone_m (float) is required but no testing needed as it is automatically set to 0.0f
+            //PortElevation_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //ChronicMixZone_m (float) is required but no testing needed as it is automatically set to 0.0f
+            //PortElevation_m has no Range Attribute
 
-            //EffluentSalinity_PSU (float) is required but no testing needed as it is automatically set to 0.0f
+            //VerticalAngle_deg (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //EffluentTemperature_C (float) is required but no testing needed as it is automatically set to 0.0f
+            //VerticalAngle_deg has no Range Attribute
 
-            //EffluentVelocity_m_s (float) is required but no testing needed as it is automatically set to 0.0f
+            //HorizontalAngle_deg (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (vpScenario.LastUpdateDate_UTC == null || vpScenario.LastUpdateDate_UTC.Year < 1900 )
+            //HorizontalAngle_deg has no Range Attribute
+
+            //NumberOfPorts (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //NumberOfPorts has no Range Attribute
+
+            //PortSpacing_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //PortSpacing_m has no Range Attribute
+
+            //AcuteMixZone_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //AcuteMixZone_m has no Range Attribute
+
+            //ChronicMixZone_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //ChronicMixZone_m has no Range Attribute
+
+            //EffluentSalinity_PSU (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //EffluentSalinity_PSU has no Range Attribute
+
+            //EffluentTemperature_C (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //EffluentTemperature_C has no Range Attribute
+
+            //EffluentVelocity_m_s (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //EffluentVelocity_m_s has no Range Attribute
+
+            if (string.IsNullOrWhiteSpace(vpScenario.RawResults))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioRawResults), new[] { ModelsRes.VPScenarioRawResults });
+            }
+
+            //RawResults has no StringLength Attribute
+
+            if (vpScenario.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLastUpdateDate_UTC), new[] { ModelsRes.VPScenarioLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (vpScenario.InfrastructureTVItemID < 1)
+            if (vpScenario.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPScenarioInfrastructureTVItemID, "1"), new[] { ModelsRes.VPScenarioInfrastructureTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.VPScenarioLastUpdateDate_UTC, "1980"), new[] { ModelsRes.VPScenarioLastUpdateDate_UTC });
             }
 
-            if (vpScenario.EffluentFlow_m3_s < 0 || vpScenario.EffluentFlow_m3_s > 100000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentFlow_m3_s, "0", "100000"), new[] { ModelsRes.VPScenarioEffluentFlow_m3_s });
-            }
-
-            if (vpScenario.EffluentConcentration_MPN_100ml < 0 || vpScenario.EffluentConcentration_MPN_100ml > 100000000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentConcentration_MPN_100ml, "0", "100000000"), new[] { ModelsRes.VPScenarioEffluentConcentration_MPN_100ml });
-            }
-
-            if (vpScenario.FroudeNumber < 0 || vpScenario.FroudeNumber > 1000000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioFroudeNumber, "0", "1000000"), new[] { ModelsRes.VPScenarioFroudeNumber });
-            }
-
-            if (vpScenario.PortDiameter_m < 0 || vpScenario.PortDiameter_m > 100)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortDiameter_m, "0", "100"), new[] { ModelsRes.VPScenarioPortDiameter_m });
-            }
-
-            if (vpScenario.PortDepth_m < 0 || vpScenario.PortDepth_m > 1000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortDepth_m, "0", "1000"), new[] { ModelsRes.VPScenarioPortDepth_m });
-            }
-
-            if (vpScenario.PortElevation_m < 0 || vpScenario.PortElevation_m > 1000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortElevation_m, "0", "1000"), new[] { ModelsRes.VPScenarioPortElevation_m });
-            }
-
-            if (vpScenario.VerticalAngle_deg < 0 || vpScenario.VerticalAngle_deg > 180)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioVerticalAngle_deg, "0", "180"), new[] { ModelsRes.VPScenarioVerticalAngle_deg });
-            }
-
-            if (vpScenario.HorizontalAngle_deg < -180 || vpScenario.HorizontalAngle_deg > 180)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioHorizontalAngle_deg, "-180", "180"), new[] { ModelsRes.VPScenarioHorizontalAngle_deg });
-            }
-
-            if (vpScenario.NumberOfPorts < 1 || vpScenario.NumberOfPorts > 100)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioNumberOfPorts, "1", "100"), new[] { ModelsRes.VPScenarioNumberOfPorts });
-            }
-
-            if (vpScenario.PortSpacing_m < 0 || vpScenario.PortSpacing_m > 1000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortSpacing_m, "0", "1000"), new[] { ModelsRes.VPScenarioPortSpacing_m });
-            }
-
-            if (vpScenario.AcuteMixZone_m < 0 || vpScenario.AcuteMixZone_m > 100000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioAcuteMixZone_m, "0", "100000"), new[] { ModelsRes.VPScenarioAcuteMixZone_m });
-            }
-
-            if (vpScenario.ChronicMixZone_m < 0 || vpScenario.ChronicMixZone_m > 100000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioChronicMixZone_m, "0", "100000"), new[] { ModelsRes.VPScenarioChronicMixZone_m });
-            }
-
-            if (vpScenario.EffluentSalinity_PSU < 0 || vpScenario.EffluentSalinity_PSU > 40)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentSalinity_PSU, "0", "40"), new[] { ModelsRes.VPScenarioEffluentSalinity_PSU });
-            }
-
-            if (vpScenario.EffluentTemperature_C < -10 || vpScenario.EffluentTemperature_C > 40)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentTemperature_C, "-10", "40"), new[] { ModelsRes.VPScenarioEffluentTemperature_C });
-            }
-
-            if (vpScenario.EffluentVelocity_m_s < 0 || vpScenario.EffluentVelocity_m_s > 10)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentVelocity_m_s, "0", "10"), new[] { ModelsRes.VPScenarioEffluentVelocity_m_s });
-            }
-
-            // RawResults has no validation
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpScenario.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPScenarioLastUpdateContactTVItemID, "1"), new[] { ModelsRes.VPScenarioLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == vpScenario.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPScenarioLastUpdateContactTVItemID, vpScenario.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.VPScenarioLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

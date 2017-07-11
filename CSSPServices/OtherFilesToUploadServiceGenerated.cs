@@ -34,24 +34,29 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             OtherFilesToUpload otherFilesToUpload = validationContext.ObjectInstance as OtherFilesToUpload;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            if (string.IsNullOrWhiteSpace(otherFilesToUpload.Error))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.OtherFilesToUploadError), new[] { ModelsRes.OtherFilesToUploadError });
+            }
 
-            //MikeScenarioID is required but no testing needed as it is automatically set to 0
+            //Error has no StringLength Attribute
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //MikeScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            // Error no min or max length set
             if (otherFilesToUpload.MikeScenarioID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.OtherFilesToUploadMikeScenarioID, "1"), new[] { ModelsRes.OtherFilesToUploadMikeScenarioID });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

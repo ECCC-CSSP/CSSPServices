@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             MikeSourceStartEnd mikeSourceStartEnd = validationContext.ObjectInstance as MikeSourceStartEnd;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,95 +50,123 @@ namespace CSSPServices
                 }
             }
 
-            //MikeSourceID (int) is required but no testing needed as it is automatically set to 0
+            //MikeSourceStartEndID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (mikeSourceStartEnd.StartDateAndTime_Local == null || mikeSourceStartEnd.StartDateAndTime_Local.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndStartDateAndTime_Local), new[] { ModelsRes.MikeSourceStartEndStartDateAndTime_Local });
-            }
-
-            if (mikeSourceStartEnd.EndDateAndTime_Local == null || mikeSourceStartEnd.EndDateAndTime_Local.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndEndDateAndTime_Local), new[] { ModelsRes.MikeSourceStartEndEndDateAndTime_Local });
-            }
-
-            //SourceFlowStart_m3_day (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //SourceFlowEnd_m3_day (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //SourcePollutionStart_MPN_100ml (int) is required but no testing needed as it is automatically set to 0
-
-            //SourcePollutionEnd_MPN_100ml (int) is required but no testing needed as it is automatically set to 0
-
-            //SourceTemperatureStart_C (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //SourceTemperatureEnd_C (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //SourceSalinityStart_PSU (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //SourceSalinityEnd_PSU (float) is required but no testing needed as it is automatically set to 0.0f
-
-            if (mikeSourceStartEnd.LastUpdateDate_UTC == null || mikeSourceStartEnd.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndLastUpdateDate_UTC), new[] { ModelsRes.MikeSourceStartEndLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //MikeSourceID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.MikeSourceID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeSourceStartEndMikeSourceID, "1"), new[] { ModelsRes.MikeSourceStartEndMikeSourceID });
             }
 
+            if (!((from c in db.MikeSources where c.MikeSourceID == mikeSourceStartEnd.MikeSourceID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeSource, ModelsRes.MikeSourceStartEndMikeSourceID, mikeSourceStartEnd.MikeSourceID.ToString()), new[] { ModelsRes.MikeSourceStartEndMikeSourceID });
+            }
+
+            if (mikeSourceStartEnd.StartDateAndTime_Local == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndStartDateAndTime_Local), new[] { ModelsRes.MikeSourceStartEndStartDateAndTime_Local });
+            }
+
+            if (mikeSourceStartEnd.StartDateAndTime_Local.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeSourceStartEndStartDateAndTime_Local, "1980"), new[] { ModelsRes.MikeSourceStartEndStartDateAndTime_Local });
+            }
+
+            if (mikeSourceStartEnd.EndDateAndTime_Local == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndEndDateAndTime_Local), new[] { ModelsRes.MikeSourceStartEndEndDateAndTime_Local });
+            }
+
+            if (mikeSourceStartEnd.EndDateAndTime_Local.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeSourceStartEndEndDateAndTime_Local, "1980"), new[] { ModelsRes.MikeSourceStartEndEndDateAndTime_Local });
+            }
+
+            //SourceFlowStart_m3_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (mikeSourceStartEnd.SourceFlowStart_m3_day < 0 || mikeSourceStartEnd.SourceFlowStart_m3_day > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowStart_m3_day, "0", "1000000"), new[] { ModelsRes.MikeSourceStartEndSourceFlowStart_m3_day });
             }
+
+            //SourceFlowEnd_m3_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.SourceFlowEnd_m3_day < 0 || mikeSourceStartEnd.SourceFlowEnd_m3_day > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowEnd_m3_day, "0", "1000000"), new[] { ModelsRes.MikeSourceStartEndSourceFlowEnd_m3_day });
             }
 
-            if (mikeSourceStartEnd.SourcePollutionStart_MPN_100ml < 0 || mikeSourceStartEnd.SourcePollutionStart_MPN_100ml > 20000000)
+            //SourcePollutionStart_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mikeSourceStartEnd.SourcePollutionStart_MPN_100ml < 0 || mikeSourceStartEnd.SourcePollutionStart_MPN_100ml > 10000000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionStart_MPN_100ml, "0", "20000000"), new[] { ModelsRes.MikeSourceStartEndSourcePollutionStart_MPN_100ml });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionStart_MPN_100ml, "0", "10000000"), new[] { ModelsRes.MikeSourceStartEndSourcePollutionStart_MPN_100ml });
             }
 
-            if (mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml < 0 || mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml > 20000000)
+            //SourcePollutionEnd_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml < 0 || mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml > 10000000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionEnd_MPN_100ml, "0", "20000000"), new[] { ModelsRes.MikeSourceStartEndSourcePollutionEnd_MPN_100ml });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionEnd_MPN_100ml, "0", "10000000"), new[] { ModelsRes.MikeSourceStartEndSourcePollutionEnd_MPN_100ml });
             }
 
-            if (mikeSourceStartEnd.SourceTemperatureStart_C < 0 || mikeSourceStartEnd.SourceTemperatureStart_C > 40)
+            //SourceTemperatureStart_C (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mikeSourceStartEnd.SourceTemperatureStart_C < -10 || mikeSourceStartEnd.SourceTemperatureStart_C > 40)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureStart_C, "0", "40"), new[] { ModelsRes.MikeSourceStartEndSourceTemperatureStart_C });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureStart_C, "-10", "40"), new[] { ModelsRes.MikeSourceStartEndSourceTemperatureStart_C });
             }
 
-            if (mikeSourceStartEnd.SourceTemperatureEnd_C < 0 || mikeSourceStartEnd.SourceTemperatureEnd_C > 40)
+            //SourceTemperatureEnd_C (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mikeSourceStartEnd.SourceTemperatureEnd_C < -10 || mikeSourceStartEnd.SourceTemperatureEnd_C > 40)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureEnd_C, "0", "40"), new[] { ModelsRes.MikeSourceStartEndSourceTemperatureEnd_C });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureEnd_C, "-10", "40"), new[] { ModelsRes.MikeSourceStartEndSourceTemperatureEnd_C });
             }
+
+            //SourceSalinityStart_PSU (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.SourceSalinityStart_PSU < 0 || mikeSourceStartEnd.SourceSalinityStart_PSU > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityStart_PSU, "0", "40"), new[] { ModelsRes.MikeSourceStartEndSourceSalinityStart_PSU });
             }
 
+            //SourceSalinityEnd_PSU (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (mikeSourceStartEnd.SourceSalinityEnd_PSU < 0 || mikeSourceStartEnd.SourceSalinityEnd_PSU > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityEnd_PSU, "0", "40"), new[] { ModelsRes.MikeSourceStartEndSourceSalinityEnd_PSU });
             }
+
+            if (mikeSourceStartEnd.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndLastUpdateDate_UTC), new[] { ModelsRes.MikeSourceStartEndLastUpdateDate_UTC });
+            }
+
+            if (mikeSourceStartEnd.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeSourceStartEndLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MikeSourceStartEndLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, "1"), new[] { ModelsRes.MikeSourceStartEndLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == mikeSourceStartEnd.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, mikeSourceStartEnd.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.MikeSourceStartEndLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

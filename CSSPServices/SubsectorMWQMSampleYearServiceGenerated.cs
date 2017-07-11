@@ -34,24 +34,36 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             SubsectorMWQMSampleYear subsectorMWQMSampleYear = validationContext.ObjectInstance as SubsectorMWQMSampleYear;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
-            //SubsectorTVItemID is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (subsectorMWQMSampleYear.SubsectorTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SubsectorMWQMSampleYearSubsectorTVItemID, "1"), new[] { ModelsRes.SubsectorMWQMSampleYearSubsectorTVItemID });
             }
 
-            // Year no min or max length set
+            //Year (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //Year has no Range Attribute
+
+            if (subsectorMWQMSampleYear.EarliestDate == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SubsectorMWQMSampleYearEarliestDate), new[] { ModelsRes.SubsectorMWQMSampleYearEarliestDate });
+            }
+
+            if (subsectorMWQMSampleYear.LatestDate == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SubsectorMWQMSampleYearLatestDate), new[] { ModelsRes.SubsectorMWQMSampleYearLatestDate });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

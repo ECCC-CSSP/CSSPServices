@@ -38,41 +38,55 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItemTVAuth tvItemTVAuth = validationContext.ObjectInstance as TVItemTVAuth;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            if (string.IsNullOrWhiteSpace(tvItemTVAuth.Error))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVAuthError), new[] { ModelsRes.TVItemTVAuthError });
+            }
 
-            //TVItemUserAuthID is required but no testing needed as it is automatically set to 0
+            //Error has no StringLength Attribute
+
+            //TVItemUserAuthID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (tvItemTVAuth.TVItemUserAuthID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemTVAuthTVItemUserAuthID, "1"), new[] { ModelsRes.TVItemTVAuthTVItemUserAuthID });
+            }
 
             if (string.IsNullOrWhiteSpace(tvItemTVAuth.TVText))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVAuthTVText), new[] { ModelsRes.TVItemTVAuthTVText });
             }
 
-            //TVItemID1 is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            // Error no min or max length set
-            if (tvItemTVAuth.TVItemUserAuthID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemTVAuthTVItemUserAuthID, "1"), new[] { ModelsRes.TVItemTVAuthTVItemUserAuthID });
-            }
-
-            if (!string.IsNullOrWhiteSpace(tvItemTVAuth.TVText) && (tvItemTVAuth.TVText.Length < 1) || (tvItemTVAuth.TVText.Length > 255))
+            if (!string.IsNullOrWhiteSpace(tvItemTVAuth.TVText) && (tvItemTVAuth.TVText.Length < 1 || tvItemTVAuth.TVText.Length > 255))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVItemTVAuthTVText, "1", "255"), new[] { ModelsRes.TVItemTVAuthTVText });
             }
+
+            //TVItemID1 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tvItemTVAuth.TVItemID1 < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemTVAuthTVItemID1, "1"), new[] { ModelsRes.TVItemTVAuthTVItemID1 });
             }
 
-            // TVTypeStr no min or max length set
-            // TVAuth no min or max length set
+            if (string.IsNullOrWhiteSpace(tvItemTVAuth.TVTypeStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVAuthTVTypeStr), new[] { ModelsRes.TVItemTVAuthTVTypeStr });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvItemTVAuth.TVTypeStr) && (tvItemTVAuth.TVTypeStr.Length < 1 || tvItemTVAuth.TVTypeStr.Length > 255))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVItemTVAuthTVTypeStr, "1", "255"), new[] { ModelsRes.TVItemTVAuthTVTypeStr });
+            }
+
+                //Error: Type not implemented [TVAuth] of type [TVAuthEnum]
+
+                //Error: Type not implemented [TVAuth] of type [TVAuthEnum]
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

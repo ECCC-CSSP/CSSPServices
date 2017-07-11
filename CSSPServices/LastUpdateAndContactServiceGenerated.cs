@@ -34,26 +34,34 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             LastUpdateAndContact lastUpdateAndContact = validationContext.ObjectInstance as LastUpdateAndContact;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            if (string.IsNullOrWhiteSpace(lastUpdateAndContact.Error))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LastUpdateAndContactError), new[] { ModelsRes.LastUpdateAndContactError });
+            }
 
-                //Error: Type not implemented [LastUpdateDate_UTC] of type [System.DateTime]
+            //Error has no StringLength Attribute
 
-            //LastUpdateContactTVItemID is required but no testing needed as it is automatically set to 0
+            if (lastUpdateAndContact.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LastUpdateAndContactLastUpdateDate_UTC), new[] { ModelsRes.LastUpdateAndContactLastUpdateDate_UTC });
+            }
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            // Error no min or max length set
             if (lastUpdateAndContact.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LastUpdateAndContactLastUpdateContactTVItemID, "1"), new[] { ModelsRes.LastUpdateAndContactLastUpdateContactTVItemID });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

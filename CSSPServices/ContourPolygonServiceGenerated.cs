@@ -34,37 +34,36 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             ContourPolygon contourPolygon = validationContext.ObjectInstance as ContourPolygon;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            //ContourValue (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //ContourValue is required but no testing needed as it is automatically set to 0.0f
-
-            //Layer is required but no testing needed as it is automatically set to 0
-
-            //Depth is required but no testing needed as it is automatically set to 0.0f
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (contourPolygon.ContourValue < 0f)
+            if (contourPolygon.ContourValue < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContourPolygonContourValue, "0f"), new[] { ModelsRes.ContourPolygonContourValue });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContourPolygonContourValue, "0"), new[] { ModelsRes.ContourPolygonContourValue });
             }
+
+            //Layer (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contourPolygon.Layer < 1 || contourPolygon.Layer > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContourPolygonLayer, "1", "100"), new[] { ModelsRes.ContourPolygonLayer });
             }
 
-            if (contourPolygon.Depth < 1f || contourPolygon.Depth > 10000f)
+            //Depth (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (contourPolygon.Depth < 1 || contourPolygon.Depth > 10000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContourPolygonDepth, "1f", "10000f"), new[] { ModelsRes.ContourPolygonDepth });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContourPolygonDepth, "1", "10000"), new[] { ModelsRes.ContourPolygonDepth });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

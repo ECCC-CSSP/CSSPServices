@@ -42,69 +42,60 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItemUserAuthorization tvItemUserAuthorization = validationContext.ObjectInstance as TVItemUserAuthorization;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            //TVItemUserAuthorizationID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (actionDBType == ActionDBTypeEnum.Update)
-            {
-                if (tvItemUserAuthorization.TVItemUserAuthorizationID == 0)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationTVItemUserAuthorizationID), new[] { ModelsRes.TVItemUserAuthorizationTVItemUserAuthorizationID });
-                }
-            }
+            //TVItemUserAuthorizationID has no Range Attribute
 
-            //ContactTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //TVItemID1 (int) is required but no testing needed as it is automatically set to 0
+            //ContactTVItemID has no Range Attribute
 
-            retStr = enums.TVAuthOK(tvItemUserAuthorization.TVAuth);
-            if (tvItemUserAuthorization.TVAuth == TVAuthEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationTVAuth), new[] { ModelsRes.TVItemUserAuthorizationTVAuth });
-            }
+            //TVItemID1 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (tvItemUserAuthorization.LastUpdateDate_UTC == null || tvItemUserAuthorization.LastUpdateDate_UTC.Year < 1900 )
+            //TVItemID1 has no Range Attribute
+
+                //Error: Type not implemented [TVItemID2] of type [Nullable`1]
+
+            //TVItemID2 has no Range Attribute
+
+                //Error: Type not implemented [TVItemID3] of type [Nullable`1]
+
+            //TVItemID3 has no Range Attribute
+
+                //Error: Type not implemented [TVItemID4] of type [Nullable`1]
+
+            //TVItemID4 has no Range Attribute
+
+                //Error: Type not implemented [TVAuth] of type [TVAuthEnum]
+
+                //Error: Type not implemented [TVAuth] of type [TVAuthEnum]
+            if (tvItemUserAuthorization.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC), new[] { ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (tvItemUserAuthorization.ContactTVItemID < 1)
+            if (tvItemUserAuthorization.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationContactTVItemID, "1"), new[] { ModelsRes.TVItemUserAuthorizationContactTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC });
             }
 
-            if (tvItemUserAuthorization.TVItemID1 < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID1, "1"), new[] { ModelsRes.TVItemUserAuthorizationTVItemID1 });
-            }
-
-            if (tvItemUserAuthorization.TVItemID2 < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID2, "1"), new[] { ModelsRes.TVItemUserAuthorizationTVItemID2 });
-            }
-
-            if (tvItemUserAuthorization.TVItemID3 < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID3, "1"), new[] { ModelsRes.TVItemUserAuthorizationTVItemID3 });
-            }
-
-            if (tvItemUserAuthorization.TVItemID4 < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID4, "1"), new[] { ModelsRes.TVItemUserAuthorizationTVItemID4 });
-            }
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tvItemUserAuthorization.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationLastUpdateContactTVItemID, "1"), new[] { ModelsRes.TVItemUserAuthorizationLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationLastUpdateContactTVItemID, tvItemUserAuthorization.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.TVItemUserAuthorizationLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

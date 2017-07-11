@@ -34,24 +34,29 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             VPScenarioIDAndRawResults vpScenarioIDAndRawResults = validationContext.ObjectInstance as VPScenarioIDAndRawResults;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
-            //VPScenarioID is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //VPScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpScenarioIDAndRawResults.VPScenarioID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPScenarioIDAndRawResultsVPScenarioID, "1"), new[] { ModelsRes.VPScenarioIDAndRawResultsVPScenarioID });
             }
 
-            // RawResults no min or max length set
+            if (string.IsNullOrWhiteSpace(vpScenarioIDAndRawResults.RawResults))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioIDAndRawResultsRawResults), new[] { ModelsRes.VPScenarioIDAndRawResultsRawResults });
+            }
+
+            //RawResults has no StringLength Attribute
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

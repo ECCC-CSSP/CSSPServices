@@ -38,45 +38,30 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             TideLocation tideLocation = validationContext.ObjectInstance as TideLocation;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
-                if (string.IsNullOrWhiteSpace(tideLocation.TideLocationID))
+                if (tideLocation.TideLocationID == 0)
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideLocationTideLocationID), new[] { ModelsRes.TideLocationTideLocationID });
                 }
             }
 
-            //Zone (int) is required but no testing needed as it is automatically set to 0
+            //TideLocationID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //Zone (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (tideLocation.Zone < 0 || tideLocation.Zone > 10000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationZone, "0", "10000"), new[] { ModelsRes.TideLocationZone });
+            }
 
             if (string.IsNullOrWhiteSpace(tideLocation.Name))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideLocationName), new[] { ModelsRes.TideLocationName });
-            }
-
-            if (string.IsNullOrWhiteSpace(tideLocation.Prov))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideLocationProv), new[] { ModelsRes.TideLocationProv });
-            }
-
-            //sid (int) is required but no testing needed as it is automatically set to 0
-
-            //Lat (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //Lng (float) is required but no testing needed as it is automatically set to 0.0f
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (tideLocation.Zone < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TideLocationZone, "1"), new[] { ModelsRes.TideLocationZone });
             }
 
             if (!string.IsNullOrWhiteSpace(tideLocation.Name) && tideLocation.Name.Length > 100)
@@ -84,26 +69,42 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideLocationName, "100"), new[] { ModelsRes.TideLocationName });
             }
 
-            if (!string.IsNullOrWhiteSpace(tideLocation.Prov) && tideLocation.Prov.Length > 10)
+            if (string.IsNullOrWhiteSpace(tideLocation.Prov))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideLocationProv, "10"), new[] { ModelsRes.TideLocationProv });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideLocationProv), new[] { ModelsRes.TideLocationProv });
             }
 
-            if (tideLocation.sid < 1)
+            if (!string.IsNullOrWhiteSpace(tideLocation.Prov) && tideLocation.Prov.Length > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TideLocationsid, "1"), new[] { ModelsRes.TideLocationsid });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideLocationProv, "100"), new[] { ModelsRes.TideLocationProv });
             }
+
+            //sid (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (tideLocation.sid < 0 || tideLocation.sid > 100000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationsid, "0", "100000"), new[] { ModelsRes.TideLocationsid });
+            }
+
+            //Lat (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tideLocation.Lat < -90 || tideLocation.Lat > 90)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationLat, "-90", "90"), new[] { ModelsRes.TideLocationLat });
             }
 
+            //Lng (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (tideLocation.Lng < -180 || tideLocation.Lng > 180)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationLng, "-180", "180"), new[] { ModelsRes.TideLocationLng });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

@@ -34,33 +34,32 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             Search search = validationContext.ObjectInstance as Search;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (string.IsNullOrWhiteSpace(search.value))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.Searchvalue), new[] { ModelsRes.Searchvalue });
             }
 
-            //id is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (!string.IsNullOrWhiteSpace(search.value) && (search.value.Length < 1) || (search.value.Length > 255))
+            if (!string.IsNullOrWhiteSpace(search.value) && (search.value.Length < 1 || search.value.Length > 255))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.Searchvalue, "1", "255"), new[] { ModelsRes.Searchvalue });
             }
+
+            //id (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (search.id < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.Searchid, "1"), new[] { ModelsRes.Searchid });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

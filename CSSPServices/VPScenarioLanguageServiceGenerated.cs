@@ -42,63 +42,54 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             VPScenarioLanguage vpScenarioLanguage = validationContext.ObjectInstance as VPScenarioLanguage;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            //VPScenarioLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (actionDBType == ActionDBTypeEnum.Update)
-            {
-                if (vpScenarioLanguage.VPScenarioLanguageID == 0)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageVPScenarioLanguageID), new[] { ModelsRes.VPScenarioLanguageVPScenarioLanguageID });
-                }
-            }
+            //VPScenarioLanguageID has no Range Attribute
 
-            //VPScenarioID (int) is required but no testing needed as it is automatically set to 0
+            //VPScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            retStr = enums.LanguageOK(vpScenarioLanguage.Language);
-            if (vpScenarioLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageLanguage), new[] { ModelsRes.VPScenarioLanguageLanguage });
-            }
+            //VPScenarioID has no Range Attribute
 
+                //Error: Type not implemented [Language] of type [LanguageEnum]
+
+                //Error: Type not implemented [Language] of type [LanguageEnum]
             if (string.IsNullOrWhiteSpace(vpScenarioLanguage.VPScenarioName))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageVPScenarioName), new[] { ModelsRes.VPScenarioLanguageVPScenarioName });
             }
 
-            retStr = enums.TranslationStatusOK(vpScenarioLanguage.TranslationStatus);
-            if (vpScenarioLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageTranslationStatus), new[] { ModelsRes.VPScenarioLanguageTranslationStatus });
-            }
+            //VPScenarioName has no StringLength Attribute
 
-            if (vpScenarioLanguage.LastUpdateDate_UTC == null || vpScenarioLanguage.LastUpdateDate_UTC.Year < 1900 )
+                //Error: Type not implemented [TranslationStatus] of type [TranslationStatusEnum]
+
+                //Error: Type not implemented [TranslationStatus] of type [TranslationStatusEnum]
+            if (vpScenarioLanguage.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageLastUpdateDate_UTC), new[] { ModelsRes.VPScenarioLanguageLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (vpScenarioLanguage.VPScenarioID < 1)
+            if (vpScenarioLanguage.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPScenarioLanguageVPScenarioID, "1"), new[] { ModelsRes.VPScenarioLanguageVPScenarioID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.VPScenarioLanguageLastUpdateDate_UTC, "1980"), new[] { ModelsRes.VPScenarioLanguageLastUpdateDate_UTC });
             }
 
-            if (!string.IsNullOrWhiteSpace(vpScenarioLanguage.VPScenarioName) && (vpScenarioLanguage.VPScenarioName.Length < 1 || vpScenarioLanguage.VPScenarioName.Length > 100))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.VPScenarioLanguageVPScenarioName, "1", "100"), new[] { ModelsRes.VPScenarioLanguageVPScenarioName });
-            }
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpScenarioLanguage.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPScenarioLanguageLastUpdateContactTVItemID, "1"), new[] { ModelsRes.VPScenarioLanguageLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == vpScenarioLanguage.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPScenarioLanguageLastUpdateContactTVItemID, vpScenarioLanguage.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.VPScenarioLanguageLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

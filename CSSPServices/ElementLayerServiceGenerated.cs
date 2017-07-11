@@ -34,25 +34,30 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             ElementLayer elementLayer = validationContext.ObjectInstance as ElementLayer;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
-            //Layer is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //Layer (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (elementLayer.Layer < 1 || elementLayer.Layer > 1000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ElementLayerLayer, "1", "1000"), new[] { ModelsRes.ElementLayerLayer });
             }
 
-            // ZMin no min or max length set
-            // ZMax no min or max length set
+            //ZMin (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //ZMin has no Range Attribute
+
+            //ZMax (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //ZMax has no Range Attribute
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

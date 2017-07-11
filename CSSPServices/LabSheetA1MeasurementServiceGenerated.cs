@@ -38,31 +38,68 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             LabSheetA1Measurement labSheetA1Measurement = validationContext.ObjectInstance as LabSheetA1Measurement;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            if (string.IsNullOrWhiteSpace(labSheetA1Measurement.Site))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementSite), new[] { ModelsRes.LabSheetA1MeasurementSite });
+            }
 
-            //TVItemID is required but no testing needed as it is automatically set to 0
+            //Site has no StringLength Attribute
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            // Site no min or max length set
             if (labSheetA1Measurement.TVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetA1MeasurementTVItemID, "1"), new[] { ModelsRes.LabSheetA1MeasurementTVItemID });
             }
 
-            // MPN no min or max length set
-            // Tube10 no min or max length set
-            // Tube1_0 no min or max length set
-            // Tube0_1 no min or max length set
-            // Salinity no min or max length set
-            // Temperature no min or max length set
-            // ProcessedBy no min or max length set
-            // SampleType no min or max length set
-            // SiteComment no min or max length set
+                //Error: Type not implemented [Time] of type [Nullable`1]
+
+                //Error: Type not implemented [MPN] of type [Nullable`1]
+
+            //MPN has no Range Attribute
+
+                //Error: Type not implemented [Tube10] of type [Nullable`1]
+
+            //Tube10 has no Range Attribute
+
+                //Error: Type not implemented [Tube1_0] of type [Nullable`1]
+
+            //Tube1_0 has no Range Attribute
+
+                //Error: Type not implemented [Tube0_1] of type [Nullable`1]
+
+            //Tube0_1 has no Range Attribute
+
+                //Error: Type not implemented [Salinity] of type [Nullable`1]
+
+            //Salinity has no Range Attribute
+
+            //Temperature (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //Temperature has no Range Attribute
+
+            if (string.IsNullOrWhiteSpace(labSheetA1Measurement.ProcessedBy))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementProcessedBy), new[] { ModelsRes.LabSheetA1MeasurementProcessedBy });
+            }
+
+            //ProcessedBy has no StringLength Attribute
+
+                //Error: Type not implemented [SampleType] of type [Nullable`1]
+
+                //Error: Type not implemented [SampleType] of type [SampleTypeEnum]
+            if (string.IsNullOrWhiteSpace(labSheetA1Measurement.SiteComment))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementSiteComment), new[] { ModelsRes.LabSheetA1MeasurementSiteComment });
+            }
+
+            //SiteComment has no StringLength Attribute
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

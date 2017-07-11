@@ -38,13 +38,14 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             NewContact newContact = validationContext.ObjectInstance as NewContact;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (string.IsNullOrWhiteSpace(newContact.LoginEmail))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.NewContactLoginEmail), new[] { ModelsRes.NewContactLoginEmail });
+            }
+
+            if (!string.IsNullOrWhiteSpace(newContact.LoginEmail) && (newContact.LoginEmail.Length < 1 || newContact.LoginEmail.Length > 200))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.NewContactLoginEmail, "1", "200"), new[] { ModelsRes.NewContactLoginEmail });
             }
 
             if (string.IsNullOrWhiteSpace(newContact.FirstName))
@@ -52,33 +53,40 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.NewContactFirstName), new[] { ModelsRes.NewContactFirstName });
             }
 
+            if (!string.IsNullOrWhiteSpace(newContact.FirstName) && (newContact.FirstName.Length < 1 || newContact.FirstName.Length > 200))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.NewContactFirstName, "1", "200"), new[] { ModelsRes.NewContactFirstName });
+            }
+
             if (string.IsNullOrWhiteSpace(newContact.LastName))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.NewContactLastName), new[] { ModelsRes.NewContactLastName });
             }
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (!string.IsNullOrWhiteSpace(newContact.LoginEmail) && (newContact.LoginEmail.Length < 1) || (newContact.LoginEmail.Length > 200))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.NewContactLoginEmail, "1", "200"), new[] { ModelsRes.NewContactLoginEmail });
-            }
-
-            if (!string.IsNullOrWhiteSpace(newContact.FirstName) && (newContact.FirstName.Length < 1) || (newContact.FirstName.Length > 200))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.NewContactFirstName, "1", "200"), new[] { ModelsRes.NewContactFirstName });
-            }
-
-            if (!string.IsNullOrWhiteSpace(newContact.LastName) && (newContact.LastName.Length < 1) || (newContact.LastName.Length > 200))
+            if (!string.IsNullOrWhiteSpace(newContact.LastName) && (newContact.LastName.Length < 1 || newContact.LastName.Length > 200))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.NewContactLastName, "1", "200"), new[] { ModelsRes.NewContactLastName });
             }
 
-            // Initial no min or max length set
-            // ContactTitle no min or max length set
-                //LoginEmail will need to implement Email Not Mapped
+            if (!string.IsNullOrWhiteSpace(newContact.Initial) && newContact.Initial.Length > 50)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.NewContactInitial, "50"), new[] { ModelsRes.NewContactInitial });
+            }
+
+            if (newContact.ContactTitle != null)
+            {
+                retStr = enums.ContactTitleOK(newContact.ContactTitle);
+                if (newContact.ContactTitle == ContactTitleEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    yield return new ValidationResult(retStr, new[] { ModelsRes.NewContactContactTitle });
+                }
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

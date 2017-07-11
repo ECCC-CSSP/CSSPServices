@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             ClimateSite climateSite = validationContext.ObjectInstance as ClimateSite;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,85 +50,125 @@ namespace CSSPServices
                 }
             }
 
-            //ClimateSiteTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //ClimateSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //ECDBID (int) is required but no testing needed as it is automatically set to 0
-
-            if (string.IsNullOrWhiteSpace(climateSite.ClimateSiteName))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteClimateSiteName), new[] { ModelsRes.ClimateSiteClimateSiteName });
-            }
-
-            if (string.IsNullOrWhiteSpace(climateSite.Province))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteProvince), new[] { ModelsRes.ClimateSiteProvince });
-            }
-
-            if (climateSite.LastUpdateDate_UTC == null || climateSite.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteLastUpdateDate_UTC), new[] { ModelsRes.ClimateSiteLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //ClimateSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (climateSite.ClimateSiteTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ClimateSiteClimateSiteTVItemID, "1"), new[] { ModelsRes.ClimateSiteClimateSiteTVItemID });
             }
 
-            if (climateSite.ECDBID < 1)
+            if (!((from c in db.TVItems where c.TVItemID == climateSite.ClimateSiteTVItemID select c).Any()))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ClimateSiteECDBID, "1"), new[] { ModelsRes.ClimateSiteECDBID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ClimateSiteClimateSiteTVItemID, climateSite.ClimateSiteTVItemID.ToString()), new[] { ModelsRes.ClimateSiteClimateSiteTVItemID });
             }
 
-            if (!string.IsNullOrWhiteSpace(climateSite.ClimateSiteName) && climateSite.ClimateSiteName.Length > 100)
+            //ECDBID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //ECDBID has no Range Attribute
+
+            if (string.IsNullOrWhiteSpace(climateSite.ClimateSiteName))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteClimateSiteName, "100"), new[] { ModelsRes.ClimateSiteClimateSiteName });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteClimateSiteName), new[] { ModelsRes.ClimateSiteClimateSiteName });
             }
 
-            if (!string.IsNullOrWhiteSpace(climateSite.Province) && climateSite.Province.Length > 4)
+            //ClimateSiteName has no StringLength Attribute
+
+            if (string.IsNullOrWhiteSpace(climateSite.Province))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteProvince, "4"), new[] { ModelsRes.ClimateSiteProvince });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteProvince), new[] { ModelsRes.ClimateSiteProvince });
             }
 
-                //Error: Type not implemented [Elevation_m] of type [double]
-            if (!string.IsNullOrWhiteSpace(climateSite.ClimateID) && climateSite.ClimateID.Length > 10)
+            //Province has no StringLength Attribute
+
+                //Error: Type not implemented [Elevation_m] of type [Nullable`1]
+
+            //Elevation_m has no Range Attribute
+
+            if (string.IsNullOrWhiteSpace(climateSite.ClimateID))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteClimateID, "10"), new[] { ModelsRes.ClimateSiteClimateID });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteClimateID), new[] { ModelsRes.ClimateSiteClimateID });
             }
 
-            if (climateSite.WMOID < 1 || climateSite.WMOID > 1000000)
+            //ClimateID has no StringLength Attribute
+
+                //Error: Type not implemented [WMOID] of type [Nullable`1]
+
+            //WMOID has no Range Attribute
+
+            if (string.IsNullOrWhiteSpace(climateSite.TCID))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteWMOID, "1", "1000000"), new[] { ModelsRes.ClimateSiteWMOID });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteTCID), new[] { ModelsRes.ClimateSiteTCID });
             }
 
-            if (!string.IsNullOrWhiteSpace(climateSite.TCID) && climateSite.TCID.Length > 3)
+            //TCID has no StringLength Attribute
+
+                //Error: Type not implemented [IsProvincial] of type [Nullable`1]
+
+            if (string.IsNullOrWhiteSpace(climateSite.ProvSiteID))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteTCID, "3"), new[] { ModelsRes.ClimateSiteTCID });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteProvSiteID), new[] { ModelsRes.ClimateSiteProvSiteID });
             }
 
-            if (!string.IsNullOrWhiteSpace(climateSite.ProvSiteID) && climateSite.ProvSiteID.Length > 50)
+            //ProvSiteID has no StringLength Attribute
+
+                //Error: Type not implemented [TimeOffset_hour] of type [Nullable`1]
+
+            //TimeOffset_hour has no Range Attribute
+
+            if (string.IsNullOrWhiteSpace(climateSite.File_desc))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteProvSiteID, "50"), new[] { ModelsRes.ClimateSiteProvSiteID });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteFile_desc), new[] { ModelsRes.ClimateSiteFile_desc });
             }
 
-                //Error: Type not implemented [TimeOffset_hour] of type [double]
-            if (!string.IsNullOrWhiteSpace(climateSite.File_desc) && climateSite.File_desc.Length > 50)
+            //File_desc has no StringLength Attribute
+
+                //Error: Type not implemented [HourlyStartDate_Local] of type [Nullable`1]
+
+                //Error: Type not implemented [HourlyEndDate_Local] of type [Nullable`1]
+
+                //Error: Type not implemented [HourlyNow] of type [Nullable`1]
+
+                //Error: Type not implemented [DailyStartDate_Local] of type [Nullable`1]
+
+                //Error: Type not implemented [DailyEndDate_Local] of type [Nullable`1]
+
+                //Error: Type not implemented [DailyNow] of type [Nullable`1]
+
+                //Error: Type not implemented [MonthlyStartDate_Local] of type [Nullable`1]
+
+                //Error: Type not implemented [MonthlyEndDate_Local] of type [Nullable`1]
+
+                //Error: Type not implemented [MonthlyNow] of type [Nullable`1]
+
+            if (climateSite.LastUpdateDate_UTC == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteFile_desc, "50"), new[] { ModelsRes.ClimateSiteFile_desc });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteLastUpdateDate_UTC), new[] { ModelsRes.ClimateSiteLastUpdateDate_UTC });
             }
+
+            if (climateSite.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ClimateSiteLastUpdateDate_UTC, "1980"), new[] { ModelsRes.ClimateSiteLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (climateSite.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ClimateSiteLastUpdateContactTVItemID, "1"), new[] { ModelsRes.ClimateSiteLastUpdateContactTVItemID });
             }
 
-                //Error: Type not implemented [Elevation_m] of type [double]
-                //Error: Type not implemented [TimeOffset_hour] of type [double]
+            if (!((from c in db.TVItems where c.TVItemID == climateSite.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ClimateSiteLastUpdateContactTVItemID, climateSite.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.ClimateSiteLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

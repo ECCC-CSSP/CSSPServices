@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             MWQMLookupMPN mwqmLookupMPN = validationContext.ObjectInstance as MWQMLookupMPN;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,50 +50,63 @@ namespace CSSPServices
                 }
             }
 
-            //Tubes10 (int) is required but no testing needed as it is automatically set to 0
+            //MWQMLookupMPNID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Tubes1 (int) is required but no testing needed as it is automatically set to 0
-
-            //Tubes01 (int) is required but no testing needed as it is automatically set to 0
-
-            //MPN_100ml (int) is required but no testing needed as it is automatically set to 0
-
-            if (mwqmLookupMPN.LastUpdateDate_UTC == null || mwqmLookupMPN.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMLookupMPNLastUpdateDate_UTC), new[] { ModelsRes.MWQMLookupMPNLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //Tubes10 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmLookupMPN.Tubes10 < 0 || mwqmLookupMPN.Tubes10 > 5)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes10, "0", "5"), new[] { ModelsRes.MWQMLookupMPNTubes10 });
             }
 
+            //Tubes1 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (mwqmLookupMPN.Tubes1 < 0 || mwqmLookupMPN.Tubes1 > 5)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes1, "0", "5"), new[] { ModelsRes.MWQMLookupMPNTubes1 });
             }
+
+            //Tubes01 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmLookupMPN.Tubes01 < 0 || mwqmLookupMPN.Tubes01 > 5)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes01, "0", "5"), new[] { ModelsRes.MWQMLookupMPNTubes01 });
             }
 
-            if (mwqmLookupMPN.MPN_100ml < 1 || mwqmLookupMPN.MPN_100ml > 1700)
+            //MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mwqmLookupMPN.MPN_100ml < 1 || mwqmLookupMPN.MPN_100ml > 10000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNMPN_100ml, "1", "1700"), new[] { ModelsRes.MWQMLookupMPNMPN_100ml });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNMPN_100ml, "1", "10000"), new[] { ModelsRes.MWQMLookupMPNMPN_100ml });
             }
+
+            if (mwqmLookupMPN.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMLookupMPNLastUpdateDate_UTC), new[] { ModelsRes.MWQMLookupMPNLastUpdateDate_UTC });
+            }
+
+            if (mwqmLookupMPN.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMLookupMPNLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MWQMLookupMPNLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmLookupMPN.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMLookupMPNLastUpdateContactTVItemID, "1"), new[] { ModelsRes.MWQMLookupMPNLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == mwqmLookupMPN.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMLookupMPNLastUpdateContactTVItemID, mwqmLookupMPN.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.MWQMLookupMPNLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

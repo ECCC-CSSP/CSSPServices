@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             SamplingPlanSubsectorSite samplingPlanSubsectorSite = validationContext.ObjectInstance as SamplingPlanSubsectorSite;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,38 +50,61 @@ namespace CSSPServices
                 }
             }
 
-            //SamplingPlanSubsectorID (int) is required but no testing needed as it is automatically set to 0
+            //SamplingPlanSubsectorSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //MWQMSiteTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            //IsDuplicate (bool) is required but no testing needed 
-
-            if (samplingPlanSubsectorSite.LastUpdateDate_UTC == null || samplingPlanSubsectorSite.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSubsectorSiteLastUpdateDate_UTC), new[] { ModelsRes.SamplingPlanSubsectorSiteLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //SamplingPlanSubsectorID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (samplingPlanSubsectorSite.SamplingPlanSubsectorID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorID, "1"), new[] { ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorID });
             }
 
+            if (!((from c in db.SamplingPlanSubsectors where c.SamplingPlanSubsectorID == samplingPlanSubsectorSite.SamplingPlanSubsectorID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlanSubsector, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorID, samplingPlanSubsectorSite.SamplingPlanSubsectorID.ToString()), new[] { ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorID });
+            }
+
+            //MWQMSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (samplingPlanSubsectorSite.MWQMSiteTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, "1"), new[] { ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID });
             }
+
+            if (!((from c in db.TVItems where c.TVItemID == samplingPlanSubsectorSite.MWQMSiteTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, samplingPlanSubsectorSite.MWQMSiteTVItemID.ToString()), new[] { ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID });
+            }
+
+            //IsDuplicate (bool) is required but no testing needed 
+
+            if (samplingPlanSubsectorSite.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSubsectorSiteLastUpdateDate_UTC), new[] { ModelsRes.SamplingPlanSubsectorSiteLastUpdateDate_UTC });
+            }
+
+            if (samplingPlanSubsectorSite.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateDate_UTC, "1980"), new[] { ModelsRes.SamplingPlanSubsectorSiteLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (samplingPlanSubsectorSite.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, "1"), new[] { ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == samplingPlanSubsectorSite.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, samplingPlanSubsectorSite.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

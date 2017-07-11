@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             MWQMSampleLanguage mwqmSampleLanguage = validationContext.ObjectInstance as MWQMSampleLanguage;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (mwqmSampleLanguage.MWQMSampleLanguageID == 0)
@@ -54,7 +50,19 @@ namespace CSSPServices
                 }
             }
 
-            //MWQMSampleID (int) is required but no testing needed as it is automatically set to 0
+            //MWQMSampleLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //MWQMSampleID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mwqmSampleLanguage.MWQMSampleID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSampleLanguageMWQMSampleID, "1"), new[] { ModelsRes.MWQMSampleLanguageMWQMSampleID });
+            }
+
+            if (!((from c in db.MWQMSamples where c.MWQMSampleID == mwqmSampleLanguage.MWQMSampleID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSample, ModelsRes.MWQMSampleLanguageMWQMSampleID, mwqmSampleLanguage.MWQMSampleID.ToString()), new[] { ModelsRes.MWQMSampleLanguageMWQMSampleID });
+            }
 
             retStr = enums.LanguageOK(mwqmSampleLanguage.Language);
             if (mwqmSampleLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -67,35 +75,41 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageMWQMSampleNote), new[] { ModelsRes.MWQMSampleLanguageMWQMSampleNote });
             }
 
+            //MWQMSampleNote has no StringLength Attribute
+
             retStr = enums.TranslationStatusOK(mwqmSampleLanguage.TranslationStatus);
             if (mwqmSampleLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageTranslationStatus), new[] { ModelsRes.MWQMSampleLanguageTranslationStatus });
             }
 
-            if (mwqmSampleLanguage.LastUpdateDate_UTC == null || mwqmSampleLanguage.LastUpdateDate_UTC.Year < 1900 )
+            if (mwqmSampleLanguage.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageLastUpdateDate_UTC), new[] { ModelsRes.MWQMSampleLanguageLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (mwqmSampleLanguage.MWQMSampleID < 1)
+            if (mwqmSampleLanguage.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSampleLanguageMWQMSampleID, "1"), new[] { ModelsRes.MWQMSampleLanguageMWQMSampleID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSampleLanguageLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MWQMSampleLanguageLastUpdateDate_UTC });
             }
 
-            // MWQMSampleNote has no validation
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mwqmSampleLanguage.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSampleLanguageLastUpdateContactTVItemID, "1"), new[] { ModelsRes.MWQMSampleLanguageLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == mwqmSampleLanguage.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSampleLanguageLastUpdateContactTVItemID, mwqmSampleLanguage.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.MWQMSampleLanguageLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

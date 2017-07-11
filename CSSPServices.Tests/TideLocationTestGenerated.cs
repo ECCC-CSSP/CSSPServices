@@ -44,7 +44,7 @@ namespace CSSPServices.Tests
 
             TideLocation tideLocation = new TideLocation();
 
-            if (OmitPropName != "TideLocationID") tideLocation.TideLocationID = GetRandomString("", 5);
+            if (OmitPropName != "TideLocationID") tideLocation.TideLocationID = GetRandomInt(1, 5);
             if (OmitPropName != "Zone") tideLocation.Zone = GetRandomInt(1, 11);
             if (OmitPropName != "Name") tideLocation.Name = GetRandomString("", 5);
             if (OmitPropName != "Prov") tideLocation.Prov = GetRandomString("", 5);

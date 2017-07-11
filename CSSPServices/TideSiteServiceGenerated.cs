@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             TideSite tideSite = validationContext.ObjectInstance as TideSite;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,29 +50,23 @@ namespace CSSPServices
                 }
             }
 
-            //TideSiteTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //TideSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (string.IsNullOrWhiteSpace(tideSite.WebTideModel))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideSiteWebTideModel), new[] { ModelsRes.TideSiteWebTideModel });
-            }
-
-            //WebTideDatum_m (float) is required but no testing needed as it is automatically set to 0.0f
-
-            if (tideSite.LastUpdateDate_UTC == null || tideSite.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideSiteLastUpdateDate_UTC), new[] { ModelsRes.TideSiteLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //TideSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tideSite.TideSiteTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TideSiteTideSiteTVItemID, "1"), new[] { ModelsRes.TideSiteTideSiteTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == tideSite.TideSiteTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TideSiteTideSiteTVItemID, tideSite.TideSiteTVItemID.ToString()), new[] { ModelsRes.TideSiteTideSiteTVItemID });
+            }
+
+            if (string.IsNullOrWhiteSpace(tideSite.WebTideModel))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideSiteWebTideModel), new[] { ModelsRes.TideSiteWebTideModel });
             }
 
             if (!string.IsNullOrWhiteSpace(tideSite.WebTideModel) && tideSite.WebTideModel.Length > 100)
@@ -82,16 +74,40 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideSiteWebTideModel, "100"), new[] { ModelsRes.TideSiteWebTideModel });
             }
 
-            if (tideSite.WebTideDatum_m < 0 || tideSite.WebTideDatum_m > 100)
+            //WebTideDatum_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (tideSite.WebTideDatum_m < -100 || tideSite.WebTideDatum_m > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideSiteWebTideDatum_m, "0", "100"), new[] { ModelsRes.TideSiteWebTideDatum_m });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideSiteWebTideDatum_m, "-100", "100"), new[] { ModelsRes.TideSiteWebTideDatum_m });
             }
+
+            if (tideSite.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideSiteLastUpdateDate_UTC), new[] { ModelsRes.TideSiteLastUpdateDate_UTC });
+            }
+
+            if (tideSite.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TideSiteLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TideSiteLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tideSite.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TideSiteLastUpdateContactTVItemID, "1"), new[] { ModelsRes.TideSiteLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == tideSite.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TideSiteLastUpdateContactTVItemID, tideSite.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.TideSiteLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

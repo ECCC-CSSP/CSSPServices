@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             AppTaskLanguage appTaskLanguage = validationContext.ObjectInstance as AppTaskLanguage;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (appTaskLanguage.AppTaskLanguageID == 0)
@@ -54,12 +50,44 @@ namespace CSSPServices
                 }
             }
 
-            //AppTaskID (int) is required but no testing needed as it is automatically set to 0
+            //AppTaskLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //AppTaskID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (appTaskLanguage.AppTaskID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskLanguageAppTaskID, "1"), new[] { ModelsRes.AppTaskLanguageAppTaskID });
+            }
+
+            if (!((from c in db.AppTasks where c.AppTaskID == appTaskLanguage.AppTaskID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppTask, ModelsRes.AppTaskLanguageAppTaskID, appTaskLanguage.AppTaskID.ToString()), new[] { ModelsRes.AppTaskLanguageAppTaskID });
+            }
 
             retStr = enums.LanguageOK(appTaskLanguage.Language);
             if (appTaskLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageLanguage), new[] { ModelsRes.AppTaskLanguageLanguage });
+            }
+
+            if (string.IsNullOrWhiteSpace(appTaskLanguage.StatusText))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageStatusText), new[] { ModelsRes.AppTaskLanguageStatusText });
+            }
+
+            if (!string.IsNullOrWhiteSpace(appTaskLanguage.StatusText) && appTaskLanguage.StatusText.Length > 250)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageStatusText, "250"), new[] { ModelsRes.AppTaskLanguageStatusText });
+            }
+
+            if (string.IsNullOrWhiteSpace(appTaskLanguage.ErrorText))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageErrorText), new[] { ModelsRes.AppTaskLanguageErrorText });
+            }
+
+            if (!string.IsNullOrWhiteSpace(appTaskLanguage.ErrorText) && appTaskLanguage.ErrorText.Length > 250)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageErrorText, "250"), new[] { ModelsRes.AppTaskLanguageErrorText });
             }
 
             retStr = enums.TranslationStatusOK(appTaskLanguage.TranslationStatus);
@@ -68,37 +96,33 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageTranslationStatus), new[] { ModelsRes.AppTaskLanguageTranslationStatus });
             }
 
-            if (appTaskLanguage.LastUpdateDate_UTC == null || appTaskLanguage.LastUpdateDate_UTC.Year < 1900 )
+            if (appTaskLanguage.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageLastUpdateDate_UTC), new[] { ModelsRes.AppTaskLanguageLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (appTaskLanguage.AppTaskID < 1)
+            if (appTaskLanguage.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskLanguageAppTaskID, "1"), new[] { ModelsRes.AppTaskLanguageAppTaskID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppTaskLanguageLastUpdateDate_UTC, "1980"), new[] { ModelsRes.AppTaskLanguageLastUpdateDate_UTC });
             }
 
-            if (!string.IsNullOrWhiteSpace(appTaskLanguage.StatusText) && appTaskLanguage.StatusText.Length > 250)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageStatusText, "250"), new[] { ModelsRes.AppTaskLanguageStatusText });
-            }
-
-            if (!string.IsNullOrWhiteSpace(appTaskLanguage.ErrorText) && appTaskLanguage.ErrorText.Length > 250)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageErrorText, "250"), new[] { ModelsRes.AppTaskLanguageErrorText });
-            }
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (appTaskLanguage.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskLanguageLastUpdateContactTVItemID, "1"), new[] { ModelsRes.AppTaskLanguageLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == appTaskLanguage.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskLanguageLastUpdateContactTVItemID, appTaskLanguage.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.AppTaskLanguageLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

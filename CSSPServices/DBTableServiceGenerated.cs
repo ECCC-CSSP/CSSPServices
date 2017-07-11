@@ -34,15 +34,18 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             DBTable dBTable = validationContext.ObjectInstance as DBTable;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (string.IsNullOrWhiteSpace(dBTable.TableName))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DBTableTableName), new[] { ModelsRes.DBTableTableName });
+            }
+
+            if (!string.IsNullOrWhiteSpace(dBTable.TableName) && (dBTable.TableName.Length < 1 || dBTable.TableName.Length > 200))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.DBTableTableName, "1", "200"), new[] { ModelsRes.DBTableTableName });
             }
 
             if (string.IsNullOrWhiteSpace(dBTable.Plurial))
@@ -50,20 +53,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DBTablePlurial), new[] { ModelsRes.DBTablePlurial });
             }
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (!string.IsNullOrWhiteSpace(dBTable.TableName) && (dBTable.TableName.Length < 1) || (dBTable.TableName.Length > 200))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.DBTableTableName, "1", "200"), new[] { ModelsRes.DBTableTableName });
-            }
-
-            if (!string.IsNullOrWhiteSpace(dBTable.Plurial) && (dBTable.Plurial.Length < 1) || (dBTable.Plurial.Length > 3))
+            if (!string.IsNullOrWhiteSpace(dBTable.Plurial) && (dBTable.Plurial.Length < 1 || dBTable.Plurial.Length > 3))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.DBTablePlurial, "1", "3"), new[] { ModelsRes.DBTablePlurial });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

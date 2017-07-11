@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             MWQMSample mwqmSample = validationContext.ObjectInstance as MWQMSample;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (mwqmSample.MWQMSampleID == 0)
@@ -54,20 +50,85 @@ namespace CSSPServices
                 }
             }
 
-            //MWQMSiteTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //MWQMSampleID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //MWQMRunTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //MWQMSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (mwqmSample.SampleDateTime_Local == null || mwqmSample.SampleDateTime_Local.Year < 1900 )
+            if (mwqmSample.MWQMSiteTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSampleMWQMSiteTVItemID, "1"), new[] { ModelsRes.MWQMSampleMWQMSiteTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == mwqmSample.MWQMSiteTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSampleMWQMSiteTVItemID, mwqmSample.MWQMSiteTVItemID.ToString()), new[] { ModelsRes.MWQMSampleMWQMSiteTVItemID });
+            }
+
+            //MWQMRunTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mwqmSample.MWQMRunTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSampleMWQMRunTVItemID, "1"), new[] { ModelsRes.MWQMSampleMWQMRunTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == mwqmSample.MWQMRunTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSampleMWQMRunTVItemID, mwqmSample.MWQMRunTVItemID.ToString()), new[] { ModelsRes.MWQMSampleMWQMRunTVItemID });
+            }
+
+            if (mwqmSample.SampleDateTime_Local == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleSampleDateTime_Local), new[] { ModelsRes.MWQMSampleSampleDateTime_Local });
             }
 
-            //FecCol_MPN_100ml (int) is required but no testing needed as it is automatically set to 0
+            if (mwqmSample.SampleDateTime_Local.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSampleSampleDateTime_Local, "1980"), new[] { ModelsRes.MWQMSampleSampleDateTime_Local });
+            }
+
+                //Error: Type not implemented [Depth_m] of type [Nullable`1]
+
+            if (mwqmSample.Depth_m < 0 || mwqmSample.Depth_m > 1000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleDepth_m, "0", "1000"), new[] { ModelsRes.MWQMSampleDepth_m });
+            }
+
+            //FecCol_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mwqmSample.FecCol_MPN_100ml < 0 || mwqmSample.FecCol_MPN_100ml > 10000000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleFecCol_MPN_100ml, "0", "10000000"), new[] { ModelsRes.MWQMSampleFecCol_MPN_100ml });
+            }
+
+                //Error: Type not implemented [Salinity_PPT] of type [Nullable`1]
+
+            if (mwqmSample.Salinity_PPT < 0 || mwqmSample.Salinity_PPT > 40)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleSalinity_PPT, "0", "40"), new[] { ModelsRes.MWQMSampleSalinity_PPT });
+            }
+
+                //Error: Type not implemented [WaterTemp_C] of type [Nullable`1]
+
+            if (mwqmSample.WaterTemp_C < -10 || mwqmSample.WaterTemp_C > 40)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleWaterTemp_C, "-10", "40"), new[] { ModelsRes.MWQMSampleWaterTemp_C });
+            }
+
+                //Error: Type not implemented [PH] of type [Nullable`1]
+
+            if (mwqmSample.PH < 0 || mwqmSample.PH > 14)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSamplePH, "0", "14"), new[] { ModelsRes.MWQMSamplePH });
+            }
 
             if (string.IsNullOrWhiteSpace(mwqmSample.SampleTypesText))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleSampleTypesText), new[] { ModelsRes.MWQMSampleSampleTypesText });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSample.SampleTypesText) && mwqmSample.SampleTypesText.Length > 50)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleSampleTypesText, "50"), new[] { ModelsRes.MWQMSampleSampleTypesText });
             }
 
             retStr = enums.SampleTypeOK(mwqmSample.SampleType_old);
@@ -76,66 +137,21 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleSampleType_old), new[] { ModelsRes.MWQMSampleSampleType_old });
             }
 
-            if (mwqmSample.LastUpdateDate_UTC == null || mwqmSample.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLastUpdateDate_UTC), new[] { ModelsRes.MWQMSampleLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (mwqmSample.MWQMSiteTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSampleMWQMSiteTVItemID, "1"), new[] { ModelsRes.MWQMSampleMWQMSiteTVItemID });
-            }
-
-            if (mwqmSample.MWQMRunTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSampleMWQMRunTVItemID, "1"), new[] { ModelsRes.MWQMSampleMWQMRunTVItemID });
-            }
-
-            if (mwqmSample.Depth_m < 0 || mwqmSample.Depth_m > 1000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleDepth_m, "0", "1000"), new[] { ModelsRes.MWQMSampleDepth_m });
-            }
-
-            if (mwqmSample.FecCol_MPN_100ml < 0 || mwqmSample.FecCol_MPN_100ml > 20000000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleFecCol_MPN_100ml, "0", "20000000"), new[] { ModelsRes.MWQMSampleFecCol_MPN_100ml });
-            }
-
-            if (mwqmSample.Salinity_PPT < 0 || mwqmSample.Salinity_PPT > 40)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleSalinity_PPT, "0", "40"), new[] { ModelsRes.MWQMSampleSalinity_PPT });
-            }
-
-            if (mwqmSample.WaterTemp_C < 0 || mwqmSample.WaterTemp_C > 40)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleWaterTemp_C, "0", "40"), new[] { ModelsRes.MWQMSampleWaterTemp_C });
-            }
-
-            if (mwqmSample.PH < 0 || mwqmSample.PH > 14)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSamplePH, "0", "14"), new[] { ModelsRes.MWQMSamplePH });
-            }
-
-            if (!string.IsNullOrWhiteSpace(mwqmSample.SampleTypesText) && mwqmSample.SampleTypesText.Length > 50)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleSampleTypesText, "50"), new[] { ModelsRes.MWQMSampleSampleTypesText });
-            }
+                //Error: Type not implemented [Tube_10] of type [Nullable`1]
 
             if (mwqmSample.Tube_10 < 0 || mwqmSample.Tube_10 > 5)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleTube_10, "0", "5"), new[] { ModelsRes.MWQMSampleTube_10 });
             }
 
+                //Error: Type not implemented [Tube_1_0] of type [Nullable`1]
+
             if (mwqmSample.Tube_1_0 < 0 || mwqmSample.Tube_1_0 > 5)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleTube_1_0, "0", "5"), new[] { ModelsRes.MWQMSampleTube_1_0 });
             }
+
+                //Error: Type not implemented [Tube_0_1] of type [Nullable`1]
 
             if (mwqmSample.Tube_0_1 < 0 || mwqmSample.Tube_0_1 > 5)
             {
@@ -147,11 +163,33 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleProcessedBy, "10"), new[] { ModelsRes.MWQMSampleProcessedBy });
             }
 
+            if (mwqmSample.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLastUpdateDate_UTC), new[] { ModelsRes.MWQMSampleLastUpdateDate_UTC });
+            }
+
+            if (mwqmSample.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSampleLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MWQMSampleLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (mwqmSample.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSampleLastUpdateContactTVItemID, "1"), new[] { ModelsRes.MWQMSampleLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == mwqmSample.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSampleLastUpdateContactTVItemID, mwqmSample.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.MWQMSampleLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

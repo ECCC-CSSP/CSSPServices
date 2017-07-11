@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             RatingCurveValue ratingCurveValue = validationContext.ObjectInstance as RatingCurveValue;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,43 +50,61 @@ namespace CSSPServices
                 }
             }
 
-            //RatingCurveID (int) is required but no testing needed as it is automatically set to 0
+            //RatingCurveValueID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //StageValue_m (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //DischargeValue_m3_s (float) is required but no testing needed as it is automatically set to 0.0f
-
-            if (ratingCurveValue.LastUpdateDate_UTC == null || ratingCurveValue.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveValueLastUpdateDate_UTC), new[] { ModelsRes.RatingCurveValueLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //RatingCurveID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (ratingCurveValue.RatingCurveID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.RatingCurveValueRatingCurveID, "1"), new[] { ModelsRes.RatingCurveValueRatingCurveID });
             }
 
+            if (!((from c in db.RatingCurves where c.RatingCurveID == ratingCurveValue.RatingCurveID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RatingCurve, ModelsRes.RatingCurveValueRatingCurveID, ratingCurveValue.RatingCurveID.ToString()), new[] { ModelsRes.RatingCurveValueRatingCurveID });
+            }
+
+            //StageValue_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (ratingCurveValue.StageValue_m < 0 || ratingCurveValue.StageValue_m > 1000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueStageValue_m, "0", "1000"), new[] { ModelsRes.RatingCurveValueStageValue_m });
             }
+
+            //DischargeValue_m3_s (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (ratingCurveValue.DischargeValue_m3_s < 0 || ratingCurveValue.DischargeValue_m3_s > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000"), new[] { ModelsRes.RatingCurveValueDischargeValue_m3_s });
             }
 
+            if (ratingCurveValue.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveValueLastUpdateDate_UTC), new[] { ModelsRes.RatingCurveValueLastUpdateDate_UTC });
+            }
+
+            if (ratingCurveValue.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.RatingCurveValueLastUpdateDate_UTC, "1980"), new[] { ModelsRes.RatingCurveValueLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (ratingCurveValue.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.RatingCurveValueLastUpdateContactTVItemID, "1"), new[] { ModelsRes.RatingCurveValueLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == ratingCurveValue.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RatingCurveValueLastUpdateContactTVItemID, ratingCurveValue.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.RatingCurveValueLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

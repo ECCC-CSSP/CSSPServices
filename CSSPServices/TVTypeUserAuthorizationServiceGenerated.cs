@@ -42,53 +42,47 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVTypeUserAuthorization tvTypeUserAuthorization = validationContext.ObjectInstance as TVTypeUserAuthorization;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            //TVTypeUserAuthorizationID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (actionDBType == ActionDBTypeEnum.Update)
-            {
-                if (tvTypeUserAuthorization.TVTypeUserAuthorizationID == 0)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVTypeUserAuthorizationID), new[] { ModelsRes.TVTypeUserAuthorizationTVTypeUserAuthorizationID });
-                }
-            }
+            //TVTypeUserAuthorizationID has no Range Attribute
 
-            //ContactTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            retStr = enums.TVTypeOK(tvTypeUserAuthorization.TVType);
-            if (tvTypeUserAuthorization.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVType), new[] { ModelsRes.TVTypeUserAuthorizationTVType });
-            }
+            //ContactTVItemID has no Range Attribute
 
-            retStr = enums.TVAuthOK(tvTypeUserAuthorization.TVAuth);
-            if (tvTypeUserAuthorization.TVAuth == TVAuthEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVAuth), new[] { ModelsRes.TVTypeUserAuthorizationTVAuth });
-            }
+                //Error: Type not implemented [TVType] of type [TVTypeEnum]
 
-            if (tvTypeUserAuthorization.LastUpdateDate_UTC == null || tvTypeUserAuthorization.LastUpdateDate_UTC.Year < 1900 )
+                //Error: Type not implemented [TVType] of type [TVTypeEnum]
+                //Error: Type not implemented [TVAuth] of type [TVAuthEnum]
+
+                //Error: Type not implemented [TVAuth] of type [TVAuthEnum]
+            if (tvTypeUserAuthorization.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationLastUpdateDate_UTC), new[] { ModelsRes.TVTypeUserAuthorizationLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (tvTypeUserAuthorization.ContactTVItemID < 1)
+            if (tvTypeUserAuthorization.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVTypeUserAuthorizationContactTVItemID, "1"), new[] { ModelsRes.TVTypeUserAuthorizationContactTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVTypeUserAuthorizationLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVTypeUserAuthorizationLastUpdateDate_UTC });
             }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tvTypeUserAuthorization.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVItemID, "1"), new[] { ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == tvTypeUserAuthorization.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVItemID, tvTypeUserAuthorization.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

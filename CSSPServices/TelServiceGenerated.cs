@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             Tel tel = validationContext.ObjectInstance as Tel;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (tel.TelID == 0)
@@ -54,11 +50,28 @@ namespace CSSPServices
                 }
             }
 
-            //TelTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //TelID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //TelTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (tel.TelTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TelTelTVItemID, "1"), new[] { ModelsRes.TelTelTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == tel.TelTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TelTelTVItemID, tel.TelTVItemID.ToString()), new[] { ModelsRes.TelTelTVItemID });
+            }
 
             if (string.IsNullOrWhiteSpace(tel.TelNumber))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TelTelNumber), new[] { ModelsRes.TelTelNumber });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tel.TelNumber) && tel.TelNumber.Length > 50)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelNumber, "50"), new[] { ModelsRes.TelTelNumber });
             }
 
             retStr = enums.TelTypeOK(tel.TelType);
@@ -67,32 +80,33 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TelTelType), new[] { ModelsRes.TelTelType });
             }
 
-            if (tel.LastUpdateDate_UTC == null || tel.LastUpdateDate_UTC.Year < 1900 )
+            if (tel.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TelLastUpdateDate_UTC), new[] { ModelsRes.TelLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (tel.TelTVItemID < 1)
+            if (tel.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TelTelTVItemID, "1"), new[] { ModelsRes.TelTelTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TelLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TelLastUpdateDate_UTC });
             }
 
-            if (!string.IsNullOrWhiteSpace(tel.TelNumber) && tel.TelNumber.Length > 50)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelNumber, "50"), new[] { ModelsRes.TelTelNumber });
-            }
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tel.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TelLastUpdateContactTVItemID, "1"), new[] { ModelsRes.TelLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == tel.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TelLastUpdateContactTVItemID, tel.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.TelLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

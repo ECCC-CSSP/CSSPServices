@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             ContactLogin contactLogin = validationContext.ObjectInstance as ContactLogin;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,41 +50,23 @@ namespace CSSPServices
                 }
             }
 
-            //ContactID (int) is required but no testing needed as it is automatically set to 0
+            //ContactLoginID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (string.IsNullOrWhiteSpace(contactLogin.LoginEmail))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginLoginEmail), new[] { ModelsRes.ContactLoginLoginEmail });
-            }
-
-                //Error: Type not implemented [PasswordHash] of type [Byte[]]
-
-                //Error: Type not implemented [PasswordSalt] of type [Byte[]]
-
-            if (contactLogin.LastUpdateDate_UTC == null || contactLogin.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginLastUpdateDate_UTC), new[] { ModelsRes.ContactLoginLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            if (string.IsNullOrWhiteSpace(contactLogin.Password))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginPassword), new[] { ModelsRes.ContactLoginPassword });
-            }
-
-            if (string.IsNullOrWhiteSpace(contactLogin.ConfirmPassword))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginConfirmPassword), new[] { ModelsRes.ContactLoginConfirmPassword });
-            }
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //ContactID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contactLogin.ContactID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactLoginContactID, "1"), new[] { ModelsRes.ContactLoginContactID });
+            }
+
+            if (!((from c in db.Contacts where c.ContactID == contactLogin.ContactID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactLoginContactID, contactLogin.ContactID.ToString()), new[] { ModelsRes.ContactLoginContactID });
+            }
+
+            if (string.IsNullOrWhiteSpace(contactLogin.LoginEmail))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginLoginEmail), new[] { ModelsRes.ContactLoginLoginEmail });
             }
 
             if (!string.IsNullOrWhiteSpace(contactLogin.LoginEmail) && contactLogin.LoginEmail.Length > 200)
@@ -95,33 +75,58 @@ namespace CSSPServices
             }
 
                 //Error: Type not implemented [PasswordHash] of type [Byte[]]
+
+                //Error: Type not implemented [PasswordHash] of type [Byte[]]
                 //Error: Type not implemented [PasswordSalt] of type [Byte[]]
+
+                //Error: Type not implemented [PasswordSalt] of type [Byte[]]
+            if (contactLogin.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginLastUpdateDate_UTC), new[] { ModelsRes.ContactLoginLastUpdateDate_UTC });
+            }
+
+            if (contactLogin.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ContactLoginLastUpdateDate_UTC, "1980"), new[] { ModelsRes.ContactLoginLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (contactLogin.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactLoginLastUpdateContactTVItemID, "1"), new[] { ModelsRes.ContactLoginLastUpdateContactTVItemID });
             }
 
-            if (!string.IsNullOrWhiteSpace(contactLogin.Password) && (contactLogin.Password.Length < 6) || (contactLogin.Password.Length > 100))
+            if (!((from c in db.TVItems where c.TVItemID == contactLogin.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactLoginLastUpdateContactTVItemID, contactLogin.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.ContactLoginLastUpdateContactTVItemID });
+            }
+
+            if (string.IsNullOrWhiteSpace(contactLogin.Password))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginPassword), new[] { ModelsRes.ContactLoginPassword });
+            }
+
+            if (!string.IsNullOrWhiteSpace(contactLogin.Password) && (contactLogin.Password.Length < 6 || contactLogin.Password.Length > 100))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginPassword, "6", "100"), new[] { ModelsRes.ContactLoginPassword });
             }
 
-            if (!string.IsNullOrWhiteSpace(contactLogin.ConfirmPassword) && (contactLogin.ConfirmPassword.Length < 6) || (contactLogin.ConfirmPassword.Length > 100))
+            if (string.IsNullOrWhiteSpace(contactLogin.ConfirmPassword))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginConfirmPassword), new[] { ModelsRes.ContactLoginConfirmPassword });
+            }
+
+            if (!string.IsNullOrWhiteSpace(contactLogin.ConfirmPassword) && (contactLogin.ConfirmPassword.Length < 6 || contactLogin.ConfirmPassword.Length > 100))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginConfirmPassword, "6", "100"), new[] { ModelsRes.ContactLoginConfirmPassword });
             }
 
-            if (!string.IsNullOrWhiteSpace(contactLogin.LoginEmail))
+            retStr = "";
+            if (retStr != "")
             {
-                Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
-                if (!regex.IsMatch(contactLogin.LoginEmail))
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.ContactLoginLoginEmail), new[] { ModelsRes.ContactLoginLoginEmail });
-                }
+                yield return new ValidationResult("AAA", new[] { "AAA" });
             }
-
-                //Error: Type not implemented [PasswordHash] of type [Byte[]]
-                //Error: Type not implemented [PasswordSalt] of type [Byte[]]
 
         }
         #endregion Validation

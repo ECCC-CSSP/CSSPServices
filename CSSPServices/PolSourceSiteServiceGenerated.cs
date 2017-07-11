@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             PolSourceSite polSourceSite = validationContext.ObjectInstance as PolSourceSite;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (polSourceSite.PolSourceSiteID == 0)
@@ -54,24 +50,23 @@ namespace CSSPServices
                 }
             }
 
-            //PolSourceSiteTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //PolSourceSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //IsPointSource (bool) is required but no testing needed 
-
-            if (polSourceSite.LastUpdateDate_UTC == null || polSourceSite.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceSiteLastUpdateDate_UTC), new[] { ModelsRes.PolSourceSiteLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //PolSourceSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (polSourceSite.PolSourceSiteTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceSitePolSourceSiteTVItemID, "1"), new[] { ModelsRes.PolSourceSitePolSourceSiteTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == polSourceSite.PolSourceSiteTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceSitePolSourceSiteTVItemID, polSourceSite.PolSourceSiteTVItemID.ToString()), new[] { ModelsRes.PolSourceSitePolSourceSiteTVItemID });
+            }
+
+            if (string.IsNullOrWhiteSpace(polSourceSite.Temp_Locator_CanDelete))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceSiteTemp_Locator_CanDelete), new[] { ModelsRes.PolSourceSiteTemp_Locator_CanDelete });
             }
 
             if (!string.IsNullOrWhiteSpace(polSourceSite.Temp_Locator_CanDelete) && polSourceSite.Temp_Locator_CanDelete.Length > 50)
@@ -79,20 +74,28 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSiteTemp_Locator_CanDelete, "50"), new[] { ModelsRes.PolSourceSiteTemp_Locator_CanDelete });
             }
 
-            if (polSourceSite.Oldsiteid < 0)
+                //Error: Type not implemented [Oldsiteid] of type [Nullable`1]
+
+            if (polSourceSite.Oldsiteid < 0 || polSourceSite.Oldsiteid > 1000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceSiteOldsiteid, "0"), new[] { ModelsRes.PolSourceSiteOldsiteid });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteOldsiteid, "0", "1000"), new[] { ModelsRes.PolSourceSiteOldsiteid });
             }
 
-            if (polSourceSite.Site < 0)
+                //Error: Type not implemented [Site] of type [Nullable`1]
+
+            if (polSourceSite.Site < 0 || polSourceSite.Site > 1000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceSiteSite, "0"), new[] { ModelsRes.PolSourceSiteSite });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteSite, "0", "1000"), new[] { ModelsRes.PolSourceSiteSite });
             }
 
-            if (polSourceSite.SiteID < 0)
+                //Error: Type not implemented [SiteID] of type [Nullable`1]
+
+            if (polSourceSite.SiteID < 0 || polSourceSite.SiteID > 1000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceSiteSiteID, "0"), new[] { ModelsRes.PolSourceSiteSiteID });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteSiteID, "0", "1000"), new[] { ModelsRes.PolSourceSiteSiteID });
             }
+
+            //IsPointSource (bool) is required but no testing needed 
 
             if (polSourceSite.InactiveReason != null)
             {
@@ -103,16 +106,45 @@ namespace CSSPServices
                 }
             }
 
+                //Error: Type not implemented [CivicAddressTVItemID] of type [Nullable`1]
+
             if (polSourceSite.CivicAddressTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceSiteCivicAddressTVItemID, "1"), new[] { ModelsRes.PolSourceSiteCivicAddressTVItemID });
             }
+
+            if (!((from c in db.TVItems where c.TVItemID == polSourceSite.CivicAddressTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceSiteCivicAddressTVItemID, polSourceSite.CivicAddressTVItemID.ToString()), new[] { ModelsRes.PolSourceSiteCivicAddressTVItemID });
+            }
+
+            if (polSourceSite.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceSiteLastUpdateDate_UTC), new[] { ModelsRes.PolSourceSiteLastUpdateDate_UTC });
+            }
+
+            if (polSourceSite.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.PolSourceSiteLastUpdateDate_UTC, "1980"), new[] { ModelsRes.PolSourceSiteLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (polSourceSite.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceSiteLastUpdateContactTVItemID, "1"), new[] { ModelsRes.PolSourceSiteLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == polSourceSite.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceSiteLastUpdateContactTVItemID, polSourceSite.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.PolSourceSiteLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

@@ -38,120 +38,89 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             VPAmbient vpAmbient = validationContext.ObjectInstance as VPAmbient;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            //VPAmbientID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (actionDBType == ActionDBTypeEnum.Update)
-            {
-                if (vpAmbient.VPAmbientID == 0)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPAmbientVPAmbientID), new[] { ModelsRes.VPAmbientVPAmbientID });
-                }
-            }
+            //VPAmbientID has no Range Attribute
 
-            //VPScenarioID (int) is required but no testing needed as it is automatically set to 0
+            //VPScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Row (int) is required but no testing needed as it is automatically set to 0
+            //VPScenarioID has no Range Attribute
 
-            //MeasurementDepth_m (float) is required but no testing needed as it is automatically set to 0.0f
+            //Row (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //CurrentSpeed_m_s (float) is required but no testing needed as it is automatically set to 0.0f
+            //Row has no Range Attribute
 
-            //CurrentDirection_deg (float) is required but no testing needed as it is automatically set to 0.0f
+            //MeasurementDepth_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //AmbientSalinity_PSU (float) is required but no testing needed as it is automatically set to 0.0f
+            //MeasurementDepth_m has no Range Attribute
 
-            //AmbientTemperature_C (float) is required but no testing needed as it is automatically set to 0.0f
+            //CurrentSpeed_m_s (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //BackgroundConcentration_MPN_100ml (int) is required but no testing needed as it is automatically set to 0
+            //CurrentSpeed_m_s has no Range Attribute
 
-            //PollutantDecayRate_per_day (float) is required but no testing needed as it is automatically set to 0.0f
+            //CurrentDirection_deg (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //FarFieldCurrentSpeed_m_s (float) is required but no testing needed as it is automatically set to 0.0f
+            //CurrentDirection_deg has no Range Attribute
 
-            //FarFieldCurrentDirection_deg (float) is required but no testing needed as it is automatically set to 0.0f
+            //AmbientSalinity_PSU (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //FarFieldDiffusionCoefficient (float) is required but no testing needed as it is automatically set to 0.0f
+            //AmbientSalinity_PSU has no Range Attribute
 
-            if (vpAmbient.LastUpdateDate_UTC == null || vpAmbient.LastUpdateDate_UTC.Year < 1900 )
+            //AmbientTemperature_C (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //AmbientTemperature_C has no Range Attribute
+
+            //BackgroundConcentration_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //BackgroundConcentration_MPN_100ml has no Range Attribute
+
+            //PollutantDecayRate_per_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //PollutantDecayRate_per_day has no Range Attribute
+
+            //FarFieldCurrentSpeed_m_s (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //FarFieldCurrentSpeed_m_s has no Range Attribute
+
+            //FarFieldCurrentDirection_deg (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //FarFieldCurrentDirection_deg has no Range Attribute
+
+            //FarFieldDiffusionCoefficient (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //FarFieldDiffusionCoefficient has no Range Attribute
+
+            if (vpAmbient.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPAmbientLastUpdateDate_UTC), new[] { ModelsRes.VPAmbientLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (vpAmbient.VPScenarioID < 1)
+            if (vpAmbient.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPAmbientVPScenarioID, "1"), new[] { ModelsRes.VPAmbientVPScenarioID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.VPAmbientLastUpdateDate_UTC, "1980"), new[] { ModelsRes.VPAmbientLastUpdateDate_UTC });
             }
 
-            if (vpAmbient.Row < 1 || vpAmbient.Row > 8)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientRow, "1", "8"), new[] { ModelsRes.VPAmbientRow });
-            }
-
-            if (vpAmbient.MeasurementDepth_m < 0 || vpAmbient.MeasurementDepth_m > 1000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientMeasurementDepth_m, "0", "1000"), new[] { ModelsRes.VPAmbientMeasurementDepth_m });
-            }
-
-            if (vpAmbient.CurrentSpeed_m_s < 0 || vpAmbient.CurrentSpeed_m_s > 10)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10"), new[] { ModelsRes.VPAmbientCurrentSpeed_m_s });
-            }
-
-            if (vpAmbient.CurrentDirection_deg < 0 || vpAmbient.CurrentDirection_deg > 360)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentDirection_deg, "0", "360"), new[] { ModelsRes.VPAmbientCurrentDirection_deg });
-            }
-
-            if (vpAmbient.AmbientSalinity_PSU < 0 || vpAmbient.AmbientSalinity_PSU > 40)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40"), new[] { ModelsRes.VPAmbientAmbientSalinity_PSU });
-            }
-
-            if (vpAmbient.AmbientTemperature_C < 0 || vpAmbient.AmbientTemperature_C > 50)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientTemperature_C, "0", "50"), new[] { ModelsRes.VPAmbientAmbientTemperature_C });
-            }
-
-            if (vpAmbient.BackgroundConcentration_MPN_100ml < 0 || vpAmbient.BackgroundConcentration_MPN_100ml > 100000000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientBackgroundConcentration_MPN_100ml, "0", "100000000"), new[] { ModelsRes.VPAmbientBackgroundConcentration_MPN_100ml });
-            }
-
-            if (vpAmbient.PollutantDecayRate_per_day < 0 || vpAmbient.PollutantDecayRate_per_day > 1000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "1000"), new[] { ModelsRes.VPAmbientPollutantDecayRate_per_day });
-            }
-
-            if (vpAmbient.FarFieldCurrentSpeed_m_s < 0 || vpAmbient.FarFieldCurrentSpeed_m_s > 10)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10"), new[] { ModelsRes.VPAmbientFarFieldCurrentSpeed_m_s });
-            }
-
-            if (vpAmbient.FarFieldCurrentDirection_deg < 0 || vpAmbient.FarFieldCurrentDirection_deg > 360)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentDirection_deg, "0", "360"), new[] { ModelsRes.VPAmbientFarFieldCurrentDirection_deg });
-            }
-
-            if (vpAmbient.FarFieldDiffusionCoefficient < 0 || vpAmbient.FarFieldDiffusionCoefficient > 10)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "10"), new[] { ModelsRes.VPAmbientFarFieldDiffusionCoefficient });
-            }
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpAmbient.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPAmbientLastUpdateContactTVItemID, "1"), new[] { ModelsRes.VPAmbientLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == vpAmbient.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPAmbientLastUpdateContactTVItemID, vpAmbient.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.VPAmbientLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

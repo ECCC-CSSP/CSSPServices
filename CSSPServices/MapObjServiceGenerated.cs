@@ -38,28 +38,21 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             MapObj mapObj = validationContext.ObjectInstance as MapObj;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
-            //MapInfoID is required but no testing needed as it is automatically set to 0
-
-            retStr = enums.MapInfoDrawTypeOK(mapObj.MapInfoDrawType);
-            if (mapObj.MapInfoDrawType == MapInfoDrawTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapObjMapInfoDrawType), new[] { ModelsRes.MapObjMapInfoDrawType });
-            }
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //MapInfoID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapObj.MapInfoID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MapObjMapInfoID, "1"), new[] { ModelsRes.MapObjMapInfoID });
             }
 
-            // MapInfoDrawType no min or max length set
+                //Error: Type not implemented [MapInfoDrawType] of type [MapInfoDrawTypeEnum]
+
+                //Error: Type not implemented [MapInfoDrawType] of type [MapInfoDrawTypeEnum]
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

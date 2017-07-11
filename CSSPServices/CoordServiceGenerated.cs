@@ -34,37 +34,36 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             Coord coord = validationContext.ObjectInstance as Coord;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            //Lat (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Lat is required but no testing needed as it is automatically set to 0.0f
-
-            //Lng is required but no testing needed as it is automatically set to 0.0f
-
-            //Ordinal is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (coord.Lat < -180f || coord.Lat > 180f)
+            if (coord.Lat < -180 || coord.Lat > 180)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordLat, "-180f", "180f"), new[] { ModelsRes.CoordLat });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordLat, "-180", "180"), new[] { ModelsRes.CoordLat });
             }
 
-            if (coord.Lng < -90f || coord.Lng > 90f)
+            //Lng (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (coord.Lng < -90 || coord.Lng > 90)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordLng, "-90f", "90f"), new[] { ModelsRes.CoordLng });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordLng, "-90", "90"), new[] { ModelsRes.CoordLng });
             }
+
+            //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (coord.Ordinal < 0 || coord.Ordinal > 10000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordOrdinal, "0", "10000"), new[] { ModelsRes.CoordOrdinal });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

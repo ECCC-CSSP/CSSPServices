@@ -38,22 +38,21 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVTextLanguage tvTextLanguage = validationContext.ObjectInstance as TVTextLanguage;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
-            retStr = enums.LanguageOK(tvTextLanguage.Language);
-            if (tvTextLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            if (string.IsNullOrWhiteSpace(tvTextLanguage.TVText))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTextLanguageLanguage), new[] { ModelsRes.TVTextLanguageLanguage });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTextLanguageTVText), new[] { ModelsRes.TVTextLanguageTVText });
             }
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //TVText has no StringLength Attribute
 
-            // TVText no min or max length set
-            // Language no min or max length set
+                //Error: Type not implemented [Language] of type [LanguageEnum]
+
+                //Error: Type not implemented [Language] of type [LanguageEnum]
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

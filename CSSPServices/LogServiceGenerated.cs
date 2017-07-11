@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             Log log = validationContext.ObjectInstance as Log;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (log.LogID == 0)
@@ -54,12 +50,24 @@ namespace CSSPServices
                 }
             }
 
+            //LogID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (string.IsNullOrWhiteSpace(log.TableName))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LogTableName), new[] { ModelsRes.LogTableName });
             }
 
-            //ID (int) is required but no testing needed as it is automatically set to 0
+            if (!string.IsNullOrWhiteSpace(log.TableName) && log.TableName.Length > 50)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogTableName, "50"), new[] { ModelsRes.LogTableName });
+            }
+
+            //ID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (log.ID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LogID, "1"), new[] { ModelsRes.LogID });
+            }
 
             retStr = enums.LogCommandOK(log.LogCommand);
             if (log.LogCommand == LogCommandEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -72,34 +80,35 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LogInformation), new[] { ModelsRes.LogInformation });
             }
 
-            if (log.LastUpdateDate_UTC == null || log.LastUpdateDate_UTC.Year < 1900 )
+            //Information has no StringLength Attribute
+
+            if (log.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LogLastUpdateDate_UTC), new[] { ModelsRes.LogLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (!string.IsNullOrWhiteSpace(log.TableName) && log.TableName.Length > 50)
+            if (log.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogTableName, "50"), new[] { ModelsRes.LogTableName });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LogLastUpdateDate_UTC, "1980"), new[] { ModelsRes.LogLastUpdateDate_UTC });
             }
 
-            if (log.ID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LogID, "1"), new[] { ModelsRes.LogID });
-            }
-
-            // Information has no validation
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (log.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LogLastUpdateContactTVItemID, "1"), new[] { ModelsRes.LogLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == log.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LogLastUpdateContactTVItemID, log.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.LogLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

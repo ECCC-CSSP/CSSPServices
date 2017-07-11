@@ -100,7 +100,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskParameters), new[] { ModelsRes.AppTaskParameters });
             }
 
-            // Parameters has no validation
+            //Parameters has no StringLength Attribute
 
             retStr = enums.LanguageOK(appTask.Language);
             if (appTask.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -161,6 +161,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskLastUpdateContactTVItemID, appTask.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.AppTaskLastUpdateContactTVItemID });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

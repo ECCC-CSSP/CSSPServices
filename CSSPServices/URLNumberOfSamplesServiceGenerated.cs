@@ -34,27 +34,29 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             URLNumberOfSamples uRLNumberOfSamples = validationContext.ObjectInstance as URLNumberOfSamples;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (string.IsNullOrWhiteSpace(uRLNumberOfSamples.url))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.URLNumberOfSamplesurl), new[] { ModelsRes.URLNumberOfSamplesurl });
             }
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (!string.IsNullOrWhiteSpace(uRLNumberOfSamples.url) && (uRLNumberOfSamples.url.Length < 1) || (uRLNumberOfSamples.url.Length > 255))
+            if (!string.IsNullOrWhiteSpace(uRLNumberOfSamples.url) && (uRLNumberOfSamples.url.Length < 1 || uRLNumberOfSamples.url.Length > 255))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.URLNumberOfSamplesurl, "1", "255"), new[] { ModelsRes.URLNumberOfSamplesurl });
             }
 
-            // NumberOfSamples no min or max length set
+            //NumberOfSamples (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //NumberOfSamples has no Range Attribute
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

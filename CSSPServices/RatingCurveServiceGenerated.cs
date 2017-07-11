@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             RatingCurve ratingCurve = validationContext.ObjectInstance as RatingCurve;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,27 +50,23 @@ namespace CSSPServices
                 }
             }
 
-            //HydrometricSiteID (int) is required but no testing needed as it is automatically set to 0
+            //RatingCurveID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (string.IsNullOrWhiteSpace(ratingCurve.RatingCurveNumber))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveRatingCurveNumber), new[] { ModelsRes.RatingCurveRatingCurveNumber });
-            }
-
-            if (ratingCurve.LastUpdateDate_UTC == null || ratingCurve.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveLastUpdateDate_UTC), new[] { ModelsRes.RatingCurveLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //HydrometricSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (ratingCurve.HydrometricSiteID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.RatingCurveHydrometricSiteID, "1"), new[] { ModelsRes.RatingCurveHydrometricSiteID });
+            }
+
+            if (!((from c in db.HydrometricSites where c.HydrometricSiteID == ratingCurve.HydrometricSiteID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricSite, ModelsRes.RatingCurveHydrometricSiteID, ratingCurve.HydrometricSiteID.ToString()), new[] { ModelsRes.RatingCurveHydrometricSiteID });
+            }
+
+            if (string.IsNullOrWhiteSpace(ratingCurve.RatingCurveNumber))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveRatingCurveNumber), new[] { ModelsRes.RatingCurveRatingCurveNumber });
             }
 
             if (!string.IsNullOrWhiteSpace(ratingCurve.RatingCurveNumber) && ratingCurve.RatingCurveNumber.Length > 50)
@@ -80,11 +74,33 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RatingCurveRatingCurveNumber, "50"), new[] { ModelsRes.RatingCurveRatingCurveNumber });
             }
 
+            if (ratingCurve.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveLastUpdateDate_UTC), new[] { ModelsRes.RatingCurveLastUpdateDate_UTC });
+            }
+
+            if (ratingCurve.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.RatingCurveLastUpdateDate_UTC, "1980"), new[] { ModelsRes.RatingCurveLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (ratingCurve.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.RatingCurveLastUpdateContactTVItemID, "1"), new[] { ModelsRes.RatingCurveLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == ratingCurve.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RatingCurveLastUpdateContactTVItemID, ratingCurve.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.RatingCurveLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

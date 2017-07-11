@@ -34,38 +34,42 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             Node node = validationContext.ObjectInstance as Node;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
-            //ID is required but no testing needed as it is automatically set to 0
-
-            //X is required but no testing needed as it is automatically set to 0.0f
-
-            //Y is required but no testing needed as it is automatically set to 0.0f
-
-            //Z is required but no testing needed as it is automatically set to 0.0f
-
-            //Code is required but no testing needed as it is automatically set to 0
-
-            //Value is required but no testing needed as it is automatically set to 0.0f
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //ID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (node.ID < 1 || node.ID > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.NodeID, "1", "1000000"), new[] { ModelsRes.NodeID });
             }
 
-            // X no min or max length set
-            // Y no min or max length set
-            // Z no min or max length set
-            // Code no min or max length set
-            // Value no min or max length set
+            //X (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //X has no Range Attribute
+
+            //Y (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //Y has no Range Attribute
+
+            //Z (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //Z has no Range Attribute
+
+            //Code (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //Code has no Range Attribute
+
+            //Value (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //Value has no Range Attribute
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             DocTemplate docTemplate = validationContext.ObjectInstance as DocTemplate;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (docTemplate.DocTemplateID == 0)
@@ -53,6 +49,8 @@ namespace CSSPServices
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateDocTemplateID), new[] { ModelsRes.DocTemplateDocTemplateID });
                 }
             }
+
+            //DocTemplateID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             retStr = enums.LanguageOK(docTemplate.Language);
             if (docTemplate.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -66,27 +64,21 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateTVType), new[] { ModelsRes.DocTemplateTVType });
             }
 
-            //TVFileTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            if (string.IsNullOrWhiteSpace(docTemplate.FileName))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateFileName), new[] { ModelsRes.DocTemplateFileName });
-            }
-
-            if (docTemplate.LastUpdateDate_UTC == null || docTemplate.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateLastUpdateDate_UTC), new[] { ModelsRes.DocTemplateLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //TVFileTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (docTemplate.TVFileTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.DocTemplateTVFileTVItemID, "1"), new[] { ModelsRes.DocTemplateTVFileTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == docTemplate.TVFileTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.DocTemplateTVFileTVItemID, docTemplate.TVFileTVItemID.ToString()), new[] { ModelsRes.DocTemplateTVFileTVItemID });
+            }
+
+            if (string.IsNullOrWhiteSpace(docTemplate.FileName))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateFileName), new[] { ModelsRes.DocTemplateFileName });
             }
 
             if (!string.IsNullOrWhiteSpace(docTemplate.FileName) && docTemplate.FileName.Length > 150)
@@ -94,11 +86,33 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateFileName, "150"), new[] { ModelsRes.DocTemplateFileName });
             }
 
+            if (docTemplate.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateLastUpdateDate_UTC), new[] { ModelsRes.DocTemplateLastUpdateDate_UTC });
+            }
+
+            if (docTemplate.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.DocTemplateLastUpdateDate_UTC, "1980"), new[] { ModelsRes.DocTemplateLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (docTemplate.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.DocTemplateLastUpdateContactTVItemID, "1"), new[] { ModelsRes.DocTemplateLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == docTemplate.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.DocTemplateLastUpdateContactTVItemID, docTemplate.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.DocTemplateLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

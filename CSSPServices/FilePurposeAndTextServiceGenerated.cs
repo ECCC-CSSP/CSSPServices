@@ -38,10 +38,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             FilePurposeAndText filePurposeAndText = validationContext.ObjectInstance as FilePurposeAndText;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             retStr = enums.FilePurposeOK(filePurposeAndText.FilePurpose);
             if (filePurposeAndText.FilePurpose == FilePurposeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
@@ -53,16 +49,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FilePurposeAndTextFilePurposeText), new[] { ModelsRes.FilePurposeAndTextFilePurposeText });
             }
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            // FilePurpose no min or max length set
-            if (!string.IsNullOrWhiteSpace(filePurposeAndText.FilePurposeText) && (filePurposeAndText.FilePurposeText.Length < 1) || (filePurposeAndText.FilePurposeText.Length > 200))
+            if (!string.IsNullOrWhiteSpace(filePurposeAndText.FilePurposeText) && (filePurposeAndText.FilePurposeText.Length < 1 || filePurposeAndText.FilePurposeText.Length > 200))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FilePurposeAndTextFilePurposeText, "1", "200"), new[] { ModelsRes.FilePurposeAndTextFilePurposeText });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

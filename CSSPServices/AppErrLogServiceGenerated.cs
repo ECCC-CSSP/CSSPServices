@@ -74,14 +74,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogSource), new[] { ModelsRes.AppErrLogSource });
             }
 
-            // Source has no validation
+            //Source has no StringLength Attribute
 
             if (string.IsNullOrWhiteSpace(appErrLog.Message))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogMessage), new[] { ModelsRes.AppErrLogMessage });
             }
 
-            // Message has no validation
+            //Message has no StringLength Attribute
 
             if (appErrLog.DateTime_UTC == null)
             {
@@ -115,6 +115,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppErrLogLastUpdateContactTVItemID, appErrLog.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.AppErrLogLastUpdateContactTVItemID });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

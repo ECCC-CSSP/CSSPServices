@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             MikeBoundaryCondition mikeBoundaryCondition = validationContext.ObjectInstance as MikeBoundaryCondition;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (mikeBoundaryCondition.MikeBoundaryConditionID == 0)
@@ -54,59 +50,23 @@ namespace CSSPServices
                 }
             }
 
-            //MikeBoundaryConditionTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //MikeBoundaryConditionID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionCode))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionCode), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionCode });
-            }
-
-            if (string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionName))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionName), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionName });
-            }
-
-            //MikeBoundaryConditionLength_m (float) is required but no testing needed as it is automatically set to 0.0f
-
-            if (string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionFormat))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionFormat), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionFormat });
-            }
-
-            retStr = enums.MikeBoundaryConditionLevelOrVelocityOK(mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity);
-            if (mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity == MikeBoundaryConditionLevelOrVelocityEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLevelOrVelocity), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLevelOrVelocity });
-            }
-
-            retStr = enums.WebTideDataSetOK(mikeBoundaryCondition.WebTideDataSet);
-            if (mikeBoundaryCondition.WebTideDataSet == WebTideDataSetEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionWebTideDataSet), new[] { ModelsRes.MikeBoundaryConditionWebTideDataSet });
-            }
-
-            //NumberOfWebTideNodes (int) is required but no testing needed as it is automatically set to 0
-
-            retStr = enums.TVTypeOK(mikeBoundaryCondition.TVType);
-            if (mikeBoundaryCondition.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionTVType), new[] { ModelsRes.MikeBoundaryConditionTVType });
-            }
-
-            if (mikeBoundaryCondition.LastUpdateDate_UTC == null || mikeBoundaryCondition.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionLastUpdateDate_UTC), new[] { ModelsRes.MikeBoundaryConditionLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //MikeBoundaryConditionTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeBoundaryCondition.MikeBoundaryConditionTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVItemID, "1"), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == mikeBoundaryCondition.MikeBoundaryConditionTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVItemID, mikeBoundaryCondition.MikeBoundaryConditionTVItemID.ToString()), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVItemID });
+            }
+
+            if (string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionCode))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionCode), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionCode });
             }
 
             if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionCode) && mikeBoundaryCondition.MikeBoundaryConditionCode.Length > 100)
@@ -114,14 +74,26 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionCode, "100"), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionCode });
             }
 
+            if (string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionName))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionName), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionName });
+            }
+
             if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionName) && mikeBoundaryCondition.MikeBoundaryConditionName.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionName, "100"), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionName });
             }
 
-            if (mikeBoundaryCondition.MikeBoundaryConditionLength_m < 0 || mikeBoundaryCondition.MikeBoundaryConditionLength_m > 1000000)
+            //MikeBoundaryConditionLength_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mikeBoundaryCondition.MikeBoundaryConditionLength_m < 1 || mikeBoundaryCondition.MikeBoundaryConditionLength_m > 100000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLength_m, "0", "1000000"), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLength_m });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLength_m, "1", "100000"), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLength_m });
+            }
+
+            if (string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionFormat))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionFormat), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionFormat });
             }
 
             if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionFormat) && mikeBoundaryCondition.MikeBoundaryConditionFormat.Length > 100)
@@ -129,18 +101,62 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionFormat, "100"), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionFormat });
             }
 
-            if (mikeBoundaryCondition.NumberOfWebTideNodes < 1 || mikeBoundaryCondition.NumberOfWebTideNodes > 100)
+                //Error: Type not implemented [MikeBoundaryConditionLevelOrVelocity] of type [MikeBoundaryConditionLevelOrVelocityEnum]
+
+                //Error: Type not implemented [MikeBoundaryConditionLevelOrVelocity] of type [MikeBoundaryConditionLevelOrVelocityEnum]
+            retStr = enums.WebTideDataSetOK(mikeBoundaryCondition.WebTideDataSet);
+            if (mikeBoundaryCondition.WebTideDataSet == WebTideDataSetEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeBoundaryConditionNumberOfWebTideNodes, "1", "100"), new[] { ModelsRes.MikeBoundaryConditionNumberOfWebTideNodes });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionWebTideDataSet), new[] { ModelsRes.MikeBoundaryConditionWebTideDataSet });
             }
 
-            // WebTideDataFromStartToEndDate has no validation
+            //NumberOfWebTideNodes (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mikeBoundaryCondition.NumberOfWebTideNodes < 0 || mikeBoundaryCondition.NumberOfWebTideNodes > 1000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeBoundaryConditionNumberOfWebTideNodes, "0", "1000"), new[] { ModelsRes.MikeBoundaryConditionNumberOfWebTideNodes });
+            }
+
+            if (string.IsNullOrWhiteSpace(mikeBoundaryCondition.WebTideDataFromStartToEndDate))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionWebTideDataFromStartToEndDate), new[] { ModelsRes.MikeBoundaryConditionWebTideDataFromStartToEndDate });
+            }
+
+            //WebTideDataFromStartToEndDate has no StringLength Attribute
+
+            retStr = enums.TVTypeOK(mikeBoundaryCondition.TVType);
+            if (mikeBoundaryCondition.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionTVType), new[] { ModelsRes.MikeBoundaryConditionTVType });
+            }
+
+            if (mikeBoundaryCondition.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionLastUpdateDate_UTC), new[] { ModelsRes.MikeBoundaryConditionLastUpdateDate_UTC });
+            }
+
+            if (mikeBoundaryCondition.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeBoundaryConditionLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MikeBoundaryConditionLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeBoundaryCondition.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeBoundaryConditionLastUpdateContactTVItemID, "1"), new[] { ModelsRes.MikeBoundaryConditionLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == mikeBoundaryCondition.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeBoundaryConditionLastUpdateContactTVItemID, mikeBoundaryCondition.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.MikeBoundaryConditionLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

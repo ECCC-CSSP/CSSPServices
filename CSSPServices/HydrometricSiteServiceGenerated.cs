@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             HydrometricSite hydrometricSite = validationContext.ObjectInstance as HydrometricSite;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,37 +50,33 @@ namespace CSSPServices
                 }
             }
 
-            //HydrometricSiteTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //HydrometricSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (string.IsNullOrWhiteSpace(hydrometricSite.HydrometricSiteName))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteHydrometricSiteName), new[] { ModelsRes.HydrometricSiteHydrometricSiteName });
-            }
-
-            if (string.IsNullOrWhiteSpace(hydrometricSite.Province))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteProvince), new[] { ModelsRes.HydrometricSiteProvince });
-            }
-
-            if (hydrometricSite.LastUpdateDate_UTC == null || hydrometricSite.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteLastUpdateDate_UTC), new[] { ModelsRes.HydrometricSiteLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //HydrometricSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (hydrometricSite.HydrometricSiteTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.HydrometricSiteHydrometricSiteTVItemID, "1"), new[] { ModelsRes.HydrometricSiteHydrometricSiteTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == hydrometricSite.HydrometricSiteTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.HydrometricSiteHydrometricSiteTVItemID, hydrometricSite.HydrometricSiteTVItemID.ToString()), new[] { ModelsRes.HydrometricSiteHydrometricSiteTVItemID });
+            }
+
+            if (string.IsNullOrWhiteSpace(hydrometricSite.FedSiteNumber))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteFedSiteNumber), new[] { ModelsRes.HydrometricSiteFedSiteNumber });
+            }
+
             if (!string.IsNullOrWhiteSpace(hydrometricSite.FedSiteNumber) && hydrometricSite.FedSiteNumber.Length > 7)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteFedSiteNumber, "7"), new[] { ModelsRes.HydrometricSiteFedSiteNumber });
+            }
+
+            if (string.IsNullOrWhiteSpace(hydrometricSite.QuebecSiteNumber))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteQuebecSiteNumber), new[] { ModelsRes.HydrometricSiteQuebecSiteNumber });
             }
 
             if (!string.IsNullOrWhiteSpace(hydrometricSite.QuebecSiteNumber) && hydrometricSite.QuebecSiteNumber.Length > 7)
@@ -95,6 +89,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteHydrometricSiteName, "200"), new[] { ModelsRes.HydrometricSiteHydrometricSiteName });
             }
 
+            if (string.IsNullOrWhiteSpace(hydrometricSite.Description))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteDescription), new[] { ModelsRes.HydrometricSiteDescription });
+            }
+
             if (!string.IsNullOrWhiteSpace(hydrometricSite.Description) && hydrometricSite.Description.Length > 200)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteDescription, "200"), new[] { ModelsRes.HydrometricSiteDescription });
@@ -105,26 +104,70 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteProvince, "4"), new[] { ModelsRes.HydrometricSiteProvince });
             }
 
+                //Error: Type not implemented [Elevation_m] of type [Nullable`1]
+
             if (hydrometricSite.Elevation_m < 0 || hydrometricSite.Elevation_m > 10000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteElevation_m, "0", "10000"), new[] { ModelsRes.HydrometricSiteElevation_m });
             }
 
-            if (hydrometricSite.TimeOffset_hour < -12 || hydrometricSite.TimeOffset_hour > 12)
+                //Error: Type not implemented [StartDate_Local] of type [Nullable`1]
+
+                //Error: Type not implemented [EndDate_Local] of type [Nullable`1]
+
+                //Error: Type not implemented [TimeOffset_hour] of type [Nullable`1]
+
+            if (hydrometricSite.TimeOffset_hour < -10 || hydrometricSite.TimeOffset_hour > 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteTimeOffset_hour, "-12", "12"), new[] { ModelsRes.HydrometricSiteTimeOffset_hour });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteTimeOffset_hour, "-10", "0"), new[] { ModelsRes.HydrometricSiteTimeOffset_hour });
             }
+
+                //Error: Type not implemented [DrainageArea_km2] of type [Nullable`1]
 
             if (hydrometricSite.DrainageArea_km2 < 0 || hydrometricSite.DrainageArea_km2 > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteDrainageArea_km2, "0", "1000000"), new[] { ModelsRes.HydrometricSiteDrainageArea_km2 });
             }
 
+                //Error: Type not implemented [IsNatural] of type [Nullable`1]
+
+                //Error: Type not implemented [IsActive] of type [Nullable`1]
+
+                //Error: Type not implemented [Sediment] of type [Nullable`1]
+
+                //Error: Type not implemented [RHBN] of type [Nullable`1]
+
+                //Error: Type not implemented [RealTime] of type [Nullable`1]
+
+                //Error: Type not implemented [HasRatingCurve] of type [Nullable`1]
+
+            if (hydrometricSite.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteLastUpdateDate_UTC), new[] { ModelsRes.HydrometricSiteLastUpdateDate_UTC });
+            }
+
+            if (hydrometricSite.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.HydrometricSiteLastUpdateDate_UTC, "1980"), new[] { ModelsRes.HydrometricSiteLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (hydrometricSite.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.HydrometricSiteLastUpdateContactTVItemID, "1"), new[] { ModelsRes.HydrometricSiteLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == hydrometricSite.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.HydrometricSiteLastUpdateContactTVItemID, hydrometricSite.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.HydrometricSiteLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

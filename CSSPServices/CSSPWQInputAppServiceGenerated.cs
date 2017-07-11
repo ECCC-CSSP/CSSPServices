@@ -34,15 +34,18 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             CSSPWQInputApp cSSPWQInputApp = validationContext.ObjectInstance as CSSPWQInputApp;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (string.IsNullOrWhiteSpace(cSSPWQInputApp.AccessCode))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.CSSPWQInputAppAccessCode), new[] { ModelsRes.CSSPWQInputAppAccessCode });
+            }
+
+            if (!string.IsNullOrWhiteSpace(cSSPWQInputApp.AccessCode) && (cSSPWQInputApp.AccessCode.Length < 1 || cSSPWQInputApp.AccessCode.Length > 100))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.CSSPWQInputAppAccessCode, "1", "100"), new[] { ModelsRes.CSSPWQInputAppAccessCode });
             }
 
             if (string.IsNullOrWhiteSpace(cSSPWQInputApp.ActiveYear))
@@ -50,9 +53,24 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.CSSPWQInputAppActiveYear), new[] { ModelsRes.CSSPWQInputAppActiveYear });
             }
 
-            //DailyDuplicatePrecisionCriteria is required but no testing needed as it is automatically set to 0.0f
+            if (!string.IsNullOrWhiteSpace(cSSPWQInputApp.ActiveYear) && (cSSPWQInputApp.ActiveYear.Length < 4 || cSSPWQInputApp.ActiveYear.Length > 4))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.CSSPWQInputAppActiveYear, "4", "4"), new[] { ModelsRes.CSSPWQInputAppActiveYear });
+            }
 
-            //IntertechDuplicatePrecisionCriteria is required but no testing needed as it is automatically set to 0.0f
+            //DailyDuplicatePrecisionCriteria (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (cSSPWQInputApp.DailyDuplicatePrecisionCriteria < 0 || cSSPWQInputApp.DailyDuplicatePrecisionCriteria > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CSSPWQInputAppDailyDuplicatePrecisionCriteria, "0", "100"), new[] { ModelsRes.CSSPWQInputAppDailyDuplicatePrecisionCriteria });
+            }
+
+            //IntertechDuplicatePrecisionCriteria (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (cSSPWQInputApp.IntertechDuplicatePrecisionCriteria < 0 || cSSPWQInputApp.IntertechDuplicatePrecisionCriteria > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CSSPWQInputAppIntertechDuplicatePrecisionCriteria, "0", "100"), new[] { ModelsRes.CSSPWQInputAppIntertechDuplicatePrecisionCriteria });
+            }
 
             //IncludeLaboratoryQAQC (bool) is required but no testing needed 
 
@@ -61,35 +79,21 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.CSSPWQInputAppApprovalCode), new[] { ModelsRes.CSSPWQInputAppApprovalCode });
             }
 
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (!string.IsNullOrWhiteSpace(cSSPWQInputApp.AccessCode) && (cSSPWQInputApp.AccessCode.Length < 1) || (cSSPWQInputApp.AccessCode.Length > 100))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.CSSPWQInputAppAccessCode, "1", "100"), new[] { ModelsRes.CSSPWQInputAppAccessCode });
-            }
-
-            if (!string.IsNullOrWhiteSpace(cSSPWQInputApp.ActiveYear) && (cSSPWQInputApp.ActiveYear.Length < 4) || (cSSPWQInputApp.ActiveYear.Length > 4))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.CSSPWQInputAppActiveYear, "4", "4"), new[] { ModelsRes.CSSPWQInputAppActiveYear });
-            }
-
-            if (cSSPWQInputApp.DailyDuplicatePrecisionCriteria < 0f || cSSPWQInputApp.DailyDuplicatePrecisionCriteria > 100f)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CSSPWQInputAppDailyDuplicatePrecisionCriteria, "0f", "100f"), new[] { ModelsRes.CSSPWQInputAppDailyDuplicatePrecisionCriteria });
-            }
-
-            if (cSSPWQInputApp.IntertechDuplicatePrecisionCriteria < 0f || cSSPWQInputApp.IntertechDuplicatePrecisionCriteria > 100f)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CSSPWQInputAppIntertechDuplicatePrecisionCriteria, "0f", "100f"), new[] { ModelsRes.CSSPWQInputAppIntertechDuplicatePrecisionCriteria });
-            }
-
-            if (!string.IsNullOrWhiteSpace(cSSPWQInputApp.ApprovalCode) && (cSSPWQInputApp.ApprovalCode.Length < 1) || (cSSPWQInputApp.ApprovalCode.Length > 100))
+            if (!string.IsNullOrWhiteSpace(cSSPWQInputApp.ApprovalCode) && (cSSPWQInputApp.ApprovalCode.Length < 1 || cSSPWQInputApp.ApprovalCode.Length > 100))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.CSSPWQInputAppApprovalCode, "1", "100"), new[] { ModelsRes.CSSPWQInputAppApprovalCode });
             }
 
+            if (cSSPWQInputApp.ApprovalDate == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.CSSPWQInputAppApprovalDate), new[] { ModelsRes.CSSPWQInputAppApprovalDate });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

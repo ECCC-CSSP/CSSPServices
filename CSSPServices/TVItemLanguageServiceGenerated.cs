@@ -42,63 +42,54 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItemLanguage tvItemLanguage = validationContext.ObjectInstance as TVItemLanguage;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            //TVItemLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (actionDBType == ActionDBTypeEnum.Update)
-            {
-                if (tvItemLanguage.TVItemLanguageID == 0)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageTVItemLanguageID), new[] { ModelsRes.TVItemLanguageTVItemLanguageID });
-                }
-            }
+            //TVItemLanguageID has no Range Attribute
 
-            //TVItemID (int) is required but no testing needed as it is automatically set to 0
+            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            retStr = enums.LanguageOK(tvItemLanguage.Language);
-            if (tvItemLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageLanguage), new[] { ModelsRes.TVItemLanguageLanguage });
-            }
+            //TVItemID has no Range Attribute
 
+                //Error: Type not implemented [Language] of type [LanguageEnum]
+
+                //Error: Type not implemented [Language] of type [LanguageEnum]
             if (string.IsNullOrWhiteSpace(tvItemLanguage.TVText))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageTVText), new[] { ModelsRes.TVItemLanguageTVText });
             }
 
-            retStr = enums.TranslationStatusOK(tvItemLanguage.TranslationStatus);
-            if (tvItemLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageTranslationStatus), new[] { ModelsRes.TVItemLanguageTranslationStatus });
-            }
+            //TVText has no StringLength Attribute
 
-            if (tvItemLanguage.LastUpdateDate_UTC == null || tvItemLanguage.LastUpdateDate_UTC.Year < 1900 )
+                //Error: Type not implemented [TranslationStatus] of type [TranslationStatusEnum]
+
+                //Error: Type not implemented [TranslationStatus] of type [TranslationStatusEnum]
+            if (tvItemLanguage.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageLastUpdateDate_UTC), new[] { ModelsRes.TVItemLanguageLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (tvItemLanguage.TVItemID < 1)
+            if (tvItemLanguage.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemLanguageTVItemID, "1"), new[] { ModelsRes.TVItemLanguageTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemLanguageLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVItemLanguageLastUpdateDate_UTC });
             }
 
-            if (!string.IsNullOrWhiteSpace(tvItemLanguage.TVText) && tvItemLanguage.TVText.Length < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes.TVItemLanguageTVText, "1"), new[] { ModelsRes.TVItemLanguageTVText });
-            }
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tvItemLanguage.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemLanguageLastUpdateContactTVItemID, "1"), new[] { ModelsRes.TVItemLanguageLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == tvItemLanguage.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLanguageLastUpdateContactTVItemID, tvItemLanguage.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.TVItemLanguageLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

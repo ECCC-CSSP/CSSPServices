@@ -32,7 +32,19 @@ namespace CSSPServices
         #endregion Constructors
 
         #region Validation
-        // no validation for [LabSheetAndA1Sheet]
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
+        {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
+            LabSheetAndA1Sheet labSheetAndA1Sheet = validationContext.ObjectInstance as LabSheetAndA1Sheet;
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
+
+        }
         #endregion Validation
 
     }

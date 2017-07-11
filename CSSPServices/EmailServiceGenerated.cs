@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             Email email = validationContext.ObjectInstance as Email;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (email.EmailID == 0)
@@ -54,11 +50,28 @@ namespace CSSPServices
                 }
             }
 
-            //EmailTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //EmailID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //EmailTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (email.EmailTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.EmailEmailTVItemID, "1"), new[] { ModelsRes.EmailEmailTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == email.EmailTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailEmailTVItemID, email.EmailTVItemID.ToString()), new[] { ModelsRes.EmailEmailTVItemID });
+            }
 
             if (string.IsNullOrWhiteSpace(email.EmailAddress))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailAddress), new[] { ModelsRes.EmailEmailAddress });
+            }
+
+            if (!string.IsNullOrWhiteSpace(email.EmailAddress) && email.EmailAddress.Length > 255)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailAddress, "255"), new[] { ModelsRes.EmailEmailAddress });
             }
 
             retStr = enums.EmailTypeOK(email.EmailType);
@@ -67,41 +80,33 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailType), new[] { ModelsRes.EmailEmailType });
             }
 
-            if (email.LastUpdateDate_UTC == null || email.LastUpdateDate_UTC.Year < 1900 )
+            if (email.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailLastUpdateDate_UTC), new[] { ModelsRes.EmailLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (email.EmailTVItemID < 1)
+            if (email.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.EmailEmailTVItemID, "1"), new[] { ModelsRes.EmailEmailTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.EmailLastUpdateDate_UTC, "1980"), new[] { ModelsRes.EmailLastUpdateDate_UTC });
             }
 
-            if (!string.IsNullOrWhiteSpace(email.EmailAddress) && email.EmailAddress.Length > 255)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailAddress, "255"), new[] { ModelsRes.EmailEmailAddress });
-            }
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (email.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.EmailLastUpdateContactTVItemID, "1"), new[] { ModelsRes.EmailLastUpdateContactTVItemID });
             }
 
-            if (!string.IsNullOrWhiteSpace(email.EmailAddress))
+            if (!((from c in db.TVItems where c.TVItemID == email.LastUpdateContactTVItemID select c).Any()))
             {
-                Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
-                if (!regex.IsMatch(email.EmailAddress))
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.EmailEmailAddress), new[] { ModelsRes.EmailEmailAddress });
-                }
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailLastUpdateContactTVItemID, email.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.EmailLastUpdateContactTVItemID });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

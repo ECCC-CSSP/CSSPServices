@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             MapInfoPoint mapInfoPoint = validationContext.ObjectInstance as MapInfoPoint;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,50 +50,68 @@ namespace CSSPServices
                 }
             }
 
-            //MapInfoID (int) is required but no testing needed as it is automatically set to 0
+            //MapInfoPointID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Ordinal (int) is required but no testing needed as it is automatically set to 0
-
-            //Lat (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //Lng (float) is required but no testing needed as it is automatically set to 0.0f
-
-            if (mapInfoPoint.LastUpdateDate_UTC == null || mapInfoPoint.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoPointLastUpdateDate_UTC), new[] { ModelsRes.MapInfoPointLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //MapInfoID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfoPoint.MapInfoID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MapInfoPointMapInfoID, "1"), new[] { ModelsRes.MapInfoPointMapInfoID });
             }
 
-            if (mapInfoPoint.Ordinal < 0 || mapInfoPoint.Ordinal > 1000000)
+            if (!((from c in db.MapInfos where c.MapInfoID == mapInfoPoint.MapInfoID select c).Any()))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointOrdinal, "0", "1000000"), new[] { ModelsRes.MapInfoPointOrdinal });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MapInfo, ModelsRes.MapInfoPointMapInfoID, mapInfoPoint.MapInfoID.ToString()), new[] { ModelsRes.MapInfoPointMapInfoID });
             }
+
+            //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (mapInfoPoint.Ordinal < 0)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MapInfoPointOrdinal, "0"), new[] { ModelsRes.MapInfoPointOrdinal });
+            }
+
+            //Lat (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfoPoint.Lat < -90 || mapInfoPoint.Lat > 90)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointLat, "-90", "90"), new[] { ModelsRes.MapInfoPointLat });
             }
 
+            //Lng (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (mapInfoPoint.Lng < -180 || mapInfoPoint.Lng > 180)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointLng, "-180", "180"), new[] { ModelsRes.MapInfoPointLng });
             }
+
+            if (mapInfoPoint.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoPointLastUpdateDate_UTC), new[] { ModelsRes.MapInfoPointLastUpdateDate_UTC });
+            }
+
+            if (mapInfoPoint.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MapInfoPointLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MapInfoPointLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfoPoint.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MapInfoPointLastUpdateContactTVItemID, "1"), new[] { ModelsRes.MapInfoPointLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == mapInfoPoint.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoPointLastUpdateContactTVItemID, mapInfoPoint.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.MapInfoPointLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

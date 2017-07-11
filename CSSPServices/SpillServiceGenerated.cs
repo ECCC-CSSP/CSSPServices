@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             Spill spill = validationContext.ObjectInstance as Spill;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,29 +50,18 @@ namespace CSSPServices
                 }
             }
 
-            //MunicipalityTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //SpillID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (spill.StartDateTime_Local == null || spill.StartDateTime_Local.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillStartDateTime_Local), new[] { ModelsRes.SpillStartDateTime_Local });
-            }
-
-            //AverageFlow_m3_day (float) is required but no testing needed as it is automatically set to 0.0f
-
-            if (spill.LastUpdateDate_UTC == null || spill.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLastUpdateDate_UTC), new[] { ModelsRes.SpillLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //MunicipalityTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (spill.MunicipalityTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SpillMunicipalityTVItemID, "1"), new[] { ModelsRes.SpillMunicipalityTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == spill.MunicipalityTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillMunicipalityTVItemID, spill.MunicipalityTVItemID.ToString()), new[] { ModelsRes.SpillMunicipalityTVItemID });
             }
 
             if (spill.InfrastructureTVItemID < 1)
@@ -82,16 +69,57 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SpillInfrastructureTVItemID, "1"), new[] { ModelsRes.SpillInfrastructureTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == spill.InfrastructureTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillInfrastructureTVItemID, spill.InfrastructureTVItemID.ToString()), new[] { ModelsRes.SpillInfrastructureTVItemID });
+            }
+
+            if (spill.StartDateTime_Local == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillStartDateTime_Local), new[] { ModelsRes.SpillStartDateTime_Local });
+            }
+
+            if (spill.StartDateTime_Local.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SpillStartDateTime_Local, "1980"), new[] { ModelsRes.SpillStartDateTime_Local });
+            }
+
+                //Error: Type not implemented [EndDateTime_Local] of type [Nullable`1]
+
+            //AverageFlow_m3_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (spill.AverageFlow_m3_day < 0 || spill.AverageFlow_m3_day > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SpillAverageFlow_m3_day, "0", "1000000"), new[] { ModelsRes.SpillAverageFlow_m3_day });
             }
+
+            if (spill.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLastUpdateDate_UTC), new[] { ModelsRes.SpillLastUpdateDate_UTC });
+            }
+
+            if (spill.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SpillLastUpdateDate_UTC, "1980"), new[] { ModelsRes.SpillLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (spill.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SpillLastUpdateContactTVItemID, "1"), new[] { ModelsRes.SpillLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == spill.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillLastUpdateContactTVItemID, spill.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.SpillLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

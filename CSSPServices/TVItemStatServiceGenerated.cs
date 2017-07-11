@@ -42,54 +42,48 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItemStat tvItemStat = validationContext.ObjectInstance as TVItemStat;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            //TVItemStatID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (actionDBType == ActionDBTypeEnum.Update)
-            {
-                if (tvItemStat.TVItemStatID == 0)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemStatTVItemStatID), new[] { ModelsRes.TVItemStatTVItemStatID });
-                }
-            }
+            //TVItemStatID has no Range Attribute
 
-            //TVItemID (int) is required but no testing needed as it is automatically set to 0
+            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            retStr = enums.TVTypeOK(tvItemStat.TVType);
-            if (tvItemStat.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemStatTVType), new[] { ModelsRes.TVItemStatTVType });
-            }
+            //TVItemID has no Range Attribute
 
-            //ChildCount (int) is required but no testing needed as it is automatically set to 0
+                //Error: Type not implemented [TVType] of type [TVTypeEnum]
 
-            if (tvItemStat.LastUpdateDate_UTC == null || tvItemStat.LastUpdateDate_UTC.Year < 1900 )
+                //Error: Type not implemented [TVType] of type [TVTypeEnum]
+            //ChildCount (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //ChildCount has no Range Attribute
+
+            if (tvItemStat.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemStatLastUpdateDate_UTC), new[] { ModelsRes.TVItemStatLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (tvItemStat.TVItemID < 1)
+            if (tvItemStat.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemStatTVItemID, "1"), new[] { ModelsRes.TVItemStatTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemStatLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVItemStatLastUpdateDate_UTC });
             }
 
-            if (tvItemStat.ChildCount < 0 || tvItemStat.ChildCount > 100000000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVItemStatChildCount, "0", "100000000"), new[] { ModelsRes.TVItemStatChildCount });
-            }
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tvItemStat.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemStatLastUpdateContactTVItemID, "1"), new[] { ModelsRes.TVItemStatLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == tvItemStat.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemStatLastUpdateContactTVItemID, tvItemStat.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.TVItemStatLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

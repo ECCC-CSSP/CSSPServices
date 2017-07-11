@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             BoxModel boxModel = validationContext.ObjectInstance as BoxModel;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,99 +50,117 @@ namespace CSSPServices
                 }
             }
 
-            //InfrastructureTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //BoxModelID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Flow_m3_day (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //Depth_m (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //Temperature_C (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //Dilution (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //DecayRate_per_day (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //FCUntreated_MPN_100ml (int) is required but no testing needed as it is automatically set to 0
-
-            //FCPreDisinfection_MPN_100ml (int) is required but no testing needed as it is automatically set to 0
-
-            //Concentration_MPN_100ml (int) is required but no testing needed as it is automatically set to 0
-
-            //T90_hour (float) is required but no testing needed as it is automatically set to 0.0f
-
-            //FlowDuration_hour (float) is required but no testing needed as it is automatically set to 0.0f
-
-            if (boxModel.LastUpdateDate_UTC == null || boxModel.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLastUpdateDate_UTC), new[] { ModelsRes.BoxModelLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //InfrastructureTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModel.InfrastructureTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelInfrastructureTVItemID, "1"), new[] { ModelsRes.BoxModelInfrastructureTVItemID });
             }
 
-            if (boxModel.Flow_m3_day < 0 || boxModel.Flow_m3_day > 1000000)
+            if (!((from c in db.TVItems where c.TVItemID == boxModel.InfrastructureTVItemID select c).Any()))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlow_m3_day, "0", "1000000"), new[] { ModelsRes.BoxModelFlow_m3_day });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelInfrastructureTVItemID, boxModel.InfrastructureTVItemID.ToString()), new[] { ModelsRes.BoxModelInfrastructureTVItemID });
             }
+
+            //Flow_m3_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (boxModel.Flow_m3_day < 0 || boxModel.Flow_m3_day > 10000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlow_m3_day, "0", "10000"), new[] { ModelsRes.BoxModelFlow_m3_day });
+            }
+
+            //Depth_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModel.Depth_m < 0 || boxModel.Depth_m > 1000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDepth_m, "0", "1000"), new[] { ModelsRes.BoxModelDepth_m });
             }
 
-            if (boxModel.Temperature_C < 0 || boxModel.Temperature_C > 50)
+            //Temperature_C (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (boxModel.Temperature_C < -15 || boxModel.Temperature_C > 40)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelTemperature_C, "0", "50"), new[] { ModelsRes.BoxModelTemperature_C });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelTemperature_C, "-15", "40"), new[] { ModelsRes.BoxModelTemperature_C });
             }
 
-            if (boxModel.Dilution < 0 || boxModel.Dilution > 1000000)
+            //Dilution (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (boxModel.Dilution < 0 || boxModel.Dilution > 1E+07)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDilution, "0", "1000000"), new[] { ModelsRes.BoxModelDilution });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDilution, "0", "1E+07"), new[] { ModelsRes.BoxModelDilution });
             }
 
-            if (boxModel.DecayRate_per_day < 0 || boxModel.DecayRate_per_day > 1000)
+            //DecayRate_per_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (boxModel.DecayRate_per_day < 0 || boxModel.DecayRate_per_day > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDecayRate_per_day, "0", "1000"), new[] { ModelsRes.BoxModelDecayRate_per_day });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDecayRate_per_day, "0", "100"), new[] { ModelsRes.BoxModelDecayRate_per_day });
             }
 
-            if (boxModel.FCUntreated_MPN_100ml < 0 || boxModel.FCUntreated_MPN_100ml > 20000000)
+            //FCUntreated_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (boxModel.FCUntreated_MPN_100ml < 0 || boxModel.FCUntreated_MPN_100ml > 10000000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCUntreated_MPN_100ml, "0", "20000000"), new[] { ModelsRes.BoxModelFCUntreated_MPN_100ml });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCUntreated_MPN_100ml, "0", "10000000"), new[] { ModelsRes.BoxModelFCUntreated_MPN_100ml });
             }
 
-            if (boxModel.FCPreDisinfection_MPN_100ml < 0 || boxModel.FCPreDisinfection_MPN_100ml > 20000000)
+            //FCPreDisinfection_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (boxModel.FCPreDisinfection_MPN_100ml < 0 || boxModel.FCPreDisinfection_MPN_100ml > 10000000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCPreDisinfection_MPN_100ml, "0", "20000000"), new[] { ModelsRes.BoxModelFCPreDisinfection_MPN_100ml });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCPreDisinfection_MPN_100ml, "0", "10000000"), new[] { ModelsRes.BoxModelFCPreDisinfection_MPN_100ml });
             }
 
-            if (boxModel.Concentration_MPN_100ml < 0 || boxModel.Concentration_MPN_100ml > 20000000)
+            //Concentration_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (boxModel.Concentration_MPN_100ml < 0 || boxModel.Concentration_MPN_100ml > 10000000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelConcentration_MPN_100ml, "0", "20000000"), new[] { ModelsRes.BoxModelConcentration_MPN_100ml });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelConcentration_MPN_100ml, "0", "10000000"), new[] { ModelsRes.BoxModelConcentration_MPN_100ml });
             }
 
-            if (boxModel.T90_hour < 0 || boxModel.T90_hour > 10000)
+            //T90_hour (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (boxModel.T90_hour < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelT90_hour, "0", "10000"), new[] { ModelsRes.BoxModelT90_hour });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelT90_hour, "0"), new[] { ModelsRes.BoxModelT90_hour });
             }
 
-            if (boxModel.FlowDuration_hour < 0 || boxModel.FlowDuration_hour > 10000)
+            //FlowDuration_hour (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (boxModel.FlowDuration_hour < 0 || boxModel.FlowDuration_hour > 24)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlowDuration_hour, "0", "10000"), new[] { ModelsRes.BoxModelFlowDuration_hour });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlowDuration_hour, "0", "24"), new[] { ModelsRes.BoxModelFlowDuration_hour });
             }
+
+            if (boxModel.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLastUpdateDate_UTC), new[] { ModelsRes.BoxModelLastUpdateDate_UTC });
+            }
+
+            if (boxModel.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.BoxModelLastUpdateDate_UTC, "1980"), new[] { ModelsRes.BoxModelLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModel.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelLastUpdateContactTVItemID, "1"), new[] { ModelsRes.BoxModelLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == boxModel.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelLastUpdateContactTVItemID, boxModel.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.BoxModelLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

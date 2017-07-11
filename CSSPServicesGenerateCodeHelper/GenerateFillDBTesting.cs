@@ -97,12 +97,14 @@ namespace CSSPServicesGenerateCodeHelper
                 Application.DoEvents();
 
                 if (type.Name.StartsWith("<")
-                                   || type.Name.StartsWith("ModelsRes")
-                                   || type.Name.StartsWith("Application")
-                                   || type.Name.StartsWith("CSSPWebToolsDBContext")
-                                   || type.Name.StartsWith("CSSPDateAfterYear")
-                                   || type.Name.StartsWith("CSSPObjectExist")
-                                   || type.Name.StartsWith("CSSPTypeExist"))
+                                    || type.Name.StartsWith("ModelsRes")
+                                    || type.Name.StartsWith("Application")
+                                    || type.Name.StartsWith("CSSPAfter")
+                                    || type.Name.StartsWith("CSSPAllowNull")
+                                    || type.Name.StartsWith("CSSPBigger")
+                                    || type.Name.StartsWith("CSSPEnumType")
+                                    || type.Name.StartsWith("CSSPExist")
+                                    || type.Name.StartsWith("CSSPWebToolsDBContext"))
                 {
                     continue;
                 }

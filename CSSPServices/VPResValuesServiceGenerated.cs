@@ -34,38 +34,42 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             VPResValues vpResValues = validationContext.ObjectInstance as VPResValues;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
-            //Conc is required but no testing needed as it is automatically set to 0
-
-            //Dilu is required but no testing needed as it is automatically set to 0.0f
-
-            //FarfieldWidth is required but no testing needed as it is automatically set to 0.0f
-
-            //Distance is required but no testing needed as it is automatically set to 0.0f
-
-            //TheTime is required but no testing needed as it is automatically set to 0.0f
-
-            //Decay is required but no testing needed as it is automatically set to 0.0f
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //Conc (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpResValues.Conc < 0)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPResValuesConc, "0"), new[] { ModelsRes.VPResValuesConc });
             }
 
-            // Dilu no min or max length set
-            // FarfieldWidth no min or max length set
-            // Distance no min or max length set
-            // TheTime no min or max length set
-            // Decay no min or max length set
+            //Dilu (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //Dilu has no Range Attribute
+
+            //FarfieldWidth (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //FarfieldWidth has no Range Attribute
+
+            //Distance (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //Distance has no Range Attribute
+
+            //TheTime (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //TheTime has no Range Attribute
+
+            //Decay (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //Decay has no Range Attribute
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

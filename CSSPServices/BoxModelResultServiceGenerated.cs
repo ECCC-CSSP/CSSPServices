@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             BoxModelResult boxModelResult = validationContext.ObjectInstance as BoxModelResult;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (boxModelResult.BoxModelResultID == 0)
@@ -54,7 +50,19 @@ namespace CSSPServices
                 }
             }
 
-            //BoxModelID (int) is required but no testing needed as it is automatically set to 0
+            //BoxModelResultID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //BoxModelID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (boxModelResult.BoxModelID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultBoxModelID, "1"), new[] { ModelsRes.BoxModelResultBoxModelID });
+            }
+
+            if (!((from c in db.BoxModels where c.BoxModelID == boxModelResult.BoxModelID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModel, ModelsRes.BoxModelResultBoxModelID, boxModelResult.BoxModelID.ToString()), new[] { ModelsRes.BoxModelResultBoxModelID });
+            }
 
             retStr = enums.BoxModelResultTypeOK(boxModelResult.BoxModelResultType);
             if (boxModelResult.BoxModelResultType == BoxModelResultTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -62,108 +70,81 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelResultBoxModelResultType), new[] { ModelsRes.BoxModelResultBoxModelResultType });
             }
 
-            //Volume_m3 (float) is required but no testing needed as it is automatically set to 0.0f
+            //Volume_m3 (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Surface_m2 (float) is required but no testing needed as it is automatically set to 0.0f
+            //Volume_m3 has no Range Attribute
 
-            //Radius_m (float) is required but no testing needed as it is automatically set to 0.0f
+            //Surface_m2 (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //LeftSideDiameterLineAngle_deg (float) is required but no testing needed as it is automatically set to 0.0f
+            //Surface_m2 has no Range Attribute
 
-            //CircleCenterLatitude (float) is required but no testing needed as it is automatically set to 0.0f
+            //Radius_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //CircleCenterLongitude (float) is required but no testing needed as it is automatically set to 0.0f
+            //Radius_m has no Range Attribute
+
+            //LeftSideDiameterLineAngle_deg (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //LeftSideDiameterLineAngle_deg has no Range Attribute
+
+            //CircleCenterLatitude (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //CircleCenterLatitude has no Range Attribute
+
+            //CircleCenterLongitude (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //CircleCenterLongitude has no Range Attribute
 
             //FixLength (bool) is required but no testing needed 
 
             //FixWidth (bool) is required but no testing needed 
 
-            //RectLength_m (float) is required but no testing needed as it is automatically set to 0.0f
+            //RectLength_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //RectWidth_m (float) is required but no testing needed as it is automatically set to 0.0f
+            //RectLength_m has no Range Attribute
 
-            //LeftSideLineAngle_deg (float) is required but no testing needed as it is automatically set to 0.0f
+            //RectWidth_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //LeftSideLineStartLatitude (float) is required but no testing needed as it is automatically set to 0.0f
+            //RectWidth_m has no Range Attribute
 
-            //LeftSideLineStartLongitude (float) is required but no testing needed as it is automatically set to 0.0f
+            //LeftSideLineAngle_deg (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (boxModelResult.LastUpdateDate_UTC == null || boxModelResult.LastUpdateDate_UTC.Year < 1900 )
+            //LeftSideLineAngle_deg has no Range Attribute
+
+            //LeftSideLineStartLatitude (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //LeftSideLineStartLatitude has no Range Attribute
+
+            //LeftSideLineStartLongitude (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //LeftSideLineStartLongitude has no Range Attribute
+
+            if (boxModelResult.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelResultLastUpdateDate_UTC), new[] { ModelsRes.BoxModelResultLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (boxModelResult.BoxModelID < 1)
+            if (boxModelResult.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultBoxModelID, "1"), new[] { ModelsRes.BoxModelResultBoxModelID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.BoxModelResultLastUpdateDate_UTC, "1980"), new[] { ModelsRes.BoxModelResultLastUpdateDate_UTC });
             }
 
-            if (boxModelResult.Volume_m3 < 0 || boxModelResult.Volume_m3 > 900000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultVolume_m3, "0", "900000"), new[] { ModelsRes.BoxModelResultVolume_m3 });
-            }
-
-            if (boxModelResult.Surface_m2 < 0 || boxModelResult.Surface_m2 > 900000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultSurface_m2, "0", "900000"), new[] { ModelsRes.BoxModelResultSurface_m2 });
-            }
-
-            if (boxModelResult.Radius_m < 0 || boxModelResult.Radius_m > 100000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRadius_m, "0", "100000"), new[] { ModelsRes.BoxModelResultRadius_m });
-            }
-
-            if (boxModelResult.LeftSideDiameterLineAngle_deg < 0 || boxModelResult.LeftSideDiameterLineAngle_deg > 360)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), new[] { ModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg });
-            }
-
-            if (boxModelResult.CircleCenterLatitude < -90 || boxModelResult.CircleCenterLatitude > 90)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), new[] { ModelsRes.BoxModelResultCircleCenterLatitude });
-            }
-
-            if (boxModelResult.CircleCenterLongitude < -180 || boxModelResult.CircleCenterLongitude > 180)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180"), new[] { ModelsRes.BoxModelResultCircleCenterLongitude });
-            }
-
-            if (boxModelResult.RectLength_m < 0 || boxModelResult.RectLength_m > 100000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectLength_m, "0", "100000"), new[] { ModelsRes.BoxModelResultRectLength_m });
-            }
-
-            if (boxModelResult.RectWidth_m < 0 || boxModelResult.RectWidth_m > 100000)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectWidth_m, "0", "100000"), new[] { ModelsRes.BoxModelResultRectWidth_m });
-            }
-
-            if (boxModelResult.LeftSideLineAngle_deg < 0 || boxModelResult.LeftSideLineAngle_deg > 360)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), new[] { ModelsRes.BoxModelResultLeftSideLineAngle_deg });
-            }
-
-            if (boxModelResult.LeftSideLineStartLatitude < -90 || boxModelResult.LeftSideLineStartLatitude > 90)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), new[] { ModelsRes.BoxModelResultLeftSideLineStartLatitude });
-            }
-
-            if (boxModelResult.LeftSideLineStartLongitude < -180 || boxModelResult.LeftSideLineStartLongitude > 180)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), new[] { ModelsRes.BoxModelResultLeftSideLineStartLongitude });
-            }
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelResult.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultLastUpdateContactTVItemID, "1"), new[] { ModelsRes.BoxModelResultLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == boxModelResult.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelResultLastUpdateContactTVItemID, boxModelResult.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.BoxModelResultLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

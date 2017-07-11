@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             Contact contact = validationContext.ObjectInstance as Contact;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (contact.ContactID == 0)
@@ -54,11 +50,28 @@ namespace CSSPServices
                 }
             }
 
-            //ContactTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //ContactID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (contact.ContactTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactContactTVItemID, "1"), new[] { ModelsRes.ContactContactTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == contact.ContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactContactTVItemID, contact.ContactTVItemID.ToString()), new[] { ModelsRes.ContactContactTVItemID });
+            }
 
             if (string.IsNullOrWhiteSpace(contact.LoginEmail))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail), new[] { ModelsRes.ContactLoginEmail });
+            }
+
+            if (!string.IsNullOrWhiteSpace(contact.LoginEmail) && (contact.LoginEmail.Length < 6 || contact.LoginEmail.Length > 255))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginEmail, "6", "255"), new[] { ModelsRes.ContactLoginEmail });
             }
 
             if (string.IsNullOrWhiteSpace(contact.FirstName))
@@ -66,56 +79,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactFirstName), new[] { ModelsRes.ContactFirstName });
             }
 
-            if (string.IsNullOrWhiteSpace(contact.LastName))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLastName), new[] { ModelsRes.ContactLastName });
-            }
-
-            if (string.IsNullOrWhiteSpace(contact.WebName))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactWebName), new[] { ModelsRes.ContactWebName });
-            }
-
-            //IsAdmin (bool) is required but no testing needed 
-
-            //EmailValidated (bool) is required but no testing needed 
-
-            //Disabled (bool) is required but no testing needed 
-
-            //IsNew (bool) is required but no testing needed 
-
-            if (contact.LastUpdateDate_UTC == null || contact.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLastUpdateDate_UTC), new[] { ModelsRes.ContactLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            if (addContactType == AddContactType.LoggedIn)
-            {
-                if (contact.ParentTVItemID == 0)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactParentTVItemID), new[] { ModelsRes.ContactParentTVItemID });
-                }
-            }
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (contact.ContactTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactContactTVItemID, "1"), new[] { ModelsRes.ContactContactTVItemID });
-            }
-
-            if (!string.IsNullOrWhiteSpace(contact.LoginEmail) && contact.LoginEmail.Length > 255)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginEmail, "255"), new[] { ModelsRes.ContactLoginEmail });
-            }
-
             if (!string.IsNullOrWhiteSpace(contact.FirstName) && contact.FirstName.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactFirstName, "100"), new[] { ModelsRes.ContactFirstName });
+            }
+
+            if (string.IsNullOrWhiteSpace(contact.LastName))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLastName), new[] { ModelsRes.ContactLastName });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.LastName) && contact.LastName.Length > 100)
@@ -126,6 +97,11 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(contact.Initial) && contact.Initial.Length > 50)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactInitial, "50"), new[] { ModelsRes.ContactInitial });
+            }
+
+            if (string.IsNullOrWhiteSpace(contact.WebName))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactWebName), new[] { ModelsRes.ContactWebName });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.WebName) && contact.WebName.Length > 100)
@@ -142,33 +118,50 @@ namespace CSSPServices
                 }
             }
 
-            if (!string.IsNullOrWhiteSpace(contact.SamplingPlanner_ProvincesTVItemID) && contact.SamplingPlanner_ProvincesTVItemID.Length > 200)
+            //IsAdmin (bool) is required but no testing needed 
+
+            //EmailValidated (bool) is required but no testing needed 
+
+            //Disabled (bool) is required but no testing needed 
+
+            //IsNew (bool) is required but no testing needed 
+
+            //SamplingPlanner_ProvincesTVItemID has no StringLength Attribute
+
+            if (contact.LastUpdateDate_UTC == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactSamplingPlanner_ProvincesTVItemID, "200"), new[] { ModelsRes.ContactSamplingPlanner_ProvincesTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLastUpdateDate_UTC), new[] { ModelsRes.ContactLastUpdateDate_UTC });
             }
+
+            if (contact.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ContactLastUpdateDate_UTC, "1980"), new[] { ModelsRes.ContactLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contact.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactLastUpdateContactTVItemID, "1"), new[] { ModelsRes.ContactLastUpdateContactTVItemID });
             }
 
-            if (addContactType == AddContactType.LoggedIn)
+            if (!((from c in db.TVItems where c.TVItemID == contact.LastUpdateContactTVItemID select c).Any()))
             {
-                if (contact.ParentTVItemID < 1)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactParentTVItemID, "1"), new[] { ModelsRes.ContactParentTVItemID });
-                }
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactLastUpdateContactTVItemID, contact.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.ContactLastUpdateContactTVItemID });
             }
 
-            if (!string.IsNullOrWhiteSpace(contact.LoginEmail))
+            //ParentTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (contact.ParentTVItemID < 1)
             {
-                Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
-                if (!regex.IsMatch(contact.LoginEmail))
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.ContactLoginEmail), new[] { ModelsRes.ContactLoginEmail });
-                }
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactParentTVItemID, "1"), new[] { ModelsRes.ContactParentTVItemID });
             }
 
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

@@ -42,10 +42,6 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             ClimateDataValue climateDataValue = validationContext.ObjectInstance as ClimateDataValue;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (climateDataValue.ClimateDataValueID == 0)
@@ -54,11 +50,28 @@ namespace CSSPServices
                 }
             }
 
-            //ClimateSiteID (int) is required but no testing needed as it is automatically set to 0
+            //ClimateDataValueID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (climateDataValue.DateTime_Local == null || climateDataValue.DateTime_Local.Year < 1900 )
+            //ClimateSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (climateDataValue.ClimateSiteID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ClimateDataValueClimateSiteID, "1"), new[] { ModelsRes.ClimateDataValueClimateSiteID });
+            }
+
+            if (!((from c in db.ClimateSites where c.ClimateSiteID == climateDataValue.ClimateSiteID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ClimateSite, ModelsRes.ClimateDataValueClimateSiteID, climateDataValue.ClimateSiteID.ToString()), new[] { ModelsRes.ClimateDataValueClimateSiteID });
+            }
+
+            if (climateDataValue.DateTime_Local == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueDateTime_Local), new[] { ModelsRes.ClimateDataValueDateTime_Local });
+            }
+
+            if (climateDataValue.DateTime_Local.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ClimateDataValueDateTime_Local, "1980"), new[] { ModelsRes.ClimateDataValueDateTime_Local });
             }
 
             //Keep (bool) is required but no testing needed 
@@ -69,51 +82,84 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueStorageDataType), new[] { ModelsRes.ClimateDataValueStorageDataType });
             }
 
-            if (climateDataValue.LastUpdateDate_UTC == null || climateDataValue.LastUpdateDate_UTC.Year < 1900 )
+                //Error: Type not implemented [Snow_cm] of type [Nullable`1]
+
+            //Snow_cm has no Range Attribute
+
+                //Error: Type not implemented [Rainfall_mm] of type [Nullable`1]
+
+            //Rainfall_mm has no Range Attribute
+
+                //Error: Type not implemented [RainfallEntered_mm] of type [Nullable`1]
+
+            //RainfallEntered_mm has no Range Attribute
+
+                //Error: Type not implemented [TotalPrecip_mm_cm] of type [Nullable`1]
+
+            //TotalPrecip_mm_cm has no Range Attribute
+
+                //Error: Type not implemented [MaxTemp_C] of type [Nullable`1]
+
+            //MaxTemp_C has no Range Attribute
+
+                //Error: Type not implemented [MinTemp_C] of type [Nullable`1]
+
+            //MinTemp_C has no Range Attribute
+
+                //Error: Type not implemented [HeatDegDays_C] of type [Nullable`1]
+
+            //HeatDegDays_C has no Range Attribute
+
+                //Error: Type not implemented [CoolDegDays_C] of type [Nullable`1]
+
+            //CoolDegDays_C has no Range Attribute
+
+                //Error: Type not implemented [SnowOnGround_cm] of type [Nullable`1]
+
+            //SnowOnGround_cm has no Range Attribute
+
+                //Error: Type not implemented [DirMaxGust_0North] of type [Nullable`1]
+
+            //DirMaxGust_0North has no Range Attribute
+
+                //Error: Type not implemented [SpdMaxGust_kmh] of type [Nullable`1]
+
+            //SpdMaxGust_kmh has no Range Attribute
+
+            if (string.IsNullOrWhiteSpace(climateDataValue.HourlyValues))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueHourlyValues), new[] { ModelsRes.ClimateDataValueHourlyValues });
+            }
+
+            //HourlyValues has no StringLength Attribute
+
+            if (climateDataValue.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueLastUpdateDate_UTC), new[] { ModelsRes.ClimateDataValueLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (climateDataValue.ClimateSiteID < 1)
+            if (climateDataValue.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ClimateDataValueClimateSiteID, "1"), new[] { ModelsRes.ClimateDataValueClimateSiteID });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ClimateDataValueLastUpdateDate_UTC, "1980"), new[] { ModelsRes.ClimateDataValueLastUpdateDate_UTC });
             }
 
-                //Error: Type not implemented [Snow_cm] of type [double]
-                //Error: Type not implemented [Rainfall_mm] of type [double]
-                //Error: Type not implemented [RainfallEntered_mm] of type [double]
-                //Error: Type not implemented [TotalPrecip_mm_cm] of type [double]
-                //Error: Type not implemented [MaxTemp_C] of type [double]
-                //Error: Type not implemented [MinTemp_C] of type [double]
-                //Error: Type not implemented [HeatDegDays_C] of type [double]
-                //Error: Type not implemented [CoolDegDays_C] of type [double]
-                //Error: Type not implemented [SnowOnGround_cm] of type [double]
-                //Error: Type not implemented [DirMaxGust_0North] of type [double]
-                //Error: Type not implemented [SpdMaxGust_kmh] of type [double]
-            // HourlyValues has no validation
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (climateDataValue.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ClimateDataValueLastUpdateContactTVItemID, "1"), new[] { ModelsRes.ClimateDataValueLastUpdateContactTVItemID });
             }
 
-                //Error: Type not implemented [Snow_cm] of type [double]
-                //Error: Type not implemented [Rainfall_mm] of type [double]
-                //Error: Type not implemented [RainfallEntered_mm] of type [double]
-                //Error: Type not implemented [TotalPrecip_mm_cm] of type [double]
-                //Error: Type not implemented [MaxTemp_C] of type [double]
-                //Error: Type not implemented [MinTemp_C] of type [double]
-                //Error: Type not implemented [HeatDegDays_C] of type [double]
-                //Error: Type not implemented [CoolDegDays_C] of type [double]
-                //Error: Type not implemented [SnowOnGround_cm] of type [double]
-                //Error: Type not implemented [DirMaxGust_0North] of type [double]
-                //Error: Type not implemented [SpdMaxGust_kmh] of type [double]
+            if (!((from c in db.TVItems where c.TVItemID == climateDataValue.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ClimateDataValueLastUpdateContactTVItemID, climateDataValue.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.ClimateDataValueLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

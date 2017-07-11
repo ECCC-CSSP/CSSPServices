@@ -38,31 +38,24 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             DataPathOfTide dataPathOfTide = validationContext.ObjectInstance as DataPathOfTide;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
-
             if (string.IsNullOrWhiteSpace(dataPathOfTide.Text))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DataPathOfTideText), new[] { ModelsRes.DataPathOfTideText });
             }
 
-            retStr = enums.WebTideDataSetOK(dataPathOfTide.WebTideDataSet);
-            if (dataPathOfTide.WebTideDataSet == WebTideDataSetEnum.Error || !string.IsNullOrWhiteSpace(retStr))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DataPathOfTideWebTideDataSet), new[] { ModelsRes.DataPathOfTideWebTideDataSet });
-            }
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (!string.IsNullOrWhiteSpace(dataPathOfTide.Text) && (dataPathOfTide.Text.Length < 1) || (dataPathOfTide.Text.Length > 200))
+            if (!string.IsNullOrWhiteSpace(dataPathOfTide.Text) && (dataPathOfTide.Text.Length < 1 || dataPathOfTide.Text.Length > 200))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.DataPathOfTideText, "1", "200"), new[] { ModelsRes.DataPathOfTideText });
             }
 
-            // WebTideDataSet no min or max length set
+                //Error: Type not implemented [WebTideDataSet] of type [WebTideDataSetEnum]
+
+                //Error: Type not implemented [WebTideDataSet] of type [WebTideDataSetEnum]
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

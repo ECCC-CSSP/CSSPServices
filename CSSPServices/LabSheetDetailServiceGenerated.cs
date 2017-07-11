@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             LabSheetDetail labSheetDetail = validationContext.ObjectInstance as LabSheetDetail;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,15 +50,52 @@ namespace CSSPServices
                 }
             }
 
-            //LabSheetID (int) is required but no testing needed as it is automatically set to 0
+            //LabSheetDetailID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //SamplingPlanID (int) is required but no testing needed as it is automatically set to 0
+            //LabSheetID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //SubsectorTVItemID (int) is required but no testing needed as it is automatically set to 0
+            if (labSheetDetail.LabSheetID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetDetailLabSheetID, "1"), new[] { ModelsRes.LabSheetDetailLabSheetID });
+            }
 
-            //Version (int) is required but no testing needed as it is automatically set to 0
+            if (!((from c in db.LabSheets where c.LabSheetID == labSheetDetail.LabSheetID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheet, ModelsRes.LabSheetDetailLabSheetID, labSheetDetail.LabSheetID.ToString()), new[] { ModelsRes.LabSheetDetailLabSheetID });
+            }
 
-            if (labSheetDetail.RunDate == null || labSheetDetail.RunDate.Year < 1900 )
+            //SamplingPlanID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (labSheetDetail.SamplingPlanID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetDetailSamplingPlanID, "1"), new[] { ModelsRes.LabSheetDetailSamplingPlanID });
+            }
+
+            if (!((from c in db.LabSheets where c.LabSheetID == labSheetDetail.SamplingPlanID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheet, ModelsRes.LabSheetDetailSamplingPlanID, labSheetDetail.SamplingPlanID.ToString()), new[] { ModelsRes.LabSheetDetailSamplingPlanID });
+            }
+
+            //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (labSheetDetail.SubsectorTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetDetailSubsectorTVItemID, "1"), new[] { ModelsRes.LabSheetDetailSubsectorTVItemID });
+            }
+
+            if (!((from c in db.LabSheets where c.LabSheetID == labSheetDetail.SubsectorTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheet, ModelsRes.LabSheetDetailSubsectorTVItemID, labSheetDetail.SubsectorTVItemID.ToString()), new[] { ModelsRes.LabSheetDetailSubsectorTVItemID });
+            }
+
+            //Version (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (labSheetDetail.Version < 1 || labSheetDetail.Version > 5)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailVersion, "1", "5"), new[] { ModelsRes.LabSheetDetailVersion });
+            }
+
+            if (labSheetDetail.RunDate == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetDetailRunDate), new[] { ModelsRes.LabSheetDetailRunDate });
             }
@@ -70,40 +105,9 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetDetailTides), new[] { ModelsRes.LabSheetDetailTides });
             }
 
-            if (labSheetDetail.LastUpdateDate_UTC == null || labSheetDetail.LastUpdateDate_UTC.Year < 1900 )
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Tides) && (labSheetDetail.Tides.Length < 1 || labSheetDetail.Tides.Length > 7))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetDetailLastUpdateDate_UTC), new[] { ModelsRes.LabSheetDetailLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (labSheetDetail.LabSheetID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetDetailLabSheetID, "1"), new[] { ModelsRes.LabSheetDetailLabSheetID });
-            }
-
-            if (labSheetDetail.SamplingPlanID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetDetailSamplingPlanID, "1"), new[] { ModelsRes.LabSheetDetailSamplingPlanID });
-            }
-
-            if (labSheetDetail.SubsectorTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetDetailSubsectorTVItemID, "1"), new[] { ModelsRes.LabSheetDetailSubsectorTVItemID });
-            }
-
-            if (labSheetDetail.Version < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetDetailVersion, "1"), new[] { ModelsRes.LabSheetDetailVersion });
-            }
-
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.Tides) && labSheetDetail.Tides.Length > 7)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailTides, "7"), new[] { ModelsRes.LabSheetDetailTides });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailTides, "1", "7"), new[] { ModelsRes.LabSheetDetailTides });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheetDetail.SampleCrewInitials) && labSheetDetail.SampleCrewInitials.Length > 20)
@@ -111,24 +115,44 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailSampleCrewInitials, "20"), new[] { ModelsRes.LabSheetDetailSampleCrewInitials });
             }
 
+                //Error: Type not implemented [WaterBathCount] of type [Nullable`1]
+
             if (labSheetDetail.WaterBathCount < 1 || labSheetDetail.WaterBathCount > 3)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailWaterBathCount, "1", "3"), new[] { ModelsRes.LabSheetDetailWaterBathCount });
             }
 
-            if (labSheetDetail.IncubationBath1TimeCalculated_minutes < 1 || labSheetDetail.IncubationBath1TimeCalculated_minutes > 1000)
+                //Error: Type not implemented [IncubationBath1StartTime] of type [Nullable`1]
+
+                //Error: Type not implemented [IncubationBath2StartTime] of type [Nullable`1]
+
+                //Error: Type not implemented [IncubationBath3StartTime] of type [Nullable`1]
+
+                //Error: Type not implemented [IncubationBath1EndTime] of type [Nullable`1]
+
+                //Error: Type not implemented [IncubationBath2EndTime] of type [Nullable`1]
+
+                //Error: Type not implemented [IncubationBath3EndTime] of type [Nullable`1]
+
+                //Error: Type not implemented [IncubationBath1TimeCalculated_minutes] of type [Nullable`1]
+
+            if (labSheetDetail.IncubationBath1TimeCalculated_minutes < 0 || labSheetDetail.IncubationBath1TimeCalculated_minutes > 10000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIncubationBath1TimeCalculated_minutes, "1", "1000"), new[] { ModelsRes.LabSheetDetailIncubationBath1TimeCalculated_minutes });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIncubationBath1TimeCalculated_minutes, "0", "10000"), new[] { ModelsRes.LabSheetDetailIncubationBath1TimeCalculated_minutes });
             }
 
-            if (labSheetDetail.IncubationBath2TimeCalculated_minutes < 1 || labSheetDetail.IncubationBath2TimeCalculated_minutes > 1000)
+                //Error: Type not implemented [IncubationBath2TimeCalculated_minutes] of type [Nullable`1]
+
+            if (labSheetDetail.IncubationBath2TimeCalculated_minutes < 0 || labSheetDetail.IncubationBath2TimeCalculated_minutes > 10000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIncubationBath2TimeCalculated_minutes, "1", "1000"), new[] { ModelsRes.LabSheetDetailIncubationBath2TimeCalculated_minutes });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIncubationBath2TimeCalculated_minutes, "0", "10000"), new[] { ModelsRes.LabSheetDetailIncubationBath2TimeCalculated_minutes });
             }
 
-            if (labSheetDetail.IncubationBath3TimeCalculated_minutes < 1 || labSheetDetail.IncubationBath3TimeCalculated_minutes > 1000)
+                //Error: Type not implemented [IncubationBath3TimeCalculated_minutes] of type [Nullable`1]
+
+            if (labSheetDetail.IncubationBath3TimeCalculated_minutes < 0 || labSheetDetail.IncubationBath3TimeCalculated_minutes > 10000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIncubationBath3TimeCalculated_minutes, "1", "1000"), new[] { ModelsRes.LabSheetDetailIncubationBath3TimeCalculated_minutes });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIncubationBath3TimeCalculated_minutes, "0", "10000"), new[] { ModelsRes.LabSheetDetailIncubationBath3TimeCalculated_minutes });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheetDetail.WaterBath1) && labSheetDetail.WaterBath1.Length > 10)
@@ -146,34 +170,46 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailWaterBath3, "10"), new[] { ModelsRes.LabSheetDetailWaterBath3 });
             }
 
-            if (labSheetDetail.TCField1 < 0 || labSheetDetail.TCField1 > 40)
+                //Error: Type not implemented [TCField1] of type [Nullable`1]
+
+            if (labSheetDetail.TCField1 < -10 || labSheetDetail.TCField1 > 40)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCField1, "0", "40"), new[] { ModelsRes.LabSheetDetailTCField1 });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCField1, "-10", "40"), new[] { ModelsRes.LabSheetDetailTCField1 });
             }
 
-            if (labSheetDetail.TCLab1 < 0 || labSheetDetail.TCLab1 > 40)
+                //Error: Type not implemented [TCLab1] of type [Nullable`1]
+
+            if (labSheetDetail.TCLab1 < -10 || labSheetDetail.TCLab1 > 40)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCLab1, "0", "40"), new[] { ModelsRes.LabSheetDetailTCLab1 });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCLab1, "-10", "40"), new[] { ModelsRes.LabSheetDetailTCLab1 });
             }
 
-            if (labSheetDetail.TCField2 < 0 || labSheetDetail.TCField2 > 40)
+                //Error: Type not implemented [TCField2] of type [Nullable`1]
+
+            if (labSheetDetail.TCField2 < -10 || labSheetDetail.TCField2 > 40)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCField2, "0", "40"), new[] { ModelsRes.LabSheetDetailTCField2 });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCField2, "-10", "40"), new[] { ModelsRes.LabSheetDetailTCField2 });
             }
 
-            if (labSheetDetail.TCLab2 < 0 || labSheetDetail.TCLab2 > 40)
+                //Error: Type not implemented [TCLab2] of type [Nullable`1]
+
+            if (labSheetDetail.TCLab2 < -10 || labSheetDetail.TCLab2 > 40)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCLab2, "0", "40"), new[] { ModelsRes.LabSheetDetailTCLab2 });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCLab2, "-10", "40"), new[] { ModelsRes.LabSheetDetailTCLab2 });
             }
 
-            if (labSheetDetail.TCFirst < 0 || labSheetDetail.TCFirst > 40)
+                //Error: Type not implemented [TCFirst] of type [Nullable`1]
+
+            if (labSheetDetail.TCFirst < -10 || labSheetDetail.TCFirst > 40)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCFirst, "0", "40"), new[] { ModelsRes.LabSheetDetailTCFirst });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCFirst, "-10", "40"), new[] { ModelsRes.LabSheetDetailTCFirst });
             }
 
-            if (labSheetDetail.TCAverage < 0 || labSheetDetail.TCAverage > 40)
+                //Error: Type not implemented [TCAverage] of type [Nullable`1]
+
+            if (labSheetDetail.TCAverage < -10 || labSheetDetail.TCAverage > 40)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCAverage, "0", "40"), new[] { ModelsRes.LabSheetDetailTCAverage });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCAverage, "-10", "40"), new[] { ModelsRes.LabSheetDetailTCAverage });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheetDetail.ControlLot) && labSheetDetail.ControlLot.Length > 100)
@@ -181,75 +217,84 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailControlLot, "100"), new[] { ModelsRes.LabSheetDetailControlLot });
             }
 
-            // Positive35 has no validation
-
-            // NonTarget35 has no validation
-
-            // Negative35 has no validation
-
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath1Positive44_5) && labSheetDetail.Bath1Positive44_5.Length < 1)
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Positive35) && (labSheetDetail.Positive35.Length < 1 || labSheetDetail.Positive35.Length > 1))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes.LabSheetDetailBath1Positive44_5, "1"), new[] { ModelsRes.LabSheetDetailBath1Positive44_5 });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailPositive35, "1", "1"), new[] { ModelsRes.LabSheetDetailPositive35 });
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath2Positive44_5) && labSheetDetail.Bath2Positive44_5.Length < 1)
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.NonTarget35) && (labSheetDetail.NonTarget35.Length < 1 || labSheetDetail.NonTarget35.Length > 1))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes.LabSheetDetailBath2Positive44_5, "1"), new[] { ModelsRes.LabSheetDetailBath2Positive44_5 });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailNonTarget35, "1", "1"), new[] { ModelsRes.LabSheetDetailNonTarget35 });
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath3Positive44_5) && labSheetDetail.Bath3Positive44_5.Length < 1)
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Negative35) && (labSheetDetail.Negative35.Length < 1 || labSheetDetail.Negative35.Length > 1))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes.LabSheetDetailBath3Positive44_5, "1"), new[] { ModelsRes.LabSheetDetailBath3Positive44_5 });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailNegative35, "1", "1"), new[] { ModelsRes.LabSheetDetailNegative35 });
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath1NonTarget44_5) && labSheetDetail.Bath1NonTarget44_5.Length < 1)
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath1Positive44_5) && (labSheetDetail.Bath1Positive44_5.Length < 1 || labSheetDetail.Bath1Positive44_5.Length > 1))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes.LabSheetDetailBath1NonTarget44_5, "1"), new[] { ModelsRes.LabSheetDetailBath1NonTarget44_5 });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailBath1Positive44_5, "1", "1"), new[] { ModelsRes.LabSheetDetailBath1Positive44_5 });
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath2NonTarget44_5) && labSheetDetail.Bath2NonTarget44_5.Length < 1)
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath2Positive44_5) && (labSheetDetail.Bath2Positive44_5.Length < 1 || labSheetDetail.Bath2Positive44_5.Length > 1))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes.LabSheetDetailBath2NonTarget44_5, "1"), new[] { ModelsRes.LabSheetDetailBath2NonTarget44_5 });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailBath2Positive44_5, "1", "1"), new[] { ModelsRes.LabSheetDetailBath2Positive44_5 });
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath3NonTarget44_5) && labSheetDetail.Bath3NonTarget44_5.Length < 1)
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath3Positive44_5) && (labSheetDetail.Bath3Positive44_5.Length < 1 || labSheetDetail.Bath3Positive44_5.Length > 1))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes.LabSheetDetailBath3NonTarget44_5, "1"), new[] { ModelsRes.LabSheetDetailBath3NonTarget44_5 });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailBath3Positive44_5, "1", "1"), new[] { ModelsRes.LabSheetDetailBath3Positive44_5 });
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath1Negative44_5) && labSheetDetail.Bath1Negative44_5.Length < 1)
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath1NonTarget44_5) && (labSheetDetail.Bath1NonTarget44_5.Length < 1 || labSheetDetail.Bath1NonTarget44_5.Length > 1))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes.LabSheetDetailBath1Negative44_5, "1"), new[] { ModelsRes.LabSheetDetailBath1Negative44_5 });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailBath1NonTarget44_5, "1", "1"), new[] { ModelsRes.LabSheetDetailBath1NonTarget44_5 });
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath2Negative44_5) && labSheetDetail.Bath2Negative44_5.Length < 1)
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath2NonTarget44_5) && (labSheetDetail.Bath2NonTarget44_5.Length < 1 || labSheetDetail.Bath2NonTarget44_5.Length > 1))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes.LabSheetDetailBath2Negative44_5, "1"), new[] { ModelsRes.LabSheetDetailBath2Negative44_5 });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailBath2NonTarget44_5, "1", "1"), new[] { ModelsRes.LabSheetDetailBath2NonTarget44_5 });
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath3Negative44_5) && labSheetDetail.Bath3Negative44_5.Length < 1)
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath3NonTarget44_5) && (labSheetDetail.Bath3NonTarget44_5.Length < 1 || labSheetDetail.Bath3NonTarget44_5.Length > 1))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes.LabSheetDetailBath3Negative44_5, "1"), new[] { ModelsRes.LabSheetDetailBath3Negative44_5 });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailBath3NonTarget44_5, "1", "1"), new[] { ModelsRes.LabSheetDetailBath3NonTarget44_5 });
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.Blank35) && labSheetDetail.Blank35.Length < 1)
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath1Negative44_5) && (labSheetDetail.Bath1Negative44_5.Length < 1 || labSheetDetail.Bath1Negative44_5.Length > 1))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes.LabSheetDetailBlank35, "1"), new[] { ModelsRes.LabSheetDetailBlank35 });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailBath1Negative44_5, "1", "1"), new[] { ModelsRes.LabSheetDetailBath1Negative44_5 });
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath1Blank44_5) && labSheetDetail.Bath1Blank44_5.Length < 1)
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath2Negative44_5) && (labSheetDetail.Bath2Negative44_5.Length < 1 || labSheetDetail.Bath2Negative44_5.Length > 1))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes.LabSheetDetailBath1Blank44_5, "1"), new[] { ModelsRes.LabSheetDetailBath1Blank44_5 });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailBath2Negative44_5, "1", "1"), new[] { ModelsRes.LabSheetDetailBath2Negative44_5 });
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath2Blank44_5) && labSheetDetail.Bath2Blank44_5.Length < 1)
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath3Negative44_5) && (labSheetDetail.Bath3Negative44_5.Length < 1 || labSheetDetail.Bath3Negative44_5.Length > 1))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes.LabSheetDetailBath2Blank44_5, "1"), new[] { ModelsRes.LabSheetDetailBath2Blank44_5 });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailBath3Negative44_5, "1", "1"), new[] { ModelsRes.LabSheetDetailBath3Negative44_5 });
             }
 
-            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath3Blank44_5) && labSheetDetail.Bath3Blank44_5.Length < 1)
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Blank35) && (labSheetDetail.Blank35.Length < 1 || labSheetDetail.Blank35.Length > 1))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes.LabSheetDetailBath3Blank44_5, "1"), new[] { ModelsRes.LabSheetDetailBath3Blank44_5 });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailBlank35, "1", "1"), new[] { ModelsRes.LabSheetDetailBlank35 });
+            }
+
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath1Blank44_5) && (labSheetDetail.Bath1Blank44_5.Length < 1 || labSheetDetail.Bath1Blank44_5.Length > 1))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailBath1Blank44_5, "1", "1"), new[] { ModelsRes.LabSheetDetailBath1Blank44_5 });
+            }
+
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath2Blank44_5) && (labSheetDetail.Bath2Blank44_5.Length < 1 || labSheetDetail.Bath2Blank44_5.Length > 1))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailBath2Blank44_5, "1", "1"), new[] { ModelsRes.LabSheetDetailBath2Blank44_5 });
+            }
+
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.Bath3Blank44_5) && (labSheetDetail.Bath3Blank44_5.Length < 1 || labSheetDetail.Bath3Blank44_5.Length > 1))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetDetailBath3Blank44_5, "1", "1"), new[] { ModelsRes.LabSheetDetailBath3Blank44_5 });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheetDetail.Lot35) && labSheetDetail.Lot35.Length > 20)
@@ -287,41 +332,83 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailSalinitiesReadBy, "20"), new[] { ModelsRes.LabSheetDetailSalinitiesReadBy });
             }
 
+                //Error: Type not implemented [SalinitiesReadDate] of type [Nullable`1]
+
             if (!string.IsNullOrWhiteSpace(labSheetDetail.ResultsReadBy) && labSheetDetail.ResultsReadBy.Length > 20)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailResultsReadBy, "20"), new[] { ModelsRes.LabSheetDetailResultsReadBy });
             }
+
+                //Error: Type not implemented [ResultsReadDate] of type [Nullable`1]
 
             if (!string.IsNullOrWhiteSpace(labSheetDetail.ResultsRecordedBy) && labSheetDetail.ResultsRecordedBy.Length > 20)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailResultsRecordedBy, "20"), new[] { ModelsRes.LabSheetDetailResultsRecordedBy });
             }
 
-            if (labSheetDetail.DailyDuplicateRlog < 0 || labSheetDetail.DailyDuplicateRlog > 1000)
+                //Error: Type not implemented [ResultsRecordedDate] of type [Nullable`1]
+
+                //Error: Type not implemented [DailyDuplicateRlog] of type [Nullable`1]
+
+            if (labSheetDetail.DailyDuplicateRlog < 0 || labSheetDetail.DailyDuplicateRlog > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailDailyDuplicateRlog, "0", "1000"), new[] { ModelsRes.LabSheetDetailDailyDuplicateRlog });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailDailyDuplicateRlog, "0", "100"), new[] { ModelsRes.LabSheetDetailDailyDuplicateRlog });
             }
 
-            if (labSheetDetail.DailyDuplicatePrecisionCriteria < 0 || labSheetDetail.DailyDuplicatePrecisionCriteria > 1000)
+                //Error: Type not implemented [DailyDuplicatePrecisionCriteria] of type [Nullable`1]
+
+            if (labSheetDetail.DailyDuplicatePrecisionCriteria < 0 || labSheetDetail.DailyDuplicatePrecisionCriteria > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailDailyDuplicatePrecisionCriteria, "0", "1000"), new[] { ModelsRes.LabSheetDetailDailyDuplicatePrecisionCriteria });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailDailyDuplicatePrecisionCriteria, "0", "100"), new[] { ModelsRes.LabSheetDetailDailyDuplicatePrecisionCriteria });
             }
 
-            if (labSheetDetail.IntertechDuplicateRlog < 0 || labSheetDetail.IntertechDuplicateRlog > 1000)
+                //Error: Type not implemented [DailyDuplicateAcceptable] of type [Nullable`1]
+
+                //Error: Type not implemented [IntertechDuplicateRlog] of type [Nullable`1]
+
+            if (labSheetDetail.IntertechDuplicateRlog < 0 || labSheetDetail.IntertechDuplicateRlog > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIntertechDuplicateRlog, "0", "1000"), new[] { ModelsRes.LabSheetDetailIntertechDuplicateRlog });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIntertechDuplicateRlog, "0", "100"), new[] { ModelsRes.LabSheetDetailIntertechDuplicateRlog });
             }
 
-            if (labSheetDetail.IntertechDuplicatePrecisionCriteria < 0 || labSheetDetail.IntertechDuplicatePrecisionCriteria > 1000)
+                //Error: Type not implemented [IntertechDuplicatePrecisionCriteria] of type [Nullable`1]
+
+            if (labSheetDetail.IntertechDuplicatePrecisionCriteria < 0 || labSheetDetail.IntertechDuplicatePrecisionCriteria > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIntertechDuplicatePrecisionCriteria, "0", "1000"), new[] { ModelsRes.LabSheetDetailIntertechDuplicatePrecisionCriteria });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIntertechDuplicatePrecisionCriteria, "0", "100"), new[] { ModelsRes.LabSheetDetailIntertechDuplicatePrecisionCriteria });
             }
+
+                //Error: Type not implemented [IntertechDuplicateAcceptable] of type [Nullable`1]
+
+                //Error: Type not implemented [IntertechReadAcceptable] of type [Nullable`1]
+
+            if (labSheetDetail.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetDetailLastUpdateDate_UTC), new[] { ModelsRes.LabSheetDetailLastUpdateDate_UTC });
+            }
+
+            if (labSheetDetail.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailLastUpdateDate_UTC, "1980"), new[] { ModelsRes.LabSheetDetailLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (labSheetDetail.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetDetailLastUpdateContactTVItemID, "1"), new[] { ModelsRes.LabSheetDetailLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == labSheetDetail.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetDetailLastUpdateContactTVItemID, labSheetDetail.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.LabSheetDetailLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation

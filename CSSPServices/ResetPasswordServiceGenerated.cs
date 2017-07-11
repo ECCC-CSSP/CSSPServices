@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             ResetPassword resetPassword = validationContext.ObjectInstance as ResetPassword;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,14 +50,26 @@ namespace CSSPServices
                 }
             }
 
+            //ResetPasswordID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (string.IsNullOrWhiteSpace(resetPassword.Email))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordEmail), new[] { ModelsRes.ResetPasswordEmail });
             }
 
-            if (resetPassword.ExpireDate_Local == null || resetPassword.ExpireDate_Local.Year < 1900 )
+            if (!string.IsNullOrWhiteSpace(resetPassword.Email) && resetPassword.Email.Length > 256)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordEmail, "256"), new[] { ModelsRes.ResetPasswordEmail });
+            }
+
+            if (resetPassword.ExpireDate_Local == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordExpireDate_Local), new[] { ModelsRes.ResetPasswordExpireDate_Local });
+            }
+
+            if (resetPassword.ExpireDate_Local.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ResetPasswordExpireDate_Local, "1980"), new[] { ModelsRes.ResetPasswordExpireDate_Local });
             }
 
             if (string.IsNullOrWhiteSpace(resetPassword.Code))
@@ -67,51 +77,58 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordCode), new[] { ModelsRes.ResetPasswordCode });
             }
 
-            if (resetPassword.LastUpdateDate_UTC == null || resetPassword.LastUpdateDate_UTC.Year < 1900 )
+            if (!string.IsNullOrWhiteSpace(resetPassword.Code) && resetPassword.Code.Length > 8)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordCode, "8"), new[] { ModelsRes.ResetPasswordCode });
+            }
+
+            if (resetPassword.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordLastUpdateDate_UTC), new[] { ModelsRes.ResetPasswordLastUpdateDate_UTC });
             }
 
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            if (!string.IsNullOrWhiteSpace(resetPassword.Email) && resetPassword.Email.Length > 256)
+            if (resetPassword.LastUpdateDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordEmail, "256"), new[] { ModelsRes.ResetPasswordEmail });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ResetPasswordLastUpdateDate_UTC, "1980"), new[] { ModelsRes.ResetPasswordLastUpdateDate_UTC });
             }
 
-            if (!string.IsNullOrWhiteSpace(resetPassword.Code) && (resetPassword.Code.Length < 8 || resetPassword.Code.Length > 8))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordCode, "8", "8"), new[] { ModelsRes.ResetPasswordCode });
-            }
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (resetPassword.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ResetPasswordLastUpdateContactTVItemID, "1"), new[] { ModelsRes.ResetPasswordLastUpdateContactTVItemID });
             }
 
-            if (!string.IsNullOrWhiteSpace(resetPassword.Password) && (resetPassword.Password.Length < 6) || (resetPassword.Password.Length > 100))
+            if (!((from c in db.TVItems where c.TVItemID == resetPassword.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ResetPasswordLastUpdateContactTVItemID, resetPassword.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.ResetPasswordLastUpdateContactTVItemID });
+            }
+
+            if (string.IsNullOrWhiteSpace(resetPassword.Password))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordPassword), new[] { ModelsRes.ResetPasswordPassword });
+            }
+
+            if (!string.IsNullOrWhiteSpace(resetPassword.Password) && (resetPassword.Password.Length < 6 || resetPassword.Password.Length > 100))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordPassword, "6", "100"), new[] { ModelsRes.ResetPasswordPassword });
             }
 
-            if (!string.IsNullOrWhiteSpace(resetPassword.ConfirmPassword) && (resetPassword.ConfirmPassword.Length < 6) || (resetPassword.ConfirmPassword.Length > 100))
+            if (string.IsNullOrWhiteSpace(resetPassword.ConfirmPassword))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordConfirmPassword), new[] { ModelsRes.ResetPasswordConfirmPassword });
+            }
+
+            if (!string.IsNullOrWhiteSpace(resetPassword.ConfirmPassword) && (resetPassword.ConfirmPassword.Length < 6 || resetPassword.ConfirmPassword.Length > 100))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordConfirmPassword, "6", "100"), new[] { ModelsRes.ResetPasswordConfirmPassword });
             }
 
-            if (!string.IsNullOrWhiteSpace(resetPassword.Email))
+            retStr = "";
+            if (retStr != "")
             {
-                Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
-                if (!regex.IsMatch(resetPassword.Email))
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.ResetPasswordEmail), new[] { ModelsRes.ResetPasswordEmail });
-                }
+                yield return new ValidationResult("AAA", new[] { "AAA" });
             }
-
 
         }
         #endregion Validation

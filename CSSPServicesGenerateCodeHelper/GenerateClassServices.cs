@@ -333,7 +333,12 @@ namespace CSSPServicesGenerateCodeHelper
                     case "Int32":
                     case "Int64":
                         {
-                            if (csspProp.MinInt != null && csspProp.MaxInt != null)
+                            if (csspProp.MinInt == null && csspProp.MaxInt == null)
+                            {
+                                sb.AppendLine(@"            //" + prop.Name + @" has no Range Attribute");
+                                sb.AppendLine(@"");
+                            }
+                            else if (csspProp.MinInt != null && csspProp.MaxInt != null)
                             {
                                 if (csspProp.MinInt > csspProp.MaxInt)
                                 {
@@ -373,7 +378,12 @@ namespace CSSPServicesGenerateCodeHelper
                         break;
                     case "Single":
                         {
-                            if (csspProp.MinFloat != null && csspProp.MaxFloat != null)
+                            if (csspProp.MinFloat == null && csspProp.MaxFloat == null)
+                            {
+                                sb.AppendLine(@"            //" + prop.Name + @" has no Range Attribute");
+                                sb.AppendLine(@"");
+                            }
+                            else if (csspProp.MinFloat != null && csspProp.MaxFloat != null)
                             {
                                 if (csspProp.MinFloat > csspProp.MaxFloat)
                                 {
@@ -413,7 +423,12 @@ namespace CSSPServicesGenerateCodeHelper
                         break;
                     case "Double":
                         {
-                            if (csspProp.MinDouble != null && csspProp.MaxDouble != null)
+                            if (csspProp.MinDouble == null && csspProp.MaxDouble == null)
+                            {
+                                sb.AppendLine(@"            //" + prop.Name + @" has no Range Attribute");
+                                sb.AppendLine(@"");
+                            }
+                            else if (csspProp.MinDouble != null && csspProp.MaxDouble != null)
                             {
                                 if (csspProp.MinDouble > csspProp.MaxDouble)
                                 {
@@ -453,7 +468,12 @@ namespace CSSPServicesGenerateCodeHelper
                         break;
                     case "String":
                         {
-                            if (csspProp.MinLength != null && csspProp.MaxLength != null)
+                            if (csspProp.MinLength == null && csspProp.MaxLength == null)
+                            {
+                                sb.AppendLine(@"            //" + prop.Name + @" has no StringLength Attribute");
+                                sb.AppendLine(@"");
+                            }
+                            else if (csspProp.MinLength != null && csspProp.MaxLength != null)
                             {
                                 if (csspProp.MinLength > csspProp.MaxLength)
                                 {
@@ -634,20 +654,20 @@ namespace CSSPServicesGenerateCodeHelper
                 if (type.Name.StartsWith("<")
                                    || type.Name.StartsWith("ModelsRes")
                                    || type.Name.StartsWith("Application")
+                                   || type.Name.StartsWith("CSSPAfter")
                                    || type.Name.StartsWith("CSSPAllowNull")
-                                   || type.Name.StartsWith("CSSPDateAfterYear")
-                                   || type.Name.StartsWith("CSSPDateBiggerThanOtherField")
-                                   || type.Name.StartsWith("CSSPObjectExist")
-                                   || type.Name.StartsWith("CSSPEnumTypeExist")
+                                   || type.Name.StartsWith("CSSPBigger")
+                                   || type.Name.StartsWith("CSSPEnumType")
+                                   || type.Name.StartsWith("CSSPExist")
                                    || type.Name.StartsWith("CSSPWebToolsDBContext"))
                 {
                     continue;
                 }
 
-                if (type.Name != "AppTaskParameter")
-                {
-                    continue;
-                }
+                //if (type.Name != "AppTaskParameter")
+                //{
+                //    continue;
+                //}
 
                 foreach (CustomAttributeData customAttributeData in type.CustomAttributes)
                 {
@@ -702,79 +722,78 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"        #endregion Constructors");
                 sb.AppendLine(@"");
                 sb.AppendLine(@"        #region Validation");
-                if (TypeName == "LabSheetAndA1Sheet" || TypeName == "TVItemSubsectorAndMWQMSite" || TypeName == "Vector" || TypeName == "VPFull")
+                if (TypeName == "Contact")
                 {
-                    sb.AppendLine(@"        // no validation for [" + TypeName + "]");
+                    sb.AppendLine(@"        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType, AddContactType addContactType)");
                 }
                 else
                 {
-                    if (TypeName == "Contact")
-                    {
-                        sb.AppendLine(@"        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType, AddContactType addContactType)");
-                    }
-                    else
-                    {
-                        sb.AppendLine(@"        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)");
-                    }
-                    sb.AppendLine(@"        {");
-                    sb.AppendLine(@"            string retStr = """";");
-                    sb.AppendLine(@"            Enums enums = new Enums(LanguageRequest);");
-                    sb.AppendLine(@"            " + TypeName + @" " + TypeNameLower + @" = validationContext.ObjectInstance as " + TypeName + @";");
-                    sb.AppendLine(@"");
-
-                    foreach (PropertyInfo prop in type.GetProperties())
-                    {
-                        if (prop.GetGetMethod().IsVirtual)
-                        {
-                            continue;
-                        }
-
-                        if (prop.Name == "ValidationResults")
-                        {
-                            continue;
-                        }
-
-                        CSSPProp csspProp = new CSSPProp();
-                        if (!FillCSSPProp(prop, csspProp))
-                        {
-                            RichTextBoxStatus.AppendText("Error while creating code [" + csspProp.Error + "]");
-                            return;
-                        }
-
-                        if (!ClassNotMapped)
-                        {
-                            CreateValidation_Key(prop, csspProp, TypeName, TypeNameLower, sb);
-                        }
-
-                        CreateValidation_NotNullable(prop, csspProp, TypeName, TypeNameLower, sb);
-
-                        CreateValidation_Length(prop, csspProp, TypeName, TypeNameLower, sb);
-
-                        if (TypeName == "TVItem")
-                        {
-                            sb.AppendLine(@"            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)");
-                            sb.AppendLine(@"            {");
-                            sb.AppendLine(@"                if (tvItem.TVType == TVTypeEnum.Root)");
-                            sb.AppendLine(@"                {");
-                            sb.AppendLine(@"                    if (GetRead().Count() > 0)");
-                            sb.AppendLine(@"                    {");
-                            sb.AppendLine(@"                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });");
-                            sb.AppendLine(@"                    }");
-                            sb.AppendLine(@"                }");
-                            sb.AppendLine(@"            }");
-                        }
-
-                        CreateValidation_Email(prop, csspProp, TypeName, TypeNameLower, sb);
-
-                        CreateValidation_AfterYear(prop, csspProp, TypeName, TypeNameLower, sb);
-                        CreateValidation_Bigger(prop, csspProp, TypeName, TypeNameLower, sb);
-                        CreateValidation_Exist(prop, csspProp, TypeName, TypeNameLower, sb);
-                        CreateValidation_EnumType(prop, csspProp, TypeName, TypeNameLower, sb);
-                    }
-
-                    sb.AppendLine(@"");
-                    sb.AppendLine(@"        }");
+                    sb.AppendLine(@"        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)");
                 }
+                sb.AppendLine(@"        {");
+                sb.AppendLine(@"            string retStr = """";");
+                sb.AppendLine(@"            Enums enums = new Enums(LanguageRequest);");
+                sb.AppendLine(@"            " + TypeName + @" " + TypeNameLower + @" = validationContext.ObjectInstance as " + TypeName + @";");
+                sb.AppendLine(@"");
+
+                foreach (PropertyInfo prop in type.GetProperties())
+                {
+                    if (prop.GetGetMethod().IsVirtual)
+                    {
+                        continue;
+                    }
+
+                    if (prop.Name == "ValidationResults")
+                    {
+                        continue;
+                    }
+
+                    CSSPProp csspProp = new CSSPProp();
+                    if (!FillCSSPProp(prop, csspProp, type))
+                    {
+                        RichTextBoxStatus.AppendText("Error while creating code [" + csspProp.Error + "]");
+                        return;
+                    }
+
+                    if (!ClassNotMapped)
+                    {
+                        CreateValidation_Key(prop, csspProp, TypeName, TypeNameLower, sb);
+                    }
+
+                    CreateValidation_NotNullable(prop, csspProp, TypeName, TypeNameLower, sb);
+
+                    CreateValidation_Length(prop, csspProp, TypeName, TypeNameLower, sb);
+
+                    if (TypeName == "TVItem")
+                    {
+                        sb.AppendLine(@"            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)");
+                        sb.AppendLine(@"            {");
+                        sb.AppendLine(@"                if (tvItem.TVType == TVTypeEnum.Root)");
+                        sb.AppendLine(@"                {");
+                        sb.AppendLine(@"                    if (GetRead().Count() > 0)");
+                        sb.AppendLine(@"                    {");
+                        sb.AppendLine(@"                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });");
+                        sb.AppendLine(@"                    }");
+                        sb.AppendLine(@"                }");
+                        sb.AppendLine(@"            }");
+                    }
+
+                    CreateValidation_Email(prop, csspProp, TypeName, TypeNameLower, sb);
+
+                    CreateValidation_AfterYear(prop, csspProp, TypeName, TypeNameLower, sb);
+                    CreateValidation_Bigger(prop, csspProp, TypeName, TypeNameLower, sb);
+                    CreateValidation_Exist(prop, csspProp, TypeName, TypeNameLower, sb);
+                    CreateValidation_EnumType(prop, csspProp, TypeName, TypeNameLower, sb);
+                }
+
+                sb.AppendLine(@"            retStr = """";");
+                sb.AppendLine(@"            if (retStr != """")");
+                sb.AppendLine(@"            {");
+                sb.AppendLine(@"                yield return new ValidationResult(""AAA"", new[] { ""AAA"" });");
+                sb.AppendLine(@"            }");
+                sb.AppendLine(@"");
+                sb.AppendLine(@"        }");
+
                 sb.AppendLine(@"        #endregion Validation");
                 sb.AppendLine(@"");
 

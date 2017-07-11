@@ -34,35 +34,39 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             ContactOK contactOK = validationContext.ObjectInstance as ContactOK;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+            if (string.IsNullOrWhiteSpace(contactOK.Error))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactOKError), new[] { ModelsRes.ContactOKError });
+            }
 
-            //ContactID is required but no testing needed as it is automatically set to 0
+            if (!string.IsNullOrWhiteSpace(contactOK.Error) && contactOK.Error.Length > 255)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactOKError, "255"), new[] { ModelsRes.ContactOKError });
+            }
 
-            //ContactTVItemID is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //ContactID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contactOK.ContactID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactOKContactID, "1"), new[] { ModelsRes.ContactOKContactID });
             }
 
+            //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (contactOK.ContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactOKContactTVItemID, "1"), new[] { ModelsRes.ContactOKContactTVItemID });
             }
 
-            if (!string.IsNullOrWhiteSpace(contactOK.Error) && (contactOK.Error.Length < 1) || (contactOK.Error.Length > 255))
+            retStr = "";
+            if (retStr != "")
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactOKError, "1", "255"), new[] { ModelsRes.ContactOKError });
+                yield return new ValidationResult("AAA", new[] { "AAA" });
             }
-
 
         }
         #endregion Validation

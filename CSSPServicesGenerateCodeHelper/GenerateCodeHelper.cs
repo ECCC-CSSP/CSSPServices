@@ -13,7 +13,7 @@ namespace CSSPServicesGenerateCodeHelper
     public partial class GenerateCodeHelper
     {
         #region Functions private
-        protected bool FillCSSPProp(PropertyInfo propInfo, CSSPProp csspProp)
+        protected bool FillCSSPProp(PropertyInfo propInfo, CSSPProp csspProp, Type type)
         {
             csspProp.PropName = propInfo.Name;
 
@@ -77,7 +77,7 @@ namespace CSSPServicesGenerateCodeHelper
             {
                 if (propInfo.PropertyType != typeof(System.String))
                 {
-                    csspProp.Error = propInfo.Name + " should not contain the StringLength Attribute. StringLength Attribute can only be set for System.String";
+                    csspProp.Error = "Class [" + type.FullName + "] " + propInfo.Name + " should not contain the StringLength Attribute. StringLength Attribute can only be set for System.String";
                     return false;
                 }
                 CustomAttributeData customAttributeData = propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("StringLengthAttribute")).First();
@@ -129,7 +129,7 @@ namespace CSSPServicesGenerateCodeHelper
                 }
                 else
                 {
-                    csspProp.Error = "Property [" + csspProp.PropName  + "] of type [" + csspProp.PropType + "] should not use RangeAttribute. Only types [Int,Single,Double] can use RangeAttributre";
+                    csspProp.Error = "Type [" + type.FullName + "] Property [" + csspProp.PropName  + "] of type [" + csspProp.PropType + "] should not use RangeAttribute. Only types [Int,Single,Double] can use RangeAttributre";
                     return false;
                 }
             }

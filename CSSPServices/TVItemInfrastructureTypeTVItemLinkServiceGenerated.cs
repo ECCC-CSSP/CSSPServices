@@ -38,22 +38,18 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItemInfrastructureTypeTVItemLink tvItemInfrastructureTypeTVItemLink = validationContext.ObjectInstance as TVItemInfrastructureTypeTVItemLink;
 
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
+                //Error: Type not implemented [InfrastructureType] of type [InfrastructureTypeEnum]
 
-            retStr = enums.InfrastructureTypeOK(tvItemInfrastructureTypeTVItemLink.InfrastructureType);
-            if (tvItemInfrastructureTypeTVItemLink.InfrastructureType == InfrastructureTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                //Error: Type not implemented [InfrastructureType] of type [InfrastructureTypeEnum]
+                //Error: Type not implemented [SeeOtherTVItemID] of type [Nullable`1]
+
+            //SeeOtherTVItemID has no Range Attribute
+
+            retStr = "";
+            if (retStr != "")
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemInfrastructureTypeTVItemLinkInfrastructureType), new[] { ModelsRes.TVItemInfrastructureTypeTVItemLinkInfrastructureType });
+                yield return new ValidationResult("AAA", new[] { "AAA" });
             }
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
-
-            // InfrastructureType no min or max length set
-            // SeeOtherTVItemID no min or max length set
 
         }
         #endregion Validation

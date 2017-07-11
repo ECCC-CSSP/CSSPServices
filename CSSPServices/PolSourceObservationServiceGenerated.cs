@@ -38,11 +38,9 @@ namespace CSSPServices
         #region Validation
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
+            string retStr = "";
+            Enums enums = new Enums(LanguageRequest);
             PolSourceObservation polSourceObservation = validationContext.ObjectInstance as PolSourceObservation;
-
-            // ----------------------------------------------------
-            // Property is required validation
-            // ----------------------------------------------------
 
             if (actionDBType == ActionDBTypeEnum.Update)
             {
@@ -52,48 +50,76 @@ namespace CSSPServices
                 }
             }
 
-            //PolSourceSiteTVItemID (int) is required but no testing needed as it is automatically set to 0
+            //PolSourceObservationID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (polSourceObservation.ObservationDate_Local == null || polSourceObservation.ObservationDate_Local.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationObservationDate_Local), new[] { ModelsRes.PolSourceObservationObservationDate_Local });
-            }
-
-            //ContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            if (string.IsNullOrWhiteSpace(polSourceObservation.Observation_ToBeDeleted))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationObservation_ToBeDeleted), new[] { ModelsRes.PolSourceObservationObservation_ToBeDeleted });
-            }
-
-            if (polSourceObservation.LastUpdateDate_UTC == null || polSourceObservation.LastUpdateDate_UTC.Year < 1900 )
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationLastUpdateDate_UTC), new[] { ModelsRes.PolSourceObservationLastUpdateDate_UTC });
-            }
-
-            //LastUpdateContactTVItemID (int) is required but no testing needed as it is automatically set to 0
-
-            // ----------------------------------------------------
-            // Property other validation
-            // ----------------------------------------------------
+            //PolSourceSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (polSourceObservation.PolSourceSiteTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceObservationPolSourceSiteTVItemID, "1"), new[] { ModelsRes.PolSourceObservationPolSourceSiteTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == polSourceObservation.PolSourceSiteTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationPolSourceSiteTVItemID, polSourceObservation.PolSourceSiteTVItemID.ToString()), new[] { ModelsRes.PolSourceObservationPolSourceSiteTVItemID });
+            }
+
+            if (polSourceObservation.ObservationDate_Local == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationObservationDate_Local), new[] { ModelsRes.PolSourceObservationObservationDate_Local });
+            }
+
+            if (polSourceObservation.ObservationDate_Local.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.PolSourceObservationObservationDate_Local, "1980"), new[] { ModelsRes.PolSourceObservationObservationDate_Local });
+            }
+
+            //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
             if (polSourceObservation.ContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceObservationContactTVItemID, "1"), new[] { ModelsRes.PolSourceObservationContactTVItemID });
             }
 
-            // Observation_ToBeDeleted has no validation
+            if (!((from c in db.TVItems where c.TVItemID == polSourceObservation.ContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationContactTVItemID, polSourceObservation.ContactTVItemID.ToString()), new[] { ModelsRes.PolSourceObservationContactTVItemID });
+            }
+
+            if (string.IsNullOrWhiteSpace(polSourceObservation.Observation_ToBeDeleted))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationObservation_ToBeDeleted), new[] { ModelsRes.PolSourceObservationObservation_ToBeDeleted });
+            }
+
+            //Observation_ToBeDeleted has no StringLength Attribute
+
+            if (polSourceObservation.LastUpdateDate_UTC == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationLastUpdateDate_UTC), new[] { ModelsRes.PolSourceObservationLastUpdateDate_UTC });
+            }
+
+            if (polSourceObservation.LastUpdateDate_UTC.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.PolSourceObservationLastUpdateDate_UTC, "1980"), new[] { ModelsRes.PolSourceObservationLastUpdateDate_UTC });
+            }
+
+            //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (polSourceObservation.LastUpdateContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, "1"), new[] { ModelsRes.PolSourceObservationLastUpdateContactTVItemID });
             }
 
+            if (!((from c in db.TVItems where c.TVItemID == polSourceObservation.LastUpdateContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, polSourceObservation.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.PolSourceObservationLastUpdateContactTVItemID });
+            }
+
+            retStr = "";
+            if (retStr != "")
+            {
+                yield return new ValidationResult("AAA", new[] { "AAA" });
+            }
 
         }
         #endregion Validation
