@@ -45,12 +45,12 @@ namespace CSSPServices.Tests
             Register register = new Register();
 
             if (OmitPropName != "LoginEmail") register.LoginEmail = GetRandomEmail();
-            if (OmitPropName != "FirstName") register.FirstName = GetRandomString("", 1);
-            if (OmitPropName != "Initial") register.Initial = GetRandomString("", 0);
-            if (OmitPropName != "LastName") register.LastName = GetRandomString("", 1);
-            if (OmitPropName != "WebName") register.WebName = GetRandomString("", 1);
-            if (OmitPropName != "Password") register.Password = GetRandomString("", 6);
-            if (OmitPropName != "ConfirmPassword") register.ConfirmPassword = GetRandomString("", 6);
+            if (OmitPropName != "FirstName") register.FirstName = GetRandomString("", 5);
+            if (OmitPropName != "Initial") register.Initial = GetRandomString("", 5);
+            if (OmitPropName != "LastName") register.LastName = GetRandomString("", 5);
+            if (OmitPropName != "WebName") register.WebName = GetRandomString("", 5);
+            if (OmitPropName != "Password") register.Password = GetRandomString("", 5);
+            if (OmitPropName != "ConfirmPassword") register.ConfirmPassword = GetRandomString("", 5);
 
             return register;
         }
@@ -62,6 +62,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             RegisterService registerService = new RegisterService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            Register register = GetFilledRandomRegister("");
 
             // -------------------------------
             // -------------------------------

@@ -60,6 +60,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            SamplingPlanSubsector samplingPlanSubsector = GetFilledRandomSamplingPlanSubsector("");
 
             // -------------------------------
             // -------------------------------
@@ -67,7 +68,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            SamplingPlanSubsector samplingPlanSubsector = GetFilledRandomSamplingPlanSubsector("");
             Assert.AreEqual(true, samplingPlanSubsectorService.Add(samplingPlanSubsector));
             Assert.AreEqual(true, samplingPlanSubsectorService.GetRead().Where(c => c == samplingPlanSubsector).Any());
             samplingPlanSubsector.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -96,6 +96,14 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [SamplingPlanSubsectorSites]
+
+            //Error: Type not implemented [SamplingPlan]
+
+            //Error: Type not implemented [SubsectorTVItem]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -105,11 +113,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [SamplingPlanSubsectorID] of type [int]
+            // doing property [SamplingPlanSubsectorID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SamplingPlanID] of type [int]
+            // doing property [SamplingPlanID] of type [Int32]
             //-----------------------------------
 
             samplingPlanSubsector = null;
@@ -136,7 +144,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, samplingPlanSubsectorService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [SubsectorTVItemID] of type [int]
+            // doing property [SubsectorTVItemID] of type [Int32]
             //-----------------------------------
 
             samplingPlanSubsector = null;
@@ -167,7 +175,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             samplingPlanSubsector = null;
@@ -192,6 +200,22 @@ namespace CSSPServices.Tests
             Assert.IsTrue(samplingPlanSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanSubsectorLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, samplingPlanSubsector.LastUpdateContactTVItemID);
             Assert.AreEqual(0, samplingPlanSubsectorService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [SamplingPlanSubsectorSites] of type [ICollection`1]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [SamplingPlan] of type [SamplingPlan]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [SubsectorTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

@@ -50,62 +50,34 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteSampleFCSampleDate), new[] { ModelsRes.MWQMSiteSampleFCSampleDate });
             }
 
-                //Error: Type not implemented [FC] of type [Nullable`1]
-
             if (mwqmSiteSampleFC.FC < 1 || mwqmSiteSampleFC.FC > 100000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteSampleFCFC, "1", "100000000"), new[] { ModelsRes.MWQMSiteSampleFCFC });
             }
 
-                //Error: Type not implemented [Sal] of type [Nullable`1]
-
             //Sal has no Range Attribute
-
-                //Error: Type not implemented [Temp] of type [Nullable`1]
 
             //Temp has no Range Attribute
 
-                //Error: Type not implemented [PH] of type [Nullable`1]
-
             //PH has no Range Attribute
-
-                //Error: Type not implemented [DO] of type [Nullable`1]
 
             //DO has no Range Attribute
 
-                //Error: Type not implemented [Depth] of type [Nullable`1]
-
             //Depth has no Range Attribute
-
-                //Error: Type not implemented [SampCount] of type [Nullable`1]
 
             //SampCount has no Range Attribute
 
-                //Error: Type not implemented [MinFC] of type [Nullable`1]
-
             //MinFC has no Range Attribute
-
-                //Error: Type not implemented [MaxFC] of type [Nullable`1]
 
             //MaxFC has no Range Attribute
 
-                //Error: Type not implemented [GeoMean] of type [Nullable`1]
-
             //GeoMean has no Range Attribute
-
-                //Error: Type not implemented [Median] of type [Nullable`1]
 
             //Median has no Range Attribute
 
-                //Error: Type not implemented [P90] of type [Nullable`1]
-
             //P90 has no Range Attribute
 
-                //Error: Type not implemented [PercOver43] of type [Nullable`1]
-
             //PercOver43 has no Range Attribute
-
-                //Error: Type not implemented [PercOver260] of type [Nullable`1]
 
             //PercOver260 has no Range Attribute
 

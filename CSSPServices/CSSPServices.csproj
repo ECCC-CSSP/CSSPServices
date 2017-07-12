@@ -395,6 +395,8 @@
     <Compile Include="DocTemplateServiceGenerated.cs" />
     <Compile Include="ElementLayerServiceGenerated.cs" />
     <Compile Include="ElementServiceGenerated.cs" />
+    <Compile Include="EmailDistributionListContactServiceGenerated.cs" />
+    <Compile Include="EmailDistributionListServiceGenerated.cs" />
     <Compile Include="EmailServiceGenerated.cs" />
     <Compile Include="FileItemListServiceGenerated.cs" />
     <Compile Include="FileItemServiceGenerated.cs" />

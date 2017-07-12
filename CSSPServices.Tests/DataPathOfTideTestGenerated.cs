@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             DataPathOfTide dataPathOfTide = new DataPathOfTide();
 
-            if (OmitPropName != "Text") dataPathOfTide.Text = GetRandomString("", 1);
-            if (OmitPropName != "WebTideDataSet") dataPathOfTide.WebTideDataSet = (CSSPEnums.WebTideDataSetEnum)GetRandomEnumType(typeof(CSSPEnums.WebTideDataSetEnum));
+            if (OmitPropName != "Text") dataPathOfTide.Text = GetRandomString("", 5);
+            if (OmitPropName != "WebTideDataSet") dataPathOfTide.WebTideDataSet = (WebTideDataSetEnum)GetRandomEnumType(typeof(WebTideDataSetEnum));
 
             return dataPathOfTide;
         }
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             DataPathOfTideService dataPathOfTideService = new DataPathOfTideService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            DataPathOfTide dataPathOfTide = GetFilledRandomDataPathOfTide("");
 
             // -------------------------------
             // -------------------------------

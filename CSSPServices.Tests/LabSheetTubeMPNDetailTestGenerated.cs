@@ -49,12 +49,12 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Ordinal") labSheetTubeMPNDetail.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "MWQMSiteTVItemID") labSheetTubeMPNDetail.MWQMSiteTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "SampleDateTime") labSheetTubeMPNDetail.SampleDateTime = GetRandomDateTime();
-            if (OmitPropName != "MPN") labSheetTubeMPNDetail.MPN = GetRandomInt(1, 20000000);
+            if (OmitPropName != "MPN") labSheetTubeMPNDetail.MPN = GetRandomInt(1, 10000000);
             if (OmitPropName != "Tube10") labSheetTubeMPNDetail.Tube10 = GetRandomInt(0, 5);
             if (OmitPropName != "Tube1_0") labSheetTubeMPNDetail.Tube1_0 = GetRandomInt(0, 5);
             if (OmitPropName != "Tube0_1") labSheetTubeMPNDetail.Tube0_1 = GetRandomInt(0, 5);
             if (OmitPropName != "Salinity") labSheetTubeMPNDetail.Salinity = GetRandomFloat(0, 40);
-            if (OmitPropName != "Temperature") labSheetTubeMPNDetail.Temperature = GetRandomFloat(0, 40);
+            if (OmitPropName != "Temperature") labSheetTubeMPNDetail.Temperature = GetRandomFloat(-10, 40);
             if (OmitPropName != "ProcessedBy") labSheetTubeMPNDetail.ProcessedBy = GetRandomString("", 5);
             if (OmitPropName != "SampleType") labSheetTubeMPNDetail.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "SiteComment") labSheetTubeMPNDetail.SiteComment = GetRandomString("", 5);
@@ -71,6 +71,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            LabSheetTubeMPNDetail labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
 
             // -------------------------------
             // -------------------------------
@@ -78,7 +79,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            LabSheetTubeMPNDetail labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
             Assert.AreEqual(true, labSheetTubeMPNDetailService.GetRead().Where(c => c == labSheetTubeMPNDetail).Any());
             labSheetTubeMPNDetail.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -99,13 +99,7 @@ namespace CSSPServices.Tests
 
             // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
 
-            labSheetTubeMPNDetail = null;
-            labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("SampleType");
-            Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(1, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetTubeMPNDetailSampleType)).Any());
-            Assert.AreEqual(SampleTypeEnum.Error, labSheetTubeMPNDetail.SampleType);
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
+            //Error: Type not implemented [SampleType]
 
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("LastUpdateDate_UTC");
@@ -117,6 +111,12 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [LabSheetDetail]
+
+            //Error: Type not implemented [MWQMSiteTVItem]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -126,11 +126,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [LabSheetTubeMPNDetailID] of type [int]
+            // doing property [LabSheetTubeMPNDetailID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LabSheetDetailID] of type [int]
+            // doing property [LabSheetDetailID] of type [Int32]
             //-----------------------------------
 
             labSheetTubeMPNDetail = null;
@@ -157,7 +157,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Ordinal] of type [int]
+            // doing property [Ordinal] of type [Int32]
             //-----------------------------------
 
             labSheetTubeMPNDetail = null;
@@ -204,7 +204,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [MWQMSiteTVItemID] of type [int]
+            // doing property [MWQMSiteTVItemID] of type [Int32]
             //-----------------------------------
 
             labSheetTubeMPNDetail = null;
@@ -235,54 +235,54 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MPN] of type [int]
+            // doing property [MPN] of type [Int32]
             //-----------------------------------
 
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
-            // MPN has Min [1] and Max [20000000]. At Min should return true and no errors
+            // MPN has Min [1] and Max [10000000]. At Min should return true and no errors
             labSheetTubeMPNDetail.MPN = 1;
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
             Assert.AreEqual(1, labSheetTubeMPNDetail.MPN);
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // MPN has Min [1] and Max [20000000]. At Min + 1 should return true and no errors
+            // MPN has Min [1] and Max [10000000]. At Min + 1 should return true and no errors
             labSheetTubeMPNDetail.MPN = 2;
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
             Assert.AreEqual(2, labSheetTubeMPNDetail.MPN);
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // MPN has Min [1] and Max [20000000]. At Min - 1 should return false with one error
+            // MPN has Min [1] and Max [10000000]. At Min - 1 should return false with one error
             labSheetTubeMPNDetail.MPN = 0;
             Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailMPN, "1", "20000000")).Any());
+            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailMPN, "1", "10000000")).Any());
             Assert.AreEqual(0, labSheetTubeMPNDetail.MPN);
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // MPN has Min [1] and Max [20000000]. At Max should return true and no errors
-            labSheetTubeMPNDetail.MPN = 20000000;
+            // MPN has Min [1] and Max [10000000]. At Max should return true and no errors
+            labSheetTubeMPNDetail.MPN = 10000000;
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(20000000, labSheetTubeMPNDetail.MPN);
+            Assert.AreEqual(10000000, labSheetTubeMPNDetail.MPN);
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // MPN has Min [1] and Max [20000000]. At Max - 1 should return true and no errors
-            labSheetTubeMPNDetail.MPN = 19999999;
+            // MPN has Min [1] and Max [10000000]. At Max - 1 should return true and no errors
+            labSheetTubeMPNDetail.MPN = 9999999;
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(19999999, labSheetTubeMPNDetail.MPN);
+            Assert.AreEqual(9999999, labSheetTubeMPNDetail.MPN);
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // MPN has Min [1] and Max [20000000]. At Max + 1 should return false with one error
-            labSheetTubeMPNDetail.MPN = 20000001;
+            // MPN has Min [1] and Max [10000000]. At Max + 1 should return false with one error
+            labSheetTubeMPNDetail.MPN = 10000001;
             Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailMPN, "1", "20000000")).Any());
-            Assert.AreEqual(20000001, labSheetTubeMPNDetail.MPN);
+            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailMPN, "1", "10000000")).Any());
+            Assert.AreEqual(10000001, labSheetTubeMPNDetail.MPN);
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Tube10] of type [int]
+            // doing property [Tube10] of type [Int32]
             //-----------------------------------
 
             labSheetTubeMPNDetail = null;
@@ -329,7 +329,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Tube1_0] of type [int]
+            // doing property [Tube1_0] of type [Int32]
             //-----------------------------------
 
             labSheetTubeMPNDetail = null;
@@ -376,7 +376,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Tube0_1] of type [int]
+            // doing property [Tube0_1] of type [Int32]
             //-----------------------------------
 
             labSheetTubeMPNDetail = null;
@@ -423,7 +423,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Salinity] of type [float]
+            // doing property [Salinity] of type [Single]
             //-----------------------------------
 
             labSheetTubeMPNDetail = null;
@@ -470,128 +470,76 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Temperature] of type [float]
+            // doing property [Temperature] of type [Single]
             //-----------------------------------
 
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
-            // Temperature has Min [0] and Max [40]. At Min should return true and no errors
-            labSheetTubeMPNDetail.Temperature = 0.0f;
+            // Temperature has Min [-10] and Max [40]. At Min should return true and no errors
+            labSheetTubeMPNDetail.Temperature = -10.0f;
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(0.0f, labSheetTubeMPNDetail.Temperature);
+            Assert.AreEqual(-10.0f, labSheetTubeMPNDetail.Temperature);
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Temperature has Min [0] and Max [40]. At Min + 1 should return true and no errors
-            labSheetTubeMPNDetail.Temperature = 1.0f;
+            // Temperature has Min [-10] and Max [40]. At Min + 1 should return true and no errors
+            labSheetTubeMPNDetail.Temperature = -9.0f;
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(1.0f, labSheetTubeMPNDetail.Temperature);
+            Assert.AreEqual(-9.0f, labSheetTubeMPNDetail.Temperature);
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Temperature has Min [0] and Max [40]. At Min - 1 should return false with one error
-            labSheetTubeMPNDetail.Temperature = -1.0f;
+            // Temperature has Min [-10] and Max [40]. At Min - 1 should return false with one error
+            labSheetTubeMPNDetail.Temperature = -11.0f;
             Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailTemperature, "0", "40")).Any());
-            Assert.AreEqual(-1.0f, labSheetTubeMPNDetail.Temperature);
+            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailTemperature, "-10", "40")).Any());
+            Assert.AreEqual(-11.0f, labSheetTubeMPNDetail.Temperature);
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Temperature has Min [0] and Max [40]. At Max should return true and no errors
+            // Temperature has Min [-10] and Max [40]. At Max should return true and no errors
             labSheetTubeMPNDetail.Temperature = 40.0f;
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
             Assert.AreEqual(40.0f, labSheetTubeMPNDetail.Temperature);
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Temperature has Min [0] and Max [40]. At Max - 1 should return true and no errors
+            // Temperature has Min [-10] and Max [40]. At Max - 1 should return true and no errors
             labSheetTubeMPNDetail.Temperature = 39.0f;
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
             Assert.AreEqual(39.0f, labSheetTubeMPNDetail.Temperature);
             Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Temperature has Min [0] and Max [40]. At Max + 1 should return false with one error
+            // Temperature has Min [-10] and Max [40]. At Max + 1 should return false with one error
             labSheetTubeMPNDetail.Temperature = 41.0f;
             Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailTemperature, "0", "40")).Any());
+            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailTemperature, "-10", "40")).Any());
             Assert.AreEqual(41.0f, labSheetTubeMPNDetail.Temperature);
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [ProcessedBy] of type [string]
+            // doing property [ProcessedBy] of type [String]
             //-----------------------------------
 
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
-
-            // ProcessedBy has MinLength [empty] and MaxLength [10]. At Max should return true and no errors
-            string labSheetTubeMPNDetailProcessedByMin = GetRandomString("", 10);
-            labSheetTubeMPNDetail.ProcessedBy = labSheetTubeMPNDetailProcessedByMin;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(labSheetTubeMPNDetailProcessedByMin, labSheetTubeMPNDetail.ProcessedBy);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-
-            // ProcessedBy has MinLength [empty] and MaxLength [10]. At Max - 1 should return true and no errors
-            labSheetTubeMPNDetailProcessedByMin = GetRandomString("", 9);
-            labSheetTubeMPNDetail.ProcessedBy = labSheetTubeMPNDetailProcessedByMin;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(labSheetTubeMPNDetailProcessedByMin, labSheetTubeMPNDetail.ProcessedBy);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-
-            // ProcessedBy has MinLength [empty] and MaxLength [10]. At Max + 1 should return false with one error
-            labSheetTubeMPNDetailProcessedByMin = GetRandomString("", 11);
-            labSheetTubeMPNDetail.ProcessedBy = labSheetTubeMPNDetailProcessedByMin;
-            Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetTubeMPNDetailProcessedBy, "10")).Any());
-            Assert.AreEqual(labSheetTubeMPNDetailProcessedByMin, labSheetTubeMPNDetail.ProcessedBy);
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
 
             //-----------------------------------
             // doing property [SampleType] of type [SampleTypeEnum]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SiteComment] of type [string]
+            // doing property [SiteComment] of type [String]
             //-----------------------------------
 
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
-
-            // SiteComment has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
-            string labSheetTubeMPNDetailSiteCommentMin = GetRandomString("", 250);
-            labSheetTubeMPNDetail.SiteComment = labSheetTubeMPNDetailSiteCommentMin;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(labSheetTubeMPNDetailSiteCommentMin, labSheetTubeMPNDetail.SiteComment);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-
-            // SiteComment has MinLength [empty] and MaxLength [250]. At Max - 1 should return true and no errors
-            labSheetTubeMPNDetailSiteCommentMin = GetRandomString("", 249);
-            labSheetTubeMPNDetail.SiteComment = labSheetTubeMPNDetailSiteCommentMin;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(labSheetTubeMPNDetailSiteCommentMin, labSheetTubeMPNDetail.SiteComment);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-
-            // SiteComment has MinLength [empty] and MaxLength [250]. At Max + 1 should return false with one error
-            labSheetTubeMPNDetailSiteCommentMin = GetRandomString("", 251);
-            labSheetTubeMPNDetail.SiteComment = labSheetTubeMPNDetailSiteCommentMin;
-            Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetTubeMPNDetailSiteComment, "250")).Any());
-            Assert.AreEqual(labSheetTubeMPNDetailSiteCommentMin, labSheetTubeMPNDetail.SiteComment);
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
 
             //-----------------------------------
             // doing property [LastUpdateDate_UTC] of type [DateTime]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             labSheetTubeMPNDetail = null;
@@ -616,6 +564,18 @@ namespace CSSPServices.Tests
             Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, labSheetTubeMPNDetail.LastUpdateContactTVItemID);
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [LabSheetDetail] of type [LabSheetDetail]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [MWQMSiteTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

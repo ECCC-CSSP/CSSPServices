@@ -83,44 +83,30 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetTubeMPNDetailMWQMSiteTVItemID, labSheetTubeMPNDetail.MWQMSiteTVItemID.ToString()), new[] { ModelsRes.LabSheetTubeMPNDetailMWQMSiteTVItemID });
             }
 
-                //Error: Type not implemented [SampleDateTime] of type [Nullable`1]
-
-                //Error: Type not implemented [MPN] of type [Nullable`1]
-
             if (labSheetTubeMPNDetail.MPN < 1 || labSheetTubeMPNDetail.MPN > 10000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailMPN, "1", "10000000"), new[] { ModelsRes.LabSheetTubeMPNDetailMPN });
             }
-
-                //Error: Type not implemented [Tube10] of type [Nullable`1]
 
             if (labSheetTubeMPNDetail.Tube10 < 0 || labSheetTubeMPNDetail.Tube10 > 5)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailTube10, "0", "5"), new[] { ModelsRes.LabSheetTubeMPNDetailTube10 });
             }
 
-                //Error: Type not implemented [Tube1_0] of type [Nullable`1]
-
             if (labSheetTubeMPNDetail.Tube1_0 < 0 || labSheetTubeMPNDetail.Tube1_0 > 5)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailTube1_0, "0", "5"), new[] { ModelsRes.LabSheetTubeMPNDetailTube1_0 });
             }
-
-                //Error: Type not implemented [Tube0_1] of type [Nullable`1]
 
             if (labSheetTubeMPNDetail.Tube0_1 < 0 || labSheetTubeMPNDetail.Tube0_1 > 5)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailTube0_1, "0", "5"), new[] { ModelsRes.LabSheetTubeMPNDetailTube0_1 });
             }
 
-                //Error: Type not implemented [Salinity] of type [Nullable`1]
-
             if (labSheetTubeMPNDetail.Salinity < 0 || labSheetTubeMPNDetail.Salinity > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailSalinity, "0", "40"), new[] { ModelsRes.LabSheetTubeMPNDetailSalinity });
             }
-
-                //Error: Type not implemented [Temperature] of type [Nullable`1]
 
             if (labSheetTubeMPNDetail.Temperature < -10 || labSheetTubeMPNDetail.Temperature > 40)
             {

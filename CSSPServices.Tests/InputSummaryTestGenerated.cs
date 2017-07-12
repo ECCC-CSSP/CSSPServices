@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             InputSummary inputSummary = new InputSummary();
 
-            if (OmitPropName != "Error") inputSummary.Error = GetRandomString("", 5);
-            if (OmitPropName != "Summary") inputSummary.Summary = GetRandomString("", 5);
+            if (OmitPropName != "Error") inputSummary.Error = GetRandomString("", 20);
+            if (OmitPropName != "Summary") inputSummary.Summary = GetRandomString("", 20);
 
             return inputSummary;
         }
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             InputSummaryService inputSummaryService = new InputSummaryService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            InputSummary inputSummary = GetFilledRandomInputSummary("");
 
             // -------------------------------
             // -------------------------------

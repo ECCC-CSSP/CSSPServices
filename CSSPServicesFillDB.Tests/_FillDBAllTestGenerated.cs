@@ -22,12 +22,11 @@ namespace CSSPServicesFillDB.Tests
 
         #region Properties
         public List<LanguageEnum> AllowableLanguageList { get; set; }
-        //CSSPTypeAttributeService cSSPTypeAttributeService { get; set; }
-        //CSSPObjectExistAttributeService cSSPObjectExistAttributeService { get; set; }
-        //CSSPDateAfterYearService cSSPDateAfterYearService { get; set; }
         AddressService addressService { get; set; }
         AppErrLogService appErrLogService { get; set; }
         AppTaskService appTaskService { get; set; }
+        EmailDistributionListContactService emailDistributionListContactService { get; set; }
+        EmailDistributionListService emailDistributionListService { get; set; }
         MWQMSampleDuplicateItemService mwqmSampleDuplicateItemService { get; set; }
         MWQMSiteSampleFCService mwqmSiteSampleFCService { get; set; }
         NewContactService newContactService { get; set; }
@@ -154,6 +153,8 @@ namespace CSSPServicesFillDB.Tests
             addressService = new AddressService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);
             appErrLogService = new AppErrLogService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);
             appTaskService = new AppTaskService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);
+            emailDistributionListContactService = new EmailDistributionListContactService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);
+            emailDistributionListService = new EmailDistributionListService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);
             mwqmSampleDuplicateItemService = new MWQMSampleDuplicateItemService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);
             mwqmSiteSampleFCService = new MWQMSiteSampleFCService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);
             newContactService = new NewContactService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);

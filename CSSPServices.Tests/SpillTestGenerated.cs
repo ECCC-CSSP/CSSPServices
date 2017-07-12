@@ -63,6 +63,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             SpillService spillService = new SpillService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            Spill spill = GetFilledRandomSpill("");
 
             // -------------------------------
             // -------------------------------
@@ -70,7 +71,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Spill spill = GetFilledRandomSpill("");
             Assert.AreEqual(true, spillService.Add(spill));
             Assert.AreEqual(true, spillService.GetRead().Where(c => c == spill).Any());
             spill.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -95,7 +95,7 @@ namespace CSSPServices.Tests
             Assert.IsTrue(spill.StartDateTime_Local.Year < 1900);
             Assert.AreEqual(0, spillService.GetRead().Count());
 
-            // AverageFlow_m3_day will automatically be initialized at 0.0f --> not null
+            // AverageFlow_m3_day will automatically be initialized at 0 --> not null
 
             spill = null;
             spill = GetFilledRandomSpill("LastUpdateDate_UTC");
@@ -107,6 +107,14 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [SpillLanguages]
+
+            //Error: Type not implemented [InfrastructureTVItem]
+
+            //Error: Type not implemented [MunicipalityTVItem]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -116,11 +124,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [SpillID] of type [int]
+            // doing property [SpillID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MunicipalityTVItemID] of type [int]
+            // doing property [MunicipalityTVItemID] of type [Int32]
             //-----------------------------------
 
             spill = null;
@@ -147,7 +155,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, spillService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [InfrastructureTVItemID] of type [int]
+            // doing property [InfrastructureTVItemID] of type [Int32]
             //-----------------------------------
 
             spill = null;
@@ -182,7 +190,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [AverageFlow_m3_day] of type [float]
+            // doing property [AverageFlow_m3_day] of type [Single]
             //-----------------------------------
 
             spill = null;
@@ -233,7 +241,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             spill = null;
@@ -258,6 +266,22 @@ namespace CSSPServices.Tests
             Assert.IsTrue(spill.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.SpillLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, spill.LastUpdateContactTVItemID);
             Assert.AreEqual(0, spillService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [SpillLanguages] of type [ICollection`1]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [InfrastructureTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [MunicipalityTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

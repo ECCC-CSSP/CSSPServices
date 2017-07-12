@@ -74,6 +74,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             ClimateDataValueService climateDataValueService = new ClimateDataValueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ClimateDataValue climateDataValue = GetFilledRandomClimateDataValue("");
 
             // -------------------------------
             // -------------------------------
@@ -81,7 +82,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            ClimateDataValue climateDataValue = GetFilledRandomClimateDataValue("");
             Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
             Assert.AreEqual(true, climateDataValueService.GetRead().Where(c => c == climateDataValue).Any());
             climateDataValue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -106,15 +106,9 @@ namespace CSSPServices.Tests
             Assert.IsTrue(climateDataValue.DateTime_Local.Year < 1900);
             Assert.AreEqual(0, climateDataValueService.GetRead().Count());
 
-            // Keep will automatically be initialized at false --> not null
+            // Keep will automatically be initialized at 0 --> not null
 
-            climateDataValue = null;
-            climateDataValue = GetFilledRandomClimateDataValue("StorageDataType");
-            Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(1, climateDataValue.ValidationResults.Count());
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueStorageDataType)).Any());
-            Assert.AreEqual(StorageDataTypeEnum.Error, climateDataValue.StorageDataType);
-            Assert.AreEqual(0, climateDataValueService.GetRead().Count());
+            //Error: Type not implemented [StorageDataType]
 
             //Error: Type not implemented [Snow_cm]
 
@@ -139,6 +133,14 @@ namespace CSSPServices.Tests
             //Error: Type not implemented [SpdMaxGust_kmh]
 
             climateDataValue = null;
+            climateDataValue = GetFilledRandomClimateDataValue("HourlyValues");
+            Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
+            Assert.AreEqual(1, climateDataValue.ValidationResults.Count());
+            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueHourlyValues)).Any());
+            Assert.AreEqual(null, climateDataValue.HourlyValues);
+            Assert.AreEqual(0, climateDataValueService.GetRead().Count());
+
+            climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("LastUpdateDate_UTC");
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
             Assert.AreEqual(1, climateDataValue.ValidationResults.Count());
@@ -147,6 +149,10 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, climateDataValueService.GetRead().Count());
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
+            //Error: Type not implemented [ClimateSite]
+
+            //Error: Type not implemented [ValidationResults]
 
 
             // -------------------------------
@@ -157,11 +163,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [ClimateDataValueID] of type [int]
+            // doing property [ClimateDataValueID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ClimateSiteID] of type [int]
+            // doing property [ClimateSiteID] of type [Int32]
             //-----------------------------------
 
             climateDataValue = null;
@@ -192,7 +198,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Keep] of type [bool]
+            // doing property [Keep] of type [Boolean]
             //-----------------------------------
 
             //-----------------------------------
@@ -200,51 +206,51 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Snow_cm] of type [double]
+            // doing property [Snow_cm] of type [Double]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Rainfall_mm] of type [double]
+            // doing property [Rainfall_mm] of type [Double]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [RainfallEntered_mm] of type [double]
+            // doing property [RainfallEntered_mm] of type [Double]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TotalPrecip_mm_cm] of type [double]
+            // doing property [TotalPrecip_mm_cm] of type [Double]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MaxTemp_C] of type [double]
+            // doing property [MaxTemp_C] of type [Double]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MinTemp_C] of type [double]
+            // doing property [MinTemp_C] of type [Double]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [HeatDegDays_C] of type [double]
+            // doing property [HeatDegDays_C] of type [Double]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [CoolDegDays_C] of type [double]
+            // doing property [CoolDegDays_C] of type [Double]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SnowOnGround_cm] of type [double]
+            // doing property [SnowOnGround_cm] of type [Double]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [DirMaxGust_0North] of type [double]
+            // doing property [DirMaxGust_0North] of type [Double]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SpdMaxGust_kmh] of type [double]
+            // doing property [SpdMaxGust_kmh] of type [Double]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [HourlyValues] of type [string]
+            // doing property [HourlyValues] of type [String]
             //-----------------------------------
 
             climateDataValue = null;
@@ -255,7 +261,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             climateDataValue = null;
@@ -280,6 +286,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ClimateDataValueLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, climateDataValue.LastUpdateContactTVItemID);
             Assert.AreEqual(0, climateDataValueService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [ClimateSite] of type [ClimateSite]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

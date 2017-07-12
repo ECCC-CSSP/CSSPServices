@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             PolSourceObsInfoChild polSourceObsInfoChild = new PolSourceObsInfoChild();
 
-            if (OmitPropName != "PolSourceObsInfo") polSourceObsInfoChild.PolSourceObsInfo = (CSSPEnums.PolSourceObsInfoEnum)GetRandomEnumType(typeof(CSSPEnums.PolSourceObsInfoEnum));
-            if (OmitPropName != "PolSourceObsInfoChildStart") polSourceObsInfoChild.PolSourceObsInfoChildStart = (CSSPEnums.PolSourceObsInfoEnum)GetRandomEnumType(typeof(CSSPEnums.PolSourceObsInfoEnum));
+            if (OmitPropName != "PolSourceObsInfo") polSourceObsInfoChild.PolSourceObsInfo = (PolSourceObsInfoEnum)GetRandomEnumType(typeof(PolSourceObsInfoEnum));
+            if (OmitPropName != "PolSourceObsInfoChildStart") polSourceObsInfoChild.PolSourceObsInfoChildStart = (PolSourceObsInfoEnum)GetRandomEnumType(typeof(PolSourceObsInfoEnum));
 
             return polSourceObsInfoChild;
         }
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             PolSourceObsInfoChildService polSourceObsInfoChildService = new PolSourceObsInfoChildService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            PolSourceObsInfoChild polSourceObsInfoChild = GetFilledRandomPolSourceObsInfoChild("");
 
             // -------------------------------
             // -------------------------------

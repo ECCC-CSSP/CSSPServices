@@ -85,11 +85,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelTemperature_C, "-15", "40"), new[] { ModelsRes.BoxModelTemperature_C });
             }
 
-            //Dilution (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Dilution (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (boxModel.Dilution < 0 || boxModel.Dilution > 1E+07)
+            if (boxModel.Dilution < 0 || boxModel.Dilution > 10000000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDilution, "0", "1E+07"), new[] { ModelsRes.BoxModelDilution });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDilution, "0", "10000000"), new[] { ModelsRes.BoxModelDilution });
             }
 
             //DecayRate_per_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

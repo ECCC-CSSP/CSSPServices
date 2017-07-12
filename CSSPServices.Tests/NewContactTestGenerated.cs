@@ -45,8 +45,8 @@ namespace CSSPServices.Tests
             NewContact newContact = new NewContact();
 
             if (OmitPropName != "LoginEmail") newContact.LoginEmail = GetRandomEmail();
-            if (OmitPropName != "FirstName") newContact.FirstName = GetRandomString("", 1);
-            if (OmitPropName != "LastName") newContact.LastName = GetRandomString("", 1);
+            if (OmitPropName != "FirstName") newContact.FirstName = GetRandomString("", 5);
+            if (OmitPropName != "LastName") newContact.LastName = GetRandomString("", 5);
             if (OmitPropName != "Initial") newContact.Initial = GetRandomString("", 5);
             if (OmitPropName != "ContactTitle") newContact.ContactTitle = (ContactTitleEnum)GetRandomEnumType(typeof(ContactTitleEnum));
 
@@ -60,6 +60,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             NewContactService newContactService = new NewContactService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            NewContact newContact = GetFilledRandomNewContact("");
 
             // -------------------------------
             // -------------------------------

@@ -46,12 +46,12 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "VPResultID") vpResult.VPResultID = VPResultID;
             if (OmitPropName != "VPScenarioID") vpResult.VPScenarioID = GetRandomInt(1, 11);
-            if (OmitPropName != "Ordinal") vpResult.Ordinal = GetRandomInt(0, 100);
-            if (OmitPropName != "Concentration_MPN_100ml") vpResult.Concentration_MPN_100ml = GetRandomInt(0, 20000000);
+            if (OmitPropName != "Ordinal") vpResult.Ordinal = GetRandomInt(0, 1000);
+            if (OmitPropName != "Concentration_MPN_100ml") vpResult.Concentration_MPN_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "Dilution") vpResult.Dilution = GetRandomFloat(0, 1000000);
-            if (OmitPropName != "FarFieldWidth_m") vpResult.FarFieldWidth_m = GetRandomFloat(0, 100000);
+            if (OmitPropName != "FarFieldWidth_m") vpResult.FarFieldWidth_m = GetRandomFloat(0, 10000);
             if (OmitPropName != "DispersionDistance_m") vpResult.DispersionDistance_m = GetRandomFloat(0, 100000);
-            if (OmitPropName != "TravelTime_hour") vpResult.TravelTime_hour = GetRandomFloat(0, 1000);
+            if (OmitPropName != "TravelTime_hour") vpResult.TravelTime_hour = GetRandomFloat(-10, 0);
             if (OmitPropName != "LastUpdateDate_UTC") vpResult.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") vpResult.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 
@@ -65,6 +65,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             VPResultService vpResultService = new VPResultService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            VPResult vpResult = GetFilledRandomVPResult("");
 
             // -------------------------------
             // -------------------------------
@@ -72,7 +73,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            VPResult vpResult = GetFilledRandomVPResult("");
             Assert.AreEqual(true, vpResultService.Add(vpResult));
             Assert.AreEqual(true, vpResultService.GetRead().Where(c => c == vpResult).Any());
             vpResult.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -93,13 +93,13 @@ namespace CSSPServices.Tests
 
             // Concentration_MPN_100ml will automatically be initialized at 0 --> not null
 
-            // Dilution will automatically be initialized at 0.0f --> not null
+            // Dilution will automatically be initialized at 0 --> not null
 
-            // FarFieldWidth_m will automatically be initialized at 0.0f --> not null
+            // FarFieldWidth_m will automatically be initialized at 0 --> not null
 
-            // DispersionDistance_m will automatically be initialized at 0.0f --> not null
+            // DispersionDistance_m will automatically be initialized at 0 --> not null
 
-            // TravelTime_hour will automatically be initialized at 0.0f --> not null
+            // TravelTime_hour will automatically be initialized at 0 --> not null
 
             vpResult = null;
             vpResult = GetFilledRandomVPResult("LastUpdateDate_UTC");
@@ -111,6 +111,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [VPScenario]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -120,11 +124,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [VPResultID] of type [int]
+            // doing property [VPResultID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [VPScenarioID] of type [int]
+            // doing property [VPScenarioID] of type [Int32]
             //-----------------------------------
 
             vpResult = null;
@@ -151,101 +155,101 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpResultService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Ordinal] of type [int]
+            // doing property [Ordinal] of type [Int32]
             //-----------------------------------
 
             vpResult = null;
             vpResult = GetFilledRandomVPResult("");
-            // Ordinal has Min [0] and Max [100]. At Min should return true and no errors
+            // Ordinal has Min [0] and Max [1000]. At Min should return true and no errors
             vpResult.Ordinal = 0;
             Assert.AreEqual(true, vpResultService.Add(vpResult));
             Assert.AreEqual(0, vpResult.ValidationResults.Count());
             Assert.AreEqual(0, vpResult.Ordinal);
             Assert.AreEqual(true, vpResultService.Delete(vpResult));
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // Ordinal has Min [0] and Max [100]. At Min + 1 should return true and no errors
+            // Ordinal has Min [0] and Max [1000]. At Min + 1 should return true and no errors
             vpResult.Ordinal = 1;
             Assert.AreEqual(true, vpResultService.Add(vpResult));
             Assert.AreEqual(0, vpResult.ValidationResults.Count());
             Assert.AreEqual(1, vpResult.Ordinal);
             Assert.AreEqual(true, vpResultService.Delete(vpResult));
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // Ordinal has Min [0] and Max [100]. At Min - 1 should return false with one error
+            // Ordinal has Min [0] and Max [1000]. At Min - 1 should return false with one error
             vpResult.Ordinal = -1;
             Assert.AreEqual(false, vpResultService.Add(vpResult));
-            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultOrdinal, "0", "100")).Any());
+            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultOrdinal, "0", "1000")).Any());
             Assert.AreEqual(-1, vpResult.Ordinal);
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // Ordinal has Min [0] and Max [100]. At Max should return true and no errors
-            vpResult.Ordinal = 100;
+            // Ordinal has Min [0] and Max [1000]. At Max should return true and no errors
+            vpResult.Ordinal = 1000;
             Assert.AreEqual(true, vpResultService.Add(vpResult));
             Assert.AreEqual(0, vpResult.ValidationResults.Count());
-            Assert.AreEqual(100, vpResult.Ordinal);
+            Assert.AreEqual(1000, vpResult.Ordinal);
             Assert.AreEqual(true, vpResultService.Delete(vpResult));
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // Ordinal has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            vpResult.Ordinal = 99;
+            // Ordinal has Min [0] and Max [1000]. At Max - 1 should return true and no errors
+            vpResult.Ordinal = 999;
             Assert.AreEqual(true, vpResultService.Add(vpResult));
             Assert.AreEqual(0, vpResult.ValidationResults.Count());
-            Assert.AreEqual(99, vpResult.Ordinal);
+            Assert.AreEqual(999, vpResult.Ordinal);
             Assert.AreEqual(true, vpResultService.Delete(vpResult));
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // Ordinal has Min [0] and Max [100]. At Max + 1 should return false with one error
-            vpResult.Ordinal = 101;
+            // Ordinal has Min [0] and Max [1000]. At Max + 1 should return false with one error
+            vpResult.Ordinal = 1001;
             Assert.AreEqual(false, vpResultService.Add(vpResult));
-            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultOrdinal, "0", "100")).Any());
-            Assert.AreEqual(101, vpResult.Ordinal);
+            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultOrdinal, "0", "1000")).Any());
+            Assert.AreEqual(1001, vpResult.Ordinal);
             Assert.AreEqual(0, vpResultService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Concentration_MPN_100ml] of type [int]
+            // doing property [Concentration_MPN_100ml] of type [Int32]
             //-----------------------------------
 
             vpResult = null;
             vpResult = GetFilledRandomVPResult("");
-            // Concentration_MPN_100ml has Min [0] and Max [20000000]. At Min should return true and no errors
+            // Concentration_MPN_100ml has Min [0] and Max [10000000]. At Min should return true and no errors
             vpResult.Concentration_MPN_100ml = 0;
             Assert.AreEqual(true, vpResultService.Add(vpResult));
             Assert.AreEqual(0, vpResult.ValidationResults.Count());
             Assert.AreEqual(0, vpResult.Concentration_MPN_100ml);
             Assert.AreEqual(true, vpResultService.Delete(vpResult));
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // Concentration_MPN_100ml has Min [0] and Max [20000000]. At Min + 1 should return true and no errors
+            // Concentration_MPN_100ml has Min [0] and Max [10000000]. At Min + 1 should return true and no errors
             vpResult.Concentration_MPN_100ml = 1;
             Assert.AreEqual(true, vpResultService.Add(vpResult));
             Assert.AreEqual(0, vpResult.ValidationResults.Count());
             Assert.AreEqual(1, vpResult.Concentration_MPN_100ml);
             Assert.AreEqual(true, vpResultService.Delete(vpResult));
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // Concentration_MPN_100ml has Min [0] and Max [20000000]. At Min - 1 should return false with one error
+            // Concentration_MPN_100ml has Min [0] and Max [10000000]. At Min - 1 should return false with one error
             vpResult.Concentration_MPN_100ml = -1;
             Assert.AreEqual(false, vpResultService.Add(vpResult));
-            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultConcentration_MPN_100ml, "0", "20000000")).Any());
+            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultConcentration_MPN_100ml, "0", "10000000")).Any());
             Assert.AreEqual(-1, vpResult.Concentration_MPN_100ml);
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // Concentration_MPN_100ml has Min [0] and Max [20000000]. At Max should return true and no errors
-            vpResult.Concentration_MPN_100ml = 20000000;
+            // Concentration_MPN_100ml has Min [0] and Max [10000000]. At Max should return true and no errors
+            vpResult.Concentration_MPN_100ml = 10000000;
             Assert.AreEqual(true, vpResultService.Add(vpResult));
             Assert.AreEqual(0, vpResult.ValidationResults.Count());
-            Assert.AreEqual(20000000, vpResult.Concentration_MPN_100ml);
+            Assert.AreEqual(10000000, vpResult.Concentration_MPN_100ml);
             Assert.AreEqual(true, vpResultService.Delete(vpResult));
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // Concentration_MPN_100ml has Min [0] and Max [20000000]. At Max - 1 should return true and no errors
-            vpResult.Concentration_MPN_100ml = 19999999;
+            // Concentration_MPN_100ml has Min [0] and Max [10000000]. At Max - 1 should return true and no errors
+            vpResult.Concentration_MPN_100ml = 9999999;
             Assert.AreEqual(true, vpResultService.Add(vpResult));
             Assert.AreEqual(0, vpResult.ValidationResults.Count());
-            Assert.AreEqual(19999999, vpResult.Concentration_MPN_100ml);
+            Assert.AreEqual(9999999, vpResult.Concentration_MPN_100ml);
             Assert.AreEqual(true, vpResultService.Delete(vpResult));
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // Concentration_MPN_100ml has Min [0] and Max [20000000]. At Max + 1 should return false with one error
-            vpResult.Concentration_MPN_100ml = 20000001;
+            // Concentration_MPN_100ml has Min [0] and Max [10000000]. At Max + 1 should return false with one error
+            vpResult.Concentration_MPN_100ml = 10000001;
             Assert.AreEqual(false, vpResultService.Add(vpResult));
-            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultConcentration_MPN_100ml, "0", "20000000")).Any());
-            Assert.AreEqual(20000001, vpResult.Concentration_MPN_100ml);
+            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultConcentration_MPN_100ml, "0", "10000000")).Any());
+            Assert.AreEqual(10000001, vpResult.Concentration_MPN_100ml);
             Assert.AreEqual(0, vpResultService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Dilution] of type [float]
+            // doing property [Dilution] of type [Single]
             //-----------------------------------
 
             vpResult = null;
@@ -292,54 +296,54 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpResultService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [FarFieldWidth_m] of type [float]
+            // doing property [FarFieldWidth_m] of type [Single]
             //-----------------------------------
 
             vpResult = null;
             vpResult = GetFilledRandomVPResult("");
-            // FarFieldWidth_m has Min [0] and Max [100000]. At Min should return true and no errors
+            // FarFieldWidth_m has Min [0] and Max [10000]. At Min should return true and no errors
             vpResult.FarFieldWidth_m = 0.0f;
             Assert.AreEqual(true, vpResultService.Add(vpResult));
             Assert.AreEqual(0, vpResult.ValidationResults.Count());
             Assert.AreEqual(0.0f, vpResult.FarFieldWidth_m);
             Assert.AreEqual(true, vpResultService.Delete(vpResult));
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // FarFieldWidth_m has Min [0] and Max [100000]. At Min + 1 should return true and no errors
+            // FarFieldWidth_m has Min [0] and Max [10000]. At Min + 1 should return true and no errors
             vpResult.FarFieldWidth_m = 1.0f;
             Assert.AreEqual(true, vpResultService.Add(vpResult));
             Assert.AreEqual(0, vpResult.ValidationResults.Count());
             Assert.AreEqual(1.0f, vpResult.FarFieldWidth_m);
             Assert.AreEqual(true, vpResultService.Delete(vpResult));
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // FarFieldWidth_m has Min [0] and Max [100000]. At Min - 1 should return false with one error
+            // FarFieldWidth_m has Min [0] and Max [10000]. At Min - 1 should return false with one error
             vpResult.FarFieldWidth_m = -1.0f;
             Assert.AreEqual(false, vpResultService.Add(vpResult));
-            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultFarFieldWidth_m, "0", "100000")).Any());
+            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultFarFieldWidth_m, "0", "10000")).Any());
             Assert.AreEqual(-1.0f, vpResult.FarFieldWidth_m);
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // FarFieldWidth_m has Min [0] and Max [100000]. At Max should return true and no errors
-            vpResult.FarFieldWidth_m = 100000.0f;
+            // FarFieldWidth_m has Min [0] and Max [10000]. At Max should return true and no errors
+            vpResult.FarFieldWidth_m = 10000.0f;
             Assert.AreEqual(true, vpResultService.Add(vpResult));
             Assert.AreEqual(0, vpResult.ValidationResults.Count());
-            Assert.AreEqual(100000.0f, vpResult.FarFieldWidth_m);
+            Assert.AreEqual(10000.0f, vpResult.FarFieldWidth_m);
             Assert.AreEqual(true, vpResultService.Delete(vpResult));
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // FarFieldWidth_m has Min [0] and Max [100000]. At Max - 1 should return true and no errors
-            vpResult.FarFieldWidth_m = 99999.0f;
+            // FarFieldWidth_m has Min [0] and Max [10000]. At Max - 1 should return true and no errors
+            vpResult.FarFieldWidth_m = 9999.0f;
             Assert.AreEqual(true, vpResultService.Add(vpResult));
             Assert.AreEqual(0, vpResult.ValidationResults.Count());
-            Assert.AreEqual(99999.0f, vpResult.FarFieldWidth_m);
+            Assert.AreEqual(9999.0f, vpResult.FarFieldWidth_m);
             Assert.AreEqual(true, vpResultService.Delete(vpResult));
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // FarFieldWidth_m has Min [0] and Max [100000]. At Max + 1 should return false with one error
-            vpResult.FarFieldWidth_m = 100001.0f;
+            // FarFieldWidth_m has Min [0] and Max [10000]. At Max + 1 should return false with one error
+            vpResult.FarFieldWidth_m = 10001.0f;
             Assert.AreEqual(false, vpResultService.Add(vpResult));
-            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultFarFieldWidth_m, "0", "100000")).Any());
-            Assert.AreEqual(100001.0f, vpResult.FarFieldWidth_m);
+            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultFarFieldWidth_m, "0", "10000")).Any());
+            Assert.AreEqual(10001.0f, vpResult.FarFieldWidth_m);
             Assert.AreEqual(0, vpResultService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [DispersionDistance_m] of type [float]
+            // doing property [DispersionDistance_m] of type [Single]
             //-----------------------------------
 
             vpResult = null;
@@ -386,50 +390,50 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpResultService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TravelTime_hour] of type [float]
+            // doing property [TravelTime_hour] of type [Single]
             //-----------------------------------
 
             vpResult = null;
             vpResult = GetFilledRandomVPResult("");
-            // TravelTime_hour has Min [0] and Max [1000]. At Min should return true and no errors
+            // TravelTime_hour has Min [-10] and Max [0]. At Min should return true and no errors
+            vpResult.TravelTime_hour = -10.0f;
+            Assert.AreEqual(true, vpResultService.Add(vpResult));
+            Assert.AreEqual(0, vpResult.ValidationResults.Count());
+            Assert.AreEqual(-10.0f, vpResult.TravelTime_hour);
+            Assert.AreEqual(true, vpResultService.Delete(vpResult));
+            Assert.AreEqual(0, vpResultService.GetRead().Count());
+            // TravelTime_hour has Min [-10] and Max [0]. At Min + 1 should return true and no errors
+            vpResult.TravelTime_hour = -9.0f;
+            Assert.AreEqual(true, vpResultService.Add(vpResult));
+            Assert.AreEqual(0, vpResult.ValidationResults.Count());
+            Assert.AreEqual(-9.0f, vpResult.TravelTime_hour);
+            Assert.AreEqual(true, vpResultService.Delete(vpResult));
+            Assert.AreEqual(0, vpResultService.GetRead().Count());
+            // TravelTime_hour has Min [-10] and Max [0]. At Min - 1 should return false with one error
+            vpResult.TravelTime_hour = -11.0f;
+            Assert.AreEqual(false, vpResultService.Add(vpResult));
+            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultTravelTime_hour, "-10", "0")).Any());
+            Assert.AreEqual(-11.0f, vpResult.TravelTime_hour);
+            Assert.AreEqual(0, vpResultService.GetRead().Count());
+            // TravelTime_hour has Min [-10] and Max [0]. At Max should return true and no errors
             vpResult.TravelTime_hour = 0.0f;
             Assert.AreEqual(true, vpResultService.Add(vpResult));
             Assert.AreEqual(0, vpResult.ValidationResults.Count());
             Assert.AreEqual(0.0f, vpResult.TravelTime_hour);
             Assert.AreEqual(true, vpResultService.Delete(vpResult));
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // TravelTime_hour has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            vpResult.TravelTime_hour = 1.0f;
-            Assert.AreEqual(true, vpResultService.Add(vpResult));
-            Assert.AreEqual(0, vpResult.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpResult.TravelTime_hour);
-            Assert.AreEqual(true, vpResultService.Delete(vpResult));
-            Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // TravelTime_hour has Min [0] and Max [1000]. At Min - 1 should return false with one error
+            // TravelTime_hour has Min [-10] and Max [0]. At Max - 1 should return true and no errors
             vpResult.TravelTime_hour = -1.0f;
-            Assert.AreEqual(false, vpResultService.Add(vpResult));
-            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultTravelTime_hour, "0", "1000")).Any());
+            Assert.AreEqual(true, vpResultService.Add(vpResult));
+            Assert.AreEqual(0, vpResult.ValidationResults.Count());
             Assert.AreEqual(-1.0f, vpResult.TravelTime_hour);
-            Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // TravelTime_hour has Min [0] and Max [1000]. At Max should return true and no errors
-            vpResult.TravelTime_hour = 1000.0f;
-            Assert.AreEqual(true, vpResultService.Add(vpResult));
-            Assert.AreEqual(0, vpResult.ValidationResults.Count());
-            Assert.AreEqual(1000.0f, vpResult.TravelTime_hour);
             Assert.AreEqual(true, vpResultService.Delete(vpResult));
             Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // TravelTime_hour has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            vpResult.TravelTime_hour = 999.0f;
-            Assert.AreEqual(true, vpResultService.Add(vpResult));
-            Assert.AreEqual(0, vpResult.ValidationResults.Count());
-            Assert.AreEqual(999.0f, vpResult.TravelTime_hour);
-            Assert.AreEqual(true, vpResultService.Delete(vpResult));
-            Assert.AreEqual(0, vpResultService.GetRead().Count());
-            // TravelTime_hour has Min [0] and Max [1000]. At Max + 1 should return false with one error
-            vpResult.TravelTime_hour = 1001.0f;
+            // TravelTime_hour has Min [-10] and Max [0]. At Max + 1 should return false with one error
+            vpResult.TravelTime_hour = 1.0f;
             Assert.AreEqual(false, vpResultService.Add(vpResult));
-            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultTravelTime_hour, "0", "1000")).Any());
-            Assert.AreEqual(1001.0f, vpResult.TravelTime_hour);
+            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultTravelTime_hour, "-10", "0")).Any());
+            Assert.AreEqual(1.0f, vpResult.TravelTime_hour);
             Assert.AreEqual(0, vpResultService.GetRead().Count());
 
             //-----------------------------------
@@ -437,7 +441,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             vpResult = null;
@@ -462,6 +466,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.VPResultLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, vpResult.LastUpdateContactTVItemID);
             Assert.AreEqual(0, vpResultService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [VPScenario] of type [VPScenario]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

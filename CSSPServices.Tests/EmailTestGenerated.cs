@@ -61,6 +61,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             EmailService emailService = new EmailService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            Email email = GetFilledRandomEmail("");
 
             // -------------------------------
             // -------------------------------
@@ -68,7 +69,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Email email = GetFilledRandomEmail("");
             Assert.AreEqual(true, emailService.Add(email));
             Assert.AreEqual(true, emailService.GetRead().Where(c => c == email).Any());
             email.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -93,13 +93,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, email.EmailAddress);
             Assert.AreEqual(0, emailService.GetRead().Count());
 
-            email = null;
-            email = GetFilledRandomEmail("EmailType");
-            Assert.AreEqual(false, emailService.Add(email));
-            Assert.AreEqual(1, email.ValidationResults.Count());
-            Assert.IsTrue(email.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailType)).Any());
-            Assert.AreEqual(EmailTypeEnum.Error, email.EmailType);
-            Assert.AreEqual(0, emailService.GetRead().Count());
+            //Error: Type not implemented [EmailType]
 
             email = null;
             email = GetFilledRandomEmail("LastUpdateDate_UTC");
@@ -111,6 +105,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [EmailTVItem]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -120,11 +118,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [EmailID] of type [int]
+            // doing property [EmailID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [EmailTVItemID] of type [int]
+            // doing property [EmailTVItemID] of type [Int32]
             //-----------------------------------
 
             email = null;
@@ -151,29 +149,11 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, emailService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [EmailAddress] of type [string]
+            // doing property [EmailAddress] of type [String]
             //-----------------------------------
 
             email = null;
             email = GetFilledRandomEmail("");
-
-            // EmailAddress has MinLength [empty] and MaxLength [255]. At Max should return true and no errors
-            string emailEmailAddressMin = GetRandomEmail();
-            email.EmailAddress = emailEmailAddressMin;
-            Assert.AreEqual(true, emailService.Add(email));
-            Assert.AreEqual(0, email.ValidationResults.Count());
-            Assert.AreEqual(emailEmailAddressMin, email.EmailAddress);
-            Assert.AreEqual(true, emailService.Delete(email));
-            Assert.AreEqual(0, emailService.GetRead().Count());
-
-            // EmailAddress has MinLength [empty] and MaxLength [255]. At Max - 1 should return true and no errors
-            emailEmailAddressMin = GetRandomEmail();
-            email.EmailAddress = emailEmailAddressMin;
-            Assert.AreEqual(true, emailService.Add(email));
-            Assert.AreEqual(0, email.ValidationResults.Count());
-            Assert.AreEqual(emailEmailAddressMin, email.EmailAddress);
-            Assert.AreEqual(true, emailService.Delete(email));
-            Assert.AreEqual(0, emailService.GetRead().Count());
 
             //-----------------------------------
             // doing property [EmailType] of type [EmailTypeEnum]
@@ -184,7 +164,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             email = null;
@@ -209,6 +189,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(email.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.EmailLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, email.LastUpdateContactTVItemID);
             Assert.AreEqual(0, emailService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [EmailTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

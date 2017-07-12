@@ -62,6 +62,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            InfrastructureLanguage infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
 
             // -------------------------------
             // -------------------------------
@@ -69,7 +70,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            InfrastructureLanguage infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
             Assert.AreEqual(true, infrastructureLanguageService.Add(infrastructureLanguage));
             Assert.AreEqual(true, infrastructureLanguageService.GetRead().Where(c => c == infrastructureLanguage).Any());
             infrastructureLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -86,13 +86,7 @@ namespace CSSPServices.Tests
 
             // InfrastructureID will automatically be initialized at 0 --> not null
 
-            infrastructureLanguage = null;
-            infrastructureLanguage = GetFilledRandomInfrastructureLanguage("Language");
-            Assert.AreEqual(false, infrastructureLanguageService.Add(infrastructureLanguage));
-            Assert.AreEqual(1, infrastructureLanguage.ValidationResults.Count());
-            Assert.IsTrue(infrastructureLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageLanguage)).Any());
-            Assert.AreEqual(LanguageEnum.Error, infrastructureLanguage.Language);
-            Assert.AreEqual(0, infrastructureLanguageService.GetRead().Count());
+            //Error: Type not implemented [Language]
 
             infrastructureLanguage = null;
             infrastructureLanguage = GetFilledRandomInfrastructureLanguage("Comment");
@@ -102,13 +96,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, infrastructureLanguage.Comment);
             Assert.AreEqual(0, infrastructureLanguageService.GetRead().Count());
 
-            infrastructureLanguage = null;
-            infrastructureLanguage = GetFilledRandomInfrastructureLanguage("TranslationStatus");
-            Assert.AreEqual(false, infrastructureLanguageService.Add(infrastructureLanguage));
-            Assert.AreEqual(1, infrastructureLanguage.ValidationResults.Count());
-            Assert.IsTrue(infrastructureLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageTranslationStatus)).Any());
-            Assert.AreEqual(TranslationStatusEnum.Error, infrastructureLanguage.TranslationStatus);
-            Assert.AreEqual(0, infrastructureLanguageService.GetRead().Count());
+            //Error: Type not implemented [TranslationStatus]
 
             infrastructureLanguage = null;
             infrastructureLanguage = GetFilledRandomInfrastructureLanguage("LastUpdateDate_UTC");
@@ -120,6 +108,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [Infrastructure]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -129,11 +121,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [InfrastructureLanguageID] of type [int]
+            // doing property [InfrastructureLanguageID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [InfrastructureID] of type [int]
+            // doing property [InfrastructureID] of type [Int32]
             //-----------------------------------
 
             infrastructureLanguage = null;
@@ -164,7 +156,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Comment] of type [string]
+            // doing property [Comment] of type [String]
             //-----------------------------------
 
             infrastructureLanguage = null;
@@ -179,7 +171,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             infrastructureLanguage = null;
@@ -204,6 +196,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(infrastructureLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.InfrastructureLanguageLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, infrastructureLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(0, infrastructureLanguageService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [Infrastructure] of type [Infrastructure]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

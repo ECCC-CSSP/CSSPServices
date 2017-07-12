@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             LatLngService latLngService = new LatLngService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            LatLng latLng = GetFilledRandomLatLng("");
 
             // -------------------------------
             // -------------------------------

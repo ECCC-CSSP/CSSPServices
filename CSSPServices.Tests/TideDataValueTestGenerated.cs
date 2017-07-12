@@ -50,9 +50,9 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Keep") tideDataValue.Keep = true;
             if (OmitPropName != "TideDataType") tideDataValue.TideDataType = (TideDataTypeEnum)GetRandomEnumType(typeof(TideDataTypeEnum));
             if (OmitPropName != "StorageDataType") tideDataValue.StorageDataType = (StorageDataTypeEnum)GetRandomEnumType(typeof(StorageDataTypeEnum));
-            if (OmitPropName != "Depth_m") tideDataValue.Depth_m = GetRandomFloat(0, 1000);
-            if (OmitPropName != "UVelocity_m_s") tideDataValue.UVelocity_m_s = GetRandomFloat(-10, 10);
-            if (OmitPropName != "VVelocity_m_s") tideDataValue.VVelocity_m_s = GetRandomFloat(-10, 10);
+            if (OmitPropName != "Depth_m") tideDataValue.Depth_m = GetRandomFloat(0, 10000);
+            if (OmitPropName != "UVelocity_m_s") tideDataValue.UVelocity_m_s = GetRandomFloat(0, 10);
+            if (OmitPropName != "VVelocity_m_s") tideDataValue.VVelocity_m_s = GetRandomFloat(0, 10);
             if (OmitPropName != "TideStart") tideDataValue.TideStart = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
             if (OmitPropName != "TideEnd") tideDataValue.TideEnd = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
             if (OmitPropName != "LastUpdateDate_UTC") tideDataValue.LastUpdateDate_UTC = GetRandomDateTime();
@@ -68,6 +68,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TideDataValueService tideDataValueService = new TideDataValueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TideDataValue tideDataValue = GetFilledRandomTideDataValue("");
 
             // -------------------------------
             // -------------------------------
@@ -75,7 +76,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            TideDataValue tideDataValue = GetFilledRandomTideDataValue("");
             Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
             Assert.AreEqual(true, tideDataValueService.GetRead().Where(c => c == tideDataValue).Any());
             tideDataValue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -100,29 +100,21 @@ namespace CSSPServices.Tests
             Assert.IsTrue(tideDataValue.DateTime_Local.Year < 1900);
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
 
-            // Keep will automatically be initialized at false --> not null
+            // Keep will automatically be initialized at 0 --> not null
 
-            tideDataValue = null;
-            tideDataValue = GetFilledRandomTideDataValue("TideDataType");
-            Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
-            Assert.AreEqual(1, tideDataValue.ValidationResults.Count());
-            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueTideDataType)).Any());
-            Assert.AreEqual(TideDataTypeEnum.Error, tideDataValue.TideDataType);
-            Assert.AreEqual(0, tideDataValueService.GetRead().Count());
+            //Error: Type not implemented [TideDataType]
 
-            tideDataValue = null;
-            tideDataValue = GetFilledRandomTideDataValue("StorageDataType");
-            Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
-            Assert.AreEqual(1, tideDataValue.ValidationResults.Count());
-            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueStorageDataType)).Any());
-            Assert.AreEqual(StorageDataTypeEnum.Error, tideDataValue.StorageDataType);
-            Assert.AreEqual(0, tideDataValueService.GetRead().Count());
+            //Error: Type not implemented [StorageDataType]
 
-            // Depth_m will automatically be initialized at 0.0f --> not null
+            // Depth_m will automatically be initialized at 0 --> not null
 
-            // UVelocity_m_s will automatically be initialized at 0.0f --> not null
+            // UVelocity_m_s will automatically be initialized at 0 --> not null
 
-            // VVelocity_m_s will automatically be initialized at 0.0f --> not null
+            // VVelocity_m_s will automatically be initialized at 0 --> not null
+
+            //Error: Type not implemented [TideStart]
+
+            //Error: Type not implemented [TideEnd]
 
             tideDataValue = null;
             tideDataValue = GetFilledRandomTideDataValue("LastUpdateDate_UTC");
@@ -134,6 +126,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [TideSiteTVItem]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -143,11 +139,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [TideDataValueID] of type [int]
+            // doing property [TideDataValueID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TideSiteTVItemID] of type [int]
+            // doing property [TideSiteTVItemID] of type [Int32]
             //-----------------------------------
 
             tideDataValue = null;
@@ -178,7 +174,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Keep] of type [bool]
+            // doing property [Keep] of type [Boolean]
             //-----------------------------------
 
             //-----------------------------------
@@ -190,143 +186,143 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Depth_m] of type [float]
+            // doing property [Depth_m] of type [Single]
             //-----------------------------------
 
             tideDataValue = null;
             tideDataValue = GetFilledRandomTideDataValue("");
-            // Depth_m has Min [0] and Max [1000]. At Min should return true and no errors
+            // Depth_m has Min [0] and Max [10000]. At Min should return true and no errors
             tideDataValue.Depth_m = 0.0f;
             Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
             Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
             Assert.AreEqual(0.0f, tideDataValue.Depth_m);
             Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // Depth_m has Min [0] and Max [1000]. At Min + 1 should return true and no errors
+            // Depth_m has Min [0] and Max [10000]. At Min + 1 should return true and no errors
             tideDataValue.Depth_m = 1.0f;
             Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
             Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
             Assert.AreEqual(1.0f, tideDataValue.Depth_m);
             Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // Depth_m has Min [0] and Max [1000]. At Min - 1 should return false with one error
+            // Depth_m has Min [0] and Max [10000]. At Min - 1 should return false with one error
             tideDataValue.Depth_m = -1.0f;
             Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
-            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueDepth_m, "0", "1000")).Any());
+            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueDepth_m, "0", "10000")).Any());
             Assert.AreEqual(-1.0f, tideDataValue.Depth_m);
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // Depth_m has Min [0] and Max [1000]. At Max should return true and no errors
-            tideDataValue.Depth_m = 1000.0f;
+            // Depth_m has Min [0] and Max [10000]. At Max should return true and no errors
+            tideDataValue.Depth_m = 10000.0f;
             Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
             Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
-            Assert.AreEqual(1000.0f, tideDataValue.Depth_m);
+            Assert.AreEqual(10000.0f, tideDataValue.Depth_m);
             Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // Depth_m has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            tideDataValue.Depth_m = 999.0f;
+            // Depth_m has Min [0] and Max [10000]. At Max - 1 should return true and no errors
+            tideDataValue.Depth_m = 9999.0f;
             Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
             Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
-            Assert.AreEqual(999.0f, tideDataValue.Depth_m);
+            Assert.AreEqual(9999.0f, tideDataValue.Depth_m);
             Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // Depth_m has Min [0] and Max [1000]. At Max + 1 should return false with one error
-            tideDataValue.Depth_m = 1001.0f;
+            // Depth_m has Min [0] and Max [10000]. At Max + 1 should return false with one error
+            tideDataValue.Depth_m = 10001.0f;
             Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
-            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueDepth_m, "0", "1000")).Any());
-            Assert.AreEqual(1001.0f, tideDataValue.Depth_m);
+            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueDepth_m, "0", "10000")).Any());
+            Assert.AreEqual(10001.0f, tideDataValue.Depth_m);
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [UVelocity_m_s] of type [float]
+            // doing property [UVelocity_m_s] of type [Single]
             //-----------------------------------
 
             tideDataValue = null;
             tideDataValue = GetFilledRandomTideDataValue("");
-            // UVelocity_m_s has Min [-10] and Max [10]. At Min should return true and no errors
-            tideDataValue.UVelocity_m_s = -10.0f;
+            // UVelocity_m_s has Min [0] and Max [10]. At Min should return true and no errors
+            tideDataValue.UVelocity_m_s = 0.0f;
             Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
             Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
-            Assert.AreEqual(-10.0f, tideDataValue.UVelocity_m_s);
+            Assert.AreEqual(0.0f, tideDataValue.UVelocity_m_s);
             Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // UVelocity_m_s has Min [-10] and Max [10]. At Min + 1 should return true and no errors
-            tideDataValue.UVelocity_m_s = -9.0f;
+            // UVelocity_m_s has Min [0] and Max [10]. At Min + 1 should return true and no errors
+            tideDataValue.UVelocity_m_s = 1.0f;
             Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
             Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
-            Assert.AreEqual(-9.0f, tideDataValue.UVelocity_m_s);
+            Assert.AreEqual(1.0f, tideDataValue.UVelocity_m_s);
             Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // UVelocity_m_s has Min [-10] and Max [10]. At Min - 1 should return false with one error
-            tideDataValue.UVelocity_m_s = -11.0f;
+            // UVelocity_m_s has Min [0] and Max [10]. At Min - 1 should return false with one error
+            tideDataValue.UVelocity_m_s = -1.0f;
             Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
-            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueUVelocity_m_s, "-10", "10")).Any());
-            Assert.AreEqual(-11.0f, tideDataValue.UVelocity_m_s);
+            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueUVelocity_m_s, "0", "10")).Any());
+            Assert.AreEqual(-1.0f, tideDataValue.UVelocity_m_s);
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // UVelocity_m_s has Min [-10] and Max [10]. At Max should return true and no errors
+            // UVelocity_m_s has Min [0] and Max [10]. At Max should return true and no errors
             tideDataValue.UVelocity_m_s = 10.0f;
             Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
             Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
             Assert.AreEqual(10.0f, tideDataValue.UVelocity_m_s);
             Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // UVelocity_m_s has Min [-10] and Max [10]. At Max - 1 should return true and no errors
+            // UVelocity_m_s has Min [0] and Max [10]. At Max - 1 should return true and no errors
             tideDataValue.UVelocity_m_s = 9.0f;
             Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
             Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
             Assert.AreEqual(9.0f, tideDataValue.UVelocity_m_s);
             Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // UVelocity_m_s has Min [-10] and Max [10]. At Max + 1 should return false with one error
+            // UVelocity_m_s has Min [0] and Max [10]. At Max + 1 should return false with one error
             tideDataValue.UVelocity_m_s = 11.0f;
             Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
-            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueUVelocity_m_s, "-10", "10")).Any());
+            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueUVelocity_m_s, "0", "10")).Any());
             Assert.AreEqual(11.0f, tideDataValue.UVelocity_m_s);
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [VVelocity_m_s] of type [float]
+            // doing property [VVelocity_m_s] of type [Single]
             //-----------------------------------
 
             tideDataValue = null;
             tideDataValue = GetFilledRandomTideDataValue("");
-            // VVelocity_m_s has Min [-10] and Max [10]. At Min should return true and no errors
-            tideDataValue.VVelocity_m_s = -10.0f;
+            // VVelocity_m_s has Min [0] and Max [10]. At Min should return true and no errors
+            tideDataValue.VVelocity_m_s = 0.0f;
             Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
             Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
-            Assert.AreEqual(-10.0f, tideDataValue.VVelocity_m_s);
+            Assert.AreEqual(0.0f, tideDataValue.VVelocity_m_s);
             Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // VVelocity_m_s has Min [-10] and Max [10]. At Min + 1 should return true and no errors
-            tideDataValue.VVelocity_m_s = -9.0f;
+            // VVelocity_m_s has Min [0] and Max [10]. At Min + 1 should return true and no errors
+            tideDataValue.VVelocity_m_s = 1.0f;
             Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
             Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
-            Assert.AreEqual(-9.0f, tideDataValue.VVelocity_m_s);
+            Assert.AreEqual(1.0f, tideDataValue.VVelocity_m_s);
             Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // VVelocity_m_s has Min [-10] and Max [10]. At Min - 1 should return false with one error
-            tideDataValue.VVelocity_m_s = -11.0f;
+            // VVelocity_m_s has Min [0] and Max [10]. At Min - 1 should return false with one error
+            tideDataValue.VVelocity_m_s = -1.0f;
             Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
-            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueVVelocity_m_s, "-10", "10")).Any());
-            Assert.AreEqual(-11.0f, tideDataValue.VVelocity_m_s);
+            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueVVelocity_m_s, "0", "10")).Any());
+            Assert.AreEqual(-1.0f, tideDataValue.VVelocity_m_s);
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // VVelocity_m_s has Min [-10] and Max [10]. At Max should return true and no errors
+            // VVelocity_m_s has Min [0] and Max [10]. At Max should return true and no errors
             tideDataValue.VVelocity_m_s = 10.0f;
             Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
             Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
             Assert.AreEqual(10.0f, tideDataValue.VVelocity_m_s);
             Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // VVelocity_m_s has Min [-10] and Max [10]. At Max - 1 should return true and no errors
+            // VVelocity_m_s has Min [0] and Max [10]. At Max - 1 should return true and no errors
             tideDataValue.VVelocity_m_s = 9.0f;
             Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
             Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
             Assert.AreEqual(9.0f, tideDataValue.VVelocity_m_s);
             Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
-            // VVelocity_m_s has Min [-10] and Max [10]. At Max + 1 should return false with one error
+            // VVelocity_m_s has Min [0] and Max [10]. At Max + 1 should return false with one error
             tideDataValue.VVelocity_m_s = 11.0f;
             Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
-            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueVVelocity_m_s, "-10", "10")).Any());
+            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueVVelocity_m_s, "0", "10")).Any());
             Assert.AreEqual(11.0f, tideDataValue.VVelocity_m_s);
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
 
@@ -343,7 +339,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             tideDataValue = null;
@@ -368,6 +364,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TideDataValueLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, tideDataValue.LastUpdateContactTVItemID);
             Assert.AreEqual(0, tideDataValueService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [TideSiteTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

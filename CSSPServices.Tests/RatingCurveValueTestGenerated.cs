@@ -61,6 +61,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            RatingCurveValue ratingCurveValue = GetFilledRandomRatingCurveValue("");
 
             // -------------------------------
             // -------------------------------
@@ -68,7 +69,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            RatingCurveValue ratingCurveValue = GetFilledRandomRatingCurveValue("");
             Assert.AreEqual(true, ratingCurveValueService.Add(ratingCurveValue));
             Assert.AreEqual(true, ratingCurveValueService.GetRead().Where(c => c == ratingCurveValue).Any());
             ratingCurveValue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -85,9 +85,9 @@ namespace CSSPServices.Tests
 
             // RatingCurveID will automatically be initialized at 0 --> not null
 
-            // StageValue_m will automatically be initialized at 0.0f --> not null
+            // StageValue_m will automatically be initialized at 0 --> not null
 
-            // DischargeValue_m3_s will automatically be initialized at 0.0f --> not null
+            // DischargeValue_m3_s will automatically be initialized at 0 --> not null
 
             ratingCurveValue = null;
             ratingCurveValue = GetFilledRandomRatingCurveValue("LastUpdateDate_UTC");
@@ -99,6 +99,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [RatingCurve]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -108,11 +112,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [RatingCurveValueID] of type [int]
+            // doing property [RatingCurveValueID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [RatingCurveID] of type [int]
+            // doing property [RatingCurveID] of type [Int32]
             //-----------------------------------
 
             ratingCurveValue = null;
@@ -139,7 +143,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [StageValue_m] of type [float]
+            // doing property [StageValue_m] of type [Single]
             //-----------------------------------
 
             ratingCurveValue = null;
@@ -186,7 +190,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [DischargeValue_m3_s] of type [float]
+            // doing property [DischargeValue_m3_s] of type [Single]
             //-----------------------------------
 
             ratingCurveValue = null;
@@ -237,7 +241,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             ratingCurveValue = null;
@@ -262,6 +266,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(ratingCurveValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.RatingCurveValueLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, ratingCurveValue.LastUpdateContactTVItemID);
             Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [RatingCurve] of type [RatingCurve]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

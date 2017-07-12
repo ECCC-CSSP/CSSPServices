@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             URLNumberOfSamples uRLNumberOfSamples = new URLNumberOfSamples();
 
-            if (OmitPropName != "url") uRLNumberOfSamples.url = GetRandomString("", 1);
-            if (OmitPropName != "NumberOfSamples") uRLNumberOfSamples.NumberOfSamples = GetRandomInt(1, 5);
+            if (OmitPropName != "url") uRLNumberOfSamples.url = GetRandomString("", 5);
+            if (OmitPropName != "NumberOfSamples") uRLNumberOfSamples.NumberOfSamples = GetRandomInt(1, 1000);
 
             return uRLNumberOfSamples;
         }
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             URLNumberOfSamplesService uRLNumberOfSamplesService = new URLNumberOfSamplesService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            URLNumberOfSamples uRLNumberOfSamples = GetFilledRandomURLNumberOfSamples("");
 
             // -------------------------------
             // -------------------------------

@@ -42,9 +42,15 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItem tvItem = validationContext.ObjectInstance as TVItem;
 
-            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            if (actionDBType == ActionDBTypeEnum.Update)
+            {
+                if (tvItem.TVItemID == 0)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVItemID), new[] { ModelsRes.TVItemTVItemID });
+                }
+            }
 
-            //TVItemID has no Range Attribute
+            //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
             {
@@ -58,7 +64,10 @@ namespace CSSPServices
             }
             //TVLevel (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //TVLevel has no Range Attribute
+            if (tvItem.TVLevel < 0 || tvItem.TVLevel > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVItemTVLevel, "0", "100"), new[] { ModelsRes.TVItemTVLevel });
+            }
 
             if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
             {
@@ -75,7 +84,10 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVPath), new[] { ModelsRes.TVItemTVPath });
             }
 
-            //TVPath has no StringLength Attribute
+            if (!string.IsNullOrWhiteSpace(tvItem.TVPath) && tvItem.TVPath.Length > 250)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemTVPath, "250"), new[] { ModelsRes.TVItemTVPath });
+            }
 
             if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
             {
@@ -87,9 +99,6 @@ namespace CSSPServices
                     }
                 }
             }
-                //Error: Type not implemented [TVType] of type [TVTypeEnum]
-
-                //Error: Type not implemented [TVType] of type [TVTypeEnum]
             if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
             {
                 if (tvItem.TVType == TVTypeEnum.Root)
@@ -100,9 +109,18 @@ namespace CSSPServices
                     }
                 }
             }
+            retStr = enums.TVTypeOK(tvItem.TVType);
+            if (tvItem.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVType), new[] { ModelsRes.TVItemTVType });
+            }
+
             //ParentID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //ParentID has no Range Attribute
+            if (tvItem.ParentID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemParentID, "1"), new[] { ModelsRes.TVItemParentID });
+            }
 
             if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
             {
@@ -114,6 +132,11 @@ namespace CSSPServices
                     }
                 }
             }
+            if (!((from c in db.TVItems where c.TVItemID == tvItem.ParentID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemParentID, tvItem.ParentID.ToString()), new[] { ModelsRes.TVItemParentID });
+            }
+
             //IsActive (bool) is required but no testing needed 
 
             if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)

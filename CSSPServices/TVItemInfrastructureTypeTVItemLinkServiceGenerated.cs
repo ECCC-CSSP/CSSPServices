@@ -41,8 +41,6 @@ namespace CSSPServices
                 //Error: Type not implemented [InfrastructureType] of type [InfrastructureTypeEnum]
 
                 //Error: Type not implemented [InfrastructureType] of type [InfrastructureTypeEnum]
-                //Error: Type not implemented [SeeOtherTVItemID] of type [Nullable`1]
-
             //SeeOtherTVItemID has no Range Attribute
 
             retStr = "";

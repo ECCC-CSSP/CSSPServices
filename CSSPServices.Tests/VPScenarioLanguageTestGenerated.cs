@@ -47,7 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "VPScenarioLanguageID") vpScenarioLanguage.VPScenarioLanguageID = VPScenarioLanguageID;
             if (OmitPropName != "VPScenarioID") vpScenarioLanguage.VPScenarioID = GetRandomInt(1, 11);
             if (OmitPropName != "Language") vpScenarioLanguage.Language = language;
-            if (OmitPropName != "VPScenarioName") vpScenarioLanguage.VPScenarioName = GetRandomString("", 6);
+            if (OmitPropName != "VPScenarioName") vpScenarioLanguage.VPScenarioName = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatus") vpScenarioLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") vpScenarioLanguage.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") vpScenarioLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -62,6 +62,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            VPScenarioLanguage vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
 
             // -------------------------------
             // -------------------------------
@@ -69,7 +70,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            VPScenarioLanguage vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
             Assert.AreEqual(true, vpScenarioLanguageService.Add(vpScenarioLanguage));
             Assert.AreEqual(true, vpScenarioLanguageService.GetRead().Where(c => c == vpScenarioLanguage).Any());
             vpScenarioLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -86,13 +86,7 @@ namespace CSSPServices.Tests
 
             // VPScenarioID will automatically be initialized at 0 --> not null
 
-            vpScenarioLanguage = null;
-            vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("Language");
-            Assert.AreEqual(false, vpScenarioLanguageService.Add(vpScenarioLanguage));
-            Assert.AreEqual(1, vpScenarioLanguage.ValidationResults.Count());
-            Assert.IsTrue(vpScenarioLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageLanguage)).Any());
-            Assert.AreEqual(LanguageEnum.Error, vpScenarioLanguage.Language);
-            Assert.AreEqual(0, vpScenarioLanguageService.GetRead().Count());
+            //Error: Type not implemented [Language]
 
             vpScenarioLanguage = null;
             vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("VPScenarioName");
@@ -102,13 +96,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, vpScenarioLanguage.VPScenarioName);
             Assert.AreEqual(0, vpScenarioLanguageService.GetRead().Count());
 
-            vpScenarioLanguage = null;
-            vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("TranslationStatus");
-            Assert.AreEqual(false, vpScenarioLanguageService.Add(vpScenarioLanguage));
-            Assert.AreEqual(1, vpScenarioLanguage.ValidationResults.Count());
-            Assert.IsTrue(vpScenarioLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageTranslationStatus)).Any());
-            Assert.AreEqual(TranslationStatusEnum.Error, vpScenarioLanguage.TranslationStatus);
-            Assert.AreEqual(0, vpScenarioLanguageService.GetRead().Count());
+            //Error: Type not implemented [TranslationStatus]
 
             vpScenarioLanguage = null;
             vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("LastUpdateDate_UTC");
@@ -120,6 +108,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [VPScenario]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -129,11 +121,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [VPScenarioLanguageID] of type [int]
+            // doing property [VPScenarioLanguageID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [VPScenarioID] of type [int]
+            // doing property [VPScenarioID] of type [Int32]
             //-----------------------------------
 
             vpScenarioLanguage = null;
@@ -164,55 +156,11 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [VPScenarioName] of type [string]
+            // doing property [VPScenarioName] of type [String]
             //-----------------------------------
 
             vpScenarioLanguage = null;
             vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
-
-            // VPScenarioName has MinLength [1] and MaxLength [100]. At Min should return true and no errors
-            string vpScenarioLanguageVPScenarioNameMin = GetRandomString("", 1);
-            vpScenarioLanguage.VPScenarioName = vpScenarioLanguageVPScenarioNameMin;
-            Assert.AreEqual(true, vpScenarioLanguageService.Add(vpScenarioLanguage));
-            Assert.AreEqual(0, vpScenarioLanguage.ValidationResults.Count());
-            Assert.AreEqual(vpScenarioLanguageVPScenarioNameMin, vpScenarioLanguage.VPScenarioName);
-            Assert.AreEqual(true, vpScenarioLanguageService.Delete(vpScenarioLanguage));
-            Assert.AreEqual(0, vpScenarioLanguageService.GetRead().Count());
-
-            // VPScenarioName has MinLength [1] and MaxLength [100]. At Min + 1 should return true and no errors
-            vpScenarioLanguageVPScenarioNameMin = GetRandomString("", 2);
-            vpScenarioLanguage.VPScenarioName = vpScenarioLanguageVPScenarioNameMin;
-            Assert.AreEqual(true, vpScenarioLanguageService.Add(vpScenarioLanguage));
-            Assert.AreEqual(0, vpScenarioLanguage.ValidationResults.Count());
-            Assert.AreEqual(vpScenarioLanguageVPScenarioNameMin, vpScenarioLanguage.VPScenarioName);
-            Assert.AreEqual(true, vpScenarioLanguageService.Delete(vpScenarioLanguage));
-            Assert.AreEqual(0, vpScenarioLanguageService.GetRead().Count());
-
-            // VPScenarioName has MinLength [1] and MaxLength [100]. At Max should return true and no errors
-            vpScenarioLanguageVPScenarioNameMin = GetRandomString("", 100);
-            vpScenarioLanguage.VPScenarioName = vpScenarioLanguageVPScenarioNameMin;
-            Assert.AreEqual(true, vpScenarioLanguageService.Add(vpScenarioLanguage));
-            Assert.AreEqual(0, vpScenarioLanguage.ValidationResults.Count());
-            Assert.AreEqual(vpScenarioLanguageVPScenarioNameMin, vpScenarioLanguage.VPScenarioName);
-            Assert.AreEqual(true, vpScenarioLanguageService.Delete(vpScenarioLanguage));
-            Assert.AreEqual(0, vpScenarioLanguageService.GetRead().Count());
-
-            // VPScenarioName has MinLength [1] and MaxLength [100]. At Max - 1 should return true and no errors
-            vpScenarioLanguageVPScenarioNameMin = GetRandomString("", 99);
-            vpScenarioLanguage.VPScenarioName = vpScenarioLanguageVPScenarioNameMin;
-            Assert.AreEqual(true, vpScenarioLanguageService.Add(vpScenarioLanguage));
-            Assert.AreEqual(0, vpScenarioLanguage.ValidationResults.Count());
-            Assert.AreEqual(vpScenarioLanguageVPScenarioNameMin, vpScenarioLanguage.VPScenarioName);
-            Assert.AreEqual(true, vpScenarioLanguageService.Delete(vpScenarioLanguage));
-            Assert.AreEqual(0, vpScenarioLanguageService.GetRead().Count());
-
-            // VPScenarioName has MinLength [1] and MaxLength [100]. At Max + 1 should return false with one error
-            vpScenarioLanguageVPScenarioNameMin = GetRandomString("", 101);
-            vpScenarioLanguage.VPScenarioName = vpScenarioLanguageVPScenarioNameMin;
-            Assert.AreEqual(false, vpScenarioLanguageService.Add(vpScenarioLanguage));
-            Assert.IsTrue(vpScenarioLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.VPScenarioLanguageVPScenarioName, "1", "100")).Any());
-            Assert.AreEqual(vpScenarioLanguageVPScenarioNameMin, vpScenarioLanguage.VPScenarioName);
-            Assert.AreEqual(0, vpScenarioLanguageService.GetRead().Count());
 
             //-----------------------------------
             // doing property [TranslationStatus] of type [TranslationStatusEnum]
@@ -223,7 +171,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             vpScenarioLanguage = null;
@@ -248,6 +196,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(vpScenarioLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.VPScenarioLanguageLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, vpScenarioLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(0, vpScenarioLanguageService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [VPScenario] of type [VPScenario]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

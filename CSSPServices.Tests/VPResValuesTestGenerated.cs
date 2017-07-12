@@ -45,11 +45,11 @@ namespace CSSPServices.Tests
             VPResValues vpResValues = new VPResValues();
 
             if (OmitPropName != "Conc") vpResValues.Conc = GetRandomInt(0, 10);
-            if (OmitPropName != "Dilu") vpResValues.Dilu = GetRandomDouble(1.0f, 5.0f);
-            if (OmitPropName != "FarfieldWidth") vpResValues.FarfieldWidth = GetRandomDouble(1.0f, 5.0f);
-            if (OmitPropName != "Distance") vpResValues.Distance = GetRandomDouble(1.0f, 5.0f);
-            if (OmitPropName != "TheTime") vpResValues.TheTime = GetRandomDouble(1.0f, 5.0f);
-            if (OmitPropName != "Decay") vpResValues.Decay = GetRandomDouble(1.0f, 5.0f);
+            if (OmitPropName != "Dilu") vpResValues.Dilu = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "FarfieldWidth") vpResValues.FarfieldWidth = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "Distance") vpResValues.Distance = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "TheTime") vpResValues.TheTime = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "Decay") vpResValues.Decay = GetRandomDouble(1.0f, 1000.0f);
 
             return vpResValues;
         }
@@ -61,6 +61,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             VPResValuesService vpResValuesService = new VPResValuesService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            VPResValues vpResValues = GetFilledRandomVPResValues("");
 
             // -------------------------------
             // -------------------------------

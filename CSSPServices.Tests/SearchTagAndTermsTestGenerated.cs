@@ -44,7 +44,7 @@ namespace CSSPServices.Tests
 
             SearchTagAndTerms searchTagAndTerms = new SearchTagAndTerms();
 
-            if (OmitPropName != "SearchTag") searchTagAndTerms.SearchTag = (CSSPEnums.SearchTagEnum)GetRandomEnumType(typeof(CSSPEnums.SearchTagEnum));
+            if (OmitPropName != "SearchTag") searchTagAndTerms.SearchTag = (SearchTagEnum)GetRandomEnumType(typeof(SearchTagEnum));
 
             return searchTagAndTerms;
         }
@@ -56,6 +56,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             SearchTagAndTermsService searchTagAndTermsService = new SearchTagAndTermsService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            SearchTagAndTerms searchTagAndTerms = GetFilledRandomSearchTagAndTerms("");
 
             // -------------------------------
             // -------------------------------

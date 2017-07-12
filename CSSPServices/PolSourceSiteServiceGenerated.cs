@@ -74,21 +74,15 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSiteTemp_Locator_CanDelete, "50"), new[] { ModelsRes.PolSourceSiteTemp_Locator_CanDelete });
             }
 
-                //Error: Type not implemented [Oldsiteid] of type [Nullable`1]
-
             if (polSourceSite.Oldsiteid < 0 || polSourceSite.Oldsiteid > 1000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteOldsiteid, "0", "1000"), new[] { ModelsRes.PolSourceSiteOldsiteid });
             }
 
-                //Error: Type not implemented [Site] of type [Nullable`1]
-
             if (polSourceSite.Site < 0 || polSourceSite.Site > 1000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteSite, "0", "1000"), new[] { ModelsRes.PolSourceSiteSite });
             }
-
-                //Error: Type not implemented [SiteID] of type [Nullable`1]
 
             if (polSourceSite.SiteID < 0 || polSourceSite.SiteID > 1000)
             {
@@ -105,8 +99,6 @@ namespace CSSPServices
                     yield return new ValidationResult(retStr, new[] { ModelsRes.PolSourceSiteInactiveReason });
                 }
             }
-
-                //Error: Type not implemented [CivicAddressTVItemID] of type [Nullable`1]
 
             if (polSourceSite.CivicAddressTVItemID < 1)
             {

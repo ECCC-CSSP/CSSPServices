@@ -46,7 +46,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "XCoord") polyPoint.XCoord = GetRandomFloat(-180, 180);
             if (OmitPropName != "YCoord") polyPoint.YCoord = GetRandomFloat(-90, 90);
-            if (OmitPropName != "Z") polyPoint.Z = GetRandomFloat(1.0f, 5.0f);
+            if (OmitPropName != "Z") polyPoint.Z = GetRandomFloat(1.0f, 1000.0f);
 
             return polyPoint;
         }
@@ -58,6 +58,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             PolyPointService polyPointService = new PolyPointService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            PolyPoint polyPoint = GetFilledRandomPolyPoint("");
 
             // -------------------------------
             // -------------------------------

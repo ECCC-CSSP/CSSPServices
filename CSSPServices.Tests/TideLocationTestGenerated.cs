@@ -44,11 +44,11 @@ namespace CSSPServices.Tests
 
             TideLocation tideLocation = new TideLocation();
 
-            if (OmitPropName != "TideLocationID") tideLocation.TideLocationID = GetRandomInt(1, 5);
-            if (OmitPropName != "Zone") tideLocation.Zone = GetRandomInt(1, 11);
+            if (OmitPropName != "TideLocationID") tideLocation.TideLocationID = TideLocationID;
+            if (OmitPropName != "Zone") tideLocation.Zone = GetRandomInt(0, 10000);
             if (OmitPropName != "Name") tideLocation.Name = GetRandomString("", 5);
             if (OmitPropName != "Prov") tideLocation.Prov = GetRandomString("", 5);
-            if (OmitPropName != "sid") tideLocation.sid = GetRandomInt(1, 11);
+            if (OmitPropName != "sid") tideLocation.sid = GetRandomInt(0, 100000);
             if (OmitPropName != "Lat") tideLocation.Lat = GetRandomFloat(-90, 90);
             if (OmitPropName != "Lng") tideLocation.Lng = GetRandomFloat(-180, 180);
 
@@ -62,6 +62,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TideLocationService tideLocationService = new TideLocationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TideLocation tideLocation = GetFilledRandomTideLocation("");
 
             // -------------------------------
             // -------------------------------
@@ -69,10 +70,9 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            TideLocation tideLocation = GetFilledRandomTideLocation("");
             Assert.AreEqual(true, tideLocationService.Add(tideLocation));
             Assert.AreEqual(true, tideLocationService.GetRead().Where(c => c == tideLocation).Any());
-            tideLocation.Zone = GetRandomInt(1, 11);
+            tideLocation.Zone = GetRandomInt(0, 10000);
             Assert.AreEqual(true, tideLocationService.Update(tideLocation));
             Assert.AreEqual(1, tideLocationService.GetRead().Count());
             Assert.AreEqual(true, tideLocationService.Delete(tideLocation));
@@ -104,9 +104,11 @@ namespace CSSPServices.Tests
 
             // sid will automatically be initialized at 0 --> not null
 
-            // Lat will automatically be initialized at 0.0f --> not null
+            // Lat will automatically be initialized at 0 --> not null
 
-            // Lng will automatically be initialized at 0.0f --> not null
+            // Lng will automatically be initialized at 0 --> not null
+
+            //Error: Type not implemented [ValidationResults]
 
 
             // -------------------------------
@@ -117,131 +119,119 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [TideLocationID] of type [string]
+            // doing property [TideLocationID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Zone] of type [int]
+            // doing property [Zone] of type [Int32]
             //-----------------------------------
 
             tideLocation = null;
             tideLocation = GetFilledRandomTideLocation("");
-            // Zone has Min [1] and Max [empty]. At Min should return true and no errors
+            // Zone has Min [0] and Max [10000]. At Min should return true and no errors
+            tideLocation.Zone = 0;
+            Assert.AreEqual(true, tideLocationService.Add(tideLocation));
+            Assert.AreEqual(0, tideLocation.ValidationResults.Count());
+            Assert.AreEqual(0, tideLocation.Zone);
+            Assert.AreEqual(true, tideLocationService.Delete(tideLocation));
+            Assert.AreEqual(0, tideLocationService.GetRead().Count());
+            // Zone has Min [0] and Max [10000]. At Min + 1 should return true and no errors
             tideLocation.Zone = 1;
             Assert.AreEqual(true, tideLocationService.Add(tideLocation));
             Assert.AreEqual(0, tideLocation.ValidationResults.Count());
             Assert.AreEqual(1, tideLocation.Zone);
             Assert.AreEqual(true, tideLocationService.Delete(tideLocation));
             Assert.AreEqual(0, tideLocationService.GetRead().Count());
-            // Zone has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            tideLocation.Zone = 2;
+            // Zone has Min [0] and Max [10000]. At Min - 1 should return false with one error
+            tideLocation.Zone = -1;
+            Assert.AreEqual(false, tideLocationService.Add(tideLocation));
+            Assert.IsTrue(tideLocation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationZone, "0", "10000")).Any());
+            Assert.AreEqual(-1, tideLocation.Zone);
+            Assert.AreEqual(0, tideLocationService.GetRead().Count());
+            // Zone has Min [0] and Max [10000]. At Max should return true and no errors
+            tideLocation.Zone = 10000;
             Assert.AreEqual(true, tideLocationService.Add(tideLocation));
             Assert.AreEqual(0, tideLocation.ValidationResults.Count());
-            Assert.AreEqual(2, tideLocation.Zone);
+            Assert.AreEqual(10000, tideLocation.Zone);
             Assert.AreEqual(true, tideLocationService.Delete(tideLocation));
             Assert.AreEqual(0, tideLocationService.GetRead().Count());
-            // Zone has Min [1] and Max [empty]. At Min - 1 should return false with one error
-            tideLocation.Zone = 0;
+            // Zone has Min [0] and Max [10000]. At Max - 1 should return true and no errors
+            tideLocation.Zone = 9999;
+            Assert.AreEqual(true, tideLocationService.Add(tideLocation));
+            Assert.AreEqual(0, tideLocation.ValidationResults.Count());
+            Assert.AreEqual(9999, tideLocation.Zone);
+            Assert.AreEqual(true, tideLocationService.Delete(tideLocation));
+            Assert.AreEqual(0, tideLocationService.GetRead().Count());
+            // Zone has Min [0] and Max [10000]. At Max + 1 should return false with one error
+            tideLocation.Zone = 10001;
             Assert.AreEqual(false, tideLocationService.Add(tideLocation));
-            Assert.IsTrue(tideLocation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TideLocationZone, "1")).Any());
-            Assert.AreEqual(0, tideLocation.Zone);
+            Assert.IsTrue(tideLocation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationZone, "0", "10000")).Any());
+            Assert.AreEqual(10001, tideLocation.Zone);
             Assert.AreEqual(0, tideLocationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Name] of type [string]
+            // doing property [Name] of type [String]
             //-----------------------------------
 
             tideLocation = null;
             tideLocation = GetFilledRandomTideLocation("");
 
-            // Name has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
-            string tideLocationNameMin = GetRandomString("", 100);
-            tideLocation.Name = tideLocationNameMin;
-            Assert.AreEqual(true, tideLocationService.Add(tideLocation));
-            Assert.AreEqual(0, tideLocation.ValidationResults.Count());
-            Assert.AreEqual(tideLocationNameMin, tideLocation.Name);
-            Assert.AreEqual(true, tideLocationService.Delete(tideLocation));
-            Assert.AreEqual(0, tideLocationService.GetRead().Count());
-
-            // Name has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
-            tideLocationNameMin = GetRandomString("", 99);
-            tideLocation.Name = tideLocationNameMin;
-            Assert.AreEqual(true, tideLocationService.Add(tideLocation));
-            Assert.AreEqual(0, tideLocation.ValidationResults.Count());
-            Assert.AreEqual(tideLocationNameMin, tideLocation.Name);
-            Assert.AreEqual(true, tideLocationService.Delete(tideLocation));
-            Assert.AreEqual(0, tideLocationService.GetRead().Count());
-
-            // Name has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
-            tideLocationNameMin = GetRandomString("", 101);
-            tideLocation.Name = tideLocationNameMin;
-            Assert.AreEqual(false, tideLocationService.Add(tideLocation));
-            Assert.IsTrue(tideLocation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideLocationName, "100")).Any());
-            Assert.AreEqual(tideLocationNameMin, tideLocation.Name);
-            Assert.AreEqual(0, tideLocationService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [Prov] of type [string]
+            // doing property [Prov] of type [String]
             //-----------------------------------
 
             tideLocation = null;
             tideLocation = GetFilledRandomTideLocation("");
 
-            // Prov has MinLength [empty] and MaxLength [10]. At Max should return true and no errors
-            string tideLocationProvMin = GetRandomString("", 10);
-            tideLocation.Prov = tideLocationProvMin;
-            Assert.AreEqual(true, tideLocationService.Add(tideLocation));
-            Assert.AreEqual(0, tideLocation.ValidationResults.Count());
-            Assert.AreEqual(tideLocationProvMin, tideLocation.Prov);
-            Assert.AreEqual(true, tideLocationService.Delete(tideLocation));
-            Assert.AreEqual(0, tideLocationService.GetRead().Count());
-
-            // Prov has MinLength [empty] and MaxLength [10]. At Max - 1 should return true and no errors
-            tideLocationProvMin = GetRandomString("", 9);
-            tideLocation.Prov = tideLocationProvMin;
-            Assert.AreEqual(true, tideLocationService.Add(tideLocation));
-            Assert.AreEqual(0, tideLocation.ValidationResults.Count());
-            Assert.AreEqual(tideLocationProvMin, tideLocation.Prov);
-            Assert.AreEqual(true, tideLocationService.Delete(tideLocation));
-            Assert.AreEqual(0, tideLocationService.GetRead().Count());
-
-            // Prov has MinLength [empty] and MaxLength [10]. At Max + 1 should return false with one error
-            tideLocationProvMin = GetRandomString("", 11);
-            tideLocation.Prov = tideLocationProvMin;
-            Assert.AreEqual(false, tideLocationService.Add(tideLocation));
-            Assert.IsTrue(tideLocation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideLocationProv, "10")).Any());
-            Assert.AreEqual(tideLocationProvMin, tideLocation.Prov);
-            Assert.AreEqual(0, tideLocationService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [sid] of type [int]
+            // doing property [sid] of type [Int32]
             //-----------------------------------
 
             tideLocation = null;
             tideLocation = GetFilledRandomTideLocation("");
-            // sid has Min [1] and Max [empty]. At Min should return true and no errors
+            // sid has Min [0] and Max [100000]. At Min should return true and no errors
+            tideLocation.sid = 0;
+            Assert.AreEqual(true, tideLocationService.Add(tideLocation));
+            Assert.AreEqual(0, tideLocation.ValidationResults.Count());
+            Assert.AreEqual(0, tideLocation.sid);
+            Assert.AreEqual(true, tideLocationService.Delete(tideLocation));
+            Assert.AreEqual(0, tideLocationService.GetRead().Count());
+            // sid has Min [0] and Max [100000]. At Min + 1 should return true and no errors
             tideLocation.sid = 1;
             Assert.AreEqual(true, tideLocationService.Add(tideLocation));
             Assert.AreEqual(0, tideLocation.ValidationResults.Count());
             Assert.AreEqual(1, tideLocation.sid);
             Assert.AreEqual(true, tideLocationService.Delete(tideLocation));
             Assert.AreEqual(0, tideLocationService.GetRead().Count());
-            // sid has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            tideLocation.sid = 2;
+            // sid has Min [0] and Max [100000]. At Min - 1 should return false with one error
+            tideLocation.sid = -1;
+            Assert.AreEqual(false, tideLocationService.Add(tideLocation));
+            Assert.IsTrue(tideLocation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationsid, "0", "100000")).Any());
+            Assert.AreEqual(-1, tideLocation.sid);
+            Assert.AreEqual(0, tideLocationService.GetRead().Count());
+            // sid has Min [0] and Max [100000]. At Max should return true and no errors
+            tideLocation.sid = 100000;
             Assert.AreEqual(true, tideLocationService.Add(tideLocation));
             Assert.AreEqual(0, tideLocation.ValidationResults.Count());
-            Assert.AreEqual(2, tideLocation.sid);
+            Assert.AreEqual(100000, tideLocation.sid);
             Assert.AreEqual(true, tideLocationService.Delete(tideLocation));
             Assert.AreEqual(0, tideLocationService.GetRead().Count());
-            // sid has Min [1] and Max [empty]. At Min - 1 should return false with one error
-            tideLocation.sid = 0;
+            // sid has Min [0] and Max [100000]. At Max - 1 should return true and no errors
+            tideLocation.sid = 99999;
+            Assert.AreEqual(true, tideLocationService.Add(tideLocation));
+            Assert.AreEqual(0, tideLocation.ValidationResults.Count());
+            Assert.AreEqual(99999, tideLocation.sid);
+            Assert.AreEqual(true, tideLocationService.Delete(tideLocation));
+            Assert.AreEqual(0, tideLocationService.GetRead().Count());
+            // sid has Min [0] and Max [100000]. At Max + 1 should return false with one error
+            tideLocation.sid = 100001;
             Assert.AreEqual(false, tideLocationService.Add(tideLocation));
-            Assert.IsTrue(tideLocation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TideLocationsid, "1")).Any());
-            Assert.AreEqual(0, tideLocation.sid);
+            Assert.IsTrue(tideLocation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationsid, "0", "100000")).Any());
+            Assert.AreEqual(100001, tideLocation.sid);
             Assert.AreEqual(0, tideLocationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Lat] of type [float]
+            // doing property [Lat] of type [Single]
             //-----------------------------------
 
             tideLocation = null;
@@ -288,7 +278,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tideLocationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Lng] of type [float]
+            // doing property [Lng] of type [Single]
             //-----------------------------------
 
             tideLocation = null;
@@ -333,6 +323,10 @@ namespace CSSPServices.Tests
             Assert.IsTrue(tideLocation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationLng, "-180", "180")).Any());
             Assert.AreEqual(181.0f, tideLocation.Lng);
             Assert.AreEqual(0, tideLocationService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

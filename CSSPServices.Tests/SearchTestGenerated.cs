@@ -44,7 +44,7 @@ namespace CSSPServices.Tests
 
             Search search = new Search();
 
-            if (OmitPropName != "value") search.value = GetRandomString("", 1);
+            if (OmitPropName != "value") search.value = GetRandomString("", 5);
             if (OmitPropName != "id") search.id = GetRandomInt(1, 11);
 
             return search;
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             SearchService searchService = new SearchService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            Search search = GetFilledRandomSearch("");
 
             // -------------------------------
             // -------------------------------

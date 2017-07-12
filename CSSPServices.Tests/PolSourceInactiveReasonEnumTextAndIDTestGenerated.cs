@@ -44,7 +44,7 @@ namespace CSSPServices.Tests
 
             PolSourceInactiveReasonEnumTextAndID polSourceInactiveReasonEnumTextAndID = new PolSourceInactiveReasonEnumTextAndID();
 
-            if (OmitPropName != "Text") polSourceInactiveReasonEnumTextAndID.Text = GetRandomString("", 5);
+            if (OmitPropName != "Text") polSourceInactiveReasonEnumTextAndID.Text = GetRandomString("", 20);
             if (OmitPropName != "ID") polSourceInactiveReasonEnumTextAndID.ID = GetRandomInt(1, 11);
 
             return polSourceInactiveReasonEnumTextAndID;
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             PolSourceInactiveReasonEnumTextAndIDService polSourceInactiveReasonEnumTextAndIDService = new PolSourceInactiveReasonEnumTextAndIDService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            PolSourceInactiveReasonEnumTextAndID polSourceInactiveReasonEnumTextAndID = GetFilledRandomPolSourceInactiveReasonEnumTextAndID("");
 
             // -------------------------------
             // -------------------------------

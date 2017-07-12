@@ -45,11 +45,11 @@ namespace CSSPServices.Tests
             Node node = new Node();
 
             if (OmitPropName != "ID") node.ID = GetRandomInt(1, 1000000);
-            if (OmitPropName != "X") node.X = GetRandomFloat(1.0f, 5.0f);
-            if (OmitPropName != "Y") node.Y = GetRandomFloat(1.0f, 5.0f);
-            if (OmitPropName != "Z") node.Z = GetRandomFloat(1.0f, 5.0f);
-            if (OmitPropName != "Code") node.Code = GetRandomInt(1, 5);
-            if (OmitPropName != "Value") node.Value = GetRandomFloat(1.0f, 5.0f);
+            if (OmitPropName != "X") node.X = GetRandomFloat(1.0f, 1000.0f);
+            if (OmitPropName != "Y") node.Y = GetRandomFloat(1.0f, 1000.0f);
+            if (OmitPropName != "Z") node.Z = GetRandomFloat(1.0f, 1000.0f);
+            if (OmitPropName != "Code") node.Code = GetRandomInt(1, 1000);
+            if (OmitPropName != "Value") node.Value = GetRandomFloat(1.0f, 1000.0f);
 
             return node;
         }
@@ -61,6 +61,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             NodeService nodeService = new NodeService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            Node node = GetFilledRandomNode("");
 
             // -------------------------------
             // -------------------------------

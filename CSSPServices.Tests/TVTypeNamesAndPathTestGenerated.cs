@@ -44,9 +44,9 @@ namespace CSSPServices.Tests
 
             TVTypeNamesAndPath tvTypeNamesAndPath = new TVTypeNamesAndPath();
 
-            if (OmitPropName != "TVTypeName") tvTypeNamesAndPath.TVTypeName = GetRandomString("", 1);
+            if (OmitPropName != "TVTypeName") tvTypeNamesAndPath.TVTypeName = GetRandomString("", 5);
             if (OmitPropName != "Index") tvTypeNamesAndPath.Index = GetRandomInt(1, 11);
-            if (OmitPropName != "TVPath") tvTypeNamesAndPath.TVPath = GetRandomString("", 1);
+            if (OmitPropName != "TVPath") tvTypeNamesAndPath.TVPath = GetRandomString("", 5);
 
             return tvTypeNamesAndPath;
         }
@@ -58,6 +58,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TVTypeNamesAndPathService tvTypeNamesAndPathService = new TVTypeNamesAndPathService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVTypeNamesAndPath tvTypeNamesAndPath = GetFilledRandomTVTypeNamesAndPath("");
 
             // -------------------------------
             // -------------------------------

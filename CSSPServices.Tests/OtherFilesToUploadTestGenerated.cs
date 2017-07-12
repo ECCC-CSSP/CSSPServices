@@ -44,7 +44,7 @@ namespace CSSPServices.Tests
 
             OtherFilesToUpload otherFilesToUpload = new OtherFilesToUpload();
 
-            if (OmitPropName != "Error") otherFilesToUpload.Error = GetRandomString("", 5);
+            if (OmitPropName != "Error") otherFilesToUpload.Error = GetRandomString("", 20);
             if (OmitPropName != "MikeScenarioID") otherFilesToUpload.MikeScenarioID = GetRandomInt(1, 11);
 
             return otherFilesToUpload;
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             OtherFilesToUploadService otherFilesToUploadService = new OtherFilesToUploadService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            OtherFilesToUpload otherFilesToUpload = GetFilledRandomOtherFilesToUpload("");
 
             // -------------------------------
             // -------------------------------

@@ -55,6 +55,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TVItemSubsectorAndMWQMSiteService tvItemSubsectorAndMWQMSiteService = new TVItemSubsectorAndMWQMSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVItemSubsectorAndMWQMSite tvItemSubsectorAndMWQMSite = GetFilledRandomTVItemSubsectorAndMWQMSite("");
 
             // -------------------------------
             // -------------------------------

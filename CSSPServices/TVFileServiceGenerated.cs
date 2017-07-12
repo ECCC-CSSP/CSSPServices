@@ -42,29 +42,58 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVFile tvFile = validationContext.ObjectInstance as TVFile;
 
-            //TVFileID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            if (actionDBType == ActionDBTypeEnum.Update)
+            {
+                if (tvFile.TVFileID == 0)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTVFileID), new[] { ModelsRes.TVFileTVFileID });
+                }
+            }
 
-            //TVFileID has no Range Attribute
+            //TVFileID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //TVFileTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //TVFileTVItemID has no Range Attribute
+            if (tvFile.TVFileTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVFileTVFileTVItemID, "1"), new[] { ModelsRes.TVFileTVFileTVItemID });
+            }
 
-                //Error: Type not implemented [TemplateTVType] of type [TVTypeEnum]
+            if (!((from c in db.TVItems where c.TVItemID == tvFile.TVFileTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileTVFileTVItemID, tvFile.TVFileTVItemID.ToString()), new[] { ModelsRes.TVFileTVFileTVItemID });
+            }
 
-                //Error: Type not implemented [TemplateTVType] of type [TVTypeEnum]
-                //Error: Type not implemented [Language] of type [LanguageEnum]
+            retStr = enums.TVTypeOK(tvFile.TemplateTVType);
+            if (tvFile.TemplateTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTemplateTVType), new[] { ModelsRes.TVFileTemplateTVType });
+            }
 
-                //Error: Type not implemented [Language] of type [LanguageEnum]
-                //Error: Type not implemented [FilePurpose] of type [FilePurposeEnum]
+            retStr = enums.LanguageOK(tvFile.Language);
+            if (tvFile.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguage), new[] { ModelsRes.TVFileLanguage });
+            }
 
-                //Error: Type not implemented [FilePurpose] of type [FilePurposeEnum]
-                //Error: Type not implemented [FileType] of type [FileTypeEnum]
+            retStr = enums.FilePurposeOK(tvFile.FilePurpose);
+            if (tvFile.FilePurpose == FilePurposeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFilePurpose), new[] { ModelsRes.TVFileFilePurpose });
+            }
 
-                //Error: Type not implemented [FileType] of type [FileTypeEnum]
+            retStr = enums.FileTypeOK(tvFile.FileType);
+            if (tvFile.FileType == FileTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileType), new[] { ModelsRes.TVFileFileType });
+            }
+
             //FileSize_kb (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //FileSize_kb has no Range Attribute
+            if (tvFile.FileSize_kb < 0 || tvFile.FileSize_kb > 1000000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVFileFileSize_kb, "0", "1000000"), new[] { ModelsRes.TVFileFileSize_kb });
+            }
 
             if (string.IsNullOrWhiteSpace(tvFile.FileInfo))
             {
@@ -78,28 +107,35 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileCreatedDate_UTC), new[] { ModelsRes.TVFileFileCreatedDate_UTC });
             }
 
-                //Error: Type not implemented [FromWater] of type [Nullable`1]
-
-            if (string.IsNullOrWhiteSpace(tvFile.ClientFilePath))
+            if (tvFile.FileCreatedDate_UTC.Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileClientFilePath), new[] { ModelsRes.TVFileClientFilePath });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileFileCreatedDate_UTC, "1980"), new[] { ModelsRes.TVFileFileCreatedDate_UTC });
             }
 
-            //ClientFilePath has no StringLength Attribute
+            if (!string.IsNullOrWhiteSpace(tvFile.ClientFilePath) && tvFile.ClientFilePath.Length > 250)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileClientFilePath, "250"), new[] { ModelsRes.TVFileClientFilePath });
+            }
 
             if (string.IsNullOrWhiteSpace(tvFile.ServerFileName))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileServerFileName), new[] { ModelsRes.TVFileServerFileName });
             }
 
-            //ServerFileName has no StringLength Attribute
+            if (!string.IsNullOrWhiteSpace(tvFile.ServerFileName) && tvFile.ServerFileName.Length > 250)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileServerFileName, "250"), new[] { ModelsRes.TVFileServerFileName });
+            }
 
             if (string.IsNullOrWhiteSpace(tvFile.ServerFilePath))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileServerFilePath), new[] { ModelsRes.TVFileServerFilePath });
             }
 
-            //ServerFilePath has no StringLength Attribute
+            if (!string.IsNullOrWhiteSpace(tvFile.ServerFilePath) && tvFile.ServerFilePath.Length > 250)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileServerFilePath, "250"), new[] { ModelsRes.TVFileServerFilePath });
+            }
 
             if (tvFile.LastUpdateDate_UTC == null)
             {

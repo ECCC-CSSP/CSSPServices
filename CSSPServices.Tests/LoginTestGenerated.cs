@@ -45,8 +45,8 @@ namespace CSSPServices.Tests
             Login login = new Login();
 
             if (OmitPropName != "LoginEmail") login.LoginEmail = GetRandomEmail();
-            if (OmitPropName != "Password") login.Password = GetRandomString("", 6);
-            if (OmitPropName != "ConfirmPassword") login.ConfirmPassword = GetRandomString("", 6);
+            if (OmitPropName != "Password") login.Password = GetRandomString("", 5);
+            if (OmitPropName != "ConfirmPassword") login.ConfirmPassword = GetRandomString("", 5);
 
             return login;
         }
@@ -58,6 +58,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             LoginService loginService = new LoginService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            Login login = GetFilledRandomLogin("");
 
             // -------------------------------
             // -------------------------------

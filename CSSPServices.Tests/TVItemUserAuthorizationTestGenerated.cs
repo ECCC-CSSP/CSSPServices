@@ -64,6 +64,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TVItemUserAuthorizationService tvItemUserAuthorizationService = new TVItemUserAuthorizationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVItemUserAuthorization tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
 
             // -------------------------------
             // -------------------------------
@@ -71,7 +72,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            TVItemUserAuthorization tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
             Assert.AreEqual(true, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
             Assert.AreEqual(true, tvItemUserAuthorizationService.GetRead().Where(c => c == tvItemUserAuthorization).Any());
             tvItemUserAuthorization.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -90,13 +90,7 @@ namespace CSSPServices.Tests
 
             // TVItemID1 will automatically be initialized at 0 --> not null
 
-            tvItemUserAuthorization = null;
-            tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("TVAuth");
-            Assert.AreEqual(false, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
-            Assert.AreEqual(1, tvItemUserAuthorization.ValidationResults.Count());
-            Assert.IsTrue(tvItemUserAuthorization.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationTVAuth)).Any());
-            Assert.AreEqual(TVAuthEnum.Error, tvItemUserAuthorization.TVAuth);
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            //Error: Type not implemented [TVAuth]
 
             tvItemUserAuthorization = null;
             tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("LastUpdateDate_UTC");
@@ -108,6 +102,12 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [ContactTVItem]
+
+            //Error: Type not implemented [TVItemID1Navigation]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -117,11 +117,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [TVItemUserAuthorizationID] of type [int]
+            // doing property [TVItemUserAuthorizationID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ContactTVItemID] of type [int]
+            // doing property [ContactTVItemID] of type [Int32]
             //-----------------------------------
 
             tvItemUserAuthorization = null;
@@ -148,7 +148,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TVItemID1] of type [int]
+            // doing property [TVItemID1] of type [Int32]
             //-----------------------------------
 
             tvItemUserAuthorization = null;
@@ -175,7 +175,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TVItemID2] of type [int]
+            // doing property [TVItemID2] of type [Int32]
             //-----------------------------------
 
             tvItemUserAuthorization = null;
@@ -202,7 +202,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TVItemID3] of type [int]
+            // doing property [TVItemID3] of type [Int32]
             //-----------------------------------
 
             tvItemUserAuthorization = null;
@@ -229,7 +229,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TVItemID4] of type [int]
+            // doing property [TVItemID4] of type [Int32]
             //-----------------------------------
 
             tvItemUserAuthorization = null;
@@ -264,7 +264,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             tvItemUserAuthorization = null;
@@ -289,6 +289,18 @@ namespace CSSPServices.Tests
             Assert.IsTrue(tvItemUserAuthorization.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, tvItemUserAuthorization.LastUpdateContactTVItemID);
             Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [ContactTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [TVItemID1Navigation] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

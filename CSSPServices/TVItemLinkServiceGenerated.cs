@@ -42,46 +42,85 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItemLink tvItemLink = validationContext.ObjectInstance as TVItemLink;
 
-            //TVItemLinkID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            if (actionDBType == ActionDBTypeEnum.Update)
+            {
+                if (tvItemLink.TVItemLinkID == 0)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLinkTVItemLinkID), new[] { ModelsRes.TVItemLinkTVItemLinkID });
+                }
+            }
 
-            //TVItemLinkID has no Range Attribute
+            //TVItemLinkID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //FromTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //FromTVItemID has no Range Attribute
+            if (tvItemLink.FromTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemLinkFromTVItemID, "1"), new[] { ModelsRes.TVItemLinkFromTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == tvItemLink.FromTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLinkFromTVItemID, tvItemLink.FromTVItemID.ToString()), new[] { ModelsRes.TVItemLinkFromTVItemID });
+            }
 
             //ToTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //ToTVItemID has no Range Attribute
+            if (tvItemLink.ToTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemLinkToTVItemID, "1"), new[] { ModelsRes.TVItemLinkToTVItemID });
+            }
 
-                //Error: Type not implemented [FromTVType] of type [TVTypeEnum]
+            if (!((from c in db.TVItems where c.TVItemID == tvItemLink.ToTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLinkToTVItemID, tvItemLink.ToTVItemID.ToString()), new[] { ModelsRes.TVItemLinkToTVItemID });
+            }
 
-                //Error: Type not implemented [FromTVType] of type [TVTypeEnum]
-                //Error: Type not implemented [ToTVType] of type [TVTypeEnum]
+            retStr = enums.TVTypeOK(tvItemLink.FromTVType);
+            if (tvItemLink.FromTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLinkFromTVType), new[] { ModelsRes.TVItemLinkFromTVType });
+            }
 
-                //Error: Type not implemented [ToTVType] of type [TVTypeEnum]
-                //Error: Type not implemented [StartDateTime_Local] of type [Nullable`1]
-
-                //Error: Type not implemented [EndDateTime_Local] of type [Nullable`1]
+            retStr = enums.TVTypeOK(tvItemLink.ToTVType);
+            if (tvItemLink.ToTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLinkToTVType), new[] { ModelsRes.TVItemLinkToTVType });
+            }
 
             //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Ordinal has no Range Attribute
+            if (tvItemLink.Ordinal < 0 || tvItemLink.Ordinal > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVItemLinkOrdinal, "0", "100"), new[] { ModelsRes.TVItemLinkOrdinal });
+            }
 
             //TVLevel (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //TVLevel has no Range Attribute
+            if (tvItemLink.TVLevel < 0 || tvItemLink.TVLevel > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVItemLinkTVLevel, "0", "100"), new[] { ModelsRes.TVItemLinkTVLevel });
+            }
 
             if (string.IsNullOrWhiteSpace(tvItemLink.TVPath))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLinkTVPath), new[] { ModelsRes.TVItemLinkTVPath });
             }
 
-            //TVPath has no StringLength Attribute
+            if (!string.IsNullOrWhiteSpace(tvItemLink.TVPath) && tvItemLink.TVPath.Length > 250)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLinkTVPath, "250"), new[] { ModelsRes.TVItemLinkTVPath });
+            }
 
-                //Error: Type not implemented [ParentTVItemLinkID] of type [Nullable`1]
+            if (tvItemLink.ParentTVItemLinkID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemLinkParentTVItemLinkID, "1"), new[] { ModelsRes.TVItemLinkParentTVItemLinkID });
+            }
 
-            //ParentTVItemLinkID has no Range Attribute
+            if (!((from c in db.TVItems where c.TVItemID == tvItemLink.ParentTVItemLinkID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLinkParentTVItemLinkID, tvItemLink.ParentTVItemLinkID.ToString()), new[] { ModelsRes.TVItemLinkParentTVItemLinkID });
+            }
 
             if (tvItemLink.LastUpdateDate_UTC == null)
             {

@@ -42,17 +42,34 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVFileLanguage tvFileLanguage = validationContext.ObjectInstance as TVFileLanguage;
 
-            //TVFileLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            if (actionDBType == ActionDBTypeEnum.Update)
+            {
+                if (tvFileLanguage.TVFileLanguageID == 0)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageTVFileLanguageID), new[] { ModelsRes.TVFileLanguageTVFileLanguageID });
+                }
+            }
 
-            //TVFileLanguageID has no Range Attribute
+            //TVFileLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //TVFileID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //TVFileID has no Range Attribute
+            if (tvFileLanguage.TVFileID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVFileLanguageTVFileID, "1"), new[] { ModelsRes.TVFileLanguageTVFileID });
+            }
 
-                //Error: Type not implemented [Language] of type [LanguageEnum]
+            if (!((from c in db.TVFiles where c.TVFileID == tvFileLanguage.TVFileID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVFile, ModelsRes.TVFileLanguageTVFileID, tvFileLanguage.TVFileID.ToString()), new[] { ModelsRes.TVFileLanguageTVFileID });
+            }
 
-                //Error: Type not implemented [Language] of type [LanguageEnum]
+            retStr = enums.LanguageOK(tvFileLanguage.Language);
+            if (tvFileLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageLanguage), new[] { ModelsRes.TVFileLanguageLanguage });
+            }
+
             if (string.IsNullOrWhiteSpace(tvFileLanguage.FileDescription))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageFileDescription), new[] { ModelsRes.TVFileLanguageFileDescription });
@@ -60,9 +77,12 @@ namespace CSSPServices
 
             //FileDescription has no StringLength Attribute
 
-                //Error: Type not implemented [TranslationStatus] of type [TranslationStatusEnum]
+            retStr = enums.TranslationStatusOK(tvFileLanguage.TranslationStatus);
+            if (tvFileLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageTranslationStatus), new[] { ModelsRes.TVFileLanguageTranslationStatus });
+            }
 
-                //Error: Type not implemented [TranslationStatus] of type [TranslationStatusEnum]
             if (tvFileLanguage.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageLastUpdateDate_UTC), new[] { ModelsRes.TVFileLanguageLastUpdateDate_UTC });

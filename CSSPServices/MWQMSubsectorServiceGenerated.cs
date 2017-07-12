@@ -84,121 +84,75 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorTideLocationSIDText, "20"), new[] { ModelsRes.MWQMSubsectorTideLocationSIDText });
             }
 
-                //Error: Type not implemented [RainDay0Limit] of type [Nullable`1]
-
             if (mwqmSubsector.RainDay0Limit < 0 || mwqmSubsector.RainDay0Limit > 300)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay0Limit, "0", "300"), new[] { ModelsRes.MWQMSubsectorRainDay0Limit });
             }
-
-                //Error: Type not implemented [RainDay1Limit] of type [Nullable`1]
 
             if (mwqmSubsector.RainDay1Limit < 0 || mwqmSubsector.RainDay1Limit > 300)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay1Limit, "0", "300"), new[] { ModelsRes.MWQMSubsectorRainDay1Limit });
             }
 
-                //Error: Type not implemented [RainDay2Limit] of type [Nullable`1]
-
             if (mwqmSubsector.RainDay2Limit < 0 || mwqmSubsector.RainDay2Limit > 300)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay2Limit, "0", "300"), new[] { ModelsRes.MWQMSubsectorRainDay2Limit });
             }
-
-                //Error: Type not implemented [RainDay3Limit] of type [Nullable`1]
 
             if (mwqmSubsector.RainDay3Limit < 0 || mwqmSubsector.RainDay3Limit > 300)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay3Limit, "0", "300"), new[] { ModelsRes.MWQMSubsectorRainDay3Limit });
             }
 
-                //Error: Type not implemented [RainDay4Limit] of type [Nullable`1]
-
             if (mwqmSubsector.RainDay4Limit < 0 || mwqmSubsector.RainDay4Limit > 300)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay4Limit, "0", "300"), new[] { ModelsRes.MWQMSubsectorRainDay4Limit });
             }
-
-                //Error: Type not implemented [RainDay5Limit] of type [Nullable`1]
 
             if (mwqmSubsector.RainDay5Limit < 0 || mwqmSubsector.RainDay5Limit > 300)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay5Limit, "0", "300"), new[] { ModelsRes.MWQMSubsectorRainDay5Limit });
             }
 
-                //Error: Type not implemented [RainDay6Limit] of type [Nullable`1]
-
             if (mwqmSubsector.RainDay6Limit < 0 || mwqmSubsector.RainDay6Limit > 300)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay6Limit, "0", "300"), new[] { ModelsRes.MWQMSubsectorRainDay6Limit });
             }
-
-                //Error: Type not implemented [RainDay7Limit] of type [Nullable`1]
 
             if (mwqmSubsector.RainDay7Limit < 0 || mwqmSubsector.RainDay7Limit > 300)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay7Limit, "0", "300"), new[] { ModelsRes.MWQMSubsectorRainDay7Limit });
             }
 
-                //Error: Type not implemented [RainDay8Limit] of type [Nullable`1]
-
             if (mwqmSubsector.RainDay8Limit < 0 || mwqmSubsector.RainDay8Limit > 300)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay8Limit, "0", "300"), new[] { ModelsRes.MWQMSubsectorRainDay8Limit });
             }
-
-                //Error: Type not implemented [RainDay9Limit] of type [Nullable`1]
 
             if (mwqmSubsector.RainDay9Limit < 0 || mwqmSubsector.RainDay9Limit > 300)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay9Limit, "0", "300"), new[] { ModelsRes.MWQMSubsectorRainDay9Limit });
             }
 
-                //Error: Type not implemented [RainDay10Limit] of type [Nullable`1]
-
             if (mwqmSubsector.RainDay10Limit < 0 || mwqmSubsector.RainDay10Limit > 300)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay10Limit, "0", "300"), new[] { ModelsRes.MWQMSubsectorRainDay10Limit });
             }
-
-                //Error: Type not implemented [IncludeRainStartDate] of type [Nullable`1]
-
-                //Error: Type not implemented [IncludeRainEndDate] of type [Nullable`1]
-
-                //Error: Type not implemented [IncludeRainRunCount] of type [Nullable`1]
 
             if (mwqmSubsector.IncludeRainRunCount < 0 || mwqmSubsector.IncludeRainRunCount > 10)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorIncludeRainRunCount, "0", "10"), new[] { ModelsRes.MWQMSubsectorIncludeRainRunCount });
             }
 
-                //Error: Type not implemented [IncludeRainSelectFullYear] of type [Nullable`1]
-
-                //Error: Type not implemented [NoRainStartDate] of type [Nullable`1]
-
-                //Error: Type not implemented [NoRainEndDate] of type [Nullable`1]
-
-                //Error: Type not implemented [NoRainRunCount] of type [Nullable`1]
-
             if (mwqmSubsector.NoRainRunCount < 0 || mwqmSubsector.NoRainRunCount > 10)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorNoRainRunCount, "0", "10"), new[] { ModelsRes.MWQMSubsectorNoRainRunCount });
             }
 
-                //Error: Type not implemented [NoRainSelectFullYear] of type [Nullable`1]
-
-                //Error: Type not implemented [OnlyRainStartDate] of type [Nullable`1]
-
-                //Error: Type not implemented [OnlyRainEndDate] of type [Nullable`1]
-
-                //Error: Type not implemented [OnlyRainRunCount] of type [Nullable`1]
-
             if (mwqmSubsector.OnlyRainRunCount < 0 || mwqmSubsector.OnlyRainRunCount > 10)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorOnlyRainRunCount, "0", "10"), new[] { ModelsRes.MWQMSubsectorOnlyRainRunCount });
             }
-
-                //Error: Type not implemented [OnlyRainSelectFullYear] of type [Nullable`1]
 
             if (mwqmSubsector.LastUpdateDate_UTC == null)
             {

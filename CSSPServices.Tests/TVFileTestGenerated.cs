@@ -50,13 +50,13 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Language") tvFile.Language = language;
             if (OmitPropName != "FilePurpose") tvFile.FilePurpose = (FilePurposeEnum)GetRandomEnumType(typeof(FilePurposeEnum));
             if (OmitPropName != "FileType") tvFile.FileType = (FileTypeEnum)GetRandomEnumType(typeof(FileTypeEnum));
-            if (OmitPropName != "FileSize_kb") tvFile.FileSize_kb = GetRandomInt(0, 100000);
-            if (OmitPropName != "FileInfo") tvFile.FileInfo = GetRandomString("", 5);
+            if (OmitPropName != "FileSize_kb") tvFile.FileSize_kb = GetRandomInt(0, 1000000);
+            if (OmitPropName != "FileInfo") tvFile.FileInfo = GetRandomString("", 20);
             if (OmitPropName != "FileCreatedDate_UTC") tvFile.FileCreatedDate_UTC = GetRandomDateTime();
             if (OmitPropName != "FromWater") tvFile.FromWater = true;
-            if (OmitPropName != "ClientFilePath") tvFile.ClientFilePath = GetRandomString("", 7);
-            if (OmitPropName != "ServerFileName") tvFile.ServerFileName = GetRandomString("", 7);
-            if (OmitPropName != "ServerFilePath") tvFile.ServerFilePath = GetRandomString("", 7);
+            if (OmitPropName != "ClientFilePath") tvFile.ClientFilePath = GetRandomString("", 5);
+            if (OmitPropName != "ServerFileName") tvFile.ServerFileName = GetRandomString("", 5);
+            if (OmitPropName != "ServerFilePath") tvFile.ServerFilePath = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") tvFile.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") tvFile.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 
@@ -70,6 +70,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TVFileService tvFileService = new TVFileService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVFile tvFile = GetFilledRandomTVFile("");
 
             // -------------------------------
             // -------------------------------
@@ -77,7 +78,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            TVFile tvFile = GetFilledRandomTVFile("");
             Assert.AreEqual(true, tvFileService.Add(tvFile));
             Assert.AreEqual(true, tvFileService.GetRead().Where(c => c == tvFile).Any());
             tvFile.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -94,39 +94,23 @@ namespace CSSPServices.Tests
 
             // TVFileTVItemID will automatically be initialized at 0 --> not null
 
-            tvFile = null;
-            tvFile = GetFilledRandomTVFile("TemplateTVType");
-            Assert.AreEqual(false, tvFileService.Add(tvFile));
-            Assert.AreEqual(1, tvFile.ValidationResults.Count());
-            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTemplateTVType)).Any());
-            Assert.AreEqual(TVTypeEnum.Error, tvFile.TemplateTVType);
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
+            //Error: Type not implemented [TemplateTVType]
 
-            tvFile = null;
-            tvFile = GetFilledRandomTVFile("Language");
-            Assert.AreEqual(false, tvFileService.Add(tvFile));
-            Assert.AreEqual(1, tvFile.ValidationResults.Count());
-            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguage)).Any());
-            Assert.AreEqual(LanguageEnum.Error, tvFile.Language);
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
+            //Error: Type not implemented [Language]
 
-            tvFile = null;
-            tvFile = GetFilledRandomTVFile("FilePurpose");
-            Assert.AreEqual(false, tvFileService.Add(tvFile));
-            Assert.AreEqual(1, tvFile.ValidationResults.Count());
-            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFilePurpose)).Any());
-            Assert.AreEqual(FilePurposeEnum.Error, tvFile.FilePurpose);
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
+            //Error: Type not implemented [FilePurpose]
 
-            tvFile = null;
-            tvFile = GetFilledRandomTVFile("FileType");
-            Assert.AreEqual(false, tvFileService.Add(tvFile));
-            Assert.AreEqual(1, tvFile.ValidationResults.Count());
-            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileType)).Any());
-            Assert.AreEqual(FileTypeEnum.Error, tvFile.FileType);
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
+            //Error: Type not implemented [FileType]
 
             // FileSize_kb will automatically be initialized at 0 --> not null
+
+            tvFile = null;
+            tvFile = GetFilledRandomTVFile("FileInfo");
+            Assert.AreEqual(false, tvFileService.Add(tvFile));
+            Assert.AreEqual(1, tvFile.ValidationResults.Count());
+            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileInfo)).Any());
+            Assert.AreEqual(null, tvFile.FileInfo);
+            Assert.AreEqual(0, tvFileService.GetRead().Count());
 
             tvFile = null;
             tvFile = GetFilledRandomTVFile("FileCreatedDate_UTC");
@@ -162,6 +146,12 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [TVFileLanguages]
+
+            //Error: Type not implemented [TVFileTVItem]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -171,11 +161,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [TVFileID] of type [int]
+            // doing property [TVFileID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TVFileTVItemID] of type [int]
+            // doing property [TVFileTVItemID] of type [Int32]
             //-----------------------------------
 
             tvFile = null;
@@ -218,268 +208,94 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [FileSize_kb] of type [int]
+            // doing property [FileSize_kb] of type [Int32]
             //-----------------------------------
 
             tvFile = null;
             tvFile = GetFilledRandomTVFile("");
-            // FileSize_kb has Min [0] and Max [100000]. At Min should return true and no errors
+            // FileSize_kb has Min [0] and Max [1000000]. At Min should return true and no errors
             tvFile.FileSize_kb = 0;
             Assert.AreEqual(true, tvFileService.Add(tvFile));
             Assert.AreEqual(0, tvFile.ValidationResults.Count());
             Assert.AreEqual(0, tvFile.FileSize_kb);
             Assert.AreEqual(true, tvFileService.Delete(tvFile));
             Assert.AreEqual(0, tvFileService.GetRead().Count());
-            // FileSize_kb has Min [0] and Max [100000]. At Min + 1 should return true and no errors
+            // FileSize_kb has Min [0] and Max [1000000]. At Min + 1 should return true and no errors
             tvFile.FileSize_kb = 1;
             Assert.AreEqual(true, tvFileService.Add(tvFile));
             Assert.AreEqual(0, tvFile.ValidationResults.Count());
             Assert.AreEqual(1, tvFile.FileSize_kb);
             Assert.AreEqual(true, tvFileService.Delete(tvFile));
             Assert.AreEqual(0, tvFileService.GetRead().Count());
-            // FileSize_kb has Min [0] and Max [100000]. At Min - 1 should return false with one error
+            // FileSize_kb has Min [0] and Max [1000000]. At Min - 1 should return false with one error
             tvFile.FileSize_kb = -1;
             Assert.AreEqual(false, tvFileService.Add(tvFile));
-            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVFileFileSize_kb, "0", "100000")).Any());
+            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVFileFileSize_kb, "0", "1000000")).Any());
             Assert.AreEqual(-1, tvFile.FileSize_kb);
             Assert.AreEqual(0, tvFileService.GetRead().Count());
-            // FileSize_kb has Min [0] and Max [100000]. At Max should return true and no errors
-            tvFile.FileSize_kb = 100000;
+            // FileSize_kb has Min [0] and Max [1000000]. At Max should return true and no errors
+            tvFile.FileSize_kb = 1000000;
             Assert.AreEqual(true, tvFileService.Add(tvFile));
             Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(100000, tvFile.FileSize_kb);
+            Assert.AreEqual(1000000, tvFile.FileSize_kb);
             Assert.AreEqual(true, tvFileService.Delete(tvFile));
             Assert.AreEqual(0, tvFileService.GetRead().Count());
-            // FileSize_kb has Min [0] and Max [100000]. At Max - 1 should return true and no errors
-            tvFile.FileSize_kb = 99999;
+            // FileSize_kb has Min [0] and Max [1000000]. At Max - 1 should return true and no errors
+            tvFile.FileSize_kb = 999999;
             Assert.AreEqual(true, tvFileService.Add(tvFile));
             Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(99999, tvFile.FileSize_kb);
+            Assert.AreEqual(999999, tvFile.FileSize_kb);
             Assert.AreEqual(true, tvFileService.Delete(tvFile));
             Assert.AreEqual(0, tvFileService.GetRead().Count());
-            // FileSize_kb has Min [0] and Max [100000]. At Max + 1 should return false with one error
-            tvFile.FileSize_kb = 100001;
+            // FileSize_kb has Min [0] and Max [1000000]. At Max + 1 should return false with one error
+            tvFile.FileSize_kb = 1000001;
             Assert.AreEqual(false, tvFileService.Add(tvFile));
-            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVFileFileSize_kb, "0", "100000")).Any());
-            Assert.AreEqual(100001, tvFile.FileSize_kb);
+            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVFileFileSize_kb, "0", "1000000")).Any());
+            Assert.AreEqual(1000001, tvFile.FileSize_kb);
             Assert.AreEqual(0, tvFileService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [FileInfo] of type [string]
+            // doing property [FileInfo] of type [String]
             //-----------------------------------
 
             tvFile = null;
             tvFile = GetFilledRandomTVFile("");
-
-            // FileInfo has MinLength [0] and MaxLength [empty]. At Min should return true and no errors
-            string tvFileFileInfoMin = GetRandomString("", 0);
-            tvFile.FileInfo = tvFileFileInfoMin;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(tvFileFileInfoMin, tvFile.FileInfo);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // FileInfo has MinLength [0] and MaxLength [empty]. At Min + 1 should return true and no errors
-            tvFileFileInfoMin = GetRandomString("", 1);
-            tvFile.FileInfo = tvFileFileInfoMin;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(tvFileFileInfoMin, tvFile.FileInfo);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
 
             //-----------------------------------
             // doing property [FileCreatedDate_UTC] of type [DateTime]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [FromWater] of type [bool]
+            // doing property [FromWater] of type [Boolean]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ClientFilePath] of type [string]
-            //-----------------------------------
-
-            tvFile = null;
-            tvFile = GetFilledRandomTVFile("");
-
-            // ClientFilePath has MinLength [2] and MaxLength [250]. At Min should return true and no errors
-            string tvFileClientFilePathMin = GetRandomString("", 2);
-            tvFile.ClientFilePath = tvFileClientFilePathMin;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(tvFileClientFilePathMin, tvFile.ClientFilePath);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // ClientFilePath has MinLength [2] and MaxLength [250]. At Min + 1 should return true and no errors
-            tvFileClientFilePathMin = GetRandomString("", 3);
-            tvFile.ClientFilePath = tvFileClientFilePathMin;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(tvFileClientFilePathMin, tvFile.ClientFilePath);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // ClientFilePath has MinLength [2] and MaxLength [250]. At Min - 1 should return false with one error
-            tvFileClientFilePathMin = GetRandomString("", 1);
-            tvFile.ClientFilePath = tvFileClientFilePathMin;
-            Assert.AreEqual(false, tvFileService.Add(tvFile));
-            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFileClientFilePath, "2", "250")).Any());
-            Assert.AreEqual(tvFileClientFilePathMin, tvFile.ClientFilePath);
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // ClientFilePath has MinLength [2] and MaxLength [250]. At Max should return true and no errors
-            tvFileClientFilePathMin = GetRandomString("", 250);
-            tvFile.ClientFilePath = tvFileClientFilePathMin;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(tvFileClientFilePathMin, tvFile.ClientFilePath);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // ClientFilePath has MinLength [2] and MaxLength [250]. At Max - 1 should return true and no errors
-            tvFileClientFilePathMin = GetRandomString("", 249);
-            tvFile.ClientFilePath = tvFileClientFilePathMin;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(tvFileClientFilePathMin, tvFile.ClientFilePath);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // ClientFilePath has MinLength [2] and MaxLength [250]. At Max + 1 should return false with one error
-            tvFileClientFilePathMin = GetRandomString("", 251);
-            tvFile.ClientFilePath = tvFileClientFilePathMin;
-            Assert.AreEqual(false, tvFileService.Add(tvFile));
-            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFileClientFilePath, "2", "250")).Any());
-            Assert.AreEqual(tvFileClientFilePathMin, tvFile.ClientFilePath);
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            //-----------------------------------
-            // doing property [ServerFileName] of type [string]
+            // doing property [ClientFilePath] of type [String]
             //-----------------------------------
 
             tvFile = null;
             tvFile = GetFilledRandomTVFile("");
 
-            // ServerFileName has MinLength [2] and MaxLength [250]. At Min should return true and no errors
-            string tvFileServerFileNameMin = GetRandomString("", 2);
-            tvFile.ServerFileName = tvFileServerFileNameMin;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(tvFileServerFileNameMin, tvFile.ServerFileName);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // ServerFileName has MinLength [2] and MaxLength [250]. At Min + 1 should return true and no errors
-            tvFileServerFileNameMin = GetRandomString("", 3);
-            tvFile.ServerFileName = tvFileServerFileNameMin;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(tvFileServerFileNameMin, tvFile.ServerFileName);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // ServerFileName has MinLength [2] and MaxLength [250]. At Min - 1 should return false with one error
-            tvFileServerFileNameMin = GetRandomString("", 1);
-            tvFile.ServerFileName = tvFileServerFileNameMin;
-            Assert.AreEqual(false, tvFileService.Add(tvFile));
-            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFileServerFileName, "2", "250")).Any());
-            Assert.AreEqual(tvFileServerFileNameMin, tvFile.ServerFileName);
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // ServerFileName has MinLength [2] and MaxLength [250]. At Max should return true and no errors
-            tvFileServerFileNameMin = GetRandomString("", 250);
-            tvFile.ServerFileName = tvFileServerFileNameMin;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(tvFileServerFileNameMin, tvFile.ServerFileName);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // ServerFileName has MinLength [2] and MaxLength [250]. At Max - 1 should return true and no errors
-            tvFileServerFileNameMin = GetRandomString("", 249);
-            tvFile.ServerFileName = tvFileServerFileNameMin;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(tvFileServerFileNameMin, tvFile.ServerFileName);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // ServerFileName has MinLength [2] and MaxLength [250]. At Max + 1 should return false with one error
-            tvFileServerFileNameMin = GetRandomString("", 251);
-            tvFile.ServerFileName = tvFileServerFileNameMin;
-            Assert.AreEqual(false, tvFileService.Add(tvFile));
-            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFileServerFileName, "2", "250")).Any());
-            Assert.AreEqual(tvFileServerFileNameMin, tvFile.ServerFileName);
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [ServerFilePath] of type [string]
+            // doing property [ServerFileName] of type [String]
             //-----------------------------------
 
             tvFile = null;
             tvFile = GetFilledRandomTVFile("");
 
-            // ServerFilePath has MinLength [2] and MaxLength [250]. At Min should return true and no errors
-            string tvFileServerFilePathMin = GetRandomString("", 2);
-            tvFile.ServerFilePath = tvFileServerFilePathMin;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(tvFileServerFilePathMin, tvFile.ServerFilePath);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
+            //-----------------------------------
+            // doing property [ServerFilePath] of type [String]
+            //-----------------------------------
 
-            // ServerFilePath has MinLength [2] and MaxLength [250]. At Min + 1 should return true and no errors
-            tvFileServerFilePathMin = GetRandomString("", 3);
-            tvFile.ServerFilePath = tvFileServerFilePathMin;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(tvFileServerFilePathMin, tvFile.ServerFilePath);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // ServerFilePath has MinLength [2] and MaxLength [250]. At Min - 1 should return false with one error
-            tvFileServerFilePathMin = GetRandomString("", 1);
-            tvFile.ServerFilePath = tvFileServerFilePathMin;
-            Assert.AreEqual(false, tvFileService.Add(tvFile));
-            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFileServerFilePath, "2", "250")).Any());
-            Assert.AreEqual(tvFileServerFilePathMin, tvFile.ServerFilePath);
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // ServerFilePath has MinLength [2] and MaxLength [250]. At Max should return true and no errors
-            tvFileServerFilePathMin = GetRandomString("", 250);
-            tvFile.ServerFilePath = tvFileServerFilePathMin;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(tvFileServerFilePathMin, tvFile.ServerFilePath);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // ServerFilePath has MinLength [2] and MaxLength [250]. At Max - 1 should return true and no errors
-            tvFileServerFilePathMin = GetRandomString("", 249);
-            tvFile.ServerFilePath = tvFileServerFilePathMin;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(tvFileServerFilePathMin, tvFile.ServerFilePath);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
-
-            // ServerFilePath has MinLength [2] and MaxLength [250]. At Max + 1 should return false with one error
-            tvFileServerFilePathMin = GetRandomString("", 251);
-            tvFile.ServerFilePath = tvFileServerFilePathMin;
-            Assert.AreEqual(false, tvFileService.Add(tvFile));
-            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFileServerFilePath, "2", "250")).Any());
-            Assert.AreEqual(tvFileServerFilePathMin, tvFile.ServerFilePath);
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
+            tvFile = null;
+            tvFile = GetFilledRandomTVFile("");
 
             //-----------------------------------
             // doing property [LastUpdateDate_UTC] of type [DateTime]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             tvFile = null;
@@ -504,6 +320,18 @@ namespace CSSPServices.Tests
             Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVFileLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, tvFile.LastUpdateContactTVItemID);
             Assert.AreEqual(0, tvFileService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [TVFileLanguages] of type [ICollection`1]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [TVFileTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

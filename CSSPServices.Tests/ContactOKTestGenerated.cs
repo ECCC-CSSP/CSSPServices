@@ -44,9 +44,9 @@ namespace CSSPServices.Tests
 
             ContactOK contactOK = new ContactOK();
 
+            if (OmitPropName != "Error") contactOK.Error = GetRandomString("", 5);
             if (OmitPropName != "ContactID") contactOK.ContactID = GetRandomInt(1, 11);
             if (OmitPropName != "ContactTVItemID") contactOK.ContactTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "Error") contactOK.Error = GetRandomString("", 1);
 
             return contactOK;
         }
@@ -58,6 +58,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             ContactOKService contactOKService = new ContactOKService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactOK contactOK = GetFilledRandomContactOK("");
 
             // -------------------------------
             // -------------------------------

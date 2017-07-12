@@ -44,7 +44,7 @@ namespace CSSPServices.Tests
 
             PolSourceObsInfoEnumTextAndID polSourceObsInfoEnumTextAndID = new PolSourceObsInfoEnumTextAndID();
 
-            if (OmitPropName != "Text") polSourceObsInfoEnumTextAndID.Text = GetRandomString("", 5);
+            if (OmitPropName != "Text") polSourceObsInfoEnumTextAndID.Text = GetRandomString("", 20);
             if (OmitPropName != "ID") polSourceObsInfoEnumTextAndID.ID = GetRandomInt(1, 11);
 
             return polSourceObsInfoEnumTextAndID;
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             PolSourceObsInfoEnumTextAndIDService polSourceObsInfoEnumTextAndIDService = new PolSourceObsInfoEnumTextAndIDService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            PolSourceObsInfoEnumTextAndID polSourceObsInfoEnumTextAndID = GetFilledRandomPolSourceObsInfoEnumTextAndID("");
 
             // -------------------------------
             // -------------------------------

@@ -65,6 +65,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             MapInfoService mapInfoService = new MapInfoService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MapInfo mapInfo = GetFilledRandomMapInfo("");
 
             // -------------------------------
             // -------------------------------
@@ -72,7 +73,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            MapInfo mapInfo = GetFilledRandomMapInfo("");
             Assert.AreEqual(true, mapInfoService.Add(mapInfo));
             Assert.AreEqual(true, mapInfoService.GetRead().Where(c => c == mapInfo).Any());
             mapInfo.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -89,29 +89,17 @@ namespace CSSPServices.Tests
 
             // TVItemID will automatically be initialized at 0 --> not null
 
-            mapInfo = null;
-            mapInfo = GetFilledRandomMapInfo("TVType");
-            Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(1, mapInfo.ValidationResults.Count());
-            Assert.IsTrue(mapInfo.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoTVType)).Any());
-            Assert.AreEqual(TVTypeEnum.Error, mapInfo.TVType);
-            Assert.AreEqual(0, mapInfoService.GetRead().Count());
+            //Error: Type not implemented [TVType]
 
-            // LatMin will automatically be initialized at 0.0f --> not null
+            // LatMin will automatically be initialized at 0 --> not null
 
-            // LatMax will automatically be initialized at 0.0f --> not null
+            // LatMax will automatically be initialized at 0 --> not null
 
-            // LngMin will automatically be initialized at 0.0f --> not null
+            // LngMin will automatically be initialized at 0 --> not null
 
-            // LngMax will automatically be initialized at 0.0f --> not null
+            // LngMax will automatically be initialized at 0 --> not null
 
-            mapInfo = null;
-            mapInfo = GetFilledRandomMapInfo("MapInfoDrawType");
-            Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(1, mapInfo.ValidationResults.Count());
-            Assert.IsTrue(mapInfo.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoDrawType)).Any());
-            Assert.AreEqual(MapInfoDrawTypeEnum.Error, mapInfo.MapInfoDrawType);
-            Assert.AreEqual(0, mapInfoService.GetRead().Count());
+            //Error: Type not implemented [MapInfoDrawType]
 
             mapInfo = null;
             mapInfo = GetFilledRandomMapInfo("LastUpdateDate_UTC");
@@ -123,6 +111,12 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [MapInfoPoints]
+
+            //Error: Type not implemented [TVItem]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -132,11 +126,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [MapInfoID] of type [int]
+            // doing property [MapInfoID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TVItemID] of type [int]
+            // doing property [TVItemID] of type [Int32]
             //-----------------------------------
 
             mapInfo = null;
@@ -167,7 +161,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LatMin] of type [float]
+            // doing property [LatMin] of type [Single]
             //-----------------------------------
 
             mapInfo = null;
@@ -214,7 +208,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mapInfoService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LatMax] of type [float]
+            // doing property [LatMax] of type [Single]
             //-----------------------------------
 
             mapInfo = null;
@@ -261,7 +255,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mapInfoService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LngMin] of type [float]
+            // doing property [LngMin] of type [Single]
             //-----------------------------------
 
             mapInfo = null;
@@ -308,7 +302,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mapInfoService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LngMax] of type [float]
+            // doing property [LngMax] of type [Single]
             //-----------------------------------
 
             mapInfo = null;
@@ -363,7 +357,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             mapInfo = null;
@@ -388,6 +382,18 @@ namespace CSSPServices.Tests
             Assert.IsTrue(mapInfo.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MapInfoLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, mapInfo.LastUpdateContactTVItemID);
             Assert.AreEqual(0, mapInfoService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [MapInfoPoints] of type [ICollection`1]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [TVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

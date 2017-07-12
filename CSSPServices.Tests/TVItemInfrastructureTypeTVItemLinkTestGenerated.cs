@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             TVItemInfrastructureTypeTVItemLink tvItemInfrastructureTypeTVItemLink = new TVItemInfrastructureTypeTVItemLink();
 
-            if (OmitPropName != "InfrastructureType") tvItemInfrastructureTypeTVItemLink.InfrastructureType = (CSSPEnums.InfrastructureTypeEnum)GetRandomEnumType(typeof(CSSPEnums.InfrastructureTypeEnum));
-            if (OmitPropName != "SeeOtherTVItemID") tvItemInfrastructureTypeTVItemLink.SeeOtherTVItemID = GetRandomInt(1, 5);
+            if (OmitPropName != "InfrastructureType") tvItemInfrastructureTypeTVItemLink.InfrastructureType = (InfrastructureTypeEnum)GetRandomEnumType(typeof(InfrastructureTypeEnum));
+            if (OmitPropName != "SeeOtherTVItemID") tvItemInfrastructureTypeTVItemLink.SeeOtherTVItemID = GetRandomInt(1, 1000);
 
             return tvItemInfrastructureTypeTVItemLink;
         }
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TVItemInfrastructureTypeTVItemLinkService tvItemInfrastructureTypeTVItemLinkService = new TVItemInfrastructureTypeTVItemLinkService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVItemInfrastructureTypeTVItemLink tvItemInfrastructureTypeTVItemLink = GetFilledRandomTVItemInfrastructureTypeTVItemLink("");
 
             // -------------------------------
             // -------------------------------

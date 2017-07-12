@@ -51,8 +51,8 @@ namespace CSSPServices.Tests
             //Error: Type not implemented [PasswordSalt]
             if (OmitPropName != "LastUpdateDate_UTC") contactLogin.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") contactLogin.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "Password") contactLogin.Password = GetRandomString("", 6);
-            if (OmitPropName != "ConfirmPassword") contactLogin.ConfirmPassword = GetRandomString("", 6);
+            if (OmitPropName != "Password") contactLogin.Password = GetRandomString("", 5);
+            if (OmitPropName != "ConfirmPassword") contactLogin.ConfirmPassword = GetRandomString("", 5);
 
             return contactLogin;
         }
@@ -64,6 +64,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactLogin contactLogin = GetFilledRandomContactLogin("");
 
             // -------------------------------
             // -------------------------------
@@ -71,7 +72,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            ContactLogin contactLogin = GetFilledRandomContactLogin("");
             Assert.AreEqual(true, contactLoginService.Add(contactLogin));
             Assert.AreEqual(true, contactLoginService.GetRead().Where(c => c == contactLogin).Any());
             contactLogin.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -110,6 +110,26 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [Contact]
+
+            contactLogin = null;
+            contactLogin = GetFilledRandomContactLogin("Password");
+            Assert.AreEqual(false, contactLoginService.Add(contactLogin));
+            Assert.AreEqual(1, contactLogin.ValidationResults.Count());
+            Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginPassword)).Any());
+            Assert.AreEqual(null, contactLogin.Password);
+            Assert.AreEqual(0, contactLoginService.GetRead().Count());
+
+            contactLogin = null;
+            contactLogin = GetFilledRandomContactLogin("ConfirmPassword");
+            Assert.AreEqual(false, contactLoginService.Add(contactLogin));
+            Assert.AreEqual(1, contactLogin.ValidationResults.Count());
+            Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginConfirmPassword)).Any());
+            Assert.AreEqual(null, contactLogin.ConfirmPassword);
+            Assert.AreEqual(0, contactLoginService.GetRead().Count());
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -119,11 +139,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [ContactLoginID] of type [int]
+            // doing property [ContactLoginID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ContactID] of type [int]
+            // doing property [ContactID] of type [Int32]
             //-----------------------------------
 
             contactLogin = null;
@@ -150,29 +170,11 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, contactLoginService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LoginEmail] of type [string]
+            // doing property [LoginEmail] of type [String]
             //-----------------------------------
 
             contactLogin = null;
             contactLogin = GetFilledRandomContactLogin("");
-
-            // LoginEmail has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
-            string contactLoginLoginEmailMin = GetRandomEmail();
-            contactLogin.LoginEmail = contactLoginLoginEmailMin;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(contactLoginLoginEmailMin, contactLogin.LoginEmail);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(0, contactLoginService.GetRead().Count());
-
-            // LoginEmail has MinLength [empty] and MaxLength [200]. At Max - 1 should return true and no errors
-            contactLoginLoginEmailMin = GetRandomEmail();
-            contactLogin.LoginEmail = contactLoginLoginEmailMin;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(contactLoginLoginEmailMin, contactLogin.LoginEmail);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(0, contactLoginService.GetRead().Count());
 
             //-----------------------------------
             // doing property [PasswordHash] of type [Byte[]]
@@ -187,7 +189,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             contactLogin = null;
@@ -212,6 +214,28 @@ namespace CSSPServices.Tests
             Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactLoginLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, contactLogin.LastUpdateContactTVItemID);
             Assert.AreEqual(0, contactLoginService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [Contact] of type [Contact]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [Password] of type [String]
+            //-----------------------------------
+
+            contactLogin = null;
+            contactLogin = GetFilledRandomContactLogin("");
+
+            //-----------------------------------
+            // doing property [ConfirmPassword] of type [String]
+            //-----------------------------------
+
+            contactLogin = null;
+            contactLogin = GetFilledRandomContactLogin("");
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

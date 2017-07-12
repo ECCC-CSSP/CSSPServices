@@ -42,20 +42,40 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVTypeUserAuthorization tvTypeUserAuthorization = validationContext.ObjectInstance as TVTypeUserAuthorization;
 
-            //TVTypeUserAuthorizationID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            if (actionDBType == ActionDBTypeEnum.Update)
+            {
+                if (tvTypeUserAuthorization.TVTypeUserAuthorizationID == 0)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVTypeUserAuthorizationID), new[] { ModelsRes.TVTypeUserAuthorizationTVTypeUserAuthorizationID });
+                }
+            }
 
-            //TVTypeUserAuthorizationID has no Range Attribute
+            //TVTypeUserAuthorizationID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //ContactTVItemID has no Range Attribute
+            if (tvTypeUserAuthorization.ContactTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVTypeUserAuthorizationContactTVItemID, "1"), new[] { ModelsRes.TVTypeUserAuthorizationContactTVItemID });
+            }
 
-                //Error: Type not implemented [TVType] of type [TVTypeEnum]
+            if (!((from c in db.TVItems where c.TVItemID == tvTypeUserAuthorization.ContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVTypeUserAuthorizationContactTVItemID, tvTypeUserAuthorization.ContactTVItemID.ToString()), new[] { ModelsRes.TVTypeUserAuthorizationContactTVItemID });
+            }
 
-                //Error: Type not implemented [TVType] of type [TVTypeEnum]
-                //Error: Type not implemented [TVAuth] of type [TVAuthEnum]
+            retStr = enums.TVTypeOK(tvTypeUserAuthorization.TVType);
+            if (tvTypeUserAuthorization.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVType), new[] { ModelsRes.TVTypeUserAuthorizationTVType });
+            }
 
-                //Error: Type not implemented [TVAuth] of type [TVAuthEnum]
+            retStr = enums.TVAuthOK(tvTypeUserAuthorization.TVAuth);
+            if (tvTypeUserAuthorization.TVAuth == TVAuthEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVAuth), new[] { ModelsRes.TVTypeUserAuthorizationTVAuth });
+            }
+
             if (tvTypeUserAuthorization.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationLastUpdateDate_UTC), new[] { ModelsRes.TVTypeUserAuthorizationLastUpdateDate_UTC });

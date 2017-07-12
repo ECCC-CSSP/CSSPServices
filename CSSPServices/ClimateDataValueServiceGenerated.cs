@@ -82,47 +82,25 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueStorageDataType), new[] { ModelsRes.ClimateDataValueStorageDataType });
             }
 
-                //Error: Type not implemented [Snow_cm] of type [Nullable`1]
-
             //Snow_cm has no Range Attribute
-
-                //Error: Type not implemented [Rainfall_mm] of type [Nullable`1]
 
             //Rainfall_mm has no Range Attribute
 
-                //Error: Type not implemented [RainfallEntered_mm] of type [Nullable`1]
-
             //RainfallEntered_mm has no Range Attribute
-
-                //Error: Type not implemented [TotalPrecip_mm_cm] of type [Nullable`1]
 
             //TotalPrecip_mm_cm has no Range Attribute
 
-                //Error: Type not implemented [MaxTemp_C] of type [Nullable`1]
-
             //MaxTemp_C has no Range Attribute
-
-                //Error: Type not implemented [MinTemp_C] of type [Nullable`1]
 
             //MinTemp_C has no Range Attribute
 
-                //Error: Type not implemented [HeatDegDays_C] of type [Nullable`1]
-
             //HeatDegDays_C has no Range Attribute
-
-                //Error: Type not implemented [CoolDegDays_C] of type [Nullable`1]
 
             //CoolDegDays_C has no Range Attribute
 
-                //Error: Type not implemented [SnowOnGround_cm] of type [Nullable`1]
-
             //SnowOnGround_cm has no Range Attribute
 
-                //Error: Type not implemented [DirMaxGust_0North] of type [Nullable`1]
-
             //DirMaxGust_0North has no Range Attribute
-
-                //Error: Type not implemented [SpdMaxGust_kmh] of type [Nullable`1]
 
             //SpdMaxGust_kmh has no Range Attribute
 

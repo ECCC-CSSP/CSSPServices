@@ -46,8 +46,8 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "StartPos") rTBStringPos.StartPos = GetRandomInt(0, 10);
             if (OmitPropName != "EndPos") rTBStringPos.EndPos = GetRandomInt(0, 10);
-            if (OmitPropName != "Text") rTBStringPos.Text = GetRandomString("", 5);
-            if (OmitPropName != "TagText") rTBStringPos.TagText = GetRandomString("", 5);
+            if (OmitPropName != "Text") rTBStringPos.Text = GetRandomString("", 20);
+            if (OmitPropName != "TagText") rTBStringPos.TagText = GetRandomString("", 20);
 
             return rTBStringPos;
         }
@@ -59,6 +59,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             RTBStringPosService rTBStringPosService = new RTBStringPosService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            RTBStringPos rTBStringPos = GetFilledRandomRTBStringPos("");
 
             // -------------------------------
             // -------------------------------

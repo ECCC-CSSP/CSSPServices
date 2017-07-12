@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             DBTable dBTable = new DBTable();
 
-            if (OmitPropName != "TableName") dBTable.TableName = GetRandomString("", 1);
-            if (OmitPropName != "Plurial") dBTable.Plurial = GetRandomString("", 1);
+            if (OmitPropName != "TableName") dBTable.TableName = GetRandomString("", 5);
+            if (OmitPropName != "Plurial") dBTable.Plurial = GetRandomString("", 3);
 
             return dBTable;
         }
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             DBTableService dBTableService = new DBTableService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            DBTable dBTable = GetFilledRandomDBTable("");
 
             // -------------------------------
             // -------------------------------

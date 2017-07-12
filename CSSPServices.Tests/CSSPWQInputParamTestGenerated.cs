@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             CSSPWQInputParam cSSPWQInputParam = new CSSPWQInputParam();
 
-            if (OmitPropName != "CSSPWQInputType") cSSPWQInputParam.CSSPWQInputType = (CSSPEnums.CSSPWQInputTypeEnum)GetRandomEnumType(typeof(CSSPEnums.CSSPWQInputTypeEnum));
-            if (OmitPropName != "Name") cSSPWQInputParam.Name = GetRandomString("", 1);
+            if (OmitPropName != "CSSPWQInputType") cSSPWQInputParam.CSSPWQInputType = (CSSPWQInputTypeEnum)GetRandomEnumType(typeof(CSSPWQInputTypeEnum));
+            if (OmitPropName != "Name") cSSPWQInputParam.Name = GetRandomString("", 5);
             if (OmitPropName != "TVItemID") cSSPWQInputParam.TVItemID = GetRandomInt(1, 11);
 
             return cSSPWQInputParam;
@@ -58,6 +58,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             CSSPWQInputParamService cSSPWQInputParamService = new CSSPWQInputParamService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            CSSPWQInputParam cSSPWQInputParam = GetFilledRandomCSSPWQInputParam("");
 
             // -------------------------------
             // -------------------------------

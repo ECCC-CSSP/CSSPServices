@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             FileItemList fileItemList = new FileItemList();
 
-            if (OmitPropName != "Text") fileItemList.Text = GetRandomString("", 1);
-            if (OmitPropName != "FileName") fileItemList.FileName = GetRandomString("", 1);
+            if (OmitPropName != "Text") fileItemList.Text = GetRandomString("", 5);
+            if (OmitPropName != "FileName") fileItemList.FileName = GetRandomString("", 5);
 
             return fileItemList;
         }
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             FileItemListService fileItemListService = new FileItemListService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            FileItemList fileItemList = GetFilledRandomFileItemList("");
 
             // -------------------------------
             // -------------------------------

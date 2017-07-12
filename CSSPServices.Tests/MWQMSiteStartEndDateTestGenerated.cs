@@ -61,6 +61,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             MWQMSiteStartEndDateService mwqmSiteStartEndDateService = new MWQMSiteStartEndDateService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MWQMSiteStartEndDate mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
 
             // -------------------------------
             // -------------------------------
@@ -68,7 +69,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            MWQMSiteStartEndDate mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
             Assert.AreEqual(true, mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate));
             Assert.AreEqual(true, mwqmSiteStartEndDateService.GetRead().Where(c => c == mwqmSiteStartEndDate).Any());
             mwqmSiteStartEndDate.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -103,6 +103,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [MWQMSiteTVItem]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -112,11 +116,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [MWQMSiteStartEndDateID] of type [int]
+            // doing property [MWQMSiteStartEndDateID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MWQMSiteTVItemID] of type [int]
+            // doing property [MWQMSiteTVItemID] of type [Int32]
             //-----------------------------------
 
             mwqmSiteStartEndDate = null;
@@ -155,7 +159,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             mwqmSiteStartEndDate = null;
@@ -180,6 +184,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(mwqmSiteStartEndDate.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, mwqmSiteStartEndDate.LastUpdateContactTVItemID);
             Assert.AreEqual(0, mwqmSiteStartEndDateService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [MWQMSiteTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

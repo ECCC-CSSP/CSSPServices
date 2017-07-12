@@ -42,56 +42,89 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             UseOfSite useOfSite = validationContext.ObjectInstance as UseOfSite;
 
-            //UseOfSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            if (actionDBType == ActionDBTypeEnum.Update)
+            {
+                if (useOfSite.UseOfSiteID == 0)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteUseOfSiteID), new[] { ModelsRes.UseOfSiteUseOfSiteID });
+                }
+            }
 
-            //UseOfSiteID has no Range Attribute
+            //UseOfSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //SiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //SiteTVItemID has no Range Attribute
+            if (useOfSite.SiteTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.UseOfSiteSiteTVItemID, "1"), new[] { ModelsRes.UseOfSiteSiteTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == useOfSite.SiteTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteSiteTVItemID, useOfSite.SiteTVItemID.ToString()), new[] { ModelsRes.UseOfSiteSiteTVItemID });
+            }
 
             //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //SubsectorTVItemID has no Range Attribute
+            if (useOfSite.SubsectorTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.UseOfSiteSubsectorTVItemID, "1"), new[] { ModelsRes.UseOfSiteSubsectorTVItemID });
+            }
 
-                //Error: Type not implemented [SiteType] of type [SiteTypeEnum]
+            if (!((from c in db.TVItems where c.TVItemID == useOfSite.SubsectorTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteSubsectorTVItemID, useOfSite.SubsectorTVItemID.ToString()), new[] { ModelsRes.UseOfSiteSubsectorTVItemID });
+            }
 
-                //Error: Type not implemented [SiteType] of type [SiteTypeEnum]
+            retStr = enums.SiteTypeOK(useOfSite.SiteType);
+            if (useOfSite.SiteType == SiteTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteSiteType), new[] { ModelsRes.UseOfSiteSiteType });
+            }
+
             //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Ordinal has no Range Attribute
+            if (useOfSite.Ordinal < 0 || useOfSite.Ordinal > 1000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteOrdinal, "0", "1000"), new[] { ModelsRes.UseOfSiteOrdinal });
+            }
 
             //StartYear (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //StartYear has no Range Attribute
+            if (useOfSite.StartYear < 1980 || useOfSite.StartYear > 2050)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteStartYear, "1980", "2050"), new[] { ModelsRes.UseOfSiteStartYear });
+            }
 
-                //Error: Type not implemented [EndYear] of type [Nullable`1]
+            if (useOfSite.EndYear < 1980 || useOfSite.EndYear > 2050)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteEndYear, "1980", "2050"), new[] { ModelsRes.UseOfSiteEndYear });
+            }
 
-            //EndYear has no Range Attribute
+            if (useOfSite.Weight_perc < 0 || useOfSite.Weight_perc > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteWeight_perc, "0", "100"), new[] { ModelsRes.UseOfSiteWeight_perc });
+            }
 
-                //Error: Type not implemented [UseWeight] of type [Nullable`1]
+            if (useOfSite.Param1 < 0 || useOfSite.Param1 > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam1, "0", "100"), new[] { ModelsRes.UseOfSiteParam1 });
+            }
 
-                //Error: Type not implemented [Weight_perc] of type [Nullable`1]
+            if (useOfSite.Param2 < 0 || useOfSite.Param2 > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam2, "0", "100"), new[] { ModelsRes.UseOfSiteParam2 });
+            }
 
-            //Weight_perc has no Range Attribute
+            if (useOfSite.Param3 < 0 || useOfSite.Param3 > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam3, "0", "100"), new[] { ModelsRes.UseOfSiteParam3 });
+            }
 
-                //Error: Type not implemented [UseEquation] of type [Nullable`1]
-
-                //Error: Type not implemented [Param1] of type [Nullable`1]
-
-            //Param1 has no Range Attribute
-
-                //Error: Type not implemented [Param2] of type [Nullable`1]
-
-            //Param2 has no Range Attribute
-
-                //Error: Type not implemented [Param3] of type [Nullable`1]
-
-            //Param3 has no Range Attribute
-
-                //Error: Type not implemented [Param4] of type [Nullable`1]
-
-            //Param4 has no Range Attribute
+            if (useOfSite.Param4 < 0 || useOfSite.Param4 > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam4, "0", "100"), new[] { ModelsRes.UseOfSiteParam4 });
+            }
 
             if (useOfSite.LastUpdateDate_UTC == null)
             {

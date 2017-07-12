@@ -42,37 +42,69 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             VPResult vpResult = validationContext.ObjectInstance as VPResult;
 
-            //VPResultID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            if (actionDBType == ActionDBTypeEnum.Update)
+            {
+                if (vpResult.VPResultID == 0)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPResultVPResultID), new[] { ModelsRes.VPResultVPResultID });
+                }
+            }
 
-            //VPResultID has no Range Attribute
+            //VPResultID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //VPScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //VPScenarioID has no Range Attribute
+            if (vpResult.VPScenarioID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPResultVPScenarioID, "1"), new[] { ModelsRes.VPResultVPScenarioID });
+            }
+
+            if (!((from c in db.VPScenarios where c.VPScenarioID == vpResult.VPScenarioID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPResultVPScenarioID, vpResult.VPScenarioID.ToString()), new[] { ModelsRes.VPResultVPScenarioID });
+            }
 
             //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Ordinal has no Range Attribute
+            if (vpResult.Ordinal < 0 || vpResult.Ordinal > 1000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultOrdinal, "0", "1000"), new[] { ModelsRes.VPResultOrdinal });
+            }
 
             //Concentration_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Concentration_MPN_100ml has no Range Attribute
+            if (vpResult.Concentration_MPN_100ml < 0 || vpResult.Concentration_MPN_100ml > 10000000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultConcentration_MPN_100ml, "0", "10000000"), new[] { ModelsRes.VPResultConcentration_MPN_100ml });
+            }
 
             //Dilution (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Dilution has no Range Attribute
+            if (vpResult.Dilution < 0 || vpResult.Dilution > 1000000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultDilution, "0", "1000000"), new[] { ModelsRes.VPResultDilution });
+            }
 
             //FarFieldWidth_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //FarFieldWidth_m has no Range Attribute
+            if (vpResult.FarFieldWidth_m < 0 || vpResult.FarFieldWidth_m > 10000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultFarFieldWidth_m, "0", "10000"), new[] { ModelsRes.VPResultFarFieldWidth_m });
+            }
 
             //DispersionDistance_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //DispersionDistance_m has no Range Attribute
+            if (vpResult.DispersionDistance_m < 0 || vpResult.DispersionDistance_m > 100000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultDispersionDistance_m, "0", "100000"), new[] { ModelsRes.VPResultDispersionDistance_m });
+            }
 
             //TravelTime_hour (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //TravelTime_hour has no Range Attribute
+            if (vpResult.TravelTime_hour < -10 || vpResult.TravelTime_hour > 0)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultTravelTime_hour, "-10", "0"), new[] { ModelsRes.VPResultTravelTime_hour });
+            }
 
             if (vpResult.LastUpdateDate_UTC == null)
             {

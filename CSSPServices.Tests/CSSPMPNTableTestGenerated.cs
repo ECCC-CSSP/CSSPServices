@@ -59,6 +59,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             CSSPMPNTableService cSSPMPNTableService = new CSSPMPNTableService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            CSSPMPNTable cSSPMPNTable = GetFilledRandomCSSPMPNTable("");
 
             // -------------------------------
             // -------------------------------

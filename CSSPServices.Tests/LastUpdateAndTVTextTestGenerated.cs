@@ -44,10 +44,10 @@ namespace CSSPServices.Tests
 
             LastUpdateAndTVText lastUpdateAndTVText = new LastUpdateAndTVText();
 
-            if (OmitPropName != "Error") lastUpdateAndTVText.Error = GetRandomString("", 5);
+            if (OmitPropName != "Error") lastUpdateAndTVText.Error = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") lastUpdateAndTVText.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateDate_Local") lastUpdateAndTVText.LastUpdateDate_Local = GetRandomDateTime();
-            if (OmitPropName != "TVText") lastUpdateAndTVText.TVText = GetRandomString("", 1);
+            if (OmitPropName != "TVText") lastUpdateAndTVText.TVText = GetRandomString("", 5);
 
             return lastUpdateAndTVText;
         }
@@ -59,6 +59,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             LastUpdateAndTVTextService lastUpdateAndTVTextService = new LastUpdateAndTVTextService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            LastUpdateAndTVText lastUpdateAndTVText = GetFilledRandomLastUpdateAndTVText("");
 
             // -------------------------------
             // -------------------------------

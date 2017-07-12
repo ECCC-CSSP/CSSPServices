@@ -61,6 +61,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TelService telService = new TelService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            Tel tel = GetFilledRandomTel("");
 
             // -------------------------------
             // -------------------------------
@@ -68,7 +69,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Tel tel = GetFilledRandomTel("");
             Assert.AreEqual(true, telService.Add(tel));
             Assert.AreEqual(true, telService.GetRead().Where(c => c == tel).Any());
             tel.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -93,13 +93,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, tel.TelNumber);
             Assert.AreEqual(0, telService.GetRead().Count());
 
-            tel = null;
-            tel = GetFilledRandomTel("TelType");
-            Assert.AreEqual(false, telService.Add(tel));
-            Assert.AreEqual(1, tel.ValidationResults.Count());
-            Assert.IsTrue(tel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TelTelType)).Any());
-            Assert.AreEqual(TelTypeEnum.Error, tel.TelType);
-            Assert.AreEqual(0, telService.GetRead().Count());
+            //Error: Type not implemented [TelType]
 
             tel = null;
             tel = GetFilledRandomTel("LastUpdateDate_UTC");
@@ -111,6 +105,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [TelTVItem]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -120,11 +118,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [TelID] of type [int]
+            // doing property [TelID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TelTVItemID] of type [int]
+            // doing property [TelTVItemID] of type [Int32]
             //-----------------------------------
 
             tel = null;
@@ -151,37 +149,11 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, telService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TelNumber] of type [string]
+            // doing property [TelNumber] of type [String]
             //-----------------------------------
 
             tel = null;
             tel = GetFilledRandomTel("");
-
-            // TelNumber has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
-            string telTelNumberMin = GetRandomString("", 50);
-            tel.TelNumber = telTelNumberMin;
-            Assert.AreEqual(true, telService.Add(tel));
-            Assert.AreEqual(0, tel.ValidationResults.Count());
-            Assert.AreEqual(telTelNumberMin, tel.TelNumber);
-            Assert.AreEqual(true, telService.Delete(tel));
-            Assert.AreEqual(0, telService.GetRead().Count());
-
-            // TelNumber has MinLength [empty] and MaxLength [50]. At Max - 1 should return true and no errors
-            telTelNumberMin = GetRandomString("", 49);
-            tel.TelNumber = telTelNumberMin;
-            Assert.AreEqual(true, telService.Add(tel));
-            Assert.AreEqual(0, tel.ValidationResults.Count());
-            Assert.AreEqual(telTelNumberMin, tel.TelNumber);
-            Assert.AreEqual(true, telService.Delete(tel));
-            Assert.AreEqual(0, telService.GetRead().Count());
-
-            // TelNumber has MinLength [empty] and MaxLength [50]. At Max + 1 should return false with one error
-            telTelNumberMin = GetRandomString("", 51);
-            tel.TelNumber = telTelNumberMin;
-            Assert.AreEqual(false, telService.Add(tel));
-            Assert.IsTrue(tel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelNumber, "50")).Any());
-            Assert.AreEqual(telTelNumberMin, tel.TelNumber);
-            Assert.AreEqual(0, telService.GetRead().Count());
 
             //-----------------------------------
             // doing property [TelType] of type [TelTypeEnum]
@@ -192,7 +164,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             tel = null;
@@ -217,6 +189,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(tel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TelLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, tel.LastUpdateContactTVItemID);
             Assert.AreEqual(0, telService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [TelTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

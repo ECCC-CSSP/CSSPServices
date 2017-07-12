@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             TVFullText tvFullText = new TVFullText();
 
-            if (OmitPropName != "TVPath") tvFullText.TVPath = GetRandomString("", 1);
-            if (OmitPropName != "FullText") tvFullText.FullText = GetRandomString("", 1);
+            if (OmitPropName != "TVPath") tvFullText.TVPath = GetRandomString("", 5);
+            if (OmitPropName != "FullText") tvFullText.FullText = GetRandomString("", 5);
 
             return tvFullText;
         }
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TVFullTextService tvFullTextService = new TVFullTextService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVFullText tvFullText = GetFilledRandomTVFullText("");
 
             // -------------------------------
             // -------------------------------

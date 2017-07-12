@@ -136,6 +136,19 @@ namespace CSSPServicesGenerateCodeHelper
                     TypeNameLower = type.Name.Substring(0, 1).ToLower() + type.Name.Substring(1);
                 }
 
+                if (type.Name.StartsWith("<")
+                                || type.Name.StartsWith("ModelsRes")
+                                || type.Name.StartsWith("Application")
+                                || type.Name.StartsWith("CSSPAfter")
+                                || type.Name.StartsWith("CSSPAllowNull")
+                                || type.Name.StartsWith("CSSPBigger")
+                                || type.Name.StartsWith("CSSPEnumType")
+                                || type.Name.StartsWith("CSSPExist")
+                                || type.Name.StartsWith("CSSPWebToolsDBContext"))
+                {
+                    continue;
+                }
+
                 LabelStatus.Text = TypeName;
                 LabelStatus.Refresh();
                 Application.DoEvents();

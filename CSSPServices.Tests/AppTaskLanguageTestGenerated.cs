@@ -63,6 +63,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            AppTaskLanguage appTaskLanguage = GetFilledRandomAppTaskLanguage("");
 
             // -------------------------------
             // -------------------------------
@@ -70,7 +71,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            AppTaskLanguage appTaskLanguage = GetFilledRandomAppTaskLanguage("");
             Assert.AreEqual(true, appTaskLanguageService.Add(appTaskLanguage));
             Assert.AreEqual(true, appTaskLanguageService.GetRead().Where(c => c == appTaskLanguage).Any());
             appTaskLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -87,21 +87,25 @@ namespace CSSPServices.Tests
 
             // AppTaskID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [Language]
+
             appTaskLanguage = null;
-            appTaskLanguage = GetFilledRandomAppTaskLanguage("Language");
+            appTaskLanguage = GetFilledRandomAppTaskLanguage("StatusText");
             Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
             Assert.AreEqual(1, appTaskLanguage.ValidationResults.Count());
-            Assert.IsTrue(appTaskLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageLanguage)).Any());
-            Assert.AreEqual(LanguageEnum.Error, appTaskLanguage.Language);
+            Assert.IsTrue(appTaskLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageStatusText)).Any());
+            Assert.AreEqual(null, appTaskLanguage.StatusText);
             Assert.AreEqual(0, appTaskLanguageService.GetRead().Count());
 
             appTaskLanguage = null;
-            appTaskLanguage = GetFilledRandomAppTaskLanguage("TranslationStatus");
+            appTaskLanguage = GetFilledRandomAppTaskLanguage("ErrorText");
             Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
             Assert.AreEqual(1, appTaskLanguage.ValidationResults.Count());
-            Assert.IsTrue(appTaskLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageTranslationStatus)).Any());
-            Assert.AreEqual(TranslationStatusEnum.Error, appTaskLanguage.TranslationStatus);
+            Assert.IsTrue(appTaskLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageErrorText)).Any());
+            Assert.AreEqual(null, appTaskLanguage.ErrorText);
             Assert.AreEqual(0, appTaskLanguageService.GetRead().Count());
+
+            //Error: Type not implemented [TranslationStatus]
 
             appTaskLanguage = null;
             appTaskLanguage = GetFilledRandomAppTaskLanguage("LastUpdateDate_UTC");
@@ -113,6 +117,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [AppTask]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -122,11 +130,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [AppTaskLanguageID] of type [int]
+            // doing property [AppTaskLanguageID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [AppTaskID] of type [int]
+            // doing property [AppTaskID] of type [Int32]
             //-----------------------------------
 
             appTaskLanguage = null;
@@ -157,70 +165,18 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [StatusText] of type [string]
+            // doing property [StatusText] of type [String]
             //-----------------------------------
 
             appTaskLanguage = null;
             appTaskLanguage = GetFilledRandomAppTaskLanguage("");
 
-            // StatusText has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
-            string appTaskLanguageStatusTextMin = GetRandomString("", 250);
-            appTaskLanguage.StatusText = appTaskLanguageStatusTextMin;
-            Assert.AreEqual(true, appTaskLanguageService.Add(appTaskLanguage));
-            Assert.AreEqual(0, appTaskLanguage.ValidationResults.Count());
-            Assert.AreEqual(appTaskLanguageStatusTextMin, appTaskLanguage.StatusText);
-            Assert.AreEqual(true, appTaskLanguageService.Delete(appTaskLanguage));
-            Assert.AreEqual(0, appTaskLanguageService.GetRead().Count());
-
-            // StatusText has MinLength [empty] and MaxLength [250]. At Max - 1 should return true and no errors
-            appTaskLanguageStatusTextMin = GetRandomString("", 249);
-            appTaskLanguage.StatusText = appTaskLanguageStatusTextMin;
-            Assert.AreEqual(true, appTaskLanguageService.Add(appTaskLanguage));
-            Assert.AreEqual(0, appTaskLanguage.ValidationResults.Count());
-            Assert.AreEqual(appTaskLanguageStatusTextMin, appTaskLanguage.StatusText);
-            Assert.AreEqual(true, appTaskLanguageService.Delete(appTaskLanguage));
-            Assert.AreEqual(0, appTaskLanguageService.GetRead().Count());
-
-            // StatusText has MinLength [empty] and MaxLength [250]. At Max + 1 should return false with one error
-            appTaskLanguageStatusTextMin = GetRandomString("", 251);
-            appTaskLanguage.StatusText = appTaskLanguageStatusTextMin;
-            Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
-            Assert.IsTrue(appTaskLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageStatusText, "250")).Any());
-            Assert.AreEqual(appTaskLanguageStatusTextMin, appTaskLanguage.StatusText);
-            Assert.AreEqual(0, appTaskLanguageService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [ErrorText] of type [string]
+            // doing property [ErrorText] of type [String]
             //-----------------------------------
 
             appTaskLanguage = null;
             appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-
-            // ErrorText has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
-            string appTaskLanguageErrorTextMin = GetRandomString("", 250);
-            appTaskLanguage.ErrorText = appTaskLanguageErrorTextMin;
-            Assert.AreEqual(true, appTaskLanguageService.Add(appTaskLanguage));
-            Assert.AreEqual(0, appTaskLanguage.ValidationResults.Count());
-            Assert.AreEqual(appTaskLanguageErrorTextMin, appTaskLanguage.ErrorText);
-            Assert.AreEqual(true, appTaskLanguageService.Delete(appTaskLanguage));
-            Assert.AreEqual(0, appTaskLanguageService.GetRead().Count());
-
-            // ErrorText has MinLength [empty] and MaxLength [250]. At Max - 1 should return true and no errors
-            appTaskLanguageErrorTextMin = GetRandomString("", 249);
-            appTaskLanguage.ErrorText = appTaskLanguageErrorTextMin;
-            Assert.AreEqual(true, appTaskLanguageService.Add(appTaskLanguage));
-            Assert.AreEqual(0, appTaskLanguage.ValidationResults.Count());
-            Assert.AreEqual(appTaskLanguageErrorTextMin, appTaskLanguage.ErrorText);
-            Assert.AreEqual(true, appTaskLanguageService.Delete(appTaskLanguage));
-            Assert.AreEqual(0, appTaskLanguageService.GetRead().Count());
-
-            // ErrorText has MinLength [empty] and MaxLength [250]. At Max + 1 should return false with one error
-            appTaskLanguageErrorTextMin = GetRandomString("", 251);
-            appTaskLanguage.ErrorText = appTaskLanguageErrorTextMin;
-            Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
-            Assert.IsTrue(appTaskLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageErrorText, "250")).Any());
-            Assert.AreEqual(appTaskLanguageErrorTextMin, appTaskLanguage.ErrorText);
-            Assert.AreEqual(0, appTaskLanguageService.GetRead().Count());
 
             //-----------------------------------
             // doing property [TranslationStatus] of type [TranslationStatusEnum]
@@ -231,7 +187,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             appTaskLanguage = null;
@@ -256,6 +212,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(appTaskLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskLanguageLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, appTaskLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(0, appTaskLanguageService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [AppTask] of type [AppTask]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

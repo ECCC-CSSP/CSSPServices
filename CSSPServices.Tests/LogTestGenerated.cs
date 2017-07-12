@@ -62,6 +62,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             LogService logService = new LogService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            Log log = GetFilledRandomLog("");
 
             // -------------------------------
             // -------------------------------
@@ -69,7 +70,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Log log = GetFilledRandomLog("");
             Assert.AreEqual(true, logService.Add(log));
             Assert.AreEqual(true, logService.GetRead().Where(c => c == log).Any());
             log.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -94,13 +94,7 @@ namespace CSSPServices.Tests
 
             // ID will automatically be initialized at 0 --> not null
 
-            log = null;
-            log = GetFilledRandomLog("LogCommand");
-            Assert.AreEqual(false, logService.Add(log));
-            Assert.AreEqual(1, log.ValidationResults.Count());
-            Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LogLogCommand)).Any());
-            Assert.AreEqual(LogCommandEnum.Error, log.LogCommand);
-            Assert.AreEqual(0, logService.GetRead().Count());
+            //Error: Type not implemented [LogCommand]
 
             log = null;
             log = GetFilledRandomLog("Information");
@@ -120,6 +114,8 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -129,44 +125,18 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [LogID] of type [int]
+            // doing property [LogID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TableName] of type [string]
+            // doing property [TableName] of type [String]
             //-----------------------------------
 
             log = null;
             log = GetFilledRandomLog("");
 
-            // TableName has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
-            string logTableNameMin = GetRandomString("", 50);
-            log.TableName = logTableNameMin;
-            Assert.AreEqual(true, logService.Add(log));
-            Assert.AreEqual(0, log.ValidationResults.Count());
-            Assert.AreEqual(logTableNameMin, log.TableName);
-            Assert.AreEqual(true, logService.Delete(log));
-            Assert.AreEqual(0, logService.GetRead().Count());
-
-            // TableName has MinLength [empty] and MaxLength [50]. At Max - 1 should return true and no errors
-            logTableNameMin = GetRandomString("", 49);
-            log.TableName = logTableNameMin;
-            Assert.AreEqual(true, logService.Add(log));
-            Assert.AreEqual(0, log.ValidationResults.Count());
-            Assert.AreEqual(logTableNameMin, log.TableName);
-            Assert.AreEqual(true, logService.Delete(log));
-            Assert.AreEqual(0, logService.GetRead().Count());
-
-            // TableName has MinLength [empty] and MaxLength [50]. At Max + 1 should return false with one error
-            logTableNameMin = GetRandomString("", 51);
-            log.TableName = logTableNameMin;
-            Assert.AreEqual(false, logService.Add(log));
-            Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogTableName, "50")).Any());
-            Assert.AreEqual(logTableNameMin, log.TableName);
-            Assert.AreEqual(0, logService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [ID] of type [int]
+            // doing property [ID] of type [Int32]
             //-----------------------------------
 
             log = null;
@@ -197,7 +167,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Information] of type [string]
+            // doing property [Information] of type [String]
             //-----------------------------------
 
             log = null;
@@ -208,7 +178,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             log = null;
@@ -233,6 +203,10 @@ namespace CSSPServices.Tests
             Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LogLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, log.LastUpdateContactTVItemID);
             Assert.AreEqual(0, logService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

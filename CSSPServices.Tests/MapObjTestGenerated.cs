@@ -45,7 +45,7 @@ namespace CSSPServices.Tests
             MapObj mapObj = new MapObj();
 
             if (OmitPropName != "MapInfoID") mapObj.MapInfoID = GetRandomInt(1, 11);
-            if (OmitPropName != "MapInfoDrawType") mapObj.MapInfoDrawType = (CSSPEnums.MapInfoDrawTypeEnum)GetRandomEnumType(typeof(CSSPEnums.MapInfoDrawTypeEnum));
+            if (OmitPropName != "MapInfoDrawType") mapObj.MapInfoDrawType = (MapInfoDrawTypeEnum)GetRandomEnumType(typeof(MapInfoDrawTypeEnum));
 
             return mapObj;
         }
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             MapObjService mapObjService = new MapObjService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MapObj mapObj = GetFilledRandomMapObj("");
 
             // -------------------------------
             // -------------------------------

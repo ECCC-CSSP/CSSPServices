@@ -45,8 +45,8 @@ namespace CSSPServices.Tests
             ElementLayer elementLayer = new ElementLayer();
 
             if (OmitPropName != "Layer") elementLayer.Layer = GetRandomInt(1, 1000);
-            if (OmitPropName != "ZMin") elementLayer.ZMin = GetRandomFloat(1.0f, 5.0f);
-            if (OmitPropName != "ZMax") elementLayer.ZMax = GetRandomFloat(1.0f, 5.0f);
+            if (OmitPropName != "ZMin") elementLayer.ZMin = GetRandomFloat(1.0f, 1000.0f);
+            if (OmitPropName != "ZMax") elementLayer.ZMax = GetRandomFloat(1.0f, 1000.0f);
 
             return elementLayer;
         }
@@ -58,6 +58,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             ElementLayerService elementLayerService = new ElementLayerService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ElementLayer elementLayer = GetFilledRandomElementLayer("");
 
             // -------------------------------
             // -------------------------------

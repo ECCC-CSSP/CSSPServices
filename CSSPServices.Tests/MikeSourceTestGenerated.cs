@@ -63,6 +63,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             MikeSourceService mikeSourceService = new MikeSourceService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MikeSource mikeSource = GetFilledRandomMikeSource("");
 
             // -------------------------------
             // -------------------------------
@@ -70,7 +71,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            MikeSource mikeSource = GetFilledRandomMikeSource("");
             Assert.AreEqual(true, mikeSourceService.Add(mikeSource));
             Assert.AreEqual(true, mikeSourceService.GetRead().Where(c => c == mikeSource).Any());
             mikeSource.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -87,11 +87,11 @@ namespace CSSPServices.Tests
 
             // MikeSourceTVItemID will automatically be initialized at 0 --> not null
 
-            // IsContinuous will automatically be initialized at false --> not null
+            // IsContinuous will automatically be initialized at 0 --> not null
 
-            // Include will automatically be initialized at false --> not null
+            // Include will automatically be initialized at 0 --> not null
 
-            // IsRiver will automatically be initialized at false --> not null
+            // IsRiver will automatically be initialized at 0 --> not null
 
             mikeSource = null;
             mikeSource = GetFilledRandomMikeSource("SourceNumberString");
@@ -111,6 +111,12 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [MikeSourceStartEnds]
+
+            //Error: Type not implemented [MikeSourceTVItem]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -120,11 +126,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [MikeSourceID] of type [int]
+            // doing property [MikeSourceID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MikeSourceTVItemID] of type [int]
+            // doing property [MikeSourceTVItemID] of type [Int32]
             //-----------------------------------
 
             mikeSource = null;
@@ -151,56 +157,30 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeSourceService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [IsContinuous] of type [bool]
+            // doing property [IsContinuous] of type [Boolean]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Include] of type [bool]
+            // doing property [Include] of type [Boolean]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [IsRiver] of type [bool]
+            // doing property [IsRiver] of type [Boolean]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SourceNumberString] of type [string]
+            // doing property [SourceNumberString] of type [String]
             //-----------------------------------
 
             mikeSource = null;
             mikeSource = GetFilledRandomMikeSource("");
-
-            // SourceNumberString has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
-            string mikeSourceSourceNumberStringMin = GetRandomString("", 50);
-            mikeSource.SourceNumberString = mikeSourceSourceNumberStringMin;
-            Assert.AreEqual(true, mikeSourceService.Add(mikeSource));
-            Assert.AreEqual(0, mikeSource.ValidationResults.Count());
-            Assert.AreEqual(mikeSourceSourceNumberStringMin, mikeSource.SourceNumberString);
-            Assert.AreEqual(true, mikeSourceService.Delete(mikeSource));
-            Assert.AreEqual(0, mikeSourceService.GetRead().Count());
-
-            // SourceNumberString has MinLength [empty] and MaxLength [50]. At Max - 1 should return true and no errors
-            mikeSourceSourceNumberStringMin = GetRandomString("", 49);
-            mikeSource.SourceNumberString = mikeSourceSourceNumberStringMin;
-            Assert.AreEqual(true, mikeSourceService.Add(mikeSource));
-            Assert.AreEqual(0, mikeSource.ValidationResults.Count());
-            Assert.AreEqual(mikeSourceSourceNumberStringMin, mikeSource.SourceNumberString);
-            Assert.AreEqual(true, mikeSourceService.Delete(mikeSource));
-            Assert.AreEqual(0, mikeSourceService.GetRead().Count());
-
-            // SourceNumberString has MinLength [empty] and MaxLength [50]. At Max + 1 should return false with one error
-            mikeSourceSourceNumberStringMin = GetRandomString("", 51);
-            mikeSource.SourceNumberString = mikeSourceSourceNumberStringMin;
-            Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
-            Assert.IsTrue(mikeSource.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceSourceNumberString, "50")).Any());
-            Assert.AreEqual(mikeSourceSourceNumberStringMin, mikeSource.SourceNumberString);
-            Assert.AreEqual(0, mikeSourceService.GetRead().Count());
 
             //-----------------------------------
             // doing property [LastUpdateDate_UTC] of type [DateTime]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             mikeSource = null;
@@ -225,6 +205,18 @@ namespace CSSPServices.Tests
             Assert.IsTrue(mikeSource.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeSourceLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, mikeSource.LastUpdateContactTVItemID);
             Assert.AreEqual(0, mikeSourceService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [MikeSourceStartEnds] of type [ICollection`1]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [MikeSourceTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

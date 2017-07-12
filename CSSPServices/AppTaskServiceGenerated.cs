@@ -123,16 +123,10 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.AppTaskStartDateTime_UTC, ModelsRes.AppTaskEndDateTime_UTC), new[] { ModelsRes.AppTaskStartDateTime_UTC });
             }
 
-                //Error: Type not implemented [EndDateTime_UTC] of type [Nullable`1]
-
-                //Error: Type not implemented [EstimatedLength_second] of type [Nullable`1]
-
             if (appTask.EstimatedLength_second < 0 || appTask.EstimatedLength_second > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), new[] { ModelsRes.AppTaskEstimatedLength_second });
             }
-
-                //Error: Type not implemented [RemainingTime_second] of type [Nullable`1]
 
             if (appTask.RemainingTime_second < 0 || appTask.RemainingTime_second > 1000000)
             {

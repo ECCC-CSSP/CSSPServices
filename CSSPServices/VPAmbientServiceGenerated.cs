@@ -42,57 +42,104 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             VPAmbient vpAmbient = validationContext.ObjectInstance as VPAmbient;
 
-            //VPAmbientID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            if (actionDBType == ActionDBTypeEnum.Update)
+            {
+                if (vpAmbient.VPAmbientID == 0)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPAmbientVPAmbientID), new[] { ModelsRes.VPAmbientVPAmbientID });
+                }
+            }
 
-            //VPAmbientID has no Range Attribute
+            //VPAmbientID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //VPScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //VPScenarioID has no Range Attribute
+            if (vpAmbient.VPScenarioID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPAmbientVPScenarioID, "1"), new[] { ModelsRes.VPAmbientVPScenarioID });
+            }
+
+            if (!((from c in db.VPScenarios where c.VPScenarioID == vpAmbient.VPScenarioID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPAmbientVPScenarioID, vpAmbient.VPScenarioID.ToString()), new[] { ModelsRes.VPAmbientVPScenarioID });
+            }
 
             //Row (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //Row has no Range Attribute
+            if (vpAmbient.Row < 0 || vpAmbient.Row > 10)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientRow, "0", "10"), new[] { ModelsRes.VPAmbientRow });
+            }
 
             //MeasurementDepth_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //MeasurementDepth_m has no Range Attribute
+            if (vpAmbient.MeasurementDepth_m < 0 || vpAmbient.MeasurementDepth_m > 1000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientMeasurementDepth_m, "0", "1000"), new[] { ModelsRes.VPAmbientMeasurementDepth_m });
+            }
 
             //CurrentSpeed_m_s (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //CurrentSpeed_m_s has no Range Attribute
+            if (vpAmbient.CurrentSpeed_m_s < 0 || vpAmbient.CurrentSpeed_m_s > 10)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10"), new[] { ModelsRes.VPAmbientCurrentSpeed_m_s });
+            }
 
             //CurrentDirection_deg (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //CurrentDirection_deg has no Range Attribute
+            if (vpAmbient.CurrentDirection_deg < -180 || vpAmbient.CurrentDirection_deg > 180)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentDirection_deg, "-180", "180"), new[] { ModelsRes.VPAmbientCurrentDirection_deg });
+            }
 
             //AmbientSalinity_PSU (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //AmbientSalinity_PSU has no Range Attribute
+            if (vpAmbient.AmbientSalinity_PSU < 0 || vpAmbient.AmbientSalinity_PSU > 40)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40"), new[] { ModelsRes.VPAmbientAmbientSalinity_PSU });
+            }
 
             //AmbientTemperature_C (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //AmbientTemperature_C has no Range Attribute
+            if (vpAmbient.AmbientTemperature_C < -10 || vpAmbient.AmbientTemperature_C > 40)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientTemperature_C, "-10", "40"), new[] { ModelsRes.VPAmbientAmbientTemperature_C });
+            }
 
             //BackgroundConcentration_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //BackgroundConcentration_MPN_100ml has no Range Attribute
+            if (vpAmbient.BackgroundConcentration_MPN_100ml < 0 || vpAmbient.BackgroundConcentration_MPN_100ml > 10000000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientBackgroundConcentration_MPN_100ml, "0", "10000000"), new[] { ModelsRes.VPAmbientBackgroundConcentration_MPN_100ml });
+            }
 
             //PollutantDecayRate_per_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //PollutantDecayRate_per_day has no Range Attribute
+            if (vpAmbient.PollutantDecayRate_per_day < 0 || vpAmbient.PollutantDecayRate_per_day > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "100"), new[] { ModelsRes.VPAmbientPollutantDecayRate_per_day });
+            }
 
             //FarFieldCurrentSpeed_m_s (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //FarFieldCurrentSpeed_m_s has no Range Attribute
+            if (vpAmbient.FarFieldCurrentSpeed_m_s < 0 || vpAmbient.FarFieldCurrentSpeed_m_s > 10)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10"), new[] { ModelsRes.VPAmbientFarFieldCurrentSpeed_m_s });
+            }
 
             //FarFieldCurrentDirection_deg (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //FarFieldCurrentDirection_deg has no Range Attribute
+            if (vpAmbient.FarFieldCurrentDirection_deg < -180 || vpAmbient.FarFieldCurrentDirection_deg > 180)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentDirection_deg, "-180", "180"), new[] { ModelsRes.VPAmbientFarFieldCurrentDirection_deg });
+            }
 
             //FarFieldDiffusionCoefficient (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //FarFieldDiffusionCoefficient has no Range Attribute
+            if (vpAmbient.FarFieldDiffusionCoefficient < 0 || vpAmbient.FarFieldDiffusionCoefficient > 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1"), new[] { ModelsRes.VPAmbientFarFieldDiffusionCoefficient });
+            }
 
             if (vpAmbient.LastUpdateDate_UTC == null)
             {

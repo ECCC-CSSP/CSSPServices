@@ -64,6 +64,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             MWQMRunLanguageService mwqmRunLanguageService = new MWQMRunLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MWQMRunLanguage mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("");
 
             // -------------------------------
             // -------------------------------
@@ -71,7 +72,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            MWQMRunLanguage mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("");
             Assert.AreEqual(true, mwqmRunLanguageService.Add(mwqmRunLanguage));
             Assert.AreEqual(true, mwqmRunLanguageService.GetRead().Where(c => c == mwqmRunLanguage).Any());
             mwqmRunLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -88,13 +88,7 @@ namespace CSSPServices.Tests
 
             // MWQMRunID will automatically be initialized at 0 --> not null
 
-            mwqmRunLanguage = null;
-            mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("Language");
-            Assert.AreEqual(false, mwqmRunLanguageService.Add(mwqmRunLanguage));
-            Assert.AreEqual(1, mwqmRunLanguage.ValidationResults.Count());
-            Assert.IsTrue(mwqmRunLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLanguageLanguage)).Any());
-            Assert.AreEqual(LanguageEnum.Error, mwqmRunLanguage.Language);
-            Assert.AreEqual(0, mwqmRunLanguageService.GetRead().Count());
+            //Error: Type not implemented [Language]
 
             mwqmRunLanguage = null;
             mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("RunComment");
@@ -104,13 +98,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, mwqmRunLanguage.RunComment);
             Assert.AreEqual(0, mwqmRunLanguageService.GetRead().Count());
 
-            mwqmRunLanguage = null;
-            mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("TranslationStatusRunComment");
-            Assert.AreEqual(false, mwqmRunLanguageService.Add(mwqmRunLanguage));
-            Assert.AreEqual(1, mwqmRunLanguage.ValidationResults.Count());
-            Assert.IsTrue(mwqmRunLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLanguageTranslationStatusRunComment)).Any());
-            Assert.AreEqual(TranslationStatusEnum.Error, mwqmRunLanguage.TranslationStatusRunComment);
-            Assert.AreEqual(0, mwqmRunLanguageService.GetRead().Count());
+            //Error: Type not implemented [TranslationStatusRunComment]
 
             mwqmRunLanguage = null;
             mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("RunWeatherComment");
@@ -120,13 +108,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, mwqmRunLanguage.RunWeatherComment);
             Assert.AreEqual(0, mwqmRunLanguageService.GetRead().Count());
 
-            mwqmRunLanguage = null;
-            mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("TranslationStatusRunWeatherComment");
-            Assert.AreEqual(false, mwqmRunLanguageService.Add(mwqmRunLanguage));
-            Assert.AreEqual(1, mwqmRunLanguage.ValidationResults.Count());
-            Assert.IsTrue(mwqmRunLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLanguageTranslationStatusRunWeatherComment)).Any());
-            Assert.AreEqual(TranslationStatusEnum.Error, mwqmRunLanguage.TranslationStatusRunWeatherComment);
-            Assert.AreEqual(0, mwqmRunLanguageService.GetRead().Count());
+            //Error: Type not implemented [TranslationStatusRunWeatherComment]
 
             mwqmRunLanguage = null;
             mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("LastUpdateDate_UTC");
@@ -138,6 +120,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [MWQMRun]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -147,11 +133,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [MWQMRunLanguageID] of type [int]
+            // doing property [MWQMRunLanguageID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MWQMRunID] of type [int]
+            // doing property [MWQMRunID] of type [Int32]
             //-----------------------------------
 
             mwqmRunLanguage = null;
@@ -182,7 +168,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [RunComment] of type [string]
+            // doing property [RunComment] of type [String]
             //-----------------------------------
 
             mwqmRunLanguage = null;
@@ -193,7 +179,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [RunWeatherComment] of type [string]
+            // doing property [RunWeatherComment] of type [String]
             //-----------------------------------
 
             mwqmRunLanguage = null;
@@ -208,7 +194,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             mwqmRunLanguage = null;
@@ -233,6 +219,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(mwqmRunLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunLanguageLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, mwqmRunLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(0, mwqmRunLanguageService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [MWQMRun] of type [MWQMRun]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

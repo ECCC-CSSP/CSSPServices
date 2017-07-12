@@ -182,8 +182,6 @@ namespace CSSPServices
 
             //FileContent has no StringLength Attribute
 
-                //Error: Type not implemented [AcceptedOrRejectedByContactTVItemID] of type [Nullable`1]
-
             if (labSheet.AcceptedOrRejectedByContactTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID, "1"), new[] { ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID });
@@ -193,8 +191,6 @@ namespace CSSPServices
             {
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID, labSheet.AcceptedOrRejectedByContactTVItemID.ToString()), new[] { ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID });
             }
-
-                //Error: Type not implemented [AcceptedOrRejectedDateTime] of type [Nullable`1]
 
             if (string.IsNullOrWhiteSpace(labSheet.RejectReason))
             {

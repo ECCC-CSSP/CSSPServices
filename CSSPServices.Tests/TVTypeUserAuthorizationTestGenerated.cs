@@ -61,6 +61,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVTypeUserAuthorization tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
 
             // -------------------------------
             // -------------------------------
@@ -68,7 +69,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            TVTypeUserAuthorization tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
             Assert.AreEqual(true, tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization));
             Assert.AreEqual(true, tvTypeUserAuthorizationService.GetRead().Where(c => c == tvTypeUserAuthorization).Any());
             tvTypeUserAuthorization.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -85,21 +85,9 @@ namespace CSSPServices.Tests
 
             // ContactTVItemID will automatically be initialized at 0 --> not null
 
-            tvTypeUserAuthorization = null;
-            tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("TVType");
-            Assert.AreEqual(false, tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization));
-            Assert.AreEqual(1, tvTypeUserAuthorization.ValidationResults.Count());
-            Assert.IsTrue(tvTypeUserAuthorization.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVType)).Any());
-            Assert.AreEqual(TVTypeEnum.Error, tvTypeUserAuthorization.TVType);
-            Assert.AreEqual(0, tvTypeUserAuthorizationService.GetRead().Count());
+            //Error: Type not implemented [TVType]
 
-            tvTypeUserAuthorization = null;
-            tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("TVAuth");
-            Assert.AreEqual(false, tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization));
-            Assert.AreEqual(1, tvTypeUserAuthorization.ValidationResults.Count());
-            Assert.IsTrue(tvTypeUserAuthorization.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVAuth)).Any());
-            Assert.AreEqual(TVAuthEnum.Error, tvTypeUserAuthorization.TVAuth);
-            Assert.AreEqual(0, tvTypeUserAuthorizationService.GetRead().Count());
+            //Error: Type not implemented [TVAuth]
 
             tvTypeUserAuthorization = null;
             tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("LastUpdateDate_UTC");
@@ -111,6 +99,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [ContactTVItem]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -120,11 +112,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [TVTypeUserAuthorizationID] of type [int]
+            // doing property [TVTypeUserAuthorizationID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ContactTVItemID] of type [int]
+            // doing property [ContactTVItemID] of type [Int32]
             //-----------------------------------
 
             tvTypeUserAuthorization = null;
@@ -163,7 +155,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             tvTypeUserAuthorization = null;
@@ -188,6 +180,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(tvTypeUserAuthorization.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, tvTypeUserAuthorization.LastUpdateContactTVItemID);
             Assert.AreEqual(0, tvTypeUserAuthorizationService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [ContactTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

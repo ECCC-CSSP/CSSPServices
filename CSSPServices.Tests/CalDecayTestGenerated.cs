@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             CalDecay calDecay = new CalDecay();
 
-            if (OmitPropName != "Error") calDecay.Error = GetRandomString("", 0);
-            if (OmitPropName != "Decay") calDecay.Decay = GetRandomDouble(1.0f, 5.0f);
+            if (OmitPropName != "Error") calDecay.Error = GetRandomString("", 5);
+            if (OmitPropName != "Decay") calDecay.Decay = GetRandomDouble(1.0f, 1000.0f);
 
             return calDecay;
         }
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             CalDecayService calDecayService = new CalDecayService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            CalDecay calDecay = GetFilledRandomCalDecay("");
 
             // -------------------------------
             // -------------------------------

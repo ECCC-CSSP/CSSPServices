@@ -62,6 +62,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TVFileLanguageService tvFileLanguageService = new TVFileLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVFileLanguage tvFileLanguage = GetFilledRandomTVFileLanguage("");
 
             // -------------------------------
             // -------------------------------
@@ -69,7 +70,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            TVFileLanguage tvFileLanguage = GetFilledRandomTVFileLanguage("");
             Assert.AreEqual(true, tvFileLanguageService.Add(tvFileLanguage));
             Assert.AreEqual(true, tvFileLanguageService.GetRead().Where(c => c == tvFileLanguage).Any());
             tvFileLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -86,21 +86,17 @@ namespace CSSPServices.Tests
 
             // TVFileID will automatically be initialized at 0 --> not null
 
-            tvFileLanguage = null;
-            tvFileLanguage = GetFilledRandomTVFileLanguage("Language");
-            Assert.AreEqual(false, tvFileLanguageService.Add(tvFileLanguage));
-            Assert.AreEqual(1, tvFileLanguage.ValidationResults.Count());
-            Assert.IsTrue(tvFileLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageLanguage)).Any());
-            Assert.AreEqual(LanguageEnum.Error, tvFileLanguage.Language);
-            Assert.AreEqual(0, tvFileLanguageService.GetRead().Count());
+            //Error: Type not implemented [Language]
 
             tvFileLanguage = null;
-            tvFileLanguage = GetFilledRandomTVFileLanguage("TranslationStatus");
+            tvFileLanguage = GetFilledRandomTVFileLanguage("FileDescription");
             Assert.AreEqual(false, tvFileLanguageService.Add(tvFileLanguage));
             Assert.AreEqual(1, tvFileLanguage.ValidationResults.Count());
-            Assert.IsTrue(tvFileLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageTranslationStatus)).Any());
-            Assert.AreEqual(TranslationStatusEnum.Error, tvFileLanguage.TranslationStatus);
+            Assert.IsTrue(tvFileLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageFileDescription)).Any());
+            Assert.AreEqual(null, tvFileLanguage.FileDescription);
             Assert.AreEqual(0, tvFileLanguageService.GetRead().Count());
+
+            //Error: Type not implemented [TranslationStatus]
 
             tvFileLanguage = null;
             tvFileLanguage = GetFilledRandomTVFileLanguage("LastUpdateDate_UTC");
@@ -112,6 +108,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [TVFile]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -121,11 +121,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [TVFileLanguageID] of type [int]
+            // doing property [TVFileLanguageID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TVFileID] of type [int]
+            // doing property [TVFileID] of type [Int32]
             //-----------------------------------
 
             tvFileLanguage = null;
@@ -156,7 +156,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [FileDescription] of type [string]
+            // doing property [FileDescription] of type [String]
             //-----------------------------------
 
             tvFileLanguage = null;
@@ -171,7 +171,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             tvFileLanguage = null;
@@ -196,6 +196,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(tvFileLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVFileLanguageLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, tvFileLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(0, tvFileLanguageService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [TVFile] of type [TVFile]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

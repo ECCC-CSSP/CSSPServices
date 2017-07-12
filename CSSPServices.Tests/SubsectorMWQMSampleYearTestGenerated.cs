@@ -45,7 +45,7 @@ namespace CSSPServices.Tests
             SubsectorMWQMSampleYear subsectorMWQMSampleYear = new SubsectorMWQMSampleYear();
 
             if (OmitPropName != "SubsectorTVItemID") subsectorMWQMSampleYear.SubsectorTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "Year") subsectorMWQMSampleYear.Year = GetRandomInt(1, 5);
+            if (OmitPropName != "Year") subsectorMWQMSampleYear.Year = GetRandomInt(1, 1000);
             if (OmitPropName != "EarliestDate") subsectorMWQMSampleYear.EarliestDate = GetRandomDateTime();
             if (OmitPropName != "LatestDate") subsectorMWQMSampleYear.LatestDate = GetRandomDateTime();
 
@@ -59,6 +59,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             SubsectorMWQMSampleYearService subsectorMWQMSampleYearService = new SubsectorMWQMSampleYearService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            SubsectorMWQMSampleYear subsectorMWQMSampleYear = GetFilledRandomSubsectorMWQMSampleYear("");
 
             // -------------------------------
             // -------------------------------

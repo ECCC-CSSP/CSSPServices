@@ -62,6 +62,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MWQMSampleLanguage mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
 
             // -------------------------------
             // -------------------------------
@@ -69,7 +70,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            MWQMSampleLanguage mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
             Assert.AreEqual(true, mwqmSampleLanguageService.Add(mwqmSampleLanguage));
             Assert.AreEqual(true, mwqmSampleLanguageService.GetRead().Where(c => c == mwqmSampleLanguage).Any());
             mwqmSampleLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -86,13 +86,7 @@ namespace CSSPServices.Tests
 
             // MWQMSampleID will automatically be initialized at 0 --> not null
 
-            mwqmSampleLanguage = null;
-            mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("Language");
-            Assert.AreEqual(false, mwqmSampleLanguageService.Add(mwqmSampleLanguage));
-            Assert.AreEqual(1, mwqmSampleLanguage.ValidationResults.Count());
-            Assert.IsTrue(mwqmSampleLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageLanguage)).Any());
-            Assert.AreEqual(LanguageEnum.Error, mwqmSampleLanguage.Language);
-            Assert.AreEqual(0, mwqmSampleLanguageService.GetRead().Count());
+            //Error: Type not implemented [Language]
 
             mwqmSampleLanguage = null;
             mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("MWQMSampleNote");
@@ -102,13 +96,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, mwqmSampleLanguage.MWQMSampleNote);
             Assert.AreEqual(0, mwqmSampleLanguageService.GetRead().Count());
 
-            mwqmSampleLanguage = null;
-            mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("TranslationStatus");
-            Assert.AreEqual(false, mwqmSampleLanguageService.Add(mwqmSampleLanguage));
-            Assert.AreEqual(1, mwqmSampleLanguage.ValidationResults.Count());
-            Assert.IsTrue(mwqmSampleLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageTranslationStatus)).Any());
-            Assert.AreEqual(TranslationStatusEnum.Error, mwqmSampleLanguage.TranslationStatus);
-            Assert.AreEqual(0, mwqmSampleLanguageService.GetRead().Count());
+            //Error: Type not implemented [TranslationStatus]
 
             mwqmSampleLanguage = null;
             mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("LastUpdateDate_UTC");
@@ -120,6 +108,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [MWQMSample]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -129,11 +121,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [MWQMSampleLanguageID] of type [int]
+            // doing property [MWQMSampleLanguageID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MWQMSampleID] of type [int]
+            // doing property [MWQMSampleID] of type [Int32]
             //-----------------------------------
 
             mwqmSampleLanguage = null;
@@ -164,7 +156,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MWQMSampleNote] of type [string]
+            // doing property [MWQMSampleNote] of type [String]
             //-----------------------------------
 
             mwqmSampleLanguage = null;
@@ -179,7 +171,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             mwqmSampleLanguage = null;
@@ -204,6 +196,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(mwqmSampleLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSampleLanguageLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, mwqmSampleLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(0, mwqmSampleLanguageService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [MWQMSample] of type [MWQMSample]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

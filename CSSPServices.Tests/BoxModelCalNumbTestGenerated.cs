@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             BoxModelCalNumb boxModelCalNumb = new BoxModelCalNumb();
 
-            if (OmitPropName != "Error") boxModelCalNumb.Error = GetRandomString("", 0);
-            if (OmitPropName != "BoxModelResultType") boxModelCalNumb.BoxModelResultType = (CSSPEnums.BoxModelResultTypeEnum)GetRandomEnumType(typeof(CSSPEnums.BoxModelResultTypeEnum));
+            if (OmitPropName != "Error") boxModelCalNumb.Error = GetRandomString("", 5);
+            if (OmitPropName != "BoxModelResultType") boxModelCalNumb.BoxModelResultType = (BoxModelResultTypeEnum)GetRandomEnumType(typeof(BoxModelResultTypeEnum));
             if (OmitPropName != "CalLength_m") boxModelCalNumb.CalLength_m = GetRandomFloat(0, 10);
             if (OmitPropName != "CalRadius_m") boxModelCalNumb.CalRadius_m = GetRandomFloat(0, 10);
             if (OmitPropName != "CalSurface_m2") boxModelCalNumb.CalSurface_m2 = GetRandomFloat(0, 10);
@@ -64,6 +64,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             BoxModelCalNumbService boxModelCalNumbService = new BoxModelCalNumbService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            BoxModelCalNumb boxModelCalNumb = GetFilledRandomBoxModelCalNumb("");
 
             // -------------------------------
             // -------------------------------

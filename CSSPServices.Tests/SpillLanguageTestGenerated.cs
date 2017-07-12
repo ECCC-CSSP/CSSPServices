@@ -62,6 +62,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             SpillLanguageService spillLanguageService = new SpillLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            SpillLanguage spillLanguage = GetFilledRandomSpillLanguage("");
 
             // -------------------------------
             // -------------------------------
@@ -69,7 +70,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            SpillLanguage spillLanguage = GetFilledRandomSpillLanguage("");
             Assert.AreEqual(true, spillLanguageService.Add(spillLanguage));
             Assert.AreEqual(true, spillLanguageService.GetRead().Where(c => c == spillLanguage).Any());
             spillLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -86,13 +86,7 @@ namespace CSSPServices.Tests
 
             // SpillID will automatically be initialized at 0 --> not null
 
-            spillLanguage = null;
-            spillLanguage = GetFilledRandomSpillLanguage("Language");
-            Assert.AreEqual(false, spillLanguageService.Add(spillLanguage));
-            Assert.AreEqual(1, spillLanguage.ValidationResults.Count());
-            Assert.IsTrue(spillLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageLanguage)).Any());
-            Assert.AreEqual(LanguageEnum.Error, spillLanguage.Language);
-            Assert.AreEqual(0, spillLanguageService.GetRead().Count());
+            //Error: Type not implemented [Language]
 
             spillLanguage = null;
             spillLanguage = GetFilledRandomSpillLanguage("SpillComment");
@@ -102,13 +96,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, spillLanguage.SpillComment);
             Assert.AreEqual(0, spillLanguageService.GetRead().Count());
 
-            spillLanguage = null;
-            spillLanguage = GetFilledRandomSpillLanguage("TranslationStatus");
-            Assert.AreEqual(false, spillLanguageService.Add(spillLanguage));
-            Assert.AreEqual(1, spillLanguage.ValidationResults.Count());
-            Assert.IsTrue(spillLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageTranslationStatus)).Any());
-            Assert.AreEqual(TranslationStatusEnum.Error, spillLanguage.TranslationStatus);
-            Assert.AreEqual(0, spillLanguageService.GetRead().Count());
+            //Error: Type not implemented [TranslationStatus]
 
             spillLanguage = null;
             spillLanguage = GetFilledRandomSpillLanguage("LastUpdateDate_UTC");
@@ -120,6 +108,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [Spill]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -129,11 +121,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [SpillLanguageID] of type [int]
+            // doing property [SpillLanguageID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SpillID] of type [int]
+            // doing property [SpillID] of type [Int32]
             //-----------------------------------
 
             spillLanguage = null;
@@ -164,7 +156,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SpillComment] of type [string]
+            // doing property [SpillComment] of type [String]
             //-----------------------------------
 
             spillLanguage = null;
@@ -179,7 +171,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             spillLanguage = null;
@@ -204,6 +196,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(spillLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.SpillLanguageLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, spillLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(0, spillLanguageService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [Spill] of type [Spill]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

@@ -42,33 +42,76 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItemUserAuthorization tvItemUserAuthorization = validationContext.ObjectInstance as TVItemUserAuthorization;
 
-            //TVItemUserAuthorizationID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            if (actionDBType == ActionDBTypeEnum.Update)
+            {
+                if (tvItemUserAuthorization.TVItemUserAuthorizationID == 0)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationTVItemUserAuthorizationID), new[] { ModelsRes.TVItemUserAuthorizationTVItemUserAuthorizationID });
+                }
+            }
 
-            //TVItemUserAuthorizationID has no Range Attribute
+            //TVItemUserAuthorizationID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //ContactTVItemID has no Range Attribute
+            if (tvItemUserAuthorization.ContactTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationContactTVItemID, "1"), new[] { ModelsRes.TVItemUserAuthorizationContactTVItemID });
+            }
+
+            if (!((from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.ContactTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationContactTVItemID, tvItemUserAuthorization.ContactTVItemID.ToString()), new[] { ModelsRes.TVItemUserAuthorizationContactTVItemID });
+            }
 
             //TVItemID1 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //TVItemID1 has no Range Attribute
+            if (tvItemUserAuthorization.TVItemID1 < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID1, "1"), new[] { ModelsRes.TVItemUserAuthorizationTVItemID1 });
+            }
 
-                //Error: Type not implemented [TVItemID2] of type [Nullable`1]
+            if (!((from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.TVItemID1 select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID1, tvItemUserAuthorization.TVItemID1.ToString()), new[] { ModelsRes.TVItemUserAuthorizationTVItemID1 });
+            }
 
-            //TVItemID2 has no Range Attribute
+            if (tvItemUserAuthorization.TVItemID2 < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID2, "1"), new[] { ModelsRes.TVItemUserAuthorizationTVItemID2 });
+            }
 
-                //Error: Type not implemented [TVItemID3] of type [Nullable`1]
+            if (!((from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.TVItemID2 select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID2, tvItemUserAuthorization.TVItemID2.ToString()), new[] { ModelsRes.TVItemUserAuthorizationTVItemID2 });
+            }
 
-            //TVItemID3 has no Range Attribute
+            if (tvItemUserAuthorization.TVItemID3 < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID3, "1"), new[] { ModelsRes.TVItemUserAuthorizationTVItemID3 });
+            }
 
-                //Error: Type not implemented [TVItemID4] of type [Nullable`1]
+            if (!((from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.TVItemID3 select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID3, tvItemUserAuthorization.TVItemID3.ToString()), new[] { ModelsRes.TVItemUserAuthorizationTVItemID3 });
+            }
 
-            //TVItemID4 has no Range Attribute
+            if (tvItemUserAuthorization.TVItemID4 < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID4, "1"), new[] { ModelsRes.TVItemUserAuthorizationTVItemID4 });
+            }
 
-                //Error: Type not implemented [TVAuth] of type [TVAuthEnum]
+            if (!((from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.TVItemID4 select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID4, tvItemUserAuthorization.TVItemID4.ToString()), new[] { ModelsRes.TVItemUserAuthorizationTVItemID4 });
+            }
 
-                //Error: Type not implemented [TVAuth] of type [TVAuthEnum]
+            retStr = enums.TVAuthOK(tvItemUserAuthorization.TVAuth);
+            if (tvItemUserAuthorization.TVAuth == TVAuthEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationTVAuth), new[] { ModelsRes.TVItemUserAuthorizationTVAuth });
+            }
+
             if (tvItemUserAuthorization.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC), new[] { ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC });

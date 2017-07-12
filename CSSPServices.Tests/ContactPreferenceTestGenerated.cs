@@ -61,6 +61,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             ContactPreferenceService contactPreferenceService = new ContactPreferenceService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactPreference contactPreference = GetFilledRandomContactPreference("");
 
             // -------------------------------
             // -------------------------------
@@ -68,7 +69,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            ContactPreference contactPreference = GetFilledRandomContactPreference("");
             Assert.AreEqual(true, contactPreferenceService.Add(contactPreference));
             Assert.AreEqual(true, contactPreferenceService.GetRead().Where(c => c == contactPreference).Any());
             contactPreference.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -85,13 +85,7 @@ namespace CSSPServices.Tests
 
             // ContactID will automatically be initialized at 0 --> not null
 
-            contactPreference = null;
-            contactPreference = GetFilledRandomContactPreference("TVType");
-            Assert.AreEqual(false, contactPreferenceService.Add(contactPreference));
-            Assert.AreEqual(1, contactPreference.ValidationResults.Count());
-            Assert.IsTrue(contactPreference.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactPreferenceTVType)).Any());
-            Assert.AreEqual(TVTypeEnum.Error, contactPreference.TVType);
-            Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
+            //Error: Type not implemented [TVType]
 
             // MarkerSize will automatically be initialized at 0 --> not null
 
@@ -105,6 +99,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [Contact]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -114,11 +112,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [ContactPreferenceID] of type [int]
+            // doing property [ContactPreferenceID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ContactID] of type [int]
+            // doing property [ContactID] of type [Int32]
             //-----------------------------------
 
             contactPreference = null;
@@ -149,58 +147,18 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MarkerSize] of type [int]
+            // doing property [MarkerSize] of type [Int32]
             //-----------------------------------
 
             contactPreference = null;
             contactPreference = GetFilledRandomContactPreference("");
-            // MarkerSize has Min [1] and Max [1000]. At Min should return true and no errors
-            contactPreference.MarkerSize = 1;
-            Assert.AreEqual(true, contactPreferenceService.Add(contactPreference));
-            Assert.AreEqual(0, contactPreference.ValidationResults.Count());
-            Assert.AreEqual(1, contactPreference.MarkerSize);
-            Assert.AreEqual(true, contactPreferenceService.Delete(contactPreference));
-            Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
-            // MarkerSize has Min [1] and Max [1000]. At Min + 1 should return true and no errors
-            contactPreference.MarkerSize = 2;
-            Assert.AreEqual(true, contactPreferenceService.Add(contactPreference));
-            Assert.AreEqual(0, contactPreference.ValidationResults.Count());
-            Assert.AreEqual(2, contactPreference.MarkerSize);
-            Assert.AreEqual(true, contactPreferenceService.Delete(contactPreference));
-            Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
-            // MarkerSize has Min [1] and Max [1000]. At Min - 1 should return false with one error
-            contactPreference.MarkerSize = 0;
-            Assert.AreEqual(false, contactPreferenceService.Add(contactPreference));
-            Assert.IsTrue(contactPreference.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContactPreferenceMarkerSize, "1", "1000")).Any());
-            Assert.AreEqual(0, contactPreference.MarkerSize);
-            Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
-            // MarkerSize has Min [1] and Max [1000]. At Max should return true and no errors
-            contactPreference.MarkerSize = 1000;
-            Assert.AreEqual(true, contactPreferenceService.Add(contactPreference));
-            Assert.AreEqual(0, contactPreference.ValidationResults.Count());
-            Assert.AreEqual(1000, contactPreference.MarkerSize);
-            Assert.AreEqual(true, contactPreferenceService.Delete(contactPreference));
-            Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
-            // MarkerSize has Min [1] and Max [1000]. At Max - 1 should return true and no errors
-            contactPreference.MarkerSize = 999;
-            Assert.AreEqual(true, contactPreferenceService.Add(contactPreference));
-            Assert.AreEqual(0, contactPreference.ValidationResults.Count());
-            Assert.AreEqual(999, contactPreference.MarkerSize);
-            Assert.AreEqual(true, contactPreferenceService.Delete(contactPreference));
-            Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
-            // MarkerSize has Min [1] and Max [1000]. At Max + 1 should return false with one error
-            contactPreference.MarkerSize = 1001;
-            Assert.AreEqual(false, contactPreferenceService.Add(contactPreference));
-            Assert.IsTrue(contactPreference.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContactPreferenceMarkerSize, "1", "1000")).Any());
-            Assert.AreEqual(1001, contactPreference.MarkerSize);
-            Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
 
             //-----------------------------------
             // doing property [LastUpdateDate_UTC] of type [DateTime]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             contactPreference = null;
@@ -225,6 +183,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(contactPreference.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactPreferenceLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, contactPreference.LastUpdateContactTVItemID);
             Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [Contact] of type [Contact]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

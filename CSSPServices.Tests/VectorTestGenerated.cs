@@ -55,6 +55,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             VectorService vectorService = new VectorService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            Vector vector = GetFilledRandomVector("");
 
             // -------------------------------
             // -------------------------------

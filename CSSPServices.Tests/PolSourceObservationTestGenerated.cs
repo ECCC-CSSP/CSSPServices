@@ -62,6 +62,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             PolSourceObservationService polSourceObservationService = new PolSourceObservationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            PolSourceObservation polSourceObservation = GetFilledRandomPolSourceObservation("");
 
             // -------------------------------
             // -------------------------------
@@ -69,7 +70,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            PolSourceObservation polSourceObservation = GetFilledRandomPolSourceObservation("");
             Assert.AreEqual(true, polSourceObservationService.Add(polSourceObservation));
             Assert.AreEqual(true, polSourceObservationService.GetRead().Where(c => c == polSourceObservation).Any());
             polSourceObservation.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -114,6 +114,14 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [PolSourceObservationIssues]
+
+            //Error: Type not implemented [ContactTVItem]
+
+            //Error: Type not implemented [PolSourceSiteTVItem]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -123,11 +131,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [PolSourceObservationID] of type [int]
+            // doing property [PolSourceObservationID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [PolSourceSiteTVItemID] of type [int]
+            // doing property [PolSourceSiteTVItemID] of type [Int32]
             //-----------------------------------
 
             polSourceObservation = null;
@@ -158,7 +166,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ContactTVItemID] of type [int]
+            // doing property [ContactTVItemID] of type [Int32]
             //-----------------------------------
 
             polSourceObservation = null;
@@ -185,7 +193,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Observation_ToBeDeleted] of type [string]
+            // doing property [Observation_ToBeDeleted] of type [String]
             //-----------------------------------
 
             polSourceObservation = null;
@@ -196,7 +204,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             polSourceObservation = null;
@@ -221,6 +229,22 @@ namespace CSSPServices.Tests
             Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, polSourceObservation.LastUpdateContactTVItemID);
             Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [PolSourceObservationIssues] of type [ICollection`1]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ContactTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [PolSourceSiteTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

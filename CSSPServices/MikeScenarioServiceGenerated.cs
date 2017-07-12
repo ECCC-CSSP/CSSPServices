@@ -64,8 +64,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeScenarioMikeScenarioTVItemID, mikeScenario.MikeScenarioTVItemID.ToString()), new[] { ModelsRes.MikeScenarioMikeScenarioTVItemID });
             }
 
-                //Error: Type not implemented [ParentMikeScenarioID] of type [Nullable`1]
-
             if (mikeScenario.ParentMikeScenarioID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeScenarioParentMikeScenarioID, "1"), new[] { ModelsRes.MikeScenarioParentMikeScenarioID });
@@ -108,10 +106,6 @@ namespace CSSPServices
             {
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeScenarioMikeScenarioEndDateTime_Local, "1980"), new[] { ModelsRes.MikeScenarioMikeScenarioEndDateTime_Local });
             }
-
-                //Error: Type not implemented [MikeScenarioStartExecutionDateTime_Local] of type [Nullable`1]
-
-                //Error: Type not implemented [MikeScenarioExecutionTime_min] of type [Nullable`1]
 
             if (mikeScenario.MikeScenarioExecutionTime_min < 1 || mikeScenario.MikeScenarioExecutionTime_min > 100000)
             {
@@ -176,58 +170,40 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioManningNumber, "0", "100"), new[] { ModelsRes.MikeScenarioManningNumber });
             }
 
-                //Error: Type not implemented [UseWebTide] of type [Nullable`1]
-
-                //Error: Type not implemented [NumberOfElements] of type [Nullable`1]
-
             if (mikeScenario.NumberOfElements < 1 || mikeScenario.NumberOfElements > 10000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfElements, "1", "10000"), new[] { ModelsRes.MikeScenarioNumberOfElements });
             }
-
-                //Error: Type not implemented [NumberOfTimeSteps] of type [Nullable`1]
 
             if (mikeScenario.NumberOfTimeSteps < 1 || mikeScenario.NumberOfTimeSteps > 10000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfTimeSteps, "1", "10000"), new[] { ModelsRes.MikeScenarioNumberOfTimeSteps });
             }
 
-                //Error: Type not implemented [NumberOfSigmaLayers] of type [Nullable`1]
-
             if (mikeScenario.NumberOfSigmaLayers < 0 || mikeScenario.NumberOfSigmaLayers > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfSigmaLayers, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfSigmaLayers });
             }
-
-                //Error: Type not implemented [NumberOfZlayers] of type [Nullable`1]
 
             if (mikeScenario.NumberOfZlayers < 0 || mikeScenario.NumberOfZlayers > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfZlayers, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfZlayers });
             }
 
-                //Error: Type not implemented [NumberOfHydroOutputParameters] of type [Nullable`1]
-
             if (mikeScenario.NumberOfHydroOutputParameters < 0 || mikeScenario.NumberOfHydroOutputParameters > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfHydroOutputParameters, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfHydroOutputParameters });
             }
-
-                //Error: Type not implemented [NumberOfTransOutputParameters] of type [Nullable`1]
 
             if (mikeScenario.NumberOfTransOutputParameters < 0 || mikeScenario.NumberOfTransOutputParameters > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfTransOutputParameters, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfTransOutputParameters });
             }
 
-                //Error: Type not implemented [EstimatedHydroFileSize] of type [Nullable`1]
-
             if (mikeScenario.EstimatedHydroFileSize < 0 || mikeScenario.EstimatedHydroFileSize > 100000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioEstimatedHydroFileSize, "0", "100000000"), new[] { ModelsRes.MikeScenarioEstimatedHydroFileSize });
             }
-
-                //Error: Type not implemented [EstimatedTransFileSize] of type [Nullable`1]
 
             if (mikeScenario.EstimatedTransFileSize < 0 || mikeScenario.EstimatedTransFileSize > 100000000)
             {

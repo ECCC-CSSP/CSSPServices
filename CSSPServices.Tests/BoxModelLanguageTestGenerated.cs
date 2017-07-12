@@ -62,6 +62,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            BoxModelLanguage boxModelLanguage = GetFilledRandomBoxModelLanguage("");
 
             // -------------------------------
             // -------------------------------
@@ -69,7 +70,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            BoxModelLanguage boxModelLanguage = GetFilledRandomBoxModelLanguage("");
             Assert.AreEqual(true, boxModelLanguageService.Add(boxModelLanguage));
             Assert.AreEqual(true, boxModelLanguageService.GetRead().Where(c => c == boxModelLanguage).Any());
             boxModelLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -86,13 +86,7 @@ namespace CSSPServices.Tests
 
             // BoxModelID will automatically be initialized at 0 --> not null
 
-            boxModelLanguage = null;
-            boxModelLanguage = GetFilledRandomBoxModelLanguage("Language");
-            Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
-            Assert.AreEqual(1, boxModelLanguage.ValidationResults.Count());
-            Assert.IsTrue(boxModelLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLanguageLanguage)).Any());
-            Assert.AreEqual(LanguageEnum.Error, boxModelLanguage.Language);
-            Assert.AreEqual(0, boxModelLanguageService.GetRead().Count());
+            //Error: Type not implemented [Language]
 
             boxModelLanguage = null;
             boxModelLanguage = GetFilledRandomBoxModelLanguage("ScenarioName");
@@ -102,13 +96,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, boxModelLanguage.ScenarioName);
             Assert.AreEqual(0, boxModelLanguageService.GetRead().Count());
 
-            boxModelLanguage = null;
-            boxModelLanguage = GetFilledRandomBoxModelLanguage("TranslationStatus");
-            Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
-            Assert.AreEqual(1, boxModelLanguage.ValidationResults.Count());
-            Assert.IsTrue(boxModelLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLanguageTranslationStatus)).Any());
-            Assert.AreEqual(TranslationStatusEnum.Error, boxModelLanguage.TranslationStatus);
-            Assert.AreEqual(0, boxModelLanguageService.GetRead().Count());
+            //Error: Type not implemented [TranslationStatus]
 
             boxModelLanguage = null;
             boxModelLanguage = GetFilledRandomBoxModelLanguage("LastUpdateDate_UTC");
@@ -120,6 +108,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [BoxModel]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -129,11 +121,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [BoxModelLanguageID] of type [int]
+            // doing property [BoxModelLanguageID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [BoxModelID] of type [int]
+            // doing property [BoxModelID] of type [Int32]
             //-----------------------------------
 
             boxModelLanguage = null;
@@ -164,37 +156,11 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ScenarioName] of type [string]
+            // doing property [ScenarioName] of type [String]
             //-----------------------------------
 
             boxModelLanguage = null;
             boxModelLanguage = GetFilledRandomBoxModelLanguage("");
-
-            // ScenarioName has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
-            string boxModelLanguageScenarioNameMin = GetRandomString("", 250);
-            boxModelLanguage.ScenarioName = boxModelLanguageScenarioNameMin;
-            Assert.AreEqual(true, boxModelLanguageService.Add(boxModelLanguage));
-            Assert.AreEqual(0, boxModelLanguage.ValidationResults.Count());
-            Assert.AreEqual(boxModelLanguageScenarioNameMin, boxModelLanguage.ScenarioName);
-            Assert.AreEqual(true, boxModelLanguageService.Delete(boxModelLanguage));
-            Assert.AreEqual(0, boxModelLanguageService.GetRead().Count());
-
-            // ScenarioName has MinLength [empty] and MaxLength [250]. At Max - 1 should return true and no errors
-            boxModelLanguageScenarioNameMin = GetRandomString("", 249);
-            boxModelLanguage.ScenarioName = boxModelLanguageScenarioNameMin;
-            Assert.AreEqual(true, boxModelLanguageService.Add(boxModelLanguage));
-            Assert.AreEqual(0, boxModelLanguage.ValidationResults.Count());
-            Assert.AreEqual(boxModelLanguageScenarioNameMin, boxModelLanguage.ScenarioName);
-            Assert.AreEqual(true, boxModelLanguageService.Delete(boxModelLanguage));
-            Assert.AreEqual(0, boxModelLanguageService.GetRead().Count());
-
-            // ScenarioName has MinLength [empty] and MaxLength [250]. At Max + 1 should return false with one error
-            boxModelLanguageScenarioNameMin = GetRandomString("", 251);
-            boxModelLanguage.ScenarioName = boxModelLanguageScenarioNameMin;
-            Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
-            Assert.IsTrue(boxModelLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLanguageScenarioName, "250")).Any());
-            Assert.AreEqual(boxModelLanguageScenarioNameMin, boxModelLanguage.ScenarioName);
-            Assert.AreEqual(0, boxModelLanguageService.GetRead().Count());
 
             //-----------------------------------
             // doing property [TranslationStatus] of type [TranslationStatusEnum]
@@ -205,7 +171,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             boxModelLanguage = null;
@@ -230,6 +196,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(boxModelLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelLanguageLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, boxModelLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(0, boxModelLanguageService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [BoxModel] of type [BoxModel]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

@@ -86,8 +86,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSampleSampleDateTime_Local, "1980"), new[] { ModelsRes.MWQMSampleSampleDateTime_Local });
             }
 
-                //Error: Type not implemented [Depth_m] of type [Nullable`1]
-
             if (mwqmSample.Depth_m < 0 || mwqmSample.Depth_m > 1000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleDepth_m, "0", "1000"), new[] { ModelsRes.MWQMSampleDepth_m });
@@ -100,21 +98,15 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleFecCol_MPN_100ml, "0", "10000000"), new[] { ModelsRes.MWQMSampleFecCol_MPN_100ml });
             }
 
-                //Error: Type not implemented [Salinity_PPT] of type [Nullable`1]
-
             if (mwqmSample.Salinity_PPT < 0 || mwqmSample.Salinity_PPT > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleSalinity_PPT, "0", "40"), new[] { ModelsRes.MWQMSampleSalinity_PPT });
             }
 
-                //Error: Type not implemented [WaterTemp_C] of type [Nullable`1]
-
             if (mwqmSample.WaterTemp_C < -10 || mwqmSample.WaterTemp_C > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleWaterTemp_C, "-10", "40"), new[] { ModelsRes.MWQMSampleWaterTemp_C });
             }
-
-                //Error: Type not implemented [PH] of type [Nullable`1]
 
             if (mwqmSample.PH < 0 || mwqmSample.PH > 14)
             {
@@ -137,21 +129,15 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleSampleType_old), new[] { ModelsRes.MWQMSampleSampleType_old });
             }
 
-                //Error: Type not implemented [Tube_10] of type [Nullable`1]
-
             if (mwqmSample.Tube_10 < 0 || mwqmSample.Tube_10 > 5)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleTube_10, "0", "5"), new[] { ModelsRes.MWQMSampleTube_10 });
             }
 
-                //Error: Type not implemented [Tube_1_0] of type [Nullable`1]
-
             if (mwqmSample.Tube_1_0 < 0 || mwqmSample.Tube_1_0 > 5)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleTube_1_0, "0", "5"), new[] { ModelsRes.MWQMSampleTube_1_0 });
             }
-
-                //Error: Type not implemented [Tube_0_1] of type [Nullable`1]
 
             if (mwqmSample.Tube_0_1 < 0 || mwqmSample.Tube_0_1 > 5)
             {

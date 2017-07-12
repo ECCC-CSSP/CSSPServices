@@ -60,6 +60,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             RatingCurveService ratingCurveService = new RatingCurveService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            RatingCurve ratingCurve = GetFilledRandomRatingCurve("");
 
             // -------------------------------
             // -------------------------------
@@ -67,7 +68,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            RatingCurve ratingCurve = GetFilledRandomRatingCurve("");
             Assert.AreEqual(true, ratingCurveService.Add(ratingCurve));
             Assert.AreEqual(true, ratingCurveService.GetRead().Where(c => c == ratingCurve).Any());
             ratingCurve.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -102,6 +102,12 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [RatingCurveValues]
+
+            //Error: Type not implemented [HydrometricSite]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -111,11 +117,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [RatingCurveID] of type [int]
+            // doing property [RatingCurveID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [HydrometricSiteID] of type [int]
+            // doing property [HydrometricSiteID] of type [Int32]
             //-----------------------------------
 
             ratingCurve = null;
@@ -142,44 +148,18 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, ratingCurveService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [RatingCurveNumber] of type [string]
+            // doing property [RatingCurveNumber] of type [String]
             //-----------------------------------
 
             ratingCurve = null;
             ratingCurve = GetFilledRandomRatingCurve("");
-
-            // RatingCurveNumber has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
-            string ratingCurveRatingCurveNumberMin = GetRandomString("", 50);
-            ratingCurve.RatingCurveNumber = ratingCurveRatingCurveNumberMin;
-            Assert.AreEqual(true, ratingCurveService.Add(ratingCurve));
-            Assert.AreEqual(0, ratingCurve.ValidationResults.Count());
-            Assert.AreEqual(ratingCurveRatingCurveNumberMin, ratingCurve.RatingCurveNumber);
-            Assert.AreEqual(true, ratingCurveService.Delete(ratingCurve));
-            Assert.AreEqual(0, ratingCurveService.GetRead().Count());
-
-            // RatingCurveNumber has MinLength [empty] and MaxLength [50]. At Max - 1 should return true and no errors
-            ratingCurveRatingCurveNumberMin = GetRandomString("", 49);
-            ratingCurve.RatingCurveNumber = ratingCurveRatingCurveNumberMin;
-            Assert.AreEqual(true, ratingCurveService.Add(ratingCurve));
-            Assert.AreEqual(0, ratingCurve.ValidationResults.Count());
-            Assert.AreEqual(ratingCurveRatingCurveNumberMin, ratingCurve.RatingCurveNumber);
-            Assert.AreEqual(true, ratingCurveService.Delete(ratingCurve));
-            Assert.AreEqual(0, ratingCurveService.GetRead().Count());
-
-            // RatingCurveNumber has MinLength [empty] and MaxLength [50]. At Max + 1 should return false with one error
-            ratingCurveRatingCurveNumberMin = GetRandomString("", 51);
-            ratingCurve.RatingCurveNumber = ratingCurveRatingCurveNumberMin;
-            Assert.AreEqual(false, ratingCurveService.Add(ratingCurve));
-            Assert.IsTrue(ratingCurve.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RatingCurveRatingCurveNumber, "50")).Any());
-            Assert.AreEqual(ratingCurveRatingCurveNumberMin, ratingCurve.RatingCurveNumber);
-            Assert.AreEqual(0, ratingCurveService.GetRead().Count());
 
             //-----------------------------------
             // doing property [LastUpdateDate_UTC] of type [DateTime]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             ratingCurve = null;
@@ -204,6 +184,18 @@ namespace CSSPServices.Tests
             Assert.IsTrue(ratingCurve.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.RatingCurveLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, ratingCurve.LastUpdateContactTVItemID);
             Assert.AreEqual(0, ratingCurveService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [RatingCurveValues] of type [ICollection`1]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [HydrometricSite] of type [HydrometricSite]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

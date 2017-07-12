@@ -104,42 +104,20 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteProvince, "4"), new[] { ModelsRes.HydrometricSiteProvince });
             }
 
-                //Error: Type not implemented [Elevation_m] of type [Nullable`1]
-
             if (hydrometricSite.Elevation_m < 0 || hydrometricSite.Elevation_m > 10000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteElevation_m, "0", "10000"), new[] { ModelsRes.HydrometricSiteElevation_m });
             }
-
-                //Error: Type not implemented [StartDate_Local] of type [Nullable`1]
-
-                //Error: Type not implemented [EndDate_Local] of type [Nullable`1]
-
-                //Error: Type not implemented [TimeOffset_hour] of type [Nullable`1]
 
             if (hydrometricSite.TimeOffset_hour < -10 || hydrometricSite.TimeOffset_hour > 0)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteTimeOffset_hour, "-10", "0"), new[] { ModelsRes.HydrometricSiteTimeOffset_hour });
             }
 
-                //Error: Type not implemented [DrainageArea_km2] of type [Nullable`1]
-
             if (hydrometricSite.DrainageArea_km2 < 0 || hydrometricSite.DrainageArea_km2 > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteDrainageArea_km2, "0", "1000000"), new[] { ModelsRes.HydrometricSiteDrainageArea_km2 });
             }
-
-                //Error: Type not implemented [IsNatural] of type [Nullable`1]
-
-                //Error: Type not implemented [IsActive] of type [Nullable`1]
-
-                //Error: Type not implemented [Sediment] of type [Nullable`1]
-
-                //Error: Type not implemented [RHBN] of type [Nullable`1]
-
-                //Error: Type not implemented [RealTime] of type [Nullable`1]
-
-                //Error: Type not implemented [HasRatingCurve] of type [Nullable`1]
 
             if (hydrometricSite.LastUpdateDate_UTC == null)
             {

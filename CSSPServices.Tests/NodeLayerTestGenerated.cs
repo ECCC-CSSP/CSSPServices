@@ -45,7 +45,7 @@ namespace CSSPServices.Tests
             NodeLayer nodeLayer = new NodeLayer();
 
             if (OmitPropName != "Layer") nodeLayer.Layer = GetRandomInt(1, 100);
-            if (OmitPropName != "Z") nodeLayer.Z = GetRandomFloat(1.0f, 5.0f);
+            if (OmitPropName != "Z") nodeLayer.Z = GetRandomFloat(1.0f, 1000.0f);
 
             return nodeLayer;
         }
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             NodeLayerService nodeLayerService = new NodeLayerService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            NodeLayer nodeLayer = GetFilledRandomNodeLayer("");
 
             // -------------------------------
             // -------------------------------

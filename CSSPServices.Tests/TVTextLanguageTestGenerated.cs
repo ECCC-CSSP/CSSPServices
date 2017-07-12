@@ -44,7 +44,7 @@ namespace CSSPServices.Tests
 
             TVTextLanguage tvTextLanguage = new TVTextLanguage();
 
-            if (OmitPropName != "TVText") tvTextLanguage.TVText = GetRandomString("", 5);
+            if (OmitPropName != "TVText") tvTextLanguage.TVText = GetRandomString("", 20);
             if (OmitPropName != "Language") tvTextLanguage.Language = language;
 
             return tvTextLanguage;
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TVTextLanguageService tvTextLanguageService = new TVTextLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVTextLanguage tvTextLanguage = GetFilledRandomTVTextLanguage("");
 
             // -------------------------------
             // -------------------------------

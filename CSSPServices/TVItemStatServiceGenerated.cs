@@ -42,20 +42,40 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItemStat tvItemStat = validationContext.ObjectInstance as TVItemStat;
 
-            //TVItemStatID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            if (actionDBType == ActionDBTypeEnum.Update)
+            {
+                if (tvItemStat.TVItemStatID == 0)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemStatTVItemStatID), new[] { ModelsRes.TVItemStatTVItemStatID });
+                }
+            }
 
-            //TVItemStatID has no Range Attribute
+            //TVItemStatID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //TVItemID has no Range Attribute
+            if (tvItemStat.TVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemStatTVItemID, "1"), new[] { ModelsRes.TVItemStatTVItemID });
+            }
 
-                //Error: Type not implemented [TVType] of type [TVTypeEnum]
+            if (!((from c in db.TVItems where c.TVItemID == tvItemStat.TVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemStatTVItemID, tvItemStat.TVItemID.ToString()), new[] { ModelsRes.TVItemStatTVItemID });
+            }
 
-                //Error: Type not implemented [TVType] of type [TVTypeEnum]
+            retStr = enums.TVTypeOK(tvItemStat.TVType);
+            if (tvItemStat.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemStatTVType), new[] { ModelsRes.TVItemStatTVType });
+            }
+
             //ChildCount (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //ChildCount has no Range Attribute
+            if (tvItemStat.ChildCount < 0 || tvItemStat.ChildCount > 10000000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVItemStatChildCount, "0", "10000000"), new[] { ModelsRes.TVItemStatChildCount });
+            }
 
             if (tvItemStat.LastUpdateDate_UTC == null)
             {

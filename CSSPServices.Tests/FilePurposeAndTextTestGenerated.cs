@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             FilePurposeAndText filePurposeAndText = new FilePurposeAndText();
 
-            if (OmitPropName != "FilePurpose") filePurposeAndText.FilePurpose = (CSSPEnums.FilePurposeEnum)GetRandomEnumType(typeof(CSSPEnums.FilePurposeEnum));
-            if (OmitPropName != "FilePurposeText") filePurposeAndText.FilePurposeText = GetRandomString("", 1);
+            if (OmitPropName != "FilePurpose") filePurposeAndText.FilePurpose = (FilePurposeEnum)GetRandomEnumType(typeof(FilePurposeEnum));
+            if (OmitPropName != "FilePurposeText") filePurposeAndText.FilePurposeText = GetRandomString("", 5);
 
             return filePurposeAndText;
         }
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             FilePurposeAndTextService filePurposeAndTextService = new FilePurposeAndTextService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            FilePurposeAndText filePurposeAndText = GetFilledRandomFilePurposeAndText("");
 
             // -------------------------------
             // -------------------------------

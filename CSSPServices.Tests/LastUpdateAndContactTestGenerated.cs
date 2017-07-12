@@ -44,7 +44,7 @@ namespace CSSPServices.Tests
 
             LastUpdateAndContact lastUpdateAndContact = new LastUpdateAndContact();
 
-            if (OmitPropName != "Error") lastUpdateAndContact.Error = GetRandomString("", 5);
+            if (OmitPropName != "Error") lastUpdateAndContact.Error = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") lastUpdateAndContact.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") lastUpdateAndContact.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 
@@ -58,6 +58,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             LastUpdateAndContactService lastUpdateAndContactService = new LastUpdateAndContactService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            LastUpdateAndContact lastUpdateAndContact = GetFilledRandomLastUpdateAndContact("");
 
             // -------------------------------
             // -------------------------------

@@ -44,11 +44,11 @@ namespace CSSPServices.Tests
 
             TVLocation tvLocation = new TVLocation();
 
-            if (OmitPropName != "Error") tvLocation.Error = GetRandomString("", 5);
+            if (OmitPropName != "Error") tvLocation.Error = GetRandomString("", 20);
             if (OmitPropName != "TVItemID") tvLocation.TVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "TVText") tvLocation.TVText = GetRandomString("", 1);
-            if (OmitPropName != "TVType") tvLocation.TVType = (CSSPEnums.TVTypeEnum)GetRandomEnumType(typeof(CSSPEnums.TVTypeEnum));
-            if (OmitPropName != "SubTVType") tvLocation.SubTVType = (CSSPEnums.TVTypeEnum)GetRandomEnumType(typeof(CSSPEnums.TVTypeEnum));
+            if (OmitPropName != "TVText") tvLocation.TVText = GetRandomString("", 5);
+            if (OmitPropName != "TVType") tvLocation.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
+            if (OmitPropName != "SubTVType") tvLocation.SubTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
 
             return tvLocation;
         }
@@ -60,6 +60,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TVLocationService tvLocationService = new TVLocationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVLocation tvLocation = GetFilledRandomTVLocation("");
 
             // -------------------------------
             // -------------------------------

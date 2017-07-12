@@ -42,27 +42,50 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             VPScenarioLanguage vpScenarioLanguage = validationContext.ObjectInstance as VPScenarioLanguage;
 
-            //VPScenarioLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            if (actionDBType == ActionDBTypeEnum.Update)
+            {
+                if (vpScenarioLanguage.VPScenarioLanguageID == 0)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageVPScenarioLanguageID), new[] { ModelsRes.VPScenarioLanguageVPScenarioLanguageID });
+                }
+            }
 
-            //VPScenarioLanguageID has no Range Attribute
+            //VPScenarioLanguageID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //VPScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //VPScenarioID has no Range Attribute
+            if (vpScenarioLanguage.VPScenarioID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPScenarioLanguageVPScenarioID, "1"), new[] { ModelsRes.VPScenarioLanguageVPScenarioID });
+            }
 
-                //Error: Type not implemented [Language] of type [LanguageEnum]
+            if (!((from c in db.VPScenarios where c.VPScenarioID == vpScenarioLanguage.VPScenarioID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPScenarioLanguageVPScenarioID, vpScenarioLanguage.VPScenarioID.ToString()), new[] { ModelsRes.VPScenarioLanguageVPScenarioID });
+            }
 
-                //Error: Type not implemented [Language] of type [LanguageEnum]
+            retStr = enums.LanguageOK(vpScenarioLanguage.Language);
+            if (vpScenarioLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageLanguage), new[] { ModelsRes.VPScenarioLanguageLanguage });
+            }
+
             if (string.IsNullOrWhiteSpace(vpScenarioLanguage.VPScenarioName))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageVPScenarioName), new[] { ModelsRes.VPScenarioLanguageVPScenarioName });
             }
 
-            //VPScenarioName has no StringLength Attribute
+            if (!string.IsNullOrWhiteSpace(vpScenarioLanguage.VPScenarioName) && vpScenarioLanguage.VPScenarioName.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLanguageVPScenarioName, "100"), new[] { ModelsRes.VPScenarioLanguageVPScenarioName });
+            }
 
-                //Error: Type not implemented [TranslationStatus] of type [TranslationStatusEnum]
+            retStr = enums.TranslationStatusOK(vpScenarioLanguage.TranslationStatus);
+            if (vpScenarioLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageTranslationStatus), new[] { ModelsRes.VPScenarioLanguageTranslationStatus });
+            }
 
-                //Error: Type not implemented [TranslationStatus] of type [TranslationStatusEnum]
             if (vpScenarioLanguage.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageLastUpdateDate_UTC), new[] { ModelsRes.VPScenarioLanguageLastUpdateDate_UTC });

@@ -69,6 +69,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             AppTaskService appTaskService = new AppTaskService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            AppTask appTask = GetFilledRandomAppTask("");
 
             // -------------------------------
             // -------------------------------
@@ -76,7 +77,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            AppTask appTask = GetFilledRandomAppTask("");
             Assert.AreEqual(true, appTaskService.Add(appTask));
             Assert.AreEqual(true, appTaskService.GetRead().Where(c => c == appTask).Any());
             appTask.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -95,21 +95,9 @@ namespace CSSPServices.Tests
 
             // TVItemID2 will automatically be initialized at 0 --> not null
 
-            appTask = null;
-            appTask = GetFilledRandomAppTask("Command");
-            Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.AreEqual(1, appTask.ValidationResults.Count());
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskCommand)).Any());
-            Assert.AreEqual(AppTaskCommandEnum.Error, appTask.Command);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            //Error: Type not implemented [Command]
 
-            appTask = null;
-            appTask = GetFilledRandomAppTask("Status");
-            Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.AreEqual(1, appTask.ValidationResults.Count());
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskStatus)).Any());
-            Assert.AreEqual(AppTaskStatusEnum.Error, appTask.Status);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            //Error: Type not implemented [Status]
 
             // PercentCompleted will automatically be initialized at 0 --> not null
 
@@ -121,13 +109,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, appTask.Parameters);
             Assert.AreEqual(0, appTaskService.GetRead().Count());
 
-            appTask = null;
-            appTask = GetFilledRandomAppTask("Language");
-            Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.AreEqual(1, appTask.ValidationResults.Count());
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguage)).Any());
-            Assert.AreEqual(LanguageEnum.Error, appTask.Language);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            //Error: Type not implemented [Language]
 
             appTask = null;
             appTask = GetFilledRandomAppTask("StartDateTime_UTC");
@@ -147,6 +129,14 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [AppTaskLanguages]
+
+            //Error: Type not implemented [TVItemIDNavigation]
+
+            //Error: Type not implemented [TVItemID2Navigation]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -156,11 +146,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [AppTaskID] of type [int]
+            // doing property [AppTaskID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TVItemID] of type [int]
+            // doing property [TVItemID] of type [Int32]
             //-----------------------------------
 
             appTask = null;
@@ -187,7 +177,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appTaskService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TVItemID2] of type [int]
+            // doing property [TVItemID2] of type [Int32]
             //-----------------------------------
 
             appTask = null;
@@ -222,7 +212,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [PercentCompleted] of type [int]
+            // doing property [PercentCompleted] of type [Int32]
             //-----------------------------------
 
             appTask = null;
@@ -269,7 +259,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appTaskService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Parameters] of type [string]
+            // doing property [Parameters] of type [String]
             //-----------------------------------
 
             appTask = null;
@@ -288,7 +278,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [EstimatedLength_second] of type [int]
+            // doing property [EstimatedLength_second] of type [Int32]
             //-----------------------------------
 
             appTask = null;
@@ -335,7 +325,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appTaskService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [RemainingTime_second] of type [int]
+            // doing property [RemainingTime_second] of type [Int32]
             //-----------------------------------
 
             appTask = null;
@@ -386,7 +376,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             appTask = null;
@@ -411,6 +401,22 @@ namespace CSSPServices.Tests
             Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, appTask.LastUpdateContactTVItemID);
             Assert.AreEqual(0, appTaskService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [AppTaskLanguages] of type [ICollection`1]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [TVItemIDNavigation] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [TVItemID2Navigation] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

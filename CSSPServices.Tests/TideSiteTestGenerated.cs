@@ -47,7 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TideSiteID") tideSite.TideSiteID = TideSiteID;
             if (OmitPropName != "TideSiteTVItemID") tideSite.TideSiteTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "WebTideModel") tideSite.WebTideModel = GetRandomString("", 5);
-            if (OmitPropName != "WebTideDatum_m") tideSite.WebTideDatum_m = GetRandomFloat(0, 100);
+            if (OmitPropName != "WebTideDatum_m") tideSite.WebTideDatum_m = GetRandomFloat(-100, 100);
             if (OmitPropName != "LastUpdateDate_UTC") tideSite.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") tideSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 
@@ -61,6 +61,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TideSiteService tideSiteService = new TideSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TideSite tideSite = GetFilledRandomTideSite("");
 
             // -------------------------------
             // -------------------------------
@@ -68,7 +69,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            TideSite tideSite = GetFilledRandomTideSite("");
             Assert.AreEqual(true, tideSiteService.Add(tideSite));
             Assert.AreEqual(true, tideSiteService.GetRead().Where(c => c == tideSite).Any());
             tideSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -93,7 +93,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, tideSite.WebTideModel);
             Assert.AreEqual(0, tideSiteService.GetRead().Count());
 
-            // WebTideDatum_m will automatically be initialized at 0.0f --> not null
+            // WebTideDatum_m will automatically be initialized at 0 --> not null
 
             tideSite = null;
             tideSite = GetFilledRandomTideSite("LastUpdateDate_UTC");
@@ -105,6 +105,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [TideSiteTVItem]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -114,11 +118,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [TideSiteID] of type [int]
+            // doing property [TideSiteID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TideSiteTVItemID] of type [int]
+            // doing property [TideSiteTVItemID] of type [Int32]
             //-----------------------------------
 
             tideSite = null;
@@ -145,82 +149,56 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tideSiteService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [WebTideModel] of type [string]
+            // doing property [WebTideModel] of type [String]
             //-----------------------------------
 
             tideSite = null;
             tideSite = GetFilledRandomTideSite("");
 
-            // WebTideModel has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
-            string tideSiteWebTideModelMin = GetRandomString("", 100);
-            tideSite.WebTideModel = tideSiteWebTideModelMin;
-            Assert.AreEqual(true, tideSiteService.Add(tideSite));
-            Assert.AreEqual(0, tideSite.ValidationResults.Count());
-            Assert.AreEqual(tideSiteWebTideModelMin, tideSite.WebTideModel);
-            Assert.AreEqual(true, tideSiteService.Delete(tideSite));
-            Assert.AreEqual(0, tideSiteService.GetRead().Count());
-
-            // WebTideModel has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
-            tideSiteWebTideModelMin = GetRandomString("", 99);
-            tideSite.WebTideModel = tideSiteWebTideModelMin;
-            Assert.AreEqual(true, tideSiteService.Add(tideSite));
-            Assert.AreEqual(0, tideSite.ValidationResults.Count());
-            Assert.AreEqual(tideSiteWebTideModelMin, tideSite.WebTideModel);
-            Assert.AreEqual(true, tideSiteService.Delete(tideSite));
-            Assert.AreEqual(0, tideSiteService.GetRead().Count());
-
-            // WebTideModel has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
-            tideSiteWebTideModelMin = GetRandomString("", 101);
-            tideSite.WebTideModel = tideSiteWebTideModelMin;
-            Assert.AreEqual(false, tideSiteService.Add(tideSite));
-            Assert.IsTrue(tideSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideSiteWebTideModel, "100")).Any());
-            Assert.AreEqual(tideSiteWebTideModelMin, tideSite.WebTideModel);
-            Assert.AreEqual(0, tideSiteService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [WebTideDatum_m] of type [float]
+            // doing property [WebTideDatum_m] of type [Single]
             //-----------------------------------
 
             tideSite = null;
             tideSite = GetFilledRandomTideSite("");
-            // WebTideDatum_m has Min [0] and Max [100]. At Min should return true and no errors
-            tideSite.WebTideDatum_m = 0.0f;
+            // WebTideDatum_m has Min [-100] and Max [100]. At Min should return true and no errors
+            tideSite.WebTideDatum_m = -100.0f;
             Assert.AreEqual(true, tideSiteService.Add(tideSite));
             Assert.AreEqual(0, tideSite.ValidationResults.Count());
-            Assert.AreEqual(0.0f, tideSite.WebTideDatum_m);
+            Assert.AreEqual(-100.0f, tideSite.WebTideDatum_m);
             Assert.AreEqual(true, tideSiteService.Delete(tideSite));
             Assert.AreEqual(0, tideSiteService.GetRead().Count());
-            // WebTideDatum_m has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            tideSite.WebTideDatum_m = 1.0f;
+            // WebTideDatum_m has Min [-100] and Max [100]. At Min + 1 should return true and no errors
+            tideSite.WebTideDatum_m = -99.0f;
             Assert.AreEqual(true, tideSiteService.Add(tideSite));
             Assert.AreEqual(0, tideSite.ValidationResults.Count());
-            Assert.AreEqual(1.0f, tideSite.WebTideDatum_m);
+            Assert.AreEqual(-99.0f, tideSite.WebTideDatum_m);
             Assert.AreEqual(true, tideSiteService.Delete(tideSite));
             Assert.AreEqual(0, tideSiteService.GetRead().Count());
-            // WebTideDatum_m has Min [0] and Max [100]. At Min - 1 should return false with one error
-            tideSite.WebTideDatum_m = -1.0f;
+            // WebTideDatum_m has Min [-100] and Max [100]. At Min - 1 should return false with one error
+            tideSite.WebTideDatum_m = -101.0f;
             Assert.AreEqual(false, tideSiteService.Add(tideSite));
-            Assert.IsTrue(tideSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideSiteWebTideDatum_m, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, tideSite.WebTideDatum_m);
+            Assert.IsTrue(tideSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideSiteWebTideDatum_m, "-100", "100")).Any());
+            Assert.AreEqual(-101.0f, tideSite.WebTideDatum_m);
             Assert.AreEqual(0, tideSiteService.GetRead().Count());
-            // WebTideDatum_m has Min [0] and Max [100]. At Max should return true and no errors
+            // WebTideDatum_m has Min [-100] and Max [100]. At Max should return true and no errors
             tideSite.WebTideDatum_m = 100.0f;
             Assert.AreEqual(true, tideSiteService.Add(tideSite));
             Assert.AreEqual(0, tideSite.ValidationResults.Count());
             Assert.AreEqual(100.0f, tideSite.WebTideDatum_m);
             Assert.AreEqual(true, tideSiteService.Delete(tideSite));
             Assert.AreEqual(0, tideSiteService.GetRead().Count());
-            // WebTideDatum_m has Min [0] and Max [100]. At Max - 1 should return true and no errors
+            // WebTideDatum_m has Min [-100] and Max [100]. At Max - 1 should return true and no errors
             tideSite.WebTideDatum_m = 99.0f;
             Assert.AreEqual(true, tideSiteService.Add(tideSite));
             Assert.AreEqual(0, tideSite.ValidationResults.Count());
             Assert.AreEqual(99.0f, tideSite.WebTideDatum_m);
             Assert.AreEqual(true, tideSiteService.Delete(tideSite));
             Assert.AreEqual(0, tideSiteService.GetRead().Count());
-            // WebTideDatum_m has Min [0] and Max [100]. At Max + 1 should return false with one error
+            // WebTideDatum_m has Min [-100] and Max [100]. At Max + 1 should return false with one error
             tideSite.WebTideDatum_m = 101.0f;
             Assert.AreEqual(false, tideSiteService.Add(tideSite));
-            Assert.IsTrue(tideSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideSiteWebTideDatum_m, "0", "100")).Any());
+            Assert.IsTrue(tideSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideSiteWebTideDatum_m, "-100", "100")).Any());
             Assert.AreEqual(101.0f, tideSite.WebTideDatum_m);
             Assert.AreEqual(0, tideSiteService.GetRead().Count());
 
@@ -229,7 +207,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             tideSite = null;
@@ -254,6 +232,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(tideSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TideSiteLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, tideSite.LastUpdateContactTVItemID);
             Assert.AreEqual(0, tideSiteService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [TideSiteTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

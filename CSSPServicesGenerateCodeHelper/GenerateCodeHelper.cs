@@ -17,8 +17,12 @@ namespace CSSPServicesGenerateCodeHelper
         {
             csspProp.PropName = propInfo.Name;
 
+            csspProp.IsNullable = propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("CSSPAllowNullAttribute")).Any();
+
             if (propInfo.PropertyType.FullName.StartsWith("System.Nullable"))
             {
+                csspProp.IsNullable = true;
+
                 string typeTxt = propInfo.PropertyType.FullName;
                 typeTxt = typeTxt.Substring(typeTxt.IndexOf("[[") + 2);
                 typeTxt = typeTxt.Substring(typeTxt.IndexOf(".") + 1);
@@ -139,8 +143,6 @@ namespace CSSPServicesGenerateCodeHelper
                 CustomAttributeData customAttributeData = propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("CompareAttribute")).First();
                 csspProp.Compare = ((string)customAttributeData.ConstructorArguments.ToArray()[0].Value);
             }
-
-            csspProp.IsNullable = propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("CSSPAllowNullAttribute")).Any();
 
             if (propInfo.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("CSSPBiggerAttribute")).Any())
             {

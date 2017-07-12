@@ -61,6 +61,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             SamplingPlanSubsectorSiteService samplingPlanSubsectorSiteService = new SamplingPlanSubsectorSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            SamplingPlanSubsectorSite samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
 
             // -------------------------------
             // -------------------------------
@@ -68,7 +69,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            SamplingPlanSubsectorSite samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
             Assert.AreEqual(true, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
             Assert.AreEqual(true, samplingPlanSubsectorSiteService.GetRead().Where(c => c == samplingPlanSubsectorSite).Any());
             samplingPlanSubsectorSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -87,7 +87,7 @@ namespace CSSPServices.Tests
 
             // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
 
-            // IsDuplicate will automatically be initialized at false --> not null
+            // IsDuplicate will automatically be initialized at 0 --> not null
 
             samplingPlanSubsectorSite = null;
             samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("LastUpdateDate_UTC");
@@ -99,6 +99,12 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [MWQMSiteTVItem]
+
+            //Error: Type not implemented [SamplingPlanSubsector]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -108,11 +114,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [SamplingPlanSubsectorSiteID] of type [int]
+            // doing property [SamplingPlanSubsectorSiteID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SamplingPlanSubsectorID] of type [int]
+            // doing property [SamplingPlanSubsectorID] of type [Int32]
             //-----------------------------------
 
             samplingPlanSubsectorSite = null;
@@ -139,7 +145,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, samplingPlanSubsectorSiteService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [MWQMSiteTVItemID] of type [int]
+            // doing property [MWQMSiteTVItemID] of type [Int32]
             //-----------------------------------
 
             samplingPlanSubsectorSite = null;
@@ -166,7 +172,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, samplingPlanSubsectorSiteService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [IsDuplicate] of type [bool]
+            // doing property [IsDuplicate] of type [Boolean]
             //-----------------------------------
 
             //-----------------------------------
@@ -174,7 +180,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             samplingPlanSubsectorSite = null;
@@ -199,6 +205,18 @@ namespace CSSPServices.Tests
             Assert.IsTrue(samplingPlanSubsectorSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, samplingPlanSubsectorSite.LastUpdateContactTVItemID);
             Assert.AreEqual(0, samplingPlanSubsectorSiteService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [MWQMSiteTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [SamplingPlanSubsector] of type [SamplingPlanSubsector]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

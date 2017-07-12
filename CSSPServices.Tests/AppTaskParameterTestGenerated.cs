@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             AppTaskParameter appTaskParameter = new AppTaskParameter();
 
-            if (OmitPropName != "Name") appTaskParameter.Name = GetRandomString("", 0);
-            if (OmitPropName != "Value") appTaskParameter.Value = GetRandomString("", 0);
+            if (OmitPropName != "Name") appTaskParameter.Name = GetRandomString("", 5);
+            if (OmitPropName != "Value") appTaskParameter.Value = GetRandomString("", 5);
 
             return appTaskParameter;
         }
@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             AppTaskParameterService appTaskParameterService = new AppTaskParameterService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            AppTaskParameter appTaskParameter = GetFilledRandomAppTaskParameter("");
 
             // -------------------------------
             // -------------------------------

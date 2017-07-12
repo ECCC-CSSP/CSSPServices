@@ -52,8 +52,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LabSheetType") samplingPlan.LabSheetType = (LabSheetTypeEnum)GetRandomEnumType(typeof(LabSheetTypeEnum));
             if (OmitPropName != "ProvinceTVItemID") samplingPlan.ProvinceTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "CreatorTVItemID") samplingPlan.CreatorTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "Year") samplingPlan.Year = GetRandomInt(1980, 2050);
-            if (OmitPropName != "AccessCode") samplingPlan.AccessCode = GetRandomString("", 8);
+            if (OmitPropName != "Year") samplingPlan.Year = GetRandomInt(2000, 2050);
+            if (OmitPropName != "AccessCode") samplingPlan.AccessCode = GetRandomString("", 5);
             if (OmitPropName != "DailyDuplicatePrecisionCriteria") samplingPlan.DailyDuplicatePrecisionCriteria = GetRandomFloat(0, 100);
             if (OmitPropName != "IntertechDuplicatePrecisionCriteria") samplingPlan.IntertechDuplicatePrecisionCriteria = GetRandomFloat(0, 100);
             if (OmitPropName != "IncludeLaboratoryQAQC") samplingPlan.IncludeLaboratoryQAQC = true;
@@ -71,6 +71,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             SamplingPlanService samplingPlanService = new SamplingPlanService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            SamplingPlan samplingPlan = GetFilledRandomSamplingPlan("");
 
             // -------------------------------
             // -------------------------------
@@ -78,7 +79,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            SamplingPlan samplingPlan = GetFilledRandomSamplingPlan("");
             Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
             Assert.AreEqual(true, samplingPlanService.GetRead().Where(c => c == samplingPlan).Any());
             samplingPlan.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -109,29 +109,11 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, samplingPlan.ForGroupName);
             Assert.AreEqual(0, samplingPlanService.GetRead().Count());
 
-            samplingPlan = null;
-            samplingPlan = GetFilledRandomSamplingPlan("SampleType");
-            Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSampleType)).Any());
-            Assert.AreEqual(SampleTypeEnum.Error, samplingPlan.SampleType);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
+            //Error: Type not implemented [SampleType]
 
-            samplingPlan = null;
-            samplingPlan = GetFilledRandomSamplingPlan("SamplingPlanType");
-            Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanType)).Any());
-            Assert.AreEqual(SamplingPlanTypeEnum.Error, samplingPlan.SamplingPlanType);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
+            //Error: Type not implemented [SamplingPlanType]
 
-            samplingPlan = null;
-            samplingPlan = GetFilledRandomSamplingPlan("LabSheetType");
-            Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanLabSheetType)).Any());
-            Assert.AreEqual(LabSheetTypeEnum.Error, samplingPlan.LabSheetType);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
+            //Error: Type not implemented [LabSheetType]
 
             // ProvinceTVItemID will automatically be initialized at 0 --> not null
 
@@ -147,11 +129,11 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, samplingPlan.AccessCode);
             Assert.AreEqual(0, samplingPlanService.GetRead().Count());
 
-            // DailyDuplicatePrecisionCriteria will automatically be initialized at 0.0f --> not null
+            // DailyDuplicatePrecisionCriteria will automatically be initialized at 0 --> not null
 
-            // IntertechDuplicatePrecisionCriteria will automatically be initialized at 0.0f --> not null
+            // IntertechDuplicatePrecisionCriteria will automatically be initialized at 0 --> not null
 
-            // IncludeLaboratoryQAQC will automatically be initialized at false --> not null
+            // IncludeLaboratoryQAQC will automatically be initialized at 0 --> not null
 
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("LastUpdateDate_UTC");
@@ -163,6 +145,20 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [LabSheetDetails]
+
+            //Error: Type not implemented [LabSheets]
+
+            //Error: Type not implemented [SamplingPlanSubsectors]
+
+            //Error: Type not implemented [CreatorTVItem]
+
+            //Error: Type not implemented [ProvinceTVItem]
+
+            //Error: Type not implemented [SamplingPlanFileTVItem]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -172,74 +168,22 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [SamplingPlanID] of type [int]
+            // doing property [SamplingPlanID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SamplingPlanName] of type [string]
-            //-----------------------------------
-
-            samplingPlan = null;
-            samplingPlan = GetFilledRandomSamplingPlan("");
-
-            // SamplingPlanName has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
-            string samplingPlanSamplingPlanNameMin = GetRandomString("", 200);
-            samplingPlan.SamplingPlanName = samplingPlanSamplingPlanNameMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanSamplingPlanNameMin, samplingPlan.SamplingPlanName);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-
-            // SamplingPlanName has MinLength [empty] and MaxLength [200]. At Max - 1 should return true and no errors
-            samplingPlanSamplingPlanNameMin = GetRandomString("", 199);
-            samplingPlan.SamplingPlanName = samplingPlanSamplingPlanNameMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanSamplingPlanNameMin, samplingPlan.SamplingPlanName);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-
-            // SamplingPlanName has MinLength [empty] and MaxLength [200]. At Max + 1 should return false with one error
-            samplingPlanSamplingPlanNameMin = GetRandomString("", 201);
-            samplingPlan.SamplingPlanName = samplingPlanSamplingPlanNameMin;
-            Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanName, "200")).Any());
-            Assert.AreEqual(samplingPlanSamplingPlanNameMin, samplingPlan.SamplingPlanName);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-
-            //-----------------------------------
-            // doing property [ForGroupName] of type [string]
+            // doing property [SamplingPlanName] of type [String]
             //-----------------------------------
 
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("");
 
-            // ForGroupName has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
-            string samplingPlanForGroupNameMin = GetRandomString("", 100);
-            samplingPlan.ForGroupName = samplingPlanForGroupNameMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanForGroupNameMin, samplingPlan.ForGroupName);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
+            //-----------------------------------
+            // doing property [ForGroupName] of type [String]
+            //-----------------------------------
 
-            // ForGroupName has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
-            samplingPlanForGroupNameMin = GetRandomString("", 99);
-            samplingPlan.ForGroupName = samplingPlanForGroupNameMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanForGroupNameMin, samplingPlan.ForGroupName);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-
-            // ForGroupName has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
-            samplingPlanForGroupNameMin = GetRandomString("", 101);
-            samplingPlan.ForGroupName = samplingPlanForGroupNameMin;
-            Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanForGroupName, "100")).Any());
-            Assert.AreEqual(samplingPlanForGroupNameMin, samplingPlan.ForGroupName);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
+            samplingPlan = null;
+            samplingPlan = GetFilledRandomSamplingPlan("");
 
             //-----------------------------------
             // doing property [SampleType] of type [SampleTypeEnum]
@@ -254,7 +198,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ProvinceTVItemID] of type [int]
+            // doing property [ProvinceTVItemID] of type [Int32]
             //-----------------------------------
 
             samplingPlan = null;
@@ -281,7 +225,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, samplingPlanService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [CreatorTVItemID] of type [int]
+            // doing property [CreatorTVItemID] of type [Int32]
             //-----------------------------------
 
             samplingPlan = null;
@@ -308,113 +252,61 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, samplingPlanService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Year] of type [int]
+            // doing property [Year] of type [Int32]
             //-----------------------------------
 
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("");
-            // Year has Min [1980] and Max [2050]. At Min should return true and no errors
-            samplingPlan.Year = 1980;
+            // Year has Min [2000] and Max [2050]. At Min should return true and no errors
+            samplingPlan.Year = 2000;
             Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
             Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(1980, samplingPlan.Year);
+            Assert.AreEqual(2000, samplingPlan.Year);
             Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
             Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // Year has Min [1980] and Max [2050]. At Min + 1 should return true and no errors
-            samplingPlan.Year = 1981;
+            // Year has Min [2000] and Max [2050]. At Min + 1 should return true and no errors
+            samplingPlan.Year = 2001;
             Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
             Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(1981, samplingPlan.Year);
+            Assert.AreEqual(2001, samplingPlan.Year);
             Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
             Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // Year has Min [1980] and Max [2050]. At Min - 1 should return false with one error
-            samplingPlan.Year = 1979;
+            // Year has Min [2000] and Max [2050]. At Min - 1 should return false with one error
+            samplingPlan.Year = 1999;
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "1980", "2050")).Any());
-            Assert.AreEqual(1979, samplingPlan.Year);
+            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050")).Any());
+            Assert.AreEqual(1999, samplingPlan.Year);
             Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // Year has Min [1980] and Max [2050]. At Max should return true and no errors
+            // Year has Min [2000] and Max [2050]. At Max should return true and no errors
             samplingPlan.Year = 2050;
             Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
             Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
             Assert.AreEqual(2050, samplingPlan.Year);
             Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
             Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // Year has Min [1980] and Max [2050]. At Max - 1 should return true and no errors
+            // Year has Min [2000] and Max [2050]. At Max - 1 should return true and no errors
             samplingPlan.Year = 2049;
             Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
             Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
             Assert.AreEqual(2049, samplingPlan.Year);
             Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
             Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // Year has Min [1980] and Max [2050]. At Max + 1 should return false with one error
+            // Year has Min [2000] and Max [2050]. At Max + 1 should return false with one error
             samplingPlan.Year = 2051;
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "1980", "2050")).Any());
+            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050")).Any());
             Assert.AreEqual(2051, samplingPlan.Year);
             Assert.AreEqual(0, samplingPlanService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [AccessCode] of type [string]
+            // doing property [AccessCode] of type [String]
             //-----------------------------------
 
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("");
 
-            // AccessCode has MinLength [3] and MaxLength [15]. At Min should return true and no errors
-            string samplingPlanAccessCodeMin = GetRandomString("", 3);
-            samplingPlan.AccessCode = samplingPlanAccessCodeMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanAccessCodeMin, samplingPlan.AccessCode);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-
-            // AccessCode has MinLength [3] and MaxLength [15]. At Min + 1 should return true and no errors
-            samplingPlanAccessCodeMin = GetRandomString("", 4);
-            samplingPlan.AccessCode = samplingPlanAccessCodeMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanAccessCodeMin, samplingPlan.AccessCode);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-
-            // AccessCode has MinLength [3] and MaxLength [15]. At Min - 1 should return false with one error
-            samplingPlanAccessCodeMin = GetRandomString("", 2);
-            samplingPlan.AccessCode = samplingPlanAccessCodeMin;
-            Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.SamplingPlanAccessCode, "3", "15")).Any());
-            Assert.AreEqual(samplingPlanAccessCodeMin, samplingPlan.AccessCode);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-
-            // AccessCode has MinLength [3] and MaxLength [15]. At Max should return true and no errors
-            samplingPlanAccessCodeMin = GetRandomString("", 15);
-            samplingPlan.AccessCode = samplingPlanAccessCodeMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanAccessCodeMin, samplingPlan.AccessCode);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-
-            // AccessCode has MinLength [3] and MaxLength [15]. At Max - 1 should return true and no errors
-            samplingPlanAccessCodeMin = GetRandomString("", 14);
-            samplingPlan.AccessCode = samplingPlanAccessCodeMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanAccessCodeMin, samplingPlan.AccessCode);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-
-            // AccessCode has MinLength [3] and MaxLength [15]. At Max + 1 should return false with one error
-            samplingPlanAccessCodeMin = GetRandomString("", 16);
-            samplingPlan.AccessCode = samplingPlanAccessCodeMin;
-            Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.SamplingPlanAccessCode, "3", "15")).Any());
-            Assert.AreEqual(samplingPlanAccessCodeMin, samplingPlan.AccessCode);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [DailyDuplicatePrecisionCriteria] of type [float]
+            // doing property [DailyDuplicatePrecisionCriteria] of type [Single]
             //-----------------------------------
 
             samplingPlan = null;
@@ -461,7 +353,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, samplingPlanService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [IntertechDuplicatePrecisionCriteria] of type [float]
+            // doing property [IntertechDuplicatePrecisionCriteria] of type [Single]
             //-----------------------------------
 
             samplingPlan = null;
@@ -508,11 +400,11 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, samplingPlanService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [IncludeLaboratoryQAQC] of type [bool]
+            // doing property [IncludeLaboratoryQAQC] of type [Boolean]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SamplingPlanFileTVItemID] of type [int]
+            // doing property [SamplingPlanFileTVItemID] of type [Int32]
             //-----------------------------------
 
             samplingPlan = null;
@@ -543,7 +435,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             samplingPlan = null;
@@ -568,6 +460,34 @@ namespace CSSPServices.Tests
             Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, samplingPlan.LastUpdateContactTVItemID);
             Assert.AreEqual(0, samplingPlanService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [LabSheetDetails] of type [ICollection`1]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [LabSheets] of type [ICollection`1]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [SamplingPlanSubsectors] of type [ICollection`1]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [CreatorTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ProvinceTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [SamplingPlanFileTVItem] of type [TVItem]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

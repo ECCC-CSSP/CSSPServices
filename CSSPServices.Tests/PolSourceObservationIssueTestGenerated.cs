@@ -61,6 +61,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             PolSourceObservationIssueService polSourceObservationIssueService = new PolSourceObservationIssueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            PolSourceObservationIssue polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
 
             // -------------------------------
             // -------------------------------
@@ -68,7 +69,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            PolSourceObservationIssue polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
             Assert.AreEqual(true, polSourceObservationIssueService.Add(polSourceObservationIssue));
             Assert.AreEqual(true, polSourceObservationIssueService.GetRead().Where(c => c == polSourceObservationIssue).Any());
             polSourceObservationIssue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -105,6 +105,10 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [PolSourceObservation]
+
+            //Error: Type not implemented [ValidationResults]
+
 
             // -------------------------------
             // -------------------------------
@@ -114,11 +118,11 @@ namespace CSSPServices.Tests
 
 
             //-----------------------------------
-            // doing property [PolSourceObservationIssueID] of type [int]
+            // doing property [PolSourceObservationIssueID] of type [Int32]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [PolSourceObservationID] of type [int]
+            // doing property [PolSourceObservationID] of type [Int32]
             //-----------------------------------
 
             polSourceObservationIssue = null;
@@ -145,40 +149,14 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, polSourceObservationIssueService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [ObservationInfo] of type [string]
+            // doing property [ObservationInfo] of type [String]
             //-----------------------------------
 
             polSourceObservationIssue = null;
             polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
 
-            // ObservationInfo has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
-            string polSourceObservationIssueObservationInfoMin = GetRandomString("", 250);
-            polSourceObservationIssue.ObservationInfo = polSourceObservationIssueObservationInfoMin;
-            Assert.AreEqual(true, polSourceObservationIssueService.Add(polSourceObservationIssue));
-            Assert.AreEqual(0, polSourceObservationIssue.ValidationResults.Count());
-            Assert.AreEqual(polSourceObservationIssueObservationInfoMin, polSourceObservationIssue.ObservationInfo);
-            Assert.AreEqual(true, polSourceObservationIssueService.Delete(polSourceObservationIssue));
-            Assert.AreEqual(0, polSourceObservationIssueService.GetRead().Count());
-
-            // ObservationInfo has MinLength [empty] and MaxLength [250]. At Max - 1 should return true and no errors
-            polSourceObservationIssueObservationInfoMin = GetRandomString("", 249);
-            polSourceObservationIssue.ObservationInfo = polSourceObservationIssueObservationInfoMin;
-            Assert.AreEqual(true, polSourceObservationIssueService.Add(polSourceObservationIssue));
-            Assert.AreEqual(0, polSourceObservationIssue.ValidationResults.Count());
-            Assert.AreEqual(polSourceObservationIssueObservationInfoMin, polSourceObservationIssue.ObservationInfo);
-            Assert.AreEqual(true, polSourceObservationIssueService.Delete(polSourceObservationIssue));
-            Assert.AreEqual(0, polSourceObservationIssueService.GetRead().Count());
-
-            // ObservationInfo has MinLength [empty] and MaxLength [250]. At Max + 1 should return false with one error
-            polSourceObservationIssueObservationInfoMin = GetRandomString("", 251);
-            polSourceObservationIssue.ObservationInfo = polSourceObservationIssueObservationInfoMin;
-            Assert.AreEqual(false, polSourceObservationIssueService.Add(polSourceObservationIssue));
-            Assert.IsTrue(polSourceObservationIssue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationIssueObservationInfo, "250")).Any());
-            Assert.AreEqual(polSourceObservationIssueObservationInfoMin, polSourceObservationIssue.ObservationInfo);
-            Assert.AreEqual(0, polSourceObservationIssueService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [Ordinal] of type [int]
+            // doing property [Ordinal] of type [Int32]
             //-----------------------------------
 
             polSourceObservationIssue = null;
@@ -229,7 +207,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [int]
+            // doing property [LastUpdateContactTVItemID] of type [Int32]
             //-----------------------------------
 
             polSourceObservationIssue = null;
@@ -254,6 +232,14 @@ namespace CSSPServices.Tests
             Assert.IsTrue(polSourceObservationIssue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceObservationIssueLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, polSourceObservationIssue.LastUpdateContactTVItemID);
             Assert.AreEqual(0, polSourceObservationIssueService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [PolSourceObservation] of type [PolSourceObservation]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ValidationResults] of type [IEnumerable`1]
+            //-----------------------------------
 
         }
         #endregion Tests Generated

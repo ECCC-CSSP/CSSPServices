@@ -147,8 +147,6 @@ namespace CSSPServices
 
             //IncludeLaboratoryQAQC (bool) is required but no testing needed 
 
-                //Error: Type not implemented [SamplingPlanFileTVItemID] of type [Nullable`1]
-
             if (samplingPlan.SamplingPlanFileTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, "1"), new[] { ModelsRes.SamplingPlanSamplingPlanFileTVItemID });

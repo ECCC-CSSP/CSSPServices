@@ -44,12 +44,12 @@ namespace CSSPServices.Tests
 
             TVItemTVAuth tvItemTVAuth = new TVItemTVAuth();
 
-            if (OmitPropName != "Error") tvItemTVAuth.Error = GetRandomString("", 5);
+            if (OmitPropName != "Error") tvItemTVAuth.Error = GetRandomString("", 20);
             if (OmitPropName != "TVItemUserAuthID") tvItemTVAuth.TVItemUserAuthID = GetRandomInt(1, 11);
-            if (OmitPropName != "TVText") tvItemTVAuth.TVText = GetRandomString("", 1);
+            if (OmitPropName != "TVText") tvItemTVAuth.TVText = GetRandomString("", 5);
             if (OmitPropName != "TVItemID1") tvItemTVAuth.TVItemID1 = GetRandomInt(1, 11);
             if (OmitPropName != "TVTypeStr") tvItemTVAuth.TVTypeStr = GetRandomString("", 5);
-            if (OmitPropName != "TVAuth") tvItemTVAuth.TVAuth = (CSSPEnums.TVAuthEnum)GetRandomEnumType(typeof(CSSPEnums.TVAuthEnum));
+            if (OmitPropName != "TVAuth") tvItemTVAuth.TVAuth = (TVAuthEnum)GetRandomEnumType(typeof(TVAuthEnum));
 
             return tvItemTVAuth;
         }
@@ -61,6 +61,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             TVItemTVAuthService tvItemTVAuthService = new TVItemTVAuthService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVItemTVAuth tvItemTVAuth = GetFilledRandomTVItemTVAuth("");
 
             // -------------------------------
             // -------------------------------

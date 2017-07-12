@@ -44,12 +44,12 @@ namespace CSSPServices.Tests
 
             CSSPWQInputApp cSSPWQInputApp = new CSSPWQInputApp();
 
-            if (OmitPropName != "AccessCode") cSSPWQInputApp.AccessCode = GetRandomString("", 1);
+            if (OmitPropName != "AccessCode") cSSPWQInputApp.AccessCode = GetRandomString("", 5);
             if (OmitPropName != "ActiveYear") cSSPWQInputApp.ActiveYear = GetRandomString("", 4);
             if (OmitPropName != "DailyDuplicatePrecisionCriteria") cSSPWQInputApp.DailyDuplicatePrecisionCriteria = GetRandomFloat(0, 100);
             if (OmitPropName != "IntertechDuplicatePrecisionCriteria") cSSPWQInputApp.IntertechDuplicatePrecisionCriteria = GetRandomFloat(0, 100);
             if (OmitPropName != "IncludeLaboratoryQAQC") cSSPWQInputApp.IncludeLaboratoryQAQC = true;
-            if (OmitPropName != "ApprovalCode") cSSPWQInputApp.ApprovalCode = GetRandomString("", 1);
+            if (OmitPropName != "ApprovalCode") cSSPWQInputApp.ApprovalCode = GetRandomString("", 5);
             if (OmitPropName != "ApprovalDate") cSSPWQInputApp.ApprovalDate = GetRandomDateTime();
 
             return cSSPWQInputApp;
@@ -62,6 +62,7 @@ namespace CSSPServices.Tests
         {
             SetupTestHelper(culture);
             CSSPWQInputAppService cSSPWQInputAppService = new CSSPWQInputAppService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            CSSPWQInputApp cSSPWQInputApp = GetFilledRandomCSSPWQInputApp("");
 
             // -------------------------------
             // -------------------------------

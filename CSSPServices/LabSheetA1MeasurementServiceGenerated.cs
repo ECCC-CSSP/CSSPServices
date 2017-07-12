@@ -52,25 +52,13 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetA1MeasurementTVItemID, "1"), new[] { ModelsRes.LabSheetA1MeasurementTVItemID });
             }
 
-                //Error: Type not implemented [Time] of type [Nullable`1]
-
-                //Error: Type not implemented [MPN] of type [Nullable`1]
-
             //MPN has no Range Attribute
-
-                //Error: Type not implemented [Tube10] of type [Nullable`1]
 
             //Tube10 has no Range Attribute
 
-                //Error: Type not implemented [Tube1_0] of type [Nullable`1]
-
             //Tube1_0 has no Range Attribute
 
-                //Error: Type not implemented [Tube0_1] of type [Nullable`1]
-
             //Tube0_1 has no Range Attribute
-
-                //Error: Type not implemented [Salinity] of type [Nullable`1]
 
             //Salinity has no Range Attribute
 
@@ -84,8 +72,6 @@ namespace CSSPServices
             }
 
             //ProcessedBy has no StringLength Attribute
-
-                //Error: Type not implemented [SampleType] of type [Nullable`1]
 
                 //Error: Type not implemented [SampleType] of type [SampleTypeEnum]
             if (string.IsNullOrWhiteSpace(labSheetA1Measurement.SiteComment))

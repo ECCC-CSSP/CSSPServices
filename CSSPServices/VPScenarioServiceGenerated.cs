@@ -54,72 +54,128 @@ namespace CSSPServices
 
             //InfrastructureTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //InfrastructureTVItemID has no Range Attribute
+            if (vpScenario.InfrastructureTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPScenarioInfrastructureTVItemID, "1"), new[] { ModelsRes.VPScenarioInfrastructureTVItemID });
+            }
 
-                //Error: Type not implemented [VPScenarioStatus] of type [ScenarioStatusEnum]
+            if (!((from c in db.TVItems where c.TVItemID == vpScenario.InfrastructureTVItemID select c).Any()))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPScenarioInfrastructureTVItemID, vpScenario.InfrastructureTVItemID.ToString()), new[] { ModelsRes.VPScenarioInfrastructureTVItemID });
+            }
 
-                //Error: Type not implemented [VPScenarioStatus] of type [ScenarioStatusEnum]
+            retStr = enums.ScenarioStatusOK(vpScenario.VPScenarioStatus);
+            if (vpScenario.VPScenarioStatus == ScenarioStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioVPScenarioStatus), new[] { ModelsRes.VPScenarioVPScenarioStatus });
+            }
+
             //UseAsBestEstimate (bool) is required but no testing needed 
 
             //EffluentFlow_m3_s (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //EffluentFlow_m3_s has no Range Attribute
+            if (vpScenario.EffluentFlow_m3_s < 0 || vpScenario.EffluentFlow_m3_s > 1000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentFlow_m3_s, "0", "1000"), new[] { ModelsRes.VPScenarioEffluentFlow_m3_s });
+            }
 
             //EffluentConcentration_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //EffluentConcentration_MPN_100ml has no Range Attribute
+            if (vpScenario.EffluentConcentration_MPN_100ml < 0 || vpScenario.EffluentConcentration_MPN_100ml > 10000000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentConcentration_MPN_100ml, "0", "10000000"), new[] { ModelsRes.VPScenarioEffluentConcentration_MPN_100ml });
+            }
 
             //FroudeNumber (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //FroudeNumber has no Range Attribute
+            if (vpScenario.FroudeNumber < 0 || vpScenario.FroudeNumber > 10000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioFroudeNumber, "0", "10000"), new[] { ModelsRes.VPScenarioFroudeNumber });
+            }
 
             //PortDiameter_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //PortDiameter_m has no Range Attribute
+            if (vpScenario.PortDiameter_m < 0 || vpScenario.PortDiameter_m > 10)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortDiameter_m, "0", "10"), new[] { ModelsRes.VPScenarioPortDiameter_m });
+            }
 
             //PortDepth_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //PortDepth_m has no Range Attribute
+            if (vpScenario.PortDepth_m < 0 || vpScenario.PortDepth_m > 1000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortDepth_m, "0", "1000"), new[] { ModelsRes.VPScenarioPortDepth_m });
+            }
 
             //PortElevation_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //PortElevation_m has no Range Attribute
+            if (vpScenario.PortElevation_m < 0 || vpScenario.PortElevation_m > 1000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortElevation_m, "0", "1000"), new[] { ModelsRes.VPScenarioPortElevation_m });
+            }
 
             //VerticalAngle_deg (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //VerticalAngle_deg has no Range Attribute
+            if (vpScenario.VerticalAngle_deg < -90 || vpScenario.VerticalAngle_deg > 90)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioVerticalAngle_deg, "-90", "90"), new[] { ModelsRes.VPScenarioVerticalAngle_deg });
+            }
 
             //HorizontalAngle_deg (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //HorizontalAngle_deg has no Range Attribute
+            if (vpScenario.HorizontalAngle_deg < -180 || vpScenario.HorizontalAngle_deg > 180)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioHorizontalAngle_deg, "-180", "180"), new[] { ModelsRes.VPScenarioHorizontalAngle_deg });
+            }
 
             //NumberOfPorts (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //NumberOfPorts has no Range Attribute
+            if (vpScenario.NumberOfPorts < 1 || vpScenario.NumberOfPorts > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioNumberOfPorts, "1", "100"), new[] { ModelsRes.VPScenarioNumberOfPorts });
+            }
 
             //PortSpacing_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //PortSpacing_m has no Range Attribute
+            if (vpScenario.PortSpacing_m < 0 || vpScenario.PortSpacing_m > 1000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortSpacing_m, "0", "1000"), new[] { ModelsRes.VPScenarioPortSpacing_m });
+            }
 
             //AcuteMixZone_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //AcuteMixZone_m has no Range Attribute
+            if (vpScenario.AcuteMixZone_m < 0 || vpScenario.AcuteMixZone_m > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioAcuteMixZone_m, "0", "100"), new[] { ModelsRes.VPScenarioAcuteMixZone_m });
+            }
 
             //ChronicMixZone_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //ChronicMixZone_m has no Range Attribute
+            if (vpScenario.ChronicMixZone_m < 0 || vpScenario.ChronicMixZone_m > 40000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioChronicMixZone_m, "0", "40000"), new[] { ModelsRes.VPScenarioChronicMixZone_m });
+            }
 
             //EffluentSalinity_PSU (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //EffluentSalinity_PSU has no Range Attribute
+            if (vpScenario.EffluentSalinity_PSU < 0 || vpScenario.EffluentSalinity_PSU > 40)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentSalinity_PSU, "0", "40"), new[] { ModelsRes.VPScenarioEffluentSalinity_PSU });
+            }
 
             //EffluentTemperature_C (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //EffluentTemperature_C has no Range Attribute
+            if (vpScenario.EffluentTemperature_C < -10 || vpScenario.EffluentTemperature_C > 40)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentTemperature_C, "-10", "40"), new[] { ModelsRes.VPScenarioEffluentTemperature_C });
+            }
 
             //EffluentVelocity_m_s (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //EffluentVelocity_m_s has no Range Attribute
+            if (vpScenario.EffluentVelocity_m_s < 0 || vpScenario.EffluentVelocity_m_s > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentVelocity_m_s, "0", "100"), new[] { ModelsRes.VPScenarioEffluentVelocity_m_s });
+            }
 
             if (string.IsNullOrWhiteSpace(vpScenario.RawResults))
             {

@@ -82,8 +82,6 @@ namespace CSSPServices
 
             //Province has no StringLength Attribute
 
-                //Error: Type not implemented [Elevation_m] of type [Nullable`1]
-
             //Elevation_m has no Range Attribute
 
             if (string.IsNullOrWhiteSpace(climateSite.ClimateID))
@@ -92,8 +90,6 @@ namespace CSSPServices
             }
 
             //ClimateID has no StringLength Attribute
-
-                //Error: Type not implemented [WMOID] of type [Nullable`1]
 
             //WMOID has no Range Attribute
 
@@ -104,16 +100,12 @@ namespace CSSPServices
 
             //TCID has no StringLength Attribute
 
-                //Error: Type not implemented [IsProvincial] of type [Nullable`1]
-
             if (string.IsNullOrWhiteSpace(climateSite.ProvSiteID))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteProvSiteID), new[] { ModelsRes.ClimateSiteProvSiteID });
             }
 
             //ProvSiteID has no StringLength Attribute
-
-                //Error: Type not implemented [TimeOffset_hour] of type [Nullable`1]
 
             //TimeOffset_hour has no Range Attribute
 
@@ -123,24 +115,6 @@ namespace CSSPServices
             }
 
             //File_desc has no StringLength Attribute
-
-                //Error: Type not implemented [HourlyStartDate_Local] of type [Nullable`1]
-
-                //Error: Type not implemented [HourlyEndDate_Local] of type [Nullable`1]
-
-                //Error: Type not implemented [HourlyNow] of type [Nullable`1]
-
-                //Error: Type not implemented [DailyStartDate_Local] of type [Nullable`1]
-
-                //Error: Type not implemented [DailyEndDate_Local] of type [Nullable`1]
-
-                //Error: Type not implemented [DailyNow] of type [Nullable`1]
-
-                //Error: Type not implemented [MonthlyStartDate_Local] of type [Nullable`1]
-
-                //Error: Type not implemented [MonthlyEndDate_Local] of type [Nullable`1]
-
-                //Error: Type not implemented [MonthlyNow] of type [Nullable`1]
 
             if (climateSite.LastUpdateDate_UTC == null)
             {

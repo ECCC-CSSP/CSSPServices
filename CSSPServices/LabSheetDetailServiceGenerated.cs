@@ -115,40 +115,20 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailSampleCrewInitials, "20"), new[] { ModelsRes.LabSheetDetailSampleCrewInitials });
             }
 
-                //Error: Type not implemented [WaterBathCount] of type [Nullable`1]
-
             if (labSheetDetail.WaterBathCount < 1 || labSheetDetail.WaterBathCount > 3)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailWaterBathCount, "1", "3"), new[] { ModelsRes.LabSheetDetailWaterBathCount });
             }
-
-                //Error: Type not implemented [IncubationBath1StartTime] of type [Nullable`1]
-
-                //Error: Type not implemented [IncubationBath2StartTime] of type [Nullable`1]
-
-                //Error: Type not implemented [IncubationBath3StartTime] of type [Nullable`1]
-
-                //Error: Type not implemented [IncubationBath1EndTime] of type [Nullable`1]
-
-                //Error: Type not implemented [IncubationBath2EndTime] of type [Nullable`1]
-
-                //Error: Type not implemented [IncubationBath3EndTime] of type [Nullable`1]
-
-                //Error: Type not implemented [IncubationBath1TimeCalculated_minutes] of type [Nullable`1]
 
             if (labSheetDetail.IncubationBath1TimeCalculated_minutes < 0 || labSheetDetail.IncubationBath1TimeCalculated_minutes > 10000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIncubationBath1TimeCalculated_minutes, "0", "10000"), new[] { ModelsRes.LabSheetDetailIncubationBath1TimeCalculated_minutes });
             }
 
-                //Error: Type not implemented [IncubationBath2TimeCalculated_minutes] of type [Nullable`1]
-
             if (labSheetDetail.IncubationBath2TimeCalculated_minutes < 0 || labSheetDetail.IncubationBath2TimeCalculated_minutes > 10000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIncubationBath2TimeCalculated_minutes, "0", "10000"), new[] { ModelsRes.LabSheetDetailIncubationBath2TimeCalculated_minutes });
             }
-
-                //Error: Type not implemented [IncubationBath3TimeCalculated_minutes] of type [Nullable`1]
 
             if (labSheetDetail.IncubationBath3TimeCalculated_minutes < 0 || labSheetDetail.IncubationBath3TimeCalculated_minutes > 10000)
             {
@@ -170,42 +150,30 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailWaterBath3, "10"), new[] { ModelsRes.LabSheetDetailWaterBath3 });
             }
 
-                //Error: Type not implemented [TCField1] of type [Nullable`1]
-
             if (labSheetDetail.TCField1 < -10 || labSheetDetail.TCField1 > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCField1, "-10", "40"), new[] { ModelsRes.LabSheetDetailTCField1 });
             }
-
-                //Error: Type not implemented [TCLab1] of type [Nullable`1]
 
             if (labSheetDetail.TCLab1 < -10 || labSheetDetail.TCLab1 > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCLab1, "-10", "40"), new[] { ModelsRes.LabSheetDetailTCLab1 });
             }
 
-                //Error: Type not implemented [TCField2] of type [Nullable`1]
-
             if (labSheetDetail.TCField2 < -10 || labSheetDetail.TCField2 > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCField2, "-10", "40"), new[] { ModelsRes.LabSheetDetailTCField2 });
             }
-
-                //Error: Type not implemented [TCLab2] of type [Nullable`1]
 
             if (labSheetDetail.TCLab2 < -10 || labSheetDetail.TCLab2 > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCLab2, "-10", "40"), new[] { ModelsRes.LabSheetDetailTCLab2 });
             }
 
-                //Error: Type not implemented [TCFirst] of type [Nullable`1]
-
             if (labSheetDetail.TCFirst < -10 || labSheetDetail.TCFirst > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailTCFirst, "-10", "40"), new[] { ModelsRes.LabSheetDetailTCFirst });
             }
-
-                //Error: Type not implemented [TCAverage] of type [Nullable`1]
 
             if (labSheetDetail.TCAverage < -10 || labSheetDetail.TCAverage > 40)
             {
@@ -332,55 +300,35 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailSalinitiesReadBy, "20"), new[] { ModelsRes.LabSheetDetailSalinitiesReadBy });
             }
 
-                //Error: Type not implemented [SalinitiesReadDate] of type [Nullable`1]
-
             if (!string.IsNullOrWhiteSpace(labSheetDetail.ResultsReadBy) && labSheetDetail.ResultsReadBy.Length > 20)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailResultsReadBy, "20"), new[] { ModelsRes.LabSheetDetailResultsReadBy });
             }
-
-                //Error: Type not implemented [ResultsReadDate] of type [Nullable`1]
 
             if (!string.IsNullOrWhiteSpace(labSheetDetail.ResultsRecordedBy) && labSheetDetail.ResultsRecordedBy.Length > 20)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailResultsRecordedBy, "20"), new[] { ModelsRes.LabSheetDetailResultsRecordedBy });
             }
 
-                //Error: Type not implemented [ResultsRecordedDate] of type [Nullable`1]
-
-                //Error: Type not implemented [DailyDuplicateRlog] of type [Nullable`1]
-
             if (labSheetDetail.DailyDuplicateRlog < 0 || labSheetDetail.DailyDuplicateRlog > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailDailyDuplicateRlog, "0", "100"), new[] { ModelsRes.LabSheetDetailDailyDuplicateRlog });
             }
-
-                //Error: Type not implemented [DailyDuplicatePrecisionCriteria] of type [Nullable`1]
 
             if (labSheetDetail.DailyDuplicatePrecisionCriteria < 0 || labSheetDetail.DailyDuplicatePrecisionCriteria > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailDailyDuplicatePrecisionCriteria, "0", "100"), new[] { ModelsRes.LabSheetDetailDailyDuplicatePrecisionCriteria });
             }
 
-                //Error: Type not implemented [DailyDuplicateAcceptable] of type [Nullable`1]
-
-                //Error: Type not implemented [IntertechDuplicateRlog] of type [Nullable`1]
-
             if (labSheetDetail.IntertechDuplicateRlog < 0 || labSheetDetail.IntertechDuplicateRlog > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIntertechDuplicateRlog, "0", "100"), new[] { ModelsRes.LabSheetDetailIntertechDuplicateRlog });
             }
 
-                //Error: Type not implemented [IntertechDuplicatePrecisionCriteria] of type [Nullable`1]
-
             if (labSheetDetail.IntertechDuplicatePrecisionCriteria < 0 || labSheetDetail.IntertechDuplicatePrecisionCriteria > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIntertechDuplicatePrecisionCriteria, "0", "100"), new[] { ModelsRes.LabSheetDetailIntertechDuplicatePrecisionCriteria });
             }
-
-                //Error: Type not implemented [IntertechDuplicateAcceptable] of type [Nullable`1]
-
-                //Error: Type not implemented [IntertechReadAcceptable] of type [Nullable`1]
 
             if (labSheetDetail.LastUpdateDate_UTC == null)
             {

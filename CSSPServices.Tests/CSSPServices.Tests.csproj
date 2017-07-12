@@ -324,6 +324,8 @@
     <Compile Include="DocTemplateTestGenerated.cs" />
     <Compile Include="ElementLayerTestGenerated.cs" />
     <Compile Include="ElementTestGenerated.cs" />
+    <Compile Include="EmailDistributionListContactTestGenerated.cs" />
+    <Compile Include="EmailDistributionListTestGenerated.cs" />
     <Compile Include="EmailTestGenerated.cs" />
     <Compile Include="FileItemListTestGenerated.cs" />
     <Compile Include="FileItemTestGenerated.cs" />

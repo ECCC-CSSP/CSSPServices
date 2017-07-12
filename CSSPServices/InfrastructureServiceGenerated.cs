@@ -64,23 +64,13 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureInfrastructureTVItemID, infrastructure.InfrastructureTVItemID.ToString()), new[] { ModelsRes.InfrastructureInfrastructureTVItemID });
             }
 
-                //Error: Type not implemented [PrismID] of type [Nullable`1]
-
             //PrismID has no Range Attribute
-
-                //Error: Type not implemented [TPID] of type [Nullable`1]
 
             //TPID has no Range Attribute
 
-                //Error: Type not implemented [LSID] of type [Nullable`1]
-
             //LSID has no Range Attribute
 
-                //Error: Type not implemented [SiteID] of type [Nullable`1]
-
             //SiteID has no Range Attribute
-
-                //Error: Type not implemented [Site] of type [Nullable`1]
 
             //Site has no Range Attribute
 
@@ -107,16 +97,10 @@ namespace CSSPServices
                 }
             }
 
-                //Error: Type not implemented [IsMechanicallyAerated] of type [Nullable`1]
-
-                //Error: Type not implemented [NumberOfCells] of type [Nullable`1]
-
             if (infrastructure.NumberOfCells < 0 || infrastructure.NumberOfCells > 10)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNumberOfCells, "0", "10"), new[] { ModelsRes.InfrastructureNumberOfCells });
             }
-
-                //Error: Type not implemented [NumberOfAeratedCells] of type [Nullable`1]
 
             if (infrastructure.NumberOfAeratedCells < 0 || infrastructure.NumberOfAeratedCells > 10)
             {
@@ -204,44 +188,30 @@ namespace CSSPServices
                 }
             }
 
-                //Error: Type not implemented [DesignFlow_m3_day] of type [Nullable`1]
-
             if (infrastructure.DesignFlow_m3_day < 0 || infrastructure.DesignFlow_m3_day > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDesignFlow_m3_day, "0", "1000000"), new[] { ModelsRes.InfrastructureDesignFlow_m3_day });
             }
-
-                //Error: Type not implemented [AverageFlow_m3_day] of type [Nullable`1]
 
             if (infrastructure.AverageFlow_m3_day < 0 || infrastructure.AverageFlow_m3_day > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageFlow_m3_day, "0", "1000000"), new[] { ModelsRes.InfrastructureAverageFlow_m3_day });
             }
 
-                //Error: Type not implemented [PeakFlow_m3_day] of type [Nullable`1]
-
             if (infrastructure.PeakFlow_m3_day < 0 || infrastructure.PeakFlow_m3_day > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePeakFlow_m3_day, "0", "1000000"), new[] { ModelsRes.InfrastructurePeakFlow_m3_day });
             }
-
-                //Error: Type not implemented [PopServed] of type [Nullable`1]
 
             if (infrastructure.PopServed < 0 || infrastructure.PopServed > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePopServed, "0", "1000000"), new[] { ModelsRes.InfrastructurePopServed });
             }
 
-                //Error: Type not implemented [CanOverflow] of type [Nullable`1]
-
-                //Error: Type not implemented [PercFlowOfTotal] of type [Nullable`1]
-
             if (infrastructure.PercFlowOfTotal < 0 || infrastructure.PercFlowOfTotal > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePercFlowOfTotal, "0", "100"), new[] { ModelsRes.InfrastructurePercFlowOfTotal });
             }
-
-                //Error: Type not implemented [TimeOffset_hour] of type [Nullable`1]
 
             if (infrastructure.TimeOffset_hour < -10 || infrastructure.TimeOffset_hour > 0)
             {
@@ -250,102 +220,72 @@ namespace CSSPServices
 
             //TempCatchAllRemoveLater has no StringLength Attribute
 
-                //Error: Type not implemented [AverageDepth_m] of type [Nullable`1]
-
             if (infrastructure.AverageDepth_m < 0 || infrastructure.AverageDepth_m > 1000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageDepth_m, "0", "1000"), new[] { ModelsRes.InfrastructureAverageDepth_m });
             }
 
-                //Error: Type not implemented [NumberOfPorts] of type [Nullable`1]
-
             //NumberOfPorts has no Range Attribute
-
-                //Error: Type not implemented [PortDiameter_m] of type [Nullable`1]
 
             if (infrastructure.PortDiameter_m < 0 || infrastructure.PortDiameter_m > 10)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortDiameter_m, "0", "10"), new[] { ModelsRes.InfrastructurePortDiameter_m });
             }
 
-                //Error: Type not implemented [PortSpacing_m] of type [Nullable`1]
-
             if (infrastructure.PortSpacing_m < 0 || infrastructure.PortSpacing_m > 10000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortSpacing_m, "0", "10000"), new[] { ModelsRes.InfrastructurePortSpacing_m });
             }
-
-                //Error: Type not implemented [PortElevation_m] of type [Nullable`1]
 
             if (infrastructure.PortElevation_m < 0 || infrastructure.PortElevation_m > 1000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortElevation_m, "0", "1000"), new[] { ModelsRes.InfrastructurePortElevation_m });
             }
 
-                //Error: Type not implemented [VerticalAngle_deg] of type [Nullable`1]
-
             if (infrastructure.VerticalAngle_deg < -90 || infrastructure.VerticalAngle_deg > 90)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureVerticalAngle_deg, "-90", "90"), new[] { ModelsRes.InfrastructureVerticalAngle_deg });
             }
-
-                //Error: Type not implemented [HorizontalAngle_deg] of type [Nullable`1]
 
             if (infrastructure.HorizontalAngle_deg < -180 || infrastructure.HorizontalAngle_deg > 180)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureHorizontalAngle_deg, "-180", "180"), new[] { ModelsRes.InfrastructureHorizontalAngle_deg });
             }
 
-                //Error: Type not implemented [DecayRate_per_day] of type [Nullable`1]
-
             if (infrastructure.DecayRate_per_day < 0 || infrastructure.DecayRate_per_day > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDecayRate_per_day, "0", "100"), new[] { ModelsRes.InfrastructureDecayRate_per_day });
             }
-
-                //Error: Type not implemented [NearFieldVelocity_m_s] of type [Nullable`1]
 
             if (infrastructure.NearFieldVelocity_m_s < 0 || infrastructure.NearFieldVelocity_m_s > 10)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNearFieldVelocity_m_s, "0", "10"), new[] { ModelsRes.InfrastructureNearFieldVelocity_m_s });
             }
 
-                //Error: Type not implemented [FarFieldVelocity_m_s] of type [Nullable`1]
-
             if (infrastructure.FarFieldVelocity_m_s < 0 || infrastructure.FarFieldVelocity_m_s > 10)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureFarFieldVelocity_m_s, "0", "10"), new[] { ModelsRes.InfrastructureFarFieldVelocity_m_s });
             }
-
-                //Error: Type not implemented [ReceivingWaterSalinity_PSU] of type [Nullable`1]
 
             if (infrastructure.ReceivingWaterSalinity_PSU < 0 || infrastructure.ReceivingWaterSalinity_PSU > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWaterSalinity_PSU, "0", "40"), new[] { ModelsRes.InfrastructureReceivingWaterSalinity_PSU });
             }
 
-                //Error: Type not implemented [ReceivingWaterTemperature_C] of type [Nullable`1]
-
             if (infrastructure.ReceivingWaterTemperature_C < -10 || infrastructure.ReceivingWaterTemperature_C > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWaterTemperature_C, "-10", "40"), new[] { ModelsRes.InfrastructureReceivingWaterTemperature_C });
             }
-
-                //Error: Type not implemented [ReceivingWater_MPN_per_100ml] of type [Nullable`1]
 
             if (infrastructure.ReceivingWater_MPN_per_100ml < 0 || infrastructure.ReceivingWater_MPN_per_100ml > 10000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWater_MPN_per_100ml, "0", "10000000"), new[] { ModelsRes.InfrastructureReceivingWater_MPN_per_100ml });
             }
 
-                //Error: Type not implemented [DistanceFromShore_m] of type [Nullable`1]
-
             if (infrastructure.DistanceFromShore_m < 0 || infrastructure.DistanceFromShore_m > 1000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDistanceFromShore_m, "0", "1000"), new[] { ModelsRes.InfrastructureDistanceFromShore_m });
             }
-
-                //Error: Type not implemented [SeeOtherTVItemID] of type [Nullable`1]
 
             if (infrastructure.SeeOtherTVItemID < 1)
             {
@@ -356,8 +296,6 @@ namespace CSSPServices
             {
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureSeeOtherTVItemID, infrastructure.SeeOtherTVItemID.ToString()), new[] { ModelsRes.InfrastructureSeeOtherTVItemID });
             }
-
-                //Error: Type not implemented [CivicAddressTVItemID] of type [Nullable`1]
 
             if (infrastructure.CivicAddressTVItemID < 1)
             {
