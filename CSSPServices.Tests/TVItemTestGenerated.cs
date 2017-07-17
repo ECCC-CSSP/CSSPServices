@@ -133,6 +133,8 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [Emails]
 
+            //Error: Type not implemented [EmailDistributionLists]
+
             //Error: Type not implemented [HydrometricSites]
 
             //Error: Type not implemented [Infrastructures]
@@ -399,6 +401,10 @@ namespace CSSPServices.Tests
 
             //-----------------------------------
             // doing property [Emails] of type [ICollection`1]
+            //-----------------------------------
+
+            //-----------------------------------
+            // doing property [EmailDistributionLists] of type [ICollection`1]
             //-----------------------------------
 
             //-----------------------------------
