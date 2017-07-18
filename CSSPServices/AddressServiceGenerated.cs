@@ -52,8 +52,6 @@ namespace CSSPServices
 
             //AddressID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //AddressTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
             if (address.AddressTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressAddressTVItemID, "1"), new[] { ModelsRes.AddressAddressTVItemID });

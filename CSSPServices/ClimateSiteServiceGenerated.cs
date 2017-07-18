@@ -66,55 +66,115 @@ namespace CSSPServices
 
             //ECDBID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //ECDBID has no Range Attribute
+            if (climateSite.ECDBID < 1 || climateSite.ECDBID > 100000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteECDBID, "1", "100000"), new[] { ModelsRes.ClimateSiteECDBID });
+            }
 
             if (string.IsNullOrWhiteSpace(climateSite.ClimateSiteName))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteClimateSiteName), new[] { ModelsRes.ClimateSiteClimateSiteName });
             }
 
-            //ClimateSiteName has no StringLength Attribute
+            if (!string.IsNullOrWhiteSpace(climateSite.ClimateSiteName) && climateSite.ClimateSiteName.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteClimateSiteName, "100"), new[] { ModelsRes.ClimateSiteClimateSiteName });
+            }
 
             if (string.IsNullOrWhiteSpace(climateSite.Province))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteProvince), new[] { ModelsRes.ClimateSiteProvince });
             }
 
-            //Province has no StringLength Attribute
+            if (!string.IsNullOrWhiteSpace(climateSite.Province) && climateSite.Province.Length > 4)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteProvince, "4"), new[] { ModelsRes.ClimateSiteProvince });
+            }
 
-            //Elevation_m has no Range Attribute
+            if (climateSite.Elevation_m < 0 || climateSite.Elevation_m > 10000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteElevation_m, "0", "10000"), new[] { ModelsRes.ClimateSiteElevation_m });
+            }
 
             if (string.IsNullOrWhiteSpace(climateSite.ClimateID))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteClimateID), new[] { ModelsRes.ClimateSiteClimateID });
             }
 
-            //ClimateID has no StringLength Attribute
+            if (!string.IsNullOrWhiteSpace(climateSite.ClimateID) && climateSite.ClimateID.Length > 10)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteClimateID, "10"), new[] { ModelsRes.ClimateSiteClimateID });
+            }
 
-            //WMOID has no Range Attribute
+            if (climateSite.WMOID < 1 || climateSite.WMOID > 100000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteWMOID, "1", "100000"), new[] { ModelsRes.ClimateSiteWMOID });
+            }
 
             if (string.IsNullOrWhiteSpace(climateSite.TCID))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteTCID), new[] { ModelsRes.ClimateSiteTCID });
             }
 
-            //TCID has no StringLength Attribute
+            if (!string.IsNullOrWhiteSpace(climateSite.TCID) && climateSite.TCID.Length > 3)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteTCID, "3"), new[] { ModelsRes.ClimateSiteTCID });
+            }
 
             if (string.IsNullOrWhiteSpace(climateSite.ProvSiteID))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteProvSiteID), new[] { ModelsRes.ClimateSiteProvSiteID });
             }
 
-            //ProvSiteID has no StringLength Attribute
+            if (!string.IsNullOrWhiteSpace(climateSite.ProvSiteID) && climateSite.ProvSiteID.Length > 50)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteProvSiteID, "50"), new[] { ModelsRes.ClimateSiteProvSiteID });
+            }
 
-            //TimeOffset_hour has no Range Attribute
+            if (climateSite.TimeOffset_hour < -10 || climateSite.TimeOffset_hour > 0)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteTimeOffset_hour, "-10", "0"), new[] { ModelsRes.ClimateSiteTimeOffset_hour });
+            }
 
             if (string.IsNullOrWhiteSpace(climateSite.File_desc))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteFile_desc), new[] { ModelsRes.ClimateSiteFile_desc });
             }
 
-            //File_desc has no StringLength Attribute
+            if (!string.IsNullOrWhiteSpace(climateSite.File_desc) && climateSite.File_desc.Length > 50)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteFile_desc, "50"), new[] { ModelsRes.ClimateSiteFile_desc });
+            }
+
+            if (climateSite.HourlyStartDate_Local != null && ((DateTime)climateSite.HourlyStartDate_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ClimateSiteHourlyStartDate_Local, "1980"), new[] { ModelsRes.ClimateSiteHourlyStartDate_Local });
+            }
+
+            if (climateSite.HourlyEndDate_Local != null && ((DateTime)climateSite.HourlyEndDate_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ClimateSiteHourlyEndDate_Local, "1980"), new[] { ModelsRes.ClimateSiteHourlyEndDate_Local });
+            }
+
+            if (climateSite.DailyStartDate_Local != null && ((DateTime)climateSite.DailyStartDate_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ClimateSiteDailyStartDate_Local, "1980"), new[] { ModelsRes.ClimateSiteDailyStartDate_Local });
+            }
+
+            if (climateSite.DailyEndDate_Local != null && ((DateTime)climateSite.DailyEndDate_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ClimateSiteDailyEndDate_Local, "1980"), new[] { ModelsRes.ClimateSiteDailyEndDate_Local });
+            }
+
+            if (climateSite.MonthlyStartDate_Local != null && ((DateTime)climateSite.MonthlyStartDate_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ClimateSiteMonthlyStartDate_Local, "1980"), new[] { ModelsRes.ClimateSiteMonthlyStartDate_Local });
+            }
+
+            if (climateSite.MonthlyEndDate_Local != null && ((DateTime)climateSite.MonthlyEndDate_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ClimateSiteMonthlyEndDate_Local, "1980"), new[] { ModelsRes.ClimateSiteMonthlyEndDate_Local });
+            }
 
             if (climateSite.LastUpdateDate_UTC == null)
             {

@@ -90,8 +90,6 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            // AddressTVItemID will automatically be initialized at 0 --> not null
-
             //Error: Type not implemented [AddressType]
 
             // CountryTVItemID will automatically be initialized at 0 --> not null

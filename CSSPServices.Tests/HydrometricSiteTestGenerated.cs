@@ -51,11 +51,11 @@ namespace CSSPServices.Tests
             if (OmitPropName != "HydrometricSiteName") hydrometricSite.HydrometricSiteName = GetRandomString("", 5);
             if (OmitPropName != "Description") hydrometricSite.Description = GetRandomString("", 5);
             if (OmitPropName != "Province") hydrometricSite.Province = GetRandomString("", 4);
-            if (OmitPropName != "Elevation_m") hydrometricSite.Elevation_m = GetRandomFloat(0, 10000);
+            if (OmitPropName != "Elevation_m") hydrometricSite.Elevation_m = GetRandomFloat(0.0f, 10000.0f);
             if (OmitPropName != "StartDate_Local") hydrometricSite.StartDate_Local = GetRandomDateTime();
             if (OmitPropName != "EndDate_Local") hydrometricSite.EndDate_Local = GetRandomDateTime();
-            if (OmitPropName != "TimeOffset_hour") hydrometricSite.TimeOffset_hour = GetRandomFloat(-10, 0);
-            if (OmitPropName != "DrainageArea_km2") hydrometricSite.DrainageArea_km2 = GetRandomFloat(0, 1000000);
+            if (OmitPropName != "TimeOffset_hour") hydrometricSite.TimeOffset_hour = GetRandomFloat(-10.0f, 0.0f);
+            if (OmitPropName != "DrainageArea_km2") hydrometricSite.DrainageArea_km2 = GetRandomFloat(0.0f, 1000000.0f);
             if (OmitPropName != "IsNatural") hydrometricSite.IsNatural = true;
             if (OmitPropName != "IsActive") hydrometricSite.IsActive = true;
             if (OmitPropName != "Sediment") hydrometricSite.Sediment = true;

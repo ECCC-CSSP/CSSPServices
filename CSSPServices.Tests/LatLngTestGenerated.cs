@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             LatLng latLng = new LatLng();
 
-            if (OmitPropName != "Lat") latLng.Lat = GetRandomFloat(-180, 180);
-            if (OmitPropName != "Lng") latLng.Lng = GetRandomFloat(-90, 90);
+            if (OmitPropName != "Lat") latLng.Lat = GetRandomFloat(-180.0f, 180.0f);
+            if (OmitPropName != "Lng") latLng.Lng = GetRandomFloat(-90.0f, 90.0f);
 
             return latLng;
         }

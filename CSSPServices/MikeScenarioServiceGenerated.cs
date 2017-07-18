@@ -107,6 +107,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeScenarioMikeScenarioEndDateTime_Local, "1980"), new[] { ModelsRes.MikeScenarioMikeScenarioEndDateTime_Local });
             }
 
+            if (mikeScenario.MikeScenarioStartExecutionDateTime_Local != null && ((DateTime)mikeScenario.MikeScenarioStartExecutionDateTime_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeScenarioMikeScenarioStartExecutionDateTime_Local, "1980"), new[] { ModelsRes.MikeScenarioMikeScenarioStartExecutionDateTime_Local });
+            }
+
             if (mikeScenario.MikeScenarioExecutionTime_min < 1 || mikeScenario.MikeScenarioExecutionTime_min > 100000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioMikeScenarioExecutionTime_min, "1", "100000"), new[] { ModelsRes.MikeScenarioMikeScenarioExecutionTime_min });
@@ -185,9 +190,9 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfSigmaLayers, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfSigmaLayers });
             }
 
-            if (mikeScenario.NumberOfZlayers < 0 || mikeScenario.NumberOfZlayers > 100)
+            if (mikeScenario.NumberOfZLayers < 0 || mikeScenario.NumberOfZLayers > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfZlayers, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfZlayers });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfZLayers, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfZLayers });
             }
 
             if (mikeScenario.NumberOfHydroOutputParameters < 0 || mikeScenario.NumberOfHydroOutputParameters > 100)

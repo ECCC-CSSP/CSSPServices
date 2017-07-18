@@ -83,6 +83,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetTubeMPNDetailMWQMSiteTVItemID, labSheetTubeMPNDetail.MWQMSiteTVItemID.ToString()), new[] { ModelsRes.LabSheetTubeMPNDetailMWQMSiteTVItemID });
             }
 
+            if (labSheetTubeMPNDetail.SampleDateTime != null && ((DateTime)labSheetTubeMPNDetail.SampleDateTime).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetTubeMPNDetailSampleDateTime, "1980"), new[] { ModelsRes.LabSheetTubeMPNDetailSampleDateTime });
+            }
+
             if (labSheetTubeMPNDetail.MPN < 1 || labSheetTubeMPNDetail.MPN > 10000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailMPN, "1", "10000000"), new[] { ModelsRes.LabSheetTubeMPNDetailMPN });

@@ -46,8 +46,8 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "RatingCurveValueID") ratingCurveValue.RatingCurveValueID = RatingCurveValueID;
             if (OmitPropName != "RatingCurveID") ratingCurveValue.RatingCurveID = GetRandomInt(1, 11);
-            if (OmitPropName != "StageValue_m") ratingCurveValue.StageValue_m = GetRandomFloat(0, 1000);
-            if (OmitPropName != "DischargeValue_m3_s") ratingCurveValue.DischargeValue_m3_s = GetRandomFloat(0, 1000000);
+            if (OmitPropName != "StageValue_m") ratingCurveValue.StageValue_m = GetRandomFloat(0.0f, 1000.0f);
+            if (OmitPropName != "DischargeValue_m3_s") ratingCurveValue.DischargeValue_m3_s = GetRandomFloat(0.0f, 1000000.0f);
             if (OmitPropName != "LastUpdateDate_UTC") ratingCurveValue.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") ratingCurveValue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 

@@ -64,15 +64,30 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureInfrastructureTVItemID, infrastructure.InfrastructureTVItemID.ToString()), new[] { ModelsRes.InfrastructureInfrastructureTVItemID });
             }
 
-            //PrismID has no Range Attribute
+            if (infrastructure.PrismID < 0 || infrastructure.PrismID > 100000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePrismID, "0", "100000"), new[] { ModelsRes.InfrastructurePrismID });
+            }
 
-            //TPID has no Range Attribute
+            if (infrastructure.TPID < 0 || infrastructure.TPID > 100000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureTPID, "0", "100000"), new[] { ModelsRes.InfrastructureTPID });
+            }
 
-            //LSID has no Range Attribute
+            if (infrastructure.LSID < 0 || infrastructure.LSID > 100000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureLSID, "0", "100000"), new[] { ModelsRes.InfrastructureLSID });
+            }
 
-            //SiteID has no Range Attribute
+            if (infrastructure.SiteID < 0 || infrastructure.SiteID > 100000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureSiteID, "0", "100000"), new[] { ModelsRes.InfrastructureSiteID });
+            }
 
-            //Site has no Range Attribute
+            if (infrastructure.Site < 0 || infrastructure.Site > 100000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureSite, "0", "100000"), new[] { ModelsRes.InfrastructureSite });
+            }
 
             if (!string.IsNullOrWhiteSpace(infrastructure.InfrastructureCategory) && (infrastructure.InfrastructureCategory.Length < 1 || infrastructure.InfrastructureCategory.Length > 1))
             {
@@ -225,7 +240,10 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageDepth_m, "0", "1000"), new[] { ModelsRes.InfrastructureAverageDepth_m });
             }
 
-            //NumberOfPorts has no Range Attribute
+            if (infrastructure.NumberOfPorts < 1 || infrastructure.NumberOfPorts > 1000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNumberOfPorts, "1", "1000"), new[] { ModelsRes.InfrastructureNumberOfPorts });
+            }
 
             if (infrastructure.PortDiameter_m < 0 || infrastructure.PortDiameter_m > 10)
             {

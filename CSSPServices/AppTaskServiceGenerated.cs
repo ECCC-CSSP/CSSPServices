@@ -76,16 +76,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID2, appTask.TVItemID2.ToString()), new[] { ModelsRes.AppTaskTVItemID2 });
             }
 
-            retStr = enums.AppTaskCommandOK(appTask.Command);
-            if (appTask.Command == AppTaskCommandEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            retStr = enums.AppTaskCommandOK(appTask.AppTaskCommand);
+            if (appTask.AppTaskCommand == AppTaskCommandEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskCommand), new[] { ModelsRes.AppTaskCommand });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskCommand), new[] { ModelsRes.AppTaskAppTaskCommand });
             }
 
-            retStr = enums.AppTaskStatusOK(appTask.Status);
-            if (appTask.Status == AppTaskStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            retStr = enums.AppTaskStatusOK(appTask.AppTaskStatus);
+            if (appTask.AppTaskStatus == AppTaskStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskStatus), new[] { ModelsRes.AppTaskStatus });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskStatus), new[] { ModelsRes.AppTaskAppTaskStatus });
             }
 
             //PercentCompleted (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -118,9 +118,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppTaskStartDateTime_UTC, "1980"), new[] { ModelsRes.AppTaskStartDateTime_UTC });
             }
 
-            if (appTask.EndDateTime_UTC < appTask.StartDateTime_UTC)
+            if (appTask.EndDateTime_UTC != null && ((DateTime)appTask.EndDateTime_UTC).Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.AppTaskStartDateTime_UTC, ModelsRes.AppTaskEndDateTime_UTC), new[] { ModelsRes.AppTaskStartDateTime_UTC });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppTaskEndDateTime_UTC, "1980"), new[] { ModelsRes.AppTaskEndDateTime_UTC });
+            }
+
+            if (appTask.StartDateTime_UTC < appTask.EndDateTime_UTC)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.AppTaskEndDateTime_UTC, ModelsRes.AppTaskStartDateTime_UTC), new[] { ModelsRes.AppTaskEndDateTime_UTC });
             }
 
             if (appTask.EstimatedLength_second < 0 || appTask.EstimatedLength_second > 1000000)

@@ -54,9 +54,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "CreatorTVItemID") samplingPlan.CreatorTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "Year") samplingPlan.Year = GetRandomInt(2000, 2050);
             if (OmitPropName != "AccessCode") samplingPlan.AccessCode = GetRandomString("", 5);
-            if (OmitPropName != "DailyDuplicatePrecisionCriteria") samplingPlan.DailyDuplicatePrecisionCriteria = GetRandomFloat(0, 100);
-            if (OmitPropName != "IntertechDuplicatePrecisionCriteria") samplingPlan.IntertechDuplicatePrecisionCriteria = GetRandomFloat(0, 100);
+            if (OmitPropName != "DailyDuplicatePrecisionCriteria") samplingPlan.DailyDuplicatePrecisionCriteria = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "IntertechDuplicatePrecisionCriteria") samplingPlan.IntertechDuplicatePrecisionCriteria = GetRandomFloat(0.0f, 100.0f);
             if (OmitPropName != "IncludeLaboratoryQAQC") samplingPlan.IncludeLaboratoryQAQC = true;
+            if (OmitPropName != "ApprovalCode") samplingPlan.ApprovalCode = GetRandomString("", 5);
             if (OmitPropName != "SamplingPlanFileTVItemID") samplingPlan.SamplingPlanFileTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "LastUpdateDate_UTC") samplingPlan.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") samplingPlan.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -134,6 +135,14 @@ namespace CSSPServices.Tests
             // IntertechDuplicatePrecisionCriteria will automatically be initialized at 0 --> not null
 
             // IncludeLaboratoryQAQC will automatically be initialized at 0 --> not null
+
+            samplingPlan = null;
+            samplingPlan = GetFilledRandomSamplingPlan("ApprovalCode");
+            Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+            Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
+            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanApprovalCode)).Any());
+            Assert.AreEqual(null, samplingPlan.ApprovalCode);
+            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
 
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("LastUpdateDate_UTC");
@@ -402,6 +411,13 @@ namespace CSSPServices.Tests
             //-----------------------------------
             // doing property [IncludeLaboratoryQAQC] of type [Boolean]
             //-----------------------------------
+
+            //-----------------------------------
+            // doing property [ApprovalCode] of type [String]
+            //-----------------------------------
+
+            samplingPlan = null;
+            samplingPlan = GetFilledRandomSamplingPlan("");
 
             //-----------------------------------
             // doing property [SamplingPlanFileTVItemID] of type [Int32]

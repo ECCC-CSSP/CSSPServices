@@ -9,25 +9,18 @@ using System.Windows.Forms;
 
 namespace CSSPServicesGenerateCodeHelper
 {
-    public partial class GenerateFillDBTesting
+    public partial class GenerateFillDBTesting : GenerateCodeHelper
     {
         #region Variables
         #endregion Variables
 
         #region Properties
-        private string DLLFileName { get; set; }
-        private RichTextBox RichTextBoxStatus { get; set; }
-        private Label LabelStatus { get; set; }
-        private string GenerateFilePath { get; set; }
         #endregion Properties
 
         #region Constructors
         public GenerateFillDBTesting(string DLLFileName, string GenerateFilePath, RichTextBox richTextBoxStatus, Label lblStatus)
+            : base(DLLFileName, GenerateFilePath, richTextBoxStatus, lblStatus)
         {
-            this.DLLFileName = DLLFileName;
-            this.RichTextBoxStatus = richTextBoxStatus;
-            this.LabelStatus = lblStatus;
-            this.GenerateFilePath = GenerateFilePath;
         }
         #endregion Constructors
 
@@ -96,15 +89,7 @@ namespace CSSPServicesGenerateCodeHelper
                 LabelStatus.Refresh();
                 Application.DoEvents();
 
-                if (type.Name.StartsWith("<")
-                                    || type.Name.StartsWith("ModelsRes")
-                                    || type.Name.StartsWith("Application")
-                                    || type.Name.StartsWith("CSSPAfter")
-                                    || type.Name.StartsWith("CSSPAllowNull")
-                                    || type.Name.StartsWith("CSSPBigger")
-                                    || type.Name.StartsWith("CSSPEnumType")
-                                    || type.Name.StartsWith("CSSPExist")
-                                    || type.Name.StartsWith("CSSPWebToolsDBContext"))
+                if (ModelGenerateCodeHelper.SkipType(type))
                 {
                     continue;
                 }
@@ -136,15 +121,7 @@ namespace CSSPServicesGenerateCodeHelper
                     TypeNameLower = type.Name.Substring(0, 1).ToLower() + type.Name.Substring(1);
                 }
 
-                if (type.Name.StartsWith("<")
-                                || type.Name.StartsWith("ModelsRes")
-                                || type.Name.StartsWith("Application")
-                                || type.Name.StartsWith("CSSPAfter")
-                                || type.Name.StartsWith("CSSPAllowNull")
-                                || type.Name.StartsWith("CSSPBigger")
-                                || type.Name.StartsWith("CSSPEnumType")
-                                || type.Name.StartsWith("CSSPExist")
-                                || type.Name.StartsWith("CSSPWebToolsDBContext"))
+                if (ModelGenerateCodeHelper.SkipType(type))
                 {
                     continue;
                 }

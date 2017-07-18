@@ -47,8 +47,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "AppTaskID") appTask.AppTaskID = AppTaskID;
             if (OmitPropName != "TVItemID") appTask.TVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "TVItemID2") appTask.TVItemID2 = GetRandomInt(1, 11);
-            if (OmitPropName != "Command") appTask.Command = (AppTaskCommandEnum)GetRandomEnumType(typeof(AppTaskCommandEnum));
-            if (OmitPropName != "Status") appTask.Status = (AppTaskStatusEnum)GetRandomEnumType(typeof(AppTaskStatusEnum));
+            if (OmitPropName != "AppTaskCommand") appTask.AppTaskCommand = (AppTaskCommandEnum)GetRandomEnumType(typeof(AppTaskCommandEnum));
+            if (OmitPropName != "AppTaskStatus") appTask.AppTaskStatus = (AppTaskStatusEnum)GetRandomEnumType(typeof(AppTaskStatusEnum));
             if (OmitPropName != "PercentCompleted") appTask.PercentCompleted = GetRandomInt(0, 100);
             if (OmitPropName != "Parameters") appTask.Parameters = GetRandomString("", 20);
             if (OmitPropName != "Language") appTask.Language = language;
@@ -95,9 +95,9 @@ namespace CSSPServices.Tests
 
             // TVItemID2 will automatically be initialized at 0 --> not null
 
-            //Error: Type not implemented [Command]
+            //Error: Type not implemented [AppTaskCommand]
 
-            //Error: Type not implemented [Status]
+            //Error: Type not implemented [AppTaskStatus]
 
             // PercentCompleted will automatically be initialized at 0 --> not null
 
@@ -204,11 +204,11 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appTaskService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Command] of type [AppTaskCommandEnum]
+            // doing property [AppTaskCommand] of type [AppTaskCommandEnum]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Status] of type [AppTaskStatusEnum]
+            // doing property [AppTaskStatus] of type [AppTaskStatusEnum]
             //-----------------------------------
 
             //-----------------------------------

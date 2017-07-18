@@ -47,8 +47,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MapInfoPointID") mapInfoPoint.MapInfoPointID = MapInfoPointID;
             if (OmitPropName != "MapInfoID") mapInfoPoint.MapInfoID = GetRandomInt(1, 11);
             if (OmitPropName != "Ordinal") mapInfoPoint.Ordinal = GetRandomInt(0, 10);
-            if (OmitPropName != "Lat") mapInfoPoint.Lat = GetRandomFloat(-90, 90);
-            if (OmitPropName != "Lng") mapInfoPoint.Lng = GetRandomFloat(-180, 180);
+            if (OmitPropName != "Lat") mapInfoPoint.Lat = GetRandomFloat(-90.0f, 90.0f);
+            if (OmitPropName != "Lng") mapInfoPoint.Lng = GetRandomFloat(-180.0f, 180.0f);
             if (OmitPropName != "LastUpdateDate_UTC") mapInfoPoint.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") mapInfoPoint.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 

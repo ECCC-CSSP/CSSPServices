@@ -101,9 +101,12 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionFormat, "100"), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionFormat });
             }
 
-                //Error: Type not implemented [MikeBoundaryConditionLevelOrVelocity] of type [MikeBoundaryConditionLevelOrVelocityEnum]
+            retStr = enums.MikeBoundaryConditionLevelOrVelocityOK(mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity);
+            if (mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity == MikeBoundaryConditionLevelOrVelocityEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLevelOrVelocity), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLevelOrVelocity });
+            }
 
-                //Error: Type not implemented [MikeBoundaryConditionLevelOrVelocity] of type [MikeBoundaryConditionLevelOrVelocityEnum]
             retStr = enums.WebTideDataSetOK(mikeBoundaryCondition.WebTideDataSet);
             if (mikeBoundaryCondition.WebTideDataSet == WebTideDataSetEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {

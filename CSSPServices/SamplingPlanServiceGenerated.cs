@@ -147,6 +147,16 @@ namespace CSSPServices
 
             //IncludeLaboratoryQAQC (bool) is required but no testing needed 
 
+            if (string.IsNullOrWhiteSpace(samplingPlan.ApprovalCode))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanApprovalCode), new[] { ModelsRes.SamplingPlanApprovalCode });
+            }
+
+            if (!string.IsNullOrWhiteSpace(samplingPlan.ApprovalCode) && samplingPlan.ApprovalCode.Length > 15)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanApprovalCode, "15"), new[] { ModelsRes.SamplingPlanApprovalCode });
+            }
+
             if (samplingPlan.SamplingPlanFileTVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, "1"), new[] { ModelsRes.SamplingPlanSamplingPlanFileTVItemID });

@@ -63,7 +63,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "FileContent") labSheet.FileContent = GetRandomString("", 20);
             if (OmitPropName != "AcceptedOrRejectedByContactTVItemID") labSheet.AcceptedOrRejectedByContactTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "AcceptedOrRejectedDateTime") labSheet.AcceptedOrRejectedDateTime = GetRandomDateTime();
-            if (OmitPropName != "RejectReason") labSheet.RejectReason = GetRandomString("", 20);
+            if (OmitPropName != "RejectReason") labSheet.RejectReason = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") labSheet.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") labSheet.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 
@@ -151,14 +151,6 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, labSheet.ValidationResults.Count());
             Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetFileContent)).Any());
             Assert.AreEqual(null, labSheet.FileContent);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
-
-            labSheet = null;
-            labSheet = GetFilledRandomLabSheet("RejectReason");
-            Assert.AreEqual(false, labSheetService.Add(labSheet));
-            Assert.AreEqual(1, labSheet.ValidationResults.Count());
-            Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetRejectReason)).Any());
-            Assert.AreEqual(null, labSheet.RejectReason);
             Assert.AreEqual(0, labSheetService.GetRead().Count());
 
             labSheet = null;

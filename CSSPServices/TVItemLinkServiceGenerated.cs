@@ -88,6 +88,21 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLinkToTVType), new[] { ModelsRes.TVItemLinkToTVType });
             }
 
+            if (tvItemLink.StartDateTime_Local != null && ((DateTime)tvItemLink.StartDateTime_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemLinkStartDateTime_Local, "1980"), new[] { ModelsRes.TVItemLinkStartDateTime_Local });
+            }
+
+            if (tvItemLink.EndDateTime_Local != null && ((DateTime)tvItemLink.EndDateTime_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemLinkEndDateTime_Local, "1980"), new[] { ModelsRes.TVItemLinkEndDateTime_Local });
+            }
+
+            if (tvItemLink.StartDateTime_Local < tvItemLink.EndDateTime_Local)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.TVItemLinkEndDateTime_Local, ModelsRes.TVItemLinkStartDateTime_Local), new[] { ModelsRes.TVItemLinkEndDateTime_Local });
+            }
+
             //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tvItemLink.Ordinal < 0 || tvItemLink.Ordinal > 100)

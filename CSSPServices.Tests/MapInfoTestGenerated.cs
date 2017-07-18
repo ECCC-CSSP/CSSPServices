@@ -47,10 +47,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MapInfoID") mapInfo.MapInfoID = MapInfoID;
             if (OmitPropName != "TVItemID") mapInfo.TVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "TVType") mapInfo.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "LatMin") mapInfo.LatMin = GetRandomFloat(-90, 90);
-            if (OmitPropName != "LatMax") mapInfo.LatMax = GetRandomFloat(-90, 90);
-            if (OmitPropName != "LngMin") mapInfo.LngMin = GetRandomFloat(-180, 180);
-            if (OmitPropName != "LngMax") mapInfo.LngMax = GetRandomFloat(-180, 180);
+            if (OmitPropName != "LatMin") mapInfo.LatMin = GetRandomFloat(-90.0f, 90.0f);
+            if (OmitPropName != "LatMax") mapInfo.LatMax = GetRandomFloat(-90.0f, 90.0f);
+            if (OmitPropName != "LngMin") mapInfo.LngMin = GetRandomFloat(-180.0f, 180.0f);
+            if (OmitPropName != "LngMax") mapInfo.LngMax = GetRandomFloat(-180.0f, 180.0f);
             if (OmitPropName != "MapInfoDrawType") mapInfo.MapInfoDrawType = (MapInfoDrawTypeEnum)GetRandomEnumType(typeof(MapInfoDrawTypeEnum));
             if (OmitPropName != "LastUpdateDate_UTC") mapInfo.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") mapInfo.LastUpdateContactTVItemID = GetRandomInt(1, 11);

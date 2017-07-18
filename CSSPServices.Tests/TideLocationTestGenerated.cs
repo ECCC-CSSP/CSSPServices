@@ -49,8 +49,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Name") tideLocation.Name = GetRandomString("", 5);
             if (OmitPropName != "Prov") tideLocation.Prov = GetRandomString("", 5);
             if (OmitPropName != "sid") tideLocation.sid = GetRandomInt(0, 100000);
-            if (OmitPropName != "Lat") tideLocation.Lat = GetRandomFloat(-90, 90);
-            if (OmitPropName != "Lng") tideLocation.Lng = GetRandomFloat(-180, 180);
+            if (OmitPropName != "Lat") tideLocation.Lat = GetRandomFloat(-90.0f, 90.0f);
+            if (OmitPropName != "Lng") tideLocation.Lng = GetRandomFloat(-180.0f, 180.0f);
 
             return tideLocation;
         }

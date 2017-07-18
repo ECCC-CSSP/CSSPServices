@@ -192,12 +192,15 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID, labSheet.AcceptedOrRejectedByContactTVItemID.ToString()), new[] { ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID });
             }
 
-            if (string.IsNullOrWhiteSpace(labSheet.RejectReason))
+            if (labSheet.AcceptedOrRejectedDateTime != null && ((DateTime)labSheet.AcceptedOrRejectedDateTime).Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetRejectReason), new[] { ModelsRes.LabSheetRejectReason });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetAcceptedOrRejectedDateTime, "1980"), new[] { ModelsRes.LabSheetAcceptedOrRejectedDateTime });
             }
 
-            //RejectReason has no StringLength Attribute
+            if (!string.IsNullOrWhiteSpace(labSheet.RejectReason) && labSheet.RejectReason.Length > 250)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetRejectReason, "250"), new[] { ModelsRes.LabSheetRejectReason });
+            }
 
             if (labSheet.LastUpdateDate_UTC == null)
             {

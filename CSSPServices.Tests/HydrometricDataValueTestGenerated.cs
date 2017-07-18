@@ -49,7 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DateTime_Local") hydrometricDataValue.DateTime_Local = GetRandomDateTime();
             if (OmitPropName != "Keep") hydrometricDataValue.Keep = true;
             if (OmitPropName != "StorageDataType") hydrometricDataValue.StorageDataType = (StorageDataTypeEnum)GetRandomEnumType(typeof(StorageDataTypeEnum));
-            if (OmitPropName != "Flow_m3_s") hydrometricDataValue.Flow_m3_s = GetRandomFloat(0, 10000);
+            if (OmitPropName != "Flow_m3_s") hydrometricDataValue.Flow_m3_s = GetRandomFloat(0.0f, 10000.0f);
             if (OmitPropName != "HourlyValues") hydrometricDataValue.HourlyValues = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") hydrometricDataValue.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") hydrometricDataValue.LastUpdateContactTVItemID = GetRandomInt(1, 11);

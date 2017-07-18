@@ -74,6 +74,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSiteStartEndDateStartDate, "1980"), new[] { ModelsRes.MWQMSiteStartEndDateStartDate });
             }
 
+            if (mwqmSiteStartEndDate.EndDate != null && ((DateTime)mwqmSiteStartEndDate.EndDate).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSiteStartEndDateEndDate, "1980"), new[] { ModelsRes.MWQMSiteStartEndDateEndDate });
+            }
+
             if (mwqmSiteStartEndDate.StartDate < mwqmSiteStartEndDate.EndDate)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.MWQMSiteStartEndDateEndDate, ModelsRes.MWQMSiteStartEndDateStartDate), new[] { ModelsRes.MWQMSiteStartEndDateEndDate });

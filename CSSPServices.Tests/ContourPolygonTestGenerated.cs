@@ -44,9 +44,9 @@ namespace CSSPServices.Tests
 
             ContourPolygon contourPolygon = new ContourPolygon();
 
-            if (OmitPropName != "ContourValue") contourPolygon.ContourValue = GetRandomFloat(0, 10);
+            if (OmitPropName != "ContourValue") contourPolygon.ContourValue = GetRandomFloat(0.0f, 10.0f);
             if (OmitPropName != "Layer") contourPolygon.Layer = GetRandomInt(1, 100);
-            if (OmitPropName != "Depth") contourPolygon.Depth = GetRandomFloat(1, 10000);
+            if (OmitPropName != "Depth") contourPolygon.Depth = GetRandomFloat(1.0f, 10000.0f);
 
             return contourPolygon;
         }

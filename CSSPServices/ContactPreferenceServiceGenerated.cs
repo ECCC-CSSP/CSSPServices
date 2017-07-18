@@ -72,7 +72,10 @@ namespace CSSPServices
 
             //MarkerSize (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //MarkerSize has no Range Attribute
+            if (contactPreference.MarkerSize < 1 || contactPreference.MarkerSize > 1000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContactPreferenceMarkerSize, "1", "1000"), new[] { ModelsRes.ContactPreferenceMarkerSize });
+            }
 
             if (contactPreference.LastUpdateDate_UTC == null)
             {

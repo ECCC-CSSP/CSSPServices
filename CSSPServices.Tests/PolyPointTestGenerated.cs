@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             PolyPoint polyPoint = new PolyPoint();
 
-            if (OmitPropName != "XCoord") polyPoint.XCoord = GetRandomFloat(-180, 180);
-            if (OmitPropName != "YCoord") polyPoint.YCoord = GetRandomFloat(-90, 90);
+            if (OmitPropName != "XCoord") polyPoint.XCoord = GetRandomFloat(-180.0f, 180.0f);
+            if (OmitPropName != "YCoord") polyPoint.YCoord = GetRandomFloat(-90.0f, 90.0f);
             if (OmitPropName != "Z") polyPoint.Z = GetRandomFloat(1.0f, 1000.0f);
 
             return polyPoint;

@@ -52,12 +52,12 @@ namespace CSSPServices.Tests
             if (OmitPropName != "StartYear") useOfSite.StartYear = GetRandomInt(1980, 2050);
             if (OmitPropName != "EndYear") useOfSite.EndYear = GetRandomInt(1980, 2050);
             if (OmitPropName != "UseWeight") useOfSite.UseWeight = true;
-            if (OmitPropName != "Weight_perc") useOfSite.Weight_perc = GetRandomFloat(0, 100);
+            if (OmitPropName != "Weight_perc") useOfSite.Weight_perc = GetRandomFloat(0.0f, 100.0f);
             if (OmitPropName != "UseEquation") useOfSite.UseEquation = true;
-            if (OmitPropName != "Param1") useOfSite.Param1 = GetRandomFloat(0, 100);
-            if (OmitPropName != "Param2") useOfSite.Param2 = GetRandomFloat(0, 100);
-            if (OmitPropName != "Param3") useOfSite.Param3 = GetRandomFloat(0, 100);
-            if (OmitPropName != "Param4") useOfSite.Param4 = GetRandomFloat(0, 100);
+            if (OmitPropName != "Param1") useOfSite.Param1 = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "Param2") useOfSite.Param2 = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "Param3") useOfSite.Param3 = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "Param4") useOfSite.Param4 = GetRandomFloat(0.0f, 100.0f);
             if (OmitPropName != "LastUpdateDate_UTC") useOfSite.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") useOfSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 

@@ -48,10 +48,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "VPScenarioID") vpResult.VPScenarioID = GetRandomInt(1, 11);
             if (OmitPropName != "Ordinal") vpResult.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "Concentration_MPN_100ml") vpResult.Concentration_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "Dilution") vpResult.Dilution = GetRandomFloat(0, 1000000);
-            if (OmitPropName != "FarFieldWidth_m") vpResult.FarFieldWidth_m = GetRandomFloat(0, 10000);
-            if (OmitPropName != "DispersionDistance_m") vpResult.DispersionDistance_m = GetRandomFloat(0, 100000);
-            if (OmitPropName != "TravelTime_hour") vpResult.TravelTime_hour = GetRandomFloat(-10, 0);
+            if (OmitPropName != "Dilution") vpResult.Dilution = GetRandomFloat(0.0f, 1000000.0f);
+            if (OmitPropName != "FarFieldWidth_m") vpResult.FarFieldWidth_m = GetRandomFloat(0.0f, 10000.0f);
+            if (OmitPropName != "DispersionDistance_m") vpResult.DispersionDistance_m = GetRandomFloat(0.0f, 100000.0f);
+            if (OmitPropName != "TravelTime_hour") vpResult.TravelTime_hour = GetRandomFloat(-10.0f, 0.0f);
             if (OmitPropName != "LastUpdateDate_UTC") vpResult.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") vpResult.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 

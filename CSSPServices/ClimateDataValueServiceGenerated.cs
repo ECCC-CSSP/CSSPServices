@@ -82,27 +82,60 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueStorageDataType), new[] { ModelsRes.ClimateDataValueStorageDataType });
             }
 
-            //Snow_cm has no Range Attribute
+            if (climateDataValue.Snow_cm < 0 || climateDataValue.Snow_cm > 10000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnow_cm, "0", "10000"), new[] { ModelsRes.ClimateDataValueSnow_cm });
+            }
 
-            //Rainfall_mm has no Range Attribute
+            if (climateDataValue.Rainfall_mm < 0 || climateDataValue.Rainfall_mm > 10000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfall_mm, "0", "10000"), new[] { ModelsRes.ClimateDataValueRainfall_mm });
+            }
 
-            //RainfallEntered_mm has no Range Attribute
+            if (climateDataValue.RainfallEntered_mm < 0 || climateDataValue.RainfallEntered_mm > 10000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfallEntered_mm, "0", "10000"), new[] { ModelsRes.ClimateDataValueRainfallEntered_mm });
+            }
 
-            //TotalPrecip_mm_cm has no Range Attribute
+            if (climateDataValue.TotalPrecip_mm_cm < 0 || climateDataValue.TotalPrecip_mm_cm > 10000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueTotalPrecip_mm_cm, "0", "10000"), new[] { ModelsRes.ClimateDataValueTotalPrecip_mm_cm });
+            }
 
-            //MaxTemp_C has no Range Attribute
+            if (climateDataValue.MaxTemp_C < -50 || climateDataValue.MaxTemp_C > 50)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMaxTemp_C, "-50", "50"), new[] { ModelsRes.ClimateDataValueMaxTemp_C });
+            }
 
-            //MinTemp_C has no Range Attribute
+            if (climateDataValue.MinTemp_C < -50 || climateDataValue.MinTemp_C > 50)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMinTemp_C, "-50", "50"), new[] { ModelsRes.ClimateDataValueMinTemp_C });
+            }
 
-            //HeatDegDays_C has no Range Attribute
+            if (climateDataValue.HeatDegDays_C < -1000 || climateDataValue.HeatDegDays_C > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueHeatDegDays_C, "-1000", "100"), new[] { ModelsRes.ClimateDataValueHeatDegDays_C });
+            }
 
-            //CoolDegDays_C has no Range Attribute
+            if (climateDataValue.CoolDegDays_C < -1000 || climateDataValue.CoolDegDays_C > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueCoolDegDays_C, "-1000", "100"), new[] { ModelsRes.ClimateDataValueCoolDegDays_C });
+            }
 
-            //SnowOnGround_cm has no Range Attribute
+            if (climateDataValue.SnowOnGround_cm < 0 || climateDataValue.SnowOnGround_cm > 10000)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnowOnGround_cm, "0", "10000"), new[] { ModelsRes.ClimateDataValueSnowOnGround_cm });
+            }
 
-            //DirMaxGust_0North has no Range Attribute
+            if (climateDataValue.DirMaxGust_0North < 0 || climateDataValue.DirMaxGust_0North > 360)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueDirMaxGust_0North, "0", "360"), new[] { ModelsRes.ClimateDataValueDirMaxGust_0North });
+            }
 
-            //SpdMaxGust_kmh has no Range Attribute
+            if (climateDataValue.SpdMaxGust_kmh < 0 || climateDataValue.SpdMaxGust_kmh > 300)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSpdMaxGust_kmh, "0", "300"), new[] { ModelsRes.ClimateDataValueSpdMaxGust_kmh });
+            }
 
             if (string.IsNullOrWhiteSpace(climateDataValue.HourlyValues))
             {

@@ -48,11 +48,11 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MWQMSiteTVItemID") mwqmSample.MWQMSiteTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "MWQMRunTVItemID") mwqmSample.MWQMRunTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "SampleDateTime_Local") mwqmSample.SampleDateTime_Local = GetRandomDateTime();
-            if (OmitPropName != "Depth_m") mwqmSample.Depth_m = GetRandomFloat(0, 1000);
+            if (OmitPropName != "Depth_m") mwqmSample.Depth_m = GetRandomFloat(0.0f, 1000.0f);
             if (OmitPropName != "FecCol_MPN_100ml") mwqmSample.FecCol_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "Salinity_PPT") mwqmSample.Salinity_PPT = GetRandomFloat(0, 40);
-            if (OmitPropName != "WaterTemp_C") mwqmSample.WaterTemp_C = GetRandomFloat(-10, 40);
-            if (OmitPropName != "PH") mwqmSample.PH = GetRandomFloat(0, 14);
+            if (OmitPropName != "Salinity_PPT") mwqmSample.Salinity_PPT = GetRandomFloat(0.0f, 40.0f);
+            if (OmitPropName != "WaterTemp_C") mwqmSample.WaterTemp_C = GetRandomFloat(-10.0f, 40.0f);
+            if (OmitPropName != "PH") mwqmSample.PH = GetRandomFloat(0.0f, 14.0f);
             if (OmitPropName != "SampleTypesText") mwqmSample.SampleTypesText = GetRandomString("", 5);
             if (OmitPropName != "SampleType_old") mwqmSample.SampleType_old = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "Tube_10") mwqmSample.Tube_10 = GetRandomInt(0, 5);

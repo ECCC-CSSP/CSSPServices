@@ -139,14 +139,44 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay10Limit, "0", "300"), new[] { ModelsRes.MWQMSubsectorRainDay10Limit });
             }
 
+            if (mwqmSubsector.IncludeRainStartDate != null && ((DateTime)mwqmSubsector.IncludeRainStartDate).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSubsectorIncludeRainStartDate, "1980"), new[] { ModelsRes.MWQMSubsectorIncludeRainStartDate });
+            }
+
+            if (mwqmSubsector.IncludeRainEndDate != null && ((DateTime)mwqmSubsector.IncludeRainEndDate).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSubsectorIncludeRainEndDate, "1980"), new[] { ModelsRes.MWQMSubsectorIncludeRainEndDate });
+            }
+
             if (mwqmSubsector.IncludeRainRunCount < 0 || mwqmSubsector.IncludeRainRunCount > 10)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorIncludeRainRunCount, "0", "10"), new[] { ModelsRes.MWQMSubsectorIncludeRainRunCount });
             }
 
+            if (mwqmSubsector.NoRainStartDate != null && ((DateTime)mwqmSubsector.NoRainStartDate).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSubsectorNoRainStartDate, "1980"), new[] { ModelsRes.MWQMSubsectorNoRainStartDate });
+            }
+
+            if (mwqmSubsector.NoRainEndDate != null && ((DateTime)mwqmSubsector.NoRainEndDate).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSubsectorNoRainEndDate, "1980"), new[] { ModelsRes.MWQMSubsectorNoRainEndDate });
+            }
+
             if (mwqmSubsector.NoRainRunCount < 0 || mwqmSubsector.NoRainRunCount > 10)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorNoRainRunCount, "0", "10"), new[] { ModelsRes.MWQMSubsectorNoRainRunCount });
+            }
+
+            if (mwqmSubsector.OnlyRainStartDate != null && ((DateTime)mwqmSubsector.OnlyRainStartDate).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSubsectorOnlyRainStartDate, "1980"), new[] { ModelsRes.MWQMSubsectorOnlyRainStartDate });
+            }
+
+            if (mwqmSubsector.OnlyRainEndDate != null && ((DateTime)mwqmSubsector.OnlyRainEndDate).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSubsectorOnlyRainEndDate, "1980"), new[] { ModelsRes.MWQMSubsectorOnlyRainEndDate });
             }
 
             if (mwqmSubsector.OnlyRainRunCount < 0 || mwqmSubsector.OnlyRainRunCount > 10)

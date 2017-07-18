@@ -65,12 +65,12 @@ namespace CSSPServices.Tests
             if (OmitPropName != "WaterBath1") labSheetDetail.WaterBath1 = GetRandomString("", 5);
             if (OmitPropName != "WaterBath2") labSheetDetail.WaterBath2 = GetRandomString("", 5);
             if (OmitPropName != "WaterBath3") labSheetDetail.WaterBath3 = GetRandomString("", 5);
-            if (OmitPropName != "TCField1") labSheetDetail.TCField1 = GetRandomFloat(-10, 40);
-            if (OmitPropName != "TCLab1") labSheetDetail.TCLab1 = GetRandomFloat(-10, 40);
-            if (OmitPropName != "TCField2") labSheetDetail.TCField2 = GetRandomFloat(-10, 40);
-            if (OmitPropName != "TCLab2") labSheetDetail.TCLab2 = GetRandomFloat(-10, 40);
-            if (OmitPropName != "TCFirst") labSheetDetail.TCFirst = GetRandomFloat(-10, 40);
-            if (OmitPropName != "TCAverage") labSheetDetail.TCAverage = GetRandomFloat(-10, 40);
+            if (OmitPropName != "TCField1") labSheetDetail.TCField1 = GetRandomFloat(-10.0f, 40.0f);
+            if (OmitPropName != "TCLab1") labSheetDetail.TCLab1 = GetRandomFloat(-10.0f, 40.0f);
+            if (OmitPropName != "TCField2") labSheetDetail.TCField2 = GetRandomFloat(-10.0f, 40.0f);
+            if (OmitPropName != "TCLab2") labSheetDetail.TCLab2 = GetRandomFloat(-10.0f, 40.0f);
+            if (OmitPropName != "TCFirst") labSheetDetail.TCFirst = GetRandomFloat(-10.0f, 40.0f);
+            if (OmitPropName != "TCAverage") labSheetDetail.TCAverage = GetRandomFloat(-10.0f, 40.0f);
             if (OmitPropName != "ControlLot") labSheetDetail.ControlLot = GetRandomString("", 5);
             if (OmitPropName != "Positive35") labSheetDetail.Positive35 = GetRandomString("", 1);
             if (OmitPropName != "NonTarget35") labSheetDetail.NonTarget35 = GetRandomString("", 1);
@@ -100,11 +100,11 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ResultsReadDate") labSheetDetail.ResultsReadDate = GetRandomDateTime();
             if (OmitPropName != "ResultsRecordedBy") labSheetDetail.ResultsRecordedBy = GetRandomString("", 5);
             if (OmitPropName != "ResultsRecordedDate") labSheetDetail.ResultsRecordedDate = GetRandomDateTime();
-            if (OmitPropName != "DailyDuplicateRlog") labSheetDetail.DailyDuplicateRlog = GetRandomFloat(0, 100);
-            if (OmitPropName != "DailyDuplicatePrecisionCriteria") labSheetDetail.DailyDuplicatePrecisionCriteria = GetRandomFloat(0, 100);
+            if (OmitPropName != "DailyDuplicateRLog") labSheetDetail.DailyDuplicateRLog = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "DailyDuplicatePrecisionCriteria") labSheetDetail.DailyDuplicatePrecisionCriteria = GetRandomFloat(0.0f, 100.0f);
             if (OmitPropName != "DailyDuplicateAcceptable") labSheetDetail.DailyDuplicateAcceptable = true;
-            if (OmitPropName != "IntertechDuplicateRlog") labSheetDetail.IntertechDuplicateRlog = GetRandomFloat(0, 100);
-            if (OmitPropName != "IntertechDuplicatePrecisionCriteria") labSheetDetail.IntertechDuplicatePrecisionCriteria = GetRandomFloat(0, 100);
+            if (OmitPropName != "IntertechDuplicateRLog") labSheetDetail.IntertechDuplicateRLog = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "IntertechDuplicatePrecisionCriteria") labSheetDetail.IntertechDuplicatePrecisionCriteria = GetRandomFloat(0.0f, 100.0f);
             if (OmitPropName != "IntertechDuplicateAcceptable") labSheetDetail.IntertechDuplicateAcceptable = true;
             if (OmitPropName != "IntertechReadAcceptable") labSheetDetail.IntertechReadAcceptable = true;
             if (OmitPropName != "LastUpdateDate_UTC") labSheetDetail.LastUpdateDate_UTC = GetRandomDateTime();
@@ -1054,50 +1054,50 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [DailyDuplicateRlog] of type [Single]
+            // doing property [DailyDuplicateRLog] of type [Single]
             //-----------------------------------
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-            // DailyDuplicateRlog has Min [0] and Max [100]. At Min should return true and no errors
-            labSheetDetail.DailyDuplicateRlog = 0.0f;
+            // DailyDuplicateRLog has Min [0] and Max [100]. At Min should return true and no errors
+            labSheetDetail.DailyDuplicateRLog = 0.0f;
             Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
             Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(0.0f, labSheetDetail.DailyDuplicateRlog);
+            Assert.AreEqual(0.0f, labSheetDetail.DailyDuplicateRLog);
             Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
             Assert.AreEqual(0, labSheetDetailService.GetRead().Count());
-            // DailyDuplicateRlog has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            labSheetDetail.DailyDuplicateRlog = 1.0f;
+            // DailyDuplicateRLog has Min [0] and Max [100]. At Min + 1 should return true and no errors
+            labSheetDetail.DailyDuplicateRLog = 1.0f;
             Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
             Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(1.0f, labSheetDetail.DailyDuplicateRlog);
+            Assert.AreEqual(1.0f, labSheetDetail.DailyDuplicateRLog);
             Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
             Assert.AreEqual(0, labSheetDetailService.GetRead().Count());
-            // DailyDuplicateRlog has Min [0] and Max [100]. At Min - 1 should return false with one error
-            labSheetDetail.DailyDuplicateRlog = -1.0f;
+            // DailyDuplicateRLog has Min [0] and Max [100]. At Min - 1 should return false with one error
+            labSheetDetail.DailyDuplicateRLog = -1.0f;
             Assert.AreEqual(false, labSheetDetailService.Add(labSheetDetail));
-            Assert.IsTrue(labSheetDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailDailyDuplicateRlog, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, labSheetDetail.DailyDuplicateRlog);
+            Assert.IsTrue(labSheetDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailDailyDuplicateRLog, "0", "100")).Any());
+            Assert.AreEqual(-1.0f, labSheetDetail.DailyDuplicateRLog);
             Assert.AreEqual(0, labSheetDetailService.GetRead().Count());
-            // DailyDuplicateRlog has Min [0] and Max [100]. At Max should return true and no errors
-            labSheetDetail.DailyDuplicateRlog = 100.0f;
+            // DailyDuplicateRLog has Min [0] and Max [100]. At Max should return true and no errors
+            labSheetDetail.DailyDuplicateRLog = 100.0f;
             Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
             Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(100.0f, labSheetDetail.DailyDuplicateRlog);
+            Assert.AreEqual(100.0f, labSheetDetail.DailyDuplicateRLog);
             Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
             Assert.AreEqual(0, labSheetDetailService.GetRead().Count());
-            // DailyDuplicateRlog has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            labSheetDetail.DailyDuplicateRlog = 99.0f;
+            // DailyDuplicateRLog has Min [0] and Max [100]. At Max - 1 should return true and no errors
+            labSheetDetail.DailyDuplicateRLog = 99.0f;
             Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
             Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(99.0f, labSheetDetail.DailyDuplicateRlog);
+            Assert.AreEqual(99.0f, labSheetDetail.DailyDuplicateRLog);
             Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
             Assert.AreEqual(0, labSheetDetailService.GetRead().Count());
-            // DailyDuplicateRlog has Min [0] and Max [100]. At Max + 1 should return false with one error
-            labSheetDetail.DailyDuplicateRlog = 101.0f;
+            // DailyDuplicateRLog has Min [0] and Max [100]. At Max + 1 should return false with one error
+            labSheetDetail.DailyDuplicateRLog = 101.0f;
             Assert.AreEqual(false, labSheetDetailService.Add(labSheetDetail));
-            Assert.IsTrue(labSheetDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailDailyDuplicateRlog, "0", "100")).Any());
-            Assert.AreEqual(101.0f, labSheetDetail.DailyDuplicateRlog);
+            Assert.IsTrue(labSheetDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailDailyDuplicateRLog, "0", "100")).Any());
+            Assert.AreEqual(101.0f, labSheetDetail.DailyDuplicateRLog);
             Assert.AreEqual(0, labSheetDetailService.GetRead().Count());
 
             //-----------------------------------
@@ -1152,50 +1152,50 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [IntertechDuplicateRlog] of type [Single]
+            // doing property [IntertechDuplicateRLog] of type [Single]
             //-----------------------------------
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-            // IntertechDuplicateRlog has Min [0] and Max [100]. At Min should return true and no errors
-            labSheetDetail.IntertechDuplicateRlog = 0.0f;
+            // IntertechDuplicateRLog has Min [0] and Max [100]. At Min should return true and no errors
+            labSheetDetail.IntertechDuplicateRLog = 0.0f;
             Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
             Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(0.0f, labSheetDetail.IntertechDuplicateRlog);
+            Assert.AreEqual(0.0f, labSheetDetail.IntertechDuplicateRLog);
             Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
             Assert.AreEqual(0, labSheetDetailService.GetRead().Count());
-            // IntertechDuplicateRlog has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            labSheetDetail.IntertechDuplicateRlog = 1.0f;
+            // IntertechDuplicateRLog has Min [0] and Max [100]. At Min + 1 should return true and no errors
+            labSheetDetail.IntertechDuplicateRLog = 1.0f;
             Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
             Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(1.0f, labSheetDetail.IntertechDuplicateRlog);
+            Assert.AreEqual(1.0f, labSheetDetail.IntertechDuplicateRLog);
             Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
             Assert.AreEqual(0, labSheetDetailService.GetRead().Count());
-            // IntertechDuplicateRlog has Min [0] and Max [100]. At Min - 1 should return false with one error
-            labSheetDetail.IntertechDuplicateRlog = -1.0f;
+            // IntertechDuplicateRLog has Min [0] and Max [100]. At Min - 1 should return false with one error
+            labSheetDetail.IntertechDuplicateRLog = -1.0f;
             Assert.AreEqual(false, labSheetDetailService.Add(labSheetDetail));
-            Assert.IsTrue(labSheetDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIntertechDuplicateRlog, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, labSheetDetail.IntertechDuplicateRlog);
+            Assert.IsTrue(labSheetDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIntertechDuplicateRLog, "0", "100")).Any());
+            Assert.AreEqual(-1.0f, labSheetDetail.IntertechDuplicateRLog);
             Assert.AreEqual(0, labSheetDetailService.GetRead().Count());
-            // IntertechDuplicateRlog has Min [0] and Max [100]. At Max should return true and no errors
-            labSheetDetail.IntertechDuplicateRlog = 100.0f;
+            // IntertechDuplicateRLog has Min [0] and Max [100]. At Max should return true and no errors
+            labSheetDetail.IntertechDuplicateRLog = 100.0f;
             Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
             Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(100.0f, labSheetDetail.IntertechDuplicateRlog);
+            Assert.AreEqual(100.0f, labSheetDetail.IntertechDuplicateRLog);
             Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
             Assert.AreEqual(0, labSheetDetailService.GetRead().Count());
-            // IntertechDuplicateRlog has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            labSheetDetail.IntertechDuplicateRlog = 99.0f;
+            // IntertechDuplicateRLog has Min [0] and Max [100]. At Max - 1 should return true and no errors
+            labSheetDetail.IntertechDuplicateRLog = 99.0f;
             Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
             Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(99.0f, labSheetDetail.IntertechDuplicateRlog);
+            Assert.AreEqual(99.0f, labSheetDetail.IntertechDuplicateRLog);
             Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
             Assert.AreEqual(0, labSheetDetailService.GetRead().Count());
-            // IntertechDuplicateRlog has Min [0] and Max [100]. At Max + 1 should return false with one error
-            labSheetDetail.IntertechDuplicateRlog = 101.0f;
+            // IntertechDuplicateRLog has Min [0] and Max [100]. At Max + 1 should return false with one error
+            labSheetDetail.IntertechDuplicateRLog = 101.0f;
             Assert.AreEqual(false, labSheetDetailService.Add(labSheetDetail));
-            Assert.IsTrue(labSheetDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIntertechDuplicateRlog, "0", "100")).Any());
-            Assert.AreEqual(101.0f, labSheetDetail.IntertechDuplicateRlog);
+            Assert.IsTrue(labSheetDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIntertechDuplicateRLog, "0", "100")).Any());
+            Assert.AreEqual(101.0f, labSheetDetail.IntertechDuplicateRLog);
             Assert.AreEqual(0, labSheetDetailService.GetRead().Count());
 
             //-----------------------------------

@@ -84,6 +84,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeSourceStartEndEndDateAndTime_Local, "1980"), new[] { ModelsRes.MikeSourceStartEndEndDateAndTime_Local });
             }
 
+            if (mikeSourceStartEnd.StartDateAndTime_Local < mikeSourceStartEnd.EndDateAndTime_Local)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.MikeSourceStartEndEndDateAndTime_Local, ModelsRes.MikeSourceStartEndStartDateAndTime_Local), new[] { ModelsRes.MikeSourceStartEndEndDateAndTime_Local });
+            }
+
             //SourceFlowStart_m3_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.SourceFlowStart_m3_day < 0 || mikeSourceStartEnd.SourceFlowStart_m3_day > 1000000)

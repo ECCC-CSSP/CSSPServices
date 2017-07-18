@@ -53,36 +53,36 @@ namespace CSSPServices.Tests
             if (OmitPropName != "StartDateTime_Local") mwqmRun.StartDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "EndDateTime_Local") mwqmRun.EndDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "LabReceivedDateTime_Local") mwqmRun.LabReceivedDateTime_Local = GetRandomDateTime();
-            if (OmitPropName != "TemperatureControl1_C") mwqmRun.TemperatureControl1_C = GetRandomFloat(-10, 40);
-            if (OmitPropName != "TemperatureControl2_C") mwqmRun.TemperatureControl2_C = GetRandomFloat(-10, 40);
+            if (OmitPropName != "TemperatureControl1_C") mwqmRun.TemperatureControl1_C = GetRandomFloat(-10.0f, 40.0f);
+            if (OmitPropName != "TemperatureControl2_C") mwqmRun.TemperatureControl2_C = GetRandomFloat(-10.0f, 40.0f);
             if (OmitPropName != "SeaStateAtStart_BeaufortScale") mwqmRun.SeaStateAtStart_BeaufortScale = (BeaufortScaleEnum)GetRandomEnumType(typeof(BeaufortScaleEnum));
             if (OmitPropName != "SeaStateAtEnd_BeaufortScale") mwqmRun.SeaStateAtEnd_BeaufortScale = (BeaufortScaleEnum)GetRandomEnumType(typeof(BeaufortScaleEnum));
-            if (OmitPropName != "WaterLevelAtBrook_m") mwqmRun.WaterLevelAtBrook_m = GetRandomFloat(0, 100);
-            if (OmitPropName != "WaveHightAtStart_m") mwqmRun.WaveHightAtStart_m = GetRandomFloat(0, 100);
-            if (OmitPropName != "WaveHightAtEnd_m") mwqmRun.WaveHightAtEnd_m = GetRandomFloat(0, 100);
+            if (OmitPropName != "WaterLevelAtBrook_m") mwqmRun.WaterLevelAtBrook_m = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "WaveHightAtStart_m") mwqmRun.WaveHightAtStart_m = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "WaveHightAtEnd_m") mwqmRun.WaveHightAtEnd_m = GetRandomFloat(0.0f, 100.0f);
             if (OmitPropName != "SampleCrewInitials") mwqmRun.SampleCrewInitials = GetRandomString("", 5);
             if (OmitPropName != "AnalyzeMethod") mwqmRun.AnalyzeMethod = (AnalyzeMethodEnum)GetRandomEnumType(typeof(AnalyzeMethodEnum));
             if (OmitPropName != "SampleMatrix") mwqmRun.SampleMatrix = (SampleMatrixEnum)GetRandomEnumType(typeof(SampleMatrixEnum));
             if (OmitPropName != "Laboratory") mwqmRun.Laboratory = (LaboratoryEnum)GetRandomEnumType(typeof(LaboratoryEnum));
             if (OmitPropName != "SampleStatus") mwqmRun.SampleStatus = (SampleStatusEnum)GetRandomEnumType(typeof(SampleStatusEnum));
-            if (OmitPropName != "LabSampleApprovalContactTVItemID") mwqmRun.LabSampleApprovalContactTVItemID = GetRandomInt(1, 1000);
+            if (OmitPropName != "LabSampleApprovalContactTVItemID") mwqmRun.LabSampleApprovalContactTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "LabAnalyzeBath1IncubationStartDateTime_Local") mwqmRun.LabAnalyzeBath1IncubationStartDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "LabAnalyzeBath2IncubationStartDateTime_Local") mwqmRun.LabAnalyzeBath2IncubationStartDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "LabAnalyzeBath3IncubationStartDateTime_Local") mwqmRun.LabAnalyzeBath3IncubationStartDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "LabRunSampleApprovalDateTime_Local") mwqmRun.LabRunSampleApprovalDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "Tide_Start") mwqmRun.Tide_Start = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
             if (OmitPropName != "Tide_End") mwqmRun.Tide_End = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
-            if (OmitPropName != "RainDay0_mm") mwqmRun.RainDay0_mm = GetRandomFloat(0, 300);
-            if (OmitPropName != "RainDay1_mm") mwqmRun.RainDay1_mm = GetRandomFloat(0, 300);
-            if (OmitPropName != "RainDay2_mm") mwqmRun.RainDay2_mm = GetRandomFloat(0, 300);
-            if (OmitPropName != "RainDay3_mm") mwqmRun.RainDay3_mm = GetRandomFloat(0, 300);
-            if (OmitPropName != "RainDay4_mm") mwqmRun.RainDay4_mm = GetRandomFloat(0, 300);
-            if (OmitPropName != "RainDay5_mm") mwqmRun.RainDay5_mm = GetRandomFloat(0, 300);
-            if (OmitPropName != "RainDay6_mm") mwqmRun.RainDay6_mm = GetRandomFloat(0, 300);
-            if (OmitPropName != "RainDay7_mm") mwqmRun.RainDay7_mm = GetRandomFloat(0, 300);
-            if (OmitPropName != "RainDay8_mm") mwqmRun.RainDay8_mm = GetRandomFloat(0, 300);
-            if (OmitPropName != "RainDay9_mm") mwqmRun.RainDay9_mm = GetRandomFloat(0, 300);
-            if (OmitPropName != "RainDay10_mm") mwqmRun.RainDay10_mm = GetRandomFloat(0, 300);
+            if (OmitPropName != "RainDay0_mm") mwqmRun.RainDay0_mm = GetRandomFloat(0.0f, 300.0f);
+            if (OmitPropName != "RainDay1_mm") mwqmRun.RainDay1_mm = GetRandomFloat(0.0f, 300.0f);
+            if (OmitPropName != "RainDay2_mm") mwqmRun.RainDay2_mm = GetRandomFloat(0.0f, 300.0f);
+            if (OmitPropName != "RainDay3_mm") mwqmRun.RainDay3_mm = GetRandomFloat(0.0f, 300.0f);
+            if (OmitPropName != "RainDay4_mm") mwqmRun.RainDay4_mm = GetRandomFloat(0.0f, 300.0f);
+            if (OmitPropName != "RainDay5_mm") mwqmRun.RainDay5_mm = GetRandomFloat(0.0f, 300.0f);
+            if (OmitPropName != "RainDay6_mm") mwqmRun.RainDay6_mm = GetRandomFloat(0.0f, 300.0f);
+            if (OmitPropName != "RainDay7_mm") mwqmRun.RainDay7_mm = GetRandomFloat(0.0f, 300.0f);
+            if (OmitPropName != "RainDay8_mm") mwqmRun.RainDay8_mm = GetRandomFloat(0.0f, 300.0f);
+            if (OmitPropName != "RainDay9_mm") mwqmRun.RainDay9_mm = GetRandomFloat(0.0f, 300.0f);
+            if (OmitPropName != "RainDay10_mm") mwqmRun.RainDay10_mm = GetRandomFloat(0.0f, 300.0f);
             if (OmitPropName != "RemoveFromStat") mwqmRun.RemoveFromStat = true;
             if (OmitPropName != "LastUpdateDate_UTC") mwqmRun.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmRun.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -576,6 +576,26 @@ namespace CSSPServices.Tests
 
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
+            // LabSampleApprovalContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
+            mwqmRun.LabSampleApprovalContactTVItemID = 1;
+            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
+            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
+            Assert.AreEqual(1, mwqmRun.LabSampleApprovalContactTVItemID);
+            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
+            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
+            // LabSampleApprovalContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
+            mwqmRun.LabSampleApprovalContactTVItemID = 2;
+            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
+            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
+            Assert.AreEqual(2, mwqmRun.LabSampleApprovalContactTVItemID);
+            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
+            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
+            // LabSampleApprovalContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
+            mwqmRun.LabSampleApprovalContactTVItemID = 0;
+            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
+            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, "1")).Any());
+            Assert.AreEqual(0, mwqmRun.LabSampleApprovalContactTVItemID);
+            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
 
             //-----------------------------------
             // doing property [LabAnalyzeBath1IncubationStartDateTime_Local] of type [DateTime]

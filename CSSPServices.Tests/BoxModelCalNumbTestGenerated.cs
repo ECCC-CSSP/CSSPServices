@@ -46,11 +46,11 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Error") boxModelCalNumb.Error = GetRandomString("", 5);
             if (OmitPropName != "BoxModelResultType") boxModelCalNumb.BoxModelResultType = (BoxModelResultTypeEnum)GetRandomEnumType(typeof(BoxModelResultTypeEnum));
-            if (OmitPropName != "CalLength_m") boxModelCalNumb.CalLength_m = GetRandomFloat(0, 10);
-            if (OmitPropName != "CalRadius_m") boxModelCalNumb.CalRadius_m = GetRandomFloat(0, 10);
-            if (OmitPropName != "CalSurface_m2") boxModelCalNumb.CalSurface_m2 = GetRandomFloat(0, 10);
-            if (OmitPropName != "CalVolume_m3") boxModelCalNumb.CalVolume_m3 = GetRandomFloat(0, 10);
-            if (OmitPropName != "CalWidth_m") boxModelCalNumb.CalWidth_m = GetRandomFloat(0, 10);
+            if (OmitPropName != "CalLength_m") boxModelCalNumb.CalLength_m = GetRandomFloat(0.0f, 10.0f);
+            if (OmitPropName != "CalRadius_m") boxModelCalNumb.CalRadius_m = GetRandomFloat(0.0f, 10.0f);
+            if (OmitPropName != "CalSurface_m2") boxModelCalNumb.CalSurface_m2 = GetRandomFloat(0.0f, 10.0f);
+            if (OmitPropName != "CalVolume_m3") boxModelCalNumb.CalVolume_m3 = GetRandomFloat(0.0f, 10.0f);
+            if (OmitPropName != "CalWidth_m") boxModelCalNumb.CalWidth_m = GetRandomFloat(0.0f, 10.0f);
             if (OmitPropName != "FixLength") boxModelCalNumb.FixLength = true;
             if (OmitPropName != "FixWidth") boxModelCalNumb.FixWidth = true;
 

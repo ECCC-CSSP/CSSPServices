@@ -109,6 +109,21 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteElevation_m, "0", "10000"), new[] { ModelsRes.HydrometricSiteElevation_m });
             }
 
+            if (hydrometricSite.StartDate_Local != null && ((DateTime)hydrometricSite.StartDate_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.HydrometricSiteStartDate_Local, "1980"), new[] { ModelsRes.HydrometricSiteStartDate_Local });
+            }
+
+            if (hydrometricSite.EndDate_Local != null && ((DateTime)hydrometricSite.EndDate_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.HydrometricSiteEndDate_Local, "1980"), new[] { ModelsRes.HydrometricSiteEndDate_Local });
+            }
+
+            if (hydrometricSite.StartDate_Local < hydrometricSite.EndDate_Local)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.HydrometricSiteEndDate_Local, ModelsRes.HydrometricSiteStartDate_Local), new[] { ModelsRes.HydrometricSiteEndDate_Local });
+            }
+
             if (hydrometricSite.TimeOffset_hour < -10 || hydrometricSite.TimeOffset_hour > 0)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteTimeOffset_hour, "-10", "0"), new[] { ModelsRes.HydrometricSiteTimeOffset_hour });

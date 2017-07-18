@@ -52,21 +52,20 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MikeScenarioStartDateTime_Local") mikeScenario.MikeScenarioStartDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "MikeScenarioEndDateTime_Local") mikeScenario.MikeScenarioEndDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "MikeScenarioStartExecutionDateTime_Local") mikeScenario.MikeScenarioStartExecutionDateTime_Local = GetRandomDateTime();
-            if (OmitPropName != "MikeScenarioExecutionTime_min") mikeScenario.MikeScenarioExecutionTime_min = GetRandomFloat(1, 100000);
-            if (OmitPropName != "WindSpeed_km_h") mikeScenario.WindSpeed_km_h = GetRandomFloat(0, 100);
-            if (OmitPropName != "WindDirection_deg") mikeScenario.WindDirection_deg = GetRandomFloat(0, 360);
-            if (OmitPropName != "DecayFactor_per_day") mikeScenario.DecayFactor_per_day = GetRandomFloat(0, 100);
+            if (OmitPropName != "MikeScenarioExecutionTime_min") mikeScenario.MikeScenarioExecutionTime_min = GetRandomFloat(1.0f, 100000.0f);
+            if (OmitPropName != "WindSpeed_km_h") mikeScenario.WindSpeed_km_h = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "WindDirection_deg") mikeScenario.WindDirection_deg = GetRandomFloat(0.0f, 360.0f);
+            if (OmitPropName != "DecayFactor_per_day") mikeScenario.DecayFactor_per_day = GetRandomFloat(0.0f, 100.0f);
             if (OmitPropName != "DecayIsConstant") mikeScenario.DecayIsConstant = true;
-            if (OmitPropName != "DecayFactorAmplitude") mikeScenario.DecayFactorAmplitude = GetRandomFloat(0, 100);
+            if (OmitPropName != "DecayFactorAmplitude") mikeScenario.DecayFactorAmplitude = GetRandomFloat(0.0f, 100.0f);
             if (OmitPropName != "ResultFrequency_min") mikeScenario.ResultFrequency_min = GetRandomInt(0, 100);
-            if (OmitPropName != "AmbientTemperature_C") mikeScenario.AmbientTemperature_C = GetRandomFloat(-10, 40);
-            if (OmitPropName != "AmbientSalinity_PSU") mikeScenario.AmbientSalinity_PSU = GetRandomFloat(0, 40);
-            if (OmitPropName != "ManningNumber") mikeScenario.ManningNumber = GetRandomFloat(0, 100);
-            if (OmitPropName != "UseWebTide") mikeScenario.UseWebTide = true;
+            if (OmitPropName != "AmbientTemperature_C") mikeScenario.AmbientTemperature_C = GetRandomFloat(-10.0f, 40.0f);
+            if (OmitPropName != "AmbientSalinity_PSU") mikeScenario.AmbientSalinity_PSU = GetRandomFloat(0.0f, 40.0f);
+            if (OmitPropName != "ManningNumber") mikeScenario.ManningNumber = GetRandomFloat(0.0f, 100.0f);
             if (OmitPropName != "NumberOfElements") mikeScenario.NumberOfElements = GetRandomInt(1, 10000);
             if (OmitPropName != "NumberOfTimeSteps") mikeScenario.NumberOfTimeSteps = GetRandomInt(1, 10000);
             if (OmitPropName != "NumberOfSigmaLayers") mikeScenario.NumberOfSigmaLayers = GetRandomInt(0, 100);
-            if (OmitPropName != "NumberOfZlayers") mikeScenario.NumberOfZlayers = GetRandomInt(0, 100);
+            if (OmitPropName != "NumberOfZLayers") mikeScenario.NumberOfZLayers = GetRandomInt(0, 100);
             if (OmitPropName != "NumberOfHydroOutputParameters") mikeScenario.NumberOfHydroOutputParameters = GetRandomInt(0, 100);
             if (OmitPropName != "NumberOfTransOutputParameters") mikeScenario.NumberOfTransOutputParameters = GetRandomInt(0, 100);
             if (OmitPropName != "EstimatedHydroFileSize") mikeScenario.EstimatedHydroFileSize = GetRandomInt(0, 100000000);
@@ -683,10 +682,6 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [UseWebTide] of type [Boolean]
-            //-----------------------------------
-
-            //-----------------------------------
             // doing property [NumberOfElements] of type [Int32]
             //-----------------------------------
 
@@ -828,50 +823,50 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [NumberOfZlayers] of type [Int32]
+            // doing property [NumberOfZLayers] of type [Int32]
             //-----------------------------------
 
             mikeScenario = null;
             mikeScenario = GetFilledRandomMikeScenario("");
-            // NumberOfZlayers has Min [0] and Max [100]. At Min should return true and no errors
-            mikeScenario.NumberOfZlayers = 0;
+            // NumberOfZLayers has Min [0] and Max [100]. At Min should return true and no errors
+            mikeScenario.NumberOfZLayers = 0;
             Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
             Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(0, mikeScenario.NumberOfZlayers);
+            Assert.AreEqual(0, mikeScenario.NumberOfZLayers);
             Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
             Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // NumberOfZlayers has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            mikeScenario.NumberOfZlayers = 1;
+            // NumberOfZLayers has Min [0] and Max [100]. At Min + 1 should return true and no errors
+            mikeScenario.NumberOfZLayers = 1;
             Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
             Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(1, mikeScenario.NumberOfZlayers);
+            Assert.AreEqual(1, mikeScenario.NumberOfZLayers);
             Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
             Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // NumberOfZlayers has Min [0] and Max [100]. At Min - 1 should return false with one error
-            mikeScenario.NumberOfZlayers = -1;
+            // NumberOfZLayers has Min [0] and Max [100]. At Min - 1 should return false with one error
+            mikeScenario.NumberOfZLayers = -1;
             Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfZlayers, "0", "100")).Any());
-            Assert.AreEqual(-1, mikeScenario.NumberOfZlayers);
+            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfZLayers, "0", "100")).Any());
+            Assert.AreEqual(-1, mikeScenario.NumberOfZLayers);
             Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // NumberOfZlayers has Min [0] and Max [100]. At Max should return true and no errors
-            mikeScenario.NumberOfZlayers = 100;
+            // NumberOfZLayers has Min [0] and Max [100]. At Max should return true and no errors
+            mikeScenario.NumberOfZLayers = 100;
             Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
             Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(100, mikeScenario.NumberOfZlayers);
+            Assert.AreEqual(100, mikeScenario.NumberOfZLayers);
             Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
             Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // NumberOfZlayers has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            mikeScenario.NumberOfZlayers = 99;
+            // NumberOfZLayers has Min [0] and Max [100]. At Max - 1 should return true and no errors
+            mikeScenario.NumberOfZLayers = 99;
             Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
             Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(99, mikeScenario.NumberOfZlayers);
+            Assert.AreEqual(99, mikeScenario.NumberOfZLayers);
             Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
             Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // NumberOfZlayers has Min [0] and Max [100]. At Max + 1 should return false with one error
-            mikeScenario.NumberOfZlayers = 101;
+            // NumberOfZLayers has Min [0] and Max [100]. At Max + 1 should return false with one error
+            mikeScenario.NumberOfZLayers = 101;
             Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfZlayers, "0", "100")).Any());
-            Assert.AreEqual(101, mikeScenario.NumberOfZlayers);
+            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfZLayers, "0", "100")).Any());
+            Assert.AreEqual(101, mikeScenario.NumberOfZLayers);
             Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
 
             //-----------------------------------

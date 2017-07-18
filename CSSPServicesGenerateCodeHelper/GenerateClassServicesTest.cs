@@ -19,21 +19,12 @@ namespace CSSPServicesGenerateCodeHelper
         #endregion Variables
 
         #region Properties
-        private CSSPWebToolsDBContext db { get; set; }
-        private string DLLFileName { get; set; }
-        private RichTextBox RichTextBoxStatus { get; set; }
-        private Label LabelStatus { get; set; }
-        private string GenerateFilePath { get; set; }
         #endregion Properties
 
         #region Constructors
         public GenerateClassServicesTest(string DLLFileName, string GenerateFilePath, RichTextBox richTextBoxStatus, Label lblStatus)
+            : base(DLLFileName, GenerateFilePath, richTextBoxStatus, lblStatus)
         {
-            db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryNoDBShape);
-            this.DLLFileName = DLLFileName;
-            this.RichTextBoxStatus = richTextBoxStatus;
-            this.LabelStatus = lblStatus;
-            this.GenerateFilePath = GenerateFilePath;
         }
         #endregion Constructors
 
@@ -57,8 +48,8 @@ namespace CSSPServicesGenerateCodeHelper
 
             if (prop != null)
             {
-                CSSPProp csspProp = new CSSPProp();
-                if (!FillCSSPProp(prop, csspProp, type))
+                CSSPModelsGenerateCodeHelper.CSSPProp csspProp = new CSSPModelsGenerateCodeHelper.CSSPProp();
+                if (!ModelGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
                 {
                     return;
                 }
@@ -135,7 +126,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"            NeedToFindAValueToChangeForUpdateForClass_" + type.Name + ";");
             }
         }
-        private void CreateClass_Min_And_Max_Properties_Testing(CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateClass_Min_And_Max_Properties_Testing(CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
                 sb.AppendLine(@"");
                 sb.AppendLine(@"            //-----------------------------------");
@@ -859,7 +850,7 @@ namespace CSSPServicesGenerateCodeHelper
                         break;
                 }
         }
-        private void CreateClass_Required_Properties_Testing(CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateClass_Required_Properties_Testing(CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             switch (csspProp.PropType)
             {
@@ -958,7 +949,7 @@ namespace CSSPServicesGenerateCodeHelper
                     break;
             }
         }
-        private void CreateGetFilledRandomClass(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateGetFilledRandomClass(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             switch (csspProp.PropType)
             {
@@ -1008,16 +999,16 @@ namespace CSSPServicesGenerateCodeHelper
                             }
                             else
                             {
-                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + csspProp.MinFloat.ToString() + ", " + csspProp.MaxFloat.ToString() + ");");
+                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + csspProp.MinFloat.ToString() + ".0f, " + csspProp.MaxFloat.ToString() + ".0f);");
                             }
                         }
                         else if (csspProp.MinFloat != null)
                         {
-                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + csspProp.MinFloat.ToString() + ", " + (csspProp.MinFloat + 10.0f).ToString() + ");");
+                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + csspProp.MinFloat.ToString() + ".0f, " + (csspProp.MinFloat + 10.0f).ToString() + ".0f);");
                         }
                         else if (csspProp.MaxFloat != null)
                         {
-                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + (csspProp.MaxFloat - 10.0f).ToString() + ", " + csspProp.MaxFloat.ToString() + ");");
+                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + (csspProp.MaxFloat - 10.0f).ToString() + ".0f, " + csspProp.MaxFloat.ToString() + ".0f);");
                         }
                         else
                         {
@@ -1035,20 +1026,20 @@ namespace CSSPServicesGenerateCodeHelper
                             }
                             else
                             {
-                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + csspProp.MinFloat.ToString() + ", " + csspProp.MaxFloat.ToString() + ");");
+                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + csspProp.MinFloat.ToString() + ".0D, " + csspProp.MaxFloat.ToString() + ".0D);");
                             }
                         }
                         else if (csspProp.MinFloat != null)
                         {
-                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + csspProp.MinFloat.ToString() + ", " + (csspProp.MinFloat + 10.0f).ToString() + ");");
+                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + csspProp.MinFloat.ToString() + ".0D, " + (csspProp.MinFloat + 10.0D).ToString() + ".0D);");
                         }
                         else if (csspProp.MaxFloat != null)
                         {
-                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + (csspProp.MaxFloat - 10.0f).ToString() + ", " + csspProp.MaxFloat.ToString() + ");");
+                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + (csspProp.MaxFloat - 10.0D).ToString() + ".0D, " + csspProp.MaxFloat.ToString() + ".0D);");
                         }
                         else
                         {
-                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(1.0f, 1000.0f);");
+                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(1.0D, 1000.0D);");
                         }
                     }
                     break;
@@ -1440,8 +1431,8 @@ namespace CSSPServicesGenerateCodeHelper
 
                 foreach (PropertyInfo prop in type.GetProperties())
                 {
-                    CSSPProp csspProp = new CSSPProp();
-                    if (!FillCSSPProp(prop, csspProp, type))
+                    CSSPModelsGenerateCodeHelper.CSSPProp csspProp = new CSSPModelsGenerateCodeHelper.CSSPProp();
+                    if (!ModelGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
                     {
                         return;
                     }
@@ -1493,8 +1484,8 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     foreach (PropertyInfo prop in type.GetProperties())
                     {
-                        CSSPProp csspProp = new CSSPProp();
-                        if (!FillCSSPProp(prop, csspProp, type))
+                        CSSPModelsGenerateCodeHelper.CSSPProp csspProp = new CSSPModelsGenerateCodeHelper.CSSPProp();
+                        if (!ModelGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
                         {
                             return;
                         }
@@ -1516,8 +1507,8 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     foreach (PropertyInfo prop in type.GetProperties())
                     {
-                        CSSPProp csspProp = new CSSPProp();
-                        if (!FillCSSPProp(prop, csspProp, type))
+                        CSSPModelsGenerateCodeHelper.CSSPProp csspProp = new CSSPModelsGenerateCodeHelper.CSSPProp();
+                        if (!ModelGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
                         {
                             return;
                         }

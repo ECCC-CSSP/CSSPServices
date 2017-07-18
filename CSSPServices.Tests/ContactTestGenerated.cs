@@ -45,6 +45,7 @@ namespace CSSPServices.Tests
             Contact contact = new Contact();
 
             if (OmitPropName != "ContactID") contact.ContactID = ContactID;
+            if (OmitPropName != "Id") contact.Id = GetRandomString("", 5);
             if (OmitPropName != "ContactTVItemID") contact.ContactTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "LoginEmail") contact.LoginEmail = GetRandomEmail();
             if (OmitPropName != "FirstName") contact.FirstName = GetRandomString("", 5);
@@ -56,7 +57,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EmailValidated") contact.EmailValidated = true;
             if (OmitPropName != "Disabled") contact.Disabled = true;
             if (OmitPropName != "IsNew") contact.IsNew = true;
-            if (OmitPropName != "SamplingPlanner_ProvincesTVItemID") contact.SamplingPlanner_ProvincesTVItemID = GetRandomString("", 20);
+            if (OmitPropName != "SamplingPlanner_ProvincesTVItemID") contact.SamplingPlanner_ProvincesTVItemID = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") contact.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") contact.LastUpdateContactTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "ParentTVItemID") contact.ParentTVItemID = GetRandomInt(1, 11);
@@ -92,6 +93,14 @@ namespace CSSPServices.Tests
             // Required properties testing
             // -------------------------------
             // -------------------------------
+
+            contact = null;
+            contact = GetFilledRandomContact("Id");
+            Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
+            Assert.AreEqual(1, contact.ValidationResults.Count());
+            Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactId)).Any());
+            Assert.AreEqual(null, contact.Id);
+            Assert.AreEqual(0, contactService.GetRead().Count());
 
             // ContactTVItemID will automatically be initialized at 0 --> not null
 
@@ -170,6 +179,13 @@ namespace CSSPServices.Tests
             //-----------------------------------
             // doing property [ContactID] of type [Int32]
             //-----------------------------------
+
+            //-----------------------------------
+            // doing property [Id] of type [String]
+            //-----------------------------------
+
+            contact = null;
+            contact = GetFilledRandomContact("");
 
             //-----------------------------------
             // doing property [ContactTVItemID] of type [Int32]

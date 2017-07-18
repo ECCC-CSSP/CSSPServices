@@ -99,6 +99,26 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRunNumber, "1", "1000"), new[] { ModelsRes.MWQMRunRunNumber });
             }
 
+            if (mwqmRun.StartDateTime_Local != null && ((DateTime)mwqmRun.StartDateTime_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunStartDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunStartDateTime_Local });
+            }
+
+            if (mwqmRun.EndDateTime_Local != null && ((DateTime)mwqmRun.EndDateTime_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunEndDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunEndDateTime_Local });
+            }
+
+            if (mwqmRun.StartDateTime_Local < mwqmRun.EndDateTime_Local)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.MWQMRunEndDateTime_Local, ModelsRes.MWQMRunStartDateTime_Local), new[] { ModelsRes.MWQMRunEndDateTime_Local });
+            }
+
+            if (mwqmRun.LabReceivedDateTime_Local != null && ((DateTime)mwqmRun.LabReceivedDateTime_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLabReceivedDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunLabReceivedDateTime_Local });
+            }
+
             if (mwqmRun.TemperatureControl1_C < -10 || mwqmRun.TemperatureControl1_C > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl1_C, "-10", "40"), new[] { ModelsRes.MWQMRunTemperatureControl1_C });
@@ -183,11 +203,34 @@ namespace CSSPServices
                 }
             }
 
-            //LabSampleApprovalContactTVItemID has no Range Attribute
+            if (mwqmRun.LabSampleApprovalContactTVItemID < 1)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, "1"), new[] { ModelsRes.MWQMRunLabSampleApprovalContactTVItemID });
+            }
 
             if (!((from c in db.TVItems where c.TVItemID == mwqmRun.LabSampleApprovalContactTVItemID select c).Any()))
             {
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, mwqmRun.LabSampleApprovalContactTVItemID.ToString()), new[] { ModelsRes.MWQMRunLabSampleApprovalContactTVItemID });
+            }
+
+            if (mwqmRun.LabAnalyzeBath1IncubationStartDateTime_Local != null && ((DateTime)mwqmRun.LabAnalyzeBath1IncubationStartDateTime_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLabAnalyzeBath1IncubationStartDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunLabAnalyzeBath1IncubationStartDateTime_Local });
+            }
+
+            if (mwqmRun.LabAnalyzeBath2IncubationStartDateTime_Local != null && ((DateTime)mwqmRun.LabAnalyzeBath2IncubationStartDateTime_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLabAnalyzeBath2IncubationStartDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunLabAnalyzeBath2IncubationStartDateTime_Local });
+            }
+
+            if (mwqmRun.LabAnalyzeBath3IncubationStartDateTime_Local != null && ((DateTime)mwqmRun.LabAnalyzeBath3IncubationStartDateTime_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLabAnalyzeBath3IncubationStartDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunLabAnalyzeBath3IncubationStartDateTime_Local });
+            }
+
+            if (mwqmRun.LabRunSampleApprovalDateTime_Local != null && ((DateTime)mwqmRun.LabRunSampleApprovalDateTime_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLabRunSampleApprovalDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunLabRunSampleApprovalDateTime_Local });
             }
 
             if (mwqmRun.Tide_Start != null)

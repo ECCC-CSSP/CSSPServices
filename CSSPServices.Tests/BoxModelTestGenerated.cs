@@ -46,16 +46,16 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "BoxModelID") boxModel.BoxModelID = BoxModelID;
             if (OmitPropName != "InfrastructureTVItemID") boxModel.InfrastructureTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "Flow_m3_day") boxModel.Flow_m3_day = GetRandomFloat(0, 10000);
-            if (OmitPropName != "Depth_m") boxModel.Depth_m = GetRandomFloat(0, 1000);
-            if (OmitPropName != "Temperature_C") boxModel.Temperature_C = GetRandomFloat(-15, 40);
+            if (OmitPropName != "Flow_m3_day") boxModel.Flow_m3_day = GetRandomFloat(0.0f, 10000.0f);
+            if (OmitPropName != "Depth_m") boxModel.Depth_m = GetRandomFloat(0.0f, 1000.0f);
+            if (OmitPropName != "Temperature_C") boxModel.Temperature_C = GetRandomFloat(-15.0f, 40.0f);
             if (OmitPropName != "Dilution") boxModel.Dilution = GetRandomInt(0, 10000000);
-            if (OmitPropName != "DecayRate_per_day") boxModel.DecayRate_per_day = GetRandomFloat(0, 100);
+            if (OmitPropName != "DecayRate_per_day") boxModel.DecayRate_per_day = GetRandomFloat(0.0f, 100.0f);
             if (OmitPropName != "FCUntreated_MPN_100ml") boxModel.FCUntreated_MPN_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "FCPreDisinfection_MPN_100ml") boxModel.FCPreDisinfection_MPN_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "Concentration_MPN_100ml") boxModel.Concentration_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "T90_hour") boxModel.T90_hour = GetRandomFloat(0, 10);
-            if (OmitPropName != "FlowDuration_hour") boxModel.FlowDuration_hour = GetRandomFloat(0, 24);
+            if (OmitPropName != "T90_hour") boxModel.T90_hour = GetRandomFloat(0.0f, 10.0f);
+            if (OmitPropName != "FlowDuration_hour") boxModel.FlowDuration_hour = GetRandomFloat(0.0f, 24.0f);
             if (OmitPropName != "LastUpdateDate_UTC") boxModel.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") boxModel.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 

@@ -46,17 +46,17 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "ClimateSiteID") climateSite.ClimateSiteID = ClimateSiteID;
             if (OmitPropName != "ClimateSiteTVItemID") climateSite.ClimateSiteTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "ECDBID") climateSite.ECDBID = GetRandomInt(1, 1000);
-            if (OmitPropName != "ClimateSiteName") climateSite.ClimateSiteName = GetRandomString("", 20);
-            if (OmitPropName != "Province") climateSite.Province = GetRandomString("", 20);
-            if (OmitPropName != "Elevation_m") climateSite.Elevation_m = GetRandomDouble(1.0f, 1000.0f);
-            if (OmitPropName != "ClimateID") climateSite.ClimateID = GetRandomString("", 20);
-            if (OmitPropName != "WMOID") climateSite.WMOID = GetRandomInt(1, 1000);
-            if (OmitPropName != "TCID") climateSite.TCID = GetRandomString("", 20);
+            if (OmitPropName != "ECDBID") climateSite.ECDBID = GetRandomInt(1, 100000);
+            if (OmitPropName != "ClimateSiteName") climateSite.ClimateSiteName = GetRandomString("", 5);
+            if (OmitPropName != "Province") climateSite.Province = GetRandomString("", 4);
+            if (OmitPropName != "Elevation_m") climateSite.Elevation_m = GetRandomFloat(0.0f, 10000.0f);
+            if (OmitPropName != "ClimateID") climateSite.ClimateID = GetRandomString("", 5);
+            if (OmitPropName != "WMOID") climateSite.WMOID = GetRandomInt(1, 100000);
+            if (OmitPropName != "TCID") climateSite.TCID = GetRandomString("", 3);
             if (OmitPropName != "IsProvincial") climateSite.IsProvincial = true;
-            if (OmitPropName != "ProvSiteID") climateSite.ProvSiteID = GetRandomString("", 20);
-            if (OmitPropName != "TimeOffset_hour") climateSite.TimeOffset_hour = GetRandomDouble(1.0f, 1000.0f);
-            if (OmitPropName != "File_desc") climateSite.File_desc = GetRandomString("", 20);
+            if (OmitPropName != "ProvSiteID") climateSite.ProvSiteID = GetRandomString("", 5);
+            if (OmitPropName != "TimeOffset_hour") climateSite.TimeOffset_hour = GetRandomFloat(-10.0f, 0.0f);
+            if (OmitPropName != "File_desc") climateSite.File_desc = GetRandomString("", 5);
             if (OmitPropName != "HourlyStartDate_Local") climateSite.HourlyStartDate_Local = GetRandomDateTime();
             if (OmitPropName != "HourlyEndDate_Local") climateSite.HourlyEndDate_Local = GetRandomDateTime();
             if (OmitPropName != "HourlyNow") climateSite.HourlyNow = true;
@@ -121,8 +121,6 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, climateSite.Province);
             Assert.AreEqual(0, climateSiteService.GetRead().Count());
 
-            //Error: Type not implemented [Elevation_m]
-
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("ClimateID");
             Assert.AreEqual(false, climateSiteService.Add(climateSite));
@@ -146,8 +144,6 @@ namespace CSSPServices.Tests
             Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteProvSiteID)).Any());
             Assert.AreEqual(null, climateSite.ProvSiteID);
             Assert.AreEqual(0, climateSiteService.GetRead().Count());
-
-            //Error: Type not implemented [TimeOffset_hour]
 
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("File_desc");
@@ -218,6 +214,46 @@ namespace CSSPServices.Tests
 
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
+            // ECDBID has Min [1] and Max [100000]. At Min should return true and no errors
+            climateSite.ECDBID = 1;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(1, climateSite.ECDBID);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // ECDBID has Min [1] and Max [100000]. At Min + 1 should return true and no errors
+            climateSite.ECDBID = 2;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(2, climateSite.ECDBID);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // ECDBID has Min [1] and Max [100000]. At Min - 1 should return false with one error
+            climateSite.ECDBID = 0;
+            Assert.AreEqual(false, climateSiteService.Add(climateSite));
+            Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteECDBID, "1", "100000")).Any());
+            Assert.AreEqual(0, climateSite.ECDBID);
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // ECDBID has Min [1] and Max [100000]. At Max should return true and no errors
+            climateSite.ECDBID = 100000;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(100000, climateSite.ECDBID);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // ECDBID has Min [1] and Max [100000]. At Max - 1 should return true and no errors
+            climateSite.ECDBID = 99999;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(99999, climateSite.ECDBID);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // ECDBID has Min [1] and Max [100000]. At Max + 1 should return false with one error
+            climateSite.ECDBID = 100001;
+            Assert.AreEqual(false, climateSiteService.Add(climateSite));
+            Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteECDBID, "1", "100000")).Any());
+            Assert.AreEqual(100001, climateSite.ECDBID);
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
 
             //-----------------------------------
             // doing property [ClimateSiteName] of type [String]
@@ -234,8 +270,51 @@ namespace CSSPServices.Tests
             climateSite = GetFilledRandomClimateSite("");
 
             //-----------------------------------
-            // doing property [Elevation_m] of type [Double]
+            // doing property [Elevation_m] of type [Single]
             //-----------------------------------
+
+            climateSite = null;
+            climateSite = GetFilledRandomClimateSite("");
+            // Elevation_m has Min [0] and Max [10000]. At Min should return true and no errors
+            climateSite.Elevation_m = 0.0f;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(0.0f, climateSite.Elevation_m);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // Elevation_m has Min [0] and Max [10000]. At Min + 1 should return true and no errors
+            climateSite.Elevation_m = 1.0f;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(1.0f, climateSite.Elevation_m);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // Elevation_m has Min [0] and Max [10000]. At Min - 1 should return false with one error
+            climateSite.Elevation_m = -1.0f;
+            Assert.AreEqual(false, climateSiteService.Add(climateSite));
+            Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteElevation_m, "0", "10000")).Any());
+            Assert.AreEqual(-1.0f, climateSite.Elevation_m);
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // Elevation_m has Min [0] and Max [10000]. At Max should return true and no errors
+            climateSite.Elevation_m = 10000.0f;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(10000.0f, climateSite.Elevation_m);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // Elevation_m has Min [0] and Max [10000]. At Max - 1 should return true and no errors
+            climateSite.Elevation_m = 9999.0f;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(9999.0f, climateSite.Elevation_m);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // Elevation_m has Min [0] and Max [10000]. At Max + 1 should return false with one error
+            climateSite.Elevation_m = 10001.0f;
+            Assert.AreEqual(false, climateSiteService.Add(climateSite));
+            Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteElevation_m, "0", "10000")).Any());
+            Assert.AreEqual(10001.0f, climateSite.Elevation_m);
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
 
             //-----------------------------------
             // doing property [ClimateID] of type [String]
@@ -250,6 +329,46 @@ namespace CSSPServices.Tests
 
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
+            // WMOID has Min [1] and Max [100000]. At Min should return true and no errors
+            climateSite.WMOID = 1;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(1, climateSite.WMOID);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // WMOID has Min [1] and Max [100000]. At Min + 1 should return true and no errors
+            climateSite.WMOID = 2;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(2, climateSite.WMOID);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // WMOID has Min [1] and Max [100000]. At Min - 1 should return false with one error
+            climateSite.WMOID = 0;
+            Assert.AreEqual(false, climateSiteService.Add(climateSite));
+            Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteWMOID, "1", "100000")).Any());
+            Assert.AreEqual(0, climateSite.WMOID);
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // WMOID has Min [1] and Max [100000]. At Max should return true and no errors
+            climateSite.WMOID = 100000;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(100000, climateSite.WMOID);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // WMOID has Min [1] and Max [100000]. At Max - 1 should return true and no errors
+            climateSite.WMOID = 99999;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(99999, climateSite.WMOID);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // WMOID has Min [1] and Max [100000]. At Max + 1 should return false with one error
+            climateSite.WMOID = 100001;
+            Assert.AreEqual(false, climateSiteService.Add(climateSite));
+            Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteWMOID, "1", "100000")).Any());
+            Assert.AreEqual(100001, climateSite.WMOID);
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
 
             //-----------------------------------
             // doing property [TCID] of type [String]
@@ -270,8 +389,51 @@ namespace CSSPServices.Tests
             climateSite = GetFilledRandomClimateSite("");
 
             //-----------------------------------
-            // doing property [TimeOffset_hour] of type [Double]
+            // doing property [TimeOffset_hour] of type [Single]
             //-----------------------------------
+
+            climateSite = null;
+            climateSite = GetFilledRandomClimateSite("");
+            // TimeOffset_hour has Min [-10] and Max [0]. At Min should return true and no errors
+            climateSite.TimeOffset_hour = -10.0f;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(-10.0f, climateSite.TimeOffset_hour);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // TimeOffset_hour has Min [-10] and Max [0]. At Min + 1 should return true and no errors
+            climateSite.TimeOffset_hour = -9.0f;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(-9.0f, climateSite.TimeOffset_hour);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // TimeOffset_hour has Min [-10] and Max [0]. At Min - 1 should return false with one error
+            climateSite.TimeOffset_hour = -11.0f;
+            Assert.AreEqual(false, climateSiteService.Add(climateSite));
+            Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteTimeOffset_hour, "-10", "0")).Any());
+            Assert.AreEqual(-11.0f, climateSite.TimeOffset_hour);
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // TimeOffset_hour has Min [-10] and Max [0]. At Max should return true and no errors
+            climateSite.TimeOffset_hour = 0.0f;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(0.0f, climateSite.TimeOffset_hour);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // TimeOffset_hour has Min [-10] and Max [0]. At Max - 1 should return true and no errors
+            climateSite.TimeOffset_hour = -1.0f;
+            Assert.AreEqual(true, climateSiteService.Add(climateSite));
+            Assert.AreEqual(0, climateSite.ValidationResults.Count());
+            Assert.AreEqual(-1.0f, climateSite.TimeOffset_hour);
+            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
+            // TimeOffset_hour has Min [-10] and Max [0]. At Max + 1 should return false with one error
+            climateSite.TimeOffset_hour = 1.0f;
+            Assert.AreEqual(false, climateSiteService.Add(climateSite));
+            Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteTimeOffset_hour, "-10", "0")).Any());
+            Assert.AreEqual(1.0f, climateSite.TimeOffset_hour);
+            Assert.AreEqual(0, climateSiteService.GetRead().Count());
 
             //-----------------------------------
             // doing property [File_desc] of type [String]

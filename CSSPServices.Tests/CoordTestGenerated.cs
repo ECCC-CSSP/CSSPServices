@@ -44,8 +44,8 @@ namespace CSSPServices.Tests
 
             Coord coord = new Coord();
 
-            if (OmitPropName != "Lat") coord.Lat = GetRandomFloat(-180, 180);
-            if (OmitPropName != "Lng") coord.Lng = GetRandomFloat(-90, 90);
+            if (OmitPropName != "Lat") coord.Lat = GetRandomFloat(-180.0f, 180.0f);
+            if (OmitPropName != "Lng") coord.Lng = GetRandomFloat(-90.0f, 90.0f);
             if (OmitPropName != "Ordinal") coord.Ordinal = GetRandomInt(0, 10000);
 
             return coord;

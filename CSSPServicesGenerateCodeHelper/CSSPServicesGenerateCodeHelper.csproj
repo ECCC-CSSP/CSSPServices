@@ -37,6 +37,9 @@
     <Reference Include="CSSPModels">
       <HintPath>..\..\CSSPModels\CSSPModels\bin\Debug\CSSPModels.dll</HintPath>
     </Reference>
+    <Reference Include="CSSPModelsGenerateCodeHelper">
+      <HintPath>..\..\CSSPModels\CSSPModelsGenerateCodeHelper\bin\Debug\CSSPModelsGenerateCodeHelper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.EntityFrameworkCore, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.EntityFrameworkCore.1.1.2\lib\net451\Microsoft.EntityFrameworkCore.dll</HintPath>
     </Reference>

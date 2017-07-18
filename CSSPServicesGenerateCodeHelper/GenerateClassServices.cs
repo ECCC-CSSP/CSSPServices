@@ -21,21 +21,12 @@ namespace CSSPServicesGenerateCodeHelper
         #endregion Variables
 
         #region Properties
-        public CSSPWebToolsDBContext db { get; set; }
-        private string DLLFileName { get; set; }
-        private RichTextBox RichTextBoxStatus { get; set; }
-        private Label LabelStatus { get; set; }
-        private string GenerateFilePath { get; set; }
         #endregion Properties
 
         #region Constructors
         public GenerateClassServices(string DLLFileName, string GenerateFilePath, RichTextBox richTextBoxStatus, Label lblStatus)
+            : base(DLLFileName, GenerateFilePath, richTextBoxStatus, lblStatus)
         {
-            db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryNoDBShape);
-            this.DLLFileName = DLLFileName;
-            this.RichTextBoxStatus = richTextBoxStatus;
-            this.LabelStatus = lblStatus;
-            this.GenerateFilePath = GenerateFilePath;
         }
         #endregion Constructors
 
@@ -248,18 +239,29 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"        #endregion Functions public");
             sb.AppendLine(@"");
         }
-        private void CreateValidation_AfterYear(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_AfterYear(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (csspProp.Year != null)
             {
-                sb.AppendLine(@"            if (" + TypeNameLower + "." + csspProp.PropName + ".Year < " + csspProp.Year + ")");
-                sb.AppendLine(@"            {");
-                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Year + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
-                sb.AppendLine(@"            }");
-                sb.AppendLine(@"");
+                if (csspProp.IsNullable == true)
+                {
+                    sb.AppendLine(@"            if (" + TypeNameLower + "." + csspProp.PropName + " != null && ((DateTime)" + TypeNameLower + "." + csspProp.PropName + ").Year < " + csspProp.Year + ")");
+                    sb.AppendLine(@"            {");
+                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Year + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                    sb.AppendLine(@"            }");
+                    sb.AppendLine(@"");
+                }
+                else
+                {
+                    sb.AppendLine(@"            if (" + TypeNameLower + "." + csspProp.PropName + ".Year < " + csspProp.Year + ")");
+                    sb.AppendLine(@"            {");
+                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Year + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                    sb.AppendLine(@"            }");
+                    sb.AppendLine(@"");
+                }
             }
         }
-        private void CreateValidation_Bigger(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_Bigger(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (!string.IsNullOrWhiteSpace(csspProp.OtherField))
             {
@@ -270,7 +272,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"");
             }
         }
-        private void CreateValidation_Email(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_Email(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (csspProp.dataType == DataType.EmailAddress)
             {
@@ -285,9 +287,9 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"");
             }
         }
-        private void CreateValidation_EnumType(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_EnumType(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
-            if (csspProp.IsEnumType)
+            if (csspProp.HasCSSPEnumTypeAttribute)
             {
                 if (csspProp.IsNullable)
                 {
@@ -312,7 +314,7 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
         }
-        private void CreateValidation_Length(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_Length(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (!csspProp.IsKey)
             {
@@ -513,7 +515,7 @@ namespace CSSPServicesGenerateCodeHelper
                         break;
                     default:
                         {
-                            if (!csspProp.IsEnumType)
+                            if (!csspProp.HasCSSPEnumTypeAttribute)
                             {
                                 sb.AppendLine(@"                //Error: Type not implemented [" + csspProp.PropName + "] of type [" + csspProp.PropType + "]");
                             }
@@ -522,7 +524,7 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
         }
-        private void CreateValidation_NotNullable(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_NotNullable(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (!csspProp.IsNullable)
                 switch (prop.PropertyType.Name)
@@ -570,7 +572,7 @@ namespace CSSPServicesGenerateCodeHelper
                         break;
                     default:
                         {
-                            if (!csspProp.IsEnumType)
+                            if (!csspProp.HasCSSPEnumTypeAttribute)
                             {
                                 sb.AppendLine(@"                //Error: Type not implemented [" + prop.Name + "] of type [" + prop.PropertyType.Name + "]");
                                 sb.AppendLine(@"");
@@ -579,7 +581,7 @@ namespace CSSPServicesGenerateCodeHelper
                         break;
                 }
         }
-        private void CreateValidation_Key(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_Key(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (prop.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("KeyAttribute")).Any())
             {
@@ -594,7 +596,7 @@ namespace CSSPServicesGenerateCodeHelper
 
             }
         }
-        private void CreateValidation_Exist(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_Exist(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (!string.IsNullOrWhiteSpace(csspProp.ObjectExistTypeName) && !string.IsNullOrWhiteSpace(csspProp.ObjectExistPlurial) && !string.IsNullOrWhiteSpace(csspProp.ObjectExistFieldID))
             {
@@ -651,15 +653,7 @@ namespace CSSPServicesGenerateCodeHelper
                 LabelStatus.Refresh();
                 Application.DoEvents();
 
-                if (type.Name.StartsWith("<")
-                                   || type.Name.StartsWith("ModelsRes")
-                                   || type.Name.StartsWith("Application")
-                                   || type.Name.StartsWith("CSSPAfter")
-                                   || type.Name.StartsWith("CSSPAllowNull")
-                                   || type.Name.StartsWith("CSSPBigger")
-                                   || type.Name.StartsWith("CSSPEnumType")
-                                   || type.Name.StartsWith("CSSPExist")
-                                   || type.Name.StartsWith("CSSPWebToolsDBContext"))
+                if (ModelGenerateCodeHelper.SkipType(type))
                 {
                     continue;
                 }
@@ -748,8 +742,8 @@ namespace CSSPServicesGenerateCodeHelper
                         continue;
                     }
 
-                    CSSPProp csspProp = new CSSPProp();
-                    if (!FillCSSPProp(prop, csspProp, type))
+                    CSSPModelsGenerateCodeHelper.CSSPProp csspProp = new CSSPModelsGenerateCodeHelper.CSSPProp();
+                    if (!ModelGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
                     {
                         RichTextBoxStatus.AppendText("Error while creating code [" + csspProp.Error + "]");
                         return;

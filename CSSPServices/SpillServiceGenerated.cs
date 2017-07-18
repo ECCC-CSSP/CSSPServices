@@ -84,6 +84,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SpillStartDateTime_Local, "1980"), new[] { ModelsRes.SpillStartDateTime_Local });
             }
 
+            if (spill.EndDateTime_Local != null && ((DateTime)spill.EndDateTime_Local).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SpillEndDateTime_Local, "1980"), new[] { ModelsRes.SpillEndDateTime_Local });
+            }
+
+            if (spill.StartDateTime_Local < spill.EndDateTime_Local)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.SpillEndDateTime_Local, ModelsRes.SpillStartDateTime_Local), new[] { ModelsRes.SpillEndDateTime_Local });
+            }
+
             //AverageFlow_m3_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (spill.AverageFlow_m3_day < 0 || spill.AverageFlow_m3_day > 1000000)

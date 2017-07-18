@@ -74,6 +74,15 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailAddress, "255"), new[] { ModelsRes.EmailEmailAddress });
             }
 
+            if (!string.IsNullOrWhiteSpace(email.EmailAddress))
+            {
+                Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
+                if (!regex.IsMatch(email.EmailAddress))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.EmailEmailAddress), new[] { ModelsRes.EmailEmailAddress });
+                }
+            }
+
             retStr = enums.EmailTypeOK(email.EmailType);
             if (email.EmailType == EmailTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {

@@ -152,6 +152,46 @@ namespace CSSPServices.Tests
 
             contactPreference = null;
             contactPreference = GetFilledRandomContactPreference("");
+            // MarkerSize has Min [1] and Max [1000]. At Min should return true and no errors
+            contactPreference.MarkerSize = 1;
+            Assert.AreEqual(true, contactPreferenceService.Add(contactPreference));
+            Assert.AreEqual(0, contactPreference.ValidationResults.Count());
+            Assert.AreEqual(1, contactPreference.MarkerSize);
+            Assert.AreEqual(true, contactPreferenceService.Delete(contactPreference));
+            Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
+            // MarkerSize has Min [1] and Max [1000]. At Min + 1 should return true and no errors
+            contactPreference.MarkerSize = 2;
+            Assert.AreEqual(true, contactPreferenceService.Add(contactPreference));
+            Assert.AreEqual(0, contactPreference.ValidationResults.Count());
+            Assert.AreEqual(2, contactPreference.MarkerSize);
+            Assert.AreEqual(true, contactPreferenceService.Delete(contactPreference));
+            Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
+            // MarkerSize has Min [1] and Max [1000]. At Min - 1 should return false with one error
+            contactPreference.MarkerSize = 0;
+            Assert.AreEqual(false, contactPreferenceService.Add(contactPreference));
+            Assert.IsTrue(contactPreference.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContactPreferenceMarkerSize, "1", "1000")).Any());
+            Assert.AreEqual(0, contactPreference.MarkerSize);
+            Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
+            // MarkerSize has Min [1] and Max [1000]. At Max should return true and no errors
+            contactPreference.MarkerSize = 1000;
+            Assert.AreEqual(true, contactPreferenceService.Add(contactPreference));
+            Assert.AreEqual(0, contactPreference.ValidationResults.Count());
+            Assert.AreEqual(1000, contactPreference.MarkerSize);
+            Assert.AreEqual(true, contactPreferenceService.Delete(contactPreference));
+            Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
+            // MarkerSize has Min [1] and Max [1000]. At Max - 1 should return true and no errors
+            contactPreference.MarkerSize = 999;
+            Assert.AreEqual(true, contactPreferenceService.Add(contactPreference));
+            Assert.AreEqual(0, contactPreference.ValidationResults.Count());
+            Assert.AreEqual(999, contactPreference.MarkerSize);
+            Assert.AreEqual(true, contactPreferenceService.Delete(contactPreference));
+            Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
+            // MarkerSize has Min [1] and Max [1000]. At Max + 1 should return false with one error
+            contactPreference.MarkerSize = 1001;
+            Assert.AreEqual(false, contactPreferenceService.Add(contactPreference));
+            Assert.IsTrue(contactPreference.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContactPreferenceMarkerSize, "1", "1000")).Any());
+            Assert.AreEqual(1001, contactPreference.MarkerSize);
+            Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
 
             //-----------------------------------
             // doing property [LastUpdateDate_UTC] of type [DateTime]

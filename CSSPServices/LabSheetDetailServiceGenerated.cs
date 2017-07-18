@@ -100,6 +100,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetDetailRunDate), new[] { ModelsRes.LabSheetDetailRunDate });
             }
 
+            if (labSheetDetail.RunDate.Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailRunDate, "1980"), new[] { ModelsRes.LabSheetDetailRunDate });
+            }
+
             if (string.IsNullOrWhiteSpace(labSheetDetail.Tides))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetDetailTides), new[] { ModelsRes.LabSheetDetailTides });
@@ -118,6 +123,36 @@ namespace CSSPServices
             if (labSheetDetail.WaterBathCount < 1 || labSheetDetail.WaterBathCount > 3)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailWaterBathCount, "1", "3"), new[] { ModelsRes.LabSheetDetailWaterBathCount });
+            }
+
+            if (labSheetDetail.IncubationBath1StartTime != null && ((DateTime)labSheetDetail.IncubationBath1StartTime).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailIncubationBath1StartTime, "1980"), new[] { ModelsRes.LabSheetDetailIncubationBath1StartTime });
+            }
+
+            if (labSheetDetail.IncubationBath2StartTime != null && ((DateTime)labSheetDetail.IncubationBath2StartTime).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailIncubationBath2StartTime, "1980"), new[] { ModelsRes.LabSheetDetailIncubationBath2StartTime });
+            }
+
+            if (labSheetDetail.IncubationBath3StartTime != null && ((DateTime)labSheetDetail.IncubationBath3StartTime).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailIncubationBath3StartTime, "1980"), new[] { ModelsRes.LabSheetDetailIncubationBath3StartTime });
+            }
+
+            if (labSheetDetail.IncubationBath1EndTime != null && ((DateTime)labSheetDetail.IncubationBath1EndTime).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailIncubationBath1EndTime, "1980"), new[] { ModelsRes.LabSheetDetailIncubationBath1EndTime });
+            }
+
+            if (labSheetDetail.IncubationBath2EndTime != null && ((DateTime)labSheetDetail.IncubationBath2EndTime).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailIncubationBath2EndTime, "1980"), new[] { ModelsRes.LabSheetDetailIncubationBath2EndTime });
+            }
+
+            if (labSheetDetail.IncubationBath3EndTime != null && ((DateTime)labSheetDetail.IncubationBath3EndTime).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailIncubationBath3EndTime, "1980"), new[] { ModelsRes.LabSheetDetailIncubationBath3EndTime });
             }
 
             if (labSheetDetail.IncubationBath1TimeCalculated_minutes < 0 || labSheetDetail.IncubationBath1TimeCalculated_minutes > 10000)
@@ -300,9 +335,19 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailSalinitiesReadBy, "20"), new[] { ModelsRes.LabSheetDetailSalinitiesReadBy });
             }
 
+            if (labSheetDetail.SalinitiesReadDate != null && ((DateTime)labSheetDetail.SalinitiesReadDate).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailSalinitiesReadDate, "1980"), new[] { ModelsRes.LabSheetDetailSalinitiesReadDate });
+            }
+
             if (!string.IsNullOrWhiteSpace(labSheetDetail.ResultsReadBy) && labSheetDetail.ResultsReadBy.Length > 20)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailResultsReadBy, "20"), new[] { ModelsRes.LabSheetDetailResultsReadBy });
+            }
+
+            if (labSheetDetail.ResultsReadDate != null && ((DateTime)labSheetDetail.ResultsReadDate).Year < 1980)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailResultsReadDate, "1980"), new[] { ModelsRes.LabSheetDetailResultsReadDate });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheetDetail.ResultsRecordedBy) && labSheetDetail.ResultsRecordedBy.Length > 20)
@@ -310,9 +355,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailResultsRecordedBy, "20"), new[] { ModelsRes.LabSheetDetailResultsRecordedBy });
             }
 
-            if (labSheetDetail.DailyDuplicateRlog < 0 || labSheetDetail.DailyDuplicateRlog > 100)
+            if (labSheetDetail.ResultsRecordedDate != null && ((DateTime)labSheetDetail.ResultsRecordedDate).Year < 1980)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailDailyDuplicateRlog, "0", "100"), new[] { ModelsRes.LabSheetDetailDailyDuplicateRlog });
+                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailResultsRecordedDate, "1980"), new[] { ModelsRes.LabSheetDetailResultsRecordedDate });
+            }
+
+            if (labSheetDetail.DailyDuplicateRLog < 0 || labSheetDetail.DailyDuplicateRLog > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailDailyDuplicateRLog, "0", "100"), new[] { ModelsRes.LabSheetDetailDailyDuplicateRLog });
             }
 
             if (labSheetDetail.DailyDuplicatePrecisionCriteria < 0 || labSheetDetail.DailyDuplicatePrecisionCriteria > 100)
@@ -320,9 +370,9 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailDailyDuplicatePrecisionCriteria, "0", "100"), new[] { ModelsRes.LabSheetDetailDailyDuplicatePrecisionCriteria });
             }
 
-            if (labSheetDetail.IntertechDuplicateRlog < 0 || labSheetDetail.IntertechDuplicateRlog > 100)
+            if (labSheetDetail.IntertechDuplicateRLog < 0 || labSheetDetail.IntertechDuplicateRLog > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIntertechDuplicateRlog, "0", "100"), new[] { ModelsRes.LabSheetDetailIntertechDuplicateRlog });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailIntertechDuplicateRLog, "0", "100"), new[] { ModelsRes.LabSheetDetailIntertechDuplicateRLog });
             }
 
             if (labSheetDetail.IntertechDuplicatePrecisionCriteria < 0 || labSheetDetail.IntertechDuplicatePrecisionCriteria > 100)

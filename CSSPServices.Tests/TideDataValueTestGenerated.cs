@@ -50,9 +50,9 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Keep") tideDataValue.Keep = true;
             if (OmitPropName != "TideDataType") tideDataValue.TideDataType = (TideDataTypeEnum)GetRandomEnumType(typeof(TideDataTypeEnum));
             if (OmitPropName != "StorageDataType") tideDataValue.StorageDataType = (StorageDataTypeEnum)GetRandomEnumType(typeof(StorageDataTypeEnum));
-            if (OmitPropName != "Depth_m") tideDataValue.Depth_m = GetRandomFloat(0, 10000);
-            if (OmitPropName != "UVelocity_m_s") tideDataValue.UVelocity_m_s = GetRandomFloat(0, 10);
-            if (OmitPropName != "VVelocity_m_s") tideDataValue.VVelocity_m_s = GetRandomFloat(0, 10);
+            if (OmitPropName != "Depth_m") tideDataValue.Depth_m = GetRandomFloat(0.0f, 10000.0f);
+            if (OmitPropName != "UVelocity_m_s") tideDataValue.UVelocity_m_s = GetRandomFloat(0.0f, 10.0f);
+            if (OmitPropName != "VVelocity_m_s") tideDataValue.VVelocity_m_s = GetRandomFloat(0.0f, 10.0f);
             if (OmitPropName != "TideStart") tideDataValue.TideStart = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
             if (OmitPropName != "TideEnd") tideDataValue.TideEnd = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
             if (OmitPropName != "LastUpdateDate_UTC") tideDataValue.LastUpdateDate_UTC = GetRandomDateTime();

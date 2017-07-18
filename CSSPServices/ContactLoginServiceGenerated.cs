@@ -74,6 +74,15 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginLoginEmail, "200"), new[] { ModelsRes.ContactLoginLoginEmail });
             }
 
+            if (!string.IsNullOrWhiteSpace(contactLogin.LoginEmail))
+            {
+                Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
+                if (!regex.IsMatch(contactLogin.LoginEmail))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.ContactLoginLoginEmail), new[] { ModelsRes.ContactLoginLoginEmail });
+                }
+            }
+
                 //Error: Type not implemented [PasswordHash] of type [Byte[]]
 
                 //Error: Type not implemented [PasswordHash] of type [Byte[]]

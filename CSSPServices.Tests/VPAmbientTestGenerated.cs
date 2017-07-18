@@ -47,16 +47,16 @@ namespace CSSPServices.Tests
             if (OmitPropName != "VPAmbientID") vpAmbient.VPAmbientID = VPAmbientID;
             if (OmitPropName != "VPScenarioID") vpAmbient.VPScenarioID = GetRandomInt(1, 11);
             if (OmitPropName != "Row") vpAmbient.Row = GetRandomInt(0, 10);
-            if (OmitPropName != "MeasurementDepth_m") vpAmbient.MeasurementDepth_m = GetRandomFloat(0, 1000);
-            if (OmitPropName != "CurrentSpeed_m_s") vpAmbient.CurrentSpeed_m_s = GetRandomFloat(0, 10);
-            if (OmitPropName != "CurrentDirection_deg") vpAmbient.CurrentDirection_deg = GetRandomFloat(-180, 180);
-            if (OmitPropName != "AmbientSalinity_PSU") vpAmbient.AmbientSalinity_PSU = GetRandomFloat(0, 40);
-            if (OmitPropName != "AmbientTemperature_C") vpAmbient.AmbientTemperature_C = GetRandomFloat(-10, 40);
+            if (OmitPropName != "MeasurementDepth_m") vpAmbient.MeasurementDepth_m = GetRandomFloat(0.0f, 1000.0f);
+            if (OmitPropName != "CurrentSpeed_m_s") vpAmbient.CurrentSpeed_m_s = GetRandomFloat(0.0f, 10.0f);
+            if (OmitPropName != "CurrentDirection_deg") vpAmbient.CurrentDirection_deg = GetRandomFloat(-180.0f, 180.0f);
+            if (OmitPropName != "AmbientSalinity_PSU") vpAmbient.AmbientSalinity_PSU = GetRandomFloat(0.0f, 40.0f);
+            if (OmitPropName != "AmbientTemperature_C") vpAmbient.AmbientTemperature_C = GetRandomFloat(-10.0f, 40.0f);
             if (OmitPropName != "BackgroundConcentration_MPN_100ml") vpAmbient.BackgroundConcentration_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "PollutantDecayRate_per_day") vpAmbient.PollutantDecayRate_per_day = GetRandomFloat(0, 100);
-            if (OmitPropName != "FarFieldCurrentSpeed_m_s") vpAmbient.FarFieldCurrentSpeed_m_s = GetRandomFloat(0, 10);
-            if (OmitPropName != "FarFieldCurrentDirection_deg") vpAmbient.FarFieldCurrentDirection_deg = GetRandomFloat(-180, 180);
-            if (OmitPropName != "FarFieldDiffusionCoefficient") vpAmbient.FarFieldDiffusionCoefficient = GetRandomFloat(0, 1);
+            if (OmitPropName != "PollutantDecayRate_per_day") vpAmbient.PollutantDecayRate_per_day = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "FarFieldCurrentSpeed_m_s") vpAmbient.FarFieldCurrentSpeed_m_s = GetRandomFloat(0.0f, 10.0f);
+            if (OmitPropName != "FarFieldCurrentDirection_deg") vpAmbient.FarFieldCurrentDirection_deg = GetRandomFloat(-180.0f, 180.0f);
+            if (OmitPropName != "FarFieldDiffusionCoefficient") vpAmbient.FarFieldDiffusionCoefficient = GetRandomFloat(0.0f, 1.0f);
             if (OmitPropName != "LastUpdateDate_UTC") vpAmbient.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") vpAmbient.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 

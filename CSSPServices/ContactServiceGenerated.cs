@@ -52,6 +52,16 @@ namespace CSSPServices
 
             //ContactID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
+            if (string.IsNullOrWhiteSpace(contact.Id))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactId), new[] { ModelsRes.ContactId });
+            }
+
+            if (!string.IsNullOrWhiteSpace(contact.Id) && contact.Id.Length > 128)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactId, "128"), new[] { ModelsRes.ContactId });
+            }
+
             //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contact.ContactTVItemID < 1)
@@ -72,6 +82,15 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(contact.LoginEmail) && (contact.LoginEmail.Length < 6 || contact.LoginEmail.Length > 255))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginEmail, "6", "255"), new[] { ModelsRes.ContactLoginEmail });
+            }
+
+            if (!string.IsNullOrWhiteSpace(contact.LoginEmail))
+            {
+                Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
+                if (!regex.IsMatch(contact.LoginEmail))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.ContactLoginEmail), new[] { ModelsRes.ContactLoginEmail });
+                }
             }
 
             if (string.IsNullOrWhiteSpace(contact.FirstName))
@@ -126,7 +145,10 @@ namespace CSSPServices
 
             //IsNew (bool) is required but no testing needed 
 
-            //SamplingPlanner_ProvincesTVItemID has no StringLength Attribute
+            if (!string.IsNullOrWhiteSpace(contact.SamplingPlanner_ProvincesTVItemID) && contact.SamplingPlanner_ProvincesTVItemID.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactSamplingPlanner_ProvincesTVItemID, "200"), new[] { ModelsRes.ContactSamplingPlanner_ProvincesTVItemID });
+            }
 
             if (contact.LastUpdateDate_UTC == null)
             {

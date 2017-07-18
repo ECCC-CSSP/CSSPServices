@@ -49,7 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "InfrastructureTVItemID") spill.InfrastructureTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "StartDateTime_Local") spill.StartDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "EndDateTime_Local") spill.EndDateTime_Local = GetRandomDateTime();
-            if (OmitPropName != "AverageFlow_m3_day") spill.AverageFlow_m3_day = GetRandomFloat(0, 1000000);
+            if (OmitPropName != "AverageFlow_m3_day") spill.AverageFlow_m3_day = GetRandomFloat(0.0f, 1000000.0f);
             if (OmitPropName != "LastUpdateDate_UTC") spill.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") spill.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 

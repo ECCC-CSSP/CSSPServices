@@ -45,7 +45,7 @@ namespace CSSPServices.Tests
             CalDecay calDecay = new CalDecay();
 
             if (OmitPropName != "Error") calDecay.Error = GetRandomString("", 5);
-            if (OmitPropName != "Decay") calDecay.Decay = GetRandomDouble(1.0f, 1000.0f);
+            if (OmitPropName != "Decay") calDecay.Decay = GetRandomDouble(1.0D, 1000.0D);
 
             return calDecay;
         }
