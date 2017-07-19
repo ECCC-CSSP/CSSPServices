@@ -600,11 +600,25 @@ namespace CSSPServicesGenerateCodeHelper
         {
             if (!string.IsNullOrWhiteSpace(csspProp.ObjectExistTypeName) && !string.IsNullOrWhiteSpace(csspProp.ObjectExistPlurial) && !string.IsNullOrWhiteSpace(csspProp.ObjectExistFieldID))
             {
-                sb.AppendLine(@"            if (!((from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).Any()))");
-                sb.AppendLine(@"            {");
-                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
-                sb.AppendLine(@"            }");
-                sb.AppendLine(@"");
+                if (TypeName == "TVItem" && (csspProp.PropName == "ParentID" || csspProp.PropName == "LastUpdateContactTVItemID"))
+                {
+                    sb.AppendLine(@"            if (tvItem.TVType != TVTypeEnum.Root)");
+                    sb.AppendLine(@"            {");
+                    sb.AppendLine(@"                if (!((from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).Any()))");
+                    sb.AppendLine(@"                {");
+                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                    sb.AppendLine(@"                }");
+                    sb.AppendLine(@"            }");
+                    sb.AppendLine(@"");
+                }
+                else
+                {
+                    sb.AppendLine(@"            if (!((from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).Any()))");
+                    sb.AppendLine(@"            {");
+                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                    sb.AppendLine(@"            }");
+                    sb.AppendLine(@"");
+                }
             }
         }
         #endregion Functions private
@@ -658,10 +672,10 @@ namespace CSSPServicesGenerateCodeHelper
                     continue;
                 }
 
-                //if (type.Name != "AppTaskParameter")
-                //{
-                //    continue;
-                //}
+                if (type.Name != "TVItem")
+                {
+                    continue;
+                }
 
                 foreach (CustomAttributeData customAttributeData in type.CustomAttributes)
                 {
@@ -730,6 +744,21 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"            " + TypeName + @" " + TypeNameLower + @" = validationContext.ObjectInstance as " + TypeName + @";");
                 sb.AppendLine(@"");
 
+                if (TypeName == "TVItem")
+                {
+                    sb.AppendLine(@"            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)");
+                    sb.AppendLine(@"            {");
+                    sb.AppendLine(@"                if (tvItem.TVType == TVTypeEnum.Root)");
+                    sb.AppendLine(@"                {");
+                    sb.AppendLine(@"                    if (GetRead().Count() > 0)");
+                    sb.AppendLine(@"                    {");
+                    sb.AppendLine(@"                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });");
+                    sb.AppendLine(@"                    }");
+                    sb.AppendLine(@"                }");
+                    sb.AppendLine(@"            }");
+                    sb.AppendLine(@"");
+                }
+
                 foreach (PropertyInfo prop in type.GetProperties())
                 {
                     if (prop.GetGetMethod().IsVirtual)
@@ -758,19 +787,6 @@ namespace CSSPServicesGenerateCodeHelper
 
                     CreateValidation_Length(prop, csspProp, TypeName, TypeNameLower, sb);
 
-                    if (TypeName == "TVItem")
-                    {
-                        sb.AppendLine(@"            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)");
-                        sb.AppendLine(@"            {");
-                        sb.AppendLine(@"                if (tvItem.TVType == TVTypeEnum.Root)");
-                        sb.AppendLine(@"                {");
-                        sb.AppendLine(@"                    if (GetRead().Count() > 0)");
-                        sb.AppendLine(@"                    {");
-                        sb.AppendLine(@"                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });");
-                        sb.AppendLine(@"                    }");
-                        sb.AppendLine(@"                }");
-                        sb.AppendLine(@"            }");
-                    }
 
                     CreateValidation_Email(prop, csspProp, TypeName, TypeNameLower, sb);
 

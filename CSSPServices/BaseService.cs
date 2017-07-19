@@ -34,7 +34,7 @@ namespace CSSPServices
         public int ContactID { get; set; }
         public bool IsTest { get; set; }
         public bool CanSendEmail { get; set; }
-        public string DBName { get; set; }
+        //public string DBName { get; set; }
         public string FromEmail { get; set; }
         #endregion Properties
 
@@ -62,7 +62,7 @@ namespace CSSPServices
             }
             this.ContactID = ContactID;
             this.CanSendEmail = true;
-            this.DBName = "CSSPWebToolsDBTest";
+            //this.DBName = "CSSPWebToolsDBTest";
             this.FromEmail = "ec.pccsm-cssp.ec@canada.ca";
             this.IsTest = false;
         }

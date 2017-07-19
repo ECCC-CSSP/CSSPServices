@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.textBoxFile3ToGenerate = new System.Windows.Forms.TextBox();
+            this.lblFile3 = new System.Windows.Forms.Label();
             this.textBoxFile2ToGenerate = new System.Windows.Forms.TextBox();
             this.lblFile2 = new System.Windows.Forms.Label();
             this.textBoxCSSPModelsDLL = new System.Windows.Forms.TextBox();
@@ -48,8 +50,6 @@
             this.ButGenerateFillDBTestingGenerated = new System.Windows.Forms.Button();
             this.butGenerateClassTestGenerated = new System.Windows.Forms.Button();
             this.richTextBoxStatus = new System.Windows.Forms.RichTextBox();
-            this.textBoxFile3ToGenerate = new System.Windows.Forms.TextBox();
-            this.lblFile3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -91,6 +91,23 @@
             this.splitContainer1.Size = new System.Drawing.Size(1015, 725);
             this.splitContainer1.SplitterDistance = 536;
             this.splitContainer1.TabIndex = 4;
+            // 
+            // textBoxFile3ToGenerate
+            // 
+            this.textBoxFile3ToGenerate.Location = new System.Drawing.Point(72, 190);
+            this.textBoxFile3ToGenerate.Name = "textBoxFile3ToGenerate";
+            this.textBoxFile3ToGenerate.Size = new System.Drawing.Size(554, 20);
+            this.textBoxFile3ToGenerate.TabIndex = 36;
+            this.textBoxFile3ToGenerate.Text = "CSSPServicesFillDB.Tests\\";
+            // 
+            // lblFile3
+            // 
+            this.lblFile3.AutoSize = true;
+            this.lblFile3.Location = new System.Drawing.Point(15, 193);
+            this.lblFile3.Name = "lblFile3";
+            this.lblFile3.Size = new System.Drawing.Size(35, 13);
+            this.lblFile3.TabIndex = 35;
+            this.lblFile3.Text = "File 3:";
             // 
             // textBoxFile2ToGenerate
             // 
@@ -234,6 +251,7 @@
             // 
             // ButGenerateFillDBTestingGenerated
             // 
+            this.ButGenerateFillDBTestingGenerated.Enabled = false;
             this.ButGenerateFillDBTestingGenerated.Location = new System.Drawing.Point(317, 273);
             this.ButGenerateFillDBTestingGenerated.Name = "ButGenerateFillDBTestingGenerated";
             this.ButGenerateFillDBTestingGenerated.Size = new System.Drawing.Size(199, 23);
@@ -260,23 +278,6 @@
             this.richTextBoxStatus.Size = new System.Drawing.Size(1015, 185);
             this.richTextBoxStatus.TabIndex = 0;
             this.richTextBoxStatus.Text = "";
-            // 
-            // textBoxFile3ToGenerate
-            // 
-            this.textBoxFile3ToGenerate.Location = new System.Drawing.Point(72, 190);
-            this.textBoxFile3ToGenerate.Name = "textBoxFile3ToGenerate";
-            this.textBoxFile3ToGenerate.Size = new System.Drawing.Size(554, 20);
-            this.textBoxFile3ToGenerate.TabIndex = 36;
-            this.textBoxFile3ToGenerate.Text = "CSSPServicesFillDB.Tests\\";
-            // 
-            // lblFile3
-            // 
-            this.lblFile3.AutoSize = true;
-            this.lblFile3.Location = new System.Drawing.Point(15, 193);
-            this.lblFile3.Name = "lblFile3";
-            this.lblFile3.Size = new System.Drawing.Size(35, 13);
-            this.lblFile3.TabIndex = 35;
-            this.lblFile3.Text = "File 3:";
             // 
             // CSSPServicesGenerateCode
             // 

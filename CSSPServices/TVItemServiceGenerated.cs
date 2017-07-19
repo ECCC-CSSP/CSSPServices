@@ -42,6 +42,17 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItem tvItem = validationContext.ObjectInstance as TVItem;
 
+            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
+            {
+                if (tvItem.TVType == TVTypeEnum.Root)
+                {
+                    if (GetRead().Count() > 0)
+                    {
+                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });
+                    }
+                }
+            }
+
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (tvItem.TVItemID == 0)
@@ -52,16 +63,6 @@ namespace CSSPServices
 
             //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
-            {
-                if (tvItem.TVType == TVTypeEnum.Root)
-                {
-                    if (GetRead().Count() > 0)
-                    {
-                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });
-                    }
-                }
-            }
             //TVLevel (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tvItem.TVLevel < 0 || tvItem.TVLevel > 100)
@@ -69,16 +70,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVItemTVLevel, "0", "100"), new[] { ModelsRes.TVItemTVLevel });
             }
 
-            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
-            {
-                if (tvItem.TVType == TVTypeEnum.Root)
-                {
-                    if (GetRead().Count() > 0)
-                    {
-                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });
-                    }
-                }
-            }
             if (string.IsNullOrWhiteSpace(tvItem.TVPath))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVPath), new[] { ModelsRes.TVItemTVPath });
@@ -89,26 +80,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemTVPath, "250"), new[] { ModelsRes.TVItemTVPath });
             }
 
-            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
-            {
-                if (tvItem.TVType == TVTypeEnum.Root)
-                {
-                    if (GetRead().Count() > 0)
-                    {
-                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });
-                    }
-                }
-            }
-            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
-            {
-                if (tvItem.TVType == TVTypeEnum.Root)
-                {
-                    if (GetRead().Count() > 0)
-                    {
-                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });
-                    }
-                }
-            }
             retStr = enums.TVTypeOK(tvItem.TVType);
             if (tvItem.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
@@ -122,48 +93,21 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemParentID, "1"), new[] { ModelsRes.TVItemParentID });
             }
 
-            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
+            if (tvItem.TVType != TVTypeEnum.Root)
             {
-                if (tvItem.TVType == TVTypeEnum.Root)
+                if (!((from c in db.TVItems where c.TVItemID == tvItem.ParentID select c).Any()))
                 {
-                    if (GetRead().Count() > 0)
-                    {
-                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });
-                    }
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemParentID, tvItem.ParentID.ToString()), new[] { ModelsRes.TVItemParentID });
                 }
-            }
-            if (!((from c in db.TVItems where c.TVItemID == tvItem.ParentID select c).Any()))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemParentID, tvItem.ParentID.ToString()), new[] { ModelsRes.TVItemParentID });
             }
 
             //IsActive (bool) is required but no testing needed 
 
-            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
-            {
-                if (tvItem.TVType == TVTypeEnum.Root)
-                {
-                    if (GetRead().Count() > 0)
-                    {
-                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });
-                    }
-                }
-            }
             if (tvItem.LastUpdateDate_UTC == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLastUpdateDate_UTC), new[] { ModelsRes.TVItemLastUpdateDate_UTC });
             }
 
-            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
-            {
-                if (tvItem.TVType == TVTypeEnum.Root)
-                {
-                    if (GetRead().Count() > 0)
-                    {
-                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });
-                    }
-                }
-            }
             if (tvItem.LastUpdateDate_UTC.Year < 1980)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVItemLastUpdateDate_UTC });
@@ -176,19 +120,12 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemLastUpdateContactTVItemID, "1"), new[] { ModelsRes.TVItemLastUpdateContactTVItemID });
             }
 
-            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
+            if (tvItem.TVType != TVTypeEnum.Root)
             {
-                if (tvItem.TVType == TVTypeEnum.Root)
+                if (!((from c in db.TVItems where c.TVItemID == tvItem.LastUpdateContactTVItemID select c).Any()))
                 {
-                    if (GetRead().Count() > 0)
-                    {
-                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });
-                    }
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLastUpdateContactTVItemID, tvItem.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.TVItemLastUpdateContactTVItemID });
                 }
-            }
-            if (!((from c in db.TVItems where c.TVItemID == tvItem.LastUpdateContactTVItemID select c).Any()))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLastUpdateContactTVItemID, tvItem.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.TVItemLastUpdateContactTVItemID });
             }
 
             retStr = "";

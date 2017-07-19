@@ -1215,7 +1215,7 @@ namespace CSSPServices
                     return false;
                 }
 
-                tvItem.TVItemID = tvItemRoot.TVItemID + 1;
+                //tvItem.TVItemID = tvItemRoot.TVItemID + 1;
                 tvItem.TVLevel = 1;
                 tvItem.TVPath = tvItemRoot.TVPath + "p0"; // will be changed later
                 tvItem.TVType = TVTypeEnum.Contact;
