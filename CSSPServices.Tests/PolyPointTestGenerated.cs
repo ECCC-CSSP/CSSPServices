@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
         public void PolyPoint_Testing()
         {
             SetupTestHelper(culture);
-            PolyPointService polyPointService = new PolyPointService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            PolyPointService polyPointService = new PolyPointService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             PolyPoint polyPoint = GetFilledRandomPolyPoint("");
 
             // -------------------------------

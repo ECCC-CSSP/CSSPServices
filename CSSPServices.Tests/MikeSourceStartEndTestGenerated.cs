@@ -68,7 +68,7 @@ namespace CSSPServices.Tests
         public void MikeSourceStartEnd_Testing()
         {
             SetupTestHelper(culture);
-            MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             MikeSourceStartEnd mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
 
             // -------------------------------

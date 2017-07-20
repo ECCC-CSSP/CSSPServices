@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void VPScenarioLanguage_Testing()
         {
             SetupTestHelper(culture);
-            VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             VPScenarioLanguage vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
 
             // -------------------------------

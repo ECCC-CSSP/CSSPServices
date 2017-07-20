@@ -63,7 +63,7 @@ namespace CSSPServices.Tests
         public void MWQMRunLanguage_Testing()
         {
             SetupTestHelper(culture);
-            MWQMRunLanguageService mwqmRunLanguageService = new MWQMRunLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MWQMRunLanguageService mwqmRunLanguageService = new MWQMRunLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             MWQMRunLanguage mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("");
 
             // -------------------------------

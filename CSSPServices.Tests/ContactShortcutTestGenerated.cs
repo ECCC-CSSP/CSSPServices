@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
         public void ContactShortcut_Testing()
         {
             SetupTestHelper(culture);
-            ContactShortcutService contactShortcutService = new ContactShortcutService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactShortcutService contactShortcutService = new ContactShortcutService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             ContactShortcut contactShortcut = GetFilledRandomContactShortcut("");
 
             // -------------------------------

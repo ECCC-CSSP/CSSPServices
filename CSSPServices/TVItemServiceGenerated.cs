@@ -42,7 +42,7 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItem tvItem = validationContext.ObjectInstance as TVItem;
 
-            if (DatabaseType > DatabaseTypeEnum.MemoryNoDBShape)
+            if (DatabaseType > DatabaseTypeEnum.MemoryTestDB)
             {
                 if (tvItem.TVType == TVTypeEnum.Root)
                 {

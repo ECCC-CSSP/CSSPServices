@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
         public void TVTypeNamesAndPath_Testing()
         {
             SetupTestHelper(culture);
-            TVTypeNamesAndPathService tvTypeNamesAndPathService = new TVTypeNamesAndPathService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVTypeNamesAndPathService tvTypeNamesAndPathService = new TVTypeNamesAndPathService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             TVTypeNamesAndPath tvTypeNamesAndPath = GetFilledRandomTVTypeNamesAndPath("");
 
             // -------------------------------

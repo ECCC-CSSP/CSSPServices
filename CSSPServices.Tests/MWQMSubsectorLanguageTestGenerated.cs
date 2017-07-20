@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void MWQMSubsectorLanguage_Testing()
         {
             SetupTestHelper(culture);
-            MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             MWQMSubsectorLanguage mwqmSubsectorLanguage = GetFilledRandomMWQMSubsectorLanguage("");
 
             // -------------------------------

@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void InfrastructureLanguage_Testing()
         {
             SetupTestHelper(culture);
-            InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             InfrastructureLanguage infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
 
             // -------------------------------

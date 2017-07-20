@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void Search_Testing()
         {
             SetupTestHelper(culture);
-            SearchService searchService = new SearchService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            SearchService searchService = new SearchService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             Search search = GetFilledRandomSearch("");
 
             // -------------------------------

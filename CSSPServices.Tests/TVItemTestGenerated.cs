@@ -62,7 +62,7 @@ namespace CSSPServices.Tests
         public void TVItem_Testing()
         {
             SetupTestHelper(culture);
-            TVItemService tvItemService = new TVItemService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVItemService tvItemService = new TVItemService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             TVItem tvItem = GetFilledRandomTVItem("");
 
             // -------------------------------

@@ -63,7 +63,7 @@ namespace CSSPServices.Tests
         public void ContactLogin_Testing()
         {
             SetupTestHelper(culture);
-            ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             ContactLogin contactLogin = GetFilledRandomContactLogin("");
 
             // -------------------------------

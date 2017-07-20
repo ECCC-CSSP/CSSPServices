@@ -58,7 +58,7 @@ namespace CSSPServices.Tests
         public void RTBStringPos_Testing()
         {
             SetupTestHelper(culture);
-            RTBStringPosService rTBStringPosService = new RTBStringPosService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            RTBStringPosService rTBStringPosService = new RTBStringPosService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             RTBStringPos rTBStringPos = GetFilledRandomRTBStringPos("");
 
             // -------------------------------

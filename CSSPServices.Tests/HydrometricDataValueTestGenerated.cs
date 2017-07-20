@@ -63,7 +63,7 @@ namespace CSSPServices.Tests
         public void HydrometricDataValue_Testing()
         {
             SetupTestHelper(culture);
-            HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             HydrometricDataValue hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
 
             // -------------------------------

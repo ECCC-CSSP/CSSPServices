@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void SpillLanguage_Testing()
         {
             SetupTestHelper(culture);
-            SpillLanguageService spillLanguageService = new SpillLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            SpillLanguageService spillLanguageService = new SpillLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             SpillLanguage spillLanguage = GetFilledRandomSpillLanguage("");
 
             // -------------------------------

@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void Register_Testing()
         {
             SetupTestHelper(culture);
-            RegisterService registerService = new RegisterService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            RegisterService registerService = new RegisterService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             Register register = GetFilledRandomRegister("");
 
             // -------------------------------

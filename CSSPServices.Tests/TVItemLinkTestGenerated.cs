@@ -67,7 +67,7 @@ namespace CSSPServices.Tests
         public void TVItemLink_Testing()
         {
             SetupTestHelper(culture);
-            TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             TVItemLink tvItemLink = GetFilledRandomTVItemLink("");
 
             // -------------------------------

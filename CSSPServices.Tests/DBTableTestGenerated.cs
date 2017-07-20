@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void DBTable_Testing()
         {
             SetupTestHelper(culture);
-            DBTableService dBTableService = new DBTableService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            DBTableService dBTableService = new DBTableService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             DBTable dBTable = GetFilledRandomDBTable("");
 
             // -------------------------------

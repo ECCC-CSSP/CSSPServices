@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void FilePurposeAndText_Testing()
         {
             SetupTestHelper(culture);
-            FilePurposeAndTextService filePurposeAndTextService = new FilePurposeAndTextService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            FilePurposeAndTextService filePurposeAndTextService = new FilePurposeAndTextService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             FilePurposeAndText filePurposeAndText = GetFilledRandomFilePurposeAndText("");
 
             // -------------------------------

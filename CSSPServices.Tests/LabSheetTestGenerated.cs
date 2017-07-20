@@ -76,7 +76,7 @@ namespace CSSPServices.Tests
         public void LabSheet_Testing()
         {
             SetupTestHelper(culture);
-            LabSheetService labSheetService = new LabSheetService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            LabSheetService labSheetService = new LabSheetService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             LabSheet labSheet = GetFilledRandomLabSheet("");
 
             // -------------------------------

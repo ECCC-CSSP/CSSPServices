@@ -59,7 +59,7 @@ namespace CSSPServices.Tests
         public void SamplingPlanSubsector_Testing()
         {
             SetupTestHelper(culture);
-            SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             SamplingPlanSubsector samplingPlanSubsector = GetFilledRandomSamplingPlanSubsector("");
 
             // -------------------------------

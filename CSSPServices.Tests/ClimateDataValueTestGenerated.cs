@@ -73,7 +73,7 @@ namespace CSSPServices.Tests
         public void ClimateDataValue_Testing()
         {
             SetupTestHelper(culture);
-            ClimateDataValueService climateDataValueService = new ClimateDataValueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ClimateDataValueService climateDataValueService = new ClimateDataValueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             ClimateDataValue climateDataValue = GetFilledRandomClimateDataValue("");
 
             // -------------------------------

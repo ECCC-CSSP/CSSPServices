@@ -52,14 +52,20 @@ namespace CSSPServices
 
             //AddressID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (address.AddressTVItemID < 1)
+            if (address.AddressTVItemID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressAddressTVItemID, "1"), new[] { ModelsRes.AddressAddressTVItemID });
+                if (address.AddressTVItemID < 1)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressAddressTVItemID, "1"), new[] { ModelsRes.AddressAddressTVItemID });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == address.AddressTVItemID select c).Any()))
+            if (address.AddressTVItemID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressAddressTVItemID, address.AddressTVItemID.ToString()), new[] { ModelsRes.AddressAddressTVItemID });
+                if (!((from c in db.TVItems where c.TVItemID == address.AddressTVItemID select c).Any()))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressAddressTVItemID, address.AddressTVItemID.ToString()), new[] { ModelsRes.AddressAddressTVItemID });
+                }
             }
 
             retStr = enums.AddressTypeOK(address.AddressType);

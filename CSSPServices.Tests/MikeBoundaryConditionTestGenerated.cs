@@ -67,7 +67,7 @@ namespace CSSPServices.Tests
         public void MikeBoundaryCondition_Testing()
         {
             SetupTestHelper(culture);
-            MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             MikeBoundaryCondition mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
 
             // -------------------------------

@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
         public void ContactPreference_Testing()
         {
             SetupTestHelper(culture);
-            ContactPreferenceService contactPreferenceService = new ContactPreferenceService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactPreferenceService contactPreferenceService = new ContactPreferenceService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             ContactPreference contactPreference = GetFilledRandomContactPreference("");
 
             // -------------------------------

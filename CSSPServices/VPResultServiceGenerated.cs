@@ -101,9 +101,9 @@ namespace CSSPServices
 
             //TravelTime_hour (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (vpResult.TravelTime_hour < -10 || vpResult.TravelTime_hour > 0)
+            if (vpResult.TravelTime_hour < 0 || vpResult.TravelTime_hour > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultTravelTime_hour, "-10", "0"), new[] { ModelsRes.VPResultTravelTime_hour });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultTravelTime_hour, "0", "100"), new[] { ModelsRes.VPResultTravelTime_hour });
             }
 
             if (vpResult.LastUpdateDate_UTC == null)

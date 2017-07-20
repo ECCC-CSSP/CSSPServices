@@ -71,7 +71,7 @@ namespace CSSPServices.Tests
         public void Contact_Testing()
         {
             SetupTestHelper(culture);
-            ContactService contactService = new ContactService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactService contactService = new ContactService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             Contact contact = GetFilledRandomContact("");
 
             // -------------------------------

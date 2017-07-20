@@ -71,7 +71,7 @@ namespace CSSPServices.Tests
         public void MWQMSample_Testing()
         {
             SetupTestHelper(culture);
-            MWQMSampleService mwqmSampleService = new MWQMSampleService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MWQMSampleService mwqmSampleService = new MWQMSampleService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             MWQMSample mwqmSample = GetFilledRandomMWQMSample("");
 
             // -------------------------------

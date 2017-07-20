@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void MWQMLookupMPN_Testing()
         {
             SetupTestHelper(culture);
-            MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             MWQMLookupMPN mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
 
             // -------------------------------

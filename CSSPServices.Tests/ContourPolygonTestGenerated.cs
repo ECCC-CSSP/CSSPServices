@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
         public void ContourPolygon_Testing()
         {
             SetupTestHelper(culture);
-            ContourPolygonService contourPolygonService = new ContourPolygonService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ContourPolygonService contourPolygonService = new ContourPolygonService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             ContourPolygon contourPolygon = GetFilledRandomContourPolygon("");
 
             // -------------------------------

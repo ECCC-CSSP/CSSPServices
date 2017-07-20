@@ -157,14 +157,20 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanApprovalCode, "15"), new[] { ModelsRes.SamplingPlanApprovalCode });
             }
 
-            if (samplingPlan.SamplingPlanFileTVItemID < 1)
+            if (samplingPlan.SamplingPlanFileTVItemID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, "1"), new[] { ModelsRes.SamplingPlanSamplingPlanFileTVItemID });
+                if (samplingPlan.SamplingPlanFileTVItemID < 1)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, "1"), new[] { ModelsRes.SamplingPlanSamplingPlanFileTVItemID });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == samplingPlan.SamplingPlanFileTVItemID select c).Any()))
+            if (samplingPlan.SamplingPlanFileTVItemID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, samplingPlan.SamplingPlanFileTVItemID.ToString()), new[] { ModelsRes.SamplingPlanSamplingPlanFileTVItemID });
+                if (!((from c in db.TVItems where c.TVItemID == samplingPlan.SamplingPlanFileTVItemID select c).Any()))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, samplingPlan.SamplingPlanFileTVItemID.ToString()), new[] { ModelsRes.SamplingPlanSamplingPlanFileTVItemID });
+                }
             }
 
             if (samplingPlan.LastUpdateDate_UTC == null)

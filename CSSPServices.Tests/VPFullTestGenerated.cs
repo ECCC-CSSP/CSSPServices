@@ -54,7 +54,7 @@ namespace CSSPServices.Tests
         public void VPFull_Testing()
         {
             SetupTestHelper(culture);
-            VPFullService vpFullService = new VPFullService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            VPFullService vpFullService = new VPFullService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             VPFull vpFull = GetFilledRandomVPFull("");
 
             // -------------------------------

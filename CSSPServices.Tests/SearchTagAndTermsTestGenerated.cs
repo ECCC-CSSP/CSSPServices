@@ -55,7 +55,7 @@ namespace CSSPServices.Tests
         public void SearchTagAndTerms_Testing()
         {
             SetupTestHelper(culture);
-            SearchTagAndTermsService searchTagAndTermsService = new SearchTagAndTermsService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            SearchTagAndTermsService searchTagAndTermsService = new SearchTagAndTermsService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             SearchTagAndTerms searchTagAndTerms = GetFilledRandomSearchTagAndTerms("");
 
             // -------------------------------

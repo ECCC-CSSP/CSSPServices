@@ -69,7 +69,7 @@ namespace CSSPServices.Tests
         public void TVFile_Testing()
         {
             SetupTestHelper(culture);
-            TVFileService tvFileService = new TVFileService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVFileService tvFileService = new TVFileService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             TVFile tvFile = GetFilledRandomTVFile("");
 
             // -------------------------------

@@ -62,7 +62,7 @@ namespace CSSPServices.Tests
         public void MikeSource_Testing()
         {
             SetupTestHelper(culture);
-            MikeSourceService mikeSourceService = new MikeSourceService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MikeSourceService mikeSourceService = new MikeSourceService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             MikeSource mikeSource = GetFilledRandomMikeSource("");
 
             // -------------------------------

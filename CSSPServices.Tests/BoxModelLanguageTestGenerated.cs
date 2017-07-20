@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void BoxModelLanguage_Testing()
         {
             SetupTestHelper(culture);
-            BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             BoxModelLanguage boxModelLanguage = GetFilledRandomBoxModelLanguage("");
 
             // -------------------------------

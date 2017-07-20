@@ -71,7 +71,7 @@ namespace CSSPServices.Tests
         public void SamplingPlan_Testing()
         {
             SetupTestHelper(culture);
-            SamplingPlanService samplingPlanService = new SamplingPlanService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            SamplingPlanService samplingPlanService = new SamplingPlanService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             SamplingPlan samplingPlan = GetFilledRandomSamplingPlan("");
 
             // -------------------------------

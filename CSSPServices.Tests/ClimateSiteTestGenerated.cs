@@ -78,7 +78,7 @@ namespace CSSPServices.Tests
         public void ClimateSite_Testing()
         {
             SetupTestHelper(culture);
-            ClimateSiteService climateSiteService = new ClimateSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ClimateSiteService climateSiteService = new ClimateSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             ClimateSite climateSite = GetFilledRandomClimateSite("");
 
             // -------------------------------

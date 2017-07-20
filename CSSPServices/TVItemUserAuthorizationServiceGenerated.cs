@@ -76,34 +76,52 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID1, tvItemUserAuthorization.TVItemID1.ToString()), new[] { ModelsRes.TVItemUserAuthorizationTVItemID1 });
             }
 
-            if (tvItemUserAuthorization.TVItemID2 < 1)
+            if (tvItemUserAuthorization.TVItemID2 != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID2, "1"), new[] { ModelsRes.TVItemUserAuthorizationTVItemID2 });
+                if (tvItemUserAuthorization.TVItemID2 < 1)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID2, "1"), new[] { ModelsRes.TVItemUserAuthorizationTVItemID2 });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.TVItemID2 select c).Any()))
+            if (tvItemUserAuthorization.TVItemID2 != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID2, tvItemUserAuthorization.TVItemID2.ToString()), new[] { ModelsRes.TVItemUserAuthorizationTVItemID2 });
+                if (!((from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.TVItemID2 select c).Any()))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID2, tvItemUserAuthorization.TVItemID2.ToString()), new[] { ModelsRes.TVItemUserAuthorizationTVItemID2 });
+                }
             }
 
-            if (tvItemUserAuthorization.TVItemID3 < 1)
+            if (tvItemUserAuthorization.TVItemID3 != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID3, "1"), new[] { ModelsRes.TVItemUserAuthorizationTVItemID3 });
+                if (tvItemUserAuthorization.TVItemID3 < 1)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID3, "1"), new[] { ModelsRes.TVItemUserAuthorizationTVItemID3 });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.TVItemID3 select c).Any()))
+            if (tvItemUserAuthorization.TVItemID3 != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID3, tvItemUserAuthorization.TVItemID3.ToString()), new[] { ModelsRes.TVItemUserAuthorizationTVItemID3 });
+                if (!((from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.TVItemID3 select c).Any()))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID3, tvItemUserAuthorization.TVItemID3.ToString()), new[] { ModelsRes.TVItemUserAuthorizationTVItemID3 });
+                }
             }
 
-            if (tvItemUserAuthorization.TVItemID4 < 1)
+            if (tvItemUserAuthorization.TVItemID4 != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID4, "1"), new[] { ModelsRes.TVItemUserAuthorizationTVItemID4 });
+                if (tvItemUserAuthorization.TVItemID4 < 1)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID4, "1"), new[] { ModelsRes.TVItemUserAuthorizationTVItemID4 });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.TVItemID4 select c).Any()))
+            if (tvItemUserAuthorization.TVItemID4 != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID4, tvItemUserAuthorization.TVItemID4.ToString()), new[] { ModelsRes.TVItemUserAuthorizationTVItemID4 });
+                if (!((from c in db.TVItems where c.TVItemID == tvItemUserAuthorization.TVItemID4 select c).Any()))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID4, tvItemUserAuthorization.TVItemID4.ToString()), new[] { ModelsRes.TVItemUserAuthorizationTVItemID4 });
+                }
             }
 
             retStr = enums.TVAuthOK(tvItemUserAuthorization.TVAuth);

@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void PolSourceInactiveReasonEnumTextAndID_Testing()
         {
             SetupTestHelper(culture);
-            PolSourceInactiveReasonEnumTextAndIDService polSourceInactiveReasonEnumTextAndIDService = new PolSourceInactiveReasonEnumTextAndIDService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            PolSourceInactiveReasonEnumTextAndIDService polSourceInactiveReasonEnumTextAndIDService = new PolSourceInactiveReasonEnumTextAndIDService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             PolSourceInactiveReasonEnumTextAndID polSourceInactiveReasonEnumTextAndID = GetFilledRandomPolSourceInactiveReasonEnumTextAndID("");
 
             // -------------------------------

@@ -50,6 +50,7 @@
             this.ButGenerateFillDBTestingGenerated = new System.Windows.Forms.Button();
             this.butGenerateClassTestGenerated = new System.Windows.Forms.Button();
             this.richTextBoxStatus = new System.Windows.Forms.RichTextBox();
+            this.butRepopulateTesDB = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -81,6 +82,7 @@
             this.splitContainer1.Panel1.Controls.Add(this.lblFile1);
             this.splitContainer1.Panel1.Controls.Add(this.textBoxBaseDir);
             this.splitContainer1.Panel1.Controls.Add(this.lblBaseDir);
+            this.splitContainer1.Panel1.Controls.Add(this.butRepopulateTesDB);
             this.splitContainer1.Panel1.Controls.Add(this.butGenerateClassServiceGenerated);
             this.splitContainer1.Panel1.Controls.Add(this.ButGenerateFillDBTestingGenerated);
             this.splitContainer1.Panel1.Controls.Add(this.butGenerateClassTestGenerated);
@@ -279,6 +281,16 @@
             this.richTextBoxStatus.TabIndex = 0;
             this.richTextBoxStatus.Text = "";
             // 
+            // butRepopulateTesDB
+            // 
+            this.butRepopulateTesDB.Location = new System.Drawing.Point(18, 401);
+            this.butRepopulateTesDB.Name = "butRepopulateTesDB";
+            this.butRepopulateTesDB.Size = new System.Drawing.Size(255, 23);
+            this.butRepopulateTesDB.TabIndex = 11;
+            this.butRepopulateTesDB.Text = "Repopulate TestDB";
+            this.butRepopulateTesDB.UseVisualStyleBackColor = true;
+            this.butRepopulateTesDB.Click += new System.EventHandler(this.butRepopulateTesDB_Click);
+            // 
             // CSSPServicesGenerateCode
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -322,6 +334,7 @@
         private System.Windows.Forms.Button ButGenerateFillDBTestingGenerated;
         private System.Windows.Forms.TextBox textBoxFile3ToGenerate;
         private System.Windows.Forms.Label lblFile3;
+        private System.Windows.Forms.Button butRepopulateTesDB;
     }
 }
 

@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
         public void TideSite_Testing()
         {
             SetupTestHelper(culture);
-            TideSiteService tideSiteService = new TideSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TideSiteService tideSiteService = new TideSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             TideSite tideSite = GetFilledRandomTideSite("");
 
             // -------------------------------

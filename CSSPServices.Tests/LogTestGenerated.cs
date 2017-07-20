@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void Log_Testing()
         {
             SetupTestHelper(culture);
-            LogService logService = new LogService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            LogService logService = new LogService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             Log log = GetFilledRandomLog("");
 
             // -------------------------------

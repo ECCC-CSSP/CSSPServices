@@ -82,59 +82,92 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueStorageDataType), new[] { ModelsRes.ClimateDataValueStorageDataType });
             }
 
-            if (climateDataValue.Snow_cm < 0 || climateDataValue.Snow_cm > 10000)
+            if (climateDataValue.Snow_cm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnow_cm, "0", "10000"), new[] { ModelsRes.ClimateDataValueSnow_cm });
+                if (climateDataValue.Snow_cm < 0 || climateDataValue.Snow_cm > 10000)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnow_cm, "0", "10000"), new[] { ModelsRes.ClimateDataValueSnow_cm });
+                }
             }
 
-            if (climateDataValue.Rainfall_mm < 0 || climateDataValue.Rainfall_mm > 10000)
+            if (climateDataValue.Rainfall_mm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfall_mm, "0", "10000"), new[] { ModelsRes.ClimateDataValueRainfall_mm });
+                if (climateDataValue.Rainfall_mm < 0 || climateDataValue.Rainfall_mm > 10000)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfall_mm, "0", "10000"), new[] { ModelsRes.ClimateDataValueRainfall_mm });
+                }
             }
 
-            if (climateDataValue.RainfallEntered_mm < 0 || climateDataValue.RainfallEntered_mm > 10000)
+            if (climateDataValue.RainfallEntered_mm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfallEntered_mm, "0", "10000"), new[] { ModelsRes.ClimateDataValueRainfallEntered_mm });
+                if (climateDataValue.RainfallEntered_mm < 0 || climateDataValue.RainfallEntered_mm > 10000)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfallEntered_mm, "0", "10000"), new[] { ModelsRes.ClimateDataValueRainfallEntered_mm });
+                }
             }
 
-            if (climateDataValue.TotalPrecip_mm_cm < 0 || climateDataValue.TotalPrecip_mm_cm > 10000)
+            if (climateDataValue.TotalPrecip_mm_cm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueTotalPrecip_mm_cm, "0", "10000"), new[] { ModelsRes.ClimateDataValueTotalPrecip_mm_cm });
+                if (climateDataValue.TotalPrecip_mm_cm < 0 || climateDataValue.TotalPrecip_mm_cm > 10000)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueTotalPrecip_mm_cm, "0", "10000"), new[] { ModelsRes.ClimateDataValueTotalPrecip_mm_cm });
+                }
             }
 
-            if (climateDataValue.MaxTemp_C < -50 || climateDataValue.MaxTemp_C > 50)
+            if (climateDataValue.MaxTemp_C != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMaxTemp_C, "-50", "50"), new[] { ModelsRes.ClimateDataValueMaxTemp_C });
+                if (climateDataValue.MaxTemp_C < -50 || climateDataValue.MaxTemp_C > 50)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMaxTemp_C, "-50", "50"), new[] { ModelsRes.ClimateDataValueMaxTemp_C });
+                }
             }
 
-            if (climateDataValue.MinTemp_C < -50 || climateDataValue.MinTemp_C > 50)
+            if (climateDataValue.MinTemp_C != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMinTemp_C, "-50", "50"), new[] { ModelsRes.ClimateDataValueMinTemp_C });
+                if (climateDataValue.MinTemp_C < -50 || climateDataValue.MinTemp_C > 50)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMinTemp_C, "-50", "50"), new[] { ModelsRes.ClimateDataValueMinTemp_C });
+                }
             }
 
-            if (climateDataValue.HeatDegDays_C < -1000 || climateDataValue.HeatDegDays_C > 100)
+            if (climateDataValue.HeatDegDays_C != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueHeatDegDays_C, "-1000", "100"), new[] { ModelsRes.ClimateDataValueHeatDegDays_C });
+                if (climateDataValue.HeatDegDays_C < -1000 || climateDataValue.HeatDegDays_C > 100)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueHeatDegDays_C, "-1000", "100"), new[] { ModelsRes.ClimateDataValueHeatDegDays_C });
+                }
             }
 
-            if (climateDataValue.CoolDegDays_C < -1000 || climateDataValue.CoolDegDays_C > 100)
+            if (climateDataValue.CoolDegDays_C != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueCoolDegDays_C, "-1000", "100"), new[] { ModelsRes.ClimateDataValueCoolDegDays_C });
+                if (climateDataValue.CoolDegDays_C < -1000 || climateDataValue.CoolDegDays_C > 100)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueCoolDegDays_C, "-1000", "100"), new[] { ModelsRes.ClimateDataValueCoolDegDays_C });
+                }
             }
 
-            if (climateDataValue.SnowOnGround_cm < 0 || climateDataValue.SnowOnGround_cm > 10000)
+            if (climateDataValue.SnowOnGround_cm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnowOnGround_cm, "0", "10000"), new[] { ModelsRes.ClimateDataValueSnowOnGround_cm });
+                if (climateDataValue.SnowOnGround_cm < 0 || climateDataValue.SnowOnGround_cm > 10000)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnowOnGround_cm, "0", "10000"), new[] { ModelsRes.ClimateDataValueSnowOnGround_cm });
+                }
             }
 
-            if (climateDataValue.DirMaxGust_0North < 0 || climateDataValue.DirMaxGust_0North > 360)
+            if (climateDataValue.DirMaxGust_0North != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueDirMaxGust_0North, "0", "360"), new[] { ModelsRes.ClimateDataValueDirMaxGust_0North });
+                if (climateDataValue.DirMaxGust_0North < 0 || climateDataValue.DirMaxGust_0North > 360)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueDirMaxGust_0North, "0", "360"), new[] { ModelsRes.ClimateDataValueDirMaxGust_0North });
+                }
             }
 
-            if (climateDataValue.SpdMaxGust_kmh < 0 || climateDataValue.SpdMaxGust_kmh > 300)
+            if (climateDataValue.SpdMaxGust_kmh != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSpdMaxGust_kmh, "0", "300"), new[] { ModelsRes.ClimateDataValueSpdMaxGust_kmh });
+                if (climateDataValue.SpdMaxGust_kmh < 0 || climateDataValue.SpdMaxGust_kmh > 300)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSpdMaxGust_kmh, "0", "300"), new[] { ModelsRes.ClimateDataValueSpdMaxGust_kmh });
+                }
             }
 
             if (string.IsNullOrWhiteSpace(climateDataValue.HourlyValues))

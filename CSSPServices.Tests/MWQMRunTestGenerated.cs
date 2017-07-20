@@ -96,7 +96,7 @@ namespace CSSPServices.Tests
         public void MWQMRun_Testing()
         {
             SetupTestHelper(culture);
-            MWQMRunService mwqmRunService = new MWQMRunService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MWQMRunService mwqmRunService = new MWQMRunService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             MWQMRun mwqmRun = GetFilledRandomMWQMRun("");
 
             // -------------------------------

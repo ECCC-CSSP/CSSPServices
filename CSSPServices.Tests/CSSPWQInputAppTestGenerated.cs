@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void CSSPWQInputApp_Testing()
         {
             SetupTestHelper(culture);
-            CSSPWQInputAppService cSSPWQInputAppService = new CSSPWQInputAppService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            CSSPWQInputAppService cSSPWQInputAppService = new CSSPWQInputAppService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             CSSPWQInputApp cSSPWQInputApp = GetFilledRandomCSSPWQInputApp("");
 
             // -------------------------------

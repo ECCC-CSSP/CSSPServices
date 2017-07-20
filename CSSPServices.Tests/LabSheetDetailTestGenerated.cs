@@ -119,7 +119,7 @@ namespace CSSPServices.Tests
         public void LabSheetDetail_Testing()
         {
             SetupTestHelper(culture);
-            LabSheetDetailService labSheetDetailService = new LabSheetDetailService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            LabSheetDetailService labSheetDetailService = new LabSheetDetailService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             LabSheetDetail labSheetDetail = GetFilledRandomLabSheetDetail("");
 
             // -------------------------------

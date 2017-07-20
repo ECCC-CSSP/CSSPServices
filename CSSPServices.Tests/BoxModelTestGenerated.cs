@@ -68,7 +68,7 @@ namespace CSSPServices.Tests
         public void BoxModel_Testing()
         {
             SetupTestHelper(culture);
-            BoxModelService boxModelService = new BoxModelService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            BoxModelService boxModelService = new BoxModelService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             BoxModel boxModel = GetFilledRandomBoxModel("");
 
             // -------------------------------

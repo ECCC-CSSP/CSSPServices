@@ -74,7 +74,7 @@ namespace CSSPServices.Tests
         public void HydrometricSite_Testing()
         {
             SetupTestHelper(culture);
-            HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             HydrometricSite hydrometricSite = GetFilledRandomHydrometricSite("");
 
             // -------------------------------

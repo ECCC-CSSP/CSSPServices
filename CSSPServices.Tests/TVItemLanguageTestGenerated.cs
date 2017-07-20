@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void TVItemLanguage_Testing()
         {
             SetupTestHelper(culture);
-            TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             TVItemLanguage tvItemLanguage = GetFilledRandomTVItemLanguage("");
 
             // -------------------------------

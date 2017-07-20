@@ -136,7 +136,7 @@ namespace CSSPServices.Tests
         public void LabSheetA1Sheet_Testing()
         {
             SetupTestHelper(culture);
-            LabSheetA1SheetService labSheetA1SheetService = new LabSheetA1SheetService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            LabSheetA1SheetService labSheetA1SheetService = new LabSheetA1SheetService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             LabSheetA1Sheet labSheetA1Sheet = GetFilledRandomLabSheetA1Sheet("");
 
             // -------------------------------

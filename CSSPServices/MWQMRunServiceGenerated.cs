@@ -119,14 +119,20 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLabReceivedDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunLabReceivedDateTime_Local });
             }
 
-            if (mwqmRun.TemperatureControl1_C < -10 || mwqmRun.TemperatureControl1_C > 40)
+            if (mwqmRun.TemperatureControl1_C != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl1_C, "-10", "40"), new[] { ModelsRes.MWQMRunTemperatureControl1_C });
+                if (mwqmRun.TemperatureControl1_C < -10 || mwqmRun.TemperatureControl1_C > 40)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl1_C, "-10", "40"), new[] { ModelsRes.MWQMRunTemperatureControl1_C });
+                }
             }
 
-            if (mwqmRun.TemperatureControl2_C < -10 || mwqmRun.TemperatureControl2_C > 40)
+            if (mwqmRun.TemperatureControl2_C != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl2_C, "-10", "40"), new[] { ModelsRes.MWQMRunTemperatureControl2_C });
+                if (mwqmRun.TemperatureControl2_C < -10 || mwqmRun.TemperatureControl2_C > 40)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl2_C, "-10", "40"), new[] { ModelsRes.MWQMRunTemperatureControl2_C });
+                }
             }
 
             if (mwqmRun.SeaStateAtStart_BeaufortScale != null)
@@ -147,19 +153,28 @@ namespace CSSPServices
                 }
             }
 
-            if (mwqmRun.WaterLevelAtBrook_m < 0 || mwqmRun.WaterLevelAtBrook_m > 100)
+            if (mwqmRun.WaterLevelAtBrook_m != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaterLevelAtBrook_m, "0", "100"), new[] { ModelsRes.MWQMRunWaterLevelAtBrook_m });
+                if (mwqmRun.WaterLevelAtBrook_m < 0 || mwqmRun.WaterLevelAtBrook_m > 100)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaterLevelAtBrook_m, "0", "100"), new[] { ModelsRes.MWQMRunWaterLevelAtBrook_m });
+                }
             }
 
-            if (mwqmRun.WaveHightAtStart_m < 0 || mwqmRun.WaveHightAtStart_m > 100)
+            if (mwqmRun.WaveHightAtStart_m != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtStart_m, "0", "100"), new[] { ModelsRes.MWQMRunWaveHightAtStart_m });
+                if (mwqmRun.WaveHightAtStart_m < 0 || mwqmRun.WaveHightAtStart_m > 100)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtStart_m, "0", "100"), new[] { ModelsRes.MWQMRunWaveHightAtStart_m });
+                }
             }
 
-            if (mwqmRun.WaveHightAtEnd_m < 0 || mwqmRun.WaveHightAtEnd_m > 100)
+            if (mwqmRun.WaveHightAtEnd_m != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtEnd_m, "0", "100"), new[] { ModelsRes.MWQMRunWaveHightAtEnd_m });
+                if (mwqmRun.WaveHightAtEnd_m < 0 || mwqmRun.WaveHightAtEnd_m > 100)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtEnd_m, "0", "100"), new[] { ModelsRes.MWQMRunWaveHightAtEnd_m });
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.SampleCrewInitials) && mwqmRun.SampleCrewInitials.Length > 20)
@@ -203,14 +218,20 @@ namespace CSSPServices
                 }
             }
 
-            if (mwqmRun.LabSampleApprovalContactTVItemID < 1)
+            if (mwqmRun.LabSampleApprovalContactTVItemID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, "1"), new[] { ModelsRes.MWQMRunLabSampleApprovalContactTVItemID });
+                if (mwqmRun.LabSampleApprovalContactTVItemID < 1)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, "1"), new[] { ModelsRes.MWQMRunLabSampleApprovalContactTVItemID });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == mwqmRun.LabSampleApprovalContactTVItemID select c).Any()))
+            if (mwqmRun.LabSampleApprovalContactTVItemID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, mwqmRun.LabSampleApprovalContactTVItemID.ToString()), new[] { ModelsRes.MWQMRunLabSampleApprovalContactTVItemID });
+                if (!((from c in db.TVItems where c.TVItemID == mwqmRun.LabSampleApprovalContactTVItemID select c).Any()))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, mwqmRun.LabSampleApprovalContactTVItemID.ToString()), new[] { ModelsRes.MWQMRunLabSampleApprovalContactTVItemID });
+                }
             }
 
             if (mwqmRun.LabAnalyzeBath1IncubationStartDateTime_Local != null && ((DateTime)mwqmRun.LabAnalyzeBath1IncubationStartDateTime_Local).Year < 1980)
@@ -251,59 +272,92 @@ namespace CSSPServices
                 }
             }
 
-            if (mwqmRun.RainDay0_mm < 0 || mwqmRun.RainDay0_mm > 300)
+            if (mwqmRun.RainDay0_mm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay0_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay0_mm });
+                if (mwqmRun.RainDay0_mm < 0 || mwqmRun.RainDay0_mm > 300)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay0_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay0_mm });
+                }
             }
 
-            if (mwqmRun.RainDay1_mm < 0 || mwqmRun.RainDay1_mm > 300)
+            if (mwqmRun.RainDay1_mm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay1_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay1_mm });
+                if (mwqmRun.RainDay1_mm < 0 || mwqmRun.RainDay1_mm > 300)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay1_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay1_mm });
+                }
             }
 
-            if (mwqmRun.RainDay2_mm < 0 || mwqmRun.RainDay2_mm > 300)
+            if (mwqmRun.RainDay2_mm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay2_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay2_mm });
+                if (mwqmRun.RainDay2_mm < 0 || mwqmRun.RainDay2_mm > 300)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay2_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay2_mm });
+                }
             }
 
-            if (mwqmRun.RainDay3_mm < 0 || mwqmRun.RainDay3_mm > 300)
+            if (mwqmRun.RainDay3_mm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay3_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay3_mm });
+                if (mwqmRun.RainDay3_mm < 0 || mwqmRun.RainDay3_mm > 300)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay3_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay3_mm });
+                }
             }
 
-            if (mwqmRun.RainDay4_mm < 0 || mwqmRun.RainDay4_mm > 300)
+            if (mwqmRun.RainDay4_mm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay4_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay4_mm });
+                if (mwqmRun.RainDay4_mm < 0 || mwqmRun.RainDay4_mm > 300)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay4_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay4_mm });
+                }
             }
 
-            if (mwqmRun.RainDay5_mm < 0 || mwqmRun.RainDay5_mm > 300)
+            if (mwqmRun.RainDay5_mm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay5_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay5_mm });
+                if (mwqmRun.RainDay5_mm < 0 || mwqmRun.RainDay5_mm > 300)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay5_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay5_mm });
+                }
             }
 
-            if (mwqmRun.RainDay6_mm < 0 || mwqmRun.RainDay6_mm > 300)
+            if (mwqmRun.RainDay6_mm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay6_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay6_mm });
+                if (mwqmRun.RainDay6_mm < 0 || mwqmRun.RainDay6_mm > 300)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay6_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay6_mm });
+                }
             }
 
-            if (mwqmRun.RainDay7_mm < 0 || mwqmRun.RainDay7_mm > 300)
+            if (mwqmRun.RainDay7_mm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay7_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay7_mm });
+                if (mwqmRun.RainDay7_mm < 0 || mwqmRun.RainDay7_mm > 300)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay7_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay7_mm });
+                }
             }
 
-            if (mwqmRun.RainDay8_mm < 0 || mwqmRun.RainDay8_mm > 300)
+            if (mwqmRun.RainDay8_mm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay8_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay8_mm });
+                if (mwqmRun.RainDay8_mm < 0 || mwqmRun.RainDay8_mm > 300)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay8_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay8_mm });
+                }
             }
 
-            if (mwqmRun.RainDay9_mm < 0 || mwqmRun.RainDay9_mm > 300)
+            if (mwqmRun.RainDay9_mm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay9_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay9_mm });
+                if (mwqmRun.RainDay9_mm < 0 || mwqmRun.RainDay9_mm > 300)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay9_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay9_mm });
+                }
             }
 
-            if (mwqmRun.RainDay10_mm < 0 || mwqmRun.RainDay10_mm > 300)
+            if (mwqmRun.RainDay10_mm != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay10_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay10_mm });
+                if (mwqmRun.RainDay10_mm < 0 || mwqmRun.RainDay10_mm > 300)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay10_mm, "0", "300"), new[] { ModelsRes.MWQMRunRainDay10_mm });
+                }
             }
 
             if (mwqmRun.LastUpdateDate_UTC == null)

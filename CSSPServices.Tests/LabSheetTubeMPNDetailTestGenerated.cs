@@ -70,7 +70,7 @@ namespace CSSPServices.Tests
         public void LabSheetTubeMPNDetail_Testing()
         {
             SetupTestHelper(culture);
-            LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             LabSheetTubeMPNDetail labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
 
             // -------------------------------

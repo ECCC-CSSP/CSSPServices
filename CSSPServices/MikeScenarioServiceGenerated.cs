@@ -64,14 +64,20 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeScenarioMikeScenarioTVItemID, mikeScenario.MikeScenarioTVItemID.ToString()), new[] { ModelsRes.MikeScenarioMikeScenarioTVItemID });
             }
 
-            if (mikeScenario.ParentMikeScenarioID < 1)
+            if (mikeScenario.ParentMikeScenarioID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeScenarioParentMikeScenarioID, "1"), new[] { ModelsRes.MikeScenarioParentMikeScenarioID });
+                if (mikeScenario.ParentMikeScenarioID < 1)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeScenarioParentMikeScenarioID, "1"), new[] { ModelsRes.MikeScenarioParentMikeScenarioID });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == mikeScenario.ParentMikeScenarioID select c).Any()))
+            if (mikeScenario.ParentMikeScenarioID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeScenarioParentMikeScenarioID, mikeScenario.ParentMikeScenarioID.ToString()), new[] { ModelsRes.MikeScenarioParentMikeScenarioID });
+                if (!((from c in db.TVItems where c.TVItemID == mikeScenario.ParentMikeScenarioID select c).Any()))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeScenarioParentMikeScenarioID, mikeScenario.ParentMikeScenarioID.ToString()), new[] { ModelsRes.MikeScenarioParentMikeScenarioID });
+                }
             }
 
             retStr = enums.ScenarioStatusOK(mikeScenario.ScenarioStatus);
@@ -112,9 +118,12 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeScenarioMikeScenarioStartExecutionDateTime_Local, "1980"), new[] { ModelsRes.MikeScenarioMikeScenarioStartExecutionDateTime_Local });
             }
 
-            if (mikeScenario.MikeScenarioExecutionTime_min < 1 || mikeScenario.MikeScenarioExecutionTime_min > 100000)
+            if (mikeScenario.MikeScenarioExecutionTime_min != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioMikeScenarioExecutionTime_min, "1", "100000"), new[] { ModelsRes.MikeScenarioMikeScenarioExecutionTime_min });
+                if (mikeScenario.MikeScenarioExecutionTime_min < 1 || mikeScenario.MikeScenarioExecutionTime_min > 100000)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioMikeScenarioExecutionTime_min, "1", "100000"), new[] { ModelsRes.MikeScenarioMikeScenarioExecutionTime_min });
+                }
             }
 
             //WindSpeed_km_h (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -175,44 +184,68 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioManningNumber, "0", "100"), new[] { ModelsRes.MikeScenarioManningNumber });
             }
 
-            if (mikeScenario.NumberOfElements < 1 || mikeScenario.NumberOfElements > 10000)
+            if (mikeScenario.NumberOfElements != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfElements, "1", "10000"), new[] { ModelsRes.MikeScenarioNumberOfElements });
+                if (mikeScenario.NumberOfElements < 1 || mikeScenario.NumberOfElements > 10000)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfElements, "1", "10000"), new[] { ModelsRes.MikeScenarioNumberOfElements });
+                }
             }
 
-            if (mikeScenario.NumberOfTimeSteps < 1 || mikeScenario.NumberOfTimeSteps > 10000)
+            if (mikeScenario.NumberOfTimeSteps != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfTimeSteps, "1", "10000"), new[] { ModelsRes.MikeScenarioNumberOfTimeSteps });
+                if (mikeScenario.NumberOfTimeSteps < 1 || mikeScenario.NumberOfTimeSteps > 10000)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfTimeSteps, "1", "10000"), new[] { ModelsRes.MikeScenarioNumberOfTimeSteps });
+                }
             }
 
-            if (mikeScenario.NumberOfSigmaLayers < 0 || mikeScenario.NumberOfSigmaLayers > 100)
+            if (mikeScenario.NumberOfSigmaLayers != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfSigmaLayers, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfSigmaLayers });
+                if (mikeScenario.NumberOfSigmaLayers < 0 || mikeScenario.NumberOfSigmaLayers > 100)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfSigmaLayers, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfSigmaLayers });
+                }
             }
 
-            if (mikeScenario.NumberOfZLayers < 0 || mikeScenario.NumberOfZLayers > 100)
+            if (mikeScenario.NumberOfZLayers != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfZLayers, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfZLayers });
+                if (mikeScenario.NumberOfZLayers < 0 || mikeScenario.NumberOfZLayers > 100)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfZLayers, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfZLayers });
+                }
             }
 
-            if (mikeScenario.NumberOfHydroOutputParameters < 0 || mikeScenario.NumberOfHydroOutputParameters > 100)
+            if (mikeScenario.NumberOfHydroOutputParameters != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfHydroOutputParameters, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfHydroOutputParameters });
+                if (mikeScenario.NumberOfHydroOutputParameters < 0 || mikeScenario.NumberOfHydroOutputParameters > 100)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfHydroOutputParameters, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfHydroOutputParameters });
+                }
             }
 
-            if (mikeScenario.NumberOfTransOutputParameters < 0 || mikeScenario.NumberOfTransOutputParameters > 100)
+            if (mikeScenario.NumberOfTransOutputParameters != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfTransOutputParameters, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfTransOutputParameters });
+                if (mikeScenario.NumberOfTransOutputParameters < 0 || mikeScenario.NumberOfTransOutputParameters > 100)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioNumberOfTransOutputParameters, "0", "100"), new[] { ModelsRes.MikeScenarioNumberOfTransOutputParameters });
+                }
             }
 
-            if (mikeScenario.EstimatedHydroFileSize < 0 || mikeScenario.EstimatedHydroFileSize > 100000000)
+            if (mikeScenario.EstimatedHydroFileSize != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioEstimatedHydroFileSize, "0", "100000000"), new[] { ModelsRes.MikeScenarioEstimatedHydroFileSize });
+                if (mikeScenario.EstimatedHydroFileSize < 0 || mikeScenario.EstimatedHydroFileSize > 100000000)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioEstimatedHydroFileSize, "0", "100000000"), new[] { ModelsRes.MikeScenarioEstimatedHydroFileSize });
+                }
             }
 
-            if (mikeScenario.EstimatedTransFileSize < 0 || mikeScenario.EstimatedTransFileSize > 100000000)
+            if (mikeScenario.EstimatedTransFileSize != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioEstimatedTransFileSize, "0", "100000000"), new[] { ModelsRes.MikeScenarioEstimatedTransFileSize });
+                if (mikeScenario.EstimatedTransFileSize < 0 || mikeScenario.EstimatedTransFileSize > 100000000)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioEstimatedTransFileSize, "0", "100000000"), new[] { ModelsRes.MikeScenarioEstimatedTransFileSize });
+                }
             }
 
             if (mikeScenario.LastUpdateDate_UTC == null)

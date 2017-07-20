@@ -62,7 +62,7 @@ namespace CSSPServices.Tests
         public void AppErrLog_Testing()
         {
             SetupTestHelper(culture);
-            AppErrLogService appErrLogService = new AppErrLogService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            AppErrLogService appErrLogService = new AppErrLogService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             AppErrLog appErrLog = GetFilledRandomAppErrLog("");
 
             // -------------------------------

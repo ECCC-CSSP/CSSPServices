@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
         public void TVItemTVAuth_Testing()
         {
             SetupTestHelper(culture);
-            TVItemTVAuthService tvItemTVAuthService = new TVItemTVAuthService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVItemTVAuthService tvItemTVAuthService = new TVItemTVAuthService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             TVItemTVAuth tvItemTVAuth = GetFilledRandomTVItemTVAuth("");
 
             // -------------------------------

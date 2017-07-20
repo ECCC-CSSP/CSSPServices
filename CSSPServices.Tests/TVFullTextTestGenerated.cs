@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void TVFullText_Testing()
         {
             SetupTestHelper(culture);
-            TVFullTextService tvFullTextService = new TVFullTextService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVFullTextService tvFullTextService = new TVFullTextService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             TVFullText tvFullText = GetFilledRandomTVFullText("");
 
             // -------------------------------

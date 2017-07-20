@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void NodeLayer_Testing()
         {
             SetupTestHelper(culture);
-            NodeLayerService nodeLayerService = new NodeLayerService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            NodeLayerService nodeLayerService = new NodeLayerService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             NodeLayer nodeLayer = GetFilledRandomNodeLayer("");
 
             // -------------------------------

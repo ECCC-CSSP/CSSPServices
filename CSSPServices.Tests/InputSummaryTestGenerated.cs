@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void InputSummary_Testing()
         {
             SetupTestHelper(culture);
-            InputSummaryService inputSummaryService = new InputSummaryService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            InputSummaryService inputSummaryService = new InputSummaryService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             InputSummary inputSummary = GetFilledRandomInputSummary("");
 
             // -------------------------------

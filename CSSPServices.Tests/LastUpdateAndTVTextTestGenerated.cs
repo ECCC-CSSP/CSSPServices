@@ -58,7 +58,7 @@ namespace CSSPServices.Tests
         public void LastUpdateAndTVText_Testing()
         {
             SetupTestHelper(culture);
-            LastUpdateAndTVTextService lastUpdateAndTVTextService = new LastUpdateAndTVTextService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            LastUpdateAndTVTextService lastUpdateAndTVTextService = new LastUpdateAndTVTextService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             LastUpdateAndTVText lastUpdateAndTVText = GetFilledRandomLastUpdateAndTVText("");
 
             // -------------------------------

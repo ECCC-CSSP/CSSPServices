@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
         public void PolSourceObservationIssue_Testing()
         {
             SetupTestHelper(culture);
-            PolSourceObservationIssueService polSourceObservationIssueService = new PolSourceObservationIssueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            PolSourceObservationIssueService polSourceObservationIssueService = new PolSourceObservationIssueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             PolSourceObservationIssue polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
 
             // -------------------------------

@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void AppTaskParameter_Testing()
         {
             SetupTestHelper(culture);
-            AppTaskParameterService appTaskParameterService = new AppTaskParameterService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            AppTaskParameterService appTaskParameterService = new AppTaskParameterService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             AppTaskParameter appTaskParameter = GetFilledRandomAppTaskParameter("");
 
             // -------------------------------

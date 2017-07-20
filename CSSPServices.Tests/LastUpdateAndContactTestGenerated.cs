@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
         public void LastUpdateAndContact_Testing()
         {
             SetupTestHelper(culture);
-            LastUpdateAndContactService lastUpdateAndContactService = new LastUpdateAndContactService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            LastUpdateAndContactService lastUpdateAndContactService = new LastUpdateAndContactService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             LastUpdateAndContact lastUpdateAndContact = GetFilledRandomLastUpdateAndContact("");
 
             // -------------------------------

@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void PolSourceObsInfoChild_Testing()
         {
             SetupTestHelper(culture);
-            PolSourceObsInfoChildService polSourceObsInfoChildService = new PolSourceObsInfoChildService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            PolSourceObsInfoChildService polSourceObsInfoChildService = new PolSourceObsInfoChildService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             PolSourceObsInfoChild polSourceObsInfoChild = GetFilledRandomPolSourceObsInfoChild("");
 
             // -------------------------------

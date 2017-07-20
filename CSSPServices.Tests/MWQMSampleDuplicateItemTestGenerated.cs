@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void MWQMSampleDuplicateItem_Testing()
         {
             SetupTestHelper(culture);
-            MWQMSampleDuplicateItemService mwqmSampleDuplicateItemService = new MWQMSampleDuplicateItemService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MWQMSampleDuplicateItemService mwqmSampleDuplicateItemService = new MWQMSampleDuplicateItemService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             MWQMSampleDuplicateItem mwqmSampleDuplicateItem = GetFilledRandomMWQMSampleDuplicateItem("");
 
             // -------------------------------

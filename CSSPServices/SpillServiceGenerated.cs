@@ -64,14 +64,20 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillMunicipalityTVItemID, spill.MunicipalityTVItemID.ToString()), new[] { ModelsRes.SpillMunicipalityTVItemID });
             }
 
-            if (spill.InfrastructureTVItemID < 1)
+            if (spill.InfrastructureTVItemID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SpillInfrastructureTVItemID, "1"), new[] { ModelsRes.SpillInfrastructureTVItemID });
+                if (spill.InfrastructureTVItemID < 1)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SpillInfrastructureTVItemID, "1"), new[] { ModelsRes.SpillInfrastructureTVItemID });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == spill.InfrastructureTVItemID select c).Any()))
+            if (spill.InfrastructureTVItemID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillInfrastructureTVItemID, spill.InfrastructureTVItemID.ToString()), new[] { ModelsRes.SpillInfrastructureTVItemID });
+                if (!((from c in db.TVItems where c.TVItemID == spill.InfrastructureTVItemID select c).Any()))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillInfrastructureTVItemID, spill.InfrastructureTVItemID.ToString()), new[] { ModelsRes.SpillInfrastructureTVItemID });
+                }
             }
 
             if (spill.StartDateTime_Local == null)

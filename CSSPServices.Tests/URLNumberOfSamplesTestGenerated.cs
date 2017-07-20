@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void URLNumberOfSamples_Testing()
         {
             SetupTestHelper(culture);
-            URLNumberOfSamplesService uRLNumberOfSamplesService = new URLNumberOfSamplesService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            URLNumberOfSamplesService uRLNumberOfSamplesService = new URLNumberOfSamplesService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             URLNumberOfSamples uRLNumberOfSamples = GetFilledRandomURLNumberOfSamples("");
 
             // -------------------------------

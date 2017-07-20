@@ -67,7 +67,7 @@ namespace CSSPServices.Tests
         public void EmailDistributionListContact_Testing()
         {
             SetupTestHelper(culture);
-            EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             EmailDistributionListContact emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
 
             // -------------------------------

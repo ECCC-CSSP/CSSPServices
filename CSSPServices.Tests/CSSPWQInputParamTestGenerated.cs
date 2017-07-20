@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
         public void CSSPWQInputParam_Testing()
         {
             SetupTestHelper(culture);
-            CSSPWQInputParamService cSSPWQInputParamService = new CSSPWQInputParamService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            CSSPWQInputParamService cSSPWQInputParamService = new CSSPWQInputParamService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             CSSPWQInputParam cSSPWQInputParam = GetFilledRandomCSSPWQInputParam("");
 
             // -------------------------------

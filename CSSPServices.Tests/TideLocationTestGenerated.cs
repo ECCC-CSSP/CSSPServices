@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void TideLocation_Testing()
         {
             SetupTestHelper(culture);
-            TideLocationService tideLocationService = new TideLocationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TideLocationService tideLocationService = new TideLocationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             TideLocation tideLocation = GetFilledRandomTideLocation("");
 
             // -------------------------------

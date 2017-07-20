@@ -67,7 +67,7 @@ namespace CSSPServices.Tests
         public void Address_Testing()
         {
             SetupTestHelper(culture);
-            AddressService addressService = new AddressService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            AddressService addressService = new AddressService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             Address address = GetFilledRandomAddress("");
 
             // -------------------------------

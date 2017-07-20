@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void FileItem_Testing()
         {
             SetupTestHelper(culture);
-            FileItemService fileItemService = new FileItemService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            FileItemService fileItemService = new FileItemService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             FileItem fileItem = GetFilledRandomFileItem("");
 
             // -------------------------------

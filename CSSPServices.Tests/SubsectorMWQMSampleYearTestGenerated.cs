@@ -58,7 +58,7 @@ namespace CSSPServices.Tests
         public void SubsectorMWQMSampleYear_Testing()
         {
             SetupTestHelper(culture);
-            SubsectorMWQMSampleYearService subsectorMWQMSampleYearService = new SubsectorMWQMSampleYearService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            SubsectorMWQMSampleYearService subsectorMWQMSampleYearService = new SubsectorMWQMSampleYearService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             SubsectorMWQMSampleYear subsectorMWQMSampleYear = GetFilledRandomSubsectorMWQMSampleYear("");
 
             // -------------------------------

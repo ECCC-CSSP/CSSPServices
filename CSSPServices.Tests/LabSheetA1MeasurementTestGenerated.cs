@@ -66,7 +66,7 @@ namespace CSSPServices.Tests
         public void LabSheetA1Measurement_Testing()
         {
             SetupTestHelper(culture);
-            LabSheetA1MeasurementService labSheetA1MeasurementService = new LabSheetA1MeasurementService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            LabSheetA1MeasurementService labSheetA1MeasurementService = new LabSheetA1MeasurementService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             LabSheetA1Measurement labSheetA1Measurement = GetFilledRandomLabSheetA1Measurement("");
 
             // -------------------------------

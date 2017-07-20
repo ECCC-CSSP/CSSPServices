@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void OtherFilesToUpload_Testing()
         {
             SetupTestHelper(culture);
-            OtherFilesToUploadService otherFilesToUploadService = new OtherFilesToUploadService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            OtherFilesToUploadService otherFilesToUploadService = new OtherFilesToUploadService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             OtherFilesToUpload otherFilesToUpload = GetFilledRandomOtherFilesToUpload("");
 
             // -------------------------------

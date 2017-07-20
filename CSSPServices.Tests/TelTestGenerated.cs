@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
         public void Tel_Testing()
         {
             SetupTestHelper(culture);
-            TelService telService = new TelService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TelService telService = new TelService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             Tel tel = GetFilledRandomTel("");
 
             // -------------------------------

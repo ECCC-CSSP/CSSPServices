@@ -63,7 +63,7 @@ namespace CSSPServices.Tests
         public void BoxModelCalNumb_Testing()
         {
             SetupTestHelper(culture);
-            BoxModelCalNumbService boxModelCalNumbService = new BoxModelCalNumbService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            BoxModelCalNumbService boxModelCalNumbService = new BoxModelCalNumbService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             BoxModelCalNumb boxModelCalNumb = GetFilledRandomBoxModelCalNumb("");
 
             // -------------------------------

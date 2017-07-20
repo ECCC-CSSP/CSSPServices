@@ -62,7 +62,7 @@ namespace CSSPServices.Tests
         public void Spill_Testing()
         {
             SetupTestHelper(culture);
-            SpillService spillService = new SpillService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            SpillService spillService = new SpillService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             Spill spill = GetFilledRandomSpill("");
 
             // -------------------------------

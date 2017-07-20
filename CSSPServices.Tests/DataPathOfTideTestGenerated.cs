@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void DataPathOfTide_Testing()
         {
             SetupTestHelper(culture);
-            DataPathOfTideService dataPathOfTideService = new DataPathOfTideService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            DataPathOfTideService dataPathOfTideService = new DataPathOfTideService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             DataPathOfTide dataPathOfTide = GetFilledRandomDataPathOfTide("");
 
             // -------------------------------

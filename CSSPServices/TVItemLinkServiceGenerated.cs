@@ -127,14 +127,20 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLinkTVPath, "250"), new[] { ModelsRes.TVItemLinkTVPath });
             }
 
-            if (tvItemLink.ParentTVItemLinkID < 1)
+            if (tvItemLink.ParentTVItemLinkID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemLinkParentTVItemLinkID, "1"), new[] { ModelsRes.TVItemLinkParentTVItemLinkID });
+                if (tvItemLink.ParentTVItemLinkID < 1)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemLinkParentTVItemLinkID, "1"), new[] { ModelsRes.TVItemLinkParentTVItemLinkID });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == tvItemLink.ParentTVItemLinkID select c).Any()))
+            if (tvItemLink.ParentTVItemLinkID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLinkParentTVItemLinkID, tvItemLink.ParentTVItemLinkID.ToString()), new[] { ModelsRes.TVItemLinkParentTVItemLinkID });
+                if (!((from c in db.TVItems where c.TVItemID == tvItemLink.ParentTVItemLinkID select c).Any()))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLinkParentTVItemLinkID, tvItemLink.ParentTVItemLinkID.ToString()), new[] { ModelsRes.TVItemLinkParentTVItemLinkID });
+                }
             }
 
             if (tvItemLink.LastUpdateDate_UTC == null)

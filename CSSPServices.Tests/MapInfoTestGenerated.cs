@@ -64,7 +64,7 @@ namespace CSSPServices.Tests
         public void MapInfo_Testing()
         {
             SetupTestHelper(culture);
-            MapInfoService mapInfoService = new MapInfoService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MapInfoService mapInfoService = new MapInfoService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             MapInfo mapInfo = GetFilledRandomMapInfo("");
 
             // -------------------------------

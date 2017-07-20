@@ -64,7 +64,7 @@ namespace CSSPServices.Tests
         public void VPResult_Testing()
         {
             SetupTestHelper(culture);
-            VPResultService vpResultService = new VPResultService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            VPResultService vpResultService = new VPResultService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             VPResult vpResult = GetFilledRandomVPResult("");
 
             // -------------------------------

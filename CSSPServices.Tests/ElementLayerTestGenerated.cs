@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
         public void ElementLayer_Testing()
         {
             SetupTestHelper(culture);
-            ElementLayerService elementLayerService = new ElementLayerService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ElementLayerService elementLayerService = new ElementLayerService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             ElementLayer elementLayer = GetFilledRandomElementLayer("");
 
             // -------------------------------

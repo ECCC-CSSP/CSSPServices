@@ -39,7 +39,7 @@ namespace CSSPServices.Tests
         public Contact GetRandomContact()
         {
 
-            ContactService contactService = new ContactService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactService contactService = new ContactService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
 
             int Count = contactService.GetRead().Count();
 
@@ -139,7 +139,7 @@ namespace CSSPServices.Tests
         }
         public TVItem GetRandomTVItem(TVTypeEnum TVType)
         {
-            TVItemService tvItemService = new TVItemService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVItemService tvItemService = new TVItemService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
 
             int Count = tvItemService.GetRead().Where(c => c.TVType == TVType).Count();
 

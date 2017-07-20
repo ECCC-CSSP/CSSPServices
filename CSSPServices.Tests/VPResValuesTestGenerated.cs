@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
         public void VPResValues_Testing()
         {
             SetupTestHelper(culture);
-            VPResValuesService vpResValuesService = new VPResValuesService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            VPResValuesService vpResValuesService = new VPResValuesService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             VPResValues vpResValues = GetFilledRandomVPResValues("");
 
             // -------------------------------

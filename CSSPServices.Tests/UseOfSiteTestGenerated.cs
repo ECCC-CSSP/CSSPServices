@@ -70,7 +70,7 @@ namespace CSSPServices.Tests
         public void UseOfSite_Testing()
         {
             SetupTestHelper(culture);
-            UseOfSiteService useOfSiteService = new UseOfSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            UseOfSiteService useOfSiteService = new UseOfSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             UseOfSite useOfSite = GetFilledRandomUseOfSite("");
 
             // -------------------------------

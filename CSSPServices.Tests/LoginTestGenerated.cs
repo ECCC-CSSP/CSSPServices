@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
         public void Login_Testing()
         {
             SetupTestHelper(culture);
-            LoginService loginService = new LoginService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            LoginService loginService = new LoginService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             Login login = GetFilledRandomLogin("");
 
             // -------------------------------

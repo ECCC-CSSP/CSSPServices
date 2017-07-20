@@ -68,7 +68,7 @@ namespace CSSPServices.Tests
         public void AppTask_Testing()
         {
             SetupTestHelper(culture);
-            AppTaskService appTaskService = new AppTaskService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            AppTaskService appTaskService = new AppTaskService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             AppTask appTask = GetFilledRandomAppTask("");
 
             // -------------------------------

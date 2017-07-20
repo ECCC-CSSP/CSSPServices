@@ -70,7 +70,7 @@ namespace CSSPServices.Tests
         public void MWQMSiteSampleFC_Testing()
         {
             SetupTestHelper(culture);
-            MWQMSiteSampleFCService mwqmSiteSampleFCService = new MWQMSiteSampleFCService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MWQMSiteSampleFCService mwqmSiteSampleFCService = new MWQMSiteSampleFCService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             MWQMSiteSampleFC mwqmSiteSampleFC = GetFilledRandomMWQMSiteSampleFC("");
 
             // -------------------------------

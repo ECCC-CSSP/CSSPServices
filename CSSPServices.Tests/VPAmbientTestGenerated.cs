@@ -69,7 +69,7 @@ namespace CSSPServices.Tests
         public void VPAmbient_Testing()
         {
             SetupTestHelper(culture);
-            VPAmbientService vpAmbientService = new VPAmbientService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            VPAmbientService vpAmbientService = new VPAmbientService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             VPAmbient vpAmbient = GetFilledRandomVPAmbient("");
 
             // -------------------------------

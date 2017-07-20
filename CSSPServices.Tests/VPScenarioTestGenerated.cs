@@ -76,7 +76,7 @@ namespace CSSPServices.Tests
         public void VPScenario_Testing()
         {
             SetupTestHelper(culture);
-            VPScenarioService vpScenarioService = new VPScenarioService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            VPScenarioService vpScenarioService = new VPScenarioService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             VPScenario vpScenario = GetFilledRandomVPScenario("");
 
             // -------------------------------

@@ -50,9 +50,12 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteSampleFCSampleDate), new[] { ModelsRes.MWQMSiteSampleFCSampleDate });
             }
 
-            if (mwqmSiteSampleFC.FC < 1 || mwqmSiteSampleFC.FC > 100000000)
+            if (mwqmSiteSampleFC.FC != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteSampleFCFC, "1", "100000000"), new[] { ModelsRes.MWQMSiteSampleFCFC });
+                if (mwqmSiteSampleFC.FC < 1 || mwqmSiteSampleFC.FC > 100000000)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteSampleFCFC, "1", "100000000"), new[] { ModelsRes.MWQMSiteSampleFCFC });
+                }
             }
 
             //Sal has no Range Attribute

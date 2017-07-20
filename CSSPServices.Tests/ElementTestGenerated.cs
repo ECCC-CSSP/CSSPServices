@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void Element_Testing()
         {
             SetupTestHelper(culture);
-            ElementService elementService = new ElementService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            ElementService elementService = new ElementService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             Element element = GetFilledRandomElement("");
 
             // -------------------------------

@@ -63,7 +63,7 @@ namespace CSSPServices.Tests
         public void TVItemUserAuthorization_Testing()
         {
             SetupTestHelper(culture);
-            TVItemUserAuthorizationService tvItemUserAuthorizationService = new TVItemUserAuthorizationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVItemUserAuthorizationService tvItemUserAuthorizationService = new TVItemUserAuthorizationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             TVItemUserAuthorization tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
 
             // -------------------------------

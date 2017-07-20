@@ -121,14 +121,20 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetSubsectorTVItemID, labSheet.SubsectorTVItemID.ToString()), new[] { ModelsRes.LabSheetSubsectorTVItemID });
             }
 
-            if (labSheet.MWQMRunTVItemID < 1)
+            if (labSheet.MWQMRunTVItemID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetMWQMRunTVItemID, "1"), new[] { ModelsRes.LabSheetMWQMRunTVItemID });
+                if (labSheet.MWQMRunTVItemID < 1)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetMWQMRunTVItemID, "1"), new[] { ModelsRes.LabSheetMWQMRunTVItemID });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == labSheet.MWQMRunTVItemID select c).Any()))
+            if (labSheet.MWQMRunTVItemID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetMWQMRunTVItemID, labSheet.MWQMRunTVItemID.ToString()), new[] { ModelsRes.LabSheetMWQMRunTVItemID });
+                if (!((from c in db.TVItems where c.TVItemID == labSheet.MWQMRunTVItemID select c).Any()))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetMWQMRunTVItemID, labSheet.MWQMRunTVItemID.ToString()), new[] { ModelsRes.LabSheetMWQMRunTVItemID });
+                }
             }
 
             retStr = enums.SamplingPlanTypeOK(labSheet.SamplingPlanType);
@@ -182,14 +188,20 @@ namespace CSSPServices
 
             //FileContent has no StringLength Attribute
 
-            if (labSheet.AcceptedOrRejectedByContactTVItemID < 1)
+            if (labSheet.AcceptedOrRejectedByContactTVItemID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID, "1"), new[] { ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID });
+                if (labSheet.AcceptedOrRejectedByContactTVItemID < 1)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID, "1"), new[] { ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == labSheet.AcceptedOrRejectedByContactTVItemID select c).Any()))
+            if (labSheet.AcceptedOrRejectedByContactTVItemID != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID, labSheet.AcceptedOrRejectedByContactTVItemID.ToString()), new[] { ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID });
+                if (!((from c in db.TVItems where c.TVItemID == labSheet.AcceptedOrRejectedByContactTVItemID select c).Any()))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID, labSheet.AcceptedOrRejectedByContactTVItemID.ToString()), new[] { ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID });
+                }
             }
 
             if (labSheet.AcceptedOrRejectedDateTime != null && ((DateTime)labSheet.AcceptedOrRejectedDateTime).Year < 1980)

@@ -65,7 +65,7 @@ namespace CSSPServices
         }
         public bool AddChildTVItemDB(int ParentTVItemID, string TVText, TVTypeEnum TVType, TVItem tvItem)
         {
-            ContactService contactService = new ContactService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactService contactService = new ContactService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryTestDB);
 
             Contact contactLoggedIn = contactService.GetRead().Where(c => c.ContactID == ContactID).FirstOrDefault();
 
@@ -76,7 +76,7 @@ namespace CSSPServices
                 return false;
             }
 
-            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryNoDBShape))
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryTestDB))
             {
                 TVItem tvItemExist = (from c in db.TVItems
                                       from cl in db.TVItemLanguages
@@ -116,7 +116,7 @@ namespace CSSPServices
                     return false;
                 }
 
-                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
+                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryTestDB);
                 foreach (LanguageEnum Lang in LanguageListAllowable)
                 {
                     TVItemLanguage tvItemLanguage = new TVItemLanguage()
@@ -148,7 +148,7 @@ namespace CSSPServices
                 return false;
             }
 
-            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryNoDBShape))
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryTestDB))
             {
                 TVItem tvItemExist = (from c in db.TVItems
                                       from cl in db.TVItemLanguages
@@ -188,7 +188,7 @@ namespace CSSPServices
                     return false;
                 }
 
-                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
+                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryTestDB);
                 foreach (LanguageEnum Lang in LanguageListAllowable)
                 {
                     TVItemLanguage tvItemLanguage = new TVItemLanguage()

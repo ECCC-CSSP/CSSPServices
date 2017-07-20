@@ -59,7 +59,7 @@ namespace CSSPServices.Tests
         public void TVLocation_Testing()
         {
             SetupTestHelper(culture);
-            TVLocationService tvLocationService = new TVLocationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVLocationService tvLocationService = new TVLocationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             TVLocation tvLocation = GetFilledRandomTVLocation("");
 
             // -------------------------------

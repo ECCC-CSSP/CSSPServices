@@ -13,7 +13,7 @@ using CSSPEnums;
 
 namespace CSSPServicesGenerateCodeHelper
 {
-    public partial class GenerateClassServicesTest : GenerateCodeHelper
+    public partial class ServicesGenerateCodeHelper
     {
         #region Variables
         #endregion Variables
@@ -22,10 +22,7 @@ namespace CSSPServicesGenerateCodeHelper
         #endregion Properties
 
         #region Constructors
-        public GenerateClassServicesTest(string DLLFileName, string GenerateFilePath, RichTextBox richTextBoxStatus, Label lblStatus)
-            : base(DLLFileName, GenerateFilePath, richTextBoxStatus, lblStatus)
-        {
-        }
+        // constructor was done in the ServicesGenerateCodeHelper.cs file
         #endregion Constructors
 
         #region Functions private
@@ -49,7 +46,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (prop != null)
             {
                 CSSPModelsGenerateCodeHelper.CSSPProp csspProp = new CSSPModelsGenerateCodeHelper.CSSPProp();
-                if (!ModelGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
+                if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
                 {
                     return;
                 }
@@ -1119,214 +1116,19 @@ namespace CSSPServicesGenerateCodeHelper
                     }
                     break;
             }
-        }
-        //private void WritePropGetRandom(PropertyInfo prop, string TypeName, string TypeNameLower, StringBuilder sb, int? MinInt, int? MaxInt, float? MinFloat, float? MaxFloat, bool? Required)
-        //{
-        //    if (csspProp.PropType.Contains("System.String"))
-        //    {
-        //        if (prop.Name.Contains("Email"))
-        //        {
-        //            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomEmail();");
-        //        }
-        //        else
-        //        {
-        //            if (MinInt != null && MaxInt != null)
-        //            {
-        //                if (TypeName == "ResetPassword" && prop.Name == "ConfirmPassword")
-        //                {
-        //                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = " + TypeNameLower + @".Password;");
-        //                }
-        //                else
-        //                {
-        //                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", " + MinInt.ToString() + @");");
-        //                }
-        //            }
-        //            else if (MinInt != null)
-        //            {
-        //                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", " + MinInt.ToString() + @");");
-        //            }
-        //            else if (MaxInt != null)
-        //            {
-        //                if (MaxInt < 5)
-        //                {
-        //                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", " + MaxInt.ToString() + @");");
-        //                }
-        //                else
-        //                {
-        //                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", 5);");
-        //                }
-        //            }
-        //            else
-        //            {
-        //                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", 5);");
-        //            }
-        //        }
-        //    }
-        //    else if (csspProp.PropType.Contains("System.Boolean"))
-        //    {
-        //        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = true;");
-        //    }
-        //    else if (csspProp.PropType.Contains("System.Int32"))
-        //    {
-        //        if (MinInt != null && MaxInt != null)
-        //        {
-        //            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + MinInt.ToString() + @", " + MaxInt.ToString() + @");");
-        //        }
-        //        else if (MinInt != null)
-        //        {
-        //            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + MinInt.ToString() + @", " + (MinInt + 10).ToString() + @");");
-        //        }
-        //        else if (MaxInt != null)
-        //        {
-        //            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + (MaxInt - 10).ToString() + @", " + MaxInt.ToString() + @");");
-        //        }
-        //        else
-        //        {
-        //            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(1, 5);");
-        //        }
-        //    }
-        //    else if (csspProp.PropType.Contains("System.Single"))
-        //    {
-        //        if (MinFloat != null && MaxFloat != null)
-        //        {
-        //            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + MinFloat.ToString() + @", " + MaxFloat.ToString() + @");");
-        //        }
-        //        else if (MinFloat != null)
-        //        {
-        //            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + MinFloat.ToString() + @", " + (MinFloat + 10.0f).ToString() + @");");
-        //        }
-        //        else if (MaxFloat != null)
-        //        {
-        //            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(" + (MaxFloat - 10.0f).ToString() + @", " + MaxFloat.ToString() + @");");
-        //        }
-        //        else
-        //        {
-        //            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomFloat(1.0f, 5.0f);");
-        //        }
-        //    }
-        //    else if (csspProp.PropType.Contains("System.Double"))
-        //    {
-        //        if (MinFloat != null && MaxFloat != null)
-        //        {
-        //            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + MinFloat.ToString() + @", " + MaxFloat.ToString() + @");");
-        //        }
-        //        else if (MinFloat != null)
-        //        {
-        //            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + MinFloat.ToString() + @", " + (MinFloat + 10.0f).ToString() + @");");
-        //        }
-        //        else if (MaxFloat != null)
-        //        {
-        //            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(" + (MaxFloat - 10.0f).ToString() + @", " + MaxFloat.ToString() + @");");
-        //        }
-        //        else
-        //        {
-        //            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDouble(1.0f, 5.0f);");
-        //        }
-        //    }
-        //    else if (csspProp.PropType.Contains("System.DateTime"))
-        //    {
-        //        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDateTime();");
-        //    }
-        //    else
-        //    {
-        //        if (csspProp.PropType.Contains("Enum"))
-        //        {
-        //            if (csspProp.PropType.Contains("LanguageEnum"))
-        //            {
-        //                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + " = language;");
-        //            }
-        //            else
-        //            {
-        //                string enumPropName = "";
-        //                if (csspProp.PropType.StartsWith("System.Nullable"))
-        //                {
-        //                    enumPropName = csspProp.PropType.Substring(csspProp.PropType.IndexOf("[[") + 2);
-        //                    enumPropName = enumPropName.Substring(enumPropName.IndexOf(".") + 1);
-        //                    enumPropName = enumPropName.Substring(0, enumPropName.IndexOf(","));
-
-        //                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + " = (" + enumPropName + @")GetRandomEnumType(typeof(" + enumPropName + "));");
-        //                }
-        //                else
-        //                {
-        //                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + " = (" + csspProp.PropType + @")GetRandomEnumType(typeof(" + csspProp.PropType + "));");
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            sb.AppendLine(@"            //Error: Type not implemented [" + prop.Name + "]");
-        //        }
-        //    }
-        //}
-        //private void WritePropNotMapped(PropertyInfo prop, string TypeName, string TypeNameLower, StringBuilder sb)
-        //{
-        //    if (!prop.GetGetMethod().IsVirtual)
-        //    {
-        //        bool? Required = null;
-        //        int? MinInt = null;
-        //        int? MaxInt = null;
-        //        float? MinFloat = null;
-        //        float? MaxFloat = null;
-        //        foreach (CustomAttributeData attr in prop.CustomAttributes)
-        //        {
-        //            if (attr.AttributeType.Name == "RequiredAttribute")
-        //            {
-        //                Required = true;
-        //            }
-        //            if (attr.AttributeType.Name == "RangeAttribute")
-        //            {
-        //                if (csspProp.PropType.Contains("System.Int32") || csspProp.PropType.Contains("System.String"))
-        //                {
-        //                    MinInt = ((int?)attr.ConstructorArguments[0].Value);
-        //                    if (MinInt == -1)
-        //                    {
-        //                        MinInt = null;
-        //                    }
-        //                    MaxInt = ((int?)attr.ConstructorArguments[1].Value);
-        //                    if (MaxInt == -1)
-        //                    {
-        //                        MaxInt = null;
-        //                    }
-        //                }
-        //                else if (csspProp.PropType.Contains("System.Single"))
-        //                {
-        //                    MinFloat = ((float?)((double)attr.ConstructorArguments[0].Value));
-        //                    if (MinFloat == -1.0f)
-        //                    {
-        //                        MinFloat = null;
-        //                    }
-        //                    MaxFloat = ((float?)((double)attr.ConstructorArguments[1].Value));
-        //                    if (MaxFloat == -1.0f)
-        //                    {
-        //                        MaxFloat = null;
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                }
-        //            }
-        //        }
-
-        //        if (prop.Name != "ValidationResults")
-        //        {
-        //            WritePropGetRandom(prop, TypeName, TypeNameLower, sb, MinInt, MaxInt, MinFloat, MaxFloat, Required);
-        //        }
-        //    }
-        //}
+        }       
         #endregion Functions private
 
         #region Functions private
         public void GenerateCodeOf_ClassTestGenerated()
         {
-            FileInfo fiDLL = new FileInfo(DLLFileName);
+            FileInfo fiDLL = new FileInfo(servicesFiles.CSSPModelsDLL);
 
             if (!fiDLL.Exists)
             {
-                RichTextBoxStatus.AppendText(fiDLL.FullName + " does not exist");
+                ErrorEvent(new ErrorEventArgs(fiDLL.FullName + " does not exist"));
                 return;
             }
-
-            RichTextBoxStatus.Text = "";
 
             var importAssembly = Assembly.LoadFile(fiDLL.FullName);
             Type[] types = importAssembly.GetTypes();
@@ -1351,19 +1153,10 @@ namespace CSSPServicesGenerateCodeHelper
                     TypeNameLower = type.Name.Substring(0, 1).ToLower() + type.Name.Substring(1);
                 }
 
-                LabelStatus.Text = TypeName;
-                LabelStatus.Refresh();
+                StatusTempEvent(new StatusEventArgs(TypeName));
                 Application.DoEvents();
 
-                if (type.Name.StartsWith("<")
-                                   || type.Name.StartsWith("ModelsRes")
-                                   || type.Name.StartsWith("Application")
-                                   || type.Name.StartsWith("CSSPAfter")
-                                   || type.Name.StartsWith("CSSPAllowNull")
-                                   || type.Name.StartsWith("CSSPBigger")
-                                   || type.Name.StartsWith("CSSPEnumType")
-                                   || type.Name.StartsWith("CSSPExist")
-                                   || type.Name.StartsWith("CSSPWebToolsDBContext"))
+                if (modelsGenerateCodeHelper.SkipType(type))
                 {
                     continue;
                 }
@@ -1432,7 +1225,7 @@ namespace CSSPServicesGenerateCodeHelper
                 foreach (PropertyInfo prop in type.GetProperties())
                 {
                     CSSPModelsGenerateCodeHelper.CSSPProp csspProp = new CSSPModelsGenerateCodeHelper.CSSPProp();
-                    if (!ModelGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
+                    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
                     {
                         return;
                     }
@@ -1455,7 +1248,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"        public void " + TypeName + @"_Testing()");
                 sb.AppendLine(@"        {");
                 sb.AppendLine(@"            SetupTestHelper(culture);");
-                sb.AppendLine(@"            " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);");
+                sb.AppendLine(@"            " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);");
                 sb.AppendLine(@"            " + TypeName + @" " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
                 sb.AppendLine(@"");
 
@@ -1485,7 +1278,7 @@ namespace CSSPServicesGenerateCodeHelper
                     foreach (PropertyInfo prop in type.GetProperties())
                     {
                         CSSPModelsGenerateCodeHelper.CSSPProp csspProp = new CSSPModelsGenerateCodeHelper.CSSPProp();
-                        if (!ModelGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
+                        if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
                         {
                             return;
                         }
@@ -1508,7 +1301,7 @@ namespace CSSPServicesGenerateCodeHelper
                     foreach (PropertyInfo prop in type.GetProperties())
                     {
                         CSSPModelsGenerateCodeHelper.CSSPProp csspProp = new CSSPModelsGenerateCodeHelper.CSSPProp();
-                        if (!ModelGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
+                        if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
                         {
                             return;
                         }
@@ -1524,15 +1317,15 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"    }");
                 sb.AppendLine(@"}");
 
-                FileInfo fiOutputGen = new FileInfo(GenerateFilePath + TypeName + "TestGenerated.cs");
+                FileInfo fiOutputGen = new FileInfo(servicesFiles.BaseDir + servicesFiles.BaseDirTest + TypeName + "TestGenerated.cs");
                 using (StreamWriter sw2 = fiOutputGen.CreateText())
                 {
                     sw2.Write(sb.ToString());
                 }
 
-                RichTextBoxStatus.AppendText("Created [" + fiOutputGen.FullName + "] ...\r\n");
+                ErrorEvent(new ErrorEventArgs("Created [" + fiOutputGen.FullName + "] ..."));
 
-                LabelStatus.Text = "Done ...";
+                StatusTempEvent(new StatusEventArgs("Done ..."));
             }
         }
         #endregion Functions private

@@ -142,14 +142,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenerateClassServices.cs" />
-    <Compile Include="GenerateClassServicesTest.cs" />
-    <Compile Include="GenerateCodeHelper.cs" />
-    <Compile Include="GenerateFillDBTesting.cs" />
+    <Compile Include="ServicesGenerateClassServices.cs" />
+    <Compile Include="ServicesRepopulateTestDB.cs" />
+    <Compile Include="ServicesGenerateClassServicesTest.cs" />
+    <Compile Include="ServicesGenerateCodeHelper.cs" />
+    <Compile Include="ServicesGenerateFillDBTesting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

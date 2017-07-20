@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void PolSourceObservation_Testing()
         {
             SetupTestHelper(culture);
-            PolSourceObservationService polSourceObservationService = new PolSourceObservationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            PolSourceObservationService polSourceObservationService = new PolSourceObservationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             PolSourceObservation polSourceObservation = GetFilledRandomPolSourceObservation("");
 
             // -------------------------------

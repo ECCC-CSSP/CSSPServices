@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void TVFileLanguage_Testing()
         {
             SetupTestHelper(culture);
-            TVFileLanguageService tvFileLanguageService = new TVFileLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            TVFileLanguageService tvFileLanguageService = new TVFileLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             TVFileLanguage tvFileLanguage = GetFilledRandomTVFileLanguage("");
 
             // -------------------------------

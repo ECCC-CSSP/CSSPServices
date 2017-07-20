@@ -96,34 +96,52 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteStartYear, "1980", "2050"), new[] { ModelsRes.UseOfSiteStartYear });
             }
 
-            if (useOfSite.EndYear < 1980 || useOfSite.EndYear > 2050)
+            if (useOfSite.EndYear != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteEndYear, "1980", "2050"), new[] { ModelsRes.UseOfSiteEndYear });
+                if (useOfSite.EndYear < 1980 || useOfSite.EndYear > 2050)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteEndYear, "1980", "2050"), new[] { ModelsRes.UseOfSiteEndYear });
+                }
             }
 
-            if (useOfSite.Weight_perc < 0 || useOfSite.Weight_perc > 100)
+            if (useOfSite.Weight_perc != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteWeight_perc, "0", "100"), new[] { ModelsRes.UseOfSiteWeight_perc });
+                if (useOfSite.Weight_perc < 0 || useOfSite.Weight_perc > 100)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteWeight_perc, "0", "100"), new[] { ModelsRes.UseOfSiteWeight_perc });
+                }
             }
 
-            if (useOfSite.Param1 < 0 || useOfSite.Param1 > 100)
+            if (useOfSite.Param1 != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam1, "0", "100"), new[] { ModelsRes.UseOfSiteParam1 });
+                if (useOfSite.Param1 < 0 || useOfSite.Param1 > 100)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam1, "0", "100"), new[] { ModelsRes.UseOfSiteParam1 });
+                }
             }
 
-            if (useOfSite.Param2 < 0 || useOfSite.Param2 > 100)
+            if (useOfSite.Param2 != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam2, "0", "100"), new[] { ModelsRes.UseOfSiteParam2 });
+                if (useOfSite.Param2 < 0 || useOfSite.Param2 > 100)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam2, "0", "100"), new[] { ModelsRes.UseOfSiteParam2 });
+                }
             }
 
-            if (useOfSite.Param3 < 0 || useOfSite.Param3 > 100)
+            if (useOfSite.Param3 != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam3, "0", "100"), new[] { ModelsRes.UseOfSiteParam3 });
+                if (useOfSite.Param3 < 0 || useOfSite.Param3 > 100)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam3, "0", "100"), new[] { ModelsRes.UseOfSiteParam3 });
+                }
             }
 
-            if (useOfSite.Param4 < 0 || useOfSite.Param4 > 100)
+            if (useOfSite.Param4 != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam4, "0", "100"), new[] { ModelsRes.UseOfSiteParam4 });
+                if (useOfSite.Param4 < 0 || useOfSite.Param4 > 100)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam4, "0", "100"), new[] { ModelsRes.UseOfSiteParam4 });
+                }
             }
 
             if (useOfSite.LastUpdateDate_UTC == null)

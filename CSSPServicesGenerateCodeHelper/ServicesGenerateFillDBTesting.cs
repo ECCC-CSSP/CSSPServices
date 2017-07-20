@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace CSSPServicesGenerateCodeHelper
 {
-    public partial class GenerateFillDBTesting : GenerateCodeHelper
+    public partial class ServicesGenerateCodeHelper
     {
         #region Variables
         #endregion Variables
@@ -18,10 +18,7 @@ namespace CSSPServicesGenerateCodeHelper
         #endregion Properties
 
         #region Constructors
-        public GenerateFillDBTesting(string DLLFileName, string GenerateFilePath, RichTextBox richTextBoxStatus, Label lblStatus)
-            : base(DLLFileName, GenerateFilePath, richTextBoxStatus, lblStatus)
-        {
-        }
+        // constructor was done in the ServicesGenerateCodeHelper.cs file
         #endregion Constructors
 
         #region Functions private
@@ -29,17 +26,15 @@ namespace CSSPServicesGenerateCodeHelper
         {
             StringBuilder sb = new StringBuilder();
 
-            FileInfo fiDLL = new FileInfo(DLLFileName);
+            FileInfo fiDLL = new FileInfo(servicesFiles.CSSPModelsDLL);
 
             if (!fiDLL.Exists)
             {
-                RichTextBoxStatus.AppendText(fiDLL.FullName + " does not exist");
+                ErrorEvent(new ErrorEventArgs(fiDLL.FullName + " does not exist"));
                 return;
             }
             var importAssembly = Assembly.LoadFile(fiDLL.FullName);
             Type[] types = importAssembly.GetTypes();
-
-            RichTextBoxStatus.Text = "";
 
             sb.AppendLine(@"using System;");
             sb.AppendLine(@"using Microsoft.VisualStudio.TestTools.UnitTesting;");
@@ -85,11 +80,10 @@ namespace CSSPServicesGenerateCodeHelper
                     TypeNameLower = type.Name.Substring(0, 1).ToLower() + type.Name.Substring(1);
                 }
 
-                LabelStatus.Text = TypeName;
-                LabelStatus.Refresh();
+                StatusTempEvent(new StatusEventArgs(TypeName));
                 Application.DoEvents();
 
-                if (ModelGenerateCodeHelper.SkipType(type))
+                if (modelsGenerateCodeHelper.SkipType(type))
                 {
                     continue;
                 }
@@ -121,13 +115,12 @@ namespace CSSPServicesGenerateCodeHelper
                     TypeNameLower = type.Name.Substring(0, 1).ToLower() + type.Name.Substring(1);
                 }
 
-                if (ModelGenerateCodeHelper.SkipType(type))
+                if (modelsGenerateCodeHelper.SkipType(type))
                 {
                     continue;
                 }
 
-                LabelStatus.Text = TypeName;
-                LabelStatus.Refresh();
+                StatusTempEvent(new StatusEventArgs(TypeName));
                 Application.DoEvents();
 
                 if (TypeName.StartsWith("<") || TypeName.StartsWith("ModelsRes") || TypeName.StartsWith("Application") || TypeName.StartsWith("CSSPWebToolsDBContext"))
@@ -135,7 +128,7 @@ namespace CSSPServicesGenerateCodeHelper
                     continue;
                 }
 
-                sb.AppendLine(@"            " + TypeNameLower + "Service = new " + TypeName + "Service(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryWithDBShape);");
+                sb.AppendLine(@"            " + TypeNameLower + "Service = new " + TypeName + "Service(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryTestDB);");
             }
             sb.AppendLine(@"        }");
             sb.AppendLine(@"        #endregion Constructors");
@@ -230,15 +223,15 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"}");
 
             //FileInfo fiOutputGen = new FileInfo(textBoxBaseDir.Text + textBoxFile1ToGenerate.Text + "_FillDBAllTestGenerated.cs");
-            FileInfo fiOutputGen = new FileInfo(GenerateFilePath + "_FillDBAllTestGenerated.cs");
+            FileInfo fiOutputGen = new FileInfo(servicesFiles.BaseDir + servicesFiles.BaseDirFillDBTest + "_FillDBAllTestGenerated.cs");
             using (StreamWriter sw2 = fiOutputGen.CreateText())
             {
                 sw2.Write(sb.ToString());
             }
 
-            RichTextBoxStatus.AppendText("Created [" + fiOutputGen.FullName + "] ...\r\n");
+            ErrorEvent(new ErrorEventArgs("Created [" + fiOutputGen.FullName + "] ..."));
 
-            LabelStatus.Text = "Done ...";
+            StatusTempEvent(new StatusEventArgs("Done ..."));
         }
         #endregion Functions private
     }

@@ -32,7 +32,7 @@ namespace CSSPServices
         #region Functions public
         public string CleanResetPasswordWithEmail(string Email)
         {
-            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryNoDBShape))
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryTestDB))
             {
                 db.ResetPasswords.RemoveRange((from r in db.ResetPasswords
                                                where r.Email == Email
@@ -52,7 +52,7 @@ namespace CSSPServices
         }
         public bool ResetPasswordDB(ResetPassword resetPassword)
         {
-            ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryNoDBShape);
+            ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryTestDB);
 
             using (TransactionScope ts = new TransactionScope())
             {

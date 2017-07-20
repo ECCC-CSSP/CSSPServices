@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void SamplingPlanAndFilesLabSheetCount_Testing()
         {
             SetupTestHelper(culture);
-            SamplingPlanAndFilesLabSheetCountService samplingPlanAndFilesLabSheetCountService = new SamplingPlanAndFilesLabSheetCountService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            SamplingPlanAndFilesLabSheetCountService samplingPlanAndFilesLabSheetCountService = new SamplingPlanAndFilesLabSheetCountService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             SamplingPlanAndFilesLabSheetCount samplingPlanAndFilesLabSheetCount = GetFilledRandomSamplingPlanAndFilesLabSheetCount("");
 
             // -------------------------------

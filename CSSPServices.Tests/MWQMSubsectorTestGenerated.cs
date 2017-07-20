@@ -83,7 +83,7 @@ namespace CSSPServices.Tests
         public void MWQMSubsector_Testing()
         {
             SetupTestHelper(culture);
-            MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             MWQMSubsector mwqmSubsector = GetFilledRandomMWQMSubsector("");
 
             // -------------------------------

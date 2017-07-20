@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
         public void Email_Testing()
         {
             SetupTestHelper(culture);
-            EmailService emailService = new EmailService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            EmailService emailService = new EmailService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             Email email = GetFilledRandomEmail("");
 
             // -------------------------------

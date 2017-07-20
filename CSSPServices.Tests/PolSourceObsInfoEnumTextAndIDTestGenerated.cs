@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void PolSourceObsInfoEnumTextAndID_Testing()
         {
             SetupTestHelper(culture);
-            PolSourceObsInfoEnumTextAndIDService polSourceObsInfoEnumTextAndIDService = new PolSourceObsInfoEnumTextAndIDService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            PolSourceObsInfoEnumTextAndIDService polSourceObsInfoEnumTextAndIDService = new PolSourceObsInfoEnumTextAndIDService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             PolSourceObsInfoEnumTextAndID polSourceObsInfoEnumTextAndID = GetFilledRandomPolSourceObsInfoEnumTextAndID("");
 
             // -------------------------------

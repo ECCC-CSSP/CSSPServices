@@ -128,14 +128,20 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.AppTaskEndDateTime_UTC, ModelsRes.AppTaskStartDateTime_UTC), new[] { ModelsRes.AppTaskEndDateTime_UTC });
             }
 
-            if (appTask.EstimatedLength_second < 0 || appTask.EstimatedLength_second > 1000000)
+            if (appTask.EstimatedLength_second != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), new[] { ModelsRes.AppTaskEstimatedLength_second });
+                if (appTask.EstimatedLength_second < 0 || appTask.EstimatedLength_second > 1000000)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), new[] { ModelsRes.AppTaskEstimatedLength_second });
+                }
             }
 
-            if (appTask.RemainingTime_second < 0 || appTask.RemainingTime_second > 1000000)
+            if (appTask.RemainingTime_second != null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000"), new[] { ModelsRes.AppTaskRemainingTime_second });
+                if (appTask.RemainingTime_second < 0 || appTask.RemainingTime_second > 1000000)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000"), new[] { ModelsRes.AppTaskRemainingTime_second });
+                }
             }
 
             if (appTask.LastUpdateDate_UTC == null)

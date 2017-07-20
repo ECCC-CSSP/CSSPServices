@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void VPScenarioIDAndRawResults_Testing()
         {
             SetupTestHelper(culture);
-            VPScenarioIDAndRawResultsService vpScenarioIDAndRawResultsService = new VPScenarioIDAndRawResultsService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            VPScenarioIDAndRawResultsService vpScenarioIDAndRawResultsService = new VPScenarioIDAndRawResultsService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             VPScenarioIDAndRawResults vpScenarioIDAndRawResults = GetFilledRandomVPScenarioIDAndRawResults("");
 
             // -------------------------------

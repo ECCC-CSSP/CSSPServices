@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void CalDecay_Testing()
         {
             SetupTestHelper(culture);
-            CalDecayService calDecayService = new CalDecayService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            CalDecayService calDecayService = new CalDecayService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             CalDecay calDecay = GetFilledRandomCalDecay("");
 
             // -------------------------------

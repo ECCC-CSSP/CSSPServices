@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
         public void Node_Testing()
         {
             SetupTestHelper(culture);
-            NodeService nodeService = new NodeService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            NodeService nodeService = new NodeService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             Node node = GetFilledRandomNode("");
 
             // -------------------------------

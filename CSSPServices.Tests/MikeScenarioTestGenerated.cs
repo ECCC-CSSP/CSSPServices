@@ -82,7 +82,7 @@ namespace CSSPServices.Tests
         public void MikeScenario_Testing()
         {
             SetupTestHelper(culture);
-            MikeScenarioService mikeScenarioService = new MikeScenarioService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MikeScenarioService mikeScenarioService = new MikeScenarioService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             MikeScenario mikeScenario = GetFilledRandomMikeScenario("");
 
             // -------------------------------

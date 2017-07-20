@@ -60,7 +60,7 @@ namespace CSSPServices.Tests
         public void RatingCurveValue_Testing()
         {
             SetupTestHelper(culture);
-            RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             RatingCurveValue ratingCurveValue = GetFilledRandomRatingCurveValue("");
 
             // -------------------------------

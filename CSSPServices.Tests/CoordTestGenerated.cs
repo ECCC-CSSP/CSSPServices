@@ -57,7 +57,7 @@ namespace CSSPServices.Tests
         public void Coord_Testing()
         {
             SetupTestHelper(culture);
-            CoordService coordService = new CoordService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            CoordService coordService = new CoordService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             Coord coord = GetFilledRandomCoord("");
 
             // -------------------------------

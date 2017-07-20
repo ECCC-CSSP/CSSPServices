@@ -102,7 +102,7 @@ namespace CSSPServices.Tests
         public void Infrastructure_Testing()
         {
             SetupTestHelper(culture);
-            InfrastructureService infrastructureService = new InfrastructureService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            InfrastructureService infrastructureService = new InfrastructureService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             Infrastructure infrastructure = GetFilledRandomInfrastructure("");
 
             // -------------------------------

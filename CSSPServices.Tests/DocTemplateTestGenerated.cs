@@ -61,7 +61,7 @@ namespace CSSPServices.Tests
         public void DocTemplate_Testing()
         {
             SetupTestHelper(culture);
-            DocTemplateService docTemplateService = new DocTemplateService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            DocTemplateService docTemplateService = new DocTemplateService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             DocTemplate docTemplate = GetFilledRandomDocTemplate("");
 
             // -------------------------------

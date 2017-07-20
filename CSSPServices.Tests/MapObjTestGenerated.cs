@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
         public void MapObj_Testing()
         {
             SetupTestHelper(culture);
-            MapObjService mapObjService = new MapObjService(LanguageRequest, ID, DatabaseTypeEnum.MemoryNoDBShape);
+            MapObjService mapObjService = new MapObjService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
             MapObj mapObj = GetFilledRandomMapObj("");
 
             // -------------------------------
