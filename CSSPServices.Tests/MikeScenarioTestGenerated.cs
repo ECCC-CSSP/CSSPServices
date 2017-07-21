@@ -52,16 +52,16 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MikeScenarioStartDateTime_Local") mikeScenario.MikeScenarioStartDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "MikeScenarioEndDateTime_Local") mikeScenario.MikeScenarioEndDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "MikeScenarioStartExecutionDateTime_Local") mikeScenario.MikeScenarioStartExecutionDateTime_Local = GetRandomDateTime();
-            if (OmitPropName != "MikeScenarioExecutionTime_min") mikeScenario.MikeScenarioExecutionTime_min = GetRandomFloat(1.0f, 100000.0f);
-            if (OmitPropName != "WindSpeed_km_h") mikeScenario.WindSpeed_km_h = GetRandomFloat(0.0f, 100.0f);
-            if (OmitPropName != "WindDirection_deg") mikeScenario.WindDirection_deg = GetRandomFloat(0.0f, 360.0f);
-            if (OmitPropName != "DecayFactor_per_day") mikeScenario.DecayFactor_per_day = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "MikeScenarioExecutionTime_min") mikeScenario.MikeScenarioExecutionTime_min = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "WindSpeed_km_h") mikeScenario.WindSpeed_km_h = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "WindDirection_deg") mikeScenario.WindDirection_deg = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "DecayFactor_per_day") mikeScenario.DecayFactor_per_day = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "DecayIsConstant") mikeScenario.DecayIsConstant = true;
-            if (OmitPropName != "DecayFactorAmplitude") mikeScenario.DecayFactorAmplitude = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "DecayFactorAmplitude") mikeScenario.DecayFactorAmplitude = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "ResultFrequency_min") mikeScenario.ResultFrequency_min = GetRandomInt(0, 100);
-            if (OmitPropName != "AmbientTemperature_C") mikeScenario.AmbientTemperature_C = GetRandomFloat(-10.0f, 40.0f);
-            if (OmitPropName != "AmbientSalinity_PSU") mikeScenario.AmbientSalinity_PSU = GetRandomFloat(0.0f, 40.0f);
-            if (OmitPropName != "ManningNumber") mikeScenario.ManningNumber = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "AmbientTemperature_C") mikeScenario.AmbientTemperature_C = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "AmbientSalinity_PSU") mikeScenario.AmbientSalinity_PSU = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "ManningNumber") mikeScenario.ManningNumber = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "NumberOfElements") mikeScenario.NumberOfElements = GetRandomInt(1, 10000);
             if (OmitPropName != "NumberOfTimeSteps") mikeScenario.NumberOfTimeSteps = GetRandomInt(1, 10000);
             if (OmitPropName != "NumberOfSigmaLayers") mikeScenario.NumberOfSigmaLayers = GetRandomInt(0, 100);
@@ -133,23 +133,25 @@ namespace CSSPServices.Tests
             Assert.IsTrue(mikeScenario.MikeScenarioEndDateTime_Local.Year < 1900);
             Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
 
-            // WindSpeed_km_h will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [MikeScenarioExecutionTime_min]
 
-            // WindDirection_deg will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [WindSpeed_km_h]
 
-            // DecayFactor_per_day will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [WindDirection_deg]
+
+            //Error: Type not implemented [DecayFactor_per_day]
 
             // DecayIsConstant will automatically be initialized at 0 --> not null
 
-            // DecayFactorAmplitude will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [DecayFactorAmplitude]
 
             // ResultFrequency_min will automatically be initialized at 0 --> not null
 
-            // AmbientTemperature_C will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [AmbientTemperature_C]
 
-            // AmbientSalinity_PSU will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [AmbientSalinity_PSU]
 
-            // ManningNumber will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [ManningNumber]
 
             mikeScenario = null;
             mikeScenario = GetFilledRandomMikeScenario("LastUpdateDate_UTC");
@@ -255,243 +257,28 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MikeScenarioExecutionTime_min] of type [Single]
+            // doing property [MikeScenarioExecutionTime_min] of type [Double]
             //-----------------------------------
 
-            mikeScenario = null;
-            mikeScenario = GetFilledRandomMikeScenario("");
-            // MikeScenarioExecutionTime_min has Min [1] and Max [100000]. At Min should return true and no errors
-            mikeScenario.MikeScenarioExecutionTime_min = 1.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mikeScenario.MikeScenarioExecutionTime_min);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // MikeScenarioExecutionTime_min has Min [1] and Max [100000]. At Min + 1 should return true and no errors
-            mikeScenario.MikeScenarioExecutionTime_min = 2.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(2.0f, mikeScenario.MikeScenarioExecutionTime_min);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // MikeScenarioExecutionTime_min has Min [1] and Max [100000]. At Min - 1 should return false with one error
-            mikeScenario.MikeScenarioExecutionTime_min = 0.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioMikeScenarioExecutionTime_min, "1", "100000")).Any());
-            Assert.AreEqual(0.0f, mikeScenario.MikeScenarioExecutionTime_min);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // MikeScenarioExecutionTime_min has Min [1] and Max [100000]. At Max should return true and no errors
-            mikeScenario.MikeScenarioExecutionTime_min = 100000.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(100000.0f, mikeScenario.MikeScenarioExecutionTime_min);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // MikeScenarioExecutionTime_min has Min [1] and Max [100000]. At Max - 1 should return true and no errors
-            mikeScenario.MikeScenarioExecutionTime_min = 99999.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(99999.0f, mikeScenario.MikeScenarioExecutionTime_min);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // MikeScenarioExecutionTime_min has Min [1] and Max [100000]. At Max + 1 should return false with one error
-            mikeScenario.MikeScenarioExecutionTime_min = 100001.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioMikeScenarioExecutionTime_min, "1", "100000")).Any());
-            Assert.AreEqual(100001.0f, mikeScenario.MikeScenarioExecutionTime_min);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [WindSpeed_km_h] of type [Single]
+            // doing property [WindSpeed_km_h] of type [Double]
             //-----------------------------------
 
-            mikeScenario = null;
-            mikeScenario = GetFilledRandomMikeScenario("");
-            // WindSpeed_km_h has Min [0] and Max [100]. At Min should return true and no errors
-            mikeScenario.WindSpeed_km_h = 0.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mikeScenario.WindSpeed_km_h);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // WindSpeed_km_h has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            mikeScenario.WindSpeed_km_h = 1.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mikeScenario.WindSpeed_km_h);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // WindSpeed_km_h has Min [0] and Max [100]. At Min - 1 should return false with one error
-            mikeScenario.WindSpeed_km_h = -1.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioWindSpeed_km_h, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, mikeScenario.WindSpeed_km_h);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // WindSpeed_km_h has Min [0] and Max [100]. At Max should return true and no errors
-            mikeScenario.WindSpeed_km_h = 100.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(100.0f, mikeScenario.WindSpeed_km_h);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // WindSpeed_km_h has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            mikeScenario.WindSpeed_km_h = 99.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(99.0f, mikeScenario.WindSpeed_km_h);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // WindSpeed_km_h has Min [0] and Max [100]. At Max + 1 should return false with one error
-            mikeScenario.WindSpeed_km_h = 101.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioWindSpeed_km_h, "0", "100")).Any());
-            Assert.AreEqual(101.0f, mikeScenario.WindSpeed_km_h);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [WindDirection_deg] of type [Single]
+            // doing property [WindDirection_deg] of type [Double]
             //-----------------------------------
 
-            mikeScenario = null;
-            mikeScenario = GetFilledRandomMikeScenario("");
-            // WindDirection_deg has Min [0] and Max [360]. At Min should return true and no errors
-            mikeScenario.WindDirection_deg = 0.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mikeScenario.WindDirection_deg);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // WindDirection_deg has Min [0] and Max [360]. At Min + 1 should return true and no errors
-            mikeScenario.WindDirection_deg = 1.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mikeScenario.WindDirection_deg);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // WindDirection_deg has Min [0] and Max [360]. At Min - 1 should return false with one error
-            mikeScenario.WindDirection_deg = -1.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioWindDirection_deg, "0", "360")).Any());
-            Assert.AreEqual(-1.0f, mikeScenario.WindDirection_deg);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // WindDirection_deg has Min [0] and Max [360]. At Max should return true and no errors
-            mikeScenario.WindDirection_deg = 360.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(360.0f, mikeScenario.WindDirection_deg);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // WindDirection_deg has Min [0] and Max [360]. At Max - 1 should return true and no errors
-            mikeScenario.WindDirection_deg = 359.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(359.0f, mikeScenario.WindDirection_deg);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // WindDirection_deg has Min [0] and Max [360]. At Max + 1 should return false with one error
-            mikeScenario.WindDirection_deg = 361.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioWindDirection_deg, "0", "360")).Any());
-            Assert.AreEqual(361.0f, mikeScenario.WindDirection_deg);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [DecayFactor_per_day] of type [Single]
+            // doing property [DecayFactor_per_day] of type [Double]
             //-----------------------------------
-
-            mikeScenario = null;
-            mikeScenario = GetFilledRandomMikeScenario("");
-            // DecayFactor_per_day has Min [0] and Max [100]. At Min should return true and no errors
-            mikeScenario.DecayFactor_per_day = 0.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mikeScenario.DecayFactor_per_day);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // DecayFactor_per_day has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            mikeScenario.DecayFactor_per_day = 1.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mikeScenario.DecayFactor_per_day);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // DecayFactor_per_day has Min [0] and Max [100]. At Min - 1 should return false with one error
-            mikeScenario.DecayFactor_per_day = -1.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioDecayFactor_per_day, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, mikeScenario.DecayFactor_per_day);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // DecayFactor_per_day has Min [0] and Max [100]. At Max should return true and no errors
-            mikeScenario.DecayFactor_per_day = 100.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(100.0f, mikeScenario.DecayFactor_per_day);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // DecayFactor_per_day has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            mikeScenario.DecayFactor_per_day = 99.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(99.0f, mikeScenario.DecayFactor_per_day);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // DecayFactor_per_day has Min [0] and Max [100]. At Max + 1 should return false with one error
-            mikeScenario.DecayFactor_per_day = 101.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioDecayFactor_per_day, "0", "100")).Any());
-            Assert.AreEqual(101.0f, mikeScenario.DecayFactor_per_day);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
 
             //-----------------------------------
             // doing property [DecayIsConstant] of type [Boolean]
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [DecayFactorAmplitude] of type [Single]
+            // doing property [DecayFactorAmplitude] of type [Double]
             //-----------------------------------
-
-            mikeScenario = null;
-            mikeScenario = GetFilledRandomMikeScenario("");
-            // DecayFactorAmplitude has Min [0] and Max [100]. At Min should return true and no errors
-            mikeScenario.DecayFactorAmplitude = 0.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mikeScenario.DecayFactorAmplitude);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // DecayFactorAmplitude has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            mikeScenario.DecayFactorAmplitude = 1.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mikeScenario.DecayFactorAmplitude);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // DecayFactorAmplitude has Min [0] and Max [100]. At Min - 1 should return false with one error
-            mikeScenario.DecayFactorAmplitude = -1.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioDecayFactorAmplitude, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, mikeScenario.DecayFactorAmplitude);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // DecayFactorAmplitude has Min [0] and Max [100]. At Max should return true and no errors
-            mikeScenario.DecayFactorAmplitude = 100.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(100.0f, mikeScenario.DecayFactorAmplitude);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // DecayFactorAmplitude has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            mikeScenario.DecayFactorAmplitude = 99.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(99.0f, mikeScenario.DecayFactorAmplitude);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // DecayFactorAmplitude has Min [0] and Max [100]. At Max + 1 should return false with one error
-            mikeScenario.DecayFactorAmplitude = 101.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioDecayFactorAmplitude, "0", "100")).Any());
-            Assert.AreEqual(101.0f, mikeScenario.DecayFactorAmplitude);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
 
             //-----------------------------------
             // doing property [ResultFrequency_min] of type [Int32]
@@ -541,145 +328,16 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [AmbientTemperature_C] of type [Single]
+            // doing property [AmbientTemperature_C] of type [Double]
             //-----------------------------------
 
-            mikeScenario = null;
-            mikeScenario = GetFilledRandomMikeScenario("");
-            // AmbientTemperature_C has Min [-10] and Max [40]. At Min should return true and no errors
-            mikeScenario.AmbientTemperature_C = -10.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(-10.0f, mikeScenario.AmbientTemperature_C);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // AmbientTemperature_C has Min [-10] and Max [40]. At Min + 1 should return true and no errors
-            mikeScenario.AmbientTemperature_C = -9.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(-9.0f, mikeScenario.AmbientTemperature_C);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // AmbientTemperature_C has Min [-10] and Max [40]. At Min - 1 should return false with one error
-            mikeScenario.AmbientTemperature_C = -11.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioAmbientTemperature_C, "-10", "40")).Any());
-            Assert.AreEqual(-11.0f, mikeScenario.AmbientTemperature_C);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // AmbientTemperature_C has Min [-10] and Max [40]. At Max should return true and no errors
-            mikeScenario.AmbientTemperature_C = 40.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(40.0f, mikeScenario.AmbientTemperature_C);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // AmbientTemperature_C has Min [-10] and Max [40]. At Max - 1 should return true and no errors
-            mikeScenario.AmbientTemperature_C = 39.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(39.0f, mikeScenario.AmbientTemperature_C);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // AmbientTemperature_C has Min [-10] and Max [40]. At Max + 1 should return false with one error
-            mikeScenario.AmbientTemperature_C = 41.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioAmbientTemperature_C, "-10", "40")).Any());
-            Assert.AreEqual(41.0f, mikeScenario.AmbientTemperature_C);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [AmbientSalinity_PSU] of type [Single]
+            // doing property [AmbientSalinity_PSU] of type [Double]
             //-----------------------------------
 
-            mikeScenario = null;
-            mikeScenario = GetFilledRandomMikeScenario("");
-            // AmbientSalinity_PSU has Min [0] and Max [40]. At Min should return true and no errors
-            mikeScenario.AmbientSalinity_PSU = 0.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mikeScenario.AmbientSalinity_PSU);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // AmbientSalinity_PSU has Min [0] and Max [40]. At Min + 1 should return true and no errors
-            mikeScenario.AmbientSalinity_PSU = 1.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mikeScenario.AmbientSalinity_PSU);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // AmbientSalinity_PSU has Min [0] and Max [40]. At Min - 1 should return false with one error
-            mikeScenario.AmbientSalinity_PSU = -1.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioAmbientSalinity_PSU, "0", "40")).Any());
-            Assert.AreEqual(-1.0f, mikeScenario.AmbientSalinity_PSU);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // AmbientSalinity_PSU has Min [0] and Max [40]. At Max should return true and no errors
-            mikeScenario.AmbientSalinity_PSU = 40.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(40.0f, mikeScenario.AmbientSalinity_PSU);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // AmbientSalinity_PSU has Min [0] and Max [40]. At Max - 1 should return true and no errors
-            mikeScenario.AmbientSalinity_PSU = 39.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(39.0f, mikeScenario.AmbientSalinity_PSU);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // AmbientSalinity_PSU has Min [0] and Max [40]. At Max + 1 should return false with one error
-            mikeScenario.AmbientSalinity_PSU = 41.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioAmbientSalinity_PSU, "0", "40")).Any());
-            Assert.AreEqual(41.0f, mikeScenario.AmbientSalinity_PSU);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [ManningNumber] of type [Single]
+            // doing property [ManningNumber] of type [Double]
             //-----------------------------------
-
-            mikeScenario = null;
-            mikeScenario = GetFilledRandomMikeScenario("");
-            // ManningNumber has Min [0] and Max [100]. At Min should return true and no errors
-            mikeScenario.ManningNumber = 0.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mikeScenario.ManningNumber);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // ManningNumber has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            mikeScenario.ManningNumber = 1.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mikeScenario.ManningNumber);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // ManningNumber has Min [0] and Max [100]. At Min - 1 should return false with one error
-            mikeScenario.ManningNumber = -1.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioManningNumber, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, mikeScenario.ManningNumber);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // ManningNumber has Min [0] and Max [100]. At Max should return true and no errors
-            mikeScenario.ManningNumber = 100.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(100.0f, mikeScenario.ManningNumber);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // ManningNumber has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            mikeScenario.ManningNumber = 99.0f;
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
-            Assert.AreEqual(0, mikeScenario.ValidationResults.Count());
-            Assert.AreEqual(99.0f, mikeScenario.ManningNumber);
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
-            // ManningNumber has Min [0] and Max [100]. At Max + 1 should return false with one error
-            mikeScenario.ManningNumber = 101.0f;
-            Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
-            Assert.IsTrue(mikeScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioManningNumber, "0", "100")).Any());
-            Assert.AreEqual(101.0f, mikeScenario.ManningNumber);
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
 
             //-----------------------------------
             // doing property [NumberOfElements] of type [Int32]

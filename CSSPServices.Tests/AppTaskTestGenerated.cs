@@ -131,9 +131,7 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [AppTaskLanguages]
 
-            //Error: Type not implemented [TVItemIDNavigation]
-
-            //Error: Type not implemented [TVItemID2Navigation]
+            //Error: Type not implemented [TVItem]
 
             //Error: Type not implemented [ValidationResults]
 
@@ -407,11 +405,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TVItemIDNavigation] of type [TVItem]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [TVItemID2Navigation] of type [TVItem]
+            // doing property [TVItem] of type [TVItem]
             //-----------------------------------
 
             //-----------------------------------

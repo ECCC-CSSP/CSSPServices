@@ -53,8 +53,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Tube10") labSheetTubeMPNDetail.Tube10 = GetRandomInt(0, 5);
             if (OmitPropName != "Tube1_0") labSheetTubeMPNDetail.Tube1_0 = GetRandomInt(0, 5);
             if (OmitPropName != "Tube0_1") labSheetTubeMPNDetail.Tube0_1 = GetRandomInt(0, 5);
-            if (OmitPropName != "Salinity") labSheetTubeMPNDetail.Salinity = GetRandomFloat(0.0f, 40.0f);
-            if (OmitPropName != "Temperature") labSheetTubeMPNDetail.Temperature = GetRandomFloat(-10.0f, 40.0f);
+            if (OmitPropName != "Salinity") labSheetTubeMPNDetail.Salinity = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "Temperature") labSheetTubeMPNDetail.Temperature = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "ProcessedBy") labSheetTubeMPNDetail.ProcessedBy = GetRandomString("", 5);
             if (OmitPropName != "SampleType") labSheetTubeMPNDetail.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "SiteComment") labSheetTubeMPNDetail.SiteComment = GetRandomString("", 5);
@@ -98,6 +98,10 @@ namespace CSSPServices.Tests
             // Ordinal will automatically be initialized at 0 --> not null
 
             // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
+
+            //Error: Type not implemented [Salinity]
+
+            //Error: Type not implemented [Temperature]
 
             //Error: Type not implemented [SampleType]
 
@@ -423,98 +427,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Salinity] of type [Single]
+            // doing property [Salinity] of type [Double]
             //-----------------------------------
 
-            labSheetTubeMPNDetail = null;
-            labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
-            // Salinity has Min [0] and Max [40]. At Min should return true and no errors
-            labSheetTubeMPNDetail.Salinity = 0.0f;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(0.0f, labSheetTubeMPNDetail.Salinity);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Salinity has Min [0] and Max [40]. At Min + 1 should return true and no errors
-            labSheetTubeMPNDetail.Salinity = 1.0f;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(1.0f, labSheetTubeMPNDetail.Salinity);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Salinity has Min [0] and Max [40]. At Min - 1 should return false with one error
-            labSheetTubeMPNDetail.Salinity = -1.0f;
-            Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailSalinity, "0", "40")).Any());
-            Assert.AreEqual(-1.0f, labSheetTubeMPNDetail.Salinity);
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Salinity has Min [0] and Max [40]. At Max should return true and no errors
-            labSheetTubeMPNDetail.Salinity = 40.0f;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(40.0f, labSheetTubeMPNDetail.Salinity);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Salinity has Min [0] and Max [40]. At Max - 1 should return true and no errors
-            labSheetTubeMPNDetail.Salinity = 39.0f;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(39.0f, labSheetTubeMPNDetail.Salinity);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Salinity has Min [0] and Max [40]. At Max + 1 should return false with one error
-            labSheetTubeMPNDetail.Salinity = 41.0f;
-            Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailSalinity, "0", "40")).Any());
-            Assert.AreEqual(41.0f, labSheetTubeMPNDetail.Salinity);
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [Temperature] of type [Single]
+            // doing property [Temperature] of type [Double]
             //-----------------------------------
-
-            labSheetTubeMPNDetail = null;
-            labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
-            // Temperature has Min [-10] and Max [40]. At Min should return true and no errors
-            labSheetTubeMPNDetail.Temperature = -10.0f;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(-10.0f, labSheetTubeMPNDetail.Temperature);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Temperature has Min [-10] and Max [40]. At Min + 1 should return true and no errors
-            labSheetTubeMPNDetail.Temperature = -9.0f;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(-9.0f, labSheetTubeMPNDetail.Temperature);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Temperature has Min [-10] and Max [40]. At Min - 1 should return false with one error
-            labSheetTubeMPNDetail.Temperature = -11.0f;
-            Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailTemperature, "-10", "40")).Any());
-            Assert.AreEqual(-11.0f, labSheetTubeMPNDetail.Temperature);
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Temperature has Min [-10] and Max [40]. At Max should return true and no errors
-            labSheetTubeMPNDetail.Temperature = 40.0f;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(40.0f, labSheetTubeMPNDetail.Temperature);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Temperature has Min [-10] and Max [40]. At Max - 1 should return true and no errors
-            labSheetTubeMPNDetail.Temperature = 39.0f;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(39.0f, labSheetTubeMPNDetail.Temperature);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
-            // Temperature has Min [-10] and Max [40]. At Max + 1 should return false with one error
-            labSheetTubeMPNDetail.Temperature = 41.0f;
-            Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetTubeMPNDetailTemperature, "-10", "40")).Any());
-            Assert.AreEqual(41.0f, labSheetTubeMPNDetail.Temperature);
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
 
             //-----------------------------------
             // doing property [ProcessedBy] of type [String]

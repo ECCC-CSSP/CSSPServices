@@ -70,42 +70,42 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelResultBoxModelResultType), new[] { ModelsRes.BoxModelResultBoxModelResultType });
             }
 
-            //Volume_m3 (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Volume_m3 (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelResult.Volume_m3 < 0)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultVolume_m3, "0"), new[] { ModelsRes.BoxModelResultVolume_m3 });
             }
 
-            //Surface_m2 (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Surface_m2 (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelResult.Surface_m2 < 0)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultSurface_m2, "0"), new[] { ModelsRes.BoxModelResultSurface_m2 });
             }
 
-            //Radius_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Radius_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelResult.Radius_m < 0 || boxModelResult.Radius_m > 100000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRadius_m, "0", "100000"), new[] { ModelsRes.BoxModelResultRadius_m });
             }
 
-            //LeftSideDiameterLineAngle_deg (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //LeftSideDiameterLineAngle_deg (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelResult.LeftSideDiameterLineAngle_deg < 0 || boxModelResult.LeftSideDiameterLineAngle_deg > 360)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), new[] { ModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg });
             }
 
-            //CircleCenterLatitude (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //CircleCenterLatitude (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelResult.CircleCenterLatitude < -90 || boxModelResult.CircleCenterLatitude > 90)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), new[] { ModelsRes.BoxModelResultCircleCenterLatitude });
             }
 
-            //CircleCenterLongitude (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //CircleCenterLongitude (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelResult.CircleCenterLongitude < -180 || boxModelResult.CircleCenterLongitude > 180)
             {
@@ -116,35 +116,35 @@ namespace CSSPServices
 
             //FixWidth (bool) is required but no testing needed 
 
-            //RectLength_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //RectLength_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelResult.RectLength_m < 0 || boxModelResult.RectLength_m > 100000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectLength_m, "0", "100000"), new[] { ModelsRes.BoxModelResultRectLength_m });
             }
 
-            //RectWidth_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //RectWidth_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelResult.RectWidth_m < 0 || boxModelResult.RectWidth_m > 100000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectWidth_m, "0", "100000"), new[] { ModelsRes.BoxModelResultRectWidth_m });
             }
 
-            //LeftSideLineAngle_deg (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //LeftSideLineAngle_deg (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelResult.LeftSideLineAngle_deg < 0 || boxModelResult.LeftSideLineAngle_deg > 360)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), new[] { ModelsRes.BoxModelResultLeftSideLineAngle_deg });
             }
 
-            //LeftSideLineStartLatitude (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //LeftSideLineStartLatitude (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelResult.LeftSideLineStartLatitude < -90 || boxModelResult.LeftSideLineStartLatitude > 90)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), new[] { ModelsRes.BoxModelResultLeftSideLineStartLatitude });
             }
 
-            //LeftSideLineStartLongitude (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //LeftSideLineStartLongitude (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelResult.LeftSideLineStartLongitude < -180 || boxModelResult.LeftSideLineStartLongitude > 180)
             {

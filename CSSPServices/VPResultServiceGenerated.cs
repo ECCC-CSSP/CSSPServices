@@ -78,28 +78,28 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultConcentration_MPN_100ml, "0", "10000000"), new[] { ModelsRes.VPResultConcentration_MPN_100ml });
             }
 
-            //Dilution (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Dilution (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpResult.Dilution < 0 || vpResult.Dilution > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultDilution, "0", "1000000"), new[] { ModelsRes.VPResultDilution });
             }
 
-            //FarFieldWidth_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //FarFieldWidth_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpResult.FarFieldWidth_m < 0 || vpResult.FarFieldWidth_m > 10000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultFarFieldWidth_m, "0", "10000"), new[] { ModelsRes.VPResultFarFieldWidth_m });
             }
 
-            //DispersionDistance_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //DispersionDistance_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpResult.DispersionDistance_m < 0 || vpResult.DispersionDistance_m > 100000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultDispersionDistance_m, "0", "100000"), new[] { ModelsRes.VPResultDispersionDistance_m });
             }
 
-            //TravelTime_hour (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //TravelTime_hour (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpResult.TravelTime_hour < 0 || vpResult.TravelTime_hour > 100)
             {

@@ -62,7 +62,7 @@ namespace CSSPServices
 
             //Salinity has no Range Attribute
 
-            //Temperature (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Temperature (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //Temperature has no Range Attribute
 

@@ -119,9 +119,7 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [AddressesProvinceTVItem]
 
-            //Error: Type not implemented [AppTasksTVItem]
-
-            //Error: Type not implemented [AppTasksTVItemID2Navigation]
+            //Error: Type not implemented [AppTasks]
 
             //Error: Type not implemented [BoxModels]
 
@@ -376,11 +374,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [AppTasksTVItem] of type [ICollection`1]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [AppTasksTVItemID2Navigation] of type [ICollection`1]
+            // doing property [AppTasks] of type [ICollection`1]
             //-----------------------------------
 
             //-----------------------------------

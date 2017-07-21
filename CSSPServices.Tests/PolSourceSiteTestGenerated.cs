@@ -112,6 +112,8 @@ namespace CSSPServices.Tests
 
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [PolSourceObservations]
+
             //Error: Type not implemented [PolSourceSiteTVItem]
 
             //Error: Type not implemented [ValidationResults]
@@ -368,6 +370,10 @@ namespace CSSPServices.Tests
             Assert.IsTrue(polSourceSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceSiteLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, polSourceSite.LastUpdateContactTVItemID);
             Assert.AreEqual(0, polSourceSiteService.GetRead().Count());
+
+            //-----------------------------------
+            // doing property [PolSourceObservations] of type [ICollection`1]
+            //-----------------------------------
 
             //-----------------------------------
             // doing property [PolSourceSiteTVItem] of type [TVItem]

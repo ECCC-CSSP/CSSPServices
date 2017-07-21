@@ -47,19 +47,19 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Error") mwqmSiteSampleFC.Error = GetRandomString("", 20);
             if (OmitPropName != "SampleDate") mwqmSiteSampleFC.SampleDate = GetRandomDateTime();
             if (OmitPropName != "FC") mwqmSiteSampleFC.FC = GetRandomInt(1, 100000000);
-            if (OmitPropName != "Sal") mwqmSiteSampleFC.Sal = GetRandomFloat(1.0f, 1000.0f);
-            if (OmitPropName != "Temp") mwqmSiteSampleFC.Temp = GetRandomFloat(1.0f, 1000.0f);
-            if (OmitPropName != "PH") mwqmSiteSampleFC.PH = GetRandomFloat(1.0f, 1000.0f);
-            if (OmitPropName != "DO") mwqmSiteSampleFC.DO = GetRandomFloat(1.0f, 1000.0f);
-            if (OmitPropName != "Depth") mwqmSiteSampleFC.Depth = GetRandomFloat(1.0f, 1000.0f);
+            if (OmitPropName != "Sal") mwqmSiteSampleFC.Sal = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "Temp") mwqmSiteSampleFC.Temp = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "PH") mwqmSiteSampleFC.PH = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "DO") mwqmSiteSampleFC.DO = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "Depth") mwqmSiteSampleFC.Depth = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "SampCount") mwqmSiteSampleFC.SampCount = GetRandomInt(1, 1000);
             if (OmitPropName != "MinFC") mwqmSiteSampleFC.MinFC = GetRandomInt(1, 1000);
             if (OmitPropName != "MaxFC") mwqmSiteSampleFC.MaxFC = GetRandomInt(1, 1000);
-            if (OmitPropName != "GeoMean") mwqmSiteSampleFC.GeoMean = GetRandomFloat(1.0f, 1000.0f);
-            if (OmitPropName != "Median") mwqmSiteSampleFC.Median = GetRandomFloat(1.0f, 1000.0f);
-            if (OmitPropName != "P90") mwqmSiteSampleFC.P90 = GetRandomFloat(1.0f, 1000.0f);
-            if (OmitPropName != "PercOver43") mwqmSiteSampleFC.PercOver43 = GetRandomFloat(1.0f, 1000.0f);
-            if (OmitPropName != "PercOver260") mwqmSiteSampleFC.PercOver260 = GetRandomFloat(1.0f, 1000.0f);
+            if (OmitPropName != "GeoMean") mwqmSiteSampleFC.GeoMean = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "Median") mwqmSiteSampleFC.Median = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "P90") mwqmSiteSampleFC.P90 = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "PercOver43") mwqmSiteSampleFC.PercOver43 = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "PercOver260") mwqmSiteSampleFC.PercOver260 = GetRandomDouble(1.0D, 1000.0D);
 
             return mwqmSiteSampleFC;
         }

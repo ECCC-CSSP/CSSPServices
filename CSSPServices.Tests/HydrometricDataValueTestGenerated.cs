@@ -49,7 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DateTime_Local") hydrometricDataValue.DateTime_Local = GetRandomDateTime();
             if (OmitPropName != "Keep") hydrometricDataValue.Keep = true;
             if (OmitPropName != "StorageDataType") hydrometricDataValue.StorageDataType = (StorageDataTypeEnum)GetRandomEnumType(typeof(StorageDataTypeEnum));
-            if (OmitPropName != "Flow_m3_s") hydrometricDataValue.Flow_m3_s = GetRandomFloat(0.0f, 10000.0f);
+            if (OmitPropName != "Flow_m3_s") hydrometricDataValue.Flow_m3_s = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "HourlyValues") hydrometricDataValue.HourlyValues = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") hydrometricDataValue.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") hydrometricDataValue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -100,7 +100,7 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [StorageDataType]
 
-            // Flow_m3_s will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [Flow_m3_s]
 
             hydrometricDataValue = null;
             hydrometricDataValue = GetFilledRandomHydrometricDataValue("HourlyValues");
@@ -176,51 +176,8 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Flow_m3_s] of type [Single]
+            // doing property [Flow_m3_s] of type [Double]
             //-----------------------------------
-
-            hydrometricDataValue = null;
-            hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-            // Flow_m3_s has Min [0] and Max [10000]. At Min should return true and no errors
-            hydrometricDataValue.Flow_m3_s = 0.0f;
-            Assert.AreEqual(true, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValue.ValidationResults.Count());
-            Assert.AreEqual(0.0f, hydrometricDataValue.Flow_m3_s);
-            Assert.AreEqual(true, hydrometricDataValueService.Delete(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValueService.GetRead().Count());
-            // Flow_m3_s has Min [0] and Max [10000]. At Min + 1 should return true and no errors
-            hydrometricDataValue.Flow_m3_s = 1.0f;
-            Assert.AreEqual(true, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValue.ValidationResults.Count());
-            Assert.AreEqual(1.0f, hydrometricDataValue.Flow_m3_s);
-            Assert.AreEqual(true, hydrometricDataValueService.Delete(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValueService.GetRead().Count());
-            // Flow_m3_s has Min [0] and Max [10000]. At Min - 1 should return false with one error
-            hydrometricDataValue.Flow_m3_s = -1.0f;
-            Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.IsTrue(hydrometricDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricDataValueFlow_m3_s, "0", "10000")).Any());
-            Assert.AreEqual(-1.0f, hydrometricDataValue.Flow_m3_s);
-            Assert.AreEqual(0, hydrometricDataValueService.GetRead().Count());
-            // Flow_m3_s has Min [0] and Max [10000]. At Max should return true and no errors
-            hydrometricDataValue.Flow_m3_s = 10000.0f;
-            Assert.AreEqual(true, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValue.ValidationResults.Count());
-            Assert.AreEqual(10000.0f, hydrometricDataValue.Flow_m3_s);
-            Assert.AreEqual(true, hydrometricDataValueService.Delete(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValueService.GetRead().Count());
-            // Flow_m3_s has Min [0] and Max [10000]. At Max - 1 should return true and no errors
-            hydrometricDataValue.Flow_m3_s = 9999.0f;
-            Assert.AreEqual(true, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValue.ValidationResults.Count());
-            Assert.AreEqual(9999.0f, hydrometricDataValue.Flow_m3_s);
-            Assert.AreEqual(true, hydrometricDataValueService.Delete(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValueService.GetRead().Count());
-            // Flow_m3_s has Min [0] and Max [10000]. At Max + 1 should return false with one error
-            hydrometricDataValue.Flow_m3_s = 10001.0f;
-            Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.IsTrue(hydrometricDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricDataValueFlow_m3_s, "0", "10000")).Any());
-            Assert.AreEqual(10001.0f, hydrometricDataValue.Flow_m3_s);
-            Assert.AreEqual(0, hydrometricDataValueService.GetRead().Count());
 
             //-----------------------------------
             // doing property [HourlyValues] of type [String]

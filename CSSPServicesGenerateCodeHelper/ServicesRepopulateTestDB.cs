@@ -47,13 +47,13 @@ namespace CSSPServicesGenerateCodeHelper
                 return;
             }
 
-            if (!CompareDBs(tableCSSPWebToolsDBList, tableTestDBList)) return;
+            //if (!CompareDBs(tableCSSPWebToolsDBList, tableTestDBList)) return;
 
-            StatusPermanentEvent(new StatusEventArgs("Done comparing ... everything ok"));
+            //StatusPermanentEvent(new StatusEventArgs("Done comparing ... everything ok"));
 
-            if (!CleanTestDB(tableTestDBList, servicesFiles.TestDBConnectionString)) return;
+            //if (!CleanTestDB(tableTestDBList, servicesFiles.TestDBConnectionString)) return;
 
-            StatusPermanentEvent(new StatusEventArgs("Done Cleaning TestDB ... everything ok"));
+            //StatusPermanentEvent(new StatusEventArgs("Done Cleaning TestDB ... everything ok"));
 
             if (!FillTestDB(tableTestDBList)) return;
 
@@ -190,31 +190,9 @@ namespace CSSPServicesGenerateCodeHelper
         }
         private bool FillTestDB(List<Table> tableTestDBList)
         {
-            Address address = dbCSSPWebToolsDBRead.Addresses.Take(1).FirstOrDefault();
+            TVItemUserAuthorization ua = dbCSSPWebToolsDBRead.TVItemUserAuthorizations.Take(1).FirstOrDefault();
             
-            //List<int> TVItemIDList = new List<int>() { 1 };
-
-            //foreach (int tvItemID in TVItemIDList)
-            //{
-            //    TVItem tvItem = (from c in dbCSSPWebToolsDBRead.TVItems
-            //                     where c.TVItemID == tvItemID
-            //                     select c).Take(1).FirstOrDefault();
-
-            //    if (tvItem != null)
-            //    {
-            //        dbTestDBWrite.TVItems.Add(tvItem);
-            //        try
-            //        {
-            //            dbTestDBWrite.SaveChanges();
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            ErrorEvent(new ErrorEventArgs(ex.Message));
-            //            return false;
-            //        }
-            //    }
-            //}
-
+        
             return true;
         }
         private bool LoadDBInfo(List<Table> tableList, string ConnectionString)

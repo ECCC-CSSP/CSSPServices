@@ -38,7 +38,7 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             ContourPolygon contourPolygon = validationContext.ObjectInstance as ContourPolygon;
 
-            //ContourValue (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //ContourValue (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contourPolygon.ContourValue < 0)
             {
@@ -52,7 +52,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContourPolygonLayer, "1", "100"), new[] { ModelsRes.ContourPolygonLayer });
             }
 
-            //Depth (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Depth (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contourPolygon.Depth < 1 || contourPolygon.Depth > 10000)
             {

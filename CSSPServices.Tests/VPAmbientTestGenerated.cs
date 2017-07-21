@@ -47,16 +47,16 @@ namespace CSSPServices.Tests
             if (OmitPropName != "VPAmbientID") vpAmbient.VPAmbientID = VPAmbientID;
             if (OmitPropName != "VPScenarioID") vpAmbient.VPScenarioID = GetRandomInt(1, 11);
             if (OmitPropName != "Row") vpAmbient.Row = GetRandomInt(0, 10);
-            if (OmitPropName != "MeasurementDepth_m") vpAmbient.MeasurementDepth_m = GetRandomFloat(0.0f, 1000.0f);
-            if (OmitPropName != "CurrentSpeed_m_s") vpAmbient.CurrentSpeed_m_s = GetRandomFloat(0.0f, 10.0f);
-            if (OmitPropName != "CurrentDirection_deg") vpAmbient.CurrentDirection_deg = GetRandomFloat(-180.0f, 180.0f);
-            if (OmitPropName != "AmbientSalinity_PSU") vpAmbient.AmbientSalinity_PSU = GetRandomFloat(0.0f, 40.0f);
-            if (OmitPropName != "AmbientTemperature_C") vpAmbient.AmbientTemperature_C = GetRandomFloat(-10.0f, 40.0f);
+            if (OmitPropName != "MeasurementDepth_m") vpAmbient.MeasurementDepth_m = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "CurrentSpeed_m_s") vpAmbient.CurrentSpeed_m_s = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "CurrentDirection_deg") vpAmbient.CurrentDirection_deg = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "AmbientSalinity_PSU") vpAmbient.AmbientSalinity_PSU = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "AmbientTemperature_C") vpAmbient.AmbientTemperature_C = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "BackgroundConcentration_MPN_100ml") vpAmbient.BackgroundConcentration_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "PollutantDecayRate_per_day") vpAmbient.PollutantDecayRate_per_day = GetRandomFloat(0.0f, 100.0f);
-            if (OmitPropName != "FarFieldCurrentSpeed_m_s") vpAmbient.FarFieldCurrentSpeed_m_s = GetRandomFloat(0.0f, 10.0f);
-            if (OmitPropName != "FarFieldCurrentDirection_deg") vpAmbient.FarFieldCurrentDirection_deg = GetRandomFloat(-180.0f, 180.0f);
-            if (OmitPropName != "FarFieldDiffusionCoefficient") vpAmbient.FarFieldDiffusionCoefficient = GetRandomFloat(0.0f, 1.0f);
+            if (OmitPropName != "PollutantDecayRate_per_day") vpAmbient.PollutantDecayRate_per_day = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "FarFieldCurrentSpeed_m_s") vpAmbient.FarFieldCurrentSpeed_m_s = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "FarFieldCurrentDirection_deg") vpAmbient.FarFieldCurrentDirection_deg = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "FarFieldDiffusionCoefficient") vpAmbient.FarFieldDiffusionCoefficient = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") vpAmbient.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") vpAmbient.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 
@@ -96,25 +96,25 @@ namespace CSSPServices.Tests
 
             // Row will automatically be initialized at 0 --> not null
 
-            // MeasurementDepth_m will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [MeasurementDepth_m]
 
-            // CurrentSpeed_m_s will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [CurrentSpeed_m_s]
 
-            // CurrentDirection_deg will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [CurrentDirection_deg]
 
-            // AmbientSalinity_PSU will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [AmbientSalinity_PSU]
 
-            // AmbientTemperature_C will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [AmbientTemperature_C]
 
             // BackgroundConcentration_MPN_100ml will automatically be initialized at 0 --> not null
 
-            // PollutantDecayRate_per_day will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [PollutantDecayRate_per_day]
 
-            // FarFieldCurrentSpeed_m_s will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [FarFieldCurrentSpeed_m_s]
 
-            // FarFieldCurrentDirection_deg will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [FarFieldCurrentDirection_deg]
 
-            // FarFieldDiffusionCoefficient will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [FarFieldDiffusionCoefficient]
 
             vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("LastUpdateDate_UTC");
@@ -217,239 +217,24 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpAmbientService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [MeasurementDepth_m] of type [Single]
+            // doing property [MeasurementDepth_m] of type [Double]
             //-----------------------------------
 
-            vpAmbient = null;
-            vpAmbient = GetFilledRandomVPAmbient("");
-            // MeasurementDepth_m has Min [0] and Max [1000]. At Min should return true and no errors
-            vpAmbient.MeasurementDepth_m = 0.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpAmbient.MeasurementDepth_m);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // MeasurementDepth_m has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            vpAmbient.MeasurementDepth_m = 1.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpAmbient.MeasurementDepth_m);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // MeasurementDepth_m has Min [0] and Max [1000]. At Min - 1 should return false with one error
-            vpAmbient.MeasurementDepth_m = -1.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientMeasurementDepth_m, "0", "1000")).Any());
-            Assert.AreEqual(-1.0f, vpAmbient.MeasurementDepth_m);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // MeasurementDepth_m has Min [0] and Max [1000]. At Max should return true and no errors
-            vpAmbient.MeasurementDepth_m = 1000.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(1000.0f, vpAmbient.MeasurementDepth_m);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // MeasurementDepth_m has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            vpAmbient.MeasurementDepth_m = 999.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(999.0f, vpAmbient.MeasurementDepth_m);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // MeasurementDepth_m has Min [0] and Max [1000]. At Max + 1 should return false with one error
-            vpAmbient.MeasurementDepth_m = 1001.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientMeasurementDepth_m, "0", "1000")).Any());
-            Assert.AreEqual(1001.0f, vpAmbient.MeasurementDepth_m);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [CurrentSpeed_m_s] of type [Single]
+            // doing property [CurrentSpeed_m_s] of type [Double]
             //-----------------------------------
 
-            vpAmbient = null;
-            vpAmbient = GetFilledRandomVPAmbient("");
-            // CurrentSpeed_m_s has Min [0] and Max [10]. At Min should return true and no errors
-            vpAmbient.CurrentSpeed_m_s = 0.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpAmbient.CurrentSpeed_m_s);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // CurrentSpeed_m_s has Min [0] and Max [10]. At Min + 1 should return true and no errors
-            vpAmbient.CurrentSpeed_m_s = 1.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpAmbient.CurrentSpeed_m_s);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // CurrentSpeed_m_s has Min [0] and Max [10]. At Min - 1 should return false with one error
-            vpAmbient.CurrentSpeed_m_s = -1.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10")).Any());
-            Assert.AreEqual(-1.0f, vpAmbient.CurrentSpeed_m_s);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // CurrentSpeed_m_s has Min [0] and Max [10]. At Max should return true and no errors
-            vpAmbient.CurrentSpeed_m_s = 10.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(10.0f, vpAmbient.CurrentSpeed_m_s);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // CurrentSpeed_m_s has Min [0] and Max [10]. At Max - 1 should return true and no errors
-            vpAmbient.CurrentSpeed_m_s = 9.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(9.0f, vpAmbient.CurrentSpeed_m_s);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // CurrentSpeed_m_s has Min [0] and Max [10]. At Max + 1 should return false with one error
-            vpAmbient.CurrentSpeed_m_s = 11.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10")).Any());
-            Assert.AreEqual(11.0f, vpAmbient.CurrentSpeed_m_s);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [CurrentDirection_deg] of type [Single]
+            // doing property [CurrentDirection_deg] of type [Double]
             //-----------------------------------
 
-            vpAmbient = null;
-            vpAmbient = GetFilledRandomVPAmbient("");
-            // CurrentDirection_deg has Min [-180] and Max [180]. At Min should return true and no errors
-            vpAmbient.CurrentDirection_deg = -180.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(-180.0f, vpAmbient.CurrentDirection_deg);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // CurrentDirection_deg has Min [-180] and Max [180]. At Min + 1 should return true and no errors
-            vpAmbient.CurrentDirection_deg = -179.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(-179.0f, vpAmbient.CurrentDirection_deg);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // CurrentDirection_deg has Min [-180] and Max [180]. At Min - 1 should return false with one error
-            vpAmbient.CurrentDirection_deg = -181.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentDirection_deg, "-180", "180")).Any());
-            Assert.AreEqual(-181.0f, vpAmbient.CurrentDirection_deg);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // CurrentDirection_deg has Min [-180] and Max [180]. At Max should return true and no errors
-            vpAmbient.CurrentDirection_deg = 180.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(180.0f, vpAmbient.CurrentDirection_deg);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // CurrentDirection_deg has Min [-180] and Max [180]. At Max - 1 should return true and no errors
-            vpAmbient.CurrentDirection_deg = 179.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(179.0f, vpAmbient.CurrentDirection_deg);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // CurrentDirection_deg has Min [-180] and Max [180]. At Max + 1 should return false with one error
-            vpAmbient.CurrentDirection_deg = 181.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentDirection_deg, "-180", "180")).Any());
-            Assert.AreEqual(181.0f, vpAmbient.CurrentDirection_deg);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [AmbientSalinity_PSU] of type [Single]
+            // doing property [AmbientSalinity_PSU] of type [Double]
             //-----------------------------------
 
-            vpAmbient = null;
-            vpAmbient = GetFilledRandomVPAmbient("");
-            // AmbientSalinity_PSU has Min [0] and Max [40]. At Min should return true and no errors
-            vpAmbient.AmbientSalinity_PSU = 0.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpAmbient.AmbientSalinity_PSU);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // AmbientSalinity_PSU has Min [0] and Max [40]. At Min + 1 should return true and no errors
-            vpAmbient.AmbientSalinity_PSU = 1.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpAmbient.AmbientSalinity_PSU);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // AmbientSalinity_PSU has Min [0] and Max [40]. At Min - 1 should return false with one error
-            vpAmbient.AmbientSalinity_PSU = -1.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40")).Any());
-            Assert.AreEqual(-1.0f, vpAmbient.AmbientSalinity_PSU);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // AmbientSalinity_PSU has Min [0] and Max [40]. At Max should return true and no errors
-            vpAmbient.AmbientSalinity_PSU = 40.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(40.0f, vpAmbient.AmbientSalinity_PSU);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // AmbientSalinity_PSU has Min [0] and Max [40]. At Max - 1 should return true and no errors
-            vpAmbient.AmbientSalinity_PSU = 39.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(39.0f, vpAmbient.AmbientSalinity_PSU);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // AmbientSalinity_PSU has Min [0] and Max [40]. At Max + 1 should return false with one error
-            vpAmbient.AmbientSalinity_PSU = 41.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40")).Any());
-            Assert.AreEqual(41.0f, vpAmbient.AmbientSalinity_PSU);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [AmbientTemperature_C] of type [Single]
+            // doing property [AmbientTemperature_C] of type [Double]
             //-----------------------------------
-
-            vpAmbient = null;
-            vpAmbient = GetFilledRandomVPAmbient("");
-            // AmbientTemperature_C has Min [-10] and Max [40]. At Min should return true and no errors
-            vpAmbient.AmbientTemperature_C = -10.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(-10.0f, vpAmbient.AmbientTemperature_C);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // AmbientTemperature_C has Min [-10] and Max [40]. At Min + 1 should return true and no errors
-            vpAmbient.AmbientTemperature_C = -9.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(-9.0f, vpAmbient.AmbientTemperature_C);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // AmbientTemperature_C has Min [-10] and Max [40]. At Min - 1 should return false with one error
-            vpAmbient.AmbientTemperature_C = -11.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientTemperature_C, "-10", "40")).Any());
-            Assert.AreEqual(-11.0f, vpAmbient.AmbientTemperature_C);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // AmbientTemperature_C has Min [-10] and Max [40]. At Max should return true and no errors
-            vpAmbient.AmbientTemperature_C = 40.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(40.0f, vpAmbient.AmbientTemperature_C);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // AmbientTemperature_C has Min [-10] and Max [40]. At Max - 1 should return true and no errors
-            vpAmbient.AmbientTemperature_C = 39.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(39.0f, vpAmbient.AmbientTemperature_C);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // AmbientTemperature_C has Min [-10] and Max [40]. At Max + 1 should return false with one error
-            vpAmbient.AmbientTemperature_C = 41.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientTemperature_C, "-10", "40")).Any());
-            Assert.AreEqual(41.0f, vpAmbient.AmbientTemperature_C);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
 
             //-----------------------------------
             // doing property [BackgroundConcentration_MPN_100ml] of type [Int32]
@@ -499,192 +284,20 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpAmbientService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [PollutantDecayRate_per_day] of type [Single]
+            // doing property [PollutantDecayRate_per_day] of type [Double]
             //-----------------------------------
 
-            vpAmbient = null;
-            vpAmbient = GetFilledRandomVPAmbient("");
-            // PollutantDecayRate_per_day has Min [0] and Max [100]. At Min should return true and no errors
-            vpAmbient.PollutantDecayRate_per_day = 0.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpAmbient.PollutantDecayRate_per_day);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // PollutantDecayRate_per_day has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            vpAmbient.PollutantDecayRate_per_day = 1.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpAmbient.PollutantDecayRate_per_day);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // PollutantDecayRate_per_day has Min [0] and Max [100]. At Min - 1 should return false with one error
-            vpAmbient.PollutantDecayRate_per_day = -1.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, vpAmbient.PollutantDecayRate_per_day);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // PollutantDecayRate_per_day has Min [0] and Max [100]. At Max should return true and no errors
-            vpAmbient.PollutantDecayRate_per_day = 100.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(100.0f, vpAmbient.PollutantDecayRate_per_day);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // PollutantDecayRate_per_day has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            vpAmbient.PollutantDecayRate_per_day = 99.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(99.0f, vpAmbient.PollutantDecayRate_per_day);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // PollutantDecayRate_per_day has Min [0] and Max [100]. At Max + 1 should return false with one error
-            vpAmbient.PollutantDecayRate_per_day = 101.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "100")).Any());
-            Assert.AreEqual(101.0f, vpAmbient.PollutantDecayRate_per_day);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [FarFieldCurrentSpeed_m_s] of type [Single]
+            // doing property [FarFieldCurrentSpeed_m_s] of type [Double]
             //-----------------------------------
 
-            vpAmbient = null;
-            vpAmbient = GetFilledRandomVPAmbient("");
-            // FarFieldCurrentSpeed_m_s has Min [0] and Max [10]. At Min should return true and no errors
-            vpAmbient.FarFieldCurrentSpeed_m_s = 0.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpAmbient.FarFieldCurrentSpeed_m_s);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldCurrentSpeed_m_s has Min [0] and Max [10]. At Min + 1 should return true and no errors
-            vpAmbient.FarFieldCurrentSpeed_m_s = 1.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpAmbient.FarFieldCurrentSpeed_m_s);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldCurrentSpeed_m_s has Min [0] and Max [10]. At Min - 1 should return false with one error
-            vpAmbient.FarFieldCurrentSpeed_m_s = -1.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10")).Any());
-            Assert.AreEqual(-1.0f, vpAmbient.FarFieldCurrentSpeed_m_s);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldCurrentSpeed_m_s has Min [0] and Max [10]. At Max should return true and no errors
-            vpAmbient.FarFieldCurrentSpeed_m_s = 10.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(10.0f, vpAmbient.FarFieldCurrentSpeed_m_s);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldCurrentSpeed_m_s has Min [0] and Max [10]. At Max - 1 should return true and no errors
-            vpAmbient.FarFieldCurrentSpeed_m_s = 9.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(9.0f, vpAmbient.FarFieldCurrentSpeed_m_s);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldCurrentSpeed_m_s has Min [0] and Max [10]. At Max + 1 should return false with one error
-            vpAmbient.FarFieldCurrentSpeed_m_s = 11.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10")).Any());
-            Assert.AreEqual(11.0f, vpAmbient.FarFieldCurrentSpeed_m_s);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [FarFieldCurrentDirection_deg] of type [Single]
+            // doing property [FarFieldCurrentDirection_deg] of type [Double]
             //-----------------------------------
 
-            vpAmbient = null;
-            vpAmbient = GetFilledRandomVPAmbient("");
-            // FarFieldCurrentDirection_deg has Min [-180] and Max [180]. At Min should return true and no errors
-            vpAmbient.FarFieldCurrentDirection_deg = -180.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(-180.0f, vpAmbient.FarFieldCurrentDirection_deg);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldCurrentDirection_deg has Min [-180] and Max [180]. At Min + 1 should return true and no errors
-            vpAmbient.FarFieldCurrentDirection_deg = -179.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(-179.0f, vpAmbient.FarFieldCurrentDirection_deg);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldCurrentDirection_deg has Min [-180] and Max [180]. At Min - 1 should return false with one error
-            vpAmbient.FarFieldCurrentDirection_deg = -181.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentDirection_deg, "-180", "180")).Any());
-            Assert.AreEqual(-181.0f, vpAmbient.FarFieldCurrentDirection_deg);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldCurrentDirection_deg has Min [-180] and Max [180]. At Max should return true and no errors
-            vpAmbient.FarFieldCurrentDirection_deg = 180.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(180.0f, vpAmbient.FarFieldCurrentDirection_deg);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldCurrentDirection_deg has Min [-180] and Max [180]. At Max - 1 should return true and no errors
-            vpAmbient.FarFieldCurrentDirection_deg = 179.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(179.0f, vpAmbient.FarFieldCurrentDirection_deg);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldCurrentDirection_deg has Min [-180] and Max [180]. At Max + 1 should return false with one error
-            vpAmbient.FarFieldCurrentDirection_deg = 181.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentDirection_deg, "-180", "180")).Any());
-            Assert.AreEqual(181.0f, vpAmbient.FarFieldCurrentDirection_deg);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [FarFieldDiffusionCoefficient] of type [Single]
+            // doing property [FarFieldDiffusionCoefficient] of type [Double]
             //-----------------------------------
-
-            vpAmbient = null;
-            vpAmbient = GetFilledRandomVPAmbient("");
-            // FarFieldDiffusionCoefficient has Min [0] and Max [1]. At Min should return true and no errors
-            vpAmbient.FarFieldDiffusionCoefficient = 0.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpAmbient.FarFieldDiffusionCoefficient);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldDiffusionCoefficient has Min [0] and Max [1]. At Min + 1 should return true and no errors
-            vpAmbient.FarFieldDiffusionCoefficient = 1.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpAmbient.FarFieldDiffusionCoefficient);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldDiffusionCoefficient has Min [0] and Max [1]. At Min - 1 should return false with one error
-            vpAmbient.FarFieldDiffusionCoefficient = -1.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1")).Any());
-            Assert.AreEqual(-1.0f, vpAmbient.FarFieldDiffusionCoefficient);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldDiffusionCoefficient has Min [0] and Max [1]. At Max should return true and no errors
-            vpAmbient.FarFieldDiffusionCoefficient = 1.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpAmbient.FarFieldDiffusionCoefficient);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldDiffusionCoefficient has Min [0] and Max [1]. At Max - 1 should return true and no errors
-            vpAmbient.FarFieldDiffusionCoefficient = 0.0f;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpAmbient.FarFieldDiffusionCoefficient);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
-            // FarFieldDiffusionCoefficient has Min [0] and Max [1]. At Max + 1 should return false with one error
-            vpAmbient.FarFieldDiffusionCoefficient = 2.0f;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1")).Any());
-            Assert.AreEqual(2.0f, vpAmbient.FarFieldDiffusionCoefficient);
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
 
             //-----------------------------------
             // doing property [LastUpdateDate_UTC] of type [DateTime]

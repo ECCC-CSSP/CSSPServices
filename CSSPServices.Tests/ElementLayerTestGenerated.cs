@@ -45,8 +45,8 @@ namespace CSSPServices.Tests
             ElementLayer elementLayer = new ElementLayer();
 
             if (OmitPropName != "Layer") elementLayer.Layer = GetRandomInt(1, 1000);
-            if (OmitPropName != "ZMin") elementLayer.ZMin = GetRandomFloat(1.0f, 1000.0f);
-            if (OmitPropName != "ZMax") elementLayer.ZMax = GetRandomFloat(1.0f, 1000.0f);
+            if (OmitPropName != "ZMin") elementLayer.ZMin = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "ZMax") elementLayer.ZMax = GetRandomDouble(1.0D, 1000.0D);
 
             return elementLayer;
         }

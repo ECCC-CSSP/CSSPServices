@@ -47,7 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TideSiteID") tideSite.TideSiteID = TideSiteID;
             if (OmitPropName != "TideSiteTVItemID") tideSite.TideSiteTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "WebTideModel") tideSite.WebTideModel = GetRandomString("", 5);
-            if (OmitPropName != "WebTideDatum_m") tideSite.WebTideDatum_m = GetRandomFloat(-100.0f, 100.0f);
+            if (OmitPropName != "WebTideDatum_m") tideSite.WebTideDatum_m = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") tideSite.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") tideSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 
@@ -93,7 +93,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, tideSite.WebTideModel);
             Assert.AreEqual(0, tideSiteService.GetRead().Count());
 
-            // WebTideDatum_m will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [WebTideDatum_m]
 
             tideSite = null;
             tideSite = GetFilledRandomTideSite("LastUpdateDate_UTC");
@@ -156,51 +156,8 @@ namespace CSSPServices.Tests
             tideSite = GetFilledRandomTideSite("");
 
             //-----------------------------------
-            // doing property [WebTideDatum_m] of type [Single]
+            // doing property [WebTideDatum_m] of type [Double]
             //-----------------------------------
-
-            tideSite = null;
-            tideSite = GetFilledRandomTideSite("");
-            // WebTideDatum_m has Min [-100] and Max [100]. At Min should return true and no errors
-            tideSite.WebTideDatum_m = -100.0f;
-            Assert.AreEqual(true, tideSiteService.Add(tideSite));
-            Assert.AreEqual(0, tideSite.ValidationResults.Count());
-            Assert.AreEqual(-100.0f, tideSite.WebTideDatum_m);
-            Assert.AreEqual(true, tideSiteService.Delete(tideSite));
-            Assert.AreEqual(0, tideSiteService.GetRead().Count());
-            // WebTideDatum_m has Min [-100] and Max [100]. At Min + 1 should return true and no errors
-            tideSite.WebTideDatum_m = -99.0f;
-            Assert.AreEqual(true, tideSiteService.Add(tideSite));
-            Assert.AreEqual(0, tideSite.ValidationResults.Count());
-            Assert.AreEqual(-99.0f, tideSite.WebTideDatum_m);
-            Assert.AreEqual(true, tideSiteService.Delete(tideSite));
-            Assert.AreEqual(0, tideSiteService.GetRead().Count());
-            // WebTideDatum_m has Min [-100] and Max [100]. At Min - 1 should return false with one error
-            tideSite.WebTideDatum_m = -101.0f;
-            Assert.AreEqual(false, tideSiteService.Add(tideSite));
-            Assert.IsTrue(tideSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideSiteWebTideDatum_m, "-100", "100")).Any());
-            Assert.AreEqual(-101.0f, tideSite.WebTideDatum_m);
-            Assert.AreEqual(0, tideSiteService.GetRead().Count());
-            // WebTideDatum_m has Min [-100] and Max [100]. At Max should return true and no errors
-            tideSite.WebTideDatum_m = 100.0f;
-            Assert.AreEqual(true, tideSiteService.Add(tideSite));
-            Assert.AreEqual(0, tideSite.ValidationResults.Count());
-            Assert.AreEqual(100.0f, tideSite.WebTideDatum_m);
-            Assert.AreEqual(true, tideSiteService.Delete(tideSite));
-            Assert.AreEqual(0, tideSiteService.GetRead().Count());
-            // WebTideDatum_m has Min [-100] and Max [100]. At Max - 1 should return true and no errors
-            tideSite.WebTideDatum_m = 99.0f;
-            Assert.AreEqual(true, tideSiteService.Add(tideSite));
-            Assert.AreEqual(0, tideSite.ValidationResults.Count());
-            Assert.AreEqual(99.0f, tideSite.WebTideDatum_m);
-            Assert.AreEqual(true, tideSiteService.Delete(tideSite));
-            Assert.AreEqual(0, tideSiteService.GetRead().Count());
-            // WebTideDatum_m has Min [-100] and Max [100]. At Max + 1 should return false with one error
-            tideSite.WebTideDatum_m = 101.0f;
-            Assert.AreEqual(false, tideSiteService.Add(tideSite));
-            Assert.IsTrue(tideSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideSiteWebTideDatum_m, "-100", "100")).Any());
-            Assert.AreEqual(101.0f, tideSite.WebTideDatum_m);
-            Assert.AreEqual(0, tideSiteService.GetRead().Count());
 
             //-----------------------------------
             // doing property [LastUpdateDate_UTC] of type [DateTime]

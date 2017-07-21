@@ -54,8 +54,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "CreatorTVItemID") samplingPlan.CreatorTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "Year") samplingPlan.Year = GetRandomInt(2000, 2050);
             if (OmitPropName != "AccessCode") samplingPlan.AccessCode = GetRandomString("", 5);
-            if (OmitPropName != "DailyDuplicatePrecisionCriteria") samplingPlan.DailyDuplicatePrecisionCriteria = GetRandomFloat(0.0f, 100.0f);
-            if (OmitPropName != "IntertechDuplicatePrecisionCriteria") samplingPlan.IntertechDuplicatePrecisionCriteria = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "DailyDuplicatePrecisionCriteria") samplingPlan.DailyDuplicatePrecisionCriteria = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "IntertechDuplicatePrecisionCriteria") samplingPlan.IntertechDuplicatePrecisionCriteria = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "IncludeLaboratoryQAQC") samplingPlan.IncludeLaboratoryQAQC = true;
             if (OmitPropName != "ApprovalCode") samplingPlan.ApprovalCode = GetRandomString("", 5);
             if (OmitPropName != "SamplingPlanFileTVItemID") samplingPlan.SamplingPlanFileTVItemID = GetRandomInt(1, 11);
@@ -130,9 +130,9 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, samplingPlan.AccessCode);
             Assert.AreEqual(0, samplingPlanService.GetRead().Count());
 
-            // DailyDuplicatePrecisionCriteria will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [DailyDuplicatePrecisionCriteria]
 
-            // IntertechDuplicatePrecisionCriteria will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [IntertechDuplicatePrecisionCriteria]
 
             // IncludeLaboratoryQAQC will automatically be initialized at 0 --> not null
 
@@ -315,98 +315,12 @@ namespace CSSPServices.Tests
             samplingPlan = GetFilledRandomSamplingPlan("");
 
             //-----------------------------------
-            // doing property [DailyDuplicatePrecisionCriteria] of type [Single]
+            // doing property [DailyDuplicatePrecisionCriteria] of type [Double]
             //-----------------------------------
 
-            samplingPlan = null;
-            samplingPlan = GetFilledRandomSamplingPlan("");
-            // DailyDuplicatePrecisionCriteria has Min [0] and Max [100]. At Min should return true and no errors
-            samplingPlan.DailyDuplicatePrecisionCriteria = 0.0f;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(0.0f, samplingPlan.DailyDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // DailyDuplicatePrecisionCriteria has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            samplingPlan.DailyDuplicatePrecisionCriteria = 1.0f;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(1.0f, samplingPlan.DailyDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // DailyDuplicatePrecisionCriteria has Min [0] and Max [100]. At Min - 1 should return false with one error
-            samplingPlan.DailyDuplicatePrecisionCriteria = -1.0f;
-            Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, samplingPlan.DailyDuplicatePrecisionCriteria);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // DailyDuplicatePrecisionCriteria has Min [0] and Max [100]. At Max should return true and no errors
-            samplingPlan.DailyDuplicatePrecisionCriteria = 100.0f;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(100.0f, samplingPlan.DailyDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // DailyDuplicatePrecisionCriteria has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            samplingPlan.DailyDuplicatePrecisionCriteria = 99.0f;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(99.0f, samplingPlan.DailyDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // DailyDuplicatePrecisionCriteria has Min [0] and Max [100]. At Max + 1 should return false with one error
-            samplingPlan.DailyDuplicatePrecisionCriteria = 101.0f;
-            Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100")).Any());
-            Assert.AreEqual(101.0f, samplingPlan.DailyDuplicatePrecisionCriteria);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [IntertechDuplicatePrecisionCriteria] of type [Single]
+            // doing property [IntertechDuplicatePrecisionCriteria] of type [Double]
             //-----------------------------------
-
-            samplingPlan = null;
-            samplingPlan = GetFilledRandomSamplingPlan("");
-            // IntertechDuplicatePrecisionCriteria has Min [0] and Max [100]. At Min should return true and no errors
-            samplingPlan.IntertechDuplicatePrecisionCriteria = 0.0f;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(0.0f, samplingPlan.IntertechDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // IntertechDuplicatePrecisionCriteria has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            samplingPlan.IntertechDuplicatePrecisionCriteria = 1.0f;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(1.0f, samplingPlan.IntertechDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // IntertechDuplicatePrecisionCriteria has Min [0] and Max [100]. At Min - 1 should return false with one error
-            samplingPlan.IntertechDuplicatePrecisionCriteria = -1.0f;
-            Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, samplingPlan.IntertechDuplicatePrecisionCriteria);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // IntertechDuplicatePrecisionCriteria has Min [0] and Max [100]. At Max should return true and no errors
-            samplingPlan.IntertechDuplicatePrecisionCriteria = 100.0f;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(100.0f, samplingPlan.IntertechDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // IntertechDuplicatePrecisionCriteria has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            samplingPlan.IntertechDuplicatePrecisionCriteria = 99.0f;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(99.0f, samplingPlan.IntertechDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
-            // IntertechDuplicatePrecisionCriteria has Min [0] and Max [100]. At Max + 1 should return false with one error
-            samplingPlan.IntertechDuplicatePrecisionCriteria = 101.0f;
-            Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100")).Any());
-            Assert.AreEqual(101.0f, samplingPlan.IntertechDuplicatePrecisionCriteria);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
 
             //-----------------------------------
             // doing property [IncludeLaboratoryQAQC] of type [Boolean]

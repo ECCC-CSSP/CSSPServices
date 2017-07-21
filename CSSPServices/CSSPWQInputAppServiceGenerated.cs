@@ -58,14 +58,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.CSSPWQInputAppActiveYear, "4", "4"), new[] { ModelsRes.CSSPWQInputAppActiveYear });
             }
 
-            //DailyDuplicatePrecisionCriteria (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //DailyDuplicatePrecisionCriteria (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (cSSPWQInputApp.DailyDuplicatePrecisionCriteria < 0 || cSSPWQInputApp.DailyDuplicatePrecisionCriteria > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CSSPWQInputAppDailyDuplicatePrecisionCriteria, "0", "100"), new[] { ModelsRes.CSSPWQInputAppDailyDuplicatePrecisionCriteria });
             }
 
-            //IntertechDuplicatePrecisionCriteria (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //IntertechDuplicatePrecisionCriteria (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (cSSPWQInputApp.IntertechDuplicatePrecisionCriteria < 0 || cSSPWQInputApp.IntertechDuplicatePrecisionCriteria > 100)
             {

@@ -48,11 +48,11 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MWQMSiteTVItemID") mwqmSample.MWQMSiteTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "MWQMRunTVItemID") mwqmSample.MWQMRunTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "SampleDateTime_Local") mwqmSample.SampleDateTime_Local = GetRandomDateTime();
-            if (OmitPropName != "Depth_m") mwqmSample.Depth_m = GetRandomFloat(0.0f, 1000.0f);
+            if (OmitPropName != "Depth_m") mwqmSample.Depth_m = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "FecCol_MPN_100ml") mwqmSample.FecCol_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "Salinity_PPT") mwqmSample.Salinity_PPT = GetRandomFloat(0.0f, 40.0f);
-            if (OmitPropName != "WaterTemp_C") mwqmSample.WaterTemp_C = GetRandomFloat(-10.0f, 40.0f);
-            if (OmitPropName != "PH") mwqmSample.PH = GetRandomFloat(0.0f, 14.0f);
+            if (OmitPropName != "Salinity_PPT") mwqmSample.Salinity_PPT = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "WaterTemp_C") mwqmSample.WaterTemp_C = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "PH") mwqmSample.PH = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "SampleTypesText") mwqmSample.SampleTypesText = GetRandomString("", 5);
             if (OmitPropName != "SampleType_old") mwqmSample.SampleType_old = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "Tube_10") mwqmSample.Tube_10 = GetRandomInt(0, 5);
@@ -106,7 +106,15 @@ namespace CSSPServices.Tests
             Assert.IsTrue(mwqmSample.SampleDateTime_Local.Year < 1900);
             Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
 
+            //Error: Type not implemented [Depth_m]
+
             // FecCol_MPN_100ml will automatically be initialized at 0 --> not null
+
+            //Error: Type not implemented [Salinity_PPT]
+
+            //Error: Type not implemented [WaterTemp_C]
+
+            //Error: Type not implemented [PH]
 
             mwqmSample = null;
             mwqmSample = GetFilledRandomMWQMSample("SampleTypesText");
@@ -207,51 +215,8 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Depth_m] of type [Single]
+            // doing property [Depth_m] of type [Double]
             //-----------------------------------
-
-            mwqmSample = null;
-            mwqmSample = GetFilledRandomMWQMSample("");
-            // Depth_m has Min [0] and Max [1000]. At Min should return true and no errors
-            mwqmSample.Depth_m = 0.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmSample.Depth_m);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // Depth_m has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            mwqmSample.Depth_m = 1.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmSample.Depth_m);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // Depth_m has Min [0] and Max [1000]. At Min - 1 should return false with one error
-            mwqmSample.Depth_m = -1.0f;
-            Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-            Assert.IsTrue(mwqmSample.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleDepth_m, "0", "1000")).Any());
-            Assert.AreEqual(-1.0f, mwqmSample.Depth_m);
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // Depth_m has Min [0] and Max [1000]. At Max should return true and no errors
-            mwqmSample.Depth_m = 1000.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(1000.0f, mwqmSample.Depth_m);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // Depth_m has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            mwqmSample.Depth_m = 999.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(999.0f, mwqmSample.Depth_m);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // Depth_m has Min [0] and Max [1000]. At Max + 1 should return false with one error
-            mwqmSample.Depth_m = 1001.0f;
-            Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-            Assert.IsTrue(mwqmSample.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleDepth_m, "0", "1000")).Any());
-            Assert.AreEqual(1001.0f, mwqmSample.Depth_m);
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
 
             //-----------------------------------
             // doing property [FecCol_MPN_100ml] of type [Int32]
@@ -301,145 +266,16 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Salinity_PPT] of type [Single]
+            // doing property [Salinity_PPT] of type [Double]
             //-----------------------------------
 
-            mwqmSample = null;
-            mwqmSample = GetFilledRandomMWQMSample("");
-            // Salinity_PPT has Min [0] and Max [40]. At Min should return true and no errors
-            mwqmSample.Salinity_PPT = 0.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmSample.Salinity_PPT);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // Salinity_PPT has Min [0] and Max [40]. At Min + 1 should return true and no errors
-            mwqmSample.Salinity_PPT = 1.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmSample.Salinity_PPT);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // Salinity_PPT has Min [0] and Max [40]. At Min - 1 should return false with one error
-            mwqmSample.Salinity_PPT = -1.0f;
-            Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-            Assert.IsTrue(mwqmSample.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleSalinity_PPT, "0", "40")).Any());
-            Assert.AreEqual(-1.0f, mwqmSample.Salinity_PPT);
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // Salinity_PPT has Min [0] and Max [40]. At Max should return true and no errors
-            mwqmSample.Salinity_PPT = 40.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(40.0f, mwqmSample.Salinity_PPT);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // Salinity_PPT has Min [0] and Max [40]. At Max - 1 should return true and no errors
-            mwqmSample.Salinity_PPT = 39.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(39.0f, mwqmSample.Salinity_PPT);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // Salinity_PPT has Min [0] and Max [40]. At Max + 1 should return false with one error
-            mwqmSample.Salinity_PPT = 41.0f;
-            Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-            Assert.IsTrue(mwqmSample.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleSalinity_PPT, "0", "40")).Any());
-            Assert.AreEqual(41.0f, mwqmSample.Salinity_PPT);
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [WaterTemp_C] of type [Single]
+            // doing property [WaterTemp_C] of type [Double]
             //-----------------------------------
 
-            mwqmSample = null;
-            mwqmSample = GetFilledRandomMWQMSample("");
-            // WaterTemp_C has Min [-10] and Max [40]. At Min should return true and no errors
-            mwqmSample.WaterTemp_C = -10.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(-10.0f, mwqmSample.WaterTemp_C);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // WaterTemp_C has Min [-10] and Max [40]. At Min + 1 should return true and no errors
-            mwqmSample.WaterTemp_C = -9.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(-9.0f, mwqmSample.WaterTemp_C);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // WaterTemp_C has Min [-10] and Max [40]. At Min - 1 should return false with one error
-            mwqmSample.WaterTemp_C = -11.0f;
-            Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-            Assert.IsTrue(mwqmSample.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleWaterTemp_C, "-10", "40")).Any());
-            Assert.AreEqual(-11.0f, mwqmSample.WaterTemp_C);
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // WaterTemp_C has Min [-10] and Max [40]. At Max should return true and no errors
-            mwqmSample.WaterTemp_C = 40.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(40.0f, mwqmSample.WaterTemp_C);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // WaterTemp_C has Min [-10] and Max [40]. At Max - 1 should return true and no errors
-            mwqmSample.WaterTemp_C = 39.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(39.0f, mwqmSample.WaterTemp_C);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // WaterTemp_C has Min [-10] and Max [40]. At Max + 1 should return false with one error
-            mwqmSample.WaterTemp_C = 41.0f;
-            Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-            Assert.IsTrue(mwqmSample.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleWaterTemp_C, "-10", "40")).Any());
-            Assert.AreEqual(41.0f, mwqmSample.WaterTemp_C);
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [PH] of type [Single]
+            // doing property [PH] of type [Double]
             //-----------------------------------
-
-            mwqmSample = null;
-            mwqmSample = GetFilledRandomMWQMSample("");
-            // PH has Min [0] and Max [14]. At Min should return true and no errors
-            mwqmSample.PH = 0.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmSample.PH);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // PH has Min [0] and Max [14]. At Min + 1 should return true and no errors
-            mwqmSample.PH = 1.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmSample.PH);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // PH has Min [0] and Max [14]. At Min - 1 should return false with one error
-            mwqmSample.PH = -1.0f;
-            Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-            Assert.IsTrue(mwqmSample.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSamplePH, "0", "14")).Any());
-            Assert.AreEqual(-1.0f, mwqmSample.PH);
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // PH has Min [0] and Max [14]. At Max should return true and no errors
-            mwqmSample.PH = 14.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(14.0f, mwqmSample.PH);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // PH has Min [0] and Max [14]. At Max - 1 should return true and no errors
-            mwqmSample.PH = 13.0f;
-            Assert.AreEqual(true, mwqmSampleService.Add(mwqmSample));
-            Assert.AreEqual(0, mwqmSample.ValidationResults.Count());
-            Assert.AreEqual(13.0f, mwqmSample.PH);
-            Assert.AreEqual(true, mwqmSampleService.Delete(mwqmSample));
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
-            // PH has Min [0] and Max [14]. At Max + 1 should return false with one error
-            mwqmSample.PH = 15.0f;
-            Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-            Assert.IsTrue(mwqmSample.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSamplePH, "0", "14")).Any());
-            Assert.AreEqual(15.0f, mwqmSample.PH);
-            Assert.AreEqual(0, mwqmSampleService.GetRead().Count());
 
             //-----------------------------------
             // doing property [SampleTypesText] of type [String]

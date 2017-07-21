@@ -74,7 +74,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideSiteWebTideModel, "100"), new[] { ModelsRes.TideSiteWebTideModel });
             }
 
-            //WebTideDatum_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //WebTideDatum_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tideSite.WebTideDatum_m < -100 || tideSite.WebTideDatum_m > 100)
             {

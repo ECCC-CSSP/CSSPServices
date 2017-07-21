@@ -36,6 +36,8 @@ namespace CSSPServicesGenerateCode
         #region Events
         private void butRepopulateTesDB_Click(object sender, EventArgs e)
         {
+            richTextBoxStatus.Text = "";
+            
             // -----------------------------------------------------------------
             // -----------------------------------------------------------------
             // Will generate CSSPServices/[ClassName]ServiceGenerated.cs files
@@ -46,6 +48,8 @@ namespace CSSPServicesGenerateCode
         }
         private void butGenerateClassServiceGenerated_Click(object sender, EventArgs e)
         {
+            richTextBoxStatus.Text = "";
+
             // -----------------------------------------------------------------
             // -----------------------------------------------------------------
             // Will generate CSSPServices/[ClassName]ServiceGenerated.cs files
@@ -56,6 +60,8 @@ namespace CSSPServicesGenerateCode
         }
         private void butGenerateClassTestGenerated_Click(object sender, EventArgs e)
         {
+            richTextBoxStatus.Text = "";
+            
             // -----------------------------------------------------------------
             // -----------------------------------------------------------------
             // Will generate CSSPServices.Tests/[ClassName]TestGenerated.cs files
@@ -66,6 +72,8 @@ namespace CSSPServicesGenerateCode
         }
         private void ButGenerateFillDBTestingGenerated_Click(object sender, EventArgs e)
         {
+            richTextBoxStatus.Text = "";
+            
             // -----------------------------------------------------------------
             // -----------------------------------------------------------------
             // Will generate CSSPServices.Tests/FillDBAllTestGenerated.cs file

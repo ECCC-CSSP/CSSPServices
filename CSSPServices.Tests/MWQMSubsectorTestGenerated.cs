@@ -48,17 +48,17 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MWQMSubsectorTVItemID") mwqmSubsector.MWQMSubsectorTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "SubsectorHistoricKey") mwqmSubsector.SubsectorHistoricKey = GetRandomString("", 5);
             if (OmitPropName != "TideLocationSIDText") mwqmSubsector.TideLocationSIDText = GetRandomString("", 5);
-            if (OmitPropName != "RainDay0Limit") mwqmSubsector.RainDay0Limit = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay1Limit") mwqmSubsector.RainDay1Limit = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay2Limit") mwqmSubsector.RainDay2Limit = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay3Limit") mwqmSubsector.RainDay3Limit = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay4Limit") mwqmSubsector.RainDay4Limit = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay5Limit") mwqmSubsector.RainDay5Limit = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay6Limit") mwqmSubsector.RainDay6Limit = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay7Limit") mwqmSubsector.RainDay7Limit = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay8Limit") mwqmSubsector.RainDay8Limit = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay9Limit") mwqmSubsector.RainDay9Limit = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay10Limit") mwqmSubsector.RainDay10Limit = GetRandomFloat(0.0f, 300.0f);
+            if (OmitPropName != "RainDay0Limit") mwqmSubsector.RainDay0Limit = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay1Limit") mwqmSubsector.RainDay1Limit = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay2Limit") mwqmSubsector.RainDay2Limit = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay3Limit") mwqmSubsector.RainDay3Limit = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay4Limit") mwqmSubsector.RainDay4Limit = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay5Limit") mwqmSubsector.RainDay5Limit = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay6Limit") mwqmSubsector.RainDay6Limit = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay7Limit") mwqmSubsector.RainDay7Limit = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay8Limit") mwqmSubsector.RainDay8Limit = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay9Limit") mwqmSubsector.RainDay9Limit = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay10Limit") mwqmSubsector.RainDay10Limit = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "IncludeRainStartDate") mwqmSubsector.IncludeRainStartDate = GetRandomDateTime();
             if (OmitPropName != "IncludeRainEndDate") mwqmSubsector.IncludeRainEndDate = GetRandomDateTime();
             if (OmitPropName != "IncludeRainRunCount") mwqmSubsector.IncludeRainRunCount = GetRandomInt(0, 10);
@@ -123,6 +123,28 @@ namespace CSSPServices.Tests
             Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorTideLocationSIDText)).Any());
             Assert.AreEqual(null, mwqmSubsector.TideLocationSIDText);
             Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
+
+            //Error: Type not implemented [RainDay0Limit]
+
+            //Error: Type not implemented [RainDay1Limit]
+
+            //Error: Type not implemented [RainDay2Limit]
+
+            //Error: Type not implemented [RainDay3Limit]
+
+            //Error: Type not implemented [RainDay4Limit]
+
+            //Error: Type not implemented [RainDay5Limit]
+
+            //Error: Type not implemented [RainDay6Limit]
+
+            //Error: Type not implemented [RainDay7Limit]
+
+            //Error: Type not implemented [RainDay8Limit]
+
+            //Error: Type not implemented [RainDay9Limit]
+
+            //Error: Type not implemented [RainDay10Limit]
 
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("LastUpdateDate_UTC");
@@ -194,521 +216,48 @@ namespace CSSPServices.Tests
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
 
             //-----------------------------------
-            // doing property [RainDay0Limit] of type [Single]
+            // doing property [RainDay0Limit] of type [Double]
             //-----------------------------------
 
-            mwqmSubsector = null;
-            mwqmSubsector = GetFilledRandomMWQMSubsector("");
-            // RainDay0Limit has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmSubsector.RainDay0Limit = 0.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmSubsector.RainDay0Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay0Limit has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmSubsector.RainDay0Limit = 1.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmSubsector.RainDay0Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay0Limit has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmSubsector.RainDay0Limit = -1.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay0Limit, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmSubsector.RainDay0Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay0Limit has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmSubsector.RainDay0Limit = 300.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmSubsector.RainDay0Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay0Limit has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmSubsector.RainDay0Limit = 299.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmSubsector.RainDay0Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay0Limit has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmSubsector.RainDay0Limit = 301.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay0Limit, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmSubsector.RainDay0Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay1Limit] of type [Single]
+            // doing property [RainDay1Limit] of type [Double]
             //-----------------------------------
 
-            mwqmSubsector = null;
-            mwqmSubsector = GetFilledRandomMWQMSubsector("");
-            // RainDay1Limit has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmSubsector.RainDay1Limit = 0.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmSubsector.RainDay1Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay1Limit has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmSubsector.RainDay1Limit = 1.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmSubsector.RainDay1Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay1Limit has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmSubsector.RainDay1Limit = -1.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay1Limit, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmSubsector.RainDay1Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay1Limit has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmSubsector.RainDay1Limit = 300.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmSubsector.RainDay1Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay1Limit has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmSubsector.RainDay1Limit = 299.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmSubsector.RainDay1Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay1Limit has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmSubsector.RainDay1Limit = 301.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay1Limit, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmSubsector.RainDay1Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay2Limit] of type [Single]
+            // doing property [RainDay2Limit] of type [Double]
             //-----------------------------------
 
-            mwqmSubsector = null;
-            mwqmSubsector = GetFilledRandomMWQMSubsector("");
-            // RainDay2Limit has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmSubsector.RainDay2Limit = 0.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmSubsector.RainDay2Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay2Limit has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmSubsector.RainDay2Limit = 1.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmSubsector.RainDay2Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay2Limit has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmSubsector.RainDay2Limit = -1.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay2Limit, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmSubsector.RainDay2Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay2Limit has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmSubsector.RainDay2Limit = 300.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmSubsector.RainDay2Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay2Limit has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmSubsector.RainDay2Limit = 299.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmSubsector.RainDay2Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay2Limit has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmSubsector.RainDay2Limit = 301.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay2Limit, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmSubsector.RainDay2Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay3Limit] of type [Single]
+            // doing property [RainDay3Limit] of type [Double]
             //-----------------------------------
 
-            mwqmSubsector = null;
-            mwqmSubsector = GetFilledRandomMWQMSubsector("");
-            // RainDay3Limit has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmSubsector.RainDay3Limit = 0.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmSubsector.RainDay3Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay3Limit has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmSubsector.RainDay3Limit = 1.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmSubsector.RainDay3Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay3Limit has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmSubsector.RainDay3Limit = -1.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay3Limit, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmSubsector.RainDay3Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay3Limit has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmSubsector.RainDay3Limit = 300.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmSubsector.RainDay3Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay3Limit has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmSubsector.RainDay3Limit = 299.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmSubsector.RainDay3Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay3Limit has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmSubsector.RainDay3Limit = 301.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay3Limit, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmSubsector.RainDay3Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay4Limit] of type [Single]
+            // doing property [RainDay4Limit] of type [Double]
             //-----------------------------------
 
-            mwqmSubsector = null;
-            mwqmSubsector = GetFilledRandomMWQMSubsector("");
-            // RainDay4Limit has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmSubsector.RainDay4Limit = 0.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmSubsector.RainDay4Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay4Limit has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmSubsector.RainDay4Limit = 1.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmSubsector.RainDay4Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay4Limit has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmSubsector.RainDay4Limit = -1.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay4Limit, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmSubsector.RainDay4Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay4Limit has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmSubsector.RainDay4Limit = 300.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmSubsector.RainDay4Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay4Limit has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmSubsector.RainDay4Limit = 299.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmSubsector.RainDay4Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay4Limit has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmSubsector.RainDay4Limit = 301.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay4Limit, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmSubsector.RainDay4Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay5Limit] of type [Single]
+            // doing property [RainDay5Limit] of type [Double]
             //-----------------------------------
 
-            mwqmSubsector = null;
-            mwqmSubsector = GetFilledRandomMWQMSubsector("");
-            // RainDay5Limit has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmSubsector.RainDay5Limit = 0.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmSubsector.RainDay5Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay5Limit has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmSubsector.RainDay5Limit = 1.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmSubsector.RainDay5Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay5Limit has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmSubsector.RainDay5Limit = -1.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay5Limit, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmSubsector.RainDay5Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay5Limit has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmSubsector.RainDay5Limit = 300.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmSubsector.RainDay5Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay5Limit has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmSubsector.RainDay5Limit = 299.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmSubsector.RainDay5Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay5Limit has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmSubsector.RainDay5Limit = 301.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay5Limit, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmSubsector.RainDay5Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay6Limit] of type [Single]
+            // doing property [RainDay6Limit] of type [Double]
             //-----------------------------------
 
-            mwqmSubsector = null;
-            mwqmSubsector = GetFilledRandomMWQMSubsector("");
-            // RainDay6Limit has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmSubsector.RainDay6Limit = 0.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmSubsector.RainDay6Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay6Limit has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmSubsector.RainDay6Limit = 1.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmSubsector.RainDay6Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay6Limit has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmSubsector.RainDay6Limit = -1.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay6Limit, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmSubsector.RainDay6Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay6Limit has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmSubsector.RainDay6Limit = 300.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmSubsector.RainDay6Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay6Limit has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmSubsector.RainDay6Limit = 299.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmSubsector.RainDay6Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay6Limit has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmSubsector.RainDay6Limit = 301.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay6Limit, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmSubsector.RainDay6Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay7Limit] of type [Single]
+            // doing property [RainDay7Limit] of type [Double]
             //-----------------------------------
 
-            mwqmSubsector = null;
-            mwqmSubsector = GetFilledRandomMWQMSubsector("");
-            // RainDay7Limit has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmSubsector.RainDay7Limit = 0.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmSubsector.RainDay7Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay7Limit has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmSubsector.RainDay7Limit = 1.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmSubsector.RainDay7Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay7Limit has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmSubsector.RainDay7Limit = -1.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay7Limit, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmSubsector.RainDay7Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay7Limit has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmSubsector.RainDay7Limit = 300.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmSubsector.RainDay7Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay7Limit has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmSubsector.RainDay7Limit = 299.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmSubsector.RainDay7Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay7Limit has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmSubsector.RainDay7Limit = 301.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay7Limit, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmSubsector.RainDay7Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay8Limit] of type [Single]
+            // doing property [RainDay8Limit] of type [Double]
             //-----------------------------------
 
-            mwqmSubsector = null;
-            mwqmSubsector = GetFilledRandomMWQMSubsector("");
-            // RainDay8Limit has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmSubsector.RainDay8Limit = 0.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmSubsector.RainDay8Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay8Limit has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmSubsector.RainDay8Limit = 1.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmSubsector.RainDay8Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay8Limit has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmSubsector.RainDay8Limit = -1.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay8Limit, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmSubsector.RainDay8Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay8Limit has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmSubsector.RainDay8Limit = 300.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmSubsector.RainDay8Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay8Limit has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmSubsector.RainDay8Limit = 299.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmSubsector.RainDay8Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay8Limit has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmSubsector.RainDay8Limit = 301.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay8Limit, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmSubsector.RainDay8Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay9Limit] of type [Single]
+            // doing property [RainDay9Limit] of type [Double]
             //-----------------------------------
 
-            mwqmSubsector = null;
-            mwqmSubsector = GetFilledRandomMWQMSubsector("");
-            // RainDay9Limit has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmSubsector.RainDay9Limit = 0.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmSubsector.RainDay9Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay9Limit has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmSubsector.RainDay9Limit = 1.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmSubsector.RainDay9Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay9Limit has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmSubsector.RainDay9Limit = -1.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay9Limit, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmSubsector.RainDay9Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay9Limit has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmSubsector.RainDay9Limit = 300.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmSubsector.RainDay9Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay9Limit has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmSubsector.RainDay9Limit = 299.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmSubsector.RainDay9Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay9Limit has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmSubsector.RainDay9Limit = 301.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay9Limit, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmSubsector.RainDay9Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay10Limit] of type [Single]
+            // doing property [RainDay10Limit] of type [Double]
             //-----------------------------------
-
-            mwqmSubsector = null;
-            mwqmSubsector = GetFilledRandomMWQMSubsector("");
-            // RainDay10Limit has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmSubsector.RainDay10Limit = 0.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmSubsector.RainDay10Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay10Limit has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmSubsector.RainDay10Limit = 1.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmSubsector.RainDay10Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay10Limit has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmSubsector.RainDay10Limit = -1.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay10Limit, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmSubsector.RainDay10Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay10Limit has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmSubsector.RainDay10Limit = 300.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmSubsector.RainDay10Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay10Limit has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmSubsector.RainDay10Limit = 299.0f;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmSubsector.RainDay10Limit);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
-            // RainDay10Limit has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmSubsector.RainDay10Limit = 301.0f;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSubsectorRainDay10Limit, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmSubsector.RainDay10Limit);
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
 
             //-----------------------------------
             // doing property [IncludeRainStartDate] of type [DateTime]

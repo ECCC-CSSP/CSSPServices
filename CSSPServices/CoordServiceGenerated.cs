@@ -38,14 +38,14 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             Coord coord = validationContext.ObjectInstance as Coord;
 
-            //Lat (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Lat (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (coord.Lat < -180 || coord.Lat > 180)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordLat, "-180", "180"), new[] { ModelsRes.CoordLat });
             }
 
-            //Lng (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Lng (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (coord.Lng < -90 || coord.Lng > 90)
             {

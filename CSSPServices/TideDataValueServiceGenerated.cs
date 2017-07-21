@@ -88,21 +88,21 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueStorageDataType), new[] { ModelsRes.TideDataValueStorageDataType });
             }
 
-            //Depth_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Depth_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tideDataValue.Depth_m < 0 || tideDataValue.Depth_m > 10000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueDepth_m, "0", "10000"), new[] { ModelsRes.TideDataValueDepth_m });
             }
 
-            //UVelocity_m_s (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //UVelocity_m_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tideDataValue.UVelocity_m_s < 0 || tideDataValue.UVelocity_m_s > 10)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueUVelocity_m_s, "0", "10"), new[] { ModelsRes.TideDataValueUVelocity_m_s });
             }
 
-            //VVelocity_m_s (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //VVelocity_m_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tideDataValue.VVelocity_m_s < 0 || tideDataValue.VVelocity_m_s > 10)
             {

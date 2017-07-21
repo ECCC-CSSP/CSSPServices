@@ -70,28 +70,28 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoTVType), new[] { ModelsRes.MapInfoTVType });
             }
 
-            //LatMin (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //LatMin (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfo.LatMin < -90 || mapInfo.LatMin > 90)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMin, "-90", "90"), new[] { ModelsRes.MapInfoLatMin });
             }
 
-            //LatMax (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //LatMax (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfo.LatMax < -90 || mapInfo.LatMax > 90)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMax, "-90", "90"), new[] { ModelsRes.MapInfoLatMax });
             }
 
-            //LngMin (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //LngMin (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfo.LngMin < -180 || mapInfo.LngMin > 180)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMin, "-180", "180"), new[] { ModelsRes.MapInfoLngMin });
             }
 
-            //LngMax (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //LngMax (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfo.LngMax < -180 || mapInfo.LngMax > 180)
             {

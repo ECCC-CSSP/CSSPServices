@@ -59,19 +59,19 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ElementNumbOfNodes, "1"), new[] { ModelsRes.ElementNumbOfNodes });
             }
 
-            //Value (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Value (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //Value has no Range Attribute
 
-            //XNode0 (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //XNode0 (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //XNode0 has no Range Attribute
 
-            //YNode0 (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //YNode0 (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //YNode0 has no Range Attribute
 
-            //ZNode0 (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //ZNode0 (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //ZNode0 has no Range Attribute
 

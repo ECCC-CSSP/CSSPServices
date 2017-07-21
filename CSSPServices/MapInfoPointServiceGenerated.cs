@@ -71,14 +71,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MapInfoPointOrdinal, "0"), new[] { ModelsRes.MapInfoPointOrdinal });
             }
 
-            //Lat (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Lat (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfoPoint.Lat < -90 || mapInfoPoint.Lat > 90)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointLat, "-90", "90"), new[] { ModelsRes.MapInfoPointLat });
             }
 
-            //Lng (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Lng (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfoPoint.Lng < -180 || mapInfoPoint.Lng > 180)
             {

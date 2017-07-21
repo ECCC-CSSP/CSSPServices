@@ -84,7 +84,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionName, "100"), new[] { ModelsRes.MikeBoundaryConditionMikeBoundaryConditionName });
             }
 
-            //MikeBoundaryConditionLength_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //MikeBoundaryConditionLength_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeBoundaryCondition.MikeBoundaryConditionLength_m < 1 || mikeBoundaryCondition.MikeBoundaryConditionLength_m > 100000)
             {

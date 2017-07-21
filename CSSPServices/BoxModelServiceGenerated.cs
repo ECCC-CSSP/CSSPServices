@@ -64,21 +64,21 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelInfrastructureTVItemID, boxModel.InfrastructureTVItemID.ToString()), new[] { ModelsRes.BoxModelInfrastructureTVItemID });
             }
 
-            //Flow_m3_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Flow_m3_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModel.Flow_m3_day < 0 || boxModel.Flow_m3_day > 10000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlow_m3_day, "0", "10000"), new[] { ModelsRes.BoxModelFlow_m3_day });
             }
 
-            //Depth_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Depth_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModel.Depth_m < 0 || boxModel.Depth_m > 1000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDepth_m, "0", "1000"), new[] { ModelsRes.BoxModelDepth_m });
             }
 
-            //Temperature_C (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Temperature_C (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModel.Temperature_C < -15 || boxModel.Temperature_C > 40)
             {
@@ -92,7 +92,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDilution, "0", "10000000"), new[] { ModelsRes.BoxModelDilution });
             }
 
-            //DecayRate_per_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //DecayRate_per_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModel.DecayRate_per_day < 0 || boxModel.DecayRate_per_day > 100)
             {
@@ -120,14 +120,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelConcentration_MPN_100ml, "0", "10000000"), new[] { ModelsRes.BoxModelConcentration_MPN_100ml });
             }
 
-            //T90_hour (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //T90_hour (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModel.T90_hour < 0)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelT90_hour, "0"), new[] { ModelsRes.BoxModelT90_hour });
             }
 
-            //FlowDuration_hour (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //FlowDuration_hour (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModel.FlowDuration_hour < 0 || boxModel.FlowDuration_hour > 24)
             {

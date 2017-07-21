@@ -45,7 +45,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.NodeLayerLayer, "1", "100"), new[] { ModelsRes.NodeLayerLayer });
             }
 
-            //Z (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Z (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //Z has no Range Attribute
 

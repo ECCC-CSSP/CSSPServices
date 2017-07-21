@@ -82,7 +82,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricDataValueStorageDataType), new[] { ModelsRes.HydrometricDataValueStorageDataType });
             }
 
-            //Flow_m3_s (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Flow_m3_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (hydrometricDataValue.Flow_m3_s < 0 || hydrometricDataValue.Flow_m3_s > 10000)
             {

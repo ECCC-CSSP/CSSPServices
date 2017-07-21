@@ -53,13 +53,13 @@ namespace CSSPServices.Tests
             if (OmitPropName != "StartDateTime_Local") mwqmRun.StartDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "EndDateTime_Local") mwqmRun.EndDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "LabReceivedDateTime_Local") mwqmRun.LabReceivedDateTime_Local = GetRandomDateTime();
-            if (OmitPropName != "TemperatureControl1_C") mwqmRun.TemperatureControl1_C = GetRandomFloat(-10.0f, 40.0f);
-            if (OmitPropName != "TemperatureControl2_C") mwqmRun.TemperatureControl2_C = GetRandomFloat(-10.0f, 40.0f);
+            if (OmitPropName != "TemperatureControl1_C") mwqmRun.TemperatureControl1_C = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "TemperatureControl2_C") mwqmRun.TemperatureControl2_C = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "SeaStateAtStart_BeaufortScale") mwqmRun.SeaStateAtStart_BeaufortScale = (BeaufortScaleEnum)GetRandomEnumType(typeof(BeaufortScaleEnum));
             if (OmitPropName != "SeaStateAtEnd_BeaufortScale") mwqmRun.SeaStateAtEnd_BeaufortScale = (BeaufortScaleEnum)GetRandomEnumType(typeof(BeaufortScaleEnum));
-            if (OmitPropName != "WaterLevelAtBrook_m") mwqmRun.WaterLevelAtBrook_m = GetRandomFloat(0.0f, 100.0f);
-            if (OmitPropName != "WaveHightAtStart_m") mwqmRun.WaveHightAtStart_m = GetRandomFloat(0.0f, 100.0f);
-            if (OmitPropName != "WaveHightAtEnd_m") mwqmRun.WaveHightAtEnd_m = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "WaterLevelAtBrook_m") mwqmRun.WaterLevelAtBrook_m = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "WaveHightAtStart_m") mwqmRun.WaveHightAtStart_m = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "WaveHightAtEnd_m") mwqmRun.WaveHightAtEnd_m = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "SampleCrewInitials") mwqmRun.SampleCrewInitials = GetRandomString("", 5);
             if (OmitPropName != "AnalyzeMethod") mwqmRun.AnalyzeMethod = (AnalyzeMethodEnum)GetRandomEnumType(typeof(AnalyzeMethodEnum));
             if (OmitPropName != "SampleMatrix") mwqmRun.SampleMatrix = (SampleMatrixEnum)GetRandomEnumType(typeof(SampleMatrixEnum));
@@ -72,17 +72,17 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LabRunSampleApprovalDateTime_Local") mwqmRun.LabRunSampleApprovalDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "Tide_Start") mwqmRun.Tide_Start = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
             if (OmitPropName != "Tide_End") mwqmRun.Tide_End = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
-            if (OmitPropName != "RainDay0_mm") mwqmRun.RainDay0_mm = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay1_mm") mwqmRun.RainDay1_mm = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay2_mm") mwqmRun.RainDay2_mm = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay3_mm") mwqmRun.RainDay3_mm = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay4_mm") mwqmRun.RainDay4_mm = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay5_mm") mwqmRun.RainDay5_mm = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay6_mm") mwqmRun.RainDay6_mm = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay7_mm") mwqmRun.RainDay7_mm = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay8_mm") mwqmRun.RainDay8_mm = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay9_mm") mwqmRun.RainDay9_mm = GetRandomFloat(0.0f, 300.0f);
-            if (OmitPropName != "RainDay10_mm") mwqmRun.RainDay10_mm = GetRandomFloat(0.0f, 300.0f);
+            if (OmitPropName != "RainDay0_mm") mwqmRun.RainDay0_mm = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay1_mm") mwqmRun.RainDay1_mm = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay2_mm") mwqmRun.RainDay2_mm = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay3_mm") mwqmRun.RainDay3_mm = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay4_mm") mwqmRun.RainDay4_mm = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay5_mm") mwqmRun.RainDay5_mm = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay6_mm") mwqmRun.RainDay6_mm = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay7_mm") mwqmRun.RainDay7_mm = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay8_mm") mwqmRun.RainDay8_mm = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay9_mm") mwqmRun.RainDay9_mm = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "RainDay10_mm") mwqmRun.RainDay10_mm = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "RemoveFromStat") mwqmRun.RemoveFromStat = true;
             if (OmitPropName != "LastUpdateDate_UTC") mwqmRun.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmRun.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -135,9 +135,19 @@ namespace CSSPServices.Tests
 
             // RunNumber will automatically be initialized at 0 --> not null
 
+            //Error: Type not implemented [TemperatureControl1_C]
+
+            //Error: Type not implemented [TemperatureControl2_C]
+
             //Error: Type not implemented [SeaStateAtStart_BeaufortScale]
 
             //Error: Type not implemented [SeaStateAtEnd_BeaufortScale]
+
+            //Error: Type not implemented [WaterLevelAtBrook_m]
+
+            //Error: Type not implemented [WaveHightAtStart_m]
+
+            //Error: Type not implemented [WaveHightAtEnd_m]
 
             //Error: Type not implemented [AnalyzeMethod]
 
@@ -150,6 +160,28 @@ namespace CSSPServices.Tests
             //Error: Type not implemented [Tide_Start]
 
             //Error: Type not implemented [Tide_End]
+
+            //Error: Type not implemented [RainDay0_mm]
+
+            //Error: Type not implemented [RainDay1_mm]
+
+            //Error: Type not implemented [RainDay2_mm]
+
+            //Error: Type not implemented [RainDay3_mm]
+
+            //Error: Type not implemented [RainDay4_mm]
+
+            //Error: Type not implemented [RainDay5_mm]
+
+            //Error: Type not implemented [RainDay6_mm]
+
+            //Error: Type not implemented [RainDay7_mm]
+
+            //Error: Type not implemented [RainDay8_mm]
+
+            //Error: Type not implemented [RainDay9_mm]
+
+            //Error: Type not implemented [RainDay10_mm]
 
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("LastUpdateDate_UTC");
@@ -305,98 +337,12 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TemperatureControl1_C] of type [Single]
+            // doing property [TemperatureControl1_C] of type [Double]
             //-----------------------------------
 
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // TemperatureControl1_C has Min [-10] and Max [40]. At Min should return true and no errors
-            mwqmRun.TemperatureControl1_C = -10.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(-10.0f, mwqmRun.TemperatureControl1_C);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // TemperatureControl1_C has Min [-10] and Max [40]. At Min + 1 should return true and no errors
-            mwqmRun.TemperatureControl1_C = -9.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(-9.0f, mwqmRun.TemperatureControl1_C);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // TemperatureControl1_C has Min [-10] and Max [40]. At Min - 1 should return false with one error
-            mwqmRun.TemperatureControl1_C = -11.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl1_C, "-10", "40")).Any());
-            Assert.AreEqual(-11.0f, mwqmRun.TemperatureControl1_C);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // TemperatureControl1_C has Min [-10] and Max [40]. At Max should return true and no errors
-            mwqmRun.TemperatureControl1_C = 40.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(40.0f, mwqmRun.TemperatureControl1_C);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // TemperatureControl1_C has Min [-10] and Max [40]. At Max - 1 should return true and no errors
-            mwqmRun.TemperatureControl1_C = 39.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(39.0f, mwqmRun.TemperatureControl1_C);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // TemperatureControl1_C has Min [-10] and Max [40]. At Max + 1 should return false with one error
-            mwqmRun.TemperatureControl1_C = 41.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl1_C, "-10", "40")).Any());
-            Assert.AreEqual(41.0f, mwqmRun.TemperatureControl1_C);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [TemperatureControl2_C] of type [Single]
+            // doing property [TemperatureControl2_C] of type [Double]
             //-----------------------------------
-
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // TemperatureControl2_C has Min [-10] and Max [40]. At Min should return true and no errors
-            mwqmRun.TemperatureControl2_C = -10.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(-10.0f, mwqmRun.TemperatureControl2_C);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // TemperatureControl2_C has Min [-10] and Max [40]. At Min + 1 should return true and no errors
-            mwqmRun.TemperatureControl2_C = -9.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(-9.0f, mwqmRun.TemperatureControl2_C);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // TemperatureControl2_C has Min [-10] and Max [40]. At Min - 1 should return false with one error
-            mwqmRun.TemperatureControl2_C = -11.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl2_C, "-10", "40")).Any());
-            Assert.AreEqual(-11.0f, mwqmRun.TemperatureControl2_C);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // TemperatureControl2_C has Min [-10] and Max [40]. At Max should return true and no errors
-            mwqmRun.TemperatureControl2_C = 40.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(40.0f, mwqmRun.TemperatureControl2_C);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // TemperatureControl2_C has Min [-10] and Max [40]. At Max - 1 should return true and no errors
-            mwqmRun.TemperatureControl2_C = 39.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(39.0f, mwqmRun.TemperatureControl2_C);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // TemperatureControl2_C has Min [-10] and Max [40]. At Max + 1 should return false with one error
-            mwqmRun.TemperatureControl2_C = 41.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl2_C, "-10", "40")).Any());
-            Assert.AreEqual(41.0f, mwqmRun.TemperatureControl2_C);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
 
             //-----------------------------------
             // doing property [SeaStateAtStart_BeaufortScale] of type [BeaufortScaleEnum]
@@ -407,145 +353,16 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [WaterLevelAtBrook_m] of type [Single]
+            // doing property [WaterLevelAtBrook_m] of type [Double]
             //-----------------------------------
 
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // WaterLevelAtBrook_m has Min [0] and Max [100]. At Min should return true and no errors
-            mwqmRun.WaterLevelAtBrook_m = 0.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmRun.WaterLevelAtBrook_m);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaterLevelAtBrook_m has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            mwqmRun.WaterLevelAtBrook_m = 1.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmRun.WaterLevelAtBrook_m);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaterLevelAtBrook_m has Min [0] and Max [100]. At Min - 1 should return false with one error
-            mwqmRun.WaterLevelAtBrook_m = -1.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaterLevelAtBrook_m, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, mwqmRun.WaterLevelAtBrook_m);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaterLevelAtBrook_m has Min [0] and Max [100]. At Max should return true and no errors
-            mwqmRun.WaterLevelAtBrook_m = 100.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(100.0f, mwqmRun.WaterLevelAtBrook_m);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaterLevelAtBrook_m has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            mwqmRun.WaterLevelAtBrook_m = 99.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(99.0f, mwqmRun.WaterLevelAtBrook_m);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaterLevelAtBrook_m has Min [0] and Max [100]. At Max + 1 should return false with one error
-            mwqmRun.WaterLevelAtBrook_m = 101.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaterLevelAtBrook_m, "0", "100")).Any());
-            Assert.AreEqual(101.0f, mwqmRun.WaterLevelAtBrook_m);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [WaveHightAtStart_m] of type [Single]
+            // doing property [WaveHightAtStart_m] of type [Double]
             //-----------------------------------
 
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // WaveHightAtStart_m has Min [0] and Max [100]. At Min should return true and no errors
-            mwqmRun.WaveHightAtStart_m = 0.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmRun.WaveHightAtStart_m);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaveHightAtStart_m has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            mwqmRun.WaveHightAtStart_m = 1.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmRun.WaveHightAtStart_m);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaveHightAtStart_m has Min [0] and Max [100]. At Min - 1 should return false with one error
-            mwqmRun.WaveHightAtStart_m = -1.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtStart_m, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, mwqmRun.WaveHightAtStart_m);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaveHightAtStart_m has Min [0] and Max [100]. At Max should return true and no errors
-            mwqmRun.WaveHightAtStart_m = 100.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(100.0f, mwqmRun.WaveHightAtStart_m);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaveHightAtStart_m has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            mwqmRun.WaveHightAtStart_m = 99.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(99.0f, mwqmRun.WaveHightAtStart_m);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaveHightAtStart_m has Min [0] and Max [100]. At Max + 1 should return false with one error
-            mwqmRun.WaveHightAtStart_m = 101.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtStart_m, "0", "100")).Any());
-            Assert.AreEqual(101.0f, mwqmRun.WaveHightAtStart_m);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [WaveHightAtEnd_m] of type [Single]
+            // doing property [WaveHightAtEnd_m] of type [Double]
             //-----------------------------------
-
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // WaveHightAtEnd_m has Min [0] and Max [100]. At Min should return true and no errors
-            mwqmRun.WaveHightAtEnd_m = 0.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmRun.WaveHightAtEnd_m);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaveHightAtEnd_m has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            mwqmRun.WaveHightAtEnd_m = 1.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmRun.WaveHightAtEnd_m);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaveHightAtEnd_m has Min [0] and Max [100]. At Min - 1 should return false with one error
-            mwqmRun.WaveHightAtEnd_m = -1.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtEnd_m, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, mwqmRun.WaveHightAtEnd_m);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaveHightAtEnd_m has Min [0] and Max [100]. At Max should return true and no errors
-            mwqmRun.WaveHightAtEnd_m = 100.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(100.0f, mwqmRun.WaveHightAtEnd_m);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaveHightAtEnd_m has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            mwqmRun.WaveHightAtEnd_m = 99.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(99.0f, mwqmRun.WaveHightAtEnd_m);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // WaveHightAtEnd_m has Min [0] and Max [100]. At Max + 1 should return false with one error
-            mwqmRun.WaveHightAtEnd_m = 101.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtEnd_m, "0", "100")).Any());
-            Assert.AreEqual(101.0f, mwqmRun.WaveHightAtEnd_m);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
 
             //-----------------------------------
             // doing property [SampleCrewInitials] of type [String]
@@ -622,521 +439,48 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [RainDay0_mm] of type [Single]
+            // doing property [RainDay0_mm] of type [Double]
             //-----------------------------------
 
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // RainDay0_mm has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmRun.RainDay0_mm = 0.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmRun.RainDay0_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay0_mm has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmRun.RainDay0_mm = 1.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmRun.RainDay0_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay0_mm has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmRun.RainDay0_mm = -1.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay0_mm, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmRun.RainDay0_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay0_mm has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmRun.RainDay0_mm = 300.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmRun.RainDay0_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay0_mm has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmRun.RainDay0_mm = 299.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmRun.RainDay0_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay0_mm has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmRun.RainDay0_mm = 301.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay0_mm, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmRun.RainDay0_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay1_mm] of type [Single]
+            // doing property [RainDay1_mm] of type [Double]
             //-----------------------------------
 
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // RainDay1_mm has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmRun.RainDay1_mm = 0.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmRun.RainDay1_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay1_mm has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmRun.RainDay1_mm = 1.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmRun.RainDay1_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay1_mm has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmRun.RainDay1_mm = -1.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay1_mm, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmRun.RainDay1_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay1_mm has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmRun.RainDay1_mm = 300.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmRun.RainDay1_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay1_mm has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmRun.RainDay1_mm = 299.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmRun.RainDay1_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay1_mm has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmRun.RainDay1_mm = 301.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay1_mm, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmRun.RainDay1_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay2_mm] of type [Single]
+            // doing property [RainDay2_mm] of type [Double]
             //-----------------------------------
 
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // RainDay2_mm has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmRun.RainDay2_mm = 0.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmRun.RainDay2_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay2_mm has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmRun.RainDay2_mm = 1.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmRun.RainDay2_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay2_mm has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmRun.RainDay2_mm = -1.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay2_mm, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmRun.RainDay2_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay2_mm has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmRun.RainDay2_mm = 300.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmRun.RainDay2_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay2_mm has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmRun.RainDay2_mm = 299.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmRun.RainDay2_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay2_mm has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmRun.RainDay2_mm = 301.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay2_mm, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmRun.RainDay2_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay3_mm] of type [Single]
+            // doing property [RainDay3_mm] of type [Double]
             //-----------------------------------
 
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // RainDay3_mm has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmRun.RainDay3_mm = 0.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmRun.RainDay3_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay3_mm has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmRun.RainDay3_mm = 1.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmRun.RainDay3_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay3_mm has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmRun.RainDay3_mm = -1.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay3_mm, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmRun.RainDay3_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay3_mm has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmRun.RainDay3_mm = 300.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmRun.RainDay3_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay3_mm has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmRun.RainDay3_mm = 299.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmRun.RainDay3_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay3_mm has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmRun.RainDay3_mm = 301.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay3_mm, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmRun.RainDay3_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay4_mm] of type [Single]
+            // doing property [RainDay4_mm] of type [Double]
             //-----------------------------------
 
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // RainDay4_mm has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmRun.RainDay4_mm = 0.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmRun.RainDay4_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay4_mm has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmRun.RainDay4_mm = 1.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmRun.RainDay4_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay4_mm has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmRun.RainDay4_mm = -1.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay4_mm, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmRun.RainDay4_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay4_mm has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmRun.RainDay4_mm = 300.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmRun.RainDay4_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay4_mm has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmRun.RainDay4_mm = 299.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmRun.RainDay4_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay4_mm has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmRun.RainDay4_mm = 301.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay4_mm, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmRun.RainDay4_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay5_mm] of type [Single]
+            // doing property [RainDay5_mm] of type [Double]
             //-----------------------------------
 
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // RainDay5_mm has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmRun.RainDay5_mm = 0.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmRun.RainDay5_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay5_mm has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmRun.RainDay5_mm = 1.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmRun.RainDay5_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay5_mm has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmRun.RainDay5_mm = -1.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay5_mm, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmRun.RainDay5_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay5_mm has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmRun.RainDay5_mm = 300.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmRun.RainDay5_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay5_mm has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmRun.RainDay5_mm = 299.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmRun.RainDay5_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay5_mm has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmRun.RainDay5_mm = 301.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay5_mm, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmRun.RainDay5_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay6_mm] of type [Single]
+            // doing property [RainDay6_mm] of type [Double]
             //-----------------------------------
 
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // RainDay6_mm has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmRun.RainDay6_mm = 0.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmRun.RainDay6_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay6_mm has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmRun.RainDay6_mm = 1.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmRun.RainDay6_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay6_mm has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmRun.RainDay6_mm = -1.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay6_mm, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmRun.RainDay6_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay6_mm has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmRun.RainDay6_mm = 300.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmRun.RainDay6_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay6_mm has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmRun.RainDay6_mm = 299.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmRun.RainDay6_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay6_mm has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmRun.RainDay6_mm = 301.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay6_mm, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmRun.RainDay6_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay7_mm] of type [Single]
+            // doing property [RainDay7_mm] of type [Double]
             //-----------------------------------
 
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // RainDay7_mm has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmRun.RainDay7_mm = 0.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmRun.RainDay7_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay7_mm has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmRun.RainDay7_mm = 1.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmRun.RainDay7_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay7_mm has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmRun.RainDay7_mm = -1.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay7_mm, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmRun.RainDay7_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay7_mm has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmRun.RainDay7_mm = 300.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmRun.RainDay7_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay7_mm has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmRun.RainDay7_mm = 299.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmRun.RainDay7_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay7_mm has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmRun.RainDay7_mm = 301.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay7_mm, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmRun.RainDay7_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay8_mm] of type [Single]
+            // doing property [RainDay8_mm] of type [Double]
             //-----------------------------------
 
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // RainDay8_mm has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmRun.RainDay8_mm = 0.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmRun.RainDay8_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay8_mm has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmRun.RainDay8_mm = 1.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmRun.RainDay8_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay8_mm has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmRun.RainDay8_mm = -1.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay8_mm, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmRun.RainDay8_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay8_mm has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmRun.RainDay8_mm = 300.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmRun.RainDay8_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay8_mm has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmRun.RainDay8_mm = 299.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmRun.RainDay8_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay8_mm has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmRun.RainDay8_mm = 301.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay8_mm, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmRun.RainDay8_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay9_mm] of type [Single]
+            // doing property [RainDay9_mm] of type [Double]
             //-----------------------------------
 
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // RainDay9_mm has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmRun.RainDay9_mm = 0.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmRun.RainDay9_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay9_mm has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmRun.RainDay9_mm = 1.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmRun.RainDay9_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay9_mm has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmRun.RainDay9_mm = -1.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay9_mm, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmRun.RainDay9_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay9_mm has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmRun.RainDay9_mm = 300.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmRun.RainDay9_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay9_mm has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmRun.RainDay9_mm = 299.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmRun.RainDay9_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay9_mm has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmRun.RainDay9_mm = 301.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay9_mm, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmRun.RainDay9_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [RainDay10_mm] of type [Single]
+            // doing property [RainDay10_mm] of type [Double]
             //-----------------------------------
-
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // RainDay10_mm has Min [0] and Max [300]. At Min should return true and no errors
-            mwqmRun.RainDay10_mm = 0.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mwqmRun.RainDay10_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay10_mm has Min [0] and Max [300]. At Min + 1 should return true and no errors
-            mwqmRun.RainDay10_mm = 1.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mwqmRun.RainDay10_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay10_mm has Min [0] and Max [300]. At Min - 1 should return false with one error
-            mwqmRun.RainDay10_mm = -1.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay10_mm, "0", "300")).Any());
-            Assert.AreEqual(-1.0f, mwqmRun.RainDay10_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay10_mm has Min [0] and Max [300]. At Max should return true and no errors
-            mwqmRun.RainDay10_mm = 300.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(300.0f, mwqmRun.RainDay10_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay10_mm has Min [0] and Max [300]. At Max - 1 should return true and no errors
-            mwqmRun.RainDay10_mm = 299.0f;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(299.0f, mwqmRun.RainDay10_mm);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
-            // RainDay10_mm has Min [0] and Max [300]. At Max + 1 should return false with one error
-            mwqmRun.RainDay10_mm = 301.0f;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay10_mm, "0", "300")).Any());
-            Assert.AreEqual(301.0f, mwqmRun.RainDay10_mm);
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
 
             //-----------------------------------
             // doing property [RemoveFromStat] of type [Boolean]

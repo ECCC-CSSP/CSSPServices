@@ -49,7 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "InfrastructureTVItemID") spill.InfrastructureTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "StartDateTime_Local") spill.StartDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "EndDateTime_Local") spill.EndDateTime_Local = GetRandomDateTime();
-            if (OmitPropName != "AverageFlow_m3_day") spill.AverageFlow_m3_day = GetRandomFloat(0.0f, 1000000.0f);
+            if (OmitPropName != "AverageFlow_m3_day") spill.AverageFlow_m3_day = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") spill.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") spill.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 
@@ -95,7 +95,7 @@ namespace CSSPServices.Tests
             Assert.IsTrue(spill.StartDateTime_Local.Year < 1900);
             Assert.AreEqual(0, spillService.GetRead().Count());
 
-            // AverageFlow_m3_day will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [AverageFlow_m3_day]
 
             spill = null;
             spill = GetFilledRandomSpill("LastUpdateDate_UTC");
@@ -190,51 +190,8 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [AverageFlow_m3_day] of type [Single]
+            // doing property [AverageFlow_m3_day] of type [Double]
             //-----------------------------------
-
-            spill = null;
-            spill = GetFilledRandomSpill("");
-            // AverageFlow_m3_day has Min [0] and Max [1000000]. At Min should return true and no errors
-            spill.AverageFlow_m3_day = 0.0f;
-            Assert.AreEqual(true, spillService.Add(spill));
-            Assert.AreEqual(0, spill.ValidationResults.Count());
-            Assert.AreEqual(0.0f, spill.AverageFlow_m3_day);
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(0, spillService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0] and Max [1000000]. At Min + 1 should return true and no errors
-            spill.AverageFlow_m3_day = 1.0f;
-            Assert.AreEqual(true, spillService.Add(spill));
-            Assert.AreEqual(0, spill.ValidationResults.Count());
-            Assert.AreEqual(1.0f, spill.AverageFlow_m3_day);
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(0, spillService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0] and Max [1000000]. At Min - 1 should return false with one error
-            spill.AverageFlow_m3_day = -1.0f;
-            Assert.AreEqual(false, spillService.Add(spill));
-            Assert.IsTrue(spill.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SpillAverageFlow_m3_day, "0", "1000000")).Any());
-            Assert.AreEqual(-1.0f, spill.AverageFlow_m3_day);
-            Assert.AreEqual(0, spillService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0] and Max [1000000]. At Max should return true and no errors
-            spill.AverageFlow_m3_day = 1000000.0f;
-            Assert.AreEqual(true, spillService.Add(spill));
-            Assert.AreEqual(0, spill.ValidationResults.Count());
-            Assert.AreEqual(1000000.0f, spill.AverageFlow_m3_day);
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(0, spillService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0] and Max [1000000]. At Max - 1 should return true and no errors
-            spill.AverageFlow_m3_day = 999999.0f;
-            Assert.AreEqual(true, spillService.Add(spill));
-            Assert.AreEqual(0, spill.ValidationResults.Count());
-            Assert.AreEqual(999999.0f, spill.AverageFlow_m3_day);
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(0, spillService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0] and Max [1000000]. At Max + 1 should return false with one error
-            spill.AverageFlow_m3_day = 1000001.0f;
-            Assert.AreEqual(false, spillService.Add(spill));
-            Assert.IsTrue(spill.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SpillAverageFlow_m3_day, "0", "1000000")).Any());
-            Assert.AreEqual(1000001.0f, spill.AverageFlow_m3_day);
-            Assert.AreEqual(0, spillService.GetRead().Count());
 
             //-----------------------------------
             // doing property [LastUpdateDate_UTC] of type [DateTime]

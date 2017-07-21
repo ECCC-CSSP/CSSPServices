@@ -46,8 +46,8 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "RatingCurveValueID") ratingCurveValue.RatingCurveValueID = RatingCurveValueID;
             if (OmitPropName != "RatingCurveID") ratingCurveValue.RatingCurveID = GetRandomInt(1, 11);
-            if (OmitPropName != "StageValue_m") ratingCurveValue.StageValue_m = GetRandomFloat(0.0f, 1000.0f);
-            if (OmitPropName != "DischargeValue_m3_s") ratingCurveValue.DischargeValue_m3_s = GetRandomFloat(0.0f, 1000000.0f);
+            if (OmitPropName != "StageValue_m") ratingCurveValue.StageValue_m = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "DischargeValue_m3_s") ratingCurveValue.DischargeValue_m3_s = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") ratingCurveValue.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") ratingCurveValue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 
@@ -85,9 +85,9 @@ namespace CSSPServices.Tests
 
             // RatingCurveID will automatically be initialized at 0 --> not null
 
-            // StageValue_m will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [StageValue_m]
 
-            // DischargeValue_m3_s will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [DischargeValue_m3_s]
 
             ratingCurveValue = null;
             ratingCurveValue = GetFilledRandomRatingCurveValue("LastUpdateDate_UTC");
@@ -143,98 +143,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [StageValue_m] of type [Single]
+            // doing property [StageValue_m] of type [Double]
             //-----------------------------------
 
-            ratingCurveValue = null;
-            ratingCurveValue = GetFilledRandomRatingCurveValue("");
-            // StageValue_m has Min [0] and Max [1000]. At Min should return true and no errors
-            ratingCurveValue.StageValue_m = 0.0f;
-            Assert.AreEqual(true, ratingCurveValueService.Add(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValue.ValidationResults.Count());
-            Assert.AreEqual(0.0f, ratingCurveValue.StageValue_m);
-            Assert.AreEqual(true, ratingCurveValueService.Delete(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
-            // StageValue_m has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            ratingCurveValue.StageValue_m = 1.0f;
-            Assert.AreEqual(true, ratingCurveValueService.Add(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValue.ValidationResults.Count());
-            Assert.AreEqual(1.0f, ratingCurveValue.StageValue_m);
-            Assert.AreEqual(true, ratingCurveValueService.Delete(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
-            // StageValue_m has Min [0] and Max [1000]. At Min - 1 should return false with one error
-            ratingCurveValue.StageValue_m = -1.0f;
-            Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
-            Assert.IsTrue(ratingCurveValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueStageValue_m, "0", "1000")).Any());
-            Assert.AreEqual(-1.0f, ratingCurveValue.StageValue_m);
-            Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
-            // StageValue_m has Min [0] and Max [1000]. At Max should return true and no errors
-            ratingCurveValue.StageValue_m = 1000.0f;
-            Assert.AreEqual(true, ratingCurveValueService.Add(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValue.ValidationResults.Count());
-            Assert.AreEqual(1000.0f, ratingCurveValue.StageValue_m);
-            Assert.AreEqual(true, ratingCurveValueService.Delete(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
-            // StageValue_m has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            ratingCurveValue.StageValue_m = 999.0f;
-            Assert.AreEqual(true, ratingCurveValueService.Add(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValue.ValidationResults.Count());
-            Assert.AreEqual(999.0f, ratingCurveValue.StageValue_m);
-            Assert.AreEqual(true, ratingCurveValueService.Delete(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
-            // StageValue_m has Min [0] and Max [1000]. At Max + 1 should return false with one error
-            ratingCurveValue.StageValue_m = 1001.0f;
-            Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
-            Assert.IsTrue(ratingCurveValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueStageValue_m, "0", "1000")).Any());
-            Assert.AreEqual(1001.0f, ratingCurveValue.StageValue_m);
-            Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [DischargeValue_m3_s] of type [Single]
+            // doing property [DischargeValue_m3_s] of type [Double]
             //-----------------------------------
-
-            ratingCurveValue = null;
-            ratingCurveValue = GetFilledRandomRatingCurveValue("");
-            // DischargeValue_m3_s has Min [0] and Max [1000000]. At Min should return true and no errors
-            ratingCurveValue.DischargeValue_m3_s = 0.0f;
-            Assert.AreEqual(true, ratingCurveValueService.Add(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValue.ValidationResults.Count());
-            Assert.AreEqual(0.0f, ratingCurveValue.DischargeValue_m3_s);
-            Assert.AreEqual(true, ratingCurveValueService.Delete(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
-            // DischargeValue_m3_s has Min [0] and Max [1000000]. At Min + 1 should return true and no errors
-            ratingCurveValue.DischargeValue_m3_s = 1.0f;
-            Assert.AreEqual(true, ratingCurveValueService.Add(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValue.ValidationResults.Count());
-            Assert.AreEqual(1.0f, ratingCurveValue.DischargeValue_m3_s);
-            Assert.AreEqual(true, ratingCurveValueService.Delete(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
-            // DischargeValue_m3_s has Min [0] and Max [1000000]. At Min - 1 should return false with one error
-            ratingCurveValue.DischargeValue_m3_s = -1.0f;
-            Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
-            Assert.IsTrue(ratingCurveValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000")).Any());
-            Assert.AreEqual(-1.0f, ratingCurveValue.DischargeValue_m3_s);
-            Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
-            // DischargeValue_m3_s has Min [0] and Max [1000000]. At Max should return true and no errors
-            ratingCurveValue.DischargeValue_m3_s = 1000000.0f;
-            Assert.AreEqual(true, ratingCurveValueService.Add(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValue.ValidationResults.Count());
-            Assert.AreEqual(1000000.0f, ratingCurveValue.DischargeValue_m3_s);
-            Assert.AreEqual(true, ratingCurveValueService.Delete(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
-            // DischargeValue_m3_s has Min [0] and Max [1000000]. At Max - 1 should return true and no errors
-            ratingCurveValue.DischargeValue_m3_s = 999999.0f;
-            Assert.AreEqual(true, ratingCurveValueService.Add(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValue.ValidationResults.Count());
-            Assert.AreEqual(999999.0f, ratingCurveValue.DischargeValue_m3_s);
-            Assert.AreEqual(true, ratingCurveValueService.Delete(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
-            // DischargeValue_m3_s has Min [0] and Max [1000000]. At Max + 1 should return false with one error
-            ratingCurveValue.DischargeValue_m3_s = 1000001.0f;
-            Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
-            Assert.IsTrue(ratingCurveValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000")).Any());
-            Assert.AreEqual(1000001.0f, ratingCurveValue.DischargeValue_m3_s);
-            Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
 
             //-----------------------------------
             // doing property [LastUpdateDate_UTC] of type [DateTime]

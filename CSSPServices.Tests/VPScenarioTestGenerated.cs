@@ -48,21 +48,21 @@ namespace CSSPServices.Tests
             if (OmitPropName != "InfrastructureTVItemID") vpScenario.InfrastructureTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "VPScenarioStatus") vpScenario.VPScenarioStatus = (ScenarioStatusEnum)GetRandomEnumType(typeof(ScenarioStatusEnum));
             if (OmitPropName != "UseAsBestEstimate") vpScenario.UseAsBestEstimate = true;
-            if (OmitPropName != "EffluentFlow_m3_s") vpScenario.EffluentFlow_m3_s = GetRandomFloat(0.0f, 1000.0f);
+            if (OmitPropName != "EffluentFlow_m3_s") vpScenario.EffluentFlow_m3_s = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "EffluentConcentration_MPN_100ml") vpScenario.EffluentConcentration_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "FroudeNumber") vpScenario.FroudeNumber = GetRandomFloat(0.0f, 10000.0f);
-            if (OmitPropName != "PortDiameter_m") vpScenario.PortDiameter_m = GetRandomFloat(0.0f, 10.0f);
-            if (OmitPropName != "PortDepth_m") vpScenario.PortDepth_m = GetRandomFloat(0.0f, 1000.0f);
-            if (OmitPropName != "PortElevation_m") vpScenario.PortElevation_m = GetRandomFloat(0.0f, 1000.0f);
-            if (OmitPropName != "VerticalAngle_deg") vpScenario.VerticalAngle_deg = GetRandomFloat(-90.0f, 90.0f);
-            if (OmitPropName != "HorizontalAngle_deg") vpScenario.HorizontalAngle_deg = GetRandomFloat(-180.0f, 180.0f);
+            if (OmitPropName != "FroudeNumber") vpScenario.FroudeNumber = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "PortDiameter_m") vpScenario.PortDiameter_m = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "PortDepth_m") vpScenario.PortDepth_m = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "PortElevation_m") vpScenario.PortElevation_m = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "VerticalAngle_deg") vpScenario.VerticalAngle_deg = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "HorizontalAngle_deg") vpScenario.HorizontalAngle_deg = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "NumberOfPorts") vpScenario.NumberOfPorts = GetRandomInt(1, 100);
-            if (OmitPropName != "PortSpacing_m") vpScenario.PortSpacing_m = GetRandomFloat(0.0f, 1000.0f);
-            if (OmitPropName != "AcuteMixZone_m") vpScenario.AcuteMixZone_m = GetRandomFloat(0.0f, 100.0f);
-            if (OmitPropName != "ChronicMixZone_m") vpScenario.ChronicMixZone_m = GetRandomFloat(0.0f, 40000.0f);
-            if (OmitPropName != "EffluentSalinity_PSU") vpScenario.EffluentSalinity_PSU = GetRandomFloat(0.0f, 40.0f);
-            if (OmitPropName != "EffluentTemperature_C") vpScenario.EffluentTemperature_C = GetRandomFloat(-10.0f, 40.0f);
-            if (OmitPropName != "EffluentVelocity_m_s") vpScenario.EffluentVelocity_m_s = GetRandomFloat(0.0f, 100.0f);
+            if (OmitPropName != "PortSpacing_m") vpScenario.PortSpacing_m = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "AcuteMixZone_m") vpScenario.AcuteMixZone_m = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "ChronicMixZone_m") vpScenario.ChronicMixZone_m = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "EffluentSalinity_PSU") vpScenario.EffluentSalinity_PSU = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "EffluentTemperature_C") vpScenario.EffluentTemperature_C = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "EffluentVelocity_m_s") vpScenario.EffluentVelocity_m_s = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "RawResults") vpScenario.RawResults = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") vpScenario.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") vpScenario.LastUpdateContactTVItemID = GetRandomInt(1, 11);
@@ -105,35 +105,35 @@ namespace CSSPServices.Tests
 
             // UseAsBestEstimate will automatically be initialized at 0 --> not null
 
-            // EffluentFlow_m3_s will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [EffluentFlow_m3_s]
 
             // EffluentConcentration_MPN_100ml will automatically be initialized at 0 --> not null
 
-            // FroudeNumber will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [FroudeNumber]
 
-            // PortDiameter_m will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [PortDiameter_m]
 
-            // PortDepth_m will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [PortDepth_m]
 
-            // PortElevation_m will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [PortElevation_m]
 
-            // VerticalAngle_deg will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [VerticalAngle_deg]
 
-            // HorizontalAngle_deg will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [HorizontalAngle_deg]
 
             // NumberOfPorts will automatically be initialized at 0 --> not null
 
-            // PortSpacing_m will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [PortSpacing_m]
 
-            // AcuteMixZone_m will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [AcuteMixZone_m]
 
-            // ChronicMixZone_m will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [ChronicMixZone_m]
 
-            // EffluentSalinity_PSU will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [EffluentSalinity_PSU]
 
-            // EffluentTemperature_C will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [EffluentTemperature_C]
 
-            // EffluentVelocity_m_s will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [EffluentVelocity_m_s]
 
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("RawResults");
@@ -211,51 +211,8 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [EffluentFlow_m3_s] of type [Single]
+            // doing property [EffluentFlow_m3_s] of type [Double]
             //-----------------------------------
-
-            vpScenario = null;
-            vpScenario = GetFilledRandomVPScenario("");
-            // EffluentFlow_m3_s has Min [0] and Max [1000]. At Min should return true and no errors
-            vpScenario.EffluentFlow_m3_s = 0.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpScenario.EffluentFlow_m3_s);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentFlow_m3_s has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            vpScenario.EffluentFlow_m3_s = 1.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpScenario.EffluentFlow_m3_s);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentFlow_m3_s has Min [0] and Max [1000]. At Min - 1 should return false with one error
-            vpScenario.EffluentFlow_m3_s = -1.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentFlow_m3_s, "0", "1000")).Any());
-            Assert.AreEqual(-1.0f, vpScenario.EffluentFlow_m3_s);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentFlow_m3_s has Min [0] and Max [1000]. At Max should return true and no errors
-            vpScenario.EffluentFlow_m3_s = 1000.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1000.0f, vpScenario.EffluentFlow_m3_s);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentFlow_m3_s has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            vpScenario.EffluentFlow_m3_s = 999.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(999.0f, vpScenario.EffluentFlow_m3_s);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentFlow_m3_s has Min [0] and Max [1000]. At Max + 1 should return false with one error
-            vpScenario.EffluentFlow_m3_s = 1001.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentFlow_m3_s, "0", "1000")).Any());
-            Assert.AreEqual(1001.0f, vpScenario.EffluentFlow_m3_s);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
 
             //-----------------------------------
             // doing property [EffluentConcentration_MPN_100ml] of type [Int32]
@@ -305,286 +262,28 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpScenarioService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [FroudeNumber] of type [Single]
+            // doing property [FroudeNumber] of type [Double]
             //-----------------------------------
 
-            vpScenario = null;
-            vpScenario = GetFilledRandomVPScenario("");
-            // FroudeNumber has Min [0] and Max [10000]. At Min should return true and no errors
-            vpScenario.FroudeNumber = 0.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpScenario.FroudeNumber);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // FroudeNumber has Min [0] and Max [10000]. At Min + 1 should return true and no errors
-            vpScenario.FroudeNumber = 1.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpScenario.FroudeNumber);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // FroudeNumber has Min [0] and Max [10000]. At Min - 1 should return false with one error
-            vpScenario.FroudeNumber = -1.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioFroudeNumber, "0", "10000")).Any());
-            Assert.AreEqual(-1.0f, vpScenario.FroudeNumber);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // FroudeNumber has Min [0] and Max [10000]. At Max should return true and no errors
-            vpScenario.FroudeNumber = 10000.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(10000.0f, vpScenario.FroudeNumber);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // FroudeNumber has Min [0] and Max [10000]. At Max - 1 should return true and no errors
-            vpScenario.FroudeNumber = 9999.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(9999.0f, vpScenario.FroudeNumber);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // FroudeNumber has Min [0] and Max [10000]. At Max + 1 should return false with one error
-            vpScenario.FroudeNumber = 10001.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioFroudeNumber, "0", "10000")).Any());
-            Assert.AreEqual(10001.0f, vpScenario.FroudeNumber);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [PortDiameter_m] of type [Single]
+            // doing property [PortDiameter_m] of type [Double]
             //-----------------------------------
 
-            vpScenario = null;
-            vpScenario = GetFilledRandomVPScenario("");
-            // PortDiameter_m has Min [0] and Max [10]. At Min should return true and no errors
-            vpScenario.PortDiameter_m = 0.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpScenario.PortDiameter_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortDiameter_m has Min [0] and Max [10]. At Min + 1 should return true and no errors
-            vpScenario.PortDiameter_m = 1.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpScenario.PortDiameter_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortDiameter_m has Min [0] and Max [10]. At Min - 1 should return false with one error
-            vpScenario.PortDiameter_m = -1.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortDiameter_m, "0", "10")).Any());
-            Assert.AreEqual(-1.0f, vpScenario.PortDiameter_m);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortDiameter_m has Min [0] and Max [10]. At Max should return true and no errors
-            vpScenario.PortDiameter_m = 10.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(10.0f, vpScenario.PortDiameter_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortDiameter_m has Min [0] and Max [10]. At Max - 1 should return true and no errors
-            vpScenario.PortDiameter_m = 9.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(9.0f, vpScenario.PortDiameter_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortDiameter_m has Min [0] and Max [10]. At Max + 1 should return false with one error
-            vpScenario.PortDiameter_m = 11.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortDiameter_m, "0", "10")).Any());
-            Assert.AreEqual(11.0f, vpScenario.PortDiameter_m);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [PortDepth_m] of type [Single]
+            // doing property [PortDepth_m] of type [Double]
             //-----------------------------------
 
-            vpScenario = null;
-            vpScenario = GetFilledRandomVPScenario("");
-            // PortDepth_m has Min [0] and Max [1000]. At Min should return true and no errors
-            vpScenario.PortDepth_m = 0.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpScenario.PortDepth_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortDepth_m has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            vpScenario.PortDepth_m = 1.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpScenario.PortDepth_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortDepth_m has Min [0] and Max [1000]. At Min - 1 should return false with one error
-            vpScenario.PortDepth_m = -1.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortDepth_m, "0", "1000")).Any());
-            Assert.AreEqual(-1.0f, vpScenario.PortDepth_m);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortDepth_m has Min [0] and Max [1000]. At Max should return true and no errors
-            vpScenario.PortDepth_m = 1000.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1000.0f, vpScenario.PortDepth_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortDepth_m has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            vpScenario.PortDepth_m = 999.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(999.0f, vpScenario.PortDepth_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortDepth_m has Min [0] and Max [1000]. At Max + 1 should return false with one error
-            vpScenario.PortDepth_m = 1001.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortDepth_m, "0", "1000")).Any());
-            Assert.AreEqual(1001.0f, vpScenario.PortDepth_m);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [PortElevation_m] of type [Single]
+            // doing property [PortElevation_m] of type [Double]
             //-----------------------------------
 
-            vpScenario = null;
-            vpScenario = GetFilledRandomVPScenario("");
-            // PortElevation_m has Min [0] and Max [1000]. At Min should return true and no errors
-            vpScenario.PortElevation_m = 0.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpScenario.PortElevation_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortElevation_m has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            vpScenario.PortElevation_m = 1.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpScenario.PortElevation_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortElevation_m has Min [0] and Max [1000]. At Min - 1 should return false with one error
-            vpScenario.PortElevation_m = -1.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortElevation_m, "0", "1000")).Any());
-            Assert.AreEqual(-1.0f, vpScenario.PortElevation_m);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortElevation_m has Min [0] and Max [1000]. At Max should return true and no errors
-            vpScenario.PortElevation_m = 1000.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1000.0f, vpScenario.PortElevation_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortElevation_m has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            vpScenario.PortElevation_m = 999.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(999.0f, vpScenario.PortElevation_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortElevation_m has Min [0] and Max [1000]. At Max + 1 should return false with one error
-            vpScenario.PortElevation_m = 1001.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortElevation_m, "0", "1000")).Any());
-            Assert.AreEqual(1001.0f, vpScenario.PortElevation_m);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [VerticalAngle_deg] of type [Single]
+            // doing property [VerticalAngle_deg] of type [Double]
             //-----------------------------------
 
-            vpScenario = null;
-            vpScenario = GetFilledRandomVPScenario("");
-            // VerticalAngle_deg has Min [-90] and Max [90]. At Min should return true and no errors
-            vpScenario.VerticalAngle_deg = -90.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(-90.0f, vpScenario.VerticalAngle_deg);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // VerticalAngle_deg has Min [-90] and Max [90]. At Min + 1 should return true and no errors
-            vpScenario.VerticalAngle_deg = -89.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(-89.0f, vpScenario.VerticalAngle_deg);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // VerticalAngle_deg has Min [-90] and Max [90]. At Min - 1 should return false with one error
-            vpScenario.VerticalAngle_deg = -91.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioVerticalAngle_deg, "-90", "90")).Any());
-            Assert.AreEqual(-91.0f, vpScenario.VerticalAngle_deg);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // VerticalAngle_deg has Min [-90] and Max [90]. At Max should return true and no errors
-            vpScenario.VerticalAngle_deg = 90.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(90.0f, vpScenario.VerticalAngle_deg);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // VerticalAngle_deg has Min [-90] and Max [90]. At Max - 1 should return true and no errors
-            vpScenario.VerticalAngle_deg = 89.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(89.0f, vpScenario.VerticalAngle_deg);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // VerticalAngle_deg has Min [-90] and Max [90]. At Max + 1 should return false with one error
-            vpScenario.VerticalAngle_deg = 91.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioVerticalAngle_deg, "-90", "90")).Any());
-            Assert.AreEqual(91.0f, vpScenario.VerticalAngle_deg);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [HorizontalAngle_deg] of type [Single]
+            // doing property [HorizontalAngle_deg] of type [Double]
             //-----------------------------------
-
-            vpScenario = null;
-            vpScenario = GetFilledRandomVPScenario("");
-            // HorizontalAngle_deg has Min [-180] and Max [180]. At Min should return true and no errors
-            vpScenario.HorizontalAngle_deg = -180.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(-180.0f, vpScenario.HorizontalAngle_deg);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // HorizontalAngle_deg has Min [-180] and Max [180]. At Min + 1 should return true and no errors
-            vpScenario.HorizontalAngle_deg = -179.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(-179.0f, vpScenario.HorizontalAngle_deg);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // HorizontalAngle_deg has Min [-180] and Max [180]. At Min - 1 should return false with one error
-            vpScenario.HorizontalAngle_deg = -181.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioHorizontalAngle_deg, "-180", "180")).Any());
-            Assert.AreEqual(-181.0f, vpScenario.HorizontalAngle_deg);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // HorizontalAngle_deg has Min [-180] and Max [180]. At Max should return true and no errors
-            vpScenario.HorizontalAngle_deg = 180.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(180.0f, vpScenario.HorizontalAngle_deg);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // HorizontalAngle_deg has Min [-180] and Max [180]. At Max - 1 should return true and no errors
-            vpScenario.HorizontalAngle_deg = 179.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(179.0f, vpScenario.HorizontalAngle_deg);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // HorizontalAngle_deg has Min [-180] and Max [180]. At Max + 1 should return false with one error
-            vpScenario.HorizontalAngle_deg = 181.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioHorizontalAngle_deg, "-180", "180")).Any());
-            Assert.AreEqual(181.0f, vpScenario.HorizontalAngle_deg);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
 
             //-----------------------------------
             // doing property [NumberOfPorts] of type [Int32]
@@ -634,286 +333,28 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpScenarioService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [PortSpacing_m] of type [Single]
+            // doing property [PortSpacing_m] of type [Double]
             //-----------------------------------
 
-            vpScenario = null;
-            vpScenario = GetFilledRandomVPScenario("");
-            // PortSpacing_m has Min [0] and Max [1000]. At Min should return true and no errors
-            vpScenario.PortSpacing_m = 0.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpScenario.PortSpacing_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortSpacing_m has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            vpScenario.PortSpacing_m = 1.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpScenario.PortSpacing_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortSpacing_m has Min [0] and Max [1000]. At Min - 1 should return false with one error
-            vpScenario.PortSpacing_m = -1.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortSpacing_m, "0", "1000")).Any());
-            Assert.AreEqual(-1.0f, vpScenario.PortSpacing_m);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortSpacing_m has Min [0] and Max [1000]. At Max should return true and no errors
-            vpScenario.PortSpacing_m = 1000.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1000.0f, vpScenario.PortSpacing_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortSpacing_m has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            vpScenario.PortSpacing_m = 999.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(999.0f, vpScenario.PortSpacing_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // PortSpacing_m has Min [0] and Max [1000]. At Max + 1 should return false with one error
-            vpScenario.PortSpacing_m = 1001.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortSpacing_m, "0", "1000")).Any());
-            Assert.AreEqual(1001.0f, vpScenario.PortSpacing_m);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [AcuteMixZone_m] of type [Single]
+            // doing property [AcuteMixZone_m] of type [Double]
             //-----------------------------------
 
-            vpScenario = null;
-            vpScenario = GetFilledRandomVPScenario("");
-            // AcuteMixZone_m has Min [0] and Max [100]. At Min should return true and no errors
-            vpScenario.AcuteMixZone_m = 0.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpScenario.AcuteMixZone_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // AcuteMixZone_m has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            vpScenario.AcuteMixZone_m = 1.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpScenario.AcuteMixZone_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // AcuteMixZone_m has Min [0] and Max [100]. At Min - 1 should return false with one error
-            vpScenario.AcuteMixZone_m = -1.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioAcuteMixZone_m, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, vpScenario.AcuteMixZone_m);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // AcuteMixZone_m has Min [0] and Max [100]. At Max should return true and no errors
-            vpScenario.AcuteMixZone_m = 100.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(100.0f, vpScenario.AcuteMixZone_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // AcuteMixZone_m has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            vpScenario.AcuteMixZone_m = 99.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(99.0f, vpScenario.AcuteMixZone_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // AcuteMixZone_m has Min [0] and Max [100]. At Max + 1 should return false with one error
-            vpScenario.AcuteMixZone_m = 101.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioAcuteMixZone_m, "0", "100")).Any());
-            Assert.AreEqual(101.0f, vpScenario.AcuteMixZone_m);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [ChronicMixZone_m] of type [Single]
+            // doing property [ChronicMixZone_m] of type [Double]
             //-----------------------------------
 
-            vpScenario = null;
-            vpScenario = GetFilledRandomVPScenario("");
-            // ChronicMixZone_m has Min [0] and Max [40000]. At Min should return true and no errors
-            vpScenario.ChronicMixZone_m = 0.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpScenario.ChronicMixZone_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // ChronicMixZone_m has Min [0] and Max [40000]. At Min + 1 should return true and no errors
-            vpScenario.ChronicMixZone_m = 1.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpScenario.ChronicMixZone_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // ChronicMixZone_m has Min [0] and Max [40000]. At Min - 1 should return false with one error
-            vpScenario.ChronicMixZone_m = -1.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioChronicMixZone_m, "0", "40000")).Any());
-            Assert.AreEqual(-1.0f, vpScenario.ChronicMixZone_m);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // ChronicMixZone_m has Min [0] and Max [40000]. At Max should return true and no errors
-            vpScenario.ChronicMixZone_m = 40000.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(40000.0f, vpScenario.ChronicMixZone_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // ChronicMixZone_m has Min [0] and Max [40000]. At Max - 1 should return true and no errors
-            vpScenario.ChronicMixZone_m = 39999.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(39999.0f, vpScenario.ChronicMixZone_m);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // ChronicMixZone_m has Min [0] and Max [40000]. At Max + 1 should return false with one error
-            vpScenario.ChronicMixZone_m = 40001.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioChronicMixZone_m, "0", "40000")).Any());
-            Assert.AreEqual(40001.0f, vpScenario.ChronicMixZone_m);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [EffluentSalinity_PSU] of type [Single]
+            // doing property [EffluentSalinity_PSU] of type [Double]
             //-----------------------------------
 
-            vpScenario = null;
-            vpScenario = GetFilledRandomVPScenario("");
-            // EffluentSalinity_PSU has Min [0] and Max [40]. At Min should return true and no errors
-            vpScenario.EffluentSalinity_PSU = 0.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpScenario.EffluentSalinity_PSU);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentSalinity_PSU has Min [0] and Max [40]. At Min + 1 should return true and no errors
-            vpScenario.EffluentSalinity_PSU = 1.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpScenario.EffluentSalinity_PSU);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentSalinity_PSU has Min [0] and Max [40]. At Min - 1 should return false with one error
-            vpScenario.EffluentSalinity_PSU = -1.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentSalinity_PSU, "0", "40")).Any());
-            Assert.AreEqual(-1.0f, vpScenario.EffluentSalinity_PSU);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentSalinity_PSU has Min [0] and Max [40]. At Max should return true and no errors
-            vpScenario.EffluentSalinity_PSU = 40.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(40.0f, vpScenario.EffluentSalinity_PSU);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentSalinity_PSU has Min [0] and Max [40]. At Max - 1 should return true and no errors
-            vpScenario.EffluentSalinity_PSU = 39.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(39.0f, vpScenario.EffluentSalinity_PSU);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentSalinity_PSU has Min [0] and Max [40]. At Max + 1 should return false with one error
-            vpScenario.EffluentSalinity_PSU = 41.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentSalinity_PSU, "0", "40")).Any());
-            Assert.AreEqual(41.0f, vpScenario.EffluentSalinity_PSU);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [EffluentTemperature_C] of type [Single]
+            // doing property [EffluentTemperature_C] of type [Double]
             //-----------------------------------
 
-            vpScenario = null;
-            vpScenario = GetFilledRandomVPScenario("");
-            // EffluentTemperature_C has Min [-10] and Max [40]. At Min should return true and no errors
-            vpScenario.EffluentTemperature_C = -10.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(-10.0f, vpScenario.EffluentTemperature_C);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentTemperature_C has Min [-10] and Max [40]. At Min + 1 should return true and no errors
-            vpScenario.EffluentTemperature_C = -9.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(-9.0f, vpScenario.EffluentTemperature_C);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentTemperature_C has Min [-10] and Max [40]. At Min - 1 should return false with one error
-            vpScenario.EffluentTemperature_C = -11.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentTemperature_C, "-10", "40")).Any());
-            Assert.AreEqual(-11.0f, vpScenario.EffluentTemperature_C);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentTemperature_C has Min [-10] and Max [40]. At Max should return true and no errors
-            vpScenario.EffluentTemperature_C = 40.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(40.0f, vpScenario.EffluentTemperature_C);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentTemperature_C has Min [-10] and Max [40]. At Max - 1 should return true and no errors
-            vpScenario.EffluentTemperature_C = 39.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(39.0f, vpScenario.EffluentTemperature_C);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentTemperature_C has Min [-10] and Max [40]. At Max + 1 should return false with one error
-            vpScenario.EffluentTemperature_C = 41.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentTemperature_C, "-10", "40")).Any());
-            Assert.AreEqual(41.0f, vpScenario.EffluentTemperature_C);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [EffluentVelocity_m_s] of type [Single]
+            // doing property [EffluentVelocity_m_s] of type [Double]
             //-----------------------------------
-
-            vpScenario = null;
-            vpScenario = GetFilledRandomVPScenario("");
-            // EffluentVelocity_m_s has Min [0] and Max [100]. At Min should return true and no errors
-            vpScenario.EffluentVelocity_m_s = 0.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(0.0f, vpScenario.EffluentVelocity_m_s);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentVelocity_m_s has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            vpScenario.EffluentVelocity_m_s = 1.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1.0f, vpScenario.EffluentVelocity_m_s);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentVelocity_m_s has Min [0] and Max [100]. At Min - 1 should return false with one error
-            vpScenario.EffluentVelocity_m_s = -1.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentVelocity_m_s, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, vpScenario.EffluentVelocity_m_s);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentVelocity_m_s has Min [0] and Max [100]. At Max should return true and no errors
-            vpScenario.EffluentVelocity_m_s = 100.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(100.0f, vpScenario.EffluentVelocity_m_s);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentVelocity_m_s has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            vpScenario.EffluentVelocity_m_s = 99.0f;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(99.0f, vpScenario.EffluentVelocity_m_s);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
-            // EffluentVelocity_m_s has Min [0] and Max [100]. At Max + 1 should return false with one error
-            vpScenario.EffluentVelocity_m_s = 101.0f;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentVelocity_m_s, "0", "100")).Any());
-            Assert.AreEqual(101.0f, vpScenario.EffluentVelocity_m_s);
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
 
             //-----------------------------------
             // doing property [RawResults] of type [String]

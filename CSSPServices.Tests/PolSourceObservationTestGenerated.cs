@@ -45,7 +45,7 @@ namespace CSSPServices.Tests
             PolSourceObservation polSourceObservation = new PolSourceObservation();
 
             if (OmitPropName != "PolSourceObservationID") polSourceObservation.PolSourceObservationID = PolSourceObservationID;
-            if (OmitPropName != "PolSourceSiteTVItemID") polSourceObservation.PolSourceSiteTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "PolSourceSiteID") polSourceObservation.PolSourceSiteID = GetRandomInt(1, 11);
             if (OmitPropName != "ObservationDate_Local") polSourceObservation.ObservationDate_Local = GetRandomDateTime();
             if (OmitPropName != "ContactTVItemID") polSourceObservation.ContactTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "Observation_ToBeDeleted") polSourceObservation.Observation_ToBeDeleted = GetRandomString("", 20);
@@ -84,7 +84,7 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            // PolSourceSiteTVItemID will automatically be initialized at 0 --> not null
+            // PolSourceSiteID will automatically be initialized at 0 --> not null
 
             polSourceObservation = null;
             polSourceObservation = GetFilledRandomPolSourceObservation("ObservationDate_Local");
@@ -118,7 +118,7 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [ContactTVItem]
 
-            //Error: Type not implemented [PolSourceSiteTVItem]
+            //Error: Type not implemented [PolSourceSite]
 
             //Error: Type not implemented [ValidationResults]
 
@@ -135,30 +135,30 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [PolSourceSiteTVItemID] of type [Int32]
+            // doing property [PolSourceSiteID] of type [Int32]
             //-----------------------------------
 
             polSourceObservation = null;
             polSourceObservation = GetFilledRandomPolSourceObservation("");
-            // PolSourceSiteTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            polSourceObservation.PolSourceSiteTVItemID = 1;
+            // PolSourceSiteID has Min [1] and Max [empty]. At Min should return true and no errors
+            polSourceObservation.PolSourceSiteID = 1;
             Assert.AreEqual(true, polSourceObservationService.Add(polSourceObservation));
             Assert.AreEqual(0, polSourceObservation.ValidationResults.Count());
-            Assert.AreEqual(1, polSourceObservation.PolSourceSiteTVItemID);
+            Assert.AreEqual(1, polSourceObservation.PolSourceSiteID);
             Assert.AreEqual(true, polSourceObservationService.Delete(polSourceObservation));
             Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
-            // PolSourceSiteTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            polSourceObservation.PolSourceSiteTVItemID = 2;
+            // PolSourceSiteID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
+            polSourceObservation.PolSourceSiteID = 2;
             Assert.AreEqual(true, polSourceObservationService.Add(polSourceObservation));
             Assert.AreEqual(0, polSourceObservation.ValidationResults.Count());
-            Assert.AreEqual(2, polSourceObservation.PolSourceSiteTVItemID);
+            Assert.AreEqual(2, polSourceObservation.PolSourceSiteID);
             Assert.AreEqual(true, polSourceObservationService.Delete(polSourceObservation));
             Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
-            // PolSourceSiteTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
-            polSourceObservation.PolSourceSiteTVItemID = 0;
+            // PolSourceSiteID has Min [1] and Max [empty]. At Min - 1 should return false with one error
+            polSourceObservation.PolSourceSiteID = 0;
             Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
-            Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceObservationPolSourceSiteTVItemID, "1")).Any());
-            Assert.AreEqual(0, polSourceObservation.PolSourceSiteTVItemID);
+            Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceObservationPolSourceSiteID, "1")).Any());
+            Assert.AreEqual(0, polSourceObservation.PolSourceSiteID);
             Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
 
             //-----------------------------------
@@ -239,7 +239,7 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [PolSourceSiteTVItem] of type [TVItem]
+            // doing property [PolSourceSite] of type [PolSourceSite]
             //-----------------------------------
 
             //-----------------------------------

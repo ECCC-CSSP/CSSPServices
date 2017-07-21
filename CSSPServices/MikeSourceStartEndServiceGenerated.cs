@@ -89,14 +89,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.MikeSourceStartEndEndDateAndTime_Local, ModelsRes.MikeSourceStartEndStartDateAndTime_Local), new[] { ModelsRes.MikeSourceStartEndEndDateAndTime_Local });
             }
 
-            //SourceFlowStart_m3_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //SourceFlowStart_m3_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.SourceFlowStart_m3_day < 0 || mikeSourceStartEnd.SourceFlowStart_m3_day > 1000000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowStart_m3_day, "0", "1000000"), new[] { ModelsRes.MikeSourceStartEndSourceFlowStart_m3_day });
             }
 
-            //SourceFlowEnd_m3_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //SourceFlowEnd_m3_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.SourceFlowEnd_m3_day < 0 || mikeSourceStartEnd.SourceFlowEnd_m3_day > 1000000)
             {
@@ -117,28 +117,28 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionEnd_MPN_100ml, "0", "10000000"), new[] { ModelsRes.MikeSourceStartEndSourcePollutionEnd_MPN_100ml });
             }
 
-            //SourceTemperatureStart_C (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //SourceTemperatureStart_C (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.SourceTemperatureStart_C < -10 || mikeSourceStartEnd.SourceTemperatureStart_C > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureStart_C, "-10", "40"), new[] { ModelsRes.MikeSourceStartEndSourceTemperatureStart_C });
             }
 
-            //SourceTemperatureEnd_C (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //SourceTemperatureEnd_C (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.SourceTemperatureEnd_C < -10 || mikeSourceStartEnd.SourceTemperatureEnd_C > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureEnd_C, "-10", "40"), new[] { ModelsRes.MikeSourceStartEndSourceTemperatureEnd_C });
             }
 
-            //SourceSalinityStart_PSU (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //SourceSalinityStart_PSU (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.SourceSalinityStart_PSU < 0 || mikeSourceStartEnd.SourceSalinityStart_PSU > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityStart_PSU, "0", "40"), new[] { ModelsRes.MikeSourceStartEndSourceSalinityStart_PSU });
             }
 
-            //SourceSalinityEnd_PSU (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //SourceSalinityEnd_PSU (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeSourceStartEnd.SourceSalinityEnd_PSU < 0 || mikeSourceStartEnd.SourceSalinityEnd_PSU > 40)
             {

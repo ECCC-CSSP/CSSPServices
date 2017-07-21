@@ -48,14 +48,14 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MikeSourceID") mikeSourceStartEnd.MikeSourceID = GetRandomInt(1, 11);
             if (OmitPropName != "StartDateAndTime_Local") mikeSourceStartEnd.StartDateAndTime_Local = GetRandomDateTime();
             if (OmitPropName != "EndDateAndTime_Local") mikeSourceStartEnd.EndDateAndTime_Local = GetRandomDateTime();
-            if (OmitPropName != "SourceFlowStart_m3_day") mikeSourceStartEnd.SourceFlowStart_m3_day = GetRandomFloat(0.0f, 1000000.0f);
-            if (OmitPropName != "SourceFlowEnd_m3_day") mikeSourceStartEnd.SourceFlowEnd_m3_day = GetRandomFloat(0.0f, 1000000.0f);
+            if (OmitPropName != "SourceFlowStart_m3_day") mikeSourceStartEnd.SourceFlowStart_m3_day = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "SourceFlowEnd_m3_day") mikeSourceStartEnd.SourceFlowEnd_m3_day = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "SourcePollutionStart_MPN_100ml") mikeSourceStartEnd.SourcePollutionStart_MPN_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "SourcePollutionEnd_MPN_100ml") mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "SourceTemperatureStart_C") mikeSourceStartEnd.SourceTemperatureStart_C = GetRandomFloat(-10.0f, 40.0f);
-            if (OmitPropName != "SourceTemperatureEnd_C") mikeSourceStartEnd.SourceTemperatureEnd_C = GetRandomFloat(-10.0f, 40.0f);
-            if (OmitPropName != "SourceSalinityStart_PSU") mikeSourceStartEnd.SourceSalinityStart_PSU = GetRandomFloat(0.0f, 40.0f);
-            if (OmitPropName != "SourceSalinityEnd_PSU") mikeSourceStartEnd.SourceSalinityEnd_PSU = GetRandomFloat(0.0f, 40.0f);
+            if (OmitPropName != "SourceTemperatureStart_C") mikeSourceStartEnd.SourceTemperatureStart_C = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "SourceTemperatureEnd_C") mikeSourceStartEnd.SourceTemperatureEnd_C = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "SourceSalinityStart_PSU") mikeSourceStartEnd.SourceSalinityStart_PSU = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "SourceSalinityEnd_PSU") mikeSourceStartEnd.SourceSalinityEnd_PSU = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") mikeSourceStartEnd.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") mikeSourceStartEnd.LastUpdateContactTVItemID = GetRandomInt(1, 11);
 
@@ -109,21 +109,21 @@ namespace CSSPServices.Tests
             Assert.IsTrue(mikeSourceStartEnd.EndDateAndTime_Local.Year < 1900);
             Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
 
-            // SourceFlowStart_m3_day will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [SourceFlowStart_m3_day]
 
-            // SourceFlowEnd_m3_day will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [SourceFlowEnd_m3_day]
 
             // SourcePollutionStart_MPN_100ml will automatically be initialized at 0 --> not null
 
             // SourcePollutionEnd_MPN_100ml will automatically be initialized at 0 --> not null
 
-            // SourceTemperatureStart_C will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [SourceTemperatureStart_C]
 
-            // SourceTemperatureEnd_C will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [SourceTemperatureEnd_C]
 
-            // SourceSalinityStart_PSU will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [SourceSalinityStart_PSU]
 
-            // SourceSalinityEnd_PSU will automatically be initialized at 0 --> not null
+            //Error: Type not implemented [SourceSalinityEnd_PSU]
 
             mikeSourceStartEnd = null;
             mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("LastUpdateDate_UTC");
@@ -187,98 +187,12 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SourceFlowStart_m3_day] of type [Single]
+            // doing property [SourceFlowStart_m3_day] of type [Double]
             //-----------------------------------
 
-            mikeSourceStartEnd = null;
-            mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-            // SourceFlowStart_m3_day has Min [0] and Max [1000000]. At Min should return true and no errors
-            mikeSourceStartEnd.SourceFlowStart_m3_day = 0.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mikeSourceStartEnd.SourceFlowStart_m3_day);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceFlowStart_m3_day has Min [0] and Max [1000000]. At Min + 1 should return true and no errors
-            mikeSourceStartEnd.SourceFlowStart_m3_day = 1.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mikeSourceStartEnd.SourceFlowStart_m3_day);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceFlowStart_m3_day has Min [0] and Max [1000000]. At Min - 1 should return false with one error
-            mikeSourceStartEnd.SourceFlowStart_m3_day = -1.0f;
-            Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.IsTrue(mikeSourceStartEnd.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowStart_m3_day, "0", "1000000")).Any());
-            Assert.AreEqual(-1.0f, mikeSourceStartEnd.SourceFlowStart_m3_day);
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceFlowStart_m3_day has Min [0] and Max [1000000]. At Max should return true and no errors
-            mikeSourceStartEnd.SourceFlowStart_m3_day = 1000000.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(1000000.0f, mikeSourceStartEnd.SourceFlowStart_m3_day);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceFlowStart_m3_day has Min [0] and Max [1000000]. At Max - 1 should return true and no errors
-            mikeSourceStartEnd.SourceFlowStart_m3_day = 999999.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(999999.0f, mikeSourceStartEnd.SourceFlowStart_m3_day);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceFlowStart_m3_day has Min [0] and Max [1000000]. At Max + 1 should return false with one error
-            mikeSourceStartEnd.SourceFlowStart_m3_day = 1000001.0f;
-            Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.IsTrue(mikeSourceStartEnd.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowStart_m3_day, "0", "1000000")).Any());
-            Assert.AreEqual(1000001.0f, mikeSourceStartEnd.SourceFlowStart_m3_day);
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [SourceFlowEnd_m3_day] of type [Single]
+            // doing property [SourceFlowEnd_m3_day] of type [Double]
             //-----------------------------------
-
-            mikeSourceStartEnd = null;
-            mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-            // SourceFlowEnd_m3_day has Min [0] and Max [1000000]. At Min should return true and no errors
-            mikeSourceStartEnd.SourceFlowEnd_m3_day = 0.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mikeSourceStartEnd.SourceFlowEnd_m3_day);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceFlowEnd_m3_day has Min [0] and Max [1000000]. At Min + 1 should return true and no errors
-            mikeSourceStartEnd.SourceFlowEnd_m3_day = 1.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mikeSourceStartEnd.SourceFlowEnd_m3_day);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceFlowEnd_m3_day has Min [0] and Max [1000000]. At Min - 1 should return false with one error
-            mikeSourceStartEnd.SourceFlowEnd_m3_day = -1.0f;
-            Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.IsTrue(mikeSourceStartEnd.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowEnd_m3_day, "0", "1000000")).Any());
-            Assert.AreEqual(-1.0f, mikeSourceStartEnd.SourceFlowEnd_m3_day);
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceFlowEnd_m3_day has Min [0] and Max [1000000]. At Max should return true and no errors
-            mikeSourceStartEnd.SourceFlowEnd_m3_day = 1000000.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(1000000.0f, mikeSourceStartEnd.SourceFlowEnd_m3_day);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceFlowEnd_m3_day has Min [0] and Max [1000000]. At Max - 1 should return true and no errors
-            mikeSourceStartEnd.SourceFlowEnd_m3_day = 999999.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(999999.0f, mikeSourceStartEnd.SourceFlowEnd_m3_day);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceFlowEnd_m3_day has Min [0] and Max [1000000]. At Max + 1 should return false with one error
-            mikeSourceStartEnd.SourceFlowEnd_m3_day = 1000001.0f;
-            Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.IsTrue(mikeSourceStartEnd.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowEnd_m3_day, "0", "1000000")).Any());
-            Assert.AreEqual(1000001.0f, mikeSourceStartEnd.SourceFlowEnd_m3_day);
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
 
             //-----------------------------------
             // doing property [SourcePollutionStart_MPN_100ml] of type [Int32]
@@ -375,192 +289,20 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [SourceTemperatureStart_C] of type [Single]
+            // doing property [SourceTemperatureStart_C] of type [Double]
             //-----------------------------------
 
-            mikeSourceStartEnd = null;
-            mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-            // SourceTemperatureStart_C has Min [-10] and Max [40]. At Min should return true and no errors
-            mikeSourceStartEnd.SourceTemperatureStart_C = -10.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(-10.0f, mikeSourceStartEnd.SourceTemperatureStart_C);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceTemperatureStart_C has Min [-10] and Max [40]. At Min + 1 should return true and no errors
-            mikeSourceStartEnd.SourceTemperatureStart_C = -9.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(-9.0f, mikeSourceStartEnd.SourceTemperatureStart_C);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceTemperatureStart_C has Min [-10] and Max [40]. At Min - 1 should return false with one error
-            mikeSourceStartEnd.SourceTemperatureStart_C = -11.0f;
-            Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.IsTrue(mikeSourceStartEnd.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureStart_C, "-10", "40")).Any());
-            Assert.AreEqual(-11.0f, mikeSourceStartEnd.SourceTemperatureStart_C);
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceTemperatureStart_C has Min [-10] and Max [40]. At Max should return true and no errors
-            mikeSourceStartEnd.SourceTemperatureStart_C = 40.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(40.0f, mikeSourceStartEnd.SourceTemperatureStart_C);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceTemperatureStart_C has Min [-10] and Max [40]. At Max - 1 should return true and no errors
-            mikeSourceStartEnd.SourceTemperatureStart_C = 39.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(39.0f, mikeSourceStartEnd.SourceTemperatureStart_C);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceTemperatureStart_C has Min [-10] and Max [40]. At Max + 1 should return false with one error
-            mikeSourceStartEnd.SourceTemperatureStart_C = 41.0f;
-            Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.IsTrue(mikeSourceStartEnd.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureStart_C, "-10", "40")).Any());
-            Assert.AreEqual(41.0f, mikeSourceStartEnd.SourceTemperatureStart_C);
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [SourceTemperatureEnd_C] of type [Single]
+            // doing property [SourceTemperatureEnd_C] of type [Double]
             //-----------------------------------
 
-            mikeSourceStartEnd = null;
-            mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-            // SourceTemperatureEnd_C has Min [-10] and Max [40]. At Min should return true and no errors
-            mikeSourceStartEnd.SourceTemperatureEnd_C = -10.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(-10.0f, mikeSourceStartEnd.SourceTemperatureEnd_C);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceTemperatureEnd_C has Min [-10] and Max [40]. At Min + 1 should return true and no errors
-            mikeSourceStartEnd.SourceTemperatureEnd_C = -9.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(-9.0f, mikeSourceStartEnd.SourceTemperatureEnd_C);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceTemperatureEnd_C has Min [-10] and Max [40]. At Min - 1 should return false with one error
-            mikeSourceStartEnd.SourceTemperatureEnd_C = -11.0f;
-            Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.IsTrue(mikeSourceStartEnd.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureEnd_C, "-10", "40")).Any());
-            Assert.AreEqual(-11.0f, mikeSourceStartEnd.SourceTemperatureEnd_C);
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceTemperatureEnd_C has Min [-10] and Max [40]. At Max should return true and no errors
-            mikeSourceStartEnd.SourceTemperatureEnd_C = 40.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(40.0f, mikeSourceStartEnd.SourceTemperatureEnd_C);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceTemperatureEnd_C has Min [-10] and Max [40]. At Max - 1 should return true and no errors
-            mikeSourceStartEnd.SourceTemperatureEnd_C = 39.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(39.0f, mikeSourceStartEnd.SourceTemperatureEnd_C);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceTemperatureEnd_C has Min [-10] and Max [40]. At Max + 1 should return false with one error
-            mikeSourceStartEnd.SourceTemperatureEnd_C = 41.0f;
-            Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.IsTrue(mikeSourceStartEnd.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureEnd_C, "-10", "40")).Any());
-            Assert.AreEqual(41.0f, mikeSourceStartEnd.SourceTemperatureEnd_C);
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [SourceSalinityStart_PSU] of type [Single]
+            // doing property [SourceSalinityStart_PSU] of type [Double]
             //-----------------------------------
 
-            mikeSourceStartEnd = null;
-            mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-            // SourceSalinityStart_PSU has Min [0] and Max [40]. At Min should return true and no errors
-            mikeSourceStartEnd.SourceSalinityStart_PSU = 0.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mikeSourceStartEnd.SourceSalinityStart_PSU);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceSalinityStart_PSU has Min [0] and Max [40]. At Min + 1 should return true and no errors
-            mikeSourceStartEnd.SourceSalinityStart_PSU = 1.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mikeSourceStartEnd.SourceSalinityStart_PSU);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceSalinityStart_PSU has Min [0] and Max [40]. At Min - 1 should return false with one error
-            mikeSourceStartEnd.SourceSalinityStart_PSU = -1.0f;
-            Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.IsTrue(mikeSourceStartEnd.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityStart_PSU, "0", "40")).Any());
-            Assert.AreEqual(-1.0f, mikeSourceStartEnd.SourceSalinityStart_PSU);
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceSalinityStart_PSU has Min [0] and Max [40]. At Max should return true and no errors
-            mikeSourceStartEnd.SourceSalinityStart_PSU = 40.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(40.0f, mikeSourceStartEnd.SourceSalinityStart_PSU);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceSalinityStart_PSU has Min [0] and Max [40]. At Max - 1 should return true and no errors
-            mikeSourceStartEnd.SourceSalinityStart_PSU = 39.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(39.0f, mikeSourceStartEnd.SourceSalinityStart_PSU);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceSalinityStart_PSU has Min [0] and Max [40]. At Max + 1 should return false with one error
-            mikeSourceStartEnd.SourceSalinityStart_PSU = 41.0f;
-            Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.IsTrue(mikeSourceStartEnd.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityStart_PSU, "0", "40")).Any());
-            Assert.AreEqual(41.0f, mikeSourceStartEnd.SourceSalinityStart_PSU);
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [SourceSalinityEnd_PSU] of type [Single]
+            // doing property [SourceSalinityEnd_PSU] of type [Double]
             //-----------------------------------
-
-            mikeSourceStartEnd = null;
-            mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-            // SourceSalinityEnd_PSU has Min [0] and Max [40]. At Min should return true and no errors
-            mikeSourceStartEnd.SourceSalinityEnd_PSU = 0.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(0.0f, mikeSourceStartEnd.SourceSalinityEnd_PSU);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceSalinityEnd_PSU has Min [0] and Max [40]. At Min + 1 should return true and no errors
-            mikeSourceStartEnd.SourceSalinityEnd_PSU = 1.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(1.0f, mikeSourceStartEnd.SourceSalinityEnd_PSU);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceSalinityEnd_PSU has Min [0] and Max [40]. At Min - 1 should return false with one error
-            mikeSourceStartEnd.SourceSalinityEnd_PSU = -1.0f;
-            Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.IsTrue(mikeSourceStartEnd.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityEnd_PSU, "0", "40")).Any());
-            Assert.AreEqual(-1.0f, mikeSourceStartEnd.SourceSalinityEnd_PSU);
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceSalinityEnd_PSU has Min [0] and Max [40]. At Max should return true and no errors
-            mikeSourceStartEnd.SourceSalinityEnd_PSU = 40.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(40.0f, mikeSourceStartEnd.SourceSalinityEnd_PSU);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceSalinityEnd_PSU has Min [0] and Max [40]. At Max - 1 should return true and no errors
-            mikeSourceStartEnd.SourceSalinityEnd_PSU = 39.0f;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(39.0f, mikeSourceStartEnd.SourceSalinityEnd_PSU);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
-            // SourceSalinityEnd_PSU has Min [0] and Max [40]. At Max + 1 should return false with one error
-            mikeSourceStartEnd.SourceSalinityEnd_PSU = 41.0f;
-            Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.IsTrue(mikeSourceStartEnd.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityEnd_PSU, "0", "40")).Any());
-            Assert.AreEqual(41.0f, mikeSourceStartEnd.SourceSalinityEnd_PSU);
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
 
             //-----------------------------------
             // doing property [LastUpdateDate_UTC] of type [DateTime]

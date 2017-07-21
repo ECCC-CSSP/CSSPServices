@@ -131,14 +131,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanAccessCode, "15"), new[] { ModelsRes.SamplingPlanAccessCode });
             }
 
-            //DailyDuplicatePrecisionCriteria (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //DailyDuplicatePrecisionCriteria (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (samplingPlan.DailyDuplicatePrecisionCriteria < 0 || samplingPlan.DailyDuplicatePrecisionCriteria > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), new[] { ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria });
             }
 
-            //IntertechDuplicatePrecisionCriteria (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //IntertechDuplicatePrecisionCriteria (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (samplingPlan.IntertechDuplicatePrecisionCriteria < 0 || samplingPlan.IntertechDuplicatePrecisionCriteria > 100)
             {

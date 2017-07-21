@@ -45,11 +45,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ElementLayerLayer, "1", "1000"), new[] { ModelsRes.ElementLayerLayer });
             }
 
-            //ZMin (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //ZMin (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //ZMin has no Range Attribute
 
-            //ZMax (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //ZMax (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //ZMax has no Range Attribute
 

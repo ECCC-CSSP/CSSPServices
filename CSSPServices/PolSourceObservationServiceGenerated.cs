@@ -52,16 +52,16 @@ namespace CSSPServices
 
             //PolSourceObservationID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //PolSourceSiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //PolSourceSiteID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (polSourceObservation.PolSourceSiteTVItemID < 1)
+            if (polSourceObservation.PolSourceSiteID < 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceObservationPolSourceSiteTVItemID, "1"), new[] { ModelsRes.PolSourceObservationPolSourceSiteTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceObservationPolSourceSiteID, "1"), new[] { ModelsRes.PolSourceObservationPolSourceSiteID });
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == polSourceObservation.PolSourceSiteTVItemID select c).Any()))
+            if (!((from c in db.PolSourceSites where c.PolSourceSiteID == polSourceObservation.PolSourceSiteID select c).Any()))
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationPolSourceSiteTVItemID, polSourceObservation.PolSourceSiteTVItemID.ToString()), new[] { ModelsRes.PolSourceObservationPolSourceSiteTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceSite, ModelsRes.PolSourceObservationPolSourceSiteID, polSourceObservation.PolSourceSiteID.ToString()), new[] { ModelsRes.PolSourceObservationPolSourceSiteID });
             }
 
             if (polSourceObservation.ObservationDate_Local == null)

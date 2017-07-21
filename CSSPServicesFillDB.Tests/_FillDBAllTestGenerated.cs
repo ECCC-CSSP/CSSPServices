@@ -14,6 +14,7 @@ using CSSPModels.Resources;
 
 namespace CSSPServicesFillDB.Tests
 {
+    #region Functions test
     [TestClass]
     public partial class FillDBTest : TestHelper
     {
@@ -936,7 +937,7 @@ namespace CSSPServicesFillDB.Tests
                     {
                         PolSourceObservation polSourceObservation = new PolSourceObservation();
                         polSourceObservation.PolSourceObservationID = CurrentPolSourceObservationID + 1;
-                        polSourceObservation.PolSourceSiteTVItemID = polSourceSite.PolSourceSiteTVItemID;
+                        polSourceObservation.PolSourceSiteID = polSourceSite.PolSourceSiteID;
                         polSourceObservation.ObservationDate_Local = new DateTime(GetRandomInt(1999, 2016), GetRandomInt(4, 9), GetRandomInt(1, 27));
                         polSourceObservation.ContactTVItemID = 2;
                         polSourceObservation.Observation_ToBeDeleted = "NotUsed";
@@ -971,6 +972,15 @@ namespace CSSPServicesFillDB.Tests
             #endregion Adding x Municipality/Subsector TVItem
 
         }
+        [TestMethod]
+        public void Can_Read_Every_Table_In_DB()
+        {
+            SetupTestHelper(new CultureInfo("en-CA"));
+
+
+
+        }
         #endregion Tests Generated
     }
+    #endregion Functions test
 }

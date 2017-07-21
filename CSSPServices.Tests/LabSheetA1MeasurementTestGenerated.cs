@@ -51,8 +51,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Tube10") labSheetA1Measurement.Tube10 = GetRandomInt(1, 1000);
             if (OmitPropName != "Tube1_0") labSheetA1Measurement.Tube1_0 = GetRandomInt(1, 1000);
             if (OmitPropName != "Tube0_1") labSheetA1Measurement.Tube0_1 = GetRandomInt(1, 1000);
-            if (OmitPropName != "Salinity") labSheetA1Measurement.Salinity = GetRandomFloat(1.0f, 1000.0f);
-            if (OmitPropName != "Temperature") labSheetA1Measurement.Temperature = GetRandomFloat(1.0f, 1000.0f);
+            if (OmitPropName != "Salinity") labSheetA1Measurement.Salinity = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "Temperature") labSheetA1Measurement.Temperature = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "ProcessedBy") labSheetA1Measurement.ProcessedBy = GetRandomString("", 20);
             if (OmitPropName != "SampleType") labSheetA1Measurement.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "SiteComment") labSheetA1Measurement.SiteComment = GetRandomString("", 20);

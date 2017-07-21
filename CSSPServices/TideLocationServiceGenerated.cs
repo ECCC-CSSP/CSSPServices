@@ -86,14 +86,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationsid, "0", "100000"), new[] { ModelsRes.TideLocationsid });
             }
 
-            //Lat (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Lat (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tideLocation.Lat < -90 || tideLocation.Lat > 90)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationLat, "-90", "90"), new[] { ModelsRes.TideLocationLat });
             }
 
-            //Lng (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Lng (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tideLocation.Lng < -180 || tideLocation.Lng > 180)
             {

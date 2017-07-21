@@ -64,14 +64,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RatingCurve, ModelsRes.RatingCurveValueRatingCurveID, ratingCurveValue.RatingCurveID.ToString()), new[] { ModelsRes.RatingCurveValueRatingCurveID });
             }
 
-            //StageValue_m (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //StageValue_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (ratingCurveValue.StageValue_m < 0 || ratingCurveValue.StageValue_m > 1000)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueStageValue_m, "0", "1000"), new[] { ModelsRes.RatingCurveValueStageValue_m });
             }
 
-            //DischargeValue_m3_s (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //DischargeValue_m3_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (ratingCurveValue.DischargeValue_m3_s < 0 || ratingCurveValue.DischargeValue_m3_s > 1000000)
             {

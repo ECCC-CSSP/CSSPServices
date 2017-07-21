@@ -45,15 +45,15 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.NodeID, "1", "1000000"), new[] { ModelsRes.NodeID });
             }
 
-            //X (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //X (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //X has no Range Attribute
 
-            //Y (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Y (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //Y has no Range Attribute
 
-            //Z (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Z (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //Z has no Range Attribute
 
@@ -61,7 +61,7 @@ namespace CSSPServices
 
             //Code has no Range Attribute
 
-            //Value (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //Value (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //Value has no Range Attribute
 

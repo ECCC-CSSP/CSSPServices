@@ -126,21 +126,21 @@ namespace CSSPServices
                 }
             }
 
-            //WindSpeed_km_h (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //WindSpeed_km_h (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeScenario.WindSpeed_km_h < 0 || mikeScenario.WindSpeed_km_h > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioWindSpeed_km_h, "0", "100"), new[] { ModelsRes.MikeScenarioWindSpeed_km_h });
             }
 
-            //WindDirection_deg (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //WindDirection_deg (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeScenario.WindDirection_deg < 0 || mikeScenario.WindDirection_deg > 360)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioWindDirection_deg, "0", "360"), new[] { ModelsRes.MikeScenarioWindDirection_deg });
             }
 
-            //DecayFactor_per_day (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //DecayFactor_per_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeScenario.DecayFactor_per_day < 0 || mikeScenario.DecayFactor_per_day > 100)
             {
@@ -149,7 +149,7 @@ namespace CSSPServices
 
             //DecayIsConstant (bool) is required but no testing needed 
 
-            //DecayFactorAmplitude (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //DecayFactorAmplitude (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeScenario.DecayFactorAmplitude < 0 || mikeScenario.DecayFactorAmplitude > 100)
             {
@@ -163,21 +163,21 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioResultFrequency_min, "0", "100"), new[] { ModelsRes.MikeScenarioResultFrequency_min });
             }
 
-            //AmbientTemperature_C (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //AmbientTemperature_C (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeScenario.AmbientTemperature_C < -10 || mikeScenario.AmbientTemperature_C > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioAmbientTemperature_C, "-10", "40"), new[] { ModelsRes.MikeScenarioAmbientTemperature_C });
             }
 
-            //AmbientSalinity_PSU (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //AmbientSalinity_PSU (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeScenario.AmbientSalinity_PSU < 0 || mikeScenario.AmbientSalinity_PSU > 40)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeScenarioAmbientSalinity_PSU, "0", "40"), new[] { ModelsRes.MikeScenarioAmbientSalinity_PSU });
             }
 
-            //ManningNumber (Single) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //ManningNumber (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mikeScenario.ManningNumber < 0 || mikeScenario.ManningNumber > 100)
             {

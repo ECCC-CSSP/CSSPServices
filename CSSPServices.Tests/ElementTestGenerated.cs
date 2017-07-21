@@ -47,10 +47,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ID") element.ID = GetRandomInt(1, 11);
             if (OmitPropName != "Type") element.Type = GetRandomInt(1, 11);
             if (OmitPropName != "NumbOfNodes") element.NumbOfNodes = GetRandomInt(1, 11);
-            if (OmitPropName != "Value") element.Value = GetRandomFloat(1.0f, 1000.0f);
-            if (OmitPropName != "XNode0") element.XNode0 = GetRandomFloat(1.0f, 1000.0f);
-            if (OmitPropName != "YNode0") element.YNode0 = GetRandomFloat(1.0f, 1000.0f);
-            if (OmitPropName != "ZNode0") element.ZNode0 = GetRandomFloat(1.0f, 1000.0f);
+            if (OmitPropName != "Value") element.Value = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "XNode0") element.XNode0 = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "YNode0") element.YNode0 = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "ZNode0") element.ZNode0 = GetRandomDouble(1.0D, 1000.0D);
 
             return element;
         }

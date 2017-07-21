@@ -66,28 +66,28 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DisinfectionType") infrastructure.DisinfectionType = (DisinfectionTypeEnum)GetRandomEnumType(typeof(DisinfectionTypeEnum));
             if (OmitPropName != "CollectionSystemType") infrastructure.CollectionSystemType = (CollectionSystemTypeEnum)GetRandomEnumType(typeof(CollectionSystemTypeEnum));
             if (OmitPropName != "AlarmSystemType") infrastructure.AlarmSystemType = (AlarmSystemTypeEnum)GetRandomEnumType(typeof(AlarmSystemTypeEnum));
-            if (OmitPropName != "DesignFlow_m3_day") infrastructure.DesignFlow_m3_day = GetRandomFloat(0.0f, 1000000.0f);
-            if (OmitPropName != "AverageFlow_m3_day") infrastructure.AverageFlow_m3_day = GetRandomFloat(0.0f, 1000000.0f);
-            if (OmitPropName != "PeakFlow_m3_day") infrastructure.PeakFlow_m3_day = GetRandomFloat(0.0f, 1000000.0f);
+            if (OmitPropName != "DesignFlow_m3_day") infrastructure.DesignFlow_m3_day = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "AverageFlow_m3_day") infrastructure.AverageFlow_m3_day = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "PeakFlow_m3_day") infrastructure.PeakFlow_m3_day = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "PopServed") infrastructure.PopServed = GetRandomInt(0, 1000000);
             if (OmitPropName != "CanOverflow") infrastructure.CanOverflow = true;
-            if (OmitPropName != "PercFlowOfTotal") infrastructure.PercFlowOfTotal = GetRandomFloat(0.0f, 100.0f);
-            if (OmitPropName != "TimeOffset_hour") infrastructure.TimeOffset_hour = GetRandomFloat(-10.0f, 0.0f);
+            if (OmitPropName != "PercFlowOfTotal") infrastructure.PercFlowOfTotal = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "TimeOffset_hour") infrastructure.TimeOffset_hour = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "TempCatchAllRemoveLater") infrastructure.TempCatchAllRemoveLater = GetRandomString("", 20);
-            if (OmitPropName != "AverageDepth_m") infrastructure.AverageDepth_m = GetRandomFloat(0.0f, 1000.0f);
+            if (OmitPropName != "AverageDepth_m") infrastructure.AverageDepth_m = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "NumberOfPorts") infrastructure.NumberOfPorts = GetRandomInt(1, 1000);
-            if (OmitPropName != "PortDiameter_m") infrastructure.PortDiameter_m = GetRandomFloat(0.0f, 10.0f);
-            if (OmitPropName != "PortSpacing_m") infrastructure.PortSpacing_m = GetRandomFloat(0.0f, 10000.0f);
-            if (OmitPropName != "PortElevation_m") infrastructure.PortElevation_m = GetRandomFloat(0.0f, 1000.0f);
-            if (OmitPropName != "VerticalAngle_deg") infrastructure.VerticalAngle_deg = GetRandomFloat(-90.0f, 90.0f);
-            if (OmitPropName != "HorizontalAngle_deg") infrastructure.HorizontalAngle_deg = GetRandomFloat(-180.0f, 180.0f);
-            if (OmitPropName != "DecayRate_per_day") infrastructure.DecayRate_per_day = GetRandomFloat(0.0f, 100.0f);
-            if (OmitPropName != "NearFieldVelocity_m_s") infrastructure.NearFieldVelocity_m_s = GetRandomFloat(0.0f, 10.0f);
-            if (OmitPropName != "FarFieldVelocity_m_s") infrastructure.FarFieldVelocity_m_s = GetRandomFloat(0.0f, 10.0f);
-            if (OmitPropName != "ReceivingWaterSalinity_PSU") infrastructure.ReceivingWaterSalinity_PSU = GetRandomFloat(0.0f, 40.0f);
-            if (OmitPropName != "ReceivingWaterTemperature_C") infrastructure.ReceivingWaterTemperature_C = GetRandomFloat(-10.0f, 40.0f);
+            if (OmitPropName != "PortDiameter_m") infrastructure.PortDiameter_m = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "PortSpacing_m") infrastructure.PortSpacing_m = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "PortElevation_m") infrastructure.PortElevation_m = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "VerticalAngle_deg") infrastructure.VerticalAngle_deg = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "HorizontalAngle_deg") infrastructure.HorizontalAngle_deg = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "DecayRate_per_day") infrastructure.DecayRate_per_day = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "NearFieldVelocity_m_s") infrastructure.NearFieldVelocity_m_s = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "FarFieldVelocity_m_s") infrastructure.FarFieldVelocity_m_s = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "ReceivingWaterSalinity_PSU") infrastructure.ReceivingWaterSalinity_PSU = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "ReceivingWaterTemperature_C") infrastructure.ReceivingWaterTemperature_C = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "ReceivingWater_MPN_per_100ml") infrastructure.ReceivingWater_MPN_per_100ml = GetRandomInt(0, 10000000);
-            if (OmitPropName != "DistanceFromShore_m") infrastructure.DistanceFromShore_m = GetRandomFloat(0.0f, 1000.0f);
+            if (OmitPropName != "DistanceFromShore_m") infrastructure.DistanceFromShore_m = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "SeeOtherTVItemID") infrastructure.SeeOtherTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "CivicAddressTVItemID") infrastructure.CivicAddressTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "LastUpdateDate_UTC") infrastructure.LastUpdateDate_UTC = GetRandomDateTime();
@@ -148,6 +148,40 @@ namespace CSSPServices.Tests
             //Error: Type not implemented [CollectionSystemType]
 
             //Error: Type not implemented [AlarmSystemType]
+
+            //Error: Type not implemented [DesignFlow_m3_day]
+
+            //Error: Type not implemented [AverageFlow_m3_day]
+
+            //Error: Type not implemented [PeakFlow_m3_day]
+
+            //Error: Type not implemented [PercFlowOfTotal]
+
+            //Error: Type not implemented [TimeOffset_hour]
+
+            //Error: Type not implemented [AverageDepth_m]
+
+            //Error: Type not implemented [PortDiameter_m]
+
+            //Error: Type not implemented [PortSpacing_m]
+
+            //Error: Type not implemented [PortElevation_m]
+
+            //Error: Type not implemented [VerticalAngle_deg]
+
+            //Error: Type not implemented [HorizontalAngle_deg]
+
+            //Error: Type not implemented [DecayRate_per_day]
+
+            //Error: Type not implemented [NearFieldVelocity_m_s]
+
+            //Error: Type not implemented [FarFieldVelocity_m_s]
+
+            //Error: Type not implemented [ReceivingWaterSalinity_PSU]
+
+            //Error: Type not implemented [ReceivingWaterTemperature_C]
+
+            //Error: Type not implemented [DistanceFromShore_m]
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("LastUpdateDate_UTC");
@@ -589,145 +623,16 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [DesignFlow_m3_day] of type [Single]
+            // doing property [DesignFlow_m3_day] of type [Double]
             //-----------------------------------
 
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // DesignFlow_m3_day has Min [0] and Max [1000000]. At Min should return true and no errors
-            infrastructure.DesignFlow_m3_day = 0.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(0.0f, infrastructure.DesignFlow_m3_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DesignFlow_m3_day has Min [0] and Max [1000000]. At Min + 1 should return true and no errors
-            infrastructure.DesignFlow_m3_day = 1.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1.0f, infrastructure.DesignFlow_m3_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DesignFlow_m3_day has Min [0] and Max [1000000]. At Min - 1 should return false with one error
-            infrastructure.DesignFlow_m3_day = -1.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDesignFlow_m3_day, "0", "1000000")).Any());
-            Assert.AreEqual(-1.0f, infrastructure.DesignFlow_m3_day);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DesignFlow_m3_day has Min [0] and Max [1000000]. At Max should return true and no errors
-            infrastructure.DesignFlow_m3_day = 1000000.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1000000.0f, infrastructure.DesignFlow_m3_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DesignFlow_m3_day has Min [0] and Max [1000000]. At Max - 1 should return true and no errors
-            infrastructure.DesignFlow_m3_day = 999999.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(999999.0f, infrastructure.DesignFlow_m3_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DesignFlow_m3_day has Min [0] and Max [1000000]. At Max + 1 should return false with one error
-            infrastructure.DesignFlow_m3_day = 1000001.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDesignFlow_m3_day, "0", "1000000")).Any());
-            Assert.AreEqual(1000001.0f, infrastructure.DesignFlow_m3_day);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [AverageFlow_m3_day] of type [Single]
+            // doing property [AverageFlow_m3_day] of type [Double]
             //-----------------------------------
 
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // AverageFlow_m3_day has Min [0] and Max [1000000]. At Min should return true and no errors
-            infrastructure.AverageFlow_m3_day = 0.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(0.0f, infrastructure.AverageFlow_m3_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0] and Max [1000000]. At Min + 1 should return true and no errors
-            infrastructure.AverageFlow_m3_day = 1.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1.0f, infrastructure.AverageFlow_m3_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0] and Max [1000000]. At Min - 1 should return false with one error
-            infrastructure.AverageFlow_m3_day = -1.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageFlow_m3_day, "0", "1000000")).Any());
-            Assert.AreEqual(-1.0f, infrastructure.AverageFlow_m3_day);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0] and Max [1000000]. At Max should return true and no errors
-            infrastructure.AverageFlow_m3_day = 1000000.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1000000.0f, infrastructure.AverageFlow_m3_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0] and Max [1000000]. At Max - 1 should return true and no errors
-            infrastructure.AverageFlow_m3_day = 999999.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(999999.0f, infrastructure.AverageFlow_m3_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0] and Max [1000000]. At Max + 1 should return false with one error
-            infrastructure.AverageFlow_m3_day = 1000001.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageFlow_m3_day, "0", "1000000")).Any());
-            Assert.AreEqual(1000001.0f, infrastructure.AverageFlow_m3_day);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [PeakFlow_m3_day] of type [Single]
+            // doing property [PeakFlow_m3_day] of type [Double]
             //-----------------------------------
-
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // PeakFlow_m3_day has Min [0] and Max [1000000]. At Min should return true and no errors
-            infrastructure.PeakFlow_m3_day = 0.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(0.0f, infrastructure.PeakFlow_m3_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PeakFlow_m3_day has Min [0] and Max [1000000]. At Min + 1 should return true and no errors
-            infrastructure.PeakFlow_m3_day = 1.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1.0f, infrastructure.PeakFlow_m3_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PeakFlow_m3_day has Min [0] and Max [1000000]. At Min - 1 should return false with one error
-            infrastructure.PeakFlow_m3_day = -1.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePeakFlow_m3_day, "0", "1000000")).Any());
-            Assert.AreEqual(-1.0f, infrastructure.PeakFlow_m3_day);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PeakFlow_m3_day has Min [0] and Max [1000000]. At Max should return true and no errors
-            infrastructure.PeakFlow_m3_day = 1000000.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1000000.0f, infrastructure.PeakFlow_m3_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PeakFlow_m3_day has Min [0] and Max [1000000]. At Max - 1 should return true and no errors
-            infrastructure.PeakFlow_m3_day = 999999.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(999999.0f, infrastructure.PeakFlow_m3_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PeakFlow_m3_day has Min [0] and Max [1000000]. At Max + 1 should return false with one error
-            infrastructure.PeakFlow_m3_day = 1000001.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePeakFlow_m3_day, "0", "1000000")).Any());
-            Assert.AreEqual(1000001.0f, infrastructure.PeakFlow_m3_day);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
 
             //-----------------------------------
             // doing property [PopServed] of type [Int32]
@@ -781,98 +686,12 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [PercFlowOfTotal] of type [Single]
+            // doing property [PercFlowOfTotal] of type [Double]
             //-----------------------------------
 
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // PercFlowOfTotal has Min [0] and Max [100]. At Min should return true and no errors
-            infrastructure.PercFlowOfTotal = 0.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(0.0f, infrastructure.PercFlowOfTotal);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PercFlowOfTotal has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            infrastructure.PercFlowOfTotal = 1.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1.0f, infrastructure.PercFlowOfTotal);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PercFlowOfTotal has Min [0] and Max [100]. At Min - 1 should return false with one error
-            infrastructure.PercFlowOfTotal = -1.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePercFlowOfTotal, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, infrastructure.PercFlowOfTotal);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PercFlowOfTotal has Min [0] and Max [100]. At Max should return true and no errors
-            infrastructure.PercFlowOfTotal = 100.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(100.0f, infrastructure.PercFlowOfTotal);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PercFlowOfTotal has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            infrastructure.PercFlowOfTotal = 99.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(99.0f, infrastructure.PercFlowOfTotal);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PercFlowOfTotal has Min [0] and Max [100]. At Max + 1 should return false with one error
-            infrastructure.PercFlowOfTotal = 101.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePercFlowOfTotal, "0", "100")).Any());
-            Assert.AreEqual(101.0f, infrastructure.PercFlowOfTotal);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [TimeOffset_hour] of type [Single]
+            // doing property [TimeOffset_hour] of type [Double]
             //-----------------------------------
-
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // TimeOffset_hour has Min [-10] and Max [0]. At Min should return true and no errors
-            infrastructure.TimeOffset_hour = -10.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(-10.0f, infrastructure.TimeOffset_hour);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // TimeOffset_hour has Min [-10] and Max [0]. At Min + 1 should return true and no errors
-            infrastructure.TimeOffset_hour = -9.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(-9.0f, infrastructure.TimeOffset_hour);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // TimeOffset_hour has Min [-10] and Max [0]. At Min - 1 should return false with one error
-            infrastructure.TimeOffset_hour = -11.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureTimeOffset_hour, "-10", "0")).Any());
-            Assert.AreEqual(-11.0f, infrastructure.TimeOffset_hour);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // TimeOffset_hour has Min [-10] and Max [0]. At Max should return true and no errors
-            infrastructure.TimeOffset_hour = 0.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(0.0f, infrastructure.TimeOffset_hour);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // TimeOffset_hour has Min [-10] and Max [0]. At Max - 1 should return true and no errors
-            infrastructure.TimeOffset_hour = -1.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(-1.0f, infrastructure.TimeOffset_hour);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // TimeOffset_hour has Min [-10] and Max [0]. At Max + 1 should return false with one error
-            infrastructure.TimeOffset_hour = 1.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureTimeOffset_hour, "-10", "0")).Any());
-            Assert.AreEqual(1.0f, infrastructure.TimeOffset_hour);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
 
             //-----------------------------------
             // doing property [TempCatchAllRemoveLater] of type [String]
@@ -882,51 +701,8 @@ namespace CSSPServices.Tests
             infrastructure = GetFilledRandomInfrastructure("");
 
             //-----------------------------------
-            // doing property [AverageDepth_m] of type [Single]
+            // doing property [AverageDepth_m] of type [Double]
             //-----------------------------------
-
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // AverageDepth_m has Min [0] and Max [1000]. At Min should return true and no errors
-            infrastructure.AverageDepth_m = 0.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(0.0f, infrastructure.AverageDepth_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // AverageDepth_m has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            infrastructure.AverageDepth_m = 1.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1.0f, infrastructure.AverageDepth_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // AverageDepth_m has Min [0] and Max [1000]. At Min - 1 should return false with one error
-            infrastructure.AverageDepth_m = -1.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageDepth_m, "0", "1000")).Any());
-            Assert.AreEqual(-1.0f, infrastructure.AverageDepth_m);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // AverageDepth_m has Min [0] and Max [1000]. At Max should return true and no errors
-            infrastructure.AverageDepth_m = 1000.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1000.0f, infrastructure.AverageDepth_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // AverageDepth_m has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            infrastructure.AverageDepth_m = 999.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(999.0f, infrastructure.AverageDepth_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // AverageDepth_m has Min [0] and Max [1000]. At Max + 1 should return false with one error
-            infrastructure.AverageDepth_m = 1001.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageDepth_m, "0", "1000")).Any());
-            Assert.AreEqual(1001.0f, infrastructure.AverageDepth_m);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
 
             //-----------------------------------
             // doing property [NumberOfPorts] of type [Int32]
@@ -976,474 +752,44 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, infrastructureService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [PortDiameter_m] of type [Single]
+            // doing property [PortDiameter_m] of type [Double]
             //-----------------------------------
 
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // PortDiameter_m has Min [0] and Max [10]. At Min should return true and no errors
-            infrastructure.PortDiameter_m = 0.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(0.0f, infrastructure.PortDiameter_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortDiameter_m has Min [0] and Max [10]. At Min + 1 should return true and no errors
-            infrastructure.PortDiameter_m = 1.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1.0f, infrastructure.PortDiameter_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortDiameter_m has Min [0] and Max [10]. At Min - 1 should return false with one error
-            infrastructure.PortDiameter_m = -1.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortDiameter_m, "0", "10")).Any());
-            Assert.AreEqual(-1.0f, infrastructure.PortDiameter_m);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortDiameter_m has Min [0] and Max [10]. At Max should return true and no errors
-            infrastructure.PortDiameter_m = 10.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(10.0f, infrastructure.PortDiameter_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortDiameter_m has Min [0] and Max [10]. At Max - 1 should return true and no errors
-            infrastructure.PortDiameter_m = 9.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(9.0f, infrastructure.PortDiameter_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortDiameter_m has Min [0] and Max [10]. At Max + 1 should return false with one error
-            infrastructure.PortDiameter_m = 11.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortDiameter_m, "0", "10")).Any());
-            Assert.AreEqual(11.0f, infrastructure.PortDiameter_m);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [PortSpacing_m] of type [Single]
+            // doing property [PortSpacing_m] of type [Double]
             //-----------------------------------
 
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // PortSpacing_m has Min [0] and Max [10000]. At Min should return true and no errors
-            infrastructure.PortSpacing_m = 0.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(0.0f, infrastructure.PortSpacing_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortSpacing_m has Min [0] and Max [10000]. At Min + 1 should return true and no errors
-            infrastructure.PortSpacing_m = 1.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1.0f, infrastructure.PortSpacing_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortSpacing_m has Min [0] and Max [10000]. At Min - 1 should return false with one error
-            infrastructure.PortSpacing_m = -1.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortSpacing_m, "0", "10000")).Any());
-            Assert.AreEqual(-1.0f, infrastructure.PortSpacing_m);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortSpacing_m has Min [0] and Max [10000]. At Max should return true and no errors
-            infrastructure.PortSpacing_m = 10000.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(10000.0f, infrastructure.PortSpacing_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortSpacing_m has Min [0] and Max [10000]. At Max - 1 should return true and no errors
-            infrastructure.PortSpacing_m = 9999.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(9999.0f, infrastructure.PortSpacing_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortSpacing_m has Min [0] and Max [10000]. At Max + 1 should return false with one error
-            infrastructure.PortSpacing_m = 10001.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortSpacing_m, "0", "10000")).Any());
-            Assert.AreEqual(10001.0f, infrastructure.PortSpacing_m);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [PortElevation_m] of type [Single]
+            // doing property [PortElevation_m] of type [Double]
             //-----------------------------------
 
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // PortElevation_m has Min [0] and Max [1000]. At Min should return true and no errors
-            infrastructure.PortElevation_m = 0.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(0.0f, infrastructure.PortElevation_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortElevation_m has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            infrastructure.PortElevation_m = 1.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1.0f, infrastructure.PortElevation_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortElevation_m has Min [0] and Max [1000]. At Min - 1 should return false with one error
-            infrastructure.PortElevation_m = -1.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortElevation_m, "0", "1000")).Any());
-            Assert.AreEqual(-1.0f, infrastructure.PortElevation_m);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortElevation_m has Min [0] and Max [1000]. At Max should return true and no errors
-            infrastructure.PortElevation_m = 1000.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1000.0f, infrastructure.PortElevation_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortElevation_m has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            infrastructure.PortElevation_m = 999.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(999.0f, infrastructure.PortElevation_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // PortElevation_m has Min [0] and Max [1000]. At Max + 1 should return false with one error
-            infrastructure.PortElevation_m = 1001.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortElevation_m, "0", "1000")).Any());
-            Assert.AreEqual(1001.0f, infrastructure.PortElevation_m);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [VerticalAngle_deg] of type [Single]
+            // doing property [VerticalAngle_deg] of type [Double]
             //-----------------------------------
 
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // VerticalAngle_deg has Min [-90] and Max [90]. At Min should return true and no errors
-            infrastructure.VerticalAngle_deg = -90.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(-90.0f, infrastructure.VerticalAngle_deg);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // VerticalAngle_deg has Min [-90] and Max [90]. At Min + 1 should return true and no errors
-            infrastructure.VerticalAngle_deg = -89.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(-89.0f, infrastructure.VerticalAngle_deg);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // VerticalAngle_deg has Min [-90] and Max [90]. At Min - 1 should return false with one error
-            infrastructure.VerticalAngle_deg = -91.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureVerticalAngle_deg, "-90", "90")).Any());
-            Assert.AreEqual(-91.0f, infrastructure.VerticalAngle_deg);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // VerticalAngle_deg has Min [-90] and Max [90]. At Max should return true and no errors
-            infrastructure.VerticalAngle_deg = 90.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(90.0f, infrastructure.VerticalAngle_deg);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // VerticalAngle_deg has Min [-90] and Max [90]. At Max - 1 should return true and no errors
-            infrastructure.VerticalAngle_deg = 89.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(89.0f, infrastructure.VerticalAngle_deg);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // VerticalAngle_deg has Min [-90] and Max [90]. At Max + 1 should return false with one error
-            infrastructure.VerticalAngle_deg = 91.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureVerticalAngle_deg, "-90", "90")).Any());
-            Assert.AreEqual(91.0f, infrastructure.VerticalAngle_deg);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [HorizontalAngle_deg] of type [Single]
+            // doing property [HorizontalAngle_deg] of type [Double]
             //-----------------------------------
 
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // HorizontalAngle_deg has Min [-180] and Max [180]. At Min should return true and no errors
-            infrastructure.HorizontalAngle_deg = -180.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(-180.0f, infrastructure.HorizontalAngle_deg);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // HorizontalAngle_deg has Min [-180] and Max [180]. At Min + 1 should return true and no errors
-            infrastructure.HorizontalAngle_deg = -179.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(-179.0f, infrastructure.HorizontalAngle_deg);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // HorizontalAngle_deg has Min [-180] and Max [180]. At Min - 1 should return false with one error
-            infrastructure.HorizontalAngle_deg = -181.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureHorizontalAngle_deg, "-180", "180")).Any());
-            Assert.AreEqual(-181.0f, infrastructure.HorizontalAngle_deg);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // HorizontalAngle_deg has Min [-180] and Max [180]. At Max should return true and no errors
-            infrastructure.HorizontalAngle_deg = 180.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(180.0f, infrastructure.HorizontalAngle_deg);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // HorizontalAngle_deg has Min [-180] and Max [180]. At Max - 1 should return true and no errors
-            infrastructure.HorizontalAngle_deg = 179.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(179.0f, infrastructure.HorizontalAngle_deg);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // HorizontalAngle_deg has Min [-180] and Max [180]. At Max + 1 should return false with one error
-            infrastructure.HorizontalAngle_deg = 181.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureHorizontalAngle_deg, "-180", "180")).Any());
-            Assert.AreEqual(181.0f, infrastructure.HorizontalAngle_deg);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [DecayRate_per_day] of type [Single]
+            // doing property [DecayRate_per_day] of type [Double]
             //-----------------------------------
 
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // DecayRate_per_day has Min [0] and Max [100]. At Min should return true and no errors
-            infrastructure.DecayRate_per_day = 0.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(0.0f, infrastructure.DecayRate_per_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DecayRate_per_day has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            infrastructure.DecayRate_per_day = 1.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1.0f, infrastructure.DecayRate_per_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DecayRate_per_day has Min [0] and Max [100]. At Min - 1 should return false with one error
-            infrastructure.DecayRate_per_day = -1.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDecayRate_per_day, "0", "100")).Any());
-            Assert.AreEqual(-1.0f, infrastructure.DecayRate_per_day);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DecayRate_per_day has Min [0] and Max [100]. At Max should return true and no errors
-            infrastructure.DecayRate_per_day = 100.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(100.0f, infrastructure.DecayRate_per_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DecayRate_per_day has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            infrastructure.DecayRate_per_day = 99.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(99.0f, infrastructure.DecayRate_per_day);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DecayRate_per_day has Min [0] and Max [100]. At Max + 1 should return false with one error
-            infrastructure.DecayRate_per_day = 101.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDecayRate_per_day, "0", "100")).Any());
-            Assert.AreEqual(101.0f, infrastructure.DecayRate_per_day);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [NearFieldVelocity_m_s] of type [Single]
+            // doing property [NearFieldVelocity_m_s] of type [Double]
             //-----------------------------------
 
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // NearFieldVelocity_m_s has Min [0] and Max [10]. At Min should return true and no errors
-            infrastructure.NearFieldVelocity_m_s = 0.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(0.0f, infrastructure.NearFieldVelocity_m_s);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // NearFieldVelocity_m_s has Min [0] and Max [10]. At Min + 1 should return true and no errors
-            infrastructure.NearFieldVelocity_m_s = 1.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1.0f, infrastructure.NearFieldVelocity_m_s);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // NearFieldVelocity_m_s has Min [0] and Max [10]. At Min - 1 should return false with one error
-            infrastructure.NearFieldVelocity_m_s = -1.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNearFieldVelocity_m_s, "0", "10")).Any());
-            Assert.AreEqual(-1.0f, infrastructure.NearFieldVelocity_m_s);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // NearFieldVelocity_m_s has Min [0] and Max [10]. At Max should return true and no errors
-            infrastructure.NearFieldVelocity_m_s = 10.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(10.0f, infrastructure.NearFieldVelocity_m_s);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // NearFieldVelocity_m_s has Min [0] and Max [10]. At Max - 1 should return true and no errors
-            infrastructure.NearFieldVelocity_m_s = 9.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(9.0f, infrastructure.NearFieldVelocity_m_s);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // NearFieldVelocity_m_s has Min [0] and Max [10]. At Max + 1 should return false with one error
-            infrastructure.NearFieldVelocity_m_s = 11.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNearFieldVelocity_m_s, "0", "10")).Any());
-            Assert.AreEqual(11.0f, infrastructure.NearFieldVelocity_m_s);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [FarFieldVelocity_m_s] of type [Single]
+            // doing property [FarFieldVelocity_m_s] of type [Double]
             //-----------------------------------
 
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // FarFieldVelocity_m_s has Min [0] and Max [10]. At Min should return true and no errors
-            infrastructure.FarFieldVelocity_m_s = 0.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(0.0f, infrastructure.FarFieldVelocity_m_s);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // FarFieldVelocity_m_s has Min [0] and Max [10]. At Min + 1 should return true and no errors
-            infrastructure.FarFieldVelocity_m_s = 1.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1.0f, infrastructure.FarFieldVelocity_m_s);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // FarFieldVelocity_m_s has Min [0] and Max [10]. At Min - 1 should return false with one error
-            infrastructure.FarFieldVelocity_m_s = -1.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureFarFieldVelocity_m_s, "0", "10")).Any());
-            Assert.AreEqual(-1.0f, infrastructure.FarFieldVelocity_m_s);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // FarFieldVelocity_m_s has Min [0] and Max [10]. At Max should return true and no errors
-            infrastructure.FarFieldVelocity_m_s = 10.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(10.0f, infrastructure.FarFieldVelocity_m_s);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // FarFieldVelocity_m_s has Min [0] and Max [10]. At Max - 1 should return true and no errors
-            infrastructure.FarFieldVelocity_m_s = 9.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(9.0f, infrastructure.FarFieldVelocity_m_s);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // FarFieldVelocity_m_s has Min [0] and Max [10]. At Max + 1 should return false with one error
-            infrastructure.FarFieldVelocity_m_s = 11.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureFarFieldVelocity_m_s, "0", "10")).Any());
-            Assert.AreEqual(11.0f, infrastructure.FarFieldVelocity_m_s);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [ReceivingWaterSalinity_PSU] of type [Single]
+            // doing property [ReceivingWaterSalinity_PSU] of type [Double]
             //-----------------------------------
 
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // ReceivingWaterSalinity_PSU has Min [0] and Max [40]. At Min should return true and no errors
-            infrastructure.ReceivingWaterSalinity_PSU = 0.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(0.0f, infrastructure.ReceivingWaterSalinity_PSU);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // ReceivingWaterSalinity_PSU has Min [0] and Max [40]. At Min + 1 should return true and no errors
-            infrastructure.ReceivingWaterSalinity_PSU = 1.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1.0f, infrastructure.ReceivingWaterSalinity_PSU);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // ReceivingWaterSalinity_PSU has Min [0] and Max [40]. At Min - 1 should return false with one error
-            infrastructure.ReceivingWaterSalinity_PSU = -1.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWaterSalinity_PSU, "0", "40")).Any());
-            Assert.AreEqual(-1.0f, infrastructure.ReceivingWaterSalinity_PSU);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // ReceivingWaterSalinity_PSU has Min [0] and Max [40]. At Max should return true and no errors
-            infrastructure.ReceivingWaterSalinity_PSU = 40.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(40.0f, infrastructure.ReceivingWaterSalinity_PSU);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // ReceivingWaterSalinity_PSU has Min [0] and Max [40]. At Max - 1 should return true and no errors
-            infrastructure.ReceivingWaterSalinity_PSU = 39.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(39.0f, infrastructure.ReceivingWaterSalinity_PSU);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // ReceivingWaterSalinity_PSU has Min [0] and Max [40]. At Max + 1 should return false with one error
-            infrastructure.ReceivingWaterSalinity_PSU = 41.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWaterSalinity_PSU, "0", "40")).Any());
-            Assert.AreEqual(41.0f, infrastructure.ReceivingWaterSalinity_PSU);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-
             //-----------------------------------
-            // doing property [ReceivingWaterTemperature_C] of type [Single]
+            // doing property [ReceivingWaterTemperature_C] of type [Double]
             //-----------------------------------
-
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // ReceivingWaterTemperature_C has Min [-10] and Max [40]. At Min should return true and no errors
-            infrastructure.ReceivingWaterTemperature_C = -10.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(-10.0f, infrastructure.ReceivingWaterTemperature_C);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // ReceivingWaterTemperature_C has Min [-10] and Max [40]. At Min + 1 should return true and no errors
-            infrastructure.ReceivingWaterTemperature_C = -9.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(-9.0f, infrastructure.ReceivingWaterTemperature_C);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // ReceivingWaterTemperature_C has Min [-10] and Max [40]. At Min - 1 should return false with one error
-            infrastructure.ReceivingWaterTemperature_C = -11.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWaterTemperature_C, "-10", "40")).Any());
-            Assert.AreEqual(-11.0f, infrastructure.ReceivingWaterTemperature_C);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // ReceivingWaterTemperature_C has Min [-10] and Max [40]. At Max should return true and no errors
-            infrastructure.ReceivingWaterTemperature_C = 40.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(40.0f, infrastructure.ReceivingWaterTemperature_C);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // ReceivingWaterTemperature_C has Min [-10] and Max [40]. At Max - 1 should return true and no errors
-            infrastructure.ReceivingWaterTemperature_C = 39.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(39.0f, infrastructure.ReceivingWaterTemperature_C);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // ReceivingWaterTemperature_C has Min [-10] and Max [40]. At Max + 1 should return false with one error
-            infrastructure.ReceivingWaterTemperature_C = 41.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWaterTemperature_C, "-10", "40")).Any());
-            Assert.AreEqual(41.0f, infrastructure.ReceivingWaterTemperature_C);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
 
             //-----------------------------------
             // doing property [ReceivingWater_MPN_per_100ml] of type [Int32]
@@ -1493,51 +839,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, infrastructureService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [DistanceFromShore_m] of type [Single]
+            // doing property [DistanceFromShore_m] of type [Double]
             //-----------------------------------
-
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-            // DistanceFromShore_m has Min [0] and Max [1000]. At Min should return true and no errors
-            infrastructure.DistanceFromShore_m = 0.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(0.0f, infrastructure.DistanceFromShore_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DistanceFromShore_m has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            infrastructure.DistanceFromShore_m = 1.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1.0f, infrastructure.DistanceFromShore_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DistanceFromShore_m has Min [0] and Max [1000]. At Min - 1 should return false with one error
-            infrastructure.DistanceFromShore_m = -1.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDistanceFromShore_m, "0", "1000")).Any());
-            Assert.AreEqual(-1.0f, infrastructure.DistanceFromShore_m);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DistanceFromShore_m has Min [0] and Max [1000]. At Max should return true and no errors
-            infrastructure.DistanceFromShore_m = 1000.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1000.0f, infrastructure.DistanceFromShore_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DistanceFromShore_m has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            infrastructure.DistanceFromShore_m = 999.0f;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(999.0f, infrastructure.DistanceFromShore_m);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
-            // DistanceFromShore_m has Min [0] and Max [1000]. At Max + 1 should return false with one error
-            infrastructure.DistanceFromShore_m = 1001.0f;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDistanceFromShore_m, "0", "1000")).Any());
-            Assert.AreEqual(1001.0f, infrastructure.DistanceFromShore_m);
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
 
             //-----------------------------------
             // doing property [SeeOtherTVItemID] of type [Int32]
