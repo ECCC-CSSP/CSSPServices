@@ -24,7 +24,9 @@ namespace CSSPServicesGenerateCodeHelper
         #region Properties
         private ServicesFiles servicesFiles { get; set; }
         protected CSSPWebToolsDBContext dbCSSPWebToolsDB { get; set; }
+        protected CSSPWebToolsDBContext dbCSSPWebToolsDBRead { get; set; }
         protected CSSPWebToolsDBContext dbTestDB { get; set; }
+        protected CSSPWebToolsDBContext dbTestDBWrite { get; set; }
         private ModelsGenerateCodeHelper modelsGenerateCodeHelper { get; set; }
         #endregion Properties
 
@@ -33,7 +35,9 @@ namespace CSSPServicesGenerateCodeHelper
         {
             this.servicesFiles = servicesFiles;
             dbCSSPWebToolsDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryCSSPWebToolsDB);
+            dbCSSPWebToolsDBRead = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerCSSPWebToolsDB);
             dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryTestDB);
+            dbTestDBWrite = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB);
 
             ModelsFiles modelsFiles = new ModelsFiles();
             modelsFiles.CSSPModelsDLL = this.servicesFiles.CSSPModelsDLL;

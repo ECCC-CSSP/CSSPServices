@@ -971,11 +971,6 @@ namespace CSSPServicesFillDB.Tests
             #endregion Adding x Municipality/Subsector TVItem
 
         }
-
-        private void AddFirstContact()
-        {
-            throw new NotImplementedException();
-        }
         #endregion Tests Generated
     }
 }

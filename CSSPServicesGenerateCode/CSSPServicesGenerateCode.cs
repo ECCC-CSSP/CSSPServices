@@ -93,7 +93,7 @@ namespace CSSPServicesGenerateCode
         {
             string CSSPWebToolsDBConnectionString = ConfigurationManager.ConnectionStrings["CSSPWebToolsDB"].ConnectionString;
             string TestDBConnectionString = ConfigurationManager.ConnectionStrings["TestDB"].ConnectionString;
-            if (System.Environment.UserName.ToLower() == "charles-pc")
+            if (System.Environment.UserName == "Charles")
             {
                 CSSPWebToolsDBConnectionString = CSSPWebToolsDBConnectionString.Replace("wmon01dtchlebl2", "charles-pc");
                 TestDBConnectionString = TestDBConnectionString.Replace("wmon01dtchlebl2", "charles-pc");

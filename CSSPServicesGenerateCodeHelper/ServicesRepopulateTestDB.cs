@@ -55,7 +55,7 @@ namespace CSSPServicesGenerateCodeHelper
 
             StatusPermanentEvent(new StatusEventArgs("Done Cleaning TestDB ... everything ok"));
 
-            if (!FillTestDB(tableTestDBList, servicesFiles.CSSPWebToolsDBConnectionString, servicesFiles.TestDBConnectionString)) return;
+            if (!FillTestDB(tableTestDBList)) return;
 
             StatusPermanentEvent(new StatusEventArgs("Done Filling TestDB ... everything ok"));
 
@@ -101,6 +101,11 @@ namespace CSSPServicesGenerateCodeHelper
                         using (SqlCommand cmd = new SqlCommand(queryString, cnn))
                         {
                             cmd.ExecuteNonQuery();
+                        }
+
+                        if (table.TableName == "AspNetRoles" || table.TableName == "AspNetUserLogins" || table.TableName == "AspNetUserRoles" || table.TableName == "AspNetUsers")
+                        {
+                            continue;
                         }
 
                         queryString = "DBCC CHECKIDENT('" + table.TableName + "', RESEED, 0)";
@@ -183,14 +188,32 @@ namespace CSSPServicesGenerateCodeHelper
 
             return true;
         }
-        private bool FillTestDB(List<Table> tableTestDBList, string CSSPWebToolsDBConnectionString, string TestDBConnectionString)
+        private bool FillTestDB(List<Table> tableTestDBList)
         {
-            List<int> TVItemIDList = new List<int>() { 1 };
+            Address address = dbCSSPWebToolsDBRead.Addresses.Take(1).FirstOrDefault();
+            
+            //List<int> TVItemIDList = new List<int>() { 1 };
 
-            foreach (int tvItemID in TVItemIDList)
-            {
-                TVItem tvItem = new TVItem();
-            }
+            //foreach (int tvItemID in TVItemIDList)
+            //{
+            //    TVItem tvItem = (from c in dbCSSPWebToolsDBRead.TVItems
+            //                     where c.TVItemID == tvItemID
+            //                     select c).Take(1).FirstOrDefault();
+
+            //    if (tvItem != null)
+            //    {
+            //        dbTestDBWrite.TVItems.Add(tvItem);
+            //        try
+            //        {
+            //            dbTestDBWrite.SaveChanges();
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            ErrorEvent(new ErrorEventArgs(ex.Message));
+            //            return false;
+            //        }
+            //    }
+            //}
 
             return true;
         }
