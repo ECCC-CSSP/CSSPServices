@@ -104,8 +104,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [ContactTVItem]
 
-            //Error: Type not implemented [TVItemID1Navigation]
-
             //Error: Type not implemented [ValidationResults]
 
 
@@ -292,10 +290,6 @@ namespace CSSPServices.Tests
 
             //-----------------------------------
             // doing property [ContactTVItem] of type [TVItem]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [TVItemID1Navigation] of type [TVItem]
             //-----------------------------------
 
             //-----------------------------------

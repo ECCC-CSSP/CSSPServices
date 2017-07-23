@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using Microsoft.EntityFrameworkCore;
 
 namespace CSSPServices.Tests
 {

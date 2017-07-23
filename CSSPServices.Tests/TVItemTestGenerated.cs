@@ -173,8 +173,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [PolSourceObservationsContactTVItem]
 
-            //Error: Type not implemented [PolSourceObservationsPolSourceSiteTVItem]
-
             //Error: Type not implemented [PolSourceSites]
 
             //Error: Type not implemented [SamplingPlansCreatorTVItem]
@@ -208,8 +206,6 @@ namespace CSSPServices.Tests
             //Error: Type not implemented [TVItemStats]
 
             //Error: Type not implemented [TVItemUserAuthorizationsContactTVItem]
-
-            //Error: Type not implemented [TVItemUserAuthorizationsTVItemID1Navigation]
 
             //Error: Type not implemented [TVTypeUserAuthorizations]
 
@@ -482,10 +478,6 @@ namespace CSSPServices.Tests
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [PolSourceObservationsPolSourceSiteTVItem] of type [ICollection`1]
-            //-----------------------------------
-
-            //-----------------------------------
             // doing property [PolSourceSites] of type [ICollection`1]
             //-----------------------------------
 
@@ -551,10 +543,6 @@ namespace CSSPServices.Tests
 
             //-----------------------------------
             // doing property [TVItemUserAuthorizationsContactTVItem] of type [ICollection`1]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [TVItemUserAuthorizationsTVItemID1Navigation] of type [ICollection`1]
             //-----------------------------------
 
             //-----------------------------------

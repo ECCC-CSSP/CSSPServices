@@ -45,6 +45,7 @@ namespace CSSPServicesGenerateCode
             // -----------------------------------------------------------------
 
             servicesGenerateCodeHelper.RepopulateTestDB();
+            butRepopulateTesDB.Enabled = false;
         }
         private void butGenerateClassServiceGenerated_Click(object sender, EventArgs e)
         {

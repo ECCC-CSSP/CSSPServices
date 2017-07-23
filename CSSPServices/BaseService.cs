@@ -18,6 +18,7 @@ namespace CSSPServices
     public partial class BaseService
     {
         #region Variables public
+        private static IServiceProvider _serviceProvider;
         public List<LanguageEnum> LanguageListAllowable = new List<LanguageEnum>() { LanguageEnum.en, LanguageEnum.fr };
         //public int TakeMax = 1000000;
         //public string BasePath = @"E:\inetpub\wwwroot\csspwebtools\App_Data\";

@@ -22,8 +22,8 @@ namespace CSSPServices
         #endregion Variables
 
         #region Properties
-        private CSSPWebToolsDBContext db { get; set; }
-        private DatabaseTypeEnum DatabaseType { get; set; }
+        public CSSPWebToolsDBContext db { get; set; }
+        public DatabaseTypeEnum DatabaseType { get; set; }
         #endregion Properties
 
         #region Constructors
@@ -258,6 +258,14 @@ namespace CSSPServices
         public IQueryable<Address> GetEdit()
         {
             return db.Addresses;
+        }
+        public CSSPWebToolsDBContext GetDBContext()
+        {
+            return db;
+        }
+        public DatabaseTypeEnum GetDatabaseType()
+        {
+            return DatabaseType;
         }
         #endregion Functions public
 

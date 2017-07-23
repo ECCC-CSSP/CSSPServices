@@ -11,6 +11,7 @@ using CSSPEnums;
 using System.Security.Principal;
 using System.Threading;
 using System.Globalization;
+using Microsoft.EntityFrameworkCore;
 
 namespace CSSPServices.Tests
 {

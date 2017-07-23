@@ -155,5 +155,11 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CSSPServices\CSSPServices.csproj">
+      <Project>{9d9ee795-3104-4e2a-8ba0-fd95f1abafae}</Project>
+      <Name>CSSPServices</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
