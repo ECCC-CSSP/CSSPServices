@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TVItemInfrastructureTypeTVItemLinkID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TVItemInfrastructureTypeTVItemLinkService tvItemInfrastructureTypeTVItemLinkService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TVItemInfrastructureTypeTVItemLinkTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tvItemInfrastructureTypeTVItemLinkService = new TVItemInfrastructureTypeTVItemLinkService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private TVItemInfrastructureTypeTVItemLink GetFilledRandomTVItemInfrastructureTypeTVItemLink(string OmitPropName)
         {
-            TVItemInfrastructureTypeTVItemLinkID += 1;
-
             TVItemInfrastructureTypeTVItemLink tvItemInfrastructureTypeTVItemLink = new TVItemInfrastructureTypeTVItemLink();
 
             if (OmitPropName != "InfrastructureType") tvItemInfrastructureTypeTVItemLink.InfrastructureType = (InfrastructureTypeEnum)GetRandomEnumType(typeof(InfrastructureTypeEnum));
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVItemInfrastructureTypeTVItemLink_Testing()
         {
-            SetupTestHelper(culture);
-            TVItemInfrastructureTypeTVItemLinkService tvItemInfrastructureTypeTVItemLinkService = new TVItemInfrastructureTypeTVItemLinkService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TVItemInfrastructureTypeTVItemLink tvItemInfrastructureTypeTVItemLink = GetFilledRandomTVItemInfrastructureTypeTVItemLink("");
 
             // -------------------------------

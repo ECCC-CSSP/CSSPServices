@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TVItemLinkID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TVItemLinkService tvItemLinkService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TVItemLinkTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tvItemLinkService = new TVItemLinkService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,11 +37,8 @@ namespace CSSPServices.Tests
         #region Functions private
         private TVItemLink GetFilledRandomTVItemLink(string OmitPropName)
         {
-            TVItemLinkID += 1;
-
             TVItemLink tvItemLink = new TVItemLink();
 
-            if (OmitPropName != "TVItemLinkID") tvItemLink.TVItemLinkID = TVItemLinkID;
             if (OmitPropName != "FromTVItemID") tvItemLink.FromTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "ToTVItemID") tvItemLink.ToTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "FromTVType") tvItemLink.FromTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
@@ -56,7 +50,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TVPath") tvItemLink.TVPath = GetRandomString("", 5);
             if (OmitPropName != "ParentTVItemLinkID") tvItemLink.ParentTVItemLinkID = GetRandomInt(1, 11);
             if (OmitPropName != "LastUpdateDate_UTC") tvItemLink.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") tvItemLink.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") tvItemLink.LastUpdateContactTVItemID = 2;
 
             return tvItemLink;
         }
@@ -66,8 +60,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVItemLink_Testing()
         {
-            SetupTestHelper(culture);
-            TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TVItemLink tvItemLink = GetFilledRandomTVItemLink("");
 
             // -------------------------------
@@ -76,13 +75,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, tvItemLinkService.Add(tvItemLink));
+            count = tvItemLinkService.GetRead().Count();
+
+            tvItemLinkService.Add(tvItemLink);
+            if (tvItemLink.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, tvItemLinkService.GetRead().Where(c => c == tvItemLink).Any());
-            tvItemLink.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, tvItemLinkService.Update(tvItemLink));
-            Assert.AreEqual(1, tvItemLinkService.GetRead().Count());
-            Assert.AreEqual(true, tvItemLinkService.Delete(tvItemLink));
-            Assert.AreEqual(0, tvItemLinkService.GetRead().Count());
+            tvItemLinkService.Update(tvItemLink);
+            if (tvItemLink.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, tvItemLinkService.GetRead().Count());
+            tvItemLinkService.Delete(tvItemLink);
+            if (tvItemLink.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, tvItemLinkService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

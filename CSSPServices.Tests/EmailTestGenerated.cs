@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int EmailID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private EmailService emailService { get; set; }
         #endregion Properties
 
         #region Constructors
         public EmailTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            emailService = new EmailService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,16 +37,13 @@ namespace CSSPServices.Tests
         #region Functions private
         private Email GetFilledRandomEmail(string OmitPropName)
         {
-            EmailID += 1;
-
             Email email = new Email();
 
-            if (OmitPropName != "EmailID") email.EmailID = EmailID;
-            if (OmitPropName != "EmailTVItemID") email.EmailTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "EmailTVItemID") email.EmailTVItemID = 29;
             if (OmitPropName != "EmailAddress") email.EmailAddress = GetRandomEmail();
             if (OmitPropName != "EmailType") email.EmailType = (EmailTypeEnum)GetRandomEnumType(typeof(EmailTypeEnum));
             if (OmitPropName != "LastUpdateDate_UTC") email.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") email.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") email.LastUpdateContactTVItemID = 2;
 
             return email;
         }
@@ -59,8 +53,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Email_Testing()
         {
-            SetupTestHelper(culture);
-            EmailService emailService = new EmailService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             Email email = GetFilledRandomEmail("");
 
             // -------------------------------
@@ -69,13 +68,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, emailService.Add(email));
+            count = emailService.GetRead().Count();
+
+            emailService.Add(email);
+            if (email.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, emailService.GetRead().Where(c => c == email).Any());
-            email.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, emailService.Update(email));
-            Assert.AreEqual(1, emailService.GetRead().Count());
-            Assert.AreEqual(true, emailService.Delete(email));
-            Assert.AreEqual(0, emailService.GetRead().Count());
+            emailService.Update(email);
+            if (email.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, emailService.GetRead().Count());
+            emailService.Delete(email);
+            if (email.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, emailService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

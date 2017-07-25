@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int BoxModelLanguageID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private BoxModelLanguageService boxModelLanguageService { get; set; }
         #endregion Properties
 
         #region Constructors
         public BoxModelLanguageTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            boxModelLanguageService = new BoxModelLanguageService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,17 +37,14 @@ namespace CSSPServices.Tests
         #region Functions private
         private BoxModelLanguage GetFilledRandomBoxModelLanguage(string OmitPropName)
         {
-            BoxModelLanguageID += 1;
-
             BoxModelLanguage boxModelLanguage = new BoxModelLanguage();
 
-            if (OmitPropName != "BoxModelLanguageID") boxModelLanguage.BoxModelLanguageID = BoxModelLanguageID;
             if (OmitPropName != "BoxModelID") boxModelLanguage.BoxModelID = GetRandomInt(1, 11);
             if (OmitPropName != "Language") boxModelLanguage.Language = language;
             if (OmitPropName != "ScenarioName") boxModelLanguage.ScenarioName = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatus") boxModelLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") boxModelLanguage.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") boxModelLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") boxModelLanguage.LastUpdateContactTVItemID = 2;
 
             return boxModelLanguage;
         }
@@ -60,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void BoxModelLanguage_Testing()
         {
-            SetupTestHelper(culture);
-            BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             BoxModelLanguage boxModelLanguage = GetFilledRandomBoxModelLanguage("");
 
             // -------------------------------
@@ -70,13 +69,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, boxModelLanguageService.Add(boxModelLanguage));
+            count = boxModelLanguageService.GetRead().Count();
+
+            boxModelLanguageService.Add(boxModelLanguage);
+            if (boxModelLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, boxModelLanguageService.GetRead().Where(c => c == boxModelLanguage).Any());
-            boxModelLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, boxModelLanguageService.Update(boxModelLanguage));
-            Assert.AreEqual(1, boxModelLanguageService.GetRead().Count());
-            Assert.AreEqual(true, boxModelLanguageService.Delete(boxModelLanguage));
-            Assert.AreEqual(0, boxModelLanguageService.GetRead().Count());
+            boxModelLanguageService.Update(boxModelLanguage);
+            if (boxModelLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, boxModelLanguageService.GetRead().Count());
+            boxModelLanguageService.Delete(boxModelLanguage);
+            if (boxModelLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

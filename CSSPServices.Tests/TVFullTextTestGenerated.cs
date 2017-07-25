@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TVFullTextID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TVFullTextService tvFullTextService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TVFullTextTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tvFullTextService = new TVFullTextService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,12 +37,10 @@ namespace CSSPServices.Tests
         #region Functions private
         private TVFullText GetFilledRandomTVFullText(string OmitPropName)
         {
-            TVFullTextID += 1;
-
             TVFullText tvFullText = new TVFullText();
 
-            if (OmitPropName != "TVPath") tvFullText.TVPath = GetRandomString("", 5);
-            if (OmitPropName != "FullText") tvFullText.FullText = GetRandomString("", 5);
+            if (OmitPropName != "TVPath") tvFullText.TVPath = GetRandomString("", 6);
+            if (OmitPropName != "FullText") tvFullText.FullText = GetRandomString("", 6);
 
             return tvFullText;
         }
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVFullText_Testing()
         {
-            SetupTestHelper(culture);
-            TVFullTextService tvFullTextService = new TVFullTextService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TVFullText tvFullText = GetFilledRandomTVFullText("");
 
             // -------------------------------

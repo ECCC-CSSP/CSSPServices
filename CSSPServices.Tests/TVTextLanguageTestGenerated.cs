@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TVTextLanguageID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TVTextLanguageService tvTextLanguageService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TVTextLanguageTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tvTextLanguageService = new TVTextLanguageService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private TVTextLanguage GetFilledRandomTVTextLanguage(string OmitPropName)
         {
-            TVTextLanguageID += 1;
-
             TVTextLanguage tvTextLanguage = new TVTextLanguage();
 
             if (OmitPropName != "TVText") tvTextLanguage.TVText = GetRandomString("", 20);
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVTextLanguage_Testing()
         {
-            SetupTestHelper(culture);
-            TVTextLanguageService tvTextLanguageService = new TVTextLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TVTextLanguage tvTextLanguage = GetFilledRandomTVTextLanguage("");
 
             // -------------------------------

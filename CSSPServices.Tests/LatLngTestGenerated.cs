@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int LatLngID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private LatLngService latLngService { get; set; }
         #endregion Properties
 
         #region Constructors
         public LatLngTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            latLngService = new LatLngService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private LatLng GetFilledRandomLatLng(string OmitPropName)
         {
-            LatLngID += 1;
-
             LatLng latLng = new LatLng();
 
             if (OmitPropName != "Lat") latLng.Lat = GetRandomDouble(1.0D, 1000.0D);
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void LatLng_Testing()
         {
-            SetupTestHelper(culture);
-            LatLngService latLngService = new LatLngService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             LatLng latLng = GetFilledRandomLatLng("");
 
             // -------------------------------

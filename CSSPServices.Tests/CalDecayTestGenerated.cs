@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int CalDecayID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private CalDecayService calDecayService { get; set; }
         #endregion Properties
 
         #region Constructors
         public CalDecayTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            calDecayService = new CalDecayService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private CalDecay GetFilledRandomCalDecay(string OmitPropName)
         {
-            CalDecayID += 1;
-
             CalDecay calDecay = new CalDecay();
 
             if (OmitPropName != "Error") calDecay.Error = GetRandomString("", 5);
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void CalDecay_Testing()
         {
-            SetupTestHelper(culture);
-            CalDecayService calDecayService = new CalDecayService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             CalDecay calDecay = GetFilledRandomCalDecay("");
 
             // -------------------------------

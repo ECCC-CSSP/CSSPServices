@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MikeSourceStartEndID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MikeSourceStartEndService mikeSourceStartEndService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MikeSourceStartEndTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mikeSourceStartEndService = new MikeSourceStartEndService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,11 +37,8 @@ namespace CSSPServices.Tests
         #region Functions private
         private MikeSourceStartEnd GetFilledRandomMikeSourceStartEnd(string OmitPropName)
         {
-            MikeSourceStartEndID += 1;
-
             MikeSourceStartEnd mikeSourceStartEnd = new MikeSourceStartEnd();
 
-            if (OmitPropName != "MikeSourceStartEndID") mikeSourceStartEnd.MikeSourceStartEndID = MikeSourceStartEndID;
             if (OmitPropName != "MikeSourceID") mikeSourceStartEnd.MikeSourceID = GetRandomInt(1, 11);
             if (OmitPropName != "StartDateAndTime_Local") mikeSourceStartEnd.StartDateAndTime_Local = GetRandomDateTime();
             if (OmitPropName != "EndDateAndTime_Local") mikeSourceStartEnd.EndDateAndTime_Local = GetRandomDateTime();
@@ -57,7 +51,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SourceSalinityStart_PSU") mikeSourceStartEnd.SourceSalinityStart_PSU = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "SourceSalinityEnd_PSU") mikeSourceStartEnd.SourceSalinityEnd_PSU = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") mikeSourceStartEnd.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") mikeSourceStartEnd.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") mikeSourceStartEnd.LastUpdateContactTVItemID = 2;
 
             return mikeSourceStartEnd;
         }
@@ -67,8 +61,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MikeSourceStartEnd_Testing()
         {
-            SetupTestHelper(culture);
-            MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MikeSourceStartEnd mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
 
             // -------------------------------
@@ -77,13 +76,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+            count = mikeSourceStartEndService.GetRead().Count();
+
+            mikeSourceStartEndService.Add(mikeSourceStartEnd);
+            if (mikeSourceStartEnd.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, mikeSourceStartEndService.GetRead().Where(c => c == mikeSourceStartEnd).Any());
-            mikeSourceStartEnd.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, mikeSourceStartEndService.Update(mikeSourceStartEnd));
-            Assert.AreEqual(1, mikeSourceStartEndService.GetRead().Count());
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEndService.GetRead().Count());
+            mikeSourceStartEndService.Update(mikeSourceStartEnd);
+            if (mikeSourceStartEnd.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, mikeSourceStartEndService.GetRead().Count());
+            mikeSourceStartEndService.Delete(mikeSourceStartEnd);
+            if (mikeSourceStartEnd.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

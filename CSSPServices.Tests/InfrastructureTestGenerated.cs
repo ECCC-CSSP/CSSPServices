@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int InfrastructureID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private InfrastructureService infrastructureService { get; set; }
         #endregion Properties
 
         #region Constructors
         public InfrastructureTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            infrastructureService = new InfrastructureService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,12 +37,9 @@ namespace CSSPServices.Tests
         #region Functions private
         private Infrastructure GetFilledRandomInfrastructure(string OmitPropName)
         {
-            InfrastructureID += 1;
-
             Infrastructure infrastructure = new Infrastructure();
 
-            if (OmitPropName != "InfrastructureID") infrastructure.InfrastructureID = InfrastructureID;
-            if (OmitPropName != "InfrastructureTVItemID") infrastructure.InfrastructureTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "InfrastructureTVItemID") infrastructure.InfrastructureTVItemID = 16;
             if (OmitPropName != "PrismID") infrastructure.PrismID = GetRandomInt(0, 100000);
             if (OmitPropName != "TPID") infrastructure.TPID = GetRandomInt(0, 100000);
             if (OmitPropName != "LSID") infrastructure.LSID = GetRandomInt(0, 100000);
@@ -88,10 +82,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ReceivingWaterTemperature_C") infrastructure.ReceivingWaterTemperature_C = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "ReceivingWater_MPN_per_100ml") infrastructure.ReceivingWater_MPN_per_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "DistanceFromShore_m") infrastructure.DistanceFromShore_m = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "SeeOtherTVItemID") infrastructure.SeeOtherTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "CivicAddressTVItemID") infrastructure.CivicAddressTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "SeeOtherTVItemID") infrastructure.SeeOtherTVItemID = 16;
+            if (OmitPropName != "CivicAddressTVItemID") infrastructure.CivicAddressTVItemID = 28;
             if (OmitPropName != "LastUpdateDate_UTC") infrastructure.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") infrastructure.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") infrastructure.LastUpdateContactTVItemID = 2;
 
             return infrastructure;
         }
@@ -101,8 +95,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Infrastructure_Testing()
         {
-            SetupTestHelper(culture);
-            InfrastructureService infrastructureService = new InfrastructureService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             Infrastructure infrastructure = GetFilledRandomInfrastructure("");
 
             // -------------------------------
@@ -111,13 +110,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
+            count = infrastructureService.GetRead().Count();
+
+            infrastructureService.Add(infrastructure);
+            if (infrastructure.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, infrastructureService.GetRead().Where(c => c == infrastructure).Any());
-            infrastructure.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, infrastructureService.Update(infrastructure));
-            Assert.AreEqual(1, infrastructureService.GetRead().Count());
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(0, infrastructureService.GetRead().Count());
+            infrastructureService.Update(infrastructure);
+            if (infrastructure.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, infrastructureService.GetRead().Count());
+            infrastructureService.Delete(infrastructure);
+            if (infrastructure.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

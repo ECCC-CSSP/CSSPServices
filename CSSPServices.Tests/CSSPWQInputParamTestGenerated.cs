@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int CSSPWQInputParamID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private CSSPWQInputParamService cSSPWQInputParamService { get; set; }
         #endregion Properties
 
         #region Constructors
         public CSSPWQInputParamTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            cSSPWQInputParamService = new CSSPWQInputParamService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,12 +37,10 @@ namespace CSSPServices.Tests
         #region Functions private
         private CSSPWQInputParam GetFilledRandomCSSPWQInputParam(string OmitPropName)
         {
-            CSSPWQInputParamID += 1;
-
             CSSPWQInputParam cSSPWQInputParam = new CSSPWQInputParam();
 
             if (OmitPropName != "CSSPWQInputType") cSSPWQInputParam.CSSPWQInputType = (CSSPWQInputTypeEnum)GetRandomEnumType(typeof(CSSPWQInputTypeEnum));
-            if (OmitPropName != "Name") cSSPWQInputParam.Name = GetRandomString("", 5);
+            if (OmitPropName != "Name") cSSPWQInputParam.Name = GetRandomString("", 6);
             if (OmitPropName != "TVItemID") cSSPWQInputParam.TVItemID = GetRandomInt(1, 11);
 
             return cSSPWQInputParam;
@@ -56,8 +51,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void CSSPWQInputParam_Testing()
         {
-            SetupTestHelper(culture);
-            CSSPWQInputParamService cSSPWQInputParamService = new CSSPWQInputParamService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             CSSPWQInputParam cSSPWQInputParam = GetFilledRandomCSSPWQInputParam("");
 
             // -------------------------------

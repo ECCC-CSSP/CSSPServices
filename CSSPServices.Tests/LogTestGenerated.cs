@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int LogID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private LogService logService { get; set; }
         #endregion Properties
 
         #region Constructors
         public LogTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            logService = new LogService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,17 +37,14 @@ namespace CSSPServices.Tests
         #region Functions private
         private Log GetFilledRandomLog(string OmitPropName)
         {
-            LogID += 1;
-
             Log log = new Log();
 
-            if (OmitPropName != "LogID") log.LogID = LogID;
             if (OmitPropName != "TableName") log.TableName = GetRandomString("", 5);
             if (OmitPropName != "ID") log.ID = GetRandomInt(1, 11);
             if (OmitPropName != "LogCommand") log.LogCommand = (LogCommandEnum)GetRandomEnumType(typeof(LogCommandEnum));
             if (OmitPropName != "Information") log.Information = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") log.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") log.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") log.LastUpdateContactTVItemID = 2;
 
             return log;
         }
@@ -60,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Log_Testing()
         {
-            SetupTestHelper(culture);
-            LogService logService = new LogService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             Log log = GetFilledRandomLog("");
 
             // -------------------------------
@@ -70,13 +69,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, logService.Add(log));
+            count = logService.GetRead().Count();
+
+            logService.Add(log);
+            if (log.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, logService.GetRead().Where(c => c == log).Any());
-            log.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, logService.Update(log));
-            Assert.AreEqual(1, logService.GetRead().Count());
-            Assert.AreEqual(true, logService.Delete(log));
-            Assert.AreEqual(0, logService.GetRead().Count());
+            logService.Update(log);
+            if (log.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, logService.GetRead().Count());
+            logService.Delete(log);
+            if (log.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, logService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

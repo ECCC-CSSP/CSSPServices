@@ -11,7 +11,6 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
-using Microsoft.EntityFrameworkCore;
 
 namespace CSSPServices.Tests
 {
@@ -22,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int AddressID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private AddressService addressService { get; set; }
         #endregion Properties
 
         #region Constructors
         public AddressTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            addressService = new AddressService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -41,23 +37,20 @@ namespace CSSPServices.Tests
         #region Functions private
         private Address GetFilledRandomAddress(string OmitPropName)
         {
-            AddressID += 1;
-
             Address address = new Address();
 
-            if (OmitPropName != "AddressID") address.AddressID = AddressID;
-            if (OmitPropName != "AddressTVItemID") address.AddressTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "AddressTVItemID") address.AddressTVItemID = 28;
             if (OmitPropName != "AddressType") address.AddressType = (AddressTypeEnum)GetRandomEnumType(typeof(AddressTypeEnum));
-            if (OmitPropName != "CountryTVItemID") address.CountryTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "ProvinceTVItemID") address.ProvinceTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "MunicipalityTVItemID") address.MunicipalityTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "CountryTVItemID") address.CountryTVItemID = 5;
+            if (OmitPropName != "ProvinceTVItemID") address.ProvinceTVItemID = 6;
+            if (OmitPropName != "MunicipalityTVItemID") address.MunicipalityTVItemID = 14;
             if (OmitPropName != "StreetName") address.StreetName = GetRandomString("", 5);
             if (OmitPropName != "StreetNumber") address.StreetNumber = GetRandomString("", 5);
             if (OmitPropName != "StreetType") address.StreetType = (StreetTypeEnum)GetRandomEnumType(typeof(StreetTypeEnum));
-            if (OmitPropName != "PostalCode") address.PostalCode = GetRandomString("", 5);
-            if (OmitPropName != "GoogleAddressText") address.GoogleAddressText = GetRandomString("", 5);
+            if (OmitPropName != "PostalCode") address.PostalCode = GetRandomString("", 11);
+            if (OmitPropName != "GoogleAddressText") address.GoogleAddressText = GetRandomString("", 15);
             if (OmitPropName != "LastUpdateDate_UTC") address.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") address.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") address.LastUpdateContactTVItemID = 2;
 
             return address;
         }
@@ -67,8 +60,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Address_Testing()
         {
-            SetupTestHelper(culture);
-            AddressService addressService = new AddressService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             Address address = GetFilledRandomAddress("");
 
             // -------------------------------
@@ -77,13 +75,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, addressService.Add(address));
+            count = addressService.GetRead().Count();
+
+            addressService.Add(address);
+            if (address.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, addressService.GetRead().Where(c => c == address).Any());
-            address.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, addressService.Update(address));
-            Assert.AreEqual(1, addressService.GetRead().Count());
-            Assert.AreEqual(true, addressService.Delete(address));
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            addressService.Update(address);
+            if (address.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, addressService.GetRead().Count());
+            addressService.Delete(address);
+            if (address.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, addressService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

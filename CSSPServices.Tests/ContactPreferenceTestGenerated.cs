@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int ContactPreferenceID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private ContactPreferenceService contactPreferenceService { get; set; }
         #endregion Properties
 
         #region Constructors
         public ContactPreferenceTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            contactPreferenceService = new ContactPreferenceService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,16 +37,13 @@ namespace CSSPServices.Tests
         #region Functions private
         private ContactPreference GetFilledRandomContactPreference(string OmitPropName)
         {
-            ContactPreferenceID += 1;
-
             ContactPreference contactPreference = new ContactPreference();
 
-            if (OmitPropName != "ContactPreferenceID") contactPreference.ContactPreferenceID = ContactPreferenceID;
             if (OmitPropName != "ContactID") contactPreference.ContactID = GetRandomInt(1, 11);
             if (OmitPropName != "TVType") contactPreference.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "MarkerSize") contactPreference.MarkerSize = GetRandomInt(1, 1000);
             if (OmitPropName != "LastUpdateDate_UTC") contactPreference.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") contactPreference.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") contactPreference.LastUpdateContactTVItemID = 2;
 
             return contactPreference;
         }
@@ -59,8 +53,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void ContactPreference_Testing()
         {
-            SetupTestHelper(culture);
-            ContactPreferenceService contactPreferenceService = new ContactPreferenceService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             ContactPreference contactPreference = GetFilledRandomContactPreference("");
 
             // -------------------------------
@@ -69,13 +68,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, contactPreferenceService.Add(contactPreference));
+            count = contactPreferenceService.GetRead().Count();
+
+            contactPreferenceService.Add(contactPreference);
+            if (contactPreference.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, contactPreferenceService.GetRead().Where(c => c == contactPreference).Any());
-            contactPreference.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, contactPreferenceService.Update(contactPreference));
-            Assert.AreEqual(1, contactPreferenceService.GetRead().Count());
-            Assert.AreEqual(true, contactPreferenceService.Delete(contactPreference));
-            Assert.AreEqual(0, contactPreferenceService.GetRead().Count());
+            contactPreferenceService.Update(contactPreference);
+            if (contactPreference.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, contactPreferenceService.GetRead().Count());
+            contactPreferenceService.Delete(contactPreference);
+            if (contactPreference.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

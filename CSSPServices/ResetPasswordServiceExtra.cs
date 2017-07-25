@@ -52,7 +52,7 @@ namespace CSSPServices
         }
         public bool ResetPasswordDB(ResetPassword resetPassword)
         {
-            ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryTestDB);
+            ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, db, ContactID);
 
             using (TransactionScope ts = new TransactionScope())
             {

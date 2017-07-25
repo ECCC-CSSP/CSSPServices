@@ -46,11 +46,11 @@
             this.lblFile1 = new System.Windows.Forms.Label();
             this.textBoxBaseDir = new System.Windows.Forms.TextBox();
             this.lblBaseDir = new System.Windows.Forms.Label();
+            this.butRepopulateTesDB = new System.Windows.Forms.Button();
             this.butGenerateClassServiceGenerated = new System.Windows.Forms.Button();
             this.ButGenerateFillDBTestingGenerated = new System.Windows.Forms.Button();
             this.butGenerateClassTestGenerated = new System.Windows.Forms.Button();
             this.richTextBoxStatus = new System.Windows.Forms.RichTextBox();
-            this.butRepopulateTesDB = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -91,7 +91,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.richTextBoxStatus);
             this.splitContainer1.Size = new System.Drawing.Size(1015, 725);
-            this.splitContainer1.SplitterDistance = 536;
+            this.splitContainer1.SplitterDistance = 406;
             this.splitContainer1.TabIndex = 4;
             // 
             // textBoxFile3ToGenerate
@@ -150,7 +150,7 @@
             this.panel2.Controls.Add(this.lblStatusText);
             this.panel2.Controls.Add(this.lblStatus);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel2.Location = new System.Drawing.Point(0, 505);
+            this.panel2.Location = new System.Drawing.Point(0, 375);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1015, 31);
             this.panel2.TabIndex = 30;
@@ -241,9 +241,19 @@
             this.lblBaseDir.TabIndex = 12;
             this.lblBaseDir.Text = "Base Dir:";
             // 
+            // butRepopulateTesDB
+            // 
+            this.butRepopulateTesDB.Location = new System.Drawing.Point(18, 233);
+            this.butRepopulateTesDB.Name = "butRepopulateTesDB";
+            this.butRepopulateTesDB.Size = new System.Drawing.Size(145, 23);
+            this.butRepopulateTesDB.TabIndex = 11;
+            this.butRepopulateTesDB.Text = "Repopulate TestDB";
+            this.butRepopulateTesDB.UseVisualStyleBackColor = true;
+            this.butRepopulateTesDB.Click += new System.EventHandler(this.butRepopulateTesDB_Click);
+            // 
             // butGenerateClassServiceGenerated
             // 
-            this.butGenerateClassServiceGenerated.Location = new System.Drawing.Point(18, 233);
+            this.butGenerateClassServiceGenerated.Location = new System.Drawing.Point(180, 233);
             this.butGenerateClassServiceGenerated.Name = "butGenerateClassServiceGenerated";
             this.butGenerateClassServiceGenerated.Size = new System.Drawing.Size(199, 23);
             this.butGenerateClassServiceGenerated.TabIndex = 11;
@@ -254,7 +264,7 @@
             // ButGenerateFillDBTestingGenerated
             // 
             this.ButGenerateFillDBTestingGenerated.Enabled = false;
-            this.ButGenerateFillDBTestingGenerated.Location = new System.Drawing.Point(317, 273);
+            this.ButGenerateFillDBTestingGenerated.Location = new System.Drawing.Point(402, 273);
             this.ButGenerateFillDBTestingGenerated.Name = "ButGenerateFillDBTestingGenerated";
             this.ButGenerateFillDBTestingGenerated.Size = new System.Drawing.Size(199, 23);
             this.ButGenerateFillDBTestingGenerated.TabIndex = 11;
@@ -264,7 +274,7 @@
             // 
             // butGenerateClassTestGenerated
             // 
-            this.butGenerateClassTestGenerated.Location = new System.Drawing.Point(317, 233);
+            this.butGenerateClassTestGenerated.Location = new System.Drawing.Point(402, 233);
             this.butGenerateClassTestGenerated.Name = "butGenerateClassTestGenerated";
             this.butGenerateClassTestGenerated.Size = new System.Drawing.Size(199, 23);
             this.butGenerateClassTestGenerated.TabIndex = 11;
@@ -277,19 +287,9 @@
             this.richTextBoxStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBoxStatus.Location = new System.Drawing.Point(0, 0);
             this.richTextBoxStatus.Name = "richTextBoxStatus";
-            this.richTextBoxStatus.Size = new System.Drawing.Size(1015, 185);
+            this.richTextBoxStatus.Size = new System.Drawing.Size(1015, 315);
             this.richTextBoxStatus.TabIndex = 0;
             this.richTextBoxStatus.Text = "";
-            // 
-            // butRepopulateTesDB
-            // 
-            this.butRepopulateTesDB.Location = new System.Drawing.Point(18, 401);
-            this.butRepopulateTesDB.Name = "butRepopulateTesDB";
-            this.butRepopulateTesDB.Size = new System.Drawing.Size(255, 23);
-            this.butRepopulateTesDB.TabIndex = 11;
-            this.butRepopulateTesDB.Text = "Repopulate TestDB";
-            this.butRepopulateTesDB.UseVisualStyleBackColor = true;
-            this.butRepopulateTesDB.Click += new System.EventHandler(this.butRepopulateTesDB_Click);
             // 
             // CSSPServicesGenerateCode
             // 

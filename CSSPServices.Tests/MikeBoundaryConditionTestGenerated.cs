@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MikeBoundaryConditionID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MikeBoundaryConditionService mikeBoundaryConditionService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MikeBoundaryConditionTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mikeBoundaryConditionService = new MikeBoundaryConditionService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,12 +37,9 @@ namespace CSSPServices.Tests
         #region Functions private
         private MikeBoundaryCondition GetFilledRandomMikeBoundaryCondition(string OmitPropName)
         {
-            MikeBoundaryConditionID += 1;
-
             MikeBoundaryCondition mikeBoundaryCondition = new MikeBoundaryCondition();
 
-            if (OmitPropName != "MikeBoundaryConditionID") mikeBoundaryCondition.MikeBoundaryConditionID = MikeBoundaryConditionID;
-            if (OmitPropName != "MikeBoundaryConditionTVItemID") mikeBoundaryCondition.MikeBoundaryConditionTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "MikeBoundaryConditionTVItemID") mikeBoundaryCondition.MikeBoundaryConditionTVItemID = 26;
             if (OmitPropName != "MikeBoundaryConditionCode") mikeBoundaryCondition.MikeBoundaryConditionCode = GetRandomString("", 5);
             if (OmitPropName != "MikeBoundaryConditionName") mikeBoundaryCondition.MikeBoundaryConditionName = GetRandomString("", 5);
             if (OmitPropName != "MikeBoundaryConditionLength_m") mikeBoundaryCondition.MikeBoundaryConditionLength_m = GetRandomDouble(1.0D, 1000.0D);
@@ -56,7 +50,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "WebTideDataFromStartToEndDate") mikeBoundaryCondition.WebTideDataFromStartToEndDate = GetRandomString("", 20);
             if (OmitPropName != "TVType") mikeBoundaryCondition.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "LastUpdateDate_UTC") mikeBoundaryCondition.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") mikeBoundaryCondition.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") mikeBoundaryCondition.LastUpdateContactTVItemID = 2;
 
             return mikeBoundaryCondition;
         }
@@ -66,8 +60,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MikeBoundaryCondition_Testing()
         {
-            SetupTestHelper(culture);
-            MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MikeBoundaryCondition mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
 
             // -------------------------------
@@ -76,13 +75,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
+            count = mikeBoundaryConditionService.GetRead().Count();
+
+            mikeBoundaryConditionService.Add(mikeBoundaryCondition);
+            if (mikeBoundaryCondition.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, mikeBoundaryConditionService.GetRead().Where(c => c == mikeBoundaryCondition).Any());
-            mikeBoundaryCondition.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Update(mikeBoundaryCondition));
-            Assert.AreEqual(1, mikeBoundaryConditionService.GetRead().Count());
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryConditionService.GetRead().Count());
+            mikeBoundaryConditionService.Update(mikeBoundaryCondition);
+            if (mikeBoundaryCondition.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, mikeBoundaryConditionService.GetRead().Count());
+            mikeBoundaryConditionService.Delete(mikeBoundaryCondition);
+            if (mikeBoundaryCondition.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

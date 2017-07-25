@@ -25,8 +25,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public LabSheetA1MeasurementService(LanguageEnum LanguageRequest, int ContactID, DatabaseTypeEnum DatabaseType)
-            : base(LanguageRequest, ContactID)
+        public LabSheetA1MeasurementService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
+            : base(LanguageRequest, db, ContactID)
         {
         }
         #endregion Constructors

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int VPFullID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private VPFullService vpFullService { get; set; }
         #endregion Properties
 
         #region Constructors
         public VPFullTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            vpFullService = new VPFullService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private VPFull GetFilledRandomVPFull(string OmitPropName)
         {
-            VPFullID += 1;
-
             VPFull vpFull = new VPFull();
 
 
@@ -53,8 +48,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void VPFull_Testing()
         {
-            SetupTestHelper(culture);
-            VPFullService vpFullService = new VPFullService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             VPFull vpFull = GetFilledRandomVPFull("");
 
             // -------------------------------

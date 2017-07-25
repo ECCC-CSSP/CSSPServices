@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int AppTaskID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private AppTaskService appTaskService { get; set; }
         #endregion Properties
 
         #region Constructors
         public AppTaskTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            appTaskService = new AppTaskService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,11 +37,8 @@ namespace CSSPServices.Tests
         #region Functions private
         private AppTask GetFilledRandomAppTask(string OmitPropName)
         {
-            AppTaskID += 1;
-
             AppTask appTask = new AppTask();
 
-            if (OmitPropName != "AppTaskID") appTask.AppTaskID = AppTaskID;
             if (OmitPropName != "TVItemID") appTask.TVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "TVItemID2") appTask.TVItemID2 = GetRandomInt(1, 11);
             if (OmitPropName != "AppTaskCommand") appTask.AppTaskCommand = (AppTaskCommandEnum)GetRandomEnumType(typeof(AppTaskCommandEnum));
@@ -57,7 +51,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EstimatedLength_second") appTask.EstimatedLength_second = GetRandomInt(0, 1000000);
             if (OmitPropName != "RemainingTime_second") appTask.RemainingTime_second = GetRandomInt(0, 1000000);
             if (OmitPropName != "LastUpdateDate_UTC") appTask.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") appTask.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") appTask.LastUpdateContactTVItemID = 2;
 
             return appTask;
         }
@@ -67,8 +61,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void AppTask_Testing()
         {
-            SetupTestHelper(culture);
-            AppTaskService appTaskService = new AppTaskService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             AppTask appTask = GetFilledRandomAppTask("");
 
             // -------------------------------
@@ -77,13 +76,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, appTaskService.Add(appTask));
+            count = appTaskService.GetRead().Count();
+
+            appTaskService.Add(appTask);
+            if (appTask.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, appTaskService.GetRead().Where(c => c == appTask).Any());
-            appTask.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, appTaskService.Update(appTask));
-            Assert.AreEqual(1, appTaskService.GetRead().Count());
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            appTaskService.Update(appTask);
+            if (appTask.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, appTaskService.GetRead().Count());
+            appTaskService.Delete(appTask);
+            if (appTask.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

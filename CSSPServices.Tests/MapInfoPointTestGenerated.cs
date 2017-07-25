@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MapInfoPointID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MapInfoPointService mapInfoPointService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MapInfoPointTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mapInfoPointService = new MapInfoPointService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,17 +37,14 @@ namespace CSSPServices.Tests
         #region Functions private
         private MapInfoPoint GetFilledRandomMapInfoPoint(string OmitPropName)
         {
-            MapInfoPointID += 1;
-
             MapInfoPoint mapInfoPoint = new MapInfoPoint();
 
-            if (OmitPropName != "MapInfoPointID") mapInfoPoint.MapInfoPointID = MapInfoPointID;
             if (OmitPropName != "MapInfoID") mapInfoPoint.MapInfoID = GetRandomInt(1, 11);
             if (OmitPropName != "Ordinal") mapInfoPoint.Ordinal = GetRandomInt(0, 10);
             if (OmitPropName != "Lat") mapInfoPoint.Lat = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "Lng") mapInfoPoint.Lng = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") mapInfoPoint.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") mapInfoPoint.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") mapInfoPoint.LastUpdateContactTVItemID = 2;
 
             return mapInfoPoint;
         }
@@ -60,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MapInfoPoint_Testing()
         {
-            SetupTestHelper(culture);
-            MapInfoPointService mapInfoPointService = new MapInfoPointService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MapInfoPoint mapInfoPoint = GetFilledRandomMapInfoPoint("");
 
             // -------------------------------
@@ -70,13 +69,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, mapInfoPointService.Add(mapInfoPoint));
+            count = mapInfoPointService.GetRead().Count();
+
+            mapInfoPointService.Add(mapInfoPoint);
+            if (mapInfoPoint.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, mapInfoPointService.GetRead().Where(c => c == mapInfoPoint).Any());
-            mapInfoPoint.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, mapInfoPointService.Update(mapInfoPoint));
-            Assert.AreEqual(1, mapInfoPointService.GetRead().Count());
-            Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
-            Assert.AreEqual(0, mapInfoPointService.GetRead().Count());
+            mapInfoPointService.Update(mapInfoPoint);
+            if (mapInfoPoint.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, mapInfoPointService.GetRead().Count());
+            mapInfoPointService.Delete(mapInfoPoint);
+            if (mapInfoPoint.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

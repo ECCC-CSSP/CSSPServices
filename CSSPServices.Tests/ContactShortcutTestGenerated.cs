@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int ContactShortcutID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private ContactShortcutService contactShortcutService { get; set; }
         #endregion Properties
 
         #region Constructors
         public ContactShortcutTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            contactShortcutService = new ContactShortcutService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,16 +37,13 @@ namespace CSSPServices.Tests
         #region Functions private
         private ContactShortcut GetFilledRandomContactShortcut(string OmitPropName)
         {
-            ContactShortcutID += 1;
-
             ContactShortcut contactShortcut = new ContactShortcut();
 
-            if (OmitPropName != "ContactShortcutID") contactShortcut.ContactShortcutID = ContactShortcutID;
             if (OmitPropName != "ContactID") contactShortcut.ContactID = GetRandomInt(1, 11);
             if (OmitPropName != "ShortCutText") contactShortcut.ShortCutText = GetRandomString("", 5);
             if (OmitPropName != "ShortCutAddress") contactShortcut.ShortCutAddress = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") contactShortcut.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") contactShortcut.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") contactShortcut.LastUpdateContactTVItemID = 2;
 
             return contactShortcut;
         }
@@ -59,8 +53,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void ContactShortcut_Testing()
         {
-            SetupTestHelper(culture);
-            ContactShortcutService contactShortcutService = new ContactShortcutService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             ContactShortcut contactShortcut = GetFilledRandomContactShortcut("");
 
             // -------------------------------
@@ -69,13 +68,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, contactShortcutService.Add(contactShortcut));
+            count = contactShortcutService.GetRead().Count();
+
+            contactShortcutService.Add(contactShortcut);
+            if (contactShortcut.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, contactShortcutService.GetRead().Where(c => c == contactShortcut).Any());
-            contactShortcut.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, contactShortcutService.Update(contactShortcut));
-            Assert.AreEqual(1, contactShortcutService.GetRead().Count());
-            Assert.AreEqual(true, contactShortcutService.Delete(contactShortcut));
-            Assert.AreEqual(0, contactShortcutService.GetRead().Count());
+            contactShortcutService.Update(contactShortcut);
+            if (contactShortcut.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, contactShortcutService.GetRead().Count());
+            contactShortcutService.Delete(contactShortcut);
+            if (contactShortcut.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, contactShortcutService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

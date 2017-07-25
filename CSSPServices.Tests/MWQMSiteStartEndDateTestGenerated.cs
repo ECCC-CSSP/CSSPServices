@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MWQMSiteStartEndDateID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MWQMSiteStartEndDateService mwqmSiteStartEndDateService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MWQMSiteStartEndDateTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mwqmSiteStartEndDateService = new MWQMSiteStartEndDateService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,16 +37,13 @@ namespace CSSPServices.Tests
         #region Functions private
         private MWQMSiteStartEndDate GetFilledRandomMWQMSiteStartEndDate(string OmitPropName)
         {
-            MWQMSiteStartEndDateID += 1;
-
             MWQMSiteStartEndDate mwqmSiteStartEndDate = new MWQMSiteStartEndDate();
 
-            if (OmitPropName != "MWQMSiteStartEndDateID") mwqmSiteStartEndDate.MWQMSiteStartEndDateID = MWQMSiteStartEndDateID;
-            if (OmitPropName != "MWQMSiteTVItemID") mwqmSiteStartEndDate.MWQMSiteTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "MWQMSiteTVItemID") mwqmSiteStartEndDate.MWQMSiteTVItemID = 19;
             if (OmitPropName != "StartDate") mwqmSiteStartEndDate.StartDate = GetRandomDateTime();
             if (OmitPropName != "EndDate") mwqmSiteStartEndDate.EndDate = GetRandomDateTime();
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSiteStartEndDate.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") mwqmSiteStartEndDate.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") mwqmSiteStartEndDate.LastUpdateContactTVItemID = 2;
 
             return mwqmSiteStartEndDate;
         }
@@ -59,8 +53,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MWQMSiteStartEndDate_Testing()
         {
-            SetupTestHelper(culture);
-            MWQMSiteStartEndDateService mwqmSiteStartEndDateService = new MWQMSiteStartEndDateService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MWQMSiteStartEndDate mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
 
             // -------------------------------
@@ -69,13 +68,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate));
+            count = mwqmSiteStartEndDateService.GetRead().Count();
+
+            mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
+            if (mwqmSiteStartEndDate.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, mwqmSiteStartEndDateService.GetRead().Where(c => c == mwqmSiteStartEndDate).Any());
-            mwqmSiteStartEndDate.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, mwqmSiteStartEndDateService.Update(mwqmSiteStartEndDate));
-            Assert.AreEqual(1, mwqmSiteStartEndDateService.GetRead().Count());
-            Assert.AreEqual(true, mwqmSiteStartEndDateService.Delete(mwqmSiteStartEndDate));
-            Assert.AreEqual(0, mwqmSiteStartEndDateService.GetRead().Count());
+            mwqmSiteStartEndDateService.Update(mwqmSiteStartEndDate);
+            if (mwqmSiteStartEndDate.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, mwqmSiteStartEndDateService.GetRead().Count());
+            mwqmSiteStartEndDateService.Delete(mwqmSiteStartEndDate);
+            if (mwqmSiteStartEndDate.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

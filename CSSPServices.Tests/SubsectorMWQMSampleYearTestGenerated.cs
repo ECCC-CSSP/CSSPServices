@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int SubsectorMWQMSampleYearID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private SubsectorMWQMSampleYearService subsectorMWQMSampleYearService { get; set; }
         #endregion Properties
 
         #region Constructors
         public SubsectorMWQMSampleYearTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            subsectorMWQMSampleYearService = new SubsectorMWQMSampleYearService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private SubsectorMWQMSampleYear GetFilledRandomSubsectorMWQMSampleYear(string OmitPropName)
         {
-            SubsectorMWQMSampleYearID += 1;
-
             SubsectorMWQMSampleYear subsectorMWQMSampleYear = new SubsectorMWQMSampleYear();
 
             if (OmitPropName != "SubsectorTVItemID") subsectorMWQMSampleYear.SubsectorTVItemID = GetRandomInt(1, 11);
@@ -57,8 +52,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void SubsectorMWQMSampleYear_Testing()
         {
-            SetupTestHelper(culture);
-            SubsectorMWQMSampleYearService subsectorMWQMSampleYearService = new SubsectorMWQMSampleYearService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             SubsectorMWQMSampleYear subsectorMWQMSampleYear = GetFilledRandomSubsectorMWQMSampleYear("");
 
             // -------------------------------

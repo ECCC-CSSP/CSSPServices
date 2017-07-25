@@ -22,16 +22,12 @@ namespace CSSPServices
         #endregion Variables
 
         #region Properties
-        private CSSPWebToolsDBContext db { get; set; }
-        private DatabaseTypeEnum DatabaseType { get; set; }
         #endregion Properties
 
         #region Constructors
-        public MWQMRunLanguageService(LanguageEnum LanguageRequest, int ContactID, DatabaseTypeEnum DatabaseType)
-            : base(LanguageRequest, ContactID)
+        public MWQMRunLanguageService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
+            : base(LanguageRequest, db, ContactID)
         {
-            this.DatabaseType = DatabaseType;
-            this.db = new CSSPWebToolsDBContext(this.DatabaseType);
         }
         #endregion Constructors
 
@@ -59,9 +55,9 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunLanguageMWQMRunID, "1"), new[] { ModelsRes.MWQMRunLanguageMWQMRunID });
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == mwqmRunLanguage.MWQMRunID select c).Any()))
+            if (!((from c in db.MWQMRuns where c.MWQMRunID == mwqmRunLanguage.MWQMRunID select c).Any()))
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLanguageMWQMRunID, mwqmRunLanguage.MWQMRunID.ToString()), new[] { ModelsRes.MWQMRunLanguageMWQMRunID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMRun, ModelsRes.MWQMRunLanguageMWQMRunID, mwqmRunLanguage.MWQMRunID.ToString()), new[] { ModelsRes.MWQMRunLanguageMWQMRunID });
             }
 
             retStr = enums.LanguageOK(mwqmRunLanguage.Language);

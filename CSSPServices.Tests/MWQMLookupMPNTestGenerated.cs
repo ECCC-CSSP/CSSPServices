@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MWQMLookupMPNID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MWQMLookupMPNService mwqmLookupMPNService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MWQMLookupMPNTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mwqmLookupMPNService = new MWQMLookupMPNService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,17 +37,14 @@ namespace CSSPServices.Tests
         #region Functions private
         private MWQMLookupMPN GetFilledRandomMWQMLookupMPN(string OmitPropName)
         {
-            MWQMLookupMPNID += 1;
-
             MWQMLookupMPN mwqmLookupMPN = new MWQMLookupMPN();
 
-            if (OmitPropName != "MWQMLookupMPNID") mwqmLookupMPN.MWQMLookupMPNID = MWQMLookupMPNID;
             if (OmitPropName != "Tubes10") mwqmLookupMPN.Tubes10 = GetRandomInt(0, 5);
             if (OmitPropName != "Tubes1") mwqmLookupMPN.Tubes1 = GetRandomInt(0, 5);
             if (OmitPropName != "Tubes01") mwqmLookupMPN.Tubes01 = GetRandomInt(0, 5);
             if (OmitPropName != "MPN_100ml") mwqmLookupMPN.MPN_100ml = GetRandomInt(1, 10000);
             if (OmitPropName != "LastUpdateDate_UTC") mwqmLookupMPN.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") mwqmLookupMPN.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") mwqmLookupMPN.LastUpdateContactTVItemID = 2;
 
             return mwqmLookupMPN;
         }
@@ -60,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MWQMLookupMPN_Testing()
         {
-            SetupTestHelper(culture);
-            MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MWQMLookupMPN mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
 
             // -------------------------------
@@ -70,13 +69,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
+            count = mwqmLookupMPNService.GetRead().Count();
+
+            mwqmLookupMPNService.Add(mwqmLookupMPN);
+            if (mwqmLookupMPN.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, mwqmLookupMPNService.GetRead().Where(c => c == mwqmLookupMPN).Any());
-            mwqmLookupMPN.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, mwqmLookupMPNService.Update(mwqmLookupMPN));
-            Assert.AreEqual(1, mwqmLookupMPNService.GetRead().Count());
-            Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            mwqmLookupMPNService.Update(mwqmLookupMPN);
+            if (mwqmLookupMPN.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, mwqmLookupMPNService.GetRead().Count());
+            mwqmLookupMPNService.Delete(mwqmLookupMPN);
+            if (mwqmLookupMPN.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

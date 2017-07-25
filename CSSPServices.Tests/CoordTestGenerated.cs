@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int CoordID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private CoordService coordService { get; set; }
         #endregion Properties
 
         #region Constructors
         public CoordTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            coordService = new CoordService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private Coord GetFilledRandomCoord(string OmitPropName)
         {
-            CoordID += 1;
-
             Coord coord = new Coord();
 
             if (OmitPropName != "Lat") coord.Lat = GetRandomDouble(1.0D, 1000.0D);
@@ -56,8 +51,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Coord_Testing()
         {
-            SetupTestHelper(culture);
-            CoordService coordService = new CoordService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             Coord coord = GetFilledRandomCoord("");
 
             // -------------------------------

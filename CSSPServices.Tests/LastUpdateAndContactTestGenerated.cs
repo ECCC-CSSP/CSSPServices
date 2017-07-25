@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int LastUpdateAndContactID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private LastUpdateAndContactService lastUpdateAndContactService { get; set; }
         #endregion Properties
 
         #region Constructors
         public LastUpdateAndContactTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            lastUpdateAndContactService = new LastUpdateAndContactService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,13 +37,11 @@ namespace CSSPServices.Tests
         #region Functions private
         private LastUpdateAndContact GetFilledRandomLastUpdateAndContact(string OmitPropName)
         {
-            LastUpdateAndContactID += 1;
-
             LastUpdateAndContact lastUpdateAndContact = new LastUpdateAndContact();
 
             if (OmitPropName != "Error") lastUpdateAndContact.Error = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") lastUpdateAndContact.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") lastUpdateAndContact.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") lastUpdateAndContact.LastUpdateContactTVItemID = 2;
 
             return lastUpdateAndContact;
         }
@@ -56,8 +51,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void LastUpdateAndContact_Testing()
         {
-            SetupTestHelper(culture);
-            LastUpdateAndContactService lastUpdateAndContactService = new LastUpdateAndContactService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             LastUpdateAndContact lastUpdateAndContact = GetFilledRandomLastUpdateAndContact("");
 
             // -------------------------------

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int FilePurposeAndTextID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private FilePurposeAndTextService filePurposeAndTextService { get; set; }
         #endregion Properties
 
         #region Constructors
         public FilePurposeAndTextTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            filePurposeAndTextService = new FilePurposeAndTextService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,12 +37,10 @@ namespace CSSPServices.Tests
         #region Functions private
         private FilePurposeAndText GetFilledRandomFilePurposeAndText(string OmitPropName)
         {
-            FilePurposeAndTextID += 1;
-
             FilePurposeAndText filePurposeAndText = new FilePurposeAndText();
 
             if (OmitPropName != "FilePurpose") filePurposeAndText.FilePurpose = (FilePurposeEnum)GetRandomEnumType(typeof(FilePurposeEnum));
-            if (OmitPropName != "FilePurposeText") filePurposeAndText.FilePurposeText = GetRandomString("", 5);
+            if (OmitPropName != "FilePurposeText") filePurposeAndText.FilePurposeText = GetRandomString("", 6);
 
             return filePurposeAndText;
         }
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void FilePurposeAndText_Testing()
         {
-            SetupTestHelper(culture);
-            FilePurposeAndTextService filePurposeAndTextService = new FilePurposeAndTextService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             FilePurposeAndText filePurposeAndText = GetFilledRandomFilePurposeAndText("");
 
             // -------------------------------

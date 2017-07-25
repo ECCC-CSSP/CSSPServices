@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int LabSheetA1MeasurementID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private LabSheetA1MeasurementService labSheetA1MeasurementService { get; set; }
         #endregion Properties
 
         #region Constructors
         public LabSheetA1MeasurementTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            labSheetA1MeasurementService = new LabSheetA1MeasurementService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private LabSheetA1Measurement GetFilledRandomLabSheetA1Measurement(string OmitPropName)
         {
-            LabSheetA1MeasurementID += 1;
-
             LabSheetA1Measurement labSheetA1Measurement = new LabSheetA1Measurement();
 
             if (OmitPropName != "Site") labSheetA1Measurement.Site = GetRandomString("", 20);
@@ -65,8 +60,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void LabSheetA1Measurement_Testing()
         {
-            SetupTestHelper(culture);
-            LabSheetA1MeasurementService labSheetA1MeasurementService = new LabSheetA1MeasurementService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             LabSheetA1Measurement labSheetA1Measurement = GetFilledRandomLabSheetA1Measurement("");
 
             // -------------------------------

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int NodeLayerID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private NodeLayerService nodeLayerService { get; set; }
         #endregion Properties
 
         #region Constructors
         public NodeLayerTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            nodeLayerService = new NodeLayerService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private NodeLayer GetFilledRandomNodeLayer(string OmitPropName)
         {
-            NodeLayerID += 1;
-
             NodeLayer nodeLayer = new NodeLayer();
 
             if (OmitPropName != "Layer") nodeLayer.Layer = GetRandomInt(1, 100);
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void NodeLayer_Testing()
         {
-            SetupTestHelper(culture);
-            NodeLayerService nodeLayerService = new NodeLayerService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             NodeLayer nodeLayer = GetFilledRandomNodeLayer("");
 
             // -------------------------------

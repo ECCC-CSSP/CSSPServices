@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int RainExceedanceID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private RainExceedanceService rainExceedanceService { get; set; }
         #endregion Properties
 
         #region Constructors
         public RainExceedanceTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            rainExceedanceService = new RainExceedanceService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,11 +37,8 @@ namespace CSSPServices.Tests
         #region Functions private
         private RainExceedance GetFilledRandomRainExceedance(string OmitPropName)
         {
-            RainExceedanceID += 1;
-
             RainExceedance rainExceedance = new RainExceedance();
 
-            if (OmitPropName != "RainExceedanceID") rainExceedance.RainExceedanceID = RainExceedanceID;
             if (OmitPropName != "YearRound") rainExceedance.YearRound = true;
             if (OmitPropName != "StartDate_Local") rainExceedance.StartDate_Local = GetRandomDateTime();
             if (OmitPropName != "EndDate_Local") rainExceedance.EndDate_Local = GetRandomDateTime();
@@ -55,9 +49,9 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ProvinceTVItemIDs") rainExceedance.ProvinceTVItemIDs = GetRandomString("", 5);
             if (OmitPropName != "SubsectorTVItemIDs") rainExceedance.SubsectorTVItemIDs = GetRandomString("", 5);
             if (OmitPropName != "ClimateSiteTVItemIDs") rainExceedance.ClimateSiteTVItemIDs = GetRandomString("", 5);
-            if (OmitPropName != "EmailDistributionListIDs") rainExceedance.EmailDistributionListIDs = GetRandomEmail();
+            if (OmitPropName != "EmailDistributionListIDs") rainExceedance.EmailDistributionListIDs = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") rainExceedance.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") rainExceedance.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") rainExceedance.LastUpdateContactTVItemID = 2;
 
             return rainExceedance;
         }
@@ -67,8 +61,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void RainExceedance_Testing()
         {
-            SetupTestHelper(culture);
-            RainExceedanceService rainExceedanceService = new RainExceedanceService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             RainExceedance rainExceedance = GetFilledRandomRainExceedance("");
 
             // -------------------------------
@@ -77,13 +76,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, rainExceedanceService.Add(rainExceedance));
+            count = rainExceedanceService.GetRead().Count();
+
+            rainExceedanceService.Add(rainExceedance);
+            if (rainExceedance.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, rainExceedanceService.GetRead().Where(c => c == rainExceedance).Any());
-            rainExceedance.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, rainExceedanceService.Update(rainExceedance));
-            Assert.AreEqual(1, rainExceedanceService.GetRead().Count());
-            Assert.AreEqual(true, rainExceedanceService.Delete(rainExceedance));
-            Assert.AreEqual(0, rainExceedanceService.GetRead().Count());
+            rainExceedanceService.Update(rainExceedance);
+            if (rainExceedance.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, rainExceedanceService.GetRead().Count());
+            rainExceedanceService.Delete(rainExceedance);
+            if (rainExceedance.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

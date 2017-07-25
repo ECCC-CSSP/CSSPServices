@@ -25,8 +25,8 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        public CalDecayService(LanguageEnum LanguageRequest, int ContactID, DatabaseTypeEnum DatabaseType)
-            : base(LanguageRequest, ContactID)
+        public CalDecayService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
+            : base(LanguageRequest, db, ContactID)
         {
         }
         #endregion Constructors

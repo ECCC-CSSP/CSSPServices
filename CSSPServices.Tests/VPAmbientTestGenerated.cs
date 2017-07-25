@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int VPAmbientID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private VPAmbientService vpAmbientService { get; set; }
         #endregion Properties
 
         #region Constructors
         public VPAmbientTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            vpAmbientService = new VPAmbientService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,11 +37,8 @@ namespace CSSPServices.Tests
         #region Functions private
         private VPAmbient GetFilledRandomVPAmbient(string OmitPropName)
         {
-            VPAmbientID += 1;
-
             VPAmbient vpAmbient = new VPAmbient();
 
-            if (OmitPropName != "VPAmbientID") vpAmbient.VPAmbientID = VPAmbientID;
             if (OmitPropName != "VPScenarioID") vpAmbient.VPScenarioID = GetRandomInt(1, 11);
             if (OmitPropName != "Row") vpAmbient.Row = GetRandomInt(0, 10);
             if (OmitPropName != "MeasurementDepth_m") vpAmbient.MeasurementDepth_m = GetRandomDouble(1.0D, 1000.0D);
@@ -58,7 +52,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "FarFieldCurrentDirection_deg") vpAmbient.FarFieldCurrentDirection_deg = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "FarFieldDiffusionCoefficient") vpAmbient.FarFieldDiffusionCoefficient = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") vpAmbient.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") vpAmbient.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") vpAmbient.LastUpdateContactTVItemID = 2;
 
             return vpAmbient;
         }
@@ -68,8 +62,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void VPAmbient_Testing()
         {
-            SetupTestHelper(culture);
-            VPAmbientService vpAmbientService = new VPAmbientService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             VPAmbient vpAmbient = GetFilledRandomVPAmbient("");
 
             // -------------------------------
@@ -78,13 +77,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
+            count = vpAmbientService.GetRead().Count();
+
+            vpAmbientService.Add(vpAmbient);
+            if (vpAmbient.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, vpAmbientService.GetRead().Where(c => c == vpAmbient).Any());
-            vpAmbient.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, vpAmbientService.Update(vpAmbient));
-            Assert.AreEqual(1, vpAmbientService.GetRead().Count());
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(0, vpAmbientService.GetRead().Count());
+            vpAmbientService.Update(vpAmbient);
+            if (vpAmbient.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, vpAmbientService.GetRead().Count());
+            vpAmbientService.Delete(vpAmbient);
+            if (vpAmbient.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

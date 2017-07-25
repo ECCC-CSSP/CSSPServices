@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TVItemLanguageID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TVItemLanguageService tvItemLanguageService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TVItemLanguageTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tvItemLanguageService = new TVItemLanguageService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,17 +37,14 @@ namespace CSSPServices.Tests
         #region Functions private
         private TVItemLanguage GetFilledRandomTVItemLanguage(string OmitPropName)
         {
-            TVItemLanguageID += 1;
-
             TVItemLanguage tvItemLanguage = new TVItemLanguage();
 
-            if (OmitPropName != "TVItemLanguageID") tvItemLanguage.TVItemLanguageID = TVItemLanguageID;
             if (OmitPropName != "TVItemID") tvItemLanguage.TVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "Language") tvItemLanguage.Language = language;
             if (OmitPropName != "TVText") tvItemLanguage.TVText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatus") tvItemLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") tvItemLanguage.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") tvItemLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") tvItemLanguage.LastUpdateContactTVItemID = 2;
 
             return tvItemLanguage;
         }
@@ -60,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVItemLanguage_Testing()
         {
-            SetupTestHelper(culture);
-            TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TVItemLanguage tvItemLanguage = GetFilledRandomTVItemLanguage("");
 
             // -------------------------------
@@ -70,13 +69,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, tvItemLanguageService.Add(tvItemLanguage));
+            count = tvItemLanguageService.GetRead().Count();
+
+            tvItemLanguageService.Add(tvItemLanguage);
+            if (tvItemLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, tvItemLanguageService.GetRead().Where(c => c == tvItemLanguage).Any());
-            tvItemLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, tvItemLanguageService.Update(tvItemLanguage));
-            Assert.AreEqual(1, tvItemLanguageService.GetRead().Count());
-            Assert.AreEqual(true, tvItemLanguageService.Delete(tvItemLanguage));
-            Assert.AreEqual(0, tvItemLanguageService.GetRead().Count());
+            tvItemLanguageService.Update(tvItemLanguage);
+            if (tvItemLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, tvItemLanguageService.GetRead().Count());
+            tvItemLanguageService.Delete(tvItemLanguage);
+            if (tvItemLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

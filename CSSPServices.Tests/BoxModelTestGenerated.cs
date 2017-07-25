@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int BoxModelID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private BoxModelService boxModelService { get; set; }
         #endregion Properties
 
         #region Constructors
         public BoxModelTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            boxModelService = new BoxModelService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,12 +37,9 @@ namespace CSSPServices.Tests
         #region Functions private
         private BoxModel GetFilledRandomBoxModel(string OmitPropName)
         {
-            BoxModelID += 1;
-
             BoxModel boxModel = new BoxModel();
 
-            if (OmitPropName != "BoxModelID") boxModel.BoxModelID = BoxModelID;
-            if (OmitPropName != "InfrastructureTVItemID") boxModel.InfrastructureTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "InfrastructureTVItemID") boxModel.InfrastructureTVItemID = 16;
             if (OmitPropName != "Flow_m3_day") boxModel.Flow_m3_day = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "Depth_m") boxModel.Depth_m = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "Temperature_C") boxModel.Temperature_C = GetRandomDouble(1.0D, 1000.0D);
@@ -57,7 +51,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "T90_hour") boxModel.T90_hour = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "FlowDuration_hour") boxModel.FlowDuration_hour = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") boxModel.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") boxModel.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") boxModel.LastUpdateContactTVItemID = 2;
 
             return boxModel;
         }
@@ -67,8 +61,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void BoxModel_Testing()
         {
-            SetupTestHelper(culture);
-            BoxModelService boxModelService = new BoxModelService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             BoxModel boxModel = GetFilledRandomBoxModel("");
 
             // -------------------------------
@@ -77,13 +76,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
+            count = boxModelService.GetRead().Count();
+
+            boxModelService.Add(boxModel);
+            if (boxModel.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, boxModelService.GetRead().Where(c => c == boxModel).Any());
-            boxModel.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, boxModelService.Update(boxModel));
-            Assert.AreEqual(1, boxModelService.GetRead().Count());
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(0, boxModelService.GetRead().Count());
+            boxModelService.Update(boxModel);
+            if (boxModel.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, boxModelService.GetRead().Count());
+            boxModelService.Delete(boxModel);
+            if (boxModel.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, boxModelService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int SamplingPlanSubsectorSiteID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private SamplingPlanSubsectorSiteService samplingPlanSubsectorSiteService { get; set; }
         #endregion Properties
 
         #region Constructors
         public SamplingPlanSubsectorSiteTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            samplingPlanSubsectorSiteService = new SamplingPlanSubsectorSiteService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,16 +37,13 @@ namespace CSSPServices.Tests
         #region Functions private
         private SamplingPlanSubsectorSite GetFilledRandomSamplingPlanSubsectorSite(string OmitPropName)
         {
-            SamplingPlanSubsectorSiteID += 1;
-
             SamplingPlanSubsectorSite samplingPlanSubsectorSite = new SamplingPlanSubsectorSite();
 
-            if (OmitPropName != "SamplingPlanSubsectorSiteID") samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID = SamplingPlanSubsectorSiteID;
             if (OmitPropName != "SamplingPlanSubsectorID") samplingPlanSubsectorSite.SamplingPlanSubsectorID = GetRandomInt(1, 11);
-            if (OmitPropName != "MWQMSiteTVItemID") samplingPlanSubsectorSite.MWQMSiteTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "MWQMSiteTVItemID") samplingPlanSubsectorSite.MWQMSiteTVItemID = 19;
             if (OmitPropName != "IsDuplicate") samplingPlanSubsectorSite.IsDuplicate = true;
             if (OmitPropName != "LastUpdateDate_UTC") samplingPlanSubsectorSite.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") samplingPlanSubsectorSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") samplingPlanSubsectorSite.LastUpdateContactTVItemID = 2;
 
             return samplingPlanSubsectorSite;
         }
@@ -59,8 +53,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void SamplingPlanSubsectorSite_Testing()
         {
-            SetupTestHelper(culture);
-            SamplingPlanSubsectorSiteService samplingPlanSubsectorSiteService = new SamplingPlanSubsectorSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             SamplingPlanSubsectorSite samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
 
             // -------------------------------
@@ -69,13 +68,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
+            count = samplingPlanSubsectorSiteService.GetRead().Count();
+
+            samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
+            if (samplingPlanSubsectorSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, samplingPlanSubsectorSiteService.GetRead().Where(c => c == samplingPlanSubsectorSite).Any());
-            samplingPlanSubsectorSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite));
-            Assert.AreEqual(1, samplingPlanSubsectorSiteService.GetRead().Count());
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Delete(samplingPlanSubsectorSite));
-            Assert.AreEqual(0, samplingPlanSubsectorSiteService.GetRead().Count());
+            samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
+            if (samplingPlanSubsectorSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, samplingPlanSubsectorSiteService.GetRead().Count());
+            samplingPlanSubsectorSiteService.Delete(samplingPlanSubsectorSite);
+            if (samplingPlanSubsectorSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

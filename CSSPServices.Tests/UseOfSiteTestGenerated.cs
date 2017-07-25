@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int UseOfSiteID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private UseOfSiteService useOfSiteService { get; set; }
         #endregion Properties
 
         #region Constructors
         public UseOfSiteTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            useOfSiteService = new UseOfSiteService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,13 +37,10 @@ namespace CSSPServices.Tests
         #region Functions private
         private UseOfSite GetFilledRandomUseOfSite(string OmitPropName)
         {
-            UseOfSiteID += 1;
-
             UseOfSite useOfSite = new UseOfSite();
 
-            if (OmitPropName != "UseOfSiteID") useOfSite.UseOfSiteID = UseOfSiteID;
             if (OmitPropName != "SiteTVItemID") useOfSite.SiteTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "SubsectorTVItemID") useOfSite.SubsectorTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "SubsectorTVItemID") useOfSite.SubsectorTVItemID = 11;
             if (OmitPropName != "SiteType") useOfSite.SiteType = (SiteTypeEnum)GetRandomEnumType(typeof(SiteTypeEnum));
             if (OmitPropName != "Ordinal") useOfSite.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "StartYear") useOfSite.StartYear = GetRandomInt(1980, 2050);
@@ -59,7 +53,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Param3") useOfSite.Param3 = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "Param4") useOfSite.Param4 = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") useOfSite.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") useOfSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") useOfSite.LastUpdateContactTVItemID = 2;
 
             return useOfSite;
         }
@@ -69,8 +63,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void UseOfSite_Testing()
         {
-            SetupTestHelper(culture);
-            UseOfSiteService useOfSiteService = new UseOfSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             UseOfSite useOfSite = GetFilledRandomUseOfSite("");
 
             // -------------------------------
@@ -79,13 +78,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            count = useOfSiteService.GetRead().Count();
+
+            useOfSiteService.Add(useOfSite);
+            if (useOfSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, useOfSiteService.GetRead().Where(c => c == useOfSite).Any());
-            useOfSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, useOfSiteService.Update(useOfSite));
-            Assert.AreEqual(1, useOfSiteService.GetRead().Count());
-            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            useOfSiteService.Update(useOfSite);
+            if (useOfSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, useOfSiteService.GetRead().Count());
+            useOfSiteService.Delete(useOfSite);
+            if (useOfSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

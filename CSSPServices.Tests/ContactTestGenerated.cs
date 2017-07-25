@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int ContactID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private ContactService contactService { get; set; }
         #endregion Properties
 
         #region Constructors
         public ContactTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            contactService = new ContactService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,13 +37,10 @@ namespace CSSPServices.Tests
         #region Functions private
         private Contact GetFilledRandomContact(string OmitPropName)
         {
-            ContactID += 1;
-
             Contact contact = new Contact();
 
-            if (OmitPropName != "ContactID") contact.ContactID = ContactID;
             if (OmitPropName != "Id") contact.Id = GetRandomString("", 5);
-            if (OmitPropName != "ContactTVItemID") contact.ContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "ContactTVItemID") contact.ContactTVItemID = 2;
             if (OmitPropName != "LoginEmail") contact.LoginEmail = GetRandomEmail();
             if (OmitPropName != "FirstName") contact.FirstName = GetRandomString("", 5);
             if (OmitPropName != "LastName") contact.LastName = GetRandomString("", 5);
@@ -59,7 +53,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "IsNew") contact.IsNew = true;
             if (OmitPropName != "SamplingPlanner_ProvincesTVItemID") contact.SamplingPlanner_ProvincesTVItemID = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") contact.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") contact.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") contact.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "ParentTVItemID") contact.ParentTVItemID = GetRandomInt(1, 11);
 
             return contact;
@@ -70,8 +64,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Contact_Testing()
         {
-            SetupTestHelper(culture);
-            ContactService contactService = new ContactService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             Contact contact = GetFilledRandomContact("");
 
             // -------------------------------
@@ -80,13 +79,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
+            count = contactService.GetRead().Count();
+
+            contactService.Add(contact, ContactService.AddContactType.First);
+            if (contact.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, contactService.GetRead().Where(c => c == contact).Any());
-            contact.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, contactService.Update(contact));
-            Assert.AreEqual(1, contactService.GetRead().Count());
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(0, contactService.GetRead().Count());
+            contactService.Update(contact);
+            if (contact.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, contactService.GetRead().Count());
+            contactService.Delete(contact);
+            if (contact.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, contactService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

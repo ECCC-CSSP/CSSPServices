@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MikeScenarioID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MikeScenarioService mikeScenarioService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MikeScenarioTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mikeScenarioService = new MikeScenarioService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,13 +37,10 @@ namespace CSSPServices.Tests
         #region Functions private
         private MikeScenario GetFilledRandomMikeScenario(string OmitPropName)
         {
-            MikeScenarioID += 1;
-
             MikeScenario mikeScenario = new MikeScenario();
 
-            if (OmitPropName != "MikeScenarioID") mikeScenario.MikeScenarioID = MikeScenarioID;
-            if (OmitPropName != "MikeScenarioTVItemID") mikeScenario.MikeScenarioTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "ParentMikeScenarioID") mikeScenario.ParentMikeScenarioID = GetRandomInt(1, 11);
+            if (OmitPropName != "MikeScenarioTVItemID") mikeScenario.MikeScenarioTVItemID = 25;
+            if (OmitPropName != "ParentMikeScenarioID") mikeScenario.ParentMikeScenarioID = 25;
             if (OmitPropName != "ScenarioStatus") mikeScenario.ScenarioStatus = (ScenarioStatusEnum)GetRandomEnumType(typeof(ScenarioStatusEnum));
             if (OmitPropName != "ErrorInfo") mikeScenario.ErrorInfo = GetRandomString("", 20);
             if (OmitPropName != "MikeScenarioStartDateTime_Local") mikeScenario.MikeScenarioStartDateTime_Local = GetRandomDateTime();
@@ -71,7 +65,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EstimatedHydroFileSize") mikeScenario.EstimatedHydroFileSize = GetRandomInt(0, 100000000);
             if (OmitPropName != "EstimatedTransFileSize") mikeScenario.EstimatedTransFileSize = GetRandomInt(0, 100000000);
             if (OmitPropName != "LastUpdateDate_UTC") mikeScenario.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") mikeScenario.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") mikeScenario.LastUpdateContactTVItemID = 2;
 
             return mikeScenario;
         }
@@ -81,8 +75,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MikeScenario_Testing()
         {
-            SetupTestHelper(culture);
-            MikeScenarioService mikeScenarioService = new MikeScenarioService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MikeScenario mikeScenario = GetFilledRandomMikeScenario("");
 
             // -------------------------------
@@ -91,13 +90,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, mikeScenarioService.Add(mikeScenario));
+            count = mikeScenarioService.GetRead().Count();
+
+            mikeScenarioService.Add(mikeScenario);
+            if (mikeScenario.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, mikeScenarioService.GetRead().Where(c => c == mikeScenario).Any());
-            mikeScenario.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, mikeScenarioService.Update(mikeScenario));
-            Assert.AreEqual(1, mikeScenarioService.GetRead().Count());
-            Assert.AreEqual(true, mikeScenarioService.Delete(mikeScenario));
-            Assert.AreEqual(0, mikeScenarioService.GetRead().Count());
+            mikeScenarioService.Update(mikeScenario);
+            if (mikeScenario.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, mikeScenarioService.GetRead().Count());
+            mikeScenarioService.Delete(mikeScenario);
+            if (mikeScenario.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

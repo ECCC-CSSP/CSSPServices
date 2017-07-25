@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MapInfoID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MapInfoService mapInfoService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MapInfoTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mapInfoService = new MapInfoService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,11 +37,8 @@ namespace CSSPServices.Tests
         #region Functions private
         private MapInfo GetFilledRandomMapInfo(string OmitPropName)
         {
-            MapInfoID += 1;
-
             MapInfo mapInfo = new MapInfo();
 
-            if (OmitPropName != "MapInfoID") mapInfo.MapInfoID = MapInfoID;
             if (OmitPropName != "TVItemID") mapInfo.TVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "TVType") mapInfo.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "LatMin") mapInfo.LatMin = GetRandomDouble(1.0D, 1000.0D);
@@ -53,7 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LngMax") mapInfo.LngMax = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "MapInfoDrawType") mapInfo.MapInfoDrawType = (MapInfoDrawTypeEnum)GetRandomEnumType(typeof(MapInfoDrawTypeEnum));
             if (OmitPropName != "LastUpdateDate_UTC") mapInfo.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") mapInfo.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") mapInfo.LastUpdateContactTVItemID = 2;
 
             return mapInfo;
         }
@@ -63,8 +57,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MapInfo_Testing()
         {
-            SetupTestHelper(culture);
-            MapInfoService mapInfoService = new MapInfoService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MapInfo mapInfo = GetFilledRandomMapInfo("");
 
             // -------------------------------
@@ -73,13 +72,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
+            count = mapInfoService.GetRead().Count();
+
+            mapInfoService.Add(mapInfo);
+            if (mapInfo.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, mapInfoService.GetRead().Where(c => c == mapInfo).Any());
-            mapInfo.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, mapInfoService.Update(mapInfo));
-            Assert.AreEqual(1, mapInfoService.GetRead().Count());
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(0, mapInfoService.GetRead().Count());
+            mapInfoService.Update(mapInfo);
+            if (mapInfo.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, mapInfoService.GetRead().Count());
+            mapInfoService.Delete(mapInfo);
+            if (mapInfo.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, mapInfoService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

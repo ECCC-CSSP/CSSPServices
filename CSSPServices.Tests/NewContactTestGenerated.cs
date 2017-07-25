@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int NewContactID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private NewContactService newContactService { get; set; }
         #endregion Properties
 
         #region Constructors
         public NewContactTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            newContactService = new NewContactService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,13 +37,11 @@ namespace CSSPServices.Tests
         #region Functions private
         private NewContact GetFilledRandomNewContact(string OmitPropName)
         {
-            NewContactID += 1;
-
             NewContact newContact = new NewContact();
 
-            if (OmitPropName != "LoginEmail") newContact.LoginEmail = GetRandomEmail();
-            if (OmitPropName != "FirstName") newContact.FirstName = GetRandomString("", 5);
-            if (OmitPropName != "LastName") newContact.LastName = GetRandomString("", 5);
+            if (OmitPropName != "LoginEmail") newContact.LoginEmail = GetRandomString("", 6);
+            if (OmitPropName != "FirstName") newContact.FirstName = GetRandomString("", 6);
+            if (OmitPropName != "LastName") newContact.LastName = GetRandomString("", 6);
             if (OmitPropName != "Initial") newContact.Initial = GetRandomString("", 5);
             if (OmitPropName != "ContactTitle") newContact.ContactTitle = (ContactTitleEnum)GetRandomEnumType(typeof(ContactTitleEnum));
 
@@ -58,8 +53,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void NewContact_Testing()
         {
-            SetupTestHelper(culture);
-            NewContactService newContactService = new NewContactService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             NewContact newContact = GetFilledRandomNewContact("");
 
             // -------------------------------

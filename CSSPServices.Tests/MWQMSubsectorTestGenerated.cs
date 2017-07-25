@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MWQMSubsectorID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MWQMSubsectorService mwqmSubsectorService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MWQMSubsectorTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mwqmSubsectorService = new MWQMSubsectorService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,12 +37,9 @@ namespace CSSPServices.Tests
         #region Functions private
         private MWQMSubsector GetFilledRandomMWQMSubsector(string OmitPropName)
         {
-            MWQMSubsectorID += 1;
-
             MWQMSubsector mwqmSubsector = new MWQMSubsector();
 
-            if (OmitPropName != "MWQMSubsectorID") mwqmSubsector.MWQMSubsectorID = MWQMSubsectorID;
-            if (OmitPropName != "MWQMSubsectorTVItemID") mwqmSubsector.MWQMSubsectorTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "MWQMSubsectorTVItemID") mwqmSubsector.MWQMSubsectorTVItemID = 11;
             if (OmitPropName != "SubsectorHistoricKey") mwqmSubsector.SubsectorHistoricKey = GetRandomString("", 5);
             if (OmitPropName != "TideLocationSIDText") mwqmSubsector.TideLocationSIDText = GetRandomString("", 5);
             if (OmitPropName != "RainDay0Limit") mwqmSubsector.RainDay0Limit = GetRandomDouble(1.0D, 1000.0D);
@@ -72,7 +66,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "OnlyRainRunCount") mwqmSubsector.OnlyRainRunCount = GetRandomInt(0, 10);
             if (OmitPropName != "OnlyRainSelectFullYear") mwqmSubsector.OnlyRainSelectFullYear = true;
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSubsector.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") mwqmSubsector.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") mwqmSubsector.LastUpdateContactTVItemID = 2;
 
             return mwqmSubsector;
         }
@@ -82,8 +76,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MWQMSubsector_Testing()
         {
-            SetupTestHelper(culture);
-            MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MWQMSubsector mwqmSubsector = GetFilledRandomMWQMSubsector("");
 
             // -------------------------------
@@ -92,13 +91,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
+            count = mwqmSubsectorService.GetRead().Count();
+
+            mwqmSubsectorService.Add(mwqmSubsector);
+            if (mwqmSubsector.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, mwqmSubsectorService.GetRead().Where(c => c == mwqmSubsector).Any());
-            mwqmSubsector.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, mwqmSubsectorService.Update(mwqmSubsector));
-            Assert.AreEqual(1, mwqmSubsectorService.GetRead().Count());
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
+            mwqmSubsectorService.Update(mwqmSubsector);
+            if (mwqmSubsector.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, mwqmSubsectorService.GetRead().Count());
+            mwqmSubsectorService.Delete(mwqmSubsector);
+            if (mwqmSubsector.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

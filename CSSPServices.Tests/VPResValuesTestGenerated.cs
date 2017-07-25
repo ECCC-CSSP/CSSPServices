@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int VPResValuesID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private VPResValuesService vpResValuesService { get; set; }
         #endregion Properties
 
         #region Constructors
         public VPResValuesTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            vpResValuesService = new VPResValuesService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private VPResValues GetFilledRandomVPResValues(string OmitPropName)
         {
-            VPResValuesID += 1;
-
             VPResValues vpResValues = new VPResValues();
 
             if (OmitPropName != "Conc") vpResValues.Conc = GetRandomInt(0, 10);
@@ -59,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void VPResValues_Testing()
         {
-            SetupTestHelper(culture);
-            VPResValuesService vpResValuesService = new VPResValuesService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             VPResValues vpResValues = GetFilledRandomVPResValues("");
 
             // -------------------------------

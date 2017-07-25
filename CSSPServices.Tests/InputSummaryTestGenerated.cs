@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int InputSummaryID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private InputSummaryService inputSummaryService { get; set; }
         #endregion Properties
 
         #region Constructors
         public InputSummaryTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            inputSummaryService = new InputSummaryService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private InputSummary GetFilledRandomInputSummary(string OmitPropName)
         {
-            InputSummaryID += 1;
-
             InputSummary inputSummary = new InputSummary();
 
             if (OmitPropName != "Error") inputSummary.Error = GetRandomString("", 20);
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void InputSummary_Testing()
         {
-            SetupTestHelper(culture);
-            InputSummaryService inputSummaryService = new InputSummaryService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             InputSummary inputSummary = GetFilledRandomInputSummary("");
 
             // -------------------------------

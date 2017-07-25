@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int LastUpdateAndTVTextID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private LastUpdateAndTVTextService lastUpdateAndTVTextService { get; set; }
         #endregion Properties
 
         #region Constructors
         public LastUpdateAndTVTextTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            lastUpdateAndTVTextService = new LastUpdateAndTVTextService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,14 +37,12 @@ namespace CSSPServices.Tests
         #region Functions private
         private LastUpdateAndTVText GetFilledRandomLastUpdateAndTVText(string OmitPropName)
         {
-            LastUpdateAndTVTextID += 1;
-
             LastUpdateAndTVText lastUpdateAndTVText = new LastUpdateAndTVText();
 
             if (OmitPropName != "Error") lastUpdateAndTVText.Error = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") lastUpdateAndTVText.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateDate_Local") lastUpdateAndTVText.LastUpdateDate_Local = GetRandomDateTime();
-            if (OmitPropName != "TVText") lastUpdateAndTVText.TVText = GetRandomString("", 5);
+            if (OmitPropName != "TVText") lastUpdateAndTVText.TVText = GetRandomString("", 6);
 
             return lastUpdateAndTVText;
         }
@@ -57,8 +52,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void LastUpdateAndTVText_Testing()
         {
-            SetupTestHelper(culture);
-            LastUpdateAndTVTextService lastUpdateAndTVTextService = new LastUpdateAndTVTextService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             LastUpdateAndTVText lastUpdateAndTVText = GetFilledRandomLastUpdateAndTVText("");
 
             // -------------------------------

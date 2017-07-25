@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TVLocationID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TVLocationService tvLocationService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TVLocationTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tvLocationService = new TVLocationService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,13 +37,11 @@ namespace CSSPServices.Tests
         #region Functions private
         private TVLocation GetFilledRandomTVLocation(string OmitPropName)
         {
-            TVLocationID += 1;
-
             TVLocation tvLocation = new TVLocation();
 
             if (OmitPropName != "Error") tvLocation.Error = GetRandomString("", 20);
             if (OmitPropName != "TVItemID") tvLocation.TVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "TVText") tvLocation.TVText = GetRandomString("", 5);
+            if (OmitPropName != "TVText") tvLocation.TVText = GetRandomString("", 6);
             if (OmitPropName != "TVType") tvLocation.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "SubTVType") tvLocation.SubTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
 
@@ -58,8 +53,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVLocation_Testing()
         {
-            SetupTestHelper(culture);
-            TVLocationService tvLocationService = new TVLocationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TVLocation tvLocation = GetFilledRandomTVLocation("");
 
             // -------------------------------

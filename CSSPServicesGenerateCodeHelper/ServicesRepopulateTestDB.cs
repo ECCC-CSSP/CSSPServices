@@ -39,26 +39,28 @@ namespace CSSPServicesGenerateCodeHelper
             List<Table> tableCSSPWebToolsDBList = new List<Table>();
             List<Table> tableTestDBList = new List<Table>();
 
+            StatusPermanentEvent(new StatusEventArgs("Loading CSSPWebTools table information..."));
             if (!LoadDBInfo(tableCSSPWebToolsDBList, servicesFiles.CSSPWebToolsDBConnectionString))
             {
                 return;
             }
 
+            StatusPermanentEvent(new StatusEventArgs("Loading TestDB table information..."));
             if (!LoadDBInfo(tableTestDBList, servicesFiles.TestDBConnectionString))
             {
                 return;
             }
 
+            StatusPermanentEvent(new StatusEventArgs("Comparing tables ..."));
             if (!CompareDBs(tableCSSPWebToolsDBList, tableTestDBList)) return;
-
             StatusPermanentEvent(new StatusEventArgs("Done comparing ... everything ok"));
 
+            StatusPermanentEvent(new StatusEventArgs("Cleaning TestDB ..."));
             if (!CleanTestDB(tableTestDBList, servicesFiles.TestDBConnectionString)) return;
-
             StatusPermanentEvent(new StatusEventArgs("Done Cleaning TestDB ... everything ok"));
 
+            StatusPermanentEvent(new StatusEventArgs("Filling TestDB ..."));
             if (!FillTestDB(tableTestDBList)) return;
-
             StatusPermanentEvent(new StatusEventArgs("Done Filling TestDB ... everything ok"));
 
             StatusTempEvent(new StatusEventArgs("Done ..."));
@@ -198,6 +200,7 @@ namespace CSSPServicesGenerateCodeHelper
         private bool FillTestDB(List<Table> tableTestDBList)
         {
             #region TVItem Root
+            StatusTempEvent(new StatusEventArgs("doing ... root"));
             // TVItem Root TVItemID = 1
             TVItem tvItemRoot = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 1).FirstOrDefault();
             if (!AddObject("TVItem", tvItemRoot)) return false;
@@ -214,6 +217,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemLanguageFRRoot)) return false;
             #endregion  TVItem Root
             #region TVItem Contact Charles
+            StatusTempEvent(new StatusEventArgs("doing ... TVItem Contact Charles"));
             // TVItem Charles G. LeBlanc TVItemID = 2
             TVItem tvItemContactCharles = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 2).FirstOrDefault();
             tvItemContactCharles.ParentID = tvItemRoot.TVItemID;
@@ -231,6 +235,8 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemLanguageFRContactCharles)) return false;
             #endregion TVItem Contact Charles
             #region Contact and ContactLogin Charles
+            StatusTempEvent(new StatusEventArgs("doing ... Contact and ContactLogin Charles"));
+
             // Contact Charles G. LeBlanc
             Contact contactCharles = dbCSSPWebToolsDBRead.Contacts.AsNoTracking().Where(c => c.ContactTVItemID == 2).FirstOrDefault();
             if (!AddObject("Contact", contactCharles)) return false;
@@ -247,7 +253,7 @@ namespace CSSPServicesGenerateCodeHelper
             register.Password = "aaaaaa2!";
             register.ConfirmPassword = register.Password;
 
-            ContactService contactService = new ContactService(LanguageEnum.en, 2, DatabaseTypeEnum.MemoryTestDB);
+            ContactService contactService = new ContactService(LanguageEnum.en, dbTestDBWrite, 2);
             contactService.CreatePasswordHashAndSalt(register, out PasswordHash, out PasswordSalt);
 
             ContactLogin contactLoginCharles = new ContactLogin();
@@ -262,6 +268,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("ContactLogin", contactLoginCharles)) return false;
             #endregion Contact and ContactLogin Charles
             #region Contact and ContactLogin Test User 1
+            StatusTempEvent(new StatusEventArgs("doing ... TVItem Contact and Contact Login test user 1"));
             // TVItem Test User 1 TVItemID = 3
             TVItem tvItemContactTestUser1 = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 3).FirstOrDefault();
             tvItemContactTestUser1.ParentID = tvItemRoot.TVItemID;
@@ -305,6 +312,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("ContactLogin", contactLoginTestUser1)) return false;
             #endregion Contact and ContactLogin Test User 1
             #region Contact and ContactLogin Test User 2
+            StatusTempEvent(new StatusEventArgs("doing ... TVItem Contact and Contact Login test user 1"));
 
             // TVItem Test User 2 TVItemID = 4
             TVItem tvItemContactTestUser2 = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 4).FirstOrDefault();
@@ -349,6 +357,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("ContactLogin", contactLoginTestUser2)) return false;
             #endregion Contact and ContactLogin Test User 2
             #region TVItem Country Canada
+            StatusTempEvent(new StatusEventArgs("doing ... Canada"));
             // TVItem Canada TVItemID = 5
             TVItem tvItemCanada = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 5).FirstOrDefault();
             tvItemCanada.ParentID = tvItemRoot.TVItemID;
@@ -367,6 +376,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemLanguageFRCanada)) return false;
             #endregion TVItem Country Canada
             #region TVItem Province NB
+            StatusTempEvent(new StatusEventArgs("doing ... New Brunswick"));
             // TVItem Province NB TVItemID = 7
             TVItem tvItemNB = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 7).FirstOrDefault();
             tvItemNB.ParentID = tvItemCanada.TVItemID;
@@ -385,6 +395,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemLanguageFRNB)) return false;
             #endregion TVItem Province NB
             #region TVItem ClimateSite Bouctouche CDA
+            StatusTempEvent(new StatusEventArgs("doing ... Climate Site"));
             // TVItem ClimateSite Bouctouche CDA TVItemID = 229528
             TVItem tvItemNBClimateSiteBouctoucheCDA = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 229528).FirstOrDefault();
             tvItemNBClimateSiteBouctoucheCDA.ParentID = tvItemNB.TVItemID;
@@ -419,6 +430,7 @@ namespace CSSPServicesGenerateCodeHelper
             }
             #endregion ClimateSite Bouctouche CDA
             #region TVItem HydrometricSite Big Tracadie 01BL003 
+            StatusTempEvent(new StatusEventArgs("doing ... Hydrometric Site"));
             // TVItem HydrometricSite Big Tracadie 01BL003 TVItemID = 55401
             TVItem tvItemNBHydrometricSiteBigTracadie = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 55401).FirstOrDefault();
             tvItemNBHydrometricSiteBigTracadie.ParentID = tvItemNB.TVItemID;
@@ -453,6 +465,7 @@ namespace CSSPServicesGenerateCodeHelper
             }
             #endregion HydrometricSite Big Tracadie 01BL003 
             #region RatingCurve Big Tracadie 01BL003 
+            StatusTempEvent(new StatusEventArgs("doing ... Rating Curve"));
 
             // NB Hydrometric site Big Tracadie where HydrometricSiteTVItemID = 55401
             RatingCurve ratingCurve = dbCSSPWebToolsDBRead.RatingCurves.AsNoTracking().Where(c => c.HydrometricSiteID == HydrometricSiteID).FirstOrDefault();
@@ -461,9 +474,9 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("RatingCurve", ratingCurve)) return false;
             #endregion RatingCurve Big Tracadie 01BL003 
             #region RatingCurveValue Big Tracadie 01BL003 
-
+            StatusTempEvent(new StatusEventArgs("doing ... Rating Curve Value"));
             // NB Hydrometric site Big Tracadie where HydrometricSiteTVItemID = 55401
-            List<RatingCurveValue> ratingCurveValueList = dbCSSPWebToolsDBRead.RatingCurveValues.AsNoTracking().Where(c => c.RatingCurveID == RatingCurveID).ToList();
+            List<RatingCurveValue> ratingCurveValueList = dbCSSPWebToolsDBRead.RatingCurveValues.AsNoTracking().Where(c => c.RatingCurveID == RatingCurveID).Take(5).ToList();
             foreach (RatingCurveValue ratingCurveValue in ratingCurveValueList)
             {
                 ratingCurveValue.RatingCurveID = ratingCurve.RatingCurveID;
@@ -471,6 +484,7 @@ namespace CSSPServicesGenerateCodeHelper
             }
             #endregion RatingCurve Big Tracadie 01BL003 
             #region TVItem Area NB-06 
+            StatusTempEvent(new StatusEventArgs("doing ... Area NB-06"));
             // TVItem Area NB-06 TVItemID = 629
             TVItem tvItemNB_06 = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 629).FirstOrDefault();
             tvItemNB_06.ParentID = tvItemNB.TVItemID;
@@ -489,6 +503,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemLanguageFRNB_06)) return false;
             #endregion TVItem Area NB-06 
             #region TVItem Sector NB-06-020 
+            StatusTempEvent(new StatusEventArgs("doing ... Sector NB-06-020"));
             // TVItem Sector NB-06_020 TVItemID = 633
             TVItem tvItemNB_06_020 = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 633).FirstOrDefault();
             tvItemNB_06_020.ParentID = tvItemNB_06.TVItemID;
@@ -507,6 +522,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemLanguageFRNB_06_020)) return false;
             #endregion TVItem Sector NB-06-020 
             #region TVItem Subsector NB-06_020_001 
+            StatusTempEvent(new StatusEventArgs("doing ... Subsector NB-06-020-001"));
             // TVItem Subsector NB-06_020_001 TVItemID = 634
             TVItem tvItemNB_06_020_001 = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 634).FirstOrDefault();
             tvItemNB_06_020_001.ParentID = tvItemNB_06_020.TVItemID;
@@ -524,8 +540,26 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemLanguageFRNB_06_020_001.TVItemID = tvItemNB_06_020.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageFRNB_06_020_001)) return false;
             #endregion TVItem Subsector NB-06_020_001 
-            #region TVItem Subsector NB-06_020_002 
+            #region MWQMSubsector NB-06_020_001 and MWQMSubsectorLanguage
+            StatusTempEvent(new StatusEventArgs("doing ... MWQM Subsector NB-06-020-001"));
+            // MWQMSubsector NB-06_020_001 TVItemID = 634
+            MWQMSubsector mwqmSubsector001 = dbCSSPWebToolsDBRead.MWQMSubsectors.AsNoTracking().Where(c => c.MWQMSubsectorTVItemID == 634).FirstOrDefault();
+            int MWQMSubsector001ID = mwqmSubsector001.MWQMSubsectorID;
+            mwqmSubsector001.MWQMSubsectorTVItemID = tvItemNB_06_020_001.TVItemID;
+            if (!AddObject("MWQMSubsector", mwqmSubsector001)) return false;
 
+            // MWQMSubsectorLanguage EN NB-06_020_001 TVItemID = 634
+            MWQMSubsectorLanguage mwqmSubsector001EN = dbCSSPWebToolsDBRead.MWQMSubsectorLanguages.AsNoTracking().Where(c => c.MWQMSubsectorID == MWQMSubsector001ID && c.Language == LanguageEnum.en).FirstOrDefault();
+            mwqmSubsector001EN.MWQMSubsectorID = mwqmSubsector001.MWQMSubsectorID;
+            if (!AddObject("MWQMSubsectorLanguage", mwqmSubsector001EN)) return false;
+
+            // MWQMSubsectorLanguage FR NB-06_020_001 TVItemID = 634
+            MWQMSubsectorLanguage mwqmSubsector001FR = dbCSSPWebToolsDBRead.MWQMSubsectorLanguages.AsNoTracking().Where(c => c.MWQMSubsectorID == MWQMSubsector001ID && c.Language == LanguageEnum.fr).FirstOrDefault();
+            mwqmSubsector001FR.MWQMSubsectorID = mwqmSubsector001.MWQMSubsectorID;
+            if (!AddObject("MWQMSubsectorLanguage", mwqmSubsector001FR)) return false;
+            #endregion TVItem Subsector NB-06_020_001 
+            #region TVItem Subsector NB-06_020_002 
+            StatusTempEvent(new StatusEventArgs("doing ... Subsector NB-06-020-002"));
             // TVItem Subsector NB-06_020_002 TVItemID = 635
             TVItem tvItemNB_06_020_002 = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 635).FirstOrDefault();
             tvItemNB_06_020_002.ParentID = tvItemNB_06_020.TVItemID;
@@ -543,7 +577,60 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemLanguageFRNB_06_020_002.TVItemID = tvItemNB_06_020.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageFRNB_06_020_002)) return false;
             #endregion TVItem Subsector NB-06_020_001 
+            #region MWQMSubsector NB-06_020_002 and MWQMSubsectorLanguage
+            StatusTempEvent(new StatusEventArgs("doing ... MWQM Subsector NB-06-020-002"));
+            // MWQMSubsector NB-06_020_002 TVItemID = 634
+            MWQMSubsector mwqmSubsector002 = dbCSSPWebToolsDBRead.MWQMSubsectors.AsNoTracking().Where(c => c.MWQMSubsectorTVItemID == 634).FirstOrDefault();
+            int MWQMSubsector002ID = mwqmSubsector002.MWQMSubsectorID;
+            mwqmSubsector002.MWQMSubsectorTVItemID = tvItemNB_06_020_002.TVItemID;
+            if (!AddObject("MWQMSubsector", mwqmSubsector002)) return false;
+
+            // MWQMSubsectorLanguage EN NB-06_020_002 TVItemID = 634
+            MWQMSubsectorLanguage mwqmSubsector002EN = dbCSSPWebToolsDBRead.MWQMSubsectorLanguages.AsNoTracking().Where(c => c.MWQMSubsectorID == MWQMSubsector002ID && c.Language == LanguageEnum.en).FirstOrDefault();
+            mwqmSubsector002EN.MWQMSubsectorID = mwqmSubsector002.MWQMSubsectorID;
+            if (!AddObject("MWQMSubsectorLanguage", mwqmSubsector002EN)) return false;
+
+            // MWQMSubsectorLanguage FR NB-06_020_002 TVItemID = 634
+            MWQMSubsectorLanguage mwqmSubsector002FR = dbCSSPWebToolsDBRead.MWQMSubsectorLanguages.AsNoTracking().Where(c => c.MWQMSubsectorID == MWQMSubsector002ID && c.Language == LanguageEnum.fr).FirstOrDefault();
+            mwqmSubsector002FR.MWQMSubsectorID = mwqmSubsector002.MWQMSubsectorID;
+            if (!AddObject("MWQMSubsectorLanguage", mwqmSubsector002FR)) return false;
+            #endregion TVItem Subsector NB-06_020_002 
+            #region TVItem TideSite Subsector NB-06-020-002
+            StatusTempEvent(new StatusEventArgs("doing ... Tide Site"));
+            // TVItem TideSite Subsector NB-06-020-002 TVItemID = 1553
+            TVItem tvItemNBTideSite = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 1553).FirstOrDefault();
+            tvItemNBTideSite.ParentID = tvItemNB.TVItemID;
+            if (!AddObject("TVItem", tvItemNBTideSite)) return false;
+            if (!CorrectTVPath(tvItemNBTideSite, tvItemNB)) return false;
+            if (!AddMapInfo(tvItemNBTideSite, 229528)) return false;
+
+            // TVItemLanguage EN Subsector NB-06-020-002 TVItemID = 1553
+            TVItemLanguage tvItemLanguageENNBTideSite = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 1553 && c.Language == LanguageEnum.en).FirstOrDefault();
+            tvItemLanguageENNBTideSite.TVItemID = tvItemNBTideSite.TVItemID;
+            if (!AddObject("TVItemLanguage", tvItemLanguageENNBTideSite)) return false;
+
+            // TVItemLanguage FR Subsector NB-06-020-002 TVItemID = 1553
+            TVItemLanguage tvItemLanguageFRNBTideSite = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 1553 && c.Language == LanguageEnum.fr).FirstOrDefault();
+            tvItemLanguageFRNBTideSite.TVItemID = tvItemNBTideSite.TVItemID;
+            if (!AddObject("TVItemLanguage", tvItemLanguageFRNBTideSite)) return false;
+            #endregion TVItem TideSite Bouctouche CDA
+            #region TideSite Bouctouche CDA
+            // Tide Site NB-06-020-002 where TideSiteTVItemID = 1553
+            TideSite TideSite = dbCSSPWebToolsDBRead.TideSites.AsNoTracking().Where(c => c.TideSiteTVItemID == 1553).FirstOrDefault();
+            int TideSiteID = TideSite.TideSiteID;
+            TideSite.TideSiteTVItemID = tvItemNBTideSite.TVItemID;
+            if (!AddObject("TideSite", TideSite)) return false;
+
+            // Tide Data Value NB-06-020-002 where TideSiteTVItemID = 1553
+            List<TideDataValue> tideDataValueList = dbCSSPWebToolsDBRead.TideDataValues.AsNoTracking().Where(c => c.TideSiteTVItemID == 1923 /* should be 1553 bu 1553 does not have data yet */).Take(5).ToList();
+            foreach (TideDataValue tideDataValue in tideDataValueList)
+            {
+                tideDataValue.TideSiteTVItemID = TideSite.TideSiteTVItemID;
+                if (!AddObject("TideDataValue", tideDataValue)) return false;
+            }
+            #endregion TideSite Bouctouche CDA
             #region TVItem Municipality Bouctouche
+            StatusTempEvent(new StatusEventArgs("doing ... Bouctouche"));
             // TVItem Municipality Bouctouche TVItemID = 27764
             TVItem tvItemBouctouche = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 27764).FirstOrDefault();
             tvItemBouctouche.ParentID = tvItemNB_06_020_002.TVItemID;
@@ -562,7 +649,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemLanguageFRBouctouche)) return false;
             #endregion TVItem Municipality Bouctouche
             #region TVItem Municipality Ste Marie de Kent 
-
+            StatusTempEvent(new StatusEventArgs("doing ... Ste-Marie-de-Kent"));
             // TVItem Municipality Ste Marie de Kent TVItemID = 44855
             TVItem tvItemSteMarieDeKent = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 44855).FirstOrDefault();
             tvItemSteMarieDeKent.ParentID = tvItemNB_06_020_002.TVItemID;
@@ -581,7 +668,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemLanguageFRSteMarieDeKent)) return false;
             #endregion TVItem Municipality Ste Marie de Kent 
             #region TVItem Municipality Bouctouche WWTP 
-
+            StatusTempEvent(new StatusEventArgs("doing ... Bouctouche WWTP"));
             // TVItem Municipality Bouctouche WWTP TVItemID = 28689
             TVItem tvItemBouctoucheWWTP = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 28689).FirstOrDefault();
             tvItemBouctoucheWWTP.ParentID = tvItemBouctouche.TVItemID;
@@ -600,7 +687,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemLanguageFRBouctoucheWWTP)) return false;
             #endregion TVItem Municipality Bouctouche WWTP 
             #region TVItem TVFile Bouctouche WWTP 
-
+            StatusTempEvent(new StatusEventArgs("doing ... Bouctouche WWTP TVFile"));
             // TVItem TVFile Bouctouche WWTP TVItemID = 28689
             TVItem TempBouctWWTP = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 28689).FirstOrDefault();
             TVItem tvItemBouctoucheWWTPTVFile = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVPath.StartsWith(TempBouctWWTP.TVPath + "p") && c.TVType == TVTypeEnum.File).FirstOrDefault();
@@ -621,7 +708,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemBouctoucheWWTPTVFileImageFR)) return false;
             #endregion TVItem TVFile Bouctouche WWTP 
             #region TVFile Bouctouche WWTP 
-
+            StatusTempEvent(new StatusEventArgs("doing ... Bouctouche WWTP TVFile"));
             // TVFile Bouctouche WWTP TVItemID = 28689
             TVFile tvFileBouctoucheWWTP = dbCSSPWebToolsDBRead.TVFiles.AsNoTracking().Where(c => c.TVFileTVItemID == TempTVItemID).FirstOrDefault();
             int TVFileID = tvFileBouctoucheWWTP.TVFileID;
@@ -639,7 +726,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVFileLanguage", tvFileLanguageFRBouctoucheWWTP)) return false;
             #endregion TVFile Bouctouche WWTP 
             #region Infrastructure Bouctouche WWTP
-
+            StatusTempEvent(new StatusEventArgs("doing ... Bouctouche WWTP Infrastructure"));
             // Infrastructure Bouctouche WWTP TVItemID = 28689
             Infrastructure infrastructureBouctoucheWWTP = dbCSSPWebToolsDBRead.Infrastructures.AsNoTracking().Where(c => c.InfrastructureTVItemID == 28689).FirstOrDefault();
             int InfrastructureID = infrastructureBouctoucheWWTP.InfrastructureID;
@@ -657,7 +744,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("InfrastructureLanguage", infrastructureLanguageFRBouctoucheWWTP)) return false;
             #endregion Infrastructure Bouctouche WWTP
             #region BoxModel Bouctouche WWTP
-
+            StatusTempEvent(new StatusEventArgs("doing ... Bouctouche WWTP Infrastructure Box Model"));
             // BoxModel Bouctouche WWTP TVItemID = 28689
             BoxModel boxModel = dbCSSPWebToolsDBRead.BoxModels.AsNoTracking().Where(c => c.InfrastructureTVItemID == 28689).FirstOrDefault();
             int BoxModelID = boxModel.BoxModelID;
@@ -675,6 +762,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("BoxModelLanguage", boxModelLanguageFR)) return false;
             #endregion BoxModel Bouctouche WWTP
             #region BoxModelResult Bouctouche WWTP
+            StatusTempEvent(new StatusEventArgs("doing ... Bouctouche WWTP Infrastructure Box Model Result"));
 
             // BoxModelResult Bouctouche WWTP TVItemID = 28689
             for (int i = 1; i < 6; i++)
@@ -685,6 +773,7 @@ namespace CSSPServicesGenerateCodeHelper
             }
             #endregion BoxModelResult Bouctouche WWTP
             #region VPScenario Bouctouche WWTP 
+            StatusTempEvent(new StatusEventArgs("doing ... Bouctouche WWTP Infrastructure VPScenario"));
 
             // VPScenario Bouctouche WWTP TVItemID = 28689
             VPScenario VPScenario = dbCSSPWebToolsDBRead.VPScenarios.AsNoTracking().Where(c => c.InfrastructureTVItemID == 28689).FirstOrDefault();
@@ -711,7 +800,7 @@ namespace CSSPServicesGenerateCodeHelper
             }
 
             // VPAmbient Bouctouche WWTP TVItemID = 28689
-            List<VPResult> VPResultList = dbCSSPWebToolsDBRead.VPResults.AsNoTracking().Where(c => c.VPScenarioID == VPScenarioID).ToList();
+            List<VPResult> VPResultList = dbCSSPWebToolsDBRead.VPResults.AsNoTracking().Where(c => c.VPScenarioID == VPScenarioID).Take(5).ToList();
             foreach (VPResult vpResult in VPResultList)
             {
                 vpResult.VPScenarioID = VPScenario.VPScenarioID;
@@ -719,6 +808,7 @@ namespace CSSPServicesGenerateCodeHelper
             }
             #endregion VPScenario Bouctouche WWTP 
             #region TVItem Municipality Bouctouche LS 2 Rue Acadie
+            StatusTempEvent(new StatusEventArgs("doing ... Bouctouche LS 2"));
 
             // TVItem Municipality Bouctouche LS 2 Rue Acadie TVItemID = 28695
             TVItem tvItemBouctoucheLS2RueAcadie = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 28695).FirstOrDefault();
@@ -738,7 +828,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemLanguageFRBouctoucheLS2RueAcadie)) return false;
             #endregion TVItem Municipality Bouctouche LS 2 Rue Acadie
             #region TVItem Subsector NB-06_020_002 MWQM Site 0001
-
+            StatusTempEvent(new StatusEventArgs("doing ... Subsector NB-06-020-002 MWQM site 001"));
             // TVItem Subsector NB-06_020_002 MWQM Site 0001 TVItemID = 7460
             TVItem tvItemNB_06_020_002Site0001 = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 7460).FirstOrDefault();
             int MWQMSiteID0001 = tvItemNB_06_020_002Site0001.TVItemID;
@@ -758,7 +848,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemLanguageFRNB_06_020_002Site0001)) return false;
             #endregion TVItem Subsector NB-06_020_002 MWQM Site 0001
             #region TVItem Subsector NB-06_020_002 MWQM Site 0002
-
+            StatusTempEvent(new StatusEventArgs("doing ... Subsector NB-06-020-002 MWQM site 002"));
             // TVItem Subsector NB-06_020_002 MWQM Site 0001 TVItemID = 7462
             TVItem tvItemNB_06_020_002Site0002 = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 7462).FirstOrDefault();
             int MWQMSiteID0002 = tvItemNB_06_020_002Site0002.TVItemID;
@@ -778,7 +868,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemLanguageFRNB_06_020_002Site0002)) return false;
             #endregion TVItem Subsector NB-06_020_002 MWQM Site 0002
             #region TVItem Subsector NB-06_020_002 Pol Source Site 000023
-
+            StatusTempEvent(new StatusEventArgs("doing ... Subsector NB-06-020-002 PolSource site 00023"));
             // TVItem Subsector NB-06_020_002 Pol Source Site 000023 TVItemID = 202466
             TVItem tvItemNB_06_020_002PolSite000023 = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 202466).FirstOrDefault();
             tvItemNB_06_020_002PolSite000023.ParentID = tvItemNB_06_020_002.TVItemID;
@@ -797,7 +887,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemLanguageFRNB_06_020_002PolSite000023)) return false;
             #endregion TVItem Subsector NB-06_020_002 Pol Source Site 000023
             #region PolSourceSite, PolSourceObservation, PolSourceObservationIssue Subsector NB-06_020_002 Pol Source Site 000023
-
+            StatusTempEvent(new StatusEventArgs("doing ... Subsector NB-06-020-002 PolSource site 00023 Observation"));
             // PolSourceSite with PolSourceSiteTVItemID = 202466
             PolSourceSite polSourceSitePolSite000023 = dbCSSPWebToolsDBRead.PolSourceSites.AsNoTracking().Where(c => c.PolSourceSiteTVItemID == 202466).FirstOrDefault();
             int PolSourceSiteID = polSourceSitePolSite000023.PolSourceSiteID;
@@ -818,7 +908,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("PolSourceObservationIssue", polSourceSitePolSite000023ObsIssue)) return false;
             #endregion PolSourceSite, PolSourceObservation, PolSourceObservationIssue Subsector NB-06_020_002 Pol Source Site 000023
             #region PolSourceSite, PolSourceObservation, PolSourceObservationIssue Subsector NB-06_020_002 Pol Source Site 000024
-
+            StatusTempEvent(new StatusEventArgs("doing ... Subsector NB-06-020-002 PolSource site 00024"));
             // TVItem Subsector NB-06_020_002 Pol Source Site 000024 TVItemID = 202467
             TVItem tvItemNB_06_020_002PolSite000024 = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 202467).FirstOrDefault();
             tvItemNB_06_020_002PolSite000024.ParentID = tvItemNB_06_020_002.TVItemID;
@@ -837,7 +927,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("TVItemLanguage", tvItemLanguageFRNB_06_020_002PolSite000024)) return false;
             #endregion PolSourceSite, PolSourceObservation, PolSourceObservationIssue Subsector NB-06_020_002 Pol Source Site 000024
             #region TVItem SamplingPlan, SamplingPlanSubsector, SamplingPlanSubsectorSite
-
+            StatusTempEvent(new StatusEventArgs("doing ... Sampling Plan"));
             // NB TVItem Sampling Plan with SamplingPlanID = 42 and TVFileTVItemID = 322276
             TVItem tvItemNBSamplingPlanFileTVItem = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 322276).FirstOrDefault();
             tvItemNBSamplingPlanFileTVItem.ParentID = tvItemNB.TVItemID;
@@ -888,7 +978,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("SamplingPlanSubsectorSite", samplingPlanSubsectorSite0002)) return false;
             #endregion TVItem SamplingPlan, SamplingPlanSubsector, SamplingPlanSubsectorSite
             #region TVItem MWQMRun with Subsector NB-06_020_002 and MWQMSite 0001
-
+            StatusTempEvent(new StatusEventArgs("doing ... MWQM Run"));
             // TVItem MWQMRun with Subsector NB-06_020_002 TVItemID = 635 MWQMSite 0001 TVItemID = 7460 MWQMRunTVItemID = 324152
             TVItem tvItemRun = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 324152).FirstOrDefault();
             tvItemRun.ParentID = tvItemNB_06_020_002.TVItemID;
@@ -925,15 +1015,21 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("MWQMRunLanguage", MWQMRunLanguageFR)) return false;
             #endregion TVItem MWQMRun with Subsector NB-06_020_002 and MWQMSite 0001
             #region UseOfSite
-
+            StatusTempEvent(new StatusEventArgs("doing ... UseOfSite"));
             // NB UseOfSite with SubsectorTVItemID = 635 ClimateSiteTVItemID = 229528
             UseOfSite useOfSite = dbCSSPWebToolsDBRead.UseOfSites.AsNoTracking().Where(c => c.SubsectorTVItemID == 635 && c.SiteTVItemID == 229528).FirstOrDefault();
             useOfSite.SubsectorTVItemID = tvItemNB_06_020_002.TVItemID;
             useOfSite.SiteTVItemID = tvItemNBClimateSiteBouctoucheCDA.TVItemID;
             if (!AddObject("UseOfSite", useOfSite)) return false;
+
+            // NB UseOfSite with SubsectorTVItemID = 635 TideSiteTVItemID = 1553
+            useOfSite = dbCSSPWebToolsDBRead.UseOfSites.AsNoTracking().Where(c => c.SubsectorTVItemID == 635 && c.SiteTVItemID == 1553).FirstOrDefault();
+            useOfSite.SubsectorTVItemID = tvItemNB_06_020_002.TVItemID;
+            useOfSite.SiteTVItemID = tvItemNBTideSite.TVItemID;
+            if (!AddObject("UseOfSite", useOfSite)) return false;
             #endregion UseOfSite
             #region MWQMSamples
-
+            StatusTempEvent(new StatusEventArgs("doing ... MWQMSamples"));
             // NB MWQMSamples with MWQMSiteTVItemID = 7460 and MWQMRunTVItemID = 324152
             MWQMSample mwqmSample = dbCSSPWebToolsDBRead.MWQMSamples.AsNoTracking().Where(c => c.MWQMSiteTVItemID == 7460 && c.MWQMRunTVItemID == 324152).FirstOrDefault();
             int MWQMSampleID = mwqmSample.MWQMSampleID;
@@ -952,7 +1048,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("MWQMSampleLanguage", mwqmSampleLanguageFR)) return false;
             #endregion MWQMSamples
             #region MWQMSite, MWQMSiteStartEndDate
-
+            StatusTempEvent(new StatusEventArgs("doing ... MWQMSite and MWQMSiteStartEndDate"));
             // NB MWQMSite with MWQMSiteTVItemID = 7460
             MWQMSite mwqmSite0001 = dbCSSPWebToolsDBRead.MWQMSites.AsNoTracking().Where(c => c.MWQMSiteTVItemID == 7460).FirstOrDefault();
             mwqmSite0001.MWQMSiteTVItemID = tvItemNB_06_020_002Site0001.TVItemID;
@@ -974,7 +1070,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("MWQMSiteStartEndDate", mwqmSiteStartEndDate0002)) return false;
             #endregion MWQMSite, MWQMSiteStartEndDate
             #region MikeScenario, MikeBoundaryCondition, MikeSource, MikeSourceStartEnd
-
+            StatusTempEvent(new StatusEventArgs("doing ... MikeScenario, MikeBoundaryCondition, MikeSource, MikeSourceStartEnd"));
             // TVItem MikeScenario with MikeScenairoTVItemID = 28475 under Bouctouche
             TVItem tvItemMikeScenario = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 28475).FirstOrDefault();
             int MikeScenarioTVItemID = tvItemMikeScenario.TVItemID;
@@ -1050,7 +1146,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("MikeSourceStartEnd", mikeSourceStartEnd)) return false;
             #endregion MikeScenario, MikeBoundaryCondition, MikeSource, MikeSourceStartEnd
             #region LabSheet, LabSheetDetail, LabSheetTubeMPNDetail
-
+            StatusTempEvent(new StatusEventArgs("doing ... LabSheet, LabSheetDetail, LabSheetTubeMPNDetail"));
             // LabSheet with SubsectorTVItemID = 635 and MWQMRunTVItemID = 324152 under Bouctouche harbour subsector
             LabSheet labSheet = dbCSSPWebToolsDBRead.LabSheets.AsNoTracking().Where(c => c.SubsectorTVItemID == 635 && c.MWQMRunTVItemID == 324152).FirstOrDefault();
             int LabSheetID = labSheet.LabSheetID;
@@ -1075,7 +1171,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("LabSheetTubeMPNDetail", labSheetTubeMPNDetail)) return false;
             #endregion LabSheet, LabSheetDetail, LabSheetTubeMPNDetail
             #region TVItem Address and Address
-
+            StatusTempEvent(new StatusEventArgs("doing ... Address"));
             // TVItem Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
             TVItem tvItemAddress = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 232655).FirstOrDefault();
             tvItemAddress.ParentID = tvItemRoot.TVItemID;
@@ -1102,6 +1198,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("Address", address)) return false;
             #endregion TVItem Address and Address
             #region TVItem Email and Email
+            StatusTempEvent(new StatusEventArgs("doing ... Email"));
 
             // Email Charles.LeBlanc@ec.gc.ca TVItemID = 110249
             TVItem tvItemEmail = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 110249).FirstOrDefault();
@@ -1126,7 +1223,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("Email", email)) return false;
             #endregion TVItem Email and Email
             #region TVItem Tel and Tel
-
+            StatusTempEvent(new StatusEventArgs("doing ... Tel"));
             // Tel Charles.LeBlanc@ec.gc.ca TVItemID = 108984
             TVItem tvItemTel = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 108984).FirstOrDefault();
             tvItemTel.ParentID = tvItemRoot.TVItemID;
@@ -1150,7 +1247,7 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("Tel", tel)) return false;
             #endregion TVItem Tel and Tel
             #region TVItemLink
-
+            StatusTempEvent(new StatusEventArgs("doing ... TVItemLink"));
             TVItemLink tvItemLinkMunicContact = dbCSSPWebToolsDBRead.TVItemLinks.AsNoTracking().Where(c => c.FromTVItemID == 27764 && c.ToTVItemID == 305006).FirstOrDefault();
             tvItemLinkMunicContact.FromTVItemID = tvItemBouctouche.TVItemID;
             tvItemLinkMunicContact.ToTVItemID = tvItemContactCharles.TVItemID;
@@ -1405,6 +1502,20 @@ namespace CSSPServicesGenerateCodeHelper
                         dbTestDBWrite.MWQMSiteStartEndDates.Add((MWQMSiteStartEndDate)objTarget);
                     }
                     break;
+                case "MWQMSubsector":
+                    {
+                        ((MWQMSubsector)objTarget).MWQMSubsectorID = 0;
+                        ((MWQMSubsector)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.MWQMSubsectors.Add((MWQMSubsector)objTarget);
+                    }
+                    break;
+                case "MWQMSubsectorLanguage":
+                    {
+                        ((MWQMSubsectorLanguage)objTarget).MWQMSubsectorLanguageID = 0;
+                        ((MWQMSubsectorLanguage)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.MWQMSubsectorLanguages.Add((MWQMSubsectorLanguage)objTarget);
+                    }
+                    break;
                 case "PolSourceSite":
                     {
                         ((PolSourceSite)objTarget).PolSourceSiteID = 0;
@@ -1466,6 +1577,20 @@ namespace CSSPServicesGenerateCodeHelper
                         ((Tel)objTarget).TelID = 0;
                         ((Tel)objTarget).LastUpdateContactTVItemID = 2;
                         dbTestDBWrite.Tels.Add((Tel)objTarget);
+                    }
+                    break;
+                case "TideSite":
+                    {
+                        ((TideSite)objTarget).TideSiteID = 0;
+                        ((TideSite)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.TideSites.Add((TideSite)objTarget);
+                    }
+                    break;
+                case "TideDataValue":
+                    {
+                        ((TideDataValue)objTarget).TideDataValueID = 0;
+                        ((TideDataValue)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.TideDataValues.Add((TideDataValue)objTarget);
                     }
                     break;
                 case "TVFile":

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int VPScenarioIDAndRawResultsID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private VPScenarioIDAndRawResultsService vpScenarioIDAndRawResultsService { get; set; }
         #endregion Properties
 
         #region Constructors
         public VPScenarioIDAndRawResultsTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            vpScenarioIDAndRawResultsService = new VPScenarioIDAndRawResultsService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private VPScenarioIDAndRawResults GetFilledRandomVPScenarioIDAndRawResults(string OmitPropName)
         {
-            VPScenarioIDAndRawResultsID += 1;
-
             VPScenarioIDAndRawResults vpScenarioIDAndRawResults = new VPScenarioIDAndRawResults();
 
             if (OmitPropName != "VPScenarioID") vpScenarioIDAndRawResults.VPScenarioID = GetRandomInt(1, 11);
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void VPScenarioIDAndRawResults_Testing()
         {
-            SetupTestHelper(culture);
-            VPScenarioIDAndRawResultsService vpScenarioIDAndRawResultsService = new VPScenarioIDAndRawResultsService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             VPScenarioIDAndRawResults vpScenarioIDAndRawResults = GetFilledRandomVPScenarioIDAndRawResults("");
 
             // -------------------------------

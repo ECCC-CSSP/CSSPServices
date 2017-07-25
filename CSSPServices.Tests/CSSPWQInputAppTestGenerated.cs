@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int CSSPWQInputAppID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private CSSPWQInputAppService cSSPWQInputAppService { get; set; }
         #endregion Properties
 
         #region Constructors
         public CSSPWQInputAppTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            cSSPWQInputAppService = new CSSPWQInputAppService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,16 +37,14 @@ namespace CSSPServices.Tests
         #region Functions private
         private CSSPWQInputApp GetFilledRandomCSSPWQInputApp(string OmitPropName)
         {
-            CSSPWQInputAppID += 1;
-
             CSSPWQInputApp cSSPWQInputApp = new CSSPWQInputApp();
 
-            if (OmitPropName != "AccessCode") cSSPWQInputApp.AccessCode = GetRandomString("", 5);
+            if (OmitPropName != "AccessCode") cSSPWQInputApp.AccessCode = GetRandomString("", 6);
             if (OmitPropName != "ActiveYear") cSSPWQInputApp.ActiveYear = GetRandomString("", 4);
             if (OmitPropName != "DailyDuplicatePrecisionCriteria") cSSPWQInputApp.DailyDuplicatePrecisionCriteria = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "IntertechDuplicatePrecisionCriteria") cSSPWQInputApp.IntertechDuplicatePrecisionCriteria = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "IncludeLaboratoryQAQC") cSSPWQInputApp.IncludeLaboratoryQAQC = true;
-            if (OmitPropName != "ApprovalCode") cSSPWQInputApp.ApprovalCode = GetRandomString("", 5);
+            if (OmitPropName != "ApprovalCode") cSSPWQInputApp.ApprovalCode = GetRandomString("", 6);
             if (OmitPropName != "ApprovalDate") cSSPWQInputApp.ApprovalDate = GetRandomDateTime();
 
             return cSSPWQInputApp;
@@ -60,8 +55,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void CSSPWQInputApp_Testing()
         {
-            SetupTestHelper(culture);
-            CSSPWQInputAppService cSSPWQInputAppService = new CSSPWQInputAppService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             CSSPWQInputApp cSSPWQInputApp = GetFilledRandomCSSPWQInputApp("");
 
             // -------------------------------

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TVTypeUserAuthorizationID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TVTypeUserAuthorizationService tvTypeUserAuthorizationService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TVTypeUserAuthorizationTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,16 +37,13 @@ namespace CSSPServices.Tests
         #region Functions private
         private TVTypeUserAuthorization GetFilledRandomTVTypeUserAuthorization(string OmitPropName)
         {
-            TVTypeUserAuthorizationID += 1;
-
             TVTypeUserAuthorization tvTypeUserAuthorization = new TVTypeUserAuthorization();
 
-            if (OmitPropName != "TVTypeUserAuthorizationID") tvTypeUserAuthorization.TVTypeUserAuthorizationID = TVTypeUserAuthorizationID;
-            if (OmitPropName != "ContactTVItemID") tvTypeUserAuthorization.ContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "ContactTVItemID") tvTypeUserAuthorization.ContactTVItemID = 2;
             if (OmitPropName != "TVType") tvTypeUserAuthorization.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "TVAuth") tvTypeUserAuthorization.TVAuth = (TVAuthEnum)GetRandomEnumType(typeof(TVAuthEnum));
             if (OmitPropName != "LastUpdateDate_UTC") tvTypeUserAuthorization.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") tvTypeUserAuthorization.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") tvTypeUserAuthorization.LastUpdateContactTVItemID = 2;
 
             return tvTypeUserAuthorization;
         }
@@ -59,8 +53,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVTypeUserAuthorization_Testing()
         {
-            SetupTestHelper(culture);
-            TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TVTypeUserAuthorization tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
 
             // -------------------------------
@@ -69,13 +68,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization));
+            count = tvTypeUserAuthorizationService.GetRead().Count();
+
+            tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
+            if (tvTypeUserAuthorization.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, tvTypeUserAuthorizationService.GetRead().Where(c => c == tvTypeUserAuthorization).Any());
-            tvTypeUserAuthorization.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, tvTypeUserAuthorizationService.Update(tvTypeUserAuthorization));
-            Assert.AreEqual(1, tvTypeUserAuthorizationService.GetRead().Count());
-            Assert.AreEqual(true, tvTypeUserAuthorizationService.Delete(tvTypeUserAuthorization));
-            Assert.AreEqual(0, tvTypeUserAuthorizationService.GetRead().Count());
+            tvTypeUserAuthorizationService.Update(tvTypeUserAuthorization);
+            if (tvTypeUserAuthorization.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, tvTypeUserAuthorizationService.GetRead().Count());
+            tvTypeUserAuthorizationService.Delete(tvTypeUserAuthorization);
+            if (tvTypeUserAuthorization.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

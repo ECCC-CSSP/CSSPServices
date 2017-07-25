@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int ClimateDataValueID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private ClimateDataValueService climateDataValueService { get; set; }
         #endregion Properties
 
         #region Constructors
         public ClimateDataValueTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            climateDataValueService = new ClimateDataValueService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,11 +37,8 @@ namespace CSSPServices.Tests
         #region Functions private
         private ClimateDataValue GetFilledRandomClimateDataValue(string OmitPropName)
         {
-            ClimateDataValueID += 1;
-
             ClimateDataValue climateDataValue = new ClimateDataValue();
 
-            if (OmitPropName != "ClimateDataValueID") climateDataValue.ClimateDataValueID = ClimateDataValueID;
             if (OmitPropName != "ClimateSiteID") climateDataValue.ClimateSiteID = GetRandomInt(1, 11);
             if (OmitPropName != "DateTime_Local") climateDataValue.DateTime_Local = GetRandomDateTime();
             if (OmitPropName != "Keep") climateDataValue.Keep = true;
@@ -62,7 +56,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SpdMaxGust_kmh") climateDataValue.SpdMaxGust_kmh = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "HourlyValues") climateDataValue.HourlyValues = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") climateDataValue.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") climateDataValue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") climateDataValue.LastUpdateContactTVItemID = 2;
 
             return climateDataValue;
         }
@@ -72,8 +66,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void ClimateDataValue_Testing()
         {
-            SetupTestHelper(culture);
-            ClimateDataValueService climateDataValueService = new ClimateDataValueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             ClimateDataValue climateDataValue = GetFilledRandomClimateDataValue("");
 
             // -------------------------------
@@ -82,13 +81,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
+            count = climateDataValueService.GetRead().Count();
+
+            climateDataValueService.Add(climateDataValue);
+            if (climateDataValue.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, climateDataValueService.GetRead().Where(c => c == climateDataValue).Any());
-            climateDataValue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, climateDataValueService.Update(climateDataValue));
-            Assert.AreEqual(1, climateDataValueService.GetRead().Count());
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(0, climateDataValueService.GetRead().Count());
+            climateDataValueService.Update(climateDataValue);
+            if (climateDataValue.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, climateDataValueService.GetRead().Count());
+            climateDataValueService.Delete(climateDataValue);
+            if (climateDataValue.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

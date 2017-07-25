@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MapObjID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MapObjService mapObjService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MapObjTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mapObjService = new MapObjService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private MapObj GetFilledRandomMapObj(string OmitPropName)
         {
-            MapObjID += 1;
-
             MapObj mapObj = new MapObj();
 
             if (OmitPropName != "MapInfoID") mapObj.MapInfoID = GetRandomInt(1, 11);
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MapObj_Testing()
         {
-            SetupTestHelper(culture);
-            MapObjService mapObjService = new MapObjService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MapObj mapObj = GetFilledRandomMapObj("");
 
             // -------------------------------

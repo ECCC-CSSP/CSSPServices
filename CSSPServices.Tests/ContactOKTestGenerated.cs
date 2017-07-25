@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int ContactOKID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private ContactOKService contactOKService { get; set; }
         #endregion Properties
 
         #region Constructors
         public ContactOKTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            contactOKService = new ContactOKService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private ContactOK GetFilledRandomContactOK(string OmitPropName)
         {
-            ContactOKID += 1;
-
             ContactOK contactOK = new ContactOK();
 
             if (OmitPropName != "Error") contactOK.Error = GetRandomString("", 5);
@@ -56,8 +51,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void ContactOK_Testing()
         {
-            SetupTestHelper(culture);
-            ContactOKService contactOKService = new ContactOKService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             ContactOK contactOK = GetFilledRandomContactOK("");
 
             // -------------------------------

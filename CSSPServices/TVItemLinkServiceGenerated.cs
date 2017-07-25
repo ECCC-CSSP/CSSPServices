@@ -22,16 +22,12 @@ namespace CSSPServices
         #endregion Variables
 
         #region Properties
-        private CSSPWebToolsDBContext db { get; set; }
-        private DatabaseTypeEnum DatabaseType { get; set; }
         #endregion Properties
 
         #region Constructors
-        public TVItemLinkService(LanguageEnum LanguageRequest, int ContactID, DatabaseTypeEnum DatabaseType)
-            : base(LanguageRequest, ContactID)
+        public TVItemLinkService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
+            : base(LanguageRequest, db, ContactID)
         {
-            this.DatabaseType = DatabaseType;
-            this.db = new CSSPWebToolsDBContext(this.DatabaseType);
         }
         #endregion Constructors
 

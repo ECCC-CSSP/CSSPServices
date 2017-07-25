@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int EmailDistributionListID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private EmailDistributionListService emailDistributionListService { get; set; }
         #endregion Properties
 
         #region Constructors
         public EmailDistributionListTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            emailDistributionListService = new EmailDistributionListService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,16 +37,13 @@ namespace CSSPServices.Tests
         #region Functions private
         private EmailDistributionList GetFilledRandomEmailDistributionList(string OmitPropName)
         {
-            EmailDistributionListID += 1;
-
             EmailDistributionList emailDistributionList = new EmailDistributionList();
 
-            if (OmitPropName != "EmailDistributionListID") emailDistributionList.EmailDistributionListID = EmailDistributionListID;
-            if (OmitPropName != "CountryTVItemID") emailDistributionList.CountryTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "CountryTVItemID") emailDistributionList.CountryTVItemID = 5;
             if (OmitPropName != "RegionName") emailDistributionList.RegionName = GetRandomString("", 5);
             if (OmitPropName != "Ordinal") emailDistributionList.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "LastUpdateDate_UTC") emailDistributionList.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") emailDistributionList.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") emailDistributionList.LastUpdateContactTVItemID = 2;
 
             return emailDistributionList;
         }
@@ -59,8 +53,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void EmailDistributionList_Testing()
         {
-            SetupTestHelper(culture);
-            EmailDistributionListService emailDistributionListService = new EmailDistributionListService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             EmailDistributionList emailDistributionList = GetFilledRandomEmailDistributionList("");
 
             // -------------------------------
@@ -69,13 +68,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, emailDistributionListService.Add(emailDistributionList));
+            count = emailDistributionListService.GetRead().Count();
+
+            emailDistributionListService.Add(emailDistributionList);
+            if (emailDistributionList.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, emailDistributionListService.GetRead().Where(c => c == emailDistributionList).Any());
-            emailDistributionList.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, emailDistributionListService.Update(emailDistributionList));
-            Assert.AreEqual(1, emailDistributionListService.GetRead().Count());
-            Assert.AreEqual(true, emailDistributionListService.Delete(emailDistributionList));
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
+            emailDistributionListService.Update(emailDistributionList);
+            if (emailDistributionList.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, emailDistributionListService.GetRead().Count());
+            emailDistributionListService.Delete(emailDistributionList);
+            if (emailDistributionList.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

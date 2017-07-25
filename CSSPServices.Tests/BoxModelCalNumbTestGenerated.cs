@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int BoxModelCalNumbID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private BoxModelCalNumbService boxModelCalNumbService { get; set; }
         #endregion Properties
 
         #region Constructors
         public BoxModelCalNumbTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            boxModelCalNumbService = new BoxModelCalNumbService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private BoxModelCalNumb GetFilledRandomBoxModelCalNumb(string OmitPropName)
         {
-            BoxModelCalNumbID += 1;
-
             BoxModelCalNumb boxModelCalNumb = new BoxModelCalNumb();
 
             if (OmitPropName != "Error") boxModelCalNumb.Error = GetRandomString("", 5);
@@ -62,8 +57,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void BoxModelCalNumb_Testing()
         {
-            SetupTestHelper(culture);
-            BoxModelCalNumbService boxModelCalNumbService = new BoxModelCalNumbService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             BoxModelCalNumb boxModelCalNumb = GetFilledRandomBoxModelCalNumb("");
 
             // -------------------------------

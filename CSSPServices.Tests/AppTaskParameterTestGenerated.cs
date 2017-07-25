@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int AppTaskParameterID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private AppTaskParameterService appTaskParameterService { get; set; }
         #endregion Properties
 
         #region Constructors
         public AppTaskParameterTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            appTaskParameterService = new AppTaskParameterService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private AppTaskParameter GetFilledRandomAppTaskParameter(string OmitPropName)
         {
-            AppTaskParameterID += 1;
-
             AppTaskParameter appTaskParameter = new AppTaskParameter();
 
             if (OmitPropName != "Name") appTaskParameter.Name = GetRandomString("", 5);
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void AppTaskParameter_Testing()
         {
-            SetupTestHelper(culture);
-            AppTaskParameterService appTaskParameterService = new AppTaskParameterService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             AppTaskParameter appTaskParameter = GetFilledRandomAppTaskParameter("");
 
             // -------------------------------

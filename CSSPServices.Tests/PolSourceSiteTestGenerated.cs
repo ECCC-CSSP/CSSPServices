@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int PolSourceSiteID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private PolSourceSiteService polSourceSiteService { get; set; }
         #endregion Properties
 
         #region Constructors
         public PolSourceSiteTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            polSourceSiteService = new PolSourceSiteService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,21 +37,18 @@ namespace CSSPServices.Tests
         #region Functions private
         private PolSourceSite GetFilledRandomPolSourceSite(string OmitPropName)
         {
-            PolSourceSiteID += 1;
-
             PolSourceSite polSourceSite = new PolSourceSite();
 
-            if (OmitPropName != "PolSourceSiteID") polSourceSite.PolSourceSiteID = PolSourceSiteID;
-            if (OmitPropName != "PolSourceSiteTVItemID") polSourceSite.PolSourceSiteTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "PolSourceSiteTVItemID") polSourceSite.PolSourceSiteTVItemID = 21;
             if (OmitPropName != "Temp_Locator_CanDelete") polSourceSite.Temp_Locator_CanDelete = GetRandomString("", 5);
             if (OmitPropName != "Oldsiteid") polSourceSite.Oldsiteid = GetRandomInt(0, 1000);
             if (OmitPropName != "Site") polSourceSite.Site = GetRandomInt(0, 1000);
             if (OmitPropName != "SiteID") polSourceSite.SiteID = GetRandomInt(0, 1000);
             if (OmitPropName != "IsPointSource") polSourceSite.IsPointSource = true;
             if (OmitPropName != "InactiveReason") polSourceSite.InactiveReason = (PolSourceInactiveReasonEnum)GetRandomEnumType(typeof(PolSourceInactiveReasonEnum));
-            if (OmitPropName != "CivicAddressTVItemID") polSourceSite.CivicAddressTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "CivicAddressTVItemID") polSourceSite.CivicAddressTVItemID = 28;
             if (OmitPropName != "LastUpdateDate_UTC") polSourceSite.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") polSourceSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") polSourceSite.LastUpdateContactTVItemID = 2;
 
             return polSourceSite;
         }
@@ -64,8 +58,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void PolSourceSite_Testing()
         {
-            SetupTestHelper(culture);
-            PolSourceSiteService polSourceSiteService = new PolSourceSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             PolSourceSite polSourceSite = GetFilledRandomPolSourceSite("");
 
             // -------------------------------
@@ -74,13 +73,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
+            count = polSourceSiteService.GetRead().Count();
+
+            polSourceSiteService.Add(polSourceSite);
+            if (polSourceSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, polSourceSiteService.GetRead().Where(c => c == polSourceSite).Any());
-            polSourceSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, polSourceSiteService.Update(polSourceSite));
-            Assert.AreEqual(1, polSourceSiteService.GetRead().Count());
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(0, polSourceSiteService.GetRead().Count());
+            polSourceSiteService.Update(polSourceSite);
+            if (polSourceSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, polSourceSiteService.GetRead().Count());
+            polSourceSiteService.Delete(polSourceSite);
+            if (polSourceSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

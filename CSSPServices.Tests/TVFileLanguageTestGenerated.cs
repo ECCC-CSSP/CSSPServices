@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TVFileLanguageID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TVFileLanguageService tvFileLanguageService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TVFileLanguageTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tvFileLanguageService = new TVFileLanguageService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,17 +37,14 @@ namespace CSSPServices.Tests
         #region Functions private
         private TVFileLanguage GetFilledRandomTVFileLanguage(string OmitPropName)
         {
-            TVFileLanguageID += 1;
-
             TVFileLanguage tvFileLanguage = new TVFileLanguage();
 
-            if (OmitPropName != "TVFileLanguageID") tvFileLanguage.TVFileLanguageID = TVFileLanguageID;
             if (OmitPropName != "TVFileID") tvFileLanguage.TVFileID = GetRandomInt(1, 11);
             if (OmitPropName != "Language") tvFileLanguage.Language = language;
             if (OmitPropName != "FileDescription") tvFileLanguage.FileDescription = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatus") tvFileLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") tvFileLanguage.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") tvFileLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") tvFileLanguage.LastUpdateContactTVItemID = 2;
 
             return tvFileLanguage;
         }
@@ -60,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVFileLanguage_Testing()
         {
-            SetupTestHelper(culture);
-            TVFileLanguageService tvFileLanguageService = new TVFileLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TVFileLanguage tvFileLanguage = GetFilledRandomTVFileLanguage("");
 
             // -------------------------------
@@ -70,13 +69,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, tvFileLanguageService.Add(tvFileLanguage));
+            count = tvFileLanguageService.GetRead().Count();
+
+            tvFileLanguageService.Add(tvFileLanguage);
+            if (tvFileLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, tvFileLanguageService.GetRead().Where(c => c == tvFileLanguage).Any());
-            tvFileLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, tvFileLanguageService.Update(tvFileLanguage));
-            Assert.AreEqual(1, tvFileLanguageService.GetRead().Count());
-            Assert.AreEqual(true, tvFileLanguageService.Delete(tvFileLanguage));
-            Assert.AreEqual(0, tvFileLanguageService.GetRead().Count());
+            tvFileLanguageService.Update(tvFileLanguage);
+            if (tvFileLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, tvFileLanguageService.GetRead().Count());
+            tvFileLanguageService.Delete(tvFileLanguage);
+            if (tvFileLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, tvFileLanguageService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

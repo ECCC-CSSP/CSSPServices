@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MWQMSiteSampleFCID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MWQMSiteSampleFCService mwqmSiteSampleFCService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MWQMSiteSampleFCTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mwqmSiteSampleFCService = new MWQMSiteSampleFCService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private MWQMSiteSampleFC GetFilledRandomMWQMSiteSampleFC(string OmitPropName)
         {
-            MWQMSiteSampleFCID += 1;
-
             MWQMSiteSampleFC mwqmSiteSampleFC = new MWQMSiteSampleFC();
 
             if (OmitPropName != "Error") mwqmSiteSampleFC.Error = GetRandomString("", 20);
@@ -69,8 +64,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MWQMSiteSampleFC_Testing()
         {
-            SetupTestHelper(culture);
-            MWQMSiteSampleFCService mwqmSiteSampleFCService = new MWQMSiteSampleFCService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MWQMSiteSampleFC mwqmSiteSampleFC = GetFilledRandomMWQMSiteSampleFC("");
 
             // -------------------------------

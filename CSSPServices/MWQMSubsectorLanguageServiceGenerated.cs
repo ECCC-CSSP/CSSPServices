@@ -22,16 +22,12 @@ namespace CSSPServices
         #endregion Variables
 
         #region Properties
-        private CSSPWebToolsDBContext db { get; set; }
-        private DatabaseTypeEnum DatabaseType { get; set; }
         #endregion Properties
 
         #region Constructors
-        public MWQMSubsectorLanguageService(LanguageEnum LanguageRequest, int ContactID, DatabaseTypeEnum DatabaseType)
-            : base(LanguageRequest, ContactID)
+        public MWQMSubsectorLanguageService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
+            : base(LanguageRequest, db, ContactID)
         {
-            this.DatabaseType = DatabaseType;
-            this.db = new CSSPWebToolsDBContext(this.DatabaseType);
         }
         #endregion Constructors
 
@@ -59,9 +55,9 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSubsectorLanguageMWQMSubsectorID, "1"), new[] { ModelsRes.MWQMSubsectorLanguageMWQMSubsectorID });
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == mwqmSubsectorLanguage.MWQMSubsectorID select c).Any()))
+            if (!((from c in db.MWQMSubsectors where c.MWQMSubsectorID == mwqmSubsectorLanguage.MWQMSubsectorID select c).Any()))
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSubsectorLanguageMWQMSubsectorID, mwqmSubsectorLanguage.MWQMSubsectorID.ToString()), new[] { ModelsRes.MWQMSubsectorLanguageMWQMSubsectorID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSubsector, ModelsRes.MWQMSubsectorLanguageMWQMSubsectorID, mwqmSubsectorLanguage.MWQMSubsectorID.ToString()), new[] { ModelsRes.MWQMSubsectorLanguageMWQMSubsectorID });
             }
 
             retStr = enums.LanguageOK(mwqmSubsectorLanguage.Language);

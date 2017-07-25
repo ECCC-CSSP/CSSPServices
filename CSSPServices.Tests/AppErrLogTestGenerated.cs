@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int AppErrLogID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private AppErrLogService appErrLogService { get; set; }
         #endregion Properties
 
         #region Constructors
         public AppErrLogTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            appErrLogService = new AppErrLogService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,18 +37,15 @@ namespace CSSPServices.Tests
         #region Functions private
         private AppErrLog GetFilledRandomAppErrLog(string OmitPropName)
         {
-            AppErrLogID += 1;
-
             AppErrLog appErrLog = new AppErrLog();
 
-            if (OmitPropName != "AppErrLogID") appErrLog.AppErrLogID = AppErrLogID;
             if (OmitPropName != "Tag") appErrLog.Tag = GetRandomString("", 5);
             if (OmitPropName != "LineNumber") appErrLog.LineNumber = GetRandomInt(1, 11);
             if (OmitPropName != "Source") appErrLog.Source = GetRandomString("", 20);
             if (OmitPropName != "Message") appErrLog.Message = GetRandomString("", 20);
             if (OmitPropName != "DateTime_UTC") appErrLog.DateTime_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateDate_UTC") appErrLog.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") appErrLog.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") appErrLog.LastUpdateContactTVItemID = 2;
 
             return appErrLog;
         }
@@ -61,8 +55,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void AppErrLog_Testing()
         {
-            SetupTestHelper(culture);
-            AppErrLogService appErrLogService = new AppErrLogService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             AppErrLog appErrLog = GetFilledRandomAppErrLog("");
 
             // -------------------------------
@@ -71,13 +70,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, appErrLogService.Add(appErrLog));
+            count = appErrLogService.GetRead().Count();
+
+            appErrLogService.Add(appErrLog);
+            if (appErrLog.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, appErrLogService.GetRead().Where(c => c == appErrLog).Any());
-            appErrLog.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, appErrLogService.Update(appErrLog));
-            Assert.AreEqual(1, appErrLogService.GetRead().Count());
-            Assert.AreEqual(true, appErrLogService.Delete(appErrLog));
-            Assert.AreEqual(0, appErrLogService.GetRead().Count());
+            appErrLogService.Update(appErrLog);
+            if (appErrLog.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, appErrLogService.GetRead().Count());
+            appErrLogService.Delete(appErrLog);
+            if (appErrLog.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

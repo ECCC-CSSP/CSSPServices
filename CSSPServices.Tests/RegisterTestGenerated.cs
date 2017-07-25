@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int RegisterID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private RegisterService registerService { get; set; }
         #endregion Properties
 
         #region Constructors
         public RegisterTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            registerService = new RegisterService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,17 +37,15 @@ namespace CSSPServices.Tests
         #region Functions private
         private Register GetFilledRandomRegister(string OmitPropName)
         {
-            RegisterID += 1;
-
             Register register = new Register();
 
-            if (OmitPropName != "LoginEmail") register.LoginEmail = GetRandomEmail();
-            if (OmitPropName != "FirstName") register.FirstName = GetRandomString("", 5);
+            if (OmitPropName != "LoginEmail") register.LoginEmail = GetRandomString("", 11);
+            if (OmitPropName != "FirstName") register.FirstName = GetRandomString("", 6);
             if (OmitPropName != "Initial") register.Initial = GetRandomString("", 5);
-            if (OmitPropName != "LastName") register.LastName = GetRandomString("", 5);
-            if (OmitPropName != "WebName") register.WebName = GetRandomString("", 5);
-            if (OmitPropName != "Password") register.Password = GetRandomString("", 5);
-            if (OmitPropName != "ConfirmPassword") register.ConfirmPassword = GetRandomString("", 5);
+            if (OmitPropName != "LastName") register.LastName = GetRandomString("", 6);
+            if (OmitPropName != "WebName") register.WebName = GetRandomString("", 6);
+            if (OmitPropName != "Password") register.Password = GetRandomString("", 11);
+            if (OmitPropName != "ConfirmPassword") register.ConfirmPassword = GetRandomString("", 11);
 
             return register;
         }
@@ -60,8 +55,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Register_Testing()
         {
-            SetupTestHelper(culture);
-            RegisterService registerService = new RegisterService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             Register register = GetFilledRandomRegister("");
 
             // -------------------------------

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int PolyPointID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private PolyPointService polyPointService { get; set; }
         #endregion Properties
 
         #region Constructors
         public PolyPointTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            polyPointService = new PolyPointService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private PolyPoint GetFilledRandomPolyPoint(string OmitPropName)
         {
-            PolyPointID += 1;
-
             PolyPoint polyPoint = new PolyPoint();
 
             if (OmitPropName != "XCoord") polyPoint.XCoord = GetRandomDouble(1.0D, 1000.0D);
@@ -56,8 +51,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void PolyPoint_Testing()
         {
-            SetupTestHelper(culture);
-            PolyPointService polyPointService = new PolyPointService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             PolyPoint polyPoint = GetFilledRandomPolyPoint("");
 
             // -------------------------------

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int PolSourceObservationIssueID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private PolSourceObservationIssueService polSourceObservationIssueService { get; set; }
         #endregion Properties
 
         #region Constructors
         public PolSourceObservationIssueTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            polSourceObservationIssueService = new PolSourceObservationIssueService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,16 +37,13 @@ namespace CSSPServices.Tests
         #region Functions private
         private PolSourceObservationIssue GetFilledRandomPolSourceObservationIssue(string OmitPropName)
         {
-            PolSourceObservationIssueID += 1;
-
             PolSourceObservationIssue polSourceObservationIssue = new PolSourceObservationIssue();
 
-            if (OmitPropName != "PolSourceObservationIssueID") polSourceObservationIssue.PolSourceObservationIssueID = PolSourceObservationIssueID;
             if (OmitPropName != "PolSourceObservationID") polSourceObservationIssue.PolSourceObservationID = GetRandomInt(1, 11);
             if (OmitPropName != "ObservationInfo") polSourceObservationIssue.ObservationInfo = GetRandomString("", 5);
             if (OmitPropName != "Ordinal") polSourceObservationIssue.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "LastUpdateDate_UTC") polSourceObservationIssue.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") polSourceObservationIssue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") polSourceObservationIssue.LastUpdateContactTVItemID = 2;
 
             return polSourceObservationIssue;
         }
@@ -59,8 +53,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void PolSourceObservationIssue_Testing()
         {
-            SetupTestHelper(culture);
-            PolSourceObservationIssueService polSourceObservationIssueService = new PolSourceObservationIssueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             PolSourceObservationIssue polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
 
             // -------------------------------
@@ -69,13 +68,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, polSourceObservationIssueService.Add(polSourceObservationIssue));
+            count = polSourceObservationIssueService.GetRead().Count();
+
+            polSourceObservationIssueService.Add(polSourceObservationIssue);
+            if (polSourceObservationIssue.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, polSourceObservationIssueService.GetRead().Where(c => c == polSourceObservationIssue).Any());
-            polSourceObservationIssue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, polSourceObservationIssueService.Update(polSourceObservationIssue));
-            Assert.AreEqual(1, polSourceObservationIssueService.GetRead().Count());
-            Assert.AreEqual(true, polSourceObservationIssueService.Delete(polSourceObservationIssue));
-            Assert.AreEqual(0, polSourceObservationIssueService.GetRead().Count());
+            polSourceObservationIssueService.Update(polSourceObservationIssue);
+            if (polSourceObservationIssue.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, polSourceObservationIssueService.GetRead().Count());
+            polSourceObservationIssueService.Delete(polSourceObservationIssue);
+            if (polSourceObservationIssue.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int SearchTagAndTermsID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private SearchTagAndTermsService searchTagAndTermsService { get; set; }
         #endregion Properties
 
         #region Constructors
         public SearchTagAndTermsTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            searchTagAndTermsService = new SearchTagAndTermsService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private SearchTagAndTerms GetFilledRandomSearchTagAndTerms(string OmitPropName)
         {
-            SearchTagAndTermsID += 1;
-
             SearchTagAndTerms searchTagAndTerms = new SearchTagAndTerms();
 
             if (OmitPropName != "SearchTag") searchTagAndTerms.SearchTag = (SearchTagEnum)GetRandomEnumType(typeof(SearchTagEnum));
@@ -54,8 +49,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void SearchTagAndTerms_Testing()
         {
-            SetupTestHelper(culture);
-            SearchTagAndTermsService searchTagAndTermsService = new SearchTagAndTermsService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             SearchTagAndTerms searchTagAndTerms = GetFilledRandomSearchTagAndTerms("");
 
             // -------------------------------

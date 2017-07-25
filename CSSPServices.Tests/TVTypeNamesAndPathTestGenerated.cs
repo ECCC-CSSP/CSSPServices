@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TVTypeNamesAndPathID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TVTypeNamesAndPathService tvTypeNamesAndPathService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TVTypeNamesAndPathTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tvTypeNamesAndPathService = new TVTypeNamesAndPathService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,13 +37,11 @@ namespace CSSPServices.Tests
         #region Functions private
         private TVTypeNamesAndPath GetFilledRandomTVTypeNamesAndPath(string OmitPropName)
         {
-            TVTypeNamesAndPathID += 1;
-
             TVTypeNamesAndPath tvTypeNamesAndPath = new TVTypeNamesAndPath();
 
-            if (OmitPropName != "TVTypeName") tvTypeNamesAndPath.TVTypeName = GetRandomString("", 5);
+            if (OmitPropName != "TVTypeName") tvTypeNamesAndPath.TVTypeName = GetRandomString("", 6);
             if (OmitPropName != "Index") tvTypeNamesAndPath.Index = GetRandomInt(1, 11);
-            if (OmitPropName != "TVPath") tvTypeNamesAndPath.TVPath = GetRandomString("", 5);
+            if (OmitPropName != "TVPath") tvTypeNamesAndPath.TVPath = GetRandomString("", 6);
 
             return tvTypeNamesAndPath;
         }
@@ -56,8 +51,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVTypeNamesAndPath_Testing()
         {
-            SetupTestHelper(culture);
-            TVTypeNamesAndPathService tvTypeNamesAndPathService = new TVTypeNamesAndPathService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TVTypeNamesAndPath tvTypeNamesAndPath = GetFilledRandomTVTypeNamesAndPath("");
 
             // -------------------------------

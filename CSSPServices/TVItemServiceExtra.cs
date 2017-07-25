@@ -65,7 +65,7 @@ namespace CSSPServices
         }
         public bool AddChildTVItemDB(int ParentTVItemID, string TVText, TVTypeEnum TVType, TVItem tvItem)
         {
-            ContactService contactService = new ContactService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryTestDB);
+            ContactService contactService = new ContactService(LanguageRequest, db, ContactID);
 
             Contact contactLoggedIn = contactService.GetRead().Where(c => c.ContactID == ContactID).FirstOrDefault();
 
@@ -116,7 +116,7 @@ namespace CSSPServices
                     return false;
                 }
 
-                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryTestDB);
+                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, db, ContactID);
                 foreach (LanguageEnum Lang in LanguageListAllowable)
                 {
                     TVItemLanguage tvItemLanguage = new TVItemLanguage()
@@ -188,7 +188,7 @@ namespace CSSPServices
                     return false;
                 }
 
-                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryTestDB);
+                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, db, ContactID);
                 foreach (LanguageEnum Lang in LanguageListAllowable)
                 {
                     TVItemLanguage tvItemLanguage = new TVItemLanguage()

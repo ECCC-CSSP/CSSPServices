@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MWQMSubsectorLanguageID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MWQMSubsectorLanguageService mwqmSubsectorLanguageService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MWQMSubsectorLanguageTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,17 +37,14 @@ namespace CSSPServices.Tests
         #region Functions private
         private MWQMSubsectorLanguage GetFilledRandomMWQMSubsectorLanguage(string OmitPropName)
         {
-            MWQMSubsectorLanguageID += 1;
-
             MWQMSubsectorLanguage mwqmSubsectorLanguage = new MWQMSubsectorLanguage();
 
-            if (OmitPropName != "MWQMSubsectorLanguageID") mwqmSubsectorLanguage.MWQMSubsectorLanguageID = MWQMSubsectorLanguageID;
             if (OmitPropName != "MWQMSubsectorID") mwqmSubsectorLanguage.MWQMSubsectorID = GetRandomInt(1, 11);
             if (OmitPropName != "Language") mwqmSubsectorLanguage.Language = language;
             if (OmitPropName != "SubsectorDesc") mwqmSubsectorLanguage.SubsectorDesc = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatus") mwqmSubsectorLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSubsectorLanguage.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") mwqmSubsectorLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") mwqmSubsectorLanguage.LastUpdateContactTVItemID = 2;
 
             return mwqmSubsectorLanguage;
         }
@@ -60,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MWQMSubsectorLanguage_Testing()
         {
-            SetupTestHelper(culture);
-            MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MWQMSubsectorLanguage mwqmSubsectorLanguage = GetFilledRandomMWQMSubsectorLanguage("");
 
             // -------------------------------
@@ -70,13 +69,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage));
+            count = mwqmSubsectorLanguageService.GetRead().Count();
+
+            mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage);
+            if (mwqmSubsectorLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, mwqmSubsectorLanguageService.GetRead().Where(c => c == mwqmSubsectorLanguage).Any());
-            mwqmSubsectorLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, mwqmSubsectorLanguageService.Update(mwqmSubsectorLanguage));
-            Assert.AreEqual(1, mwqmSubsectorLanguageService.GetRead().Count());
-            Assert.AreEqual(true, mwqmSubsectorLanguageService.Delete(mwqmSubsectorLanguage));
-            Assert.AreEqual(0, mwqmSubsectorLanguageService.GetRead().Count());
+            mwqmSubsectorLanguageService.Update(mwqmSubsectorLanguage);
+            if (mwqmSubsectorLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, mwqmSubsectorLanguageService.GetRead().Count());
+            mwqmSubsectorLanguageService.Delete(mwqmSubsectorLanguage);
+            if (mwqmSubsectorLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, mwqmSubsectorLanguageService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

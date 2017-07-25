@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int VPScenarioID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private VPScenarioService vpScenarioService { get; set; }
         #endregion Properties
 
         #region Constructors
         public VPScenarioTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            vpScenarioService = new VPScenarioService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,12 +37,9 @@ namespace CSSPServices.Tests
         #region Functions private
         private VPScenario GetFilledRandomVPScenario(string OmitPropName)
         {
-            VPScenarioID += 1;
-
             VPScenario vpScenario = new VPScenario();
 
-            if (OmitPropName != "VPScenarioID") vpScenario.VPScenarioID = VPScenarioID;
-            if (OmitPropName != "InfrastructureTVItemID") vpScenario.InfrastructureTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "InfrastructureTVItemID") vpScenario.InfrastructureTVItemID = 16;
             if (OmitPropName != "VPScenarioStatus") vpScenario.VPScenarioStatus = (ScenarioStatusEnum)GetRandomEnumType(typeof(ScenarioStatusEnum));
             if (OmitPropName != "UseAsBestEstimate") vpScenario.UseAsBestEstimate = true;
             if (OmitPropName != "EffluentFlow_m3_s") vpScenario.EffluentFlow_m3_s = GetRandomDouble(1.0D, 1000.0D);
@@ -65,7 +59,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EffluentVelocity_m_s") vpScenario.EffluentVelocity_m_s = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "RawResults") vpScenario.RawResults = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") vpScenario.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") vpScenario.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") vpScenario.LastUpdateContactTVItemID = 2;
 
             return vpScenario;
         }
@@ -75,8 +69,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void VPScenario_Testing()
         {
-            SetupTestHelper(culture);
-            VPScenarioService vpScenarioService = new VPScenarioService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             VPScenario vpScenario = GetFilledRandomVPScenario("");
 
             // -------------------------------
@@ -85,13 +84,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
+            count = vpScenarioService.GetRead().Count();
+
+            vpScenarioService.Add(vpScenario);
+            if (vpScenario.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, vpScenarioService.GetRead().Where(c => c == vpScenario).Any());
-            vpScenario.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, vpScenarioService.Update(vpScenario));
-            Assert.AreEqual(1, vpScenarioService.GetRead().Count());
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(0, vpScenarioService.GetRead().Count());
+            vpScenarioService.Update(vpScenario);
+            if (vpScenario.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, vpScenarioService.GetRead().Count());
+            vpScenarioService.Delete(vpScenario);
+            if (vpScenario.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

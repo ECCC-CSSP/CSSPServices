@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int PolSourceObsInfoEnumTextAndIDID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private PolSourceObsInfoEnumTextAndIDService polSourceObsInfoEnumTextAndIDService { get; set; }
         #endregion Properties
 
         #region Constructors
         public PolSourceObsInfoEnumTextAndIDTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            polSourceObsInfoEnumTextAndIDService = new PolSourceObsInfoEnumTextAndIDService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private PolSourceObsInfoEnumTextAndID GetFilledRandomPolSourceObsInfoEnumTextAndID(string OmitPropName)
         {
-            PolSourceObsInfoEnumTextAndIDID += 1;
-
             PolSourceObsInfoEnumTextAndID polSourceObsInfoEnumTextAndID = new PolSourceObsInfoEnumTextAndID();
 
             if (OmitPropName != "Text") polSourceObsInfoEnumTextAndID.Text = GetRandomString("", 20);
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void PolSourceObsInfoEnumTextAndID_Testing()
         {
-            SetupTestHelper(culture);
-            PolSourceObsInfoEnumTextAndIDService polSourceObsInfoEnumTextAndIDService = new PolSourceObsInfoEnumTextAndIDService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             PolSourceObsInfoEnumTextAndID polSourceObsInfoEnumTextAndID = GetFilledRandomPolSourceObsInfoEnumTextAndID("");
 
             // -------------------------------

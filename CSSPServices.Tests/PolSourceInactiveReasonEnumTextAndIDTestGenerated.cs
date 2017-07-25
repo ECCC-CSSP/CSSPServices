@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int PolSourceInactiveReasonEnumTextAndIDID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private PolSourceInactiveReasonEnumTextAndIDService polSourceInactiveReasonEnumTextAndIDService { get; set; }
         #endregion Properties
 
         #region Constructors
         public PolSourceInactiveReasonEnumTextAndIDTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            polSourceInactiveReasonEnumTextAndIDService = new PolSourceInactiveReasonEnumTextAndIDService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private PolSourceInactiveReasonEnumTextAndID GetFilledRandomPolSourceInactiveReasonEnumTextAndID(string OmitPropName)
         {
-            PolSourceInactiveReasonEnumTextAndIDID += 1;
-
             PolSourceInactiveReasonEnumTextAndID polSourceInactiveReasonEnumTextAndID = new PolSourceInactiveReasonEnumTextAndID();
 
             if (OmitPropName != "Text") polSourceInactiveReasonEnumTextAndID.Text = GetRandomString("", 20);
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void PolSourceInactiveReasonEnumTextAndID_Testing()
         {
-            SetupTestHelper(culture);
-            PolSourceInactiveReasonEnumTextAndIDService polSourceInactiveReasonEnumTextAndIDService = new PolSourceInactiveReasonEnumTextAndIDService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             PolSourceInactiveReasonEnumTextAndID polSourceInactiveReasonEnumTextAndID = GetFilledRandomPolSourceInactiveReasonEnumTextAndID("");
 
             // -------------------------------

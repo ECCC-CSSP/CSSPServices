@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int SearchID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private SearchService searchService { get; set; }
         #endregion Properties
 
         #region Constructors
         public SearchTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            searchService = new SearchService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,11 +37,9 @@ namespace CSSPServices.Tests
         #region Functions private
         private Search GetFilledRandomSearch(string OmitPropName)
         {
-            SearchID += 1;
-
             Search search = new Search();
 
-            if (OmitPropName != "value") search.value = GetRandomString("", 5);
+            if (OmitPropName != "value") search.value = GetRandomString("", 6);
             if (OmitPropName != "id") search.id = GetRandomInt(1, 11);
 
             return search;
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Search_Testing()
         {
-            SetupTestHelper(culture);
-            SearchService searchService = new SearchService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             Search search = GetFilledRandomSearch("");
 
             // -------------------------------

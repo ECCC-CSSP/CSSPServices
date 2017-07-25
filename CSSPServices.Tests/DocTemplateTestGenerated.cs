@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int DocTemplateID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private DocTemplateService docTemplateService { get; set; }
         #endregion Properties
 
         #region Constructors
         public DocTemplateTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            docTemplateService = new DocTemplateService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,17 +37,14 @@ namespace CSSPServices.Tests
         #region Functions private
         private DocTemplate GetFilledRandomDocTemplate(string OmitPropName)
         {
-            DocTemplateID += 1;
-
             DocTemplate docTemplate = new DocTemplate();
 
-            if (OmitPropName != "DocTemplateID") docTemplate.DocTemplateID = DocTemplateID;
             if (OmitPropName != "Language") docTemplate.Language = language;
             if (OmitPropName != "TVType") docTemplate.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "TVFileTVItemID") docTemplate.TVFileTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "TVFileTVItemID") docTemplate.TVFileTVItemID = 17;
             if (OmitPropName != "FileName") docTemplate.FileName = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") docTemplate.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") docTemplate.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") docTemplate.LastUpdateContactTVItemID = 2;
 
             return docTemplate;
         }
@@ -60,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void DocTemplate_Testing()
         {
-            SetupTestHelper(culture);
-            DocTemplateService docTemplateService = new DocTemplateService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             DocTemplate docTemplate = GetFilledRandomDocTemplate("");
 
             // -------------------------------
@@ -70,13 +69,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, docTemplateService.Add(docTemplate));
+            count = docTemplateService.GetRead().Count();
+
+            docTemplateService.Add(docTemplate);
+            if (docTemplate.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, docTemplateService.GetRead().Where(c => c == docTemplate).Any());
-            docTemplate.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, docTemplateService.Update(docTemplate));
-            Assert.AreEqual(1, docTemplateService.GetRead().Count());
-            Assert.AreEqual(true, docTemplateService.Delete(docTemplate));
-            Assert.AreEqual(0, docTemplateService.GetRead().Count());
+            docTemplateService.Update(docTemplate);
+            if (docTemplate.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, docTemplateService.GetRead().Count());
+            docTemplateService.Delete(docTemplate);
+            if (docTemplate.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, docTemplateService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

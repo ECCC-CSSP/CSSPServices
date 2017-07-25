@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int RatingCurveID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private RatingCurveService ratingCurveService { get; set; }
         #endregion Properties
 
         #region Constructors
         public RatingCurveTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            ratingCurveService = new RatingCurveService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,15 +37,12 @@ namespace CSSPServices.Tests
         #region Functions private
         private RatingCurve GetFilledRandomRatingCurve(string OmitPropName)
         {
-            RatingCurveID += 1;
-
             RatingCurve ratingCurve = new RatingCurve();
 
-            if (OmitPropName != "RatingCurveID") ratingCurve.RatingCurveID = RatingCurveID;
             if (OmitPropName != "HydrometricSiteID") ratingCurve.HydrometricSiteID = GetRandomInt(1, 11);
             if (OmitPropName != "RatingCurveNumber") ratingCurve.RatingCurveNumber = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") ratingCurve.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") ratingCurve.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") ratingCurve.LastUpdateContactTVItemID = 2;
 
             return ratingCurve;
         }
@@ -58,8 +52,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void RatingCurve_Testing()
         {
-            SetupTestHelper(culture);
-            RatingCurveService ratingCurveService = new RatingCurveService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             RatingCurve ratingCurve = GetFilledRandomRatingCurve("");
 
             // -------------------------------
@@ -68,13 +67,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, ratingCurveService.Add(ratingCurve));
+            count = ratingCurveService.GetRead().Count();
+
+            ratingCurveService.Add(ratingCurve);
+            if (ratingCurve.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, ratingCurveService.GetRead().Where(c => c == ratingCurve).Any());
-            ratingCurve.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, ratingCurveService.Update(ratingCurve));
-            Assert.AreEqual(1, ratingCurveService.GetRead().Count());
-            Assert.AreEqual(true, ratingCurveService.Delete(ratingCurve));
-            Assert.AreEqual(0, ratingCurveService.GetRead().Count());
+            ratingCurveService.Update(ratingCurve);
+            if (ratingCurve.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, ratingCurveService.GetRead().Count());
+            ratingCurveService.Delete(ratingCurve);
+            if (ratingCurve.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, ratingCurveService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

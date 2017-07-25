@@ -12,6 +12,7 @@ using CSSPModels;
 using CSSPEnums;
 using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations;
+using CSSPModelsGenerateCodeHelper;
 
 namespace CSSPServicesGenerateCodeHelper
 {
@@ -236,7 +237,7 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"        #endregion Functions public");
             sb.AppendLine(@"");
         }
-        private void CreateValidation_AfterYear(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_AfterYear(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (csspProp.Year != null)
             {
@@ -258,7 +259,7 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
         }
-        private void CreateValidation_Bigger(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_Bigger(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (!string.IsNullOrWhiteSpace(csspProp.OtherField))
             {
@@ -269,7 +270,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"");
             }
         }
-        private void CreateValidation_Email(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_Email(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (csspProp.dataType == DataType.EmailAddress)
             {
@@ -284,7 +285,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"");
             }
         }
-        private void CreateValidation_EnumType(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_EnumType(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (csspProp.HasCSSPEnumTypeAttribute)
             {
@@ -311,7 +312,7 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
         }
-        private void CreateValidation_Length(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_Length(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (!csspProp.IsKey)
             {
@@ -648,7 +649,7 @@ namespace CSSPServicesGenerateCodeHelper
                 }
             }
         }
-        private void CreateValidation_NotNullable(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_NotNullable(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (!csspProp.IsNullable)
                 switch (prop.PropertyType.Name)
@@ -705,7 +706,7 @@ namespace CSSPServicesGenerateCodeHelper
                         break;
                 }
         }
-        private void CreateValidation_Key(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_Key(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (prop.CustomAttributes.Where(c => c.AttributeType.Name.StartsWith("KeyAttribute")).Any())
             {
@@ -720,7 +721,7 @@ namespace CSSPServicesGenerateCodeHelper
 
             }
         }
-        private void CreateValidation_Exist(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateValidation_Exist(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             if (!string.IsNullOrWhiteSpace(csspProp.ObjectExistTypeName) && !string.IsNullOrWhiteSpace(csspProp.ObjectExistPlurial) && !string.IsNullOrWhiteSpace(csspProp.ObjectExistFieldID))
             {
@@ -804,7 +805,7 @@ namespace CSSPServicesGenerateCodeHelper
                     continue;
                 }
 
-                //if (type.Name != "TVItem")
+                //if (type.Name != "Address")
                 //{
                 //    continue;
                 //}
@@ -842,22 +843,12 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"        #endregion Variables");
                 sb.AppendLine(@"");
                 sb.AppendLine(@"        #region Properties");
-                if (!ClassNotMapped)
-                {
-                    sb.AppendLine(@"        private CSSPWebToolsDBContext db { get; set; }");
-                    sb.AppendLine(@"        private DatabaseTypeEnum DatabaseType { get; set; }");
-                }
                 sb.AppendLine(@"        #endregion Properties");
                 sb.AppendLine(@"");
                 sb.AppendLine(@"        #region Constructors");
-                sb.AppendLine(@"        public " + TypeName + @"Service(LanguageEnum LanguageRequest, int ContactID, DatabaseTypeEnum DatabaseType)");
-                sb.AppendLine(@"            : base(LanguageRequest, ContactID)");
+                sb.AppendLine(@"        public " + TypeName + @"Service(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)");
+                sb.AppendLine(@"            : base(LanguageRequest, db, ContactID)");
                 sb.AppendLine(@"        {");
-                if (!ClassNotMapped)
-                {
-                    sb.AppendLine(@"            this.DatabaseType = DatabaseType;");
-                    sb.AppendLine(@"            this.db = new CSSPWebToolsDBContext(this.DatabaseType);");
-                }
                 sb.AppendLine(@"        }");
                 sb.AppendLine(@"        #endregion Constructors");
                 sb.AppendLine(@"");
@@ -878,7 +869,7 @@ namespace CSSPServicesGenerateCodeHelper
 
                 if (TypeName == "TVItem")
                 {
-                    sb.AppendLine(@"            if (DatabaseType > DatabaseTypeEnum.MemoryTestDB)");
+                    sb.AppendLine(@"            if (db.Database.GetDbConnection().ConnectionString.Contains(""TestDB"") || db.Database.GetDbConnection().ConnectionString.Contains(""TestDB""))");
                     sb.AppendLine(@"            {");
                     sb.AppendLine(@"                if (tvItem.TVType == TVTypeEnum.Root)");
                     sb.AppendLine(@"                {");
@@ -903,7 +894,7 @@ namespace CSSPServicesGenerateCodeHelper
                         continue;
                     }
 
-                    CSSPModelsGenerateCodeHelper.CSSPProp csspProp = new CSSPModelsGenerateCodeHelper.CSSPProp();
+                    CSSPProp csspProp = new CSSPProp();
                     if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
                     {
                         ErrorEvent(new ErrorEventArgs("Error while creating code [" + csspProp.Error + "]"));

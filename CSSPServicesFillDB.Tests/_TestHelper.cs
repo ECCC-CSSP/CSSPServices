@@ -38,19 +38,23 @@ namespace CSSPServicesFillDB.Tests
         #region Functions public
         public Contact GetRandomContact()
         {
+            Contact contact = null;
 
-            ContactService contactService = new ContactService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryTestDB);
-
-            int Count = contactService.GetRead().Count();
-
-            if (Count == 0)
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryTestDB))
             {
-                return new Contact() { ContactID = 0 };
+                ContactService contactService = new ContactService(LanguageRequest, db, ContactID);
+
+                int Count = contactService.GetRead().Count();
+
+                if (Count == 0)
+                {
+                    return new Contact() { ContactID = 0 };
+                }
+
+                int skip = random.Next(0, Count);
+
+                contact = contactService.GetRead().Skip(skip).Take(1).FirstOrDefault<Contact>();
             }
-
-            int skip = random.Next(0, Count);
-
-            Contact contact = contactService.GetRead().Skip(skip).Take(1).FirstOrDefault<Contact>();
 
             return contact;
         }
@@ -139,18 +143,24 @@ namespace CSSPServicesFillDB.Tests
         }
         public TVItem GetRandomTVItem(TVTypeEnum TVType)
         {
-            TVItemService tvItemService = new TVItemService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryTestDB);
-
-            int Count = tvItemService.GetRead().Where(c => c.TVType == TVType).Count();
-
-            if (Count == 0)
+            TVItem tvItem = null;
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryTestDB))
             {
-                return new TVItem() { TVItemID = 0 };
+                TVItemService tvItemService = new TVItemService(LanguageRequest, db, ContactID);
+
+                int Count = tvItemService.GetRead().Where(c => c.TVType == TVType).Count();
+
+                if (Count == 0)
+                {
+                    return new TVItem() { TVItemID = 0 };
+                }
+
+                int skip = random.Next(0, Count);
+
+                tvItem = tvItemService.GetRead().Where(c => c.TVType == TVType).Skip(skip).Take(1).FirstOrDefault<TVItem>();
             }
 
-            int skip = random.Next(0, Count);
-
-            return tvItemService.GetRead().Where(c => c.TVType == TVType).Skip(skip).Take(1).FirstOrDefault<TVItem>();
+            return tvItem;
         }
         public int GetRandomEnumType(Type enumType)
         {

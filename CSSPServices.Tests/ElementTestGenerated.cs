@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int ElementID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private ElementService elementService { get; set; }
         #endregion Properties
 
         #region Constructors
         public ElementTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            elementService = new ElementService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private Element GetFilledRandomElement(string OmitPropName)
         {
-            ElementID += 1;
-
             Element element = new Element();
 
             if (OmitPropName != "ID") element.ID = GetRandomInt(1, 11);
@@ -60,8 +55,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Element_Testing()
         {
-            SetupTestHelper(culture);
-            ElementService elementService = new ElementService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             Element element = GetFilledRandomElement("");
 
             // -------------------------------

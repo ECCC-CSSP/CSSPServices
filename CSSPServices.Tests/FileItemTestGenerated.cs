@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int FileItemID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private FileItemService fileItemService { get; set; }
         #endregion Properties
 
         #region Constructors
         public FileItemTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            fileItemService = new FileItemService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private FileItem GetFilledRandomFileItem(string OmitPropName)
         {
-            FileItemID += 1;
-
             FileItem fileItem = new FileItem();
 
             if (OmitPropName != "Name") fileItem.Name = GetRandomString("", 5);
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void FileItem_Testing()
         {
-            SetupTestHelper(culture);
-            FileItemService fileItemService = new FileItemService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             FileItem fileItem = GetFilledRandomFileItem("");
 
             // -------------------------------

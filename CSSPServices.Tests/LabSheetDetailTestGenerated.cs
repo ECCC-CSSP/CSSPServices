@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int LabSheetDetailID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private LabSheetDetailService labSheetDetailService { get; set; }
         #endregion Properties
 
         #region Constructors
         public LabSheetDetailTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            labSheetDetailService = new LabSheetDetailService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,17 +37,14 @@ namespace CSSPServices.Tests
         #region Functions private
         private LabSheetDetail GetFilledRandomLabSheetDetail(string OmitPropName)
         {
-            LabSheetDetailID += 1;
-
             LabSheetDetail labSheetDetail = new LabSheetDetail();
 
-            if (OmitPropName != "LabSheetDetailID") labSheetDetail.LabSheetDetailID = LabSheetDetailID;
             if (OmitPropName != "LabSheetID") labSheetDetail.LabSheetID = GetRandomInt(1, 11);
             if (OmitPropName != "SamplingPlanID") labSheetDetail.SamplingPlanID = GetRandomInt(1, 11);
             if (OmitPropName != "SubsectorTVItemID") labSheetDetail.SubsectorTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "Version") labSheetDetail.Version = GetRandomInt(1, 5);
             if (OmitPropName != "RunDate") labSheetDetail.RunDate = GetRandomDateTime();
-            if (OmitPropName != "Tides") labSheetDetail.Tides = GetRandomString("", 5);
+            if (OmitPropName != "Tides") labSheetDetail.Tides = GetRandomString("", 6);
             if (OmitPropName != "SampleCrewInitials") labSheetDetail.SampleCrewInitials = GetRandomString("", 5);
             if (OmitPropName != "WaterBathCount") labSheetDetail.WaterBathCount = GetRandomInt(1, 3);
             if (OmitPropName != "IncubationBath1StartTime") labSheetDetail.IncubationBath1StartTime = GetRandomDateTime();
@@ -108,7 +102,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "IntertechDuplicateAcceptable") labSheetDetail.IntertechDuplicateAcceptable = true;
             if (OmitPropName != "IntertechReadAcceptable") labSheetDetail.IntertechReadAcceptable = true;
             if (OmitPropName != "LastUpdateDate_UTC") labSheetDetail.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") labSheetDetail.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") labSheetDetail.LastUpdateContactTVItemID = 2;
 
             return labSheetDetail;
         }
@@ -118,8 +112,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void LabSheetDetail_Testing()
         {
-            SetupTestHelper(culture);
-            LabSheetDetailService labSheetDetailService = new LabSheetDetailService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             LabSheetDetail labSheetDetail = GetFilledRandomLabSheetDetail("");
 
             // -------------------------------
@@ -128,13 +127,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
+            count = labSheetDetailService.GetRead().Count();
+
+            labSheetDetailService.Add(labSheetDetail);
+            if (labSheetDetail.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, labSheetDetailService.GetRead().Where(c => c == labSheetDetail).Any());
-            labSheetDetail.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, labSheetDetailService.Update(labSheetDetail));
-            Assert.AreEqual(1, labSheetDetailService.GetRead().Count());
-            Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
-            Assert.AreEqual(0, labSheetDetailService.GetRead().Count());
+            labSheetDetailService.Update(labSheetDetail);
+            if (labSheetDetail.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, labSheetDetailService.GetRead().Count());
+            labSheetDetailService.Delete(labSheetDetail);
+            if (labSheetDetail.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

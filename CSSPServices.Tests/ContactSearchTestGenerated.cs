@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int ContactSearchID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private ContactSearchService contactSearchService { get; set; }
         #endregion Properties
 
         #region Constructors
         public ContactSearchTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            contactSearchService = new ContactSearchService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private ContactSearch GetFilledRandomContactSearch(string OmitPropName)
         {
-            ContactSearchID += 1;
-
             ContactSearch contactSearch = new ContactSearch();
 
             if (OmitPropName != "ContactID") contactSearch.ContactID = GetRandomInt(1, 11);
@@ -56,8 +51,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void ContactSearch_Testing()
         {
-            SetupTestHelper(culture);
-            ContactSearchService contactSearchService = new ContactSearchService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             ContactSearch contactSearch = GetFilledRandomContactSearch("");
 
             // -------------------------------

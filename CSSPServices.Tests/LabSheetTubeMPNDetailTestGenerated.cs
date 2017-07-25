@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int LabSheetTubeMPNDetailID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private LabSheetTubeMPNDetailService labSheetTubeMPNDetailService { get; set; }
         #endregion Properties
 
         #region Constructors
         public LabSheetTubeMPNDetailTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,14 +37,11 @@ namespace CSSPServices.Tests
         #region Functions private
         private LabSheetTubeMPNDetail GetFilledRandomLabSheetTubeMPNDetail(string OmitPropName)
         {
-            LabSheetTubeMPNDetailID += 1;
-
             LabSheetTubeMPNDetail labSheetTubeMPNDetail = new LabSheetTubeMPNDetail();
 
-            if (OmitPropName != "LabSheetTubeMPNDetailID") labSheetTubeMPNDetail.LabSheetTubeMPNDetailID = LabSheetTubeMPNDetailID;
             if (OmitPropName != "LabSheetDetailID") labSheetTubeMPNDetail.LabSheetDetailID = GetRandomInt(1, 11);
             if (OmitPropName != "Ordinal") labSheetTubeMPNDetail.Ordinal = GetRandomInt(0, 1000);
-            if (OmitPropName != "MWQMSiteTVItemID") labSheetTubeMPNDetail.MWQMSiteTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "MWQMSiteTVItemID") labSheetTubeMPNDetail.MWQMSiteTVItemID = 19;
             if (OmitPropName != "SampleDateTime") labSheetTubeMPNDetail.SampleDateTime = GetRandomDateTime();
             if (OmitPropName != "MPN") labSheetTubeMPNDetail.MPN = GetRandomInt(1, 10000000);
             if (OmitPropName != "Tube10") labSheetTubeMPNDetail.Tube10 = GetRandomInt(0, 5);
@@ -59,7 +53,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SampleType") labSheetTubeMPNDetail.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "SiteComment") labSheetTubeMPNDetail.SiteComment = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") labSheetTubeMPNDetail.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") labSheetTubeMPNDetail.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") labSheetTubeMPNDetail.LastUpdateContactTVItemID = 2;
 
             return labSheetTubeMPNDetail;
         }
@@ -69,8 +63,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void LabSheetTubeMPNDetail_Testing()
         {
-            SetupTestHelper(culture);
-            LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             LabSheetTubeMPNDetail labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
 
             // -------------------------------
@@ -79,13 +78,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
+            count = labSheetTubeMPNDetailService.GetRead().Count();
+
+            labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail);
+            if (labSheetTubeMPNDetail.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, labSheetTubeMPNDetailService.GetRead().Where(c => c == labSheetTubeMPNDetail).Any());
-            labSheetTubeMPNDetail.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Update(labSheetTubeMPNDetail));
-            Assert.AreEqual(1, labSheetTubeMPNDetailService.GetRead().Count());
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetailService.GetRead().Count());
+            labSheetTubeMPNDetailService.Update(labSheetTubeMPNDetail);
+            if (labSheetTubeMPNDetail.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, labSheetTubeMPNDetailService.GetRead().Count());
+            labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail);
+            if (labSheetTubeMPNDetail.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int FileItemListID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private FileItemListService fileItemListService { get; set; }
         #endregion Properties
 
         #region Constructors
         public FileItemListTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            fileItemListService = new FileItemListService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,12 +37,10 @@ namespace CSSPServices.Tests
         #region Functions private
         private FileItemList GetFilledRandomFileItemList(string OmitPropName)
         {
-            FileItemListID += 1;
-
             FileItemList fileItemList = new FileItemList();
 
-            if (OmitPropName != "Text") fileItemList.Text = GetRandomString("", 5);
-            if (OmitPropName != "FileName") fileItemList.FileName = GetRandomString("", 5);
+            if (OmitPropName != "Text") fileItemList.Text = GetRandomString("", 6);
+            if (OmitPropName != "FileName") fileItemList.FileName = GetRandomString("", 6);
 
             return fileItemList;
         }
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void FileItemList_Testing()
         {
-            SetupTestHelper(culture);
-            FileItemListService fileItemListService = new FileItemListService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             FileItemList fileItemList = GetFilledRandomFileItemList("");
 
             // -------------------------------

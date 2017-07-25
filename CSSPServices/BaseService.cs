@@ -18,7 +18,6 @@ namespace CSSPServices
     public partial class BaseService
     {
         #region Variables public
-        private static IServiceProvider _serviceProvider;
         public List<LanguageEnum> LanguageListAllowable = new List<LanguageEnum>() { LanguageEnum.en, LanguageEnum.fr };
         //public int TakeMax = 1000000;
         //public string BasePath = @"E:\inetpub\wwwroot\csspwebtools\App_Data\";
@@ -31,16 +30,16 @@ namespace CSSPServices
         #endregion Variables public
 
         #region Properties
-        public LanguageEnum LanguageRequest { get; set; }
-        public int ContactID { get; set; }
-        public bool IsTest { get; set; }
+        public CSSPWebToolsDBContext db { get; set; }
         public bool CanSendEmail { get; set; }
-        //public string DBName { get; set; }
+        public int ContactID { get; set; }
         public string FromEmail { get; set; }
+        public bool IsTest { get; set; }
+        public LanguageEnum LanguageRequest { get; set; }
         #endregion Properties
 
         #region Constructors
-        public BaseService(LanguageEnum LanguageRequest, int ContactID)
+        public BaseService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
         {
             if (!LanguageListAllowable.Contains(LanguageRequest))
             {
@@ -62,8 +61,8 @@ namespace CSSPServices
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-CA");
             }
             this.ContactID = ContactID;
+            this.db = db;
             this.CanSendEmail = true;
-            //this.DBName = "CSSPWebToolsDBTest";
             this.FromEmail = "ec.pccsm-cssp.ec@canada.ca";
             this.IsTest = false;
         }

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TVItemTVAuthID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TVItemTVAuthService tvItemTVAuthService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TVItemTVAuthTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tvItemTVAuthService = new TVItemTVAuthService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,15 +37,13 @@ namespace CSSPServices.Tests
         #region Functions private
         private TVItemTVAuth GetFilledRandomTVItemTVAuth(string OmitPropName)
         {
-            TVItemTVAuthID += 1;
-
             TVItemTVAuth tvItemTVAuth = new TVItemTVAuth();
 
             if (OmitPropName != "Error") tvItemTVAuth.Error = GetRandomString("", 20);
             if (OmitPropName != "TVItemUserAuthID") tvItemTVAuth.TVItemUserAuthID = GetRandomInt(1, 11);
-            if (OmitPropName != "TVText") tvItemTVAuth.TVText = GetRandomString("", 5);
+            if (OmitPropName != "TVText") tvItemTVAuth.TVText = GetRandomString("", 6);
             if (OmitPropName != "TVItemID1") tvItemTVAuth.TVItemID1 = GetRandomInt(1, 11);
-            if (OmitPropName != "TVTypeStr") tvItemTVAuth.TVTypeStr = GetRandomString("", 5);
+            if (OmitPropName != "TVTypeStr") tvItemTVAuth.TVTypeStr = GetRandomString("", 6);
             if (OmitPropName != "TVAuth") tvItemTVAuth.TVAuth = (TVAuthEnum)GetRandomEnumType(typeof(TVAuthEnum));
 
             return tvItemTVAuth;
@@ -59,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVItemTVAuth_Testing()
         {
-            SetupTestHelper(culture);
-            TVItemTVAuthService tvItemTVAuthService = new TVItemTVAuthService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TVItemTVAuth tvItemTVAuth = GetFilledRandomTVItemTVAuth("");
 
             // -------------------------------

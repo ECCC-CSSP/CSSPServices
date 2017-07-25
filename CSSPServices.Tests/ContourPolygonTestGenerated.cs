@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int ContourPolygonID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private ContourPolygonService contourPolygonService { get; set; }
         #endregion Properties
 
         #region Constructors
         public ContourPolygonTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            contourPolygonService = new ContourPolygonService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private ContourPolygon GetFilledRandomContourPolygon(string OmitPropName)
         {
-            ContourPolygonID += 1;
-
             ContourPolygon contourPolygon = new ContourPolygon();
 
             if (OmitPropName != "ContourValue") contourPolygon.ContourValue = GetRandomDouble(1.0D, 1000.0D);
@@ -56,8 +51,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void ContourPolygon_Testing()
         {
-            SetupTestHelper(culture);
-            ContourPolygonService contourPolygonService = new ContourPolygonService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             ContourPolygon contourPolygon = GetFilledRandomContourPolygon("");
 
             // -------------------------------

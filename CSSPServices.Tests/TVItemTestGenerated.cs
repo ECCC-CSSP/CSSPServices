@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TVItemID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TVItemService tvItemService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TVItemTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tvItemService = new TVItemService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,18 +37,15 @@ namespace CSSPServices.Tests
         #region Functions private
         private TVItem GetFilledRandomTVItem(string OmitPropName)
         {
-            TVItemID += 1;
-
             TVItem tvItem = new TVItem();
 
-            if (OmitPropName != "TVItemID") tvItem.TVItemID = TVItemID;
             if (OmitPropName != "TVLevel") tvItem.TVLevel = GetRandomInt(0, 100);
             if (OmitPropName != "TVPath") tvItem.TVPath = GetRandomString("", 5);
             if (OmitPropName != "TVType") tvItem.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "ParentID") tvItem.ParentID = GetRandomInt(1, 11);
             if (OmitPropName != "IsActive") tvItem.IsActive = true;
             if (OmitPropName != "LastUpdateDate_UTC") tvItem.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") tvItem.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") tvItem.LastUpdateContactTVItemID = 2;
 
             return tvItem;
         }
@@ -61,8 +55,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVItem_Testing()
         {
-            SetupTestHelper(culture);
-            TVItemService tvItemService = new TVItemService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TVItem tvItem = GetFilledRandomTVItem("");
 
             // -------------------------------
@@ -71,13 +70,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, tvItemService.Add(tvItem));
+            count = tvItemService.GetRead().Count();
+
+            tvItemService.Add(tvItem);
+            if (tvItem.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvItem.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, tvItemService.GetRead().Where(c => c == tvItem).Any());
-            tvItem.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, tvItemService.Update(tvItem));
-            Assert.AreEqual(1, tvItemService.GetRead().Count());
-            Assert.AreEqual(true, tvItemService.Delete(tvItem));
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
+            tvItemService.Update(tvItem);
+            if (tvItem.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvItem.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, tvItemService.GetRead().Count());
+            tvItemService.Delete(tvItem);
+            if (tvItem.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvItem.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int SpillID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private SpillService spillService { get; set; }
         #endregion Properties
 
         #region Constructors
         public SpillTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            spillService = new SpillService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,18 +37,15 @@ namespace CSSPServices.Tests
         #region Functions private
         private Spill GetFilledRandomSpill(string OmitPropName)
         {
-            SpillID += 1;
-
             Spill spill = new Spill();
 
-            if (OmitPropName != "SpillID") spill.SpillID = SpillID;
-            if (OmitPropName != "MunicipalityTVItemID") spill.MunicipalityTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "InfrastructureTVItemID") spill.InfrastructureTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "MunicipalityTVItemID") spill.MunicipalityTVItemID = 14;
+            if (OmitPropName != "InfrastructureTVItemID") spill.InfrastructureTVItemID = 16;
             if (OmitPropName != "StartDateTime_Local") spill.StartDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "EndDateTime_Local") spill.EndDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "AverageFlow_m3_day") spill.AverageFlow_m3_day = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") spill.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") spill.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") spill.LastUpdateContactTVItemID = 2;
 
             return spill;
         }
@@ -61,8 +55,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Spill_Testing()
         {
-            SetupTestHelper(culture);
-            SpillService spillService = new SpillService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             Spill spill = GetFilledRandomSpill("");
 
             // -------------------------------
@@ -71,13 +70,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, spillService.Add(spill));
+            count = spillService.GetRead().Count();
+
+            spillService.Add(spill);
+            if (spill.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, spillService.GetRead().Where(c => c == spill).Any());
-            spill.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, spillService.Update(spill));
-            Assert.AreEqual(1, spillService.GetRead().Count());
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(0, spillService.GetRead().Count());
+            spillService.Update(spill);
+            if (spill.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, spillService.GetRead().Count());
+            spillService.Delete(spill);
+            if (spill.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, spillService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

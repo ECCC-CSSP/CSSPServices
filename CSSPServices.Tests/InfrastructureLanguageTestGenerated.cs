@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int InfrastructureLanguageID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private InfrastructureLanguageService infrastructureLanguageService { get; set; }
         #endregion Properties
 
         #region Constructors
         public InfrastructureLanguageTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            infrastructureLanguageService = new InfrastructureLanguageService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,17 +37,14 @@ namespace CSSPServices.Tests
         #region Functions private
         private InfrastructureLanguage GetFilledRandomInfrastructureLanguage(string OmitPropName)
         {
-            InfrastructureLanguageID += 1;
-
             InfrastructureLanguage infrastructureLanguage = new InfrastructureLanguage();
 
-            if (OmitPropName != "InfrastructureLanguageID") infrastructureLanguage.InfrastructureLanguageID = InfrastructureLanguageID;
             if (OmitPropName != "InfrastructureID") infrastructureLanguage.InfrastructureID = GetRandomInt(1, 11);
             if (OmitPropName != "Language") infrastructureLanguage.Language = language;
             if (OmitPropName != "Comment") infrastructureLanguage.Comment = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatus") infrastructureLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") infrastructureLanguage.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") infrastructureLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") infrastructureLanguage.LastUpdateContactTVItemID = 2;
 
             return infrastructureLanguage;
         }
@@ -60,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void InfrastructureLanguage_Testing()
         {
-            SetupTestHelper(culture);
-            InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             InfrastructureLanguage infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
 
             // -------------------------------
@@ -70,13 +69,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, infrastructureLanguageService.Add(infrastructureLanguage));
+            count = infrastructureLanguageService.GetRead().Count();
+
+            infrastructureLanguageService.Add(infrastructureLanguage);
+            if (infrastructureLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, infrastructureLanguageService.GetRead().Where(c => c == infrastructureLanguage).Any());
-            infrastructureLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, infrastructureLanguageService.Update(infrastructureLanguage));
-            Assert.AreEqual(1, infrastructureLanguageService.GetRead().Count());
-            Assert.AreEqual(true, infrastructureLanguageService.Delete(infrastructureLanguage));
-            Assert.AreEqual(0, infrastructureLanguageService.GetRead().Count());
+            infrastructureLanguageService.Update(infrastructureLanguage);
+            if (infrastructureLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, infrastructureLanguageService.GetRead().Count());
+            infrastructureLanguageService.Delete(infrastructureLanguage);
+            if (infrastructureLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

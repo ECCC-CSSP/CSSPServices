@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int ResetPasswordID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private ResetPasswordService resetPasswordService { get; set; }
         #endregion Properties
 
         #region Constructors
         public ResetPasswordTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            resetPasswordService = new ResetPasswordService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,18 +37,15 @@ namespace CSSPServices.Tests
         #region Functions private
         private ResetPassword GetFilledRandomResetPassword(string OmitPropName)
         {
-            ResetPasswordID += 1;
-
             ResetPassword resetPassword = new ResetPassword();
 
-            if (OmitPropName != "ResetPasswordID") resetPassword.ResetPasswordID = ResetPasswordID;
-            if (OmitPropName != "Email") resetPassword.Email = GetRandomEmail();
+            if (OmitPropName != "Email") resetPassword.Email = GetRandomString("", 5);
             if (OmitPropName != "ExpireDate_Local") resetPassword.ExpireDate_Local = GetRandomDateTime();
             if (OmitPropName != "Code") resetPassword.Code = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") resetPassword.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") resetPassword.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "Password") resetPassword.Password = GetRandomString("", 5);
-            if (OmitPropName != "ConfirmPassword") resetPassword.ConfirmPassword = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVItemID") resetPassword.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "Password") resetPassword.Password = GetRandomString("", 11);
+            if (OmitPropName != "ConfirmPassword") resetPassword.ConfirmPassword = GetRandomString("", 11);
 
             return resetPassword;
         }
@@ -61,8 +55,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void ResetPassword_Testing()
         {
-            SetupTestHelper(culture);
-            ResetPasswordService resetPasswordService = new ResetPasswordService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             ResetPassword resetPassword = GetFilledRandomResetPassword("");
 
             // -------------------------------
@@ -71,13 +70,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, resetPasswordService.Add(resetPassword));
+            count = resetPasswordService.GetRead().Count();
+
+            resetPasswordService.Add(resetPassword);
+            if (resetPassword.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, resetPasswordService.GetRead().Where(c => c == resetPassword).Any());
-            resetPassword.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, resetPasswordService.Update(resetPassword));
-            Assert.AreEqual(1, resetPasswordService.GetRead().Count());
-            Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
-            Assert.AreEqual(0, resetPasswordService.GetRead().Count());
+            resetPasswordService.Update(resetPassword);
+            if (resetPassword.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, resetPasswordService.GetRead().Count());
+            resetPasswordService.Delete(resetPassword);
+            if (resetPassword.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

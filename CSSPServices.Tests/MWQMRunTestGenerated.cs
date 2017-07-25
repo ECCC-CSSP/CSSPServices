@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MWQMRunID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MWQMRunService mwqmRunService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MWQMRunTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mwqmRunService = new MWQMRunService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,13 +37,10 @@ namespace CSSPServices.Tests
         #region Functions private
         private MWQMRun GetFilledRandomMWQMRun(string OmitPropName)
         {
-            MWQMRunID += 1;
-
             MWQMRun mwqmRun = new MWQMRun();
 
-            if (OmitPropName != "MWQMRunID") mwqmRun.MWQMRunID = MWQMRunID;
-            if (OmitPropName != "SubsectorTVItemID") mwqmRun.SubsectorTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "MWQMRunTVItemID") mwqmRun.MWQMRunTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "SubsectorTVItemID") mwqmRun.SubsectorTVItemID = 11;
+            if (OmitPropName != "MWQMRunTVItemID") mwqmRun.MWQMRunTVItemID = 24;
             if (OmitPropName != "RunSampleType") mwqmRun.RunSampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "DateTime_Local") mwqmRun.DateTime_Local = GetRandomDateTime();
             if (OmitPropName != "RunNumber") mwqmRun.RunNumber = GetRandomInt(1, 1000);
@@ -65,7 +59,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SampleMatrix") mwqmRun.SampleMatrix = (SampleMatrixEnum)GetRandomEnumType(typeof(SampleMatrixEnum));
             if (OmitPropName != "Laboratory") mwqmRun.Laboratory = (LaboratoryEnum)GetRandomEnumType(typeof(LaboratoryEnum));
             if (OmitPropName != "SampleStatus") mwqmRun.SampleStatus = (SampleStatusEnum)GetRandomEnumType(typeof(SampleStatusEnum));
-            if (OmitPropName != "LabSampleApprovalContactTVItemID") mwqmRun.LabSampleApprovalContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LabSampleApprovalContactTVItemID") mwqmRun.LabSampleApprovalContactTVItemID = 2;
             if (OmitPropName != "LabAnalyzeBath1IncubationStartDateTime_Local") mwqmRun.LabAnalyzeBath1IncubationStartDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "LabAnalyzeBath2IncubationStartDateTime_Local") mwqmRun.LabAnalyzeBath2IncubationStartDateTime_Local = GetRandomDateTime();
             if (OmitPropName != "LabAnalyzeBath3IncubationStartDateTime_Local") mwqmRun.LabAnalyzeBath3IncubationStartDateTime_Local = GetRandomDateTime();
@@ -85,7 +79,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "RainDay10_mm") mwqmRun.RainDay10_mm = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "RemoveFromStat") mwqmRun.RemoveFromStat = true;
             if (OmitPropName != "LastUpdateDate_UTC") mwqmRun.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") mwqmRun.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") mwqmRun.LastUpdateContactTVItemID = 2;
 
             return mwqmRun;
         }
@@ -95,8 +89,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MWQMRun_Testing()
         {
-            SetupTestHelper(culture);
-            MWQMRunService mwqmRunService = new MWQMRunService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MWQMRun mwqmRun = GetFilledRandomMWQMRun("");
 
             // -------------------------------
@@ -105,13 +104,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
+            count = mwqmRunService.GetRead().Count();
+
+            mwqmRunService.Add(mwqmRun);
+            if (mwqmRun.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, mwqmRunService.GetRead().Where(c => c == mwqmRun).Any());
-            mwqmRun.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, mwqmRunService.Update(mwqmRun));
-            Assert.AreEqual(1, mwqmRunService.GetRead().Count());
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(0, mwqmRunService.GetRead().Count());
+            mwqmRunService.Update(mwqmRun);
+            if (mwqmRun.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, mwqmRunService.GetRead().Count());
+            mwqmRunService.Delete(mwqmRun);
+            if (mwqmRun.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

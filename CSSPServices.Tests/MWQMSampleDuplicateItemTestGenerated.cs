@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MWQMSampleDuplicateItemID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MWQMSampleDuplicateItemService mwqmSampleDuplicateItemService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MWQMSampleDuplicateItemTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mwqmSampleDuplicateItemService = new MWQMSampleDuplicateItemService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,12 +37,10 @@ namespace CSSPServices.Tests
         #region Functions private
         private MWQMSampleDuplicateItem GetFilledRandomMWQMSampleDuplicateItem(string OmitPropName)
         {
-            MWQMSampleDuplicateItemID += 1;
-
             MWQMSampleDuplicateItem mwqmSampleDuplicateItem = new MWQMSampleDuplicateItem();
 
-            if (OmitPropName != "ParentSite") mwqmSampleDuplicateItem.ParentSite = GetRandomString("", 5);
-            if (OmitPropName != "DuplicateSite") mwqmSampleDuplicateItem.DuplicateSite = GetRandomString("", 5);
+            if (OmitPropName != "ParentSite") mwqmSampleDuplicateItem.ParentSite = GetRandomString("", 6);
+            if (OmitPropName != "DuplicateSite") mwqmSampleDuplicateItem.DuplicateSite = GetRandomString("", 6);
 
             return mwqmSampleDuplicateItem;
         }
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MWQMSampleDuplicateItem_Testing()
         {
-            SetupTestHelper(culture);
-            MWQMSampleDuplicateItemService mwqmSampleDuplicateItemService = new MWQMSampleDuplicateItemService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MWQMSampleDuplicateItem mwqmSampleDuplicateItem = GetFilledRandomMWQMSampleDuplicateItem("");
 
             // -------------------------------

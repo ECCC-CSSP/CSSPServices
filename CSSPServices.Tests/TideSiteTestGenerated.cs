@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TideSiteID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TideSiteService tideSiteService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TideSiteTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tideSiteService = new TideSiteService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,16 +37,13 @@ namespace CSSPServices.Tests
         #region Functions private
         private TideSite GetFilledRandomTideSite(string OmitPropName)
         {
-            TideSiteID += 1;
-
             TideSite tideSite = new TideSite();
 
-            if (OmitPropName != "TideSiteID") tideSite.TideSiteID = TideSiteID;
-            if (OmitPropName != "TideSiteTVItemID") tideSite.TideSiteTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "TideSiteTVItemID") tideSite.TideSiteTVItemID = 13;
             if (OmitPropName != "WebTideModel") tideSite.WebTideModel = GetRandomString("", 5);
             if (OmitPropName != "WebTideDatum_m") tideSite.WebTideDatum_m = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") tideSite.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") tideSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") tideSite.LastUpdateContactTVItemID = 2;
 
             return tideSite;
         }
@@ -59,8 +53,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TideSite_Testing()
         {
-            SetupTestHelper(culture);
-            TideSiteService tideSiteService = new TideSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TideSite tideSite = GetFilledRandomTideSite("");
 
             // -------------------------------
@@ -69,13 +68,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, tideSiteService.Add(tideSite));
+            count = tideSiteService.GetRead().Count();
+
+            tideSiteService.Add(tideSite);
+            if (tideSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, tideSiteService.GetRead().Where(c => c == tideSite).Any());
-            tideSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, tideSiteService.Update(tideSite));
-            Assert.AreEqual(1, tideSiteService.GetRead().Count());
-            Assert.AreEqual(true, tideSiteService.Delete(tideSite));
-            Assert.AreEqual(0, tideSiteService.GetRead().Count());
+            tideSiteService.Update(tideSite);
+            if (tideSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, tideSiteService.GetRead().Count());
+            tideSiteService.Delete(tideSite);
+            if (tideSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, tideSiteService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

@@ -86,14 +86,18 @@ namespace CSSPServicesGenerateCode
         private void ServicesGenerateCodeHelper_ErrorHandler(object sender, CSSPServicesGenerateCodeHelper.ErrorEventArgs e)
         {
             richTextBoxStatus.AppendText(e.Error + "\r\n");
+            Application.DoEvents();
         }
         private void ServicesGenerateCodeHelper_StatusPermanentHandler(object sender, StatusEventArgs e)
         {
             richTextBoxStatus.AppendText(e.Status + "\r\n");
+            Application.DoEvents();
         }
         private void ServicesGenerateCodeHelper_StatusTempHandler(object sender, StatusEventArgs e)
         {
             lblStatus.Text = e.Status;
+            lblStatus.Refresh();
+            Application.DoEvents();
         }
         #endregion Events
 

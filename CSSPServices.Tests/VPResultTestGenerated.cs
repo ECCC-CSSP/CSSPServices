@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int VPResultID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private VPResultService vpResultService { get; set; }
         #endregion Properties
 
         #region Constructors
         public VPResultTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            vpResultService = new VPResultService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,11 +37,8 @@ namespace CSSPServices.Tests
         #region Functions private
         private VPResult GetFilledRandomVPResult(string OmitPropName)
         {
-            VPResultID += 1;
-
             VPResult vpResult = new VPResult();
 
-            if (OmitPropName != "VPResultID") vpResult.VPResultID = VPResultID;
             if (OmitPropName != "VPScenarioID") vpResult.VPScenarioID = GetRandomInt(1, 11);
             if (OmitPropName != "Ordinal") vpResult.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "Concentration_MPN_100ml") vpResult.Concentration_MPN_100ml = GetRandomInt(0, 10000000);
@@ -53,7 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DispersionDistance_m") vpResult.DispersionDistance_m = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "TravelTime_hour") vpResult.TravelTime_hour = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") vpResult.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") vpResult.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") vpResult.LastUpdateContactTVItemID = 2;
 
             return vpResult;
         }
@@ -63,8 +57,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void VPResult_Testing()
         {
-            SetupTestHelper(culture);
-            VPResultService vpResultService = new VPResultService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             VPResult vpResult = GetFilledRandomVPResult("");
 
             // -------------------------------
@@ -73,13 +72,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, vpResultService.Add(vpResult));
+            count = vpResultService.GetRead().Count();
+
+            vpResultService.Add(vpResult);
+            if (vpResult.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, vpResultService.GetRead().Where(c => c == vpResult).Any());
-            vpResult.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, vpResultService.Update(vpResult));
-            Assert.AreEqual(1, vpResultService.GetRead().Count());
-            Assert.AreEqual(true, vpResultService.Delete(vpResult));
-            Assert.AreEqual(0, vpResultService.GetRead().Count());
+            vpResultService.Update(vpResult);
+            if (vpResult.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, vpResultService.GetRead().Count());
+            vpResultService.Delete(vpResult);
+            if (vpResult.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, vpResultService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

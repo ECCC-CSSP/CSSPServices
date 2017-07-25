@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int RatingCurveValueID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private RatingCurveValueService ratingCurveValueService { get; set; }
         #endregion Properties
 
         #region Constructors
         public RatingCurveValueTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            ratingCurveValueService = new RatingCurveValueService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,16 +37,13 @@ namespace CSSPServices.Tests
         #region Functions private
         private RatingCurveValue GetFilledRandomRatingCurveValue(string OmitPropName)
         {
-            RatingCurveValueID += 1;
-
             RatingCurveValue ratingCurveValue = new RatingCurveValue();
 
-            if (OmitPropName != "RatingCurveValueID") ratingCurveValue.RatingCurveValueID = RatingCurveValueID;
             if (OmitPropName != "RatingCurveID") ratingCurveValue.RatingCurveID = GetRandomInt(1, 11);
             if (OmitPropName != "StageValue_m") ratingCurveValue.StageValue_m = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "DischargeValue_m3_s") ratingCurveValue.DischargeValue_m3_s = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") ratingCurveValue.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") ratingCurveValue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") ratingCurveValue.LastUpdateContactTVItemID = 2;
 
             return ratingCurveValue;
         }
@@ -59,8 +53,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void RatingCurveValue_Testing()
         {
-            SetupTestHelper(culture);
-            RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             RatingCurveValue ratingCurveValue = GetFilledRandomRatingCurveValue("");
 
             // -------------------------------
@@ -69,13 +68,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, ratingCurveValueService.Add(ratingCurveValue));
+            count = ratingCurveValueService.GetRead().Count();
+
+            ratingCurveValueService.Add(ratingCurveValue);
+            if (ratingCurveValue.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, ratingCurveValueService.GetRead().Where(c => c == ratingCurveValue).Any());
-            ratingCurveValue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, ratingCurveValueService.Update(ratingCurveValue));
-            Assert.AreEqual(1, ratingCurveValueService.GetRead().Count());
-            Assert.AreEqual(true, ratingCurveValueService.Delete(ratingCurveValue));
-            Assert.AreEqual(0, ratingCurveValueService.GetRead().Count());
+            ratingCurveValueService.Update(ratingCurveValue);
+            if (ratingCurveValue.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, ratingCurveValueService.GetRead().Count());
+            ratingCurveValueService.Delete(ratingCurveValue);
+            if (ratingCurveValue.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

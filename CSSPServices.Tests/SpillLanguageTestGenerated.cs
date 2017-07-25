@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int SpillLanguageID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private SpillLanguageService spillLanguageService { get; set; }
         #endregion Properties
 
         #region Constructors
         public SpillLanguageTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            spillLanguageService = new SpillLanguageService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,17 +37,14 @@ namespace CSSPServices.Tests
         #region Functions private
         private SpillLanguage GetFilledRandomSpillLanguage(string OmitPropName)
         {
-            SpillLanguageID += 1;
-
             SpillLanguage spillLanguage = new SpillLanguage();
 
-            if (OmitPropName != "SpillLanguageID") spillLanguage.SpillLanguageID = SpillLanguageID;
             if (OmitPropName != "SpillID") spillLanguage.SpillID = GetRandomInt(1, 11);
             if (OmitPropName != "Language") spillLanguage.Language = language;
             if (OmitPropName != "SpillComment") spillLanguage.SpillComment = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatus") spillLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") spillLanguage.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") spillLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") spillLanguage.LastUpdateContactTVItemID = 2;
 
             return spillLanguage;
         }
@@ -60,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void SpillLanguage_Testing()
         {
-            SetupTestHelper(culture);
-            SpillLanguageService spillLanguageService = new SpillLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             SpillLanguage spillLanguage = GetFilledRandomSpillLanguage("");
 
             // -------------------------------
@@ -70,13 +69,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, spillLanguageService.Add(spillLanguage));
+            count = spillLanguageService.GetRead().Count();
+
+            spillLanguageService.Add(spillLanguage);
+            if (spillLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, spillLanguageService.GetRead().Where(c => c == spillLanguage).Any());
-            spillLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, spillLanguageService.Update(spillLanguage));
-            Assert.AreEqual(1, spillLanguageService.GetRead().Count());
-            Assert.AreEqual(true, spillLanguageService.Delete(spillLanguage));
-            Assert.AreEqual(0, spillLanguageService.GetRead().Count());
+            spillLanguageService.Update(spillLanguage);
+            if (spillLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, spillLanguageService.GetRead().Count());
+            spillLanguageService.Delete(spillLanguage);
+            if (spillLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, spillLanguageService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

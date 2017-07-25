@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int NodeID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private NodeService nodeService { get; set; }
         #endregion Properties
 
         #region Constructors
         public NodeTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            nodeService = new NodeService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private Node GetFilledRandomNode(string OmitPropName)
         {
-            NodeID += 1;
-
             Node node = new Node();
 
             if (OmitPropName != "ID") node.ID = GetRandomInt(1, 1000000);
@@ -59,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Node_Testing()
         {
-            SetupTestHelper(culture);
-            NodeService nodeService = new NodeService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             Node node = GetFilledRandomNode("");
 
             // -------------------------------

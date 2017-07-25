@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int ContactLoginID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private ContactLoginService contactLoginService { get; set; }
         #endregion Properties
 
         #region Constructors
         public ContactLoginTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            contactLoginService = new ContactLoginService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,19 +37,16 @@ namespace CSSPServices.Tests
         #region Functions private
         private ContactLogin GetFilledRandomContactLogin(string OmitPropName)
         {
-            ContactLoginID += 1;
-
             ContactLogin contactLogin = new ContactLogin();
 
-            if (OmitPropName != "ContactLoginID") contactLogin.ContactLoginID = ContactLoginID;
             if (OmitPropName != "ContactID") contactLogin.ContactID = GetRandomInt(1, 11);
             if (OmitPropName != "LoginEmail") contactLogin.LoginEmail = GetRandomEmail();
             //Error: Type not implemented [PasswordHash]
             //Error: Type not implemented [PasswordSalt]
             if (OmitPropName != "LastUpdateDate_UTC") contactLogin.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") contactLogin.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "Password") contactLogin.Password = GetRandomString("", 5);
-            if (OmitPropName != "ConfirmPassword") contactLogin.ConfirmPassword = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVItemID") contactLogin.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "Password") contactLogin.Password = GetRandomString("", 11);
+            if (OmitPropName != "ConfirmPassword") contactLogin.ConfirmPassword = GetRandomString("", 11);
 
             return contactLogin;
         }
@@ -62,8 +56,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void ContactLogin_Testing()
         {
-            SetupTestHelper(culture);
-            ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             ContactLogin contactLogin = GetFilledRandomContactLogin("");
 
             // -------------------------------
@@ -72,13 +71,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
+            count = contactLoginService.GetRead().Count();
+
+            contactLoginService.Add(contactLogin);
+            if (contactLogin.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, contactLoginService.GetRead().Where(c => c == contactLogin).Any());
-            contactLogin.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, contactLoginService.Update(contactLogin));
-            Assert.AreEqual(1, contactLoginService.GetRead().Count());
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(0, contactLoginService.GetRead().Count());
+            contactLoginService.Update(contactLogin);
+            if (contactLogin.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, contactLoginService.GetRead().Count());
+            contactLoginService.Delete(contactLogin);
+            if (contactLogin.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

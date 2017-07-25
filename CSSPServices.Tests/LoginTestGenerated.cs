@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int LoginID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private LoginService loginService { get; set; }
         #endregion Properties
 
         #region Constructors
         public LoginTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            loginService = new LoginService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,13 +37,11 @@ namespace CSSPServices.Tests
         #region Functions private
         private Login GetFilledRandomLogin(string OmitPropName)
         {
-            LoginID += 1;
-
             Login login = new Login();
 
-            if (OmitPropName != "LoginEmail") login.LoginEmail = GetRandomEmail();
-            if (OmitPropName != "Password") login.Password = GetRandomString("", 5);
-            if (OmitPropName != "ConfirmPassword") login.ConfirmPassword = GetRandomString("", 5);
+            if (OmitPropName != "LoginEmail") login.LoginEmail = GetRandomString("", 11);
+            if (OmitPropName != "Password") login.Password = GetRandomString("", 11);
+            if (OmitPropName != "ConfirmPassword") login.ConfirmPassword = GetRandomString("", 11);
 
             return login;
         }
@@ -56,8 +51,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Login_Testing()
         {
-            SetupTestHelper(culture);
-            LoginService loginService = new LoginService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             Login login = GetFilledRandomLogin("");
 
             // -------------------------------

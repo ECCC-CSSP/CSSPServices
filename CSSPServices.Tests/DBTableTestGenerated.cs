@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int DBTableID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private DBTableService dBTableService { get; set; }
         #endregion Properties
 
         #region Constructors
         public DBTableTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            dBTableService = new DBTableService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,11 +37,9 @@ namespace CSSPServices.Tests
         #region Functions private
         private DBTable GetFilledRandomDBTable(string OmitPropName)
         {
-            DBTableID += 1;
-
             DBTable dBTable = new DBTable();
 
-            if (OmitPropName != "TableName") dBTable.TableName = GetRandomString("", 5);
+            if (OmitPropName != "TableName") dBTable.TableName = GetRandomString("", 6);
             if (OmitPropName != "Plurial") dBTable.Plurial = GetRandomString("", 3);
 
             return dBTable;
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void DBTable_Testing()
         {
-            SetupTestHelper(culture);
-            DBTableService dBTableService = new DBTableService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             DBTable dBTable = GetFilledRandomDBTable("");
 
             // -------------------------------

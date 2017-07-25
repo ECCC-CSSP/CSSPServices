@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int HydrometricSiteID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private HydrometricSiteService hydrometricSiteService { get; set; }
         #endregion Properties
 
         #region Constructors
         public HydrometricSiteTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            hydrometricSiteService = new HydrometricSiteService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,12 +37,9 @@ namespace CSSPServices.Tests
         #region Functions private
         private HydrometricSite GetFilledRandomHydrometricSite(string OmitPropName)
         {
-            HydrometricSiteID += 1;
-
             HydrometricSite hydrometricSite = new HydrometricSite();
 
-            if (OmitPropName != "HydrometricSiteID") hydrometricSite.HydrometricSiteID = HydrometricSiteID;
-            if (OmitPropName != "HydrometricSiteTVItemID") hydrometricSite.HydrometricSiteTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "HydrometricSiteTVItemID") hydrometricSite.HydrometricSiteTVItemID = 8;
             if (OmitPropName != "FedSiteNumber") hydrometricSite.FedSiteNumber = GetRandomString("", 5);
             if (OmitPropName != "QuebecSiteNumber") hydrometricSite.QuebecSiteNumber = GetRandomString("", 5);
             if (OmitPropName != "HydrometricSiteName") hydrometricSite.HydrometricSiteName = GetRandomString("", 5);
@@ -63,7 +57,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "RealTime") hydrometricSite.RealTime = true;
             if (OmitPropName != "HasRatingCurve") hydrometricSite.HasRatingCurve = true;
             if (OmitPropName != "LastUpdateDate_UTC") hydrometricSite.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") hydrometricSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") hydrometricSite.LastUpdateContactTVItemID = 2;
 
             return hydrometricSite;
         }
@@ -73,8 +67,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void HydrometricSite_Testing()
         {
-            SetupTestHelper(culture);
-            HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             HydrometricSite hydrometricSite = GetFilledRandomHydrometricSite("");
 
             // -------------------------------
@@ -83,13 +82,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
+            count = hydrometricSiteService.GetRead().Count();
+
+            hydrometricSiteService.Add(hydrometricSite);
+            if (hydrometricSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, hydrometricSiteService.GetRead().Where(c => c == hydrometricSite).Any());
-            hydrometricSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, hydrometricSiteService.Update(hydrometricSite));
-            Assert.AreEqual(1, hydrometricSiteService.GetRead().Count());
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSiteService.GetRead().Count());
+            hydrometricSiteService.Update(hydrometricSite);
+            if (hydrometricSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, hydrometricSiteService.GetRead().Count());
+            hydrometricSiteService.Delete(hydrometricSite);
+            if (hydrometricSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

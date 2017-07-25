@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int VPScenarioLanguageID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private VPScenarioLanguageService vpScenarioLanguageService { get; set; }
         #endregion Properties
 
         #region Constructors
         public VPScenarioLanguageTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            vpScenarioLanguageService = new VPScenarioLanguageService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,17 +37,14 @@ namespace CSSPServices.Tests
         #region Functions private
         private VPScenarioLanguage GetFilledRandomVPScenarioLanguage(string OmitPropName)
         {
-            VPScenarioLanguageID += 1;
-
             VPScenarioLanguage vpScenarioLanguage = new VPScenarioLanguage();
 
-            if (OmitPropName != "VPScenarioLanguageID") vpScenarioLanguage.VPScenarioLanguageID = VPScenarioLanguageID;
             if (OmitPropName != "VPScenarioID") vpScenarioLanguage.VPScenarioID = GetRandomInt(1, 11);
             if (OmitPropName != "Language") vpScenarioLanguage.Language = language;
             if (OmitPropName != "VPScenarioName") vpScenarioLanguage.VPScenarioName = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatus") vpScenarioLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") vpScenarioLanguage.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") vpScenarioLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") vpScenarioLanguage.LastUpdateContactTVItemID = 2;
 
             return vpScenarioLanguage;
         }
@@ -60,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void VPScenarioLanguage_Testing()
         {
-            SetupTestHelper(culture);
-            VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             VPScenarioLanguage vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
 
             // -------------------------------
@@ -70,13 +69,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, vpScenarioLanguageService.Add(vpScenarioLanguage));
+            count = vpScenarioLanguageService.GetRead().Count();
+
+            vpScenarioLanguageService.Add(vpScenarioLanguage);
+            if (vpScenarioLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, vpScenarioLanguageService.GetRead().Where(c => c == vpScenarioLanguage).Any());
-            vpScenarioLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, vpScenarioLanguageService.Update(vpScenarioLanguage));
-            Assert.AreEqual(1, vpScenarioLanguageService.GetRead().Count());
-            Assert.AreEqual(true, vpScenarioLanguageService.Delete(vpScenarioLanguage));
-            Assert.AreEqual(0, vpScenarioLanguageService.GetRead().Count());
+            vpScenarioLanguageService.Update(vpScenarioLanguage);
+            if (vpScenarioLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, vpScenarioLanguageService.GetRead().Count());
+            vpScenarioLanguageService.Delete(vpScenarioLanguage);
+            if (vpScenarioLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

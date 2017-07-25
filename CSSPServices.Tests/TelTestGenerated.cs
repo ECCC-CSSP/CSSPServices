@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TelID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TelService telService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TelTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            telService = new TelService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,16 +37,13 @@ namespace CSSPServices.Tests
         #region Functions private
         private Tel GetFilledRandomTel(string OmitPropName)
         {
-            TelID += 1;
-
             Tel tel = new Tel();
 
-            if (OmitPropName != "TelID") tel.TelID = TelID;
-            if (OmitPropName != "TelTVItemID") tel.TelTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "TelTVItemID") tel.TelTVItemID = 30;
             if (OmitPropName != "TelNumber") tel.TelNumber = GetRandomString("", 5);
             if (OmitPropName != "TelType") tel.TelType = (TelTypeEnum)GetRandomEnumType(typeof(TelTypeEnum));
             if (OmitPropName != "LastUpdateDate_UTC") tel.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") tel.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") tel.LastUpdateContactTVItemID = 2;
 
             return tel;
         }
@@ -59,8 +53,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void Tel_Testing()
         {
-            SetupTestHelper(culture);
-            TelService telService = new TelService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             Tel tel = GetFilledRandomTel("");
 
             // -------------------------------
@@ -69,13 +68,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, telService.Add(tel));
+            count = telService.GetRead().Count();
+
+            telService.Add(tel);
+            if (tel.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tel.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, telService.GetRead().Where(c => c == tel).Any());
-            tel.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, telService.Update(tel));
-            Assert.AreEqual(1, telService.GetRead().Count());
-            Assert.AreEqual(true, telService.Delete(tel));
-            Assert.AreEqual(0, telService.GetRead().Count());
+            telService.Update(tel);
+            if (tel.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tel.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, telService.GetRead().Count());
+            telService.Delete(tel);
+            if (tel.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tel.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, telService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TVFileID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TVFileService tvFileService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TVFileTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tvFileService = new TVFileService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,12 +37,9 @@ namespace CSSPServices.Tests
         #region Functions private
         private TVFile GetFilledRandomTVFile(string OmitPropName)
         {
-            TVFileID += 1;
-
             TVFile tvFile = new TVFile();
 
-            if (OmitPropName != "TVFileID") tvFile.TVFileID = TVFileID;
-            if (OmitPropName != "TVFileTVItemID") tvFile.TVFileTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "TVFileTVItemID") tvFile.TVFileTVItemID = 17;
             if (OmitPropName != "TemplateTVType") tvFile.TemplateTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "Language") tvFile.Language = language;
             if (OmitPropName != "FilePurpose") tvFile.FilePurpose = (FilePurposeEnum)GetRandomEnumType(typeof(FilePurposeEnum));
@@ -58,7 +52,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ServerFileName") tvFile.ServerFileName = GetRandomString("", 5);
             if (OmitPropName != "ServerFilePath") tvFile.ServerFilePath = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") tvFile.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") tvFile.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") tvFile.LastUpdateContactTVItemID = 2;
 
             return tvFile;
         }
@@ -68,8 +62,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TVFile_Testing()
         {
-            SetupTestHelper(culture);
-            TVFileService tvFileService = new TVFileService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TVFile tvFile = GetFilledRandomTVFile("");
 
             // -------------------------------
@@ -78,13 +77,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
+            count = tvFileService.GetRead().Count();
+
+            tvFileService.Add(tvFile);
+            if (tvFile.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, tvFileService.GetRead().Where(c => c == tvFile).Any());
-            tvFile.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, tvFileService.Update(tvFile));
-            Assert.AreEqual(1, tvFileService.GetRead().Count());
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(0, tvFileService.GetRead().Count());
+            tvFileService.Update(tvFile);
+            if (tvFile.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, tvFileService.GetRead().Count());
+            tvFileService.Delete(tvFile);
+            if (tvFile.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, tvFileService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

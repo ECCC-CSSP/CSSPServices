@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TideLocationID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TideLocationService tideLocationService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TideLocationTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tideLocationService = new TideLocationService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,11 +37,8 @@ namespace CSSPServices.Tests
         #region Functions private
         private TideLocation GetFilledRandomTideLocation(string OmitPropName)
         {
-            TideLocationID += 1;
-
             TideLocation tideLocation = new TideLocation();
 
-            if (OmitPropName != "TideLocationID") tideLocation.TideLocationID = TideLocationID;
             if (OmitPropName != "Zone") tideLocation.Zone = GetRandomInt(0, 10000);
             if (OmitPropName != "Name") tideLocation.Name = GetRandomString("", 5);
             if (OmitPropName != "Prov") tideLocation.Prov = GetRandomString("", 5);
@@ -60,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TideLocation_Testing()
         {
-            SetupTestHelper(culture);
-            TideLocationService tideLocationService = new TideLocationService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TideLocation tideLocation = GetFilledRandomTideLocation("");
 
             // -------------------------------
@@ -70,13 +69,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, tideLocationService.Add(tideLocation));
+            count = tideLocationService.GetRead().Count();
+
+            tideLocationService.Add(tideLocation);
+            if (tideLocation.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, tideLocationService.GetRead().Where(c => c == tideLocation).Any());
-            tideLocation.Zone = GetRandomInt(0, 10000);
-            Assert.AreEqual(true, tideLocationService.Update(tideLocation));
-            Assert.AreEqual(1, tideLocationService.GetRead().Count());
-            Assert.AreEqual(true, tideLocationService.Delete(tideLocation));
-            Assert.AreEqual(0, tideLocationService.GetRead().Count());
+            tideLocationService.Update(tideLocation);
+            if (tideLocation.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, tideLocationService.GetRead().Count());
+            tideLocationService.Delete(tideLocation);
+            if (tideLocation.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

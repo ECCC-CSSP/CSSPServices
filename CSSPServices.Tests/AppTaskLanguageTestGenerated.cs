@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int AppTaskLanguageID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private AppTaskLanguageService appTaskLanguageService { get; set; }
         #endregion Properties
 
         #region Constructors
         public AppTaskLanguageTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            appTaskLanguageService = new AppTaskLanguageService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,18 +37,15 @@ namespace CSSPServices.Tests
         #region Functions private
         private AppTaskLanguage GetFilledRandomAppTaskLanguage(string OmitPropName)
         {
-            AppTaskLanguageID += 1;
-
             AppTaskLanguage appTaskLanguage = new AppTaskLanguage();
 
-            if (OmitPropName != "AppTaskLanguageID") appTaskLanguage.AppTaskLanguageID = AppTaskLanguageID;
             if (OmitPropName != "AppTaskID") appTaskLanguage.AppTaskID = GetRandomInt(1, 11);
             if (OmitPropName != "Language") appTaskLanguage.Language = language;
             if (OmitPropName != "StatusText") appTaskLanguage.StatusText = GetRandomString("", 5);
             if (OmitPropName != "ErrorText") appTaskLanguage.ErrorText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatus") appTaskLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") appTaskLanguage.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") appTaskLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") appTaskLanguage.LastUpdateContactTVItemID = 2;
 
             return appTaskLanguage;
         }
@@ -61,8 +55,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void AppTaskLanguage_Testing()
         {
-            SetupTestHelper(culture);
-            AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             AppTaskLanguage appTaskLanguage = GetFilledRandomAppTaskLanguage("");
 
             // -------------------------------
@@ -71,13 +70,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, appTaskLanguageService.Add(appTaskLanguage));
+            count = appTaskLanguageService.GetRead().Count();
+
+            appTaskLanguageService.Add(appTaskLanguage);
+            if (appTaskLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, appTaskLanguageService.GetRead().Where(c => c == appTaskLanguage).Any());
-            appTaskLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, appTaskLanguageService.Update(appTaskLanguage));
-            Assert.AreEqual(1, appTaskLanguageService.GetRead().Count());
-            Assert.AreEqual(true, appTaskLanguageService.Delete(appTaskLanguage));
-            Assert.AreEqual(0, appTaskLanguageService.GetRead().Count());
+            appTaskLanguageService.Update(appTaskLanguage);
+            if (appTaskLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, appTaskLanguageService.GetRead().Count());
+            appTaskLanguageService.Delete(appTaskLanguage);
+            if (appTaskLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

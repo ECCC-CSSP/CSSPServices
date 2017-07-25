@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int OtherFilesToUploadID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private OtherFilesToUploadService otherFilesToUploadService { get; set; }
         #endregion Properties
 
         #region Constructors
         public OtherFilesToUploadTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            otherFilesToUploadService = new OtherFilesToUploadService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private OtherFilesToUpload GetFilledRandomOtherFilesToUpload(string OmitPropName)
         {
-            OtherFilesToUploadID += 1;
-
             OtherFilesToUpload otherFilesToUpload = new OtherFilesToUpload();
 
             if (OmitPropName != "Error") otherFilesToUpload.Error = GetRandomString("", 20);
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void OtherFilesToUpload_Testing()
         {
-            SetupTestHelper(culture);
-            OtherFilesToUploadService otherFilesToUploadService = new OtherFilesToUploadService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             OtherFilesToUpload otherFilesToUpload = GetFilledRandomOtherFilesToUpload("");
 
             // -------------------------------

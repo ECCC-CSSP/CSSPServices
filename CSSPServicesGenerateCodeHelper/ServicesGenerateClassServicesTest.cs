@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using CSSPModels;
 using CSSPEnums;
+using CSSPModelsGenerateCodeHelper;
+using CSSPServices;
 
 namespace CSSPServicesGenerateCodeHelper
 {
@@ -28,14 +30,20 @@ namespace CSSPServicesGenerateCodeHelper
         #region Functions private
         private void CreateClass_CRUD_Testing(Type type, string TypeName, string TypeNameLower, StringBuilder sb)
         {
+            sb.AppendLine(@"            count = " + TypeNameLower + @"Service.GetRead().Count();");
+            sb.AppendLine(@"");
             if (TypeName == "Contact")
             {
-                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                sb.AppendLine(@"            " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First);");
             }
             else
             {
-                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                sb.AppendLine(@"            " + TypeNameLower + @"Service.Add(" + TypeNameLower + @");");
             }
+            sb.AppendLine(@"            if (" + TypeNameLower + @".ValidationResults.Count() > 0)");
+            sb.AppendLine(@"            {");
+            sb.AppendLine(@"                Assert.AreEqual("""", " + TypeNameLower + @".ValidationResults.FirstOrDefault().ErrorMessage);");
+            sb.AppendLine(@"            }");
             sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.GetRead().Where(c => c == " + TypeNameLower + @").Any());");
             PropertyInfo prop = type.GetProperties().Where(c => c.Name == "LastUpdateContactTVItemID").FirstOrDefault();
             if (prop == null)
@@ -45,85 +53,93 @@ namespace CSSPServicesGenerateCodeHelper
 
             if (prop != null)
             {
-                CSSPModelsGenerateCodeHelper.CSSPProp csspProp = new CSSPModelsGenerateCodeHelper.CSSPProp();
-                if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
-                {
-                    return;
-                }
+                //    CSSPProp csspProp = new CSSPProp();
+                //    if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
+                //    {
+                //        return;
+                //    }
 
-                switch (csspProp.PropType)
-                {
-                    case "Int16":
-                    case "Int32":
-                    case "Int64":
-                        {
-                            int? Min = csspProp.MinInt;
-                            int? Max = csspProp.MaxInt;
+                //    switch (csspProp.PropType)
+                //    {
+                //        case "Int16":
+                //        case "Int32":
+                //        case "Int64":
+                //            {
+                //                int? Min = csspProp.MinInt;
+                //                int? Max = csspProp.MaxInt;
 
-                            if (Min != null && Max != null)
-                            {
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + Min.ToString() + @", " + Max.ToString() + @");");
-                            }
-                            else if (Min != null)
-                            {
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + Min.ToString() + @", " + (Min + 10).ToString() + @");");
-                            }
-                            else if (Max != null)
-                            {
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + (Max - 10).ToString() + @", " + Max.ToString() + @");");
-                            }
-                            else
-                            {
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(1, 1000);");
-                            }
-                        }
-                        break;
-                    case "String":
-                        {
-                            int? Min = csspProp.MinInt;
-                            int? Max = csspProp.MaxInt;
+                //                if (Min != null && Max != null)
+                //                {
+                //                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + Min.ToString() + @", " + Max.ToString() + @");");
+                //                }
+                //                else if (Min != null)
+                //                {
+                //                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + Min.ToString() + @", " + (Min + 10).ToString() + @");");
+                //                }
+                //                else if (Max != null)
+                //                {
+                //                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(" + (Max - 10).ToString() + @", " + Max.ToString() + @");");
+                //                }
+                //                else
+                //                {
+                //                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomInt(1, 1000);");
+                //                }
+                //            }
+                //            break;
+                //        case "String":
+                //            {
+                //                int? Min = csspProp.MinInt;
+                //                int? Max = csspProp.MaxInt;
 
-                            if (Min != null && Max != null)
-                            {
-                                int NumberOfCharacter = (int)Min + 3;
-                                if (NumberOfCharacter > Max)
-                                {
-                                    NumberOfCharacter = (int)Max;
-                                }
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", " + NumberOfCharacter.ToString() + @");");
-                            }
-                            else if (Min != null)
-                            {
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", " + (Min + 3).ToString() + @");");
-                            }
-                            else if (Max != null)
-                            {
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", " + (Max - 3).ToString() + @");");
-                            }
-                            else
-                            {
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", 5);");
-                            }
-                        }
-                        break;
-                    default:
-                        {
-                            sb.AppendLine(@"            //Need To Implement " + prop.Name + @" Of Type " + csspProp.PropType);
-                            sb.AppendLine(@"            ImplementLineAbove = 1;");
-                        }
-                        break;
-                }
-                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Update(" + TypeNameLower + @"));");
-                sb.AppendLine(@"            Assert.AreEqual(1, " + TypeNameLower + @"Service.GetRead().Count());");
-                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @"Service.GetRead().Count());");
+                //                if (Min != null && Max != null)
+                //                {
+                //                    int NumberOfCharacter = (int)Min + 3;
+                //                    if (NumberOfCharacter > Max)
+                //                    {
+                //                        NumberOfCharacter = (int)Max;
+                //                    }
+                //                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", " + NumberOfCharacter.ToString() + @");");
+                //                }
+                //                else if (Min != null)
+                //                {
+                //                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", " + (Min + 3).ToString() + @");");
+                //                }
+                //                else if (Max != null)
+                //                {
+                //                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", " + (Max - 3).ToString() + @");");
+                //                }
+                //                else
+                //                {
+                //                    sb.AppendLine(@"            " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", 5);");
+                //                }
+                //            }
+                //            break;
+                //        default:
+                //            {
+                //                sb.AppendLine(@"            //Need To Implement " + prop.Name + @" Of Type " + csspProp.PropType);
+                //                sb.AppendLine(@"            ImplementLineAbove = 1;");
+                //            }
+                //            break;
+                //    }
+                sb.AppendLine(@"            " + TypeNameLower + @"Service.Update(" + TypeNameLower + @");");
+                sb.AppendLine(@"            if (" + TypeNameLower + @".ValidationResults.Count() > 0)");
+                sb.AppendLine(@"            {");
+                sb.AppendLine(@"                Assert.AreEqual("""", " + TypeNameLower + @".ValidationResults.FirstOrDefault().ErrorMessage);");
+                sb.AppendLine(@"            }");
+                sb.AppendLine(@"            Assert.AreEqual(count + 1, " + TypeNameLower + @"Service.GetRead().Count());");
+                sb.AppendLine(@"            " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @");");
+                sb.AppendLine(@"            if (" + TypeNameLower + @".ValidationResults.Count() > 0)");
+                sb.AppendLine(@"            {");
+                sb.AppendLine(@"                Assert.AreEqual("""", " + TypeNameLower + @".ValidationResults.FirstOrDefault().ErrorMessage);");
+                sb.AppendLine(@"            }");
+                sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
             }
             else
             {
                 sb.AppendLine(@"            NeedToFindAValueToChangeForUpdateForClass_" + type.Name + ";");
             }
         }
-        private void CreateClass_Min_And_Max_Properties_Testing(CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateClass_Min_And_Max_Properties_Testing(CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
                 sb.AppendLine(@"");
                 sb.AppendLine(@"            //-----------------------------------");
@@ -847,7 +863,7 @@ namespace CSSPServicesGenerateCodeHelper
                         break;
                 }
         }
-        private void CreateClass_Required_Properties_Testing(CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateClass_Required_Properties_Testing(CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             switch (csspProp.PropType)
             {
@@ -946,7 +962,7 @@ namespace CSSPServicesGenerateCodeHelper
                     break;
             }
         }
-        private void CreateGetFilledRandomClass(PropertyInfo prop, CSSPModelsGenerateCodeHelper.CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        private void CreateGetFilledRandomClass(PropertyInfo prop, CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
             switch (csspProp.PropType)
             {
@@ -956,11 +972,27 @@ namespace CSSPServicesGenerateCodeHelper
                     {
                         if (csspProp.IsKey)
                         {
-                            sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = " + prop.Name + @";");
+                            //sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = " + prop.Name + @";");
                         }
                         else
                         {
-                            if (csspProp.MinInt != null && csspProp.MaxInt != null)
+                            if (csspProp.PropName == "LastUpdateContactTVItemID")
+                            {
+                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = 2;");
+                            }
+                            else if (csspProp.TVType != TVTypeEnum.Error)
+                            {
+                                TVItemService tvItemService = new TVItemService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                int TVItemID = tvItemService.GetRead().Where(c => c.TVType == csspProp.TVType).Select(c => c.TVItemID).FirstOrDefault();
+                                if (TVItemID == 0)
+                                {
+                                    ErrorEvent(new ErrorEventArgs("TVItemID == 0 in CreateGetFillRandomClass. It should be > 0"));
+                                    return;
+                                }
+                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = " + TVItemID + ";");
+
+                            }
+                            else if (csspProp.MinInt != null && csspProp.MaxInt != null)
                             {
                                 if (csspProp.MinInt > csspProp.MaxInt)
                                 {
@@ -1053,21 +1085,21 @@ namespace CSSPServicesGenerateCodeHelper
                     break;
                 case "String":
                     {
-                        if (prop.Name.Contains("Email") || (TypeName == "AspNetUser" && prop.Name == "UserName"))
+                        if (csspProp.HasDataTypeAttribute) // will have to do this better ... works because it's only use when email
                         {
                             sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomEmail();");
                         }
                         else
                         {
-                            if (csspProp.MinInt != null && csspProp.MaxLength > 0)
+                            if (csspProp.MinLength != null && csspProp.MaxLength > 0)
                             {
-                                if (csspProp.MinInt > csspProp.MaxLength)
+                                if (csspProp.MinLength > csspProp.MaxLength)
                                 {
                                     sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = MinBiggerMaxLengthPleaseFix;");
                                 }
                                 else
                                 {
-                                    int? StrLen = (int)csspProp.MinInt + 5;
+                                    int? StrLen = (int)csspProp.MinLength + 5;
                                     if (StrLen > csspProp.MaxLength)
                                     {
                                         StrLen = csspProp.MaxLength;
@@ -1075,9 +1107,9 @@ namespace CSSPServicesGenerateCodeHelper
                                     sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString(""""" + ", " + StrLen.ToString() + ");");
                                 }
                             }
-                            else if (csspProp.MinInt != null)
+                            else if (csspProp.MinLength != null)
                             {
-                                int StrLen = (int)csspProp.MinInt + 5;
+                                int StrLen = (int)csspProp.MinLength + 5;
                                 sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString(""""" + ", " + StrLen.ToString() + ");");
                             }
                             else if (csspProp.MaxLength > 0)
@@ -1170,7 +1202,7 @@ namespace CSSPServicesGenerateCodeHelper
                     }
                 }
 
-                //if (TypeName != "HydrometricSite")
+                //if (TypeName != "Address")
                 //{
                 //    continue;
                 //}
@@ -1198,16 +1230,13 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"        #endregion Variables");
                 sb.AppendLine(@"");
                 sb.AppendLine(@"        #region Properties");
-                sb.AppendLine(@"        private int " + TypeName + "ID { get; set; }");
-                sb.AppendLine(@"        private LanguageEnum language { get; set; }");
-                sb.AppendLine(@"        private CultureInfo culture { get; set; }");
+                sb.AppendLine(@"        private " + TypeName + @"Service " + TypeNameLower + @"Service { get; set; }");
                 sb.AppendLine(@"        #endregion Properties");
                 sb.AppendLine(@"");
                 sb.AppendLine(@"        #region Constructors");
                 sb.AppendLine(@"        public " + TypeName + "Test() : base()");
                 sb.AppendLine(@"        {");
-                sb.AppendLine(@"            language = LanguageEnum.en;");
-                sb.AppendLine(@"            culture = new CultureInfo(language.ToString() + ""-CA"");");
+                sb.AppendLine(@"            " + TypeNameLower + @"Service = new " + TypeName + @"Service(LanguageRequest, dbTestDB, ContactID);");
                 sb.AppendLine(@"        }");
                 sb.AppendLine(@"        #endregion Constructors");
                 sb.AppendLine(@"");
@@ -1217,20 +1246,18 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"        #region Functions private");
                 sb.AppendLine(@"        private " + TypeName + @" GetFilledRandom" + TypeName + @"(string OmitPropName)");
                 sb.AppendLine(@"        {");
-                sb.AppendLine(@"            " + TypeName + @"ID += 1;");
-                sb.AppendLine(@"");
                 sb.AppendLine(@"            " + TypeName + " " + TypeNameLower + @" = new " + TypeName + @"();");
                 sb.AppendLine(@"");
 
                 foreach (PropertyInfo prop in type.GetProperties())
                 {
-                    CSSPModelsGenerateCodeHelper.CSSPProp csspProp = new CSSPModelsGenerateCodeHelper.CSSPProp();
+                    CSSPProp csspProp = new CSSPProp();
                     if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
                     {
                         return;
                     }
 
-                    if (prop.GetGetMethod().IsVirtual || prop.Name == "ValidationResults")
+                    if (csspProp.IsKey || prop.GetGetMethod().IsVirtual || prop.Name == "ValidationResults")
                     {
                         continue;
                     }
@@ -1247,8 +1274,13 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"        [TestMethod]");
                 sb.AppendLine(@"        public void " + TypeName + @"_Testing()");
                 sb.AppendLine(@"        {");
-                sb.AppendLine(@"            SetupTestHelper(culture);");
-                sb.AppendLine(@"            " + TypeName + @"Service " + TypeNameLower + @"Service = new " + TypeName + @"Service(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);");
+                sb.AppendLine(@"");
+                sb.AppendLine(@"            int count = 0;");
+                sb.AppendLine(@"            if (count == 1)");
+                sb.AppendLine(@"            {");
+                sb.AppendLine(@"                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]");
+                sb.AppendLine(@"            }");
+                sb.AppendLine(@"");
                 sb.AppendLine(@"            " + TypeName + @" " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
                 sb.AppendLine(@"");
 
@@ -1277,7 +1309,7 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     foreach (PropertyInfo prop in type.GetProperties())
                     {
-                        CSSPModelsGenerateCodeHelper.CSSPProp csspProp = new CSSPModelsGenerateCodeHelper.CSSPProp();
+                        CSSPProp csspProp = new CSSPProp();
                         if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
                         {
                             return;
@@ -1300,7 +1332,7 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     foreach (PropertyInfo prop in type.GetProperties())
                     {
-                        CSSPModelsGenerateCodeHelper.CSSPProp csspProp = new CSSPModelsGenerateCodeHelper.CSSPProp();
+                        CSSPProp csspProp = new CSSPProp();
                         if (!modelsGenerateCodeHelper.FillCSSPProp(prop, csspProp, type))
                         {
                             return;

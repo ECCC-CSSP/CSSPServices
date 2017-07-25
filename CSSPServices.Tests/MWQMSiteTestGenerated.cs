@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MWQMSiteID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MWQMSiteService mwqmSiteService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MWQMSiteTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mwqmSiteService = new MWQMSiteService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,18 +37,15 @@ namespace CSSPServices.Tests
         #region Functions private
         private MWQMSite GetFilledRandomMWQMSite(string OmitPropName)
         {
-            MWQMSiteID += 1;
-
             MWQMSite mwqmSite = new MWQMSite();
 
-            if (OmitPropName != "MWQMSiteID") mwqmSite.MWQMSiteID = MWQMSiteID;
-            if (OmitPropName != "MWQMSiteTVItemID") mwqmSite.MWQMSiteTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "MWQMSiteTVItemID") mwqmSite.MWQMSiteTVItemID = 19;
             if (OmitPropName != "MWQMSiteNumber") mwqmSite.MWQMSiteNumber = GetRandomString("", 5);
             if (OmitPropName != "MWQMSiteDescription") mwqmSite.MWQMSiteDescription = GetRandomString("", 5);
             if (OmitPropName != "MWQMSiteLatestClassification") mwqmSite.MWQMSiteLatestClassification = (MWQMSiteLatestClassificationEnum)GetRandomEnumType(typeof(MWQMSiteLatestClassificationEnum));
             if (OmitPropName != "Ordinal") mwqmSite.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSite.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") mwqmSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") mwqmSite.LastUpdateContactTVItemID = 2;
 
             return mwqmSite;
         }
@@ -61,8 +55,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MWQMSite_Testing()
         {
-            SetupTestHelper(culture);
-            MWQMSiteService mwqmSiteService = new MWQMSiteService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MWQMSite mwqmSite = GetFilledRandomMWQMSite("");
 
             // -------------------------------
@@ -71,13 +70,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, mwqmSiteService.Add(mwqmSite));
+            count = mwqmSiteService.GetRead().Count();
+
+            mwqmSiteService.Add(mwqmSite);
+            if (mwqmSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, mwqmSiteService.GetRead().Where(c => c == mwqmSite).Any());
-            mwqmSite.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, mwqmSiteService.Update(mwqmSite));
-            Assert.AreEqual(1, mwqmSiteService.GetRead().Count());
-            Assert.AreEqual(true, mwqmSiteService.Delete(mwqmSite));
-            Assert.AreEqual(0, mwqmSiteService.GetRead().Count());
+            mwqmSiteService.Update(mwqmSite);
+            if (mwqmSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, mwqmSiteService.GetRead().Count());
+            mwqmSiteService.Delete(mwqmSite);
+            if (mwqmSite.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

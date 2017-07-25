@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int BoxModelResultID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private BoxModelResultService boxModelResultService { get; set; }
         #endregion Properties
 
         #region Constructors
         public BoxModelResultTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            boxModelResultService = new BoxModelResultService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,11 +37,8 @@ namespace CSSPServices.Tests
         #region Functions private
         private BoxModelResult GetFilledRandomBoxModelResult(string OmitPropName)
         {
-            BoxModelResultID += 1;
-
             BoxModelResult boxModelResult = new BoxModelResult();
 
-            if (OmitPropName != "BoxModelResultID") boxModelResult.BoxModelResultID = BoxModelResultID;
             if (OmitPropName != "BoxModelID") boxModelResult.BoxModelID = GetRandomInt(1, 11);
             if (OmitPropName != "BoxModelResultType") boxModelResult.BoxModelResultType = (BoxModelResultTypeEnum)GetRandomEnumType(typeof(BoxModelResultTypeEnum));
             if (OmitPropName != "Volume_m3") boxModelResult.Volume_m3 = GetRandomDouble(1.0D, 1000.0D);
@@ -61,7 +55,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LeftSideLineStartLatitude") boxModelResult.LeftSideLineStartLatitude = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LeftSideLineStartLongitude") boxModelResult.LeftSideLineStartLongitude = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") boxModelResult.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") boxModelResult.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") boxModelResult.LastUpdateContactTVItemID = 2;
 
             return boxModelResult;
         }
@@ -71,8 +65,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void BoxModelResult_Testing()
         {
-            SetupTestHelper(culture);
-            BoxModelResultService boxModelResultService = new BoxModelResultService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             BoxModelResult boxModelResult = GetFilledRandomBoxModelResult("");
 
             // -------------------------------
@@ -81,13 +80,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
+            count = boxModelResultService.GetRead().Count();
+
+            boxModelResultService.Add(boxModelResult);
+            if (boxModelResult.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, boxModelResultService.GetRead().Where(c => c == boxModelResult).Any());
-            boxModelResult.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, boxModelResultService.Update(boxModelResult));
-            Assert.AreEqual(1, boxModelResultService.GetRead().Count());
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(0, boxModelResultService.GetRead().Count());
+            boxModelResultService.Update(boxModelResult);
+            if (boxModelResult.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, boxModelResultService.GetRead().Count());
+            boxModelResultService.Delete(boxModelResult);
+            if (boxModelResult.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

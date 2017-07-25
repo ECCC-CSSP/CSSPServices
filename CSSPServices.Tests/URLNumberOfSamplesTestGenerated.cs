@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int URLNumberOfSamplesID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private URLNumberOfSamplesService uRLNumberOfSamplesService { get; set; }
         #endregion Properties
 
         #region Constructors
         public URLNumberOfSamplesTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            uRLNumberOfSamplesService = new URLNumberOfSamplesService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,11 +37,9 @@ namespace CSSPServices.Tests
         #region Functions private
         private URLNumberOfSamples GetFilledRandomURLNumberOfSamples(string OmitPropName)
         {
-            URLNumberOfSamplesID += 1;
-
             URLNumberOfSamples uRLNumberOfSamples = new URLNumberOfSamples();
 
-            if (OmitPropName != "url") uRLNumberOfSamples.url = GetRandomString("", 5);
+            if (OmitPropName != "url") uRLNumberOfSamples.url = GetRandomString("", 6);
             if (OmitPropName != "NumberOfSamples") uRLNumberOfSamples.NumberOfSamples = GetRandomInt(1, 1000);
 
             return uRLNumberOfSamples;
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void URLNumberOfSamples_Testing()
         {
-            SetupTestHelper(culture);
-            URLNumberOfSamplesService uRLNumberOfSamplesService = new URLNumberOfSamplesService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             URLNumberOfSamples uRLNumberOfSamples = GetFilledRandomURLNumberOfSamples("");
 
             // -------------------------------

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int MWQMSampleLanguageID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private MWQMSampleLanguageService mwqmSampleLanguageService { get; set; }
         #endregion Properties
 
         #region Constructors
         public MWQMSampleLanguageTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            mwqmSampleLanguageService = new MWQMSampleLanguageService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,17 +37,14 @@ namespace CSSPServices.Tests
         #region Functions private
         private MWQMSampleLanguage GetFilledRandomMWQMSampleLanguage(string OmitPropName)
         {
-            MWQMSampleLanguageID += 1;
-
             MWQMSampleLanguage mwqmSampleLanguage = new MWQMSampleLanguage();
 
-            if (OmitPropName != "MWQMSampleLanguageID") mwqmSampleLanguage.MWQMSampleLanguageID = MWQMSampleLanguageID;
             if (OmitPropName != "MWQMSampleID") mwqmSampleLanguage.MWQMSampleID = GetRandomInt(1, 11);
             if (OmitPropName != "Language") mwqmSampleLanguage.Language = language;
             if (OmitPropName != "MWQMSampleNote") mwqmSampleLanguage.MWQMSampleNote = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatus") mwqmSampleLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSampleLanguage.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") mwqmSampleLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") mwqmSampleLanguage.LastUpdateContactTVItemID = 2;
 
             return mwqmSampleLanguage;
         }
@@ -60,8 +54,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void MWQMSampleLanguage_Testing()
         {
-            SetupTestHelper(culture);
-            MWQMSampleLanguageService mwqmSampleLanguageService = new MWQMSampleLanguageService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             MWQMSampleLanguage mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
 
             // -------------------------------
@@ -70,13 +69,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, mwqmSampleLanguageService.Add(mwqmSampleLanguage));
+            count = mwqmSampleLanguageService.GetRead().Count();
+
+            mwqmSampleLanguageService.Add(mwqmSampleLanguage);
+            if (mwqmSampleLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, mwqmSampleLanguageService.GetRead().Where(c => c == mwqmSampleLanguage).Any());
-            mwqmSampleLanguage.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, mwqmSampleLanguageService.Update(mwqmSampleLanguage));
-            Assert.AreEqual(1, mwqmSampleLanguageService.GetRead().Count());
-            Assert.AreEqual(true, mwqmSampleLanguageService.Delete(mwqmSampleLanguage));
-            Assert.AreEqual(0, mwqmSampleLanguageService.GetRead().Count());
+            mwqmSampleLanguageService.Update(mwqmSampleLanguage);
+            if (mwqmSampleLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, mwqmSampleLanguageService.GetRead().Count());
+            mwqmSampleLanguageService.Delete(mwqmSampleLanguage);
+            if (mwqmSampleLanguage.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, mwqmSampleLanguageService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

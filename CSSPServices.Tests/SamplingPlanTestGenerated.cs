@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int SamplingPlanID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private SamplingPlanService samplingPlanService { get; set; }
         #endregion Properties
 
         #region Constructors
         public SamplingPlanTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            samplingPlanService = new SamplingPlanService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,27 +37,24 @@ namespace CSSPServices.Tests
         #region Functions private
         private SamplingPlan GetFilledRandomSamplingPlan(string OmitPropName)
         {
-            SamplingPlanID += 1;
-
             SamplingPlan samplingPlan = new SamplingPlan();
 
-            if (OmitPropName != "SamplingPlanID") samplingPlan.SamplingPlanID = SamplingPlanID;
             if (OmitPropName != "SamplingPlanName") samplingPlan.SamplingPlanName = GetRandomString("", 5);
             if (OmitPropName != "ForGroupName") samplingPlan.ForGroupName = GetRandomString("", 5);
             if (OmitPropName != "SampleType") samplingPlan.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "SamplingPlanType") samplingPlan.SamplingPlanType = (SamplingPlanTypeEnum)GetRandomEnumType(typeof(SamplingPlanTypeEnum));
             if (OmitPropName != "LabSheetType") samplingPlan.LabSheetType = (LabSheetTypeEnum)GetRandomEnumType(typeof(LabSheetTypeEnum));
-            if (OmitPropName != "ProvinceTVItemID") samplingPlan.ProvinceTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "CreatorTVItemID") samplingPlan.CreatorTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "ProvinceTVItemID") samplingPlan.ProvinceTVItemID = 6;
+            if (OmitPropName != "CreatorTVItemID") samplingPlan.CreatorTVItemID = 2;
             if (OmitPropName != "Year") samplingPlan.Year = GetRandomInt(2000, 2050);
             if (OmitPropName != "AccessCode") samplingPlan.AccessCode = GetRandomString("", 5);
             if (OmitPropName != "DailyDuplicatePrecisionCriteria") samplingPlan.DailyDuplicatePrecisionCriteria = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "IntertechDuplicatePrecisionCriteria") samplingPlan.IntertechDuplicatePrecisionCriteria = GetRandomDouble(1.0D, 1000.0D);
             if (OmitPropName != "IncludeLaboratoryQAQC") samplingPlan.IncludeLaboratoryQAQC = true;
             if (OmitPropName != "ApprovalCode") samplingPlan.ApprovalCode = GetRandomString("", 5);
-            if (OmitPropName != "SamplingPlanFileTVItemID") samplingPlan.SamplingPlanFileTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "SamplingPlanFileTVItemID") samplingPlan.SamplingPlanFileTVItemID = 17;
             if (OmitPropName != "LastUpdateDate_UTC") samplingPlan.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") samplingPlan.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") samplingPlan.LastUpdateContactTVItemID = 2;
 
             return samplingPlan;
         }
@@ -70,8 +64,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void SamplingPlan_Testing()
         {
-            SetupTestHelper(culture);
-            SamplingPlanService samplingPlanService = new SamplingPlanService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             SamplingPlan samplingPlan = GetFilledRandomSamplingPlan("");
 
             // -------------------------------
@@ -80,13 +79,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
+            count = samplingPlanService.GetRead().Count();
+
+            samplingPlanService.Add(samplingPlan);
+            if (samplingPlan.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, samplingPlanService.GetRead().Where(c => c == samplingPlan).Any());
-            samplingPlan.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, samplingPlanService.Update(samplingPlan));
-            Assert.AreEqual(1, samplingPlanService.GetRead().Count());
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
+            samplingPlanService.Update(samplingPlan);
+            if (samplingPlan.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, samplingPlanService.GetRead().Count());
+            samplingPlanService.Delete(samplingPlan);
+            if (samplingPlan.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

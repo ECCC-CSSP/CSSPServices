@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int PolSourceObsInfoChildID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private PolSourceObsInfoChildService polSourceObsInfoChildService { get; set; }
         #endregion Properties
 
         #region Constructors
         public PolSourceObsInfoChildTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            polSourceObsInfoChildService = new PolSourceObsInfoChildService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private PolSourceObsInfoChild GetFilledRandomPolSourceObsInfoChild(string OmitPropName)
         {
-            PolSourceObsInfoChildID += 1;
-
             PolSourceObsInfoChild polSourceObsInfoChild = new PolSourceObsInfoChild();
 
             if (OmitPropName != "PolSourceObsInfo") polSourceObsInfoChild.PolSourceObsInfo = (PolSourceObsInfoEnum)GetRandomEnumType(typeof(PolSourceObsInfoEnum));
@@ -55,8 +50,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void PolSourceObsInfoChild_Testing()
         {
-            SetupTestHelper(culture);
-            PolSourceObsInfoChildService polSourceObsInfoChildService = new PolSourceObsInfoChildService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             PolSourceObsInfoChild polSourceObsInfoChild = GetFilledRandomPolSourceObsInfoChild("");
 
             // -------------------------------

@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int LabSheetID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private LabSheetService labSheetService { get; set; }
         #endregion Properties
 
         #region Constructors
         public LabSheetTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            labSheetService = new LabSheetService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,32 +37,29 @@ namespace CSSPServices.Tests
         #region Functions private
         private LabSheet GetFilledRandomLabSheet(string OmitPropName)
         {
-            LabSheetID += 1;
-
             LabSheet labSheet = new LabSheet();
 
-            if (OmitPropName != "LabSheetID") labSheet.LabSheetID = LabSheetID;
             if (OmitPropName != "OtherServerLabSheetID") labSheet.OtherServerLabSheetID = GetRandomInt(1, 11);
             if (OmitPropName != "SamplingPlanID") labSheet.SamplingPlanID = GetRandomInt(1, 11);
-            if (OmitPropName != "SamplingPlanName") labSheet.SamplingPlanName = GetRandomString("", 5);
+            if (OmitPropName != "SamplingPlanName") labSheet.SamplingPlanName = GetRandomString("", 6);
             if (OmitPropName != "Year") labSheet.Year = GetRandomInt(1980, 1990);
             if (OmitPropName != "Month") labSheet.Month = GetRandomInt(1, 12);
             if (OmitPropName != "Day") labSheet.Day = GetRandomInt(1, 31);
             if (OmitPropName != "RunNumber") labSheet.RunNumber = GetRandomInt(1, 100);
-            if (OmitPropName != "SubsectorTVItemID") labSheet.SubsectorTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "MWQMRunTVItemID") labSheet.MWQMRunTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "SubsectorTVItemID") labSheet.SubsectorTVItemID = 11;
+            if (OmitPropName != "MWQMRunTVItemID") labSheet.MWQMRunTVItemID = 24;
             if (OmitPropName != "SamplingPlanType") labSheet.SamplingPlanType = (SamplingPlanTypeEnum)GetRandomEnumType(typeof(SamplingPlanTypeEnum));
             if (OmitPropName != "SampleType") labSheet.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "LabSheetType") labSheet.LabSheetType = (LabSheetTypeEnum)GetRandomEnumType(typeof(LabSheetTypeEnum));
             if (OmitPropName != "LabSheetStatus") labSheet.LabSheetStatus = (LabSheetStatusEnum)GetRandomEnumType(typeof(LabSheetStatusEnum));
-            if (OmitPropName != "FileName") labSheet.FileName = GetRandomString("", 5);
+            if (OmitPropName != "FileName") labSheet.FileName = GetRandomString("", 6);
             if (OmitPropName != "FileLastModifiedDate_Local") labSheet.FileLastModifiedDate_Local = GetRandomDateTime();
             if (OmitPropName != "FileContent") labSheet.FileContent = GetRandomString("", 20);
-            if (OmitPropName != "AcceptedOrRejectedByContactTVItemID") labSheet.AcceptedOrRejectedByContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "AcceptedOrRejectedByContactTVItemID") labSheet.AcceptedOrRejectedByContactTVItemID = 2;
             if (OmitPropName != "AcceptedOrRejectedDateTime") labSheet.AcceptedOrRejectedDateTime = GetRandomDateTime();
             if (OmitPropName != "RejectReason") labSheet.RejectReason = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") labSheet.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") labSheet.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") labSheet.LastUpdateContactTVItemID = 2;
 
             return labSheet;
         }
@@ -75,8 +69,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void LabSheet_Testing()
         {
-            SetupTestHelper(culture);
-            LabSheetService labSheetService = new LabSheetService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             LabSheet labSheet = GetFilledRandomLabSheet("");
 
             // -------------------------------
@@ -85,13 +84,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, labSheetService.Add(labSheet));
+            count = labSheetService.GetRead().Count();
+
+            labSheetService.Add(labSheet);
+            if (labSheet.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, labSheetService.GetRead().Where(c => c == labSheet).Any());
-            labSheet.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, labSheetService.Update(labSheet));
-            Assert.AreEqual(1, labSheetService.GetRead().Count());
-            Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            labSheetService.Update(labSheet);
+            if (labSheet.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, labSheetService.GetRead().Count());
+            labSheetService.Delete(labSheet);
+            if (labSheet.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

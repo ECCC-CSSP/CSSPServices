@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int TideDataValueID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private TideDataValueService tideDataValueService { get; set; }
         #endregion Properties
 
         #region Constructors
         public TideDataValueTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            tideDataValueService = new TideDataValueService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,12 +37,9 @@ namespace CSSPServices.Tests
         #region Functions private
         private TideDataValue GetFilledRandomTideDataValue(string OmitPropName)
         {
-            TideDataValueID += 1;
-
             TideDataValue tideDataValue = new TideDataValue();
 
-            if (OmitPropName != "TideDataValueID") tideDataValue.TideDataValueID = TideDataValueID;
-            if (OmitPropName != "TideSiteTVItemID") tideDataValue.TideSiteTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "TideSiteTVItemID") tideDataValue.TideSiteTVItemID = 13;
             if (OmitPropName != "DateTime_Local") tideDataValue.DateTime_Local = GetRandomDateTime();
             if (OmitPropName != "Keep") tideDataValue.Keep = true;
             if (OmitPropName != "TideDataType") tideDataValue.TideDataType = (TideDataTypeEnum)GetRandomEnumType(typeof(TideDataTypeEnum));
@@ -56,7 +50,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TideStart") tideDataValue.TideStart = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
             if (OmitPropName != "TideEnd") tideDataValue.TideEnd = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
             if (OmitPropName != "LastUpdateDate_UTC") tideDataValue.LastUpdateDate_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateContactTVItemID") tideDataValue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "LastUpdateContactTVItemID") tideDataValue.LastUpdateContactTVItemID = 2;
 
             return tideDataValue;
         }
@@ -66,8 +60,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void TideDataValue_Testing()
         {
-            SetupTestHelper(culture);
-            TideDataValueService tideDataValueService = new TideDataValueService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             TideDataValue tideDataValue = GetFilledRandomTideDataValue("");
 
             // -------------------------------
@@ -76,13 +75,26 @@ namespace CSSPServices.Tests
             // -------------------------------
             // -------------------------------
 
-            Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
+            count = tideDataValueService.GetRead().Count();
+
+            tideDataValueService.Add(tideDataValue);
+            if (tideDataValue.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
             Assert.AreEqual(true, tideDataValueService.GetRead().Where(c => c == tideDataValue).Any());
-            tideDataValue.LastUpdateContactTVItemID = GetRandomInt(1, 11);
-            Assert.AreEqual(true, tideDataValueService.Update(tideDataValue));
-            Assert.AreEqual(1, tideDataValueService.GetRead().Count());
-            Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
-            Assert.AreEqual(0, tideDataValueService.GetRead().Count());
+            tideDataValueService.Update(tideDataValue);
+            if (tideDataValue.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count + 1, tideDataValueService.GetRead().Count());
+            tideDataValueService.Delete(tideDataValue);
+            if (tideDataValue.ValidationResults.Count() > 0)
+            {
+                Assert.AreEqual("", tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+            }
+            Assert.AreEqual(count, tideDataValueService.GetRead().Count());
 
             // -------------------------------
             // -------------------------------

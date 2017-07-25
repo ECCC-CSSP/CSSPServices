@@ -22,16 +22,12 @@ namespace CSSPServices
         #endregion Variables
 
         #region Properties
-        private CSSPWebToolsDBContext db { get; set; }
-        private DatabaseTypeEnum DatabaseType { get; set; }
         #endregion Properties
 
         #region Constructors
-        public TVItemService(LanguageEnum LanguageRequest, int ContactID, DatabaseTypeEnum DatabaseType)
-            : base(LanguageRequest, ContactID)
+        public TVItemService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
+            : base(LanguageRequest, db, ContactID)
         {
-            this.DatabaseType = DatabaseType;
-            this.db = new CSSPWebToolsDBContext(this.DatabaseType);
         }
         #endregion Constructors
 
@@ -42,7 +38,7 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItem tvItem = validationContext.ObjectInstance as TVItem;
 
-            if (DatabaseType > DatabaseTypeEnum.MemoryTestDB)
+            if (db.Database.GetDbConnection().ConnectionString.Contains("TestDB") || db.Database.GetDbConnection().ConnectionString.Contains("TestDB"))
             {
                 if (tvItem.TVType == TVTypeEnum.Root)
                 {

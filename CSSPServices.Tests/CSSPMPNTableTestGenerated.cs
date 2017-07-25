@@ -21,16 +21,13 @@ namespace CSSPServices.Tests
         #endregion Variables
 
         #region Properties
-        private int CSSPMPNTableID { get; set; }
-        private LanguageEnum language { get; set; }
-        private CultureInfo culture { get; set; }
+        private CSSPMPNTableService cSSPMPNTableService { get; set; }
         #endregion Properties
 
         #region Constructors
         public CSSPMPNTableTest() : base()
         {
-            language = LanguageEnum.en;
-            culture = new CultureInfo(language.ToString() + "-CA");
+            cSSPMPNTableService = new CSSPMPNTableService(LanguageRequest, dbTestDB, ContactID);
         }
         #endregion Constructors
 
@@ -40,8 +37,6 @@ namespace CSSPServices.Tests
         #region Functions private
         private CSSPMPNTable GetFilledRandomCSSPMPNTable(string OmitPropName)
         {
-            CSSPMPNTableID += 1;
-
             CSSPMPNTable cSSPMPNTable = new CSSPMPNTable();
 
             if (OmitPropName != "Tube10") cSSPMPNTable.Tube10 = GetRandomInt(0, 5);
@@ -57,8 +52,13 @@ namespace CSSPServices.Tests
         [TestMethod]
         public void CSSPMPNTable_Testing()
         {
-            SetupTestHelper(culture);
-            CSSPMPNTableService cSSPMPNTableService = new CSSPMPNTableService(LanguageRequest, ID, DatabaseTypeEnum.MemoryTestDB);
+
+            int count = 0;
+            if (count == 1)
+            {
+                // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+            }
+
             CSSPMPNTable cSSPMPNTable = GetFilledRandomCSSPMPNTable("");
 
             // -------------------------------
