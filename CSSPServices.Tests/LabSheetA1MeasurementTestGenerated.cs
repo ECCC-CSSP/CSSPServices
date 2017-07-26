@@ -42,12 +42,12 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Site") labSheetA1Measurement.Site = GetRandomString("", 20);
             if (OmitPropName != "TVItemID") labSheetA1Measurement.TVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "Time") labSheetA1Measurement.Time = GetRandomDateTime();
-            if (OmitPropName != "MPN") labSheetA1Measurement.MPN = GetRandomInt(1, 1000);
-            if (OmitPropName != "Tube10") labSheetA1Measurement.Tube10 = GetRandomInt(1, 1000);
-            if (OmitPropName != "Tube1_0") labSheetA1Measurement.Tube1_0 = GetRandomInt(1, 1000);
-            if (OmitPropName != "Tube0_1") labSheetA1Measurement.Tube0_1 = GetRandomInt(1, 1000);
-            if (OmitPropName != "Salinity") labSheetA1Measurement.Salinity = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Temperature") labSheetA1Measurement.Temperature = GetRandomDouble(1.0D, 1000.0D);
+            // should implement a Range for the property MPN and type LabSheetA1Measurement
+            // should implement a Range for the property Tube10 and type LabSheetA1Measurement
+            // should implement a Range for the property Tube1_0 and type LabSheetA1Measurement
+            // should implement a Range for the property Tube0_1 and type LabSheetA1Measurement
+            // should implement a Range for the property Salinity and type LabSheetA1Measurement
+            // should implement a Range for the property Temperature and type LabSheetA1Measurement
             if (OmitPropName != "ProcessedBy") labSheetA1Measurement.ProcessedBy = GetRandomString("", 20);
             if (OmitPropName != "SampleType") labSheetA1Measurement.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "SiteComment") labSheetA1Measurement.SiteComment = GetRandomString("", 20);
@@ -77,17 +77,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

@@ -82,14 +82,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageTranslationStatus), new[] { ModelsRes.VPScenarioLanguageTranslationStatus });
             }
 
-            if (vpScenarioLanguage.LastUpdateDate_UTC == null)
+            if (vpScenarioLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageLastUpdateDate_UTC), new[] { ModelsRes.VPScenarioLanguageLastUpdateDate_UTC });
             }
-
-            if (vpScenarioLanguage.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.VPScenarioLanguageLastUpdateDate_UTC, "1980"), new[] { ModelsRes.VPScenarioLanguageLastUpdateDate_UTC });
+                if (vpScenarioLanguage.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.VPScenarioLanguageLastUpdateDate_UTC, "1980"), new[] { ModelsRes.VPScenarioLanguageLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

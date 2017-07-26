@@ -92,45 +92,28 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // mwqmLookupMPN.MWQMLookupMPNID   (Int32)
+            //-----------------------------------
+            mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
+            mwqmLookupMPN.MWQMLookupMPNID = 0;
+            mwqmLookupMPNService.Update(mwqmLookupMPN);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMLookupMPNMWQMLookupMPNID), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[Range(0, 5)]
+            // mwqmLookupMPN.Tubes10   (Int32)
+            //-----------------------------------
             // Tubes10 will automatically be initialized at 0 --> not null
 
-            // Tubes1 will automatically be initialized at 0 --> not null
-
-            // Tubes01 will automatically be initialized at 0 --> not null
-
-            // MPN_100ml will automatically be initialized at 0 --> not null
-
-            mwqmLookupMPN = null;
-            mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("LastUpdateDate_UTC");
-            Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
-            Assert.AreEqual(1, mwqmLookupMPN.ValidationResults.Count());
-            Assert.IsTrue(mwqmLookupMPN.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMLookupMPNLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(mwqmLookupMPN.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [MWQMLookupMPNID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [Tubes10] of type [Int32]
-            //-----------------------------------
 
             mwqmLookupMPN = null;
             mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
@@ -140,44 +123,48 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(0, mwqmLookupMPN.Tubes10);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes10 has Min [0] and Max [5]. At Min + 1 should return true and no errors
             mwqmLookupMPN.Tubes10 = 1;
             Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(1, mwqmLookupMPN.Tubes10);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes10 has Min [0] and Max [5]. At Min - 1 should return false with one error
             mwqmLookupMPN.Tubes10 = -1;
             Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.IsTrue(mwqmLookupMPN.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes10, "0", "5")).Any());
             Assert.AreEqual(-1, mwqmLookupMPN.Tubes10);
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes10 has Min [0] and Max [5]. At Max should return true and no errors
             mwqmLookupMPN.Tubes10 = 5;
             Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(5, mwqmLookupMPN.Tubes10);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes10 has Min [0] and Max [5]. At Max - 1 should return true and no errors
             mwqmLookupMPN.Tubes10 = 4;
             Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(4, mwqmLookupMPN.Tubes10);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes10 has Min [0] and Max [5]. At Max + 1 should return false with one error
             mwqmLookupMPN.Tubes10 = 6;
             Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.IsTrue(mwqmLookupMPN.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes10, "0", "5")).Any());
             Assert.AreEqual(6, mwqmLookupMPN.Tubes10);
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Tubes1] of type [Int32]
+            //Is NOT Nullable
+            //[Range(0, 5)]
+            // mwqmLookupMPN.Tubes1   (Int32)
             //-----------------------------------
+            // Tubes1 will automatically be initialized at 0 --> not null
+
 
             mwqmLookupMPN = null;
             mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
@@ -187,44 +174,48 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(0, mwqmLookupMPN.Tubes1);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes1 has Min [0] and Max [5]. At Min + 1 should return true and no errors
             mwqmLookupMPN.Tubes1 = 1;
             Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(1, mwqmLookupMPN.Tubes1);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes1 has Min [0] and Max [5]. At Min - 1 should return false with one error
             mwqmLookupMPN.Tubes1 = -1;
             Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.IsTrue(mwqmLookupMPN.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes1, "0", "5")).Any());
             Assert.AreEqual(-1, mwqmLookupMPN.Tubes1);
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes1 has Min [0] and Max [5]. At Max should return true and no errors
             mwqmLookupMPN.Tubes1 = 5;
             Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(5, mwqmLookupMPN.Tubes1);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes1 has Min [0] and Max [5]. At Max - 1 should return true and no errors
             mwqmLookupMPN.Tubes1 = 4;
             Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(4, mwqmLookupMPN.Tubes1);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes1 has Min [0] and Max [5]. At Max + 1 should return false with one error
             mwqmLookupMPN.Tubes1 = 6;
             Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.IsTrue(mwqmLookupMPN.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes1, "0", "5")).Any());
             Assert.AreEqual(6, mwqmLookupMPN.Tubes1);
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Tubes01] of type [Int32]
+            //Is NOT Nullable
+            //[Range(0, 5)]
+            // mwqmLookupMPN.Tubes01   (Int32)
             //-----------------------------------
+            // Tubes01 will automatically be initialized at 0 --> not null
+
 
             mwqmLookupMPN = null;
             mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
@@ -234,44 +225,48 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(0, mwqmLookupMPN.Tubes01);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes01 has Min [0] and Max [5]. At Min + 1 should return true and no errors
             mwqmLookupMPN.Tubes01 = 1;
             Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(1, mwqmLookupMPN.Tubes01);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes01 has Min [0] and Max [5]. At Min - 1 should return false with one error
             mwqmLookupMPN.Tubes01 = -1;
             Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.IsTrue(mwqmLookupMPN.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes01, "0", "5")).Any());
             Assert.AreEqual(-1, mwqmLookupMPN.Tubes01);
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes01 has Min [0] and Max [5]. At Max should return true and no errors
             mwqmLookupMPN.Tubes01 = 5;
             Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(5, mwqmLookupMPN.Tubes01);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes01 has Min [0] and Max [5]. At Max - 1 should return true and no errors
             mwqmLookupMPN.Tubes01 = 4;
             Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(4, mwqmLookupMPN.Tubes01);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // Tubes01 has Min [0] and Max [5]. At Max + 1 should return false with one error
             mwqmLookupMPN.Tubes01 = 6;
             Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.IsTrue(mwqmLookupMPN.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes01, "0", "5")).Any());
             Assert.AreEqual(6, mwqmLookupMPN.Tubes01);
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [MPN_100ml] of type [Int32]
+            //Is NOT Nullable
+            //[Range(1, 10000)]
+            // mwqmLookupMPN.MPN_100ml   (Int32)
             //-----------------------------------
+            // MPN_100ml will automatically be initialized at 0 --> not null
+
 
             mwqmLookupMPN = null;
             mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
@@ -281,48 +276,57 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(1, mwqmLookupMPN.MPN_100ml);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // MPN_100ml has Min [1] and Max [10000]. At Min + 1 should return true and no errors
             mwqmLookupMPN.MPN_100ml = 2;
             Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(2, mwqmLookupMPN.MPN_100ml);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // MPN_100ml has Min [1] and Max [10000]. At Min - 1 should return false with one error
             mwqmLookupMPN.MPN_100ml = 0;
             Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.IsTrue(mwqmLookupMPN.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNMPN_100ml, "1", "10000")).Any());
             Assert.AreEqual(0, mwqmLookupMPN.MPN_100ml);
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // MPN_100ml has Min [1] and Max [10000]. At Max should return true and no errors
             mwqmLookupMPN.MPN_100ml = 10000;
             Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(10000, mwqmLookupMPN.MPN_100ml);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // MPN_100ml has Min [1] and Max [10000]. At Max - 1 should return true and no errors
             mwqmLookupMPN.MPN_100ml = 9999;
             Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(9999, mwqmLookupMPN.MPN_100ml);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // MPN_100ml has Min [1] and Max [10000]. At Max + 1 should return false with one error
             mwqmLookupMPN.MPN_100ml = 10001;
             Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.IsTrue(mwqmLookupMPN.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNMPN_100ml, "1", "10000")).Any());
             Assert.AreEqual(10001, mwqmLookupMPN.MPN_100ml);
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // mwqmLookupMPN.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // mwqmLookupMPN.LastUpdateContactTVItemID   (Int32)
             //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             mwqmLookupMPN = null;
             mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
@@ -332,25 +336,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(1, mwqmLookupMPN.LastUpdateContactTVItemID);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             mwqmLookupMPN.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
             Assert.AreEqual(2, mwqmLookupMPN.LastUpdateContactTVItemID);
             Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mwqmLookupMPN.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
             Assert.IsTrue(mwqmLookupMPN.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMLookupMPNLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, mwqmLookupMPN.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, mwqmLookupMPNService.GetRead().Count());
+            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[NotMapped]
+            // mwqmLookupMPN.ValidationResults   (IEnumerable`1)
             //-----------------------------------
-
         }
         #endregion Tests Generated
     }

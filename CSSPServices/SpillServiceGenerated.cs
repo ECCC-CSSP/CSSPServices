@@ -76,14 +76,16 @@ namespace CSSPServices
                 }
             }
 
-            if (spill.StartDateTime_Local == null)
+            if (spill.StartDateTime_Local.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillStartDateTime_Local), new[] { ModelsRes.SpillStartDateTime_Local });
             }
-
-            if (spill.StartDateTime_Local.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SpillStartDateTime_Local, "1980"), new[] { ModelsRes.SpillStartDateTime_Local });
+                if (spill.StartDateTime_Local.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SpillStartDateTime_Local, "1980"), new[] { ModelsRes.SpillStartDateTime_Local });
+                }
             }
 
             if (spill.EndDateTime_Local != null && ((DateTime)spill.EndDateTime_Local).Year < 1980)
@@ -103,14 +105,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SpillAverageFlow_m3_day, "0", "1000000"), new[] { ModelsRes.SpillAverageFlow_m3_day });
             }
 
-            if (spill.LastUpdateDate_UTC == null)
+            if (spill.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLastUpdateDate_UTC), new[] { ModelsRes.SpillLastUpdateDate_UTC });
             }
-
-            if (spill.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SpillLastUpdateDate_UTC, "1980"), new[] { ModelsRes.SpillLastUpdateDate_UTC });
+                if (spill.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SpillLastUpdateDate_UTC, "1980"), new[] { ModelsRes.SpillLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

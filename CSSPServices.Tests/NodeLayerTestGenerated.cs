@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
             NodeLayer nodeLayer = new NodeLayer();
 
             if (OmitPropName != "Layer") nodeLayer.Layer = GetRandomInt(1, 100);
-            if (OmitPropName != "Z") nodeLayer.Z = GetRandomDouble(1.0D, 1000.0D);
+            // should implement a Range for the property Z and type NodeLayer
 
             return nodeLayer;
         }
@@ -67,17 +67,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

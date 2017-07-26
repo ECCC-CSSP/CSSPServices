@@ -78,14 +78,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunRunSampleType), new[] { ModelsRes.MWQMRunRunSampleType });
             }
 
-            if (mwqmRun.DateTime_Local == null)
+            if (mwqmRun.DateTime_Local.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunDateTime_Local), new[] { ModelsRes.MWQMRunDateTime_Local });
             }
-
-            if (mwqmRun.DateTime_Local.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunDateTime_Local });
+                if (mwqmRun.DateTime_Local.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunDateTime_Local });
+                }
             }
 
             //RunNumber (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -356,14 +358,16 @@ namespace CSSPServices
                 }
             }
 
-            if (mwqmRun.LastUpdateDate_UTC == null)
+            if (mwqmRun.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLastUpdateDate_UTC), new[] { ModelsRes.MWQMRunLastUpdateDate_UTC });
             }
-
-            if (mwqmRun.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MWQMRunLastUpdateDate_UTC });
+                if (mwqmRun.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MWQMRunLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

@@ -40,11 +40,11 @@ namespace CSSPServices.Tests
             Node node = new Node();
 
             if (OmitPropName != "ID") node.ID = GetRandomInt(1, 1000000);
-            if (OmitPropName != "X") node.X = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Y") node.Y = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Z") node.Z = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Code") node.Code = GetRandomInt(1, 1000);
-            if (OmitPropName != "Value") node.Value = GetRandomDouble(1.0D, 1000.0D);
+            // should implement a Range for the property X and type Node
+            // should implement a Range for the property Y and type Node
+            // should implement a Range for the property Z and type Node
+            // should implement a Range for the property Code and type Node
+            // should implement a Range for the property Value and type Node
 
             return node;
         }
@@ -71,17 +71,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

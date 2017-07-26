@@ -39,7 +39,7 @@ namespace CSSPServices.Tests
         {
             ContactShortcut contactShortcut = new ContactShortcut();
 
-            if (OmitPropName != "ContactID") contactShortcut.ContactID = GetRandomInt(1, 11);
+            if (OmitPropName != "ContactID") contactShortcut.ContactID = 1;
             if (OmitPropName != "ShortCutText") contactShortcut.ShortCutText = GetRandomString("", 5);
             if (OmitPropName != "ShortCutAddress") contactShortcut.ShortCutAddress = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") contactShortcut.LastUpdateDate_UTC = GetRandomDateTime();
@@ -91,57 +91,29 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // contactShortcut.ContactShortcutID   (Int32)
+            //-----------------------------------
+            contactShortcut = GetFilledRandomContactShortcut("");
+            contactShortcut.ContactShortcutID = 0;
+            contactShortcutService.Update(contactShortcut);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutContactShortcutID), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "Contact", Plurial = "s", FieldID = "ContactID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // contactShortcut.ContactID   (Int32)
+            //-----------------------------------
             // ContactID will automatically be initialized at 0 --> not null
 
-            contactShortcut = null;
-            contactShortcut = GetFilledRandomContactShortcut("ShortCutText");
-            Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
-            Assert.AreEqual(1, contactShortcut.ValidationResults.Count());
-            Assert.IsTrue(contactShortcut.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutShortCutText)).Any());
-            Assert.AreEqual(null, contactShortcut.ShortCutText);
-            Assert.AreEqual(0, contactShortcutService.GetRead().Count());
-
-            contactShortcut = null;
-            contactShortcut = GetFilledRandomContactShortcut("ShortCutAddress");
-            Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
-            Assert.AreEqual(1, contactShortcut.ValidationResults.Count());
-            Assert.IsTrue(contactShortcut.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutShortCutAddress)).Any());
-            Assert.AreEqual(null, contactShortcut.ShortCutAddress);
-            Assert.AreEqual(0, contactShortcutService.GetRead().Count());
-
-            contactShortcut = null;
-            contactShortcut = GetFilledRandomContactShortcut("LastUpdateDate_UTC");
-            Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
-            Assert.AreEqual(1, contactShortcut.ValidationResults.Count());
-            Assert.IsTrue(contactShortcut.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(contactShortcut.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, contactShortcutService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [Contact]
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [ContactShortcutID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [ContactID] of type [Int32]
-            //-----------------------------------
 
             contactShortcut = null;
             contactShortcut = GetFilledRandomContactShortcut("");
@@ -151,42 +123,123 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, contactShortcut.ValidationResults.Count());
             Assert.AreEqual(1, contactShortcut.ContactID);
             Assert.AreEqual(true, contactShortcutService.Delete(contactShortcut));
-            Assert.AreEqual(0, contactShortcutService.GetRead().Count());
+            Assert.AreEqual(count, contactShortcutService.GetRead().Count());
             // ContactID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             contactShortcut.ContactID = 2;
             Assert.AreEqual(true, contactShortcutService.Add(contactShortcut));
             Assert.AreEqual(0, contactShortcut.ValidationResults.Count());
             Assert.AreEqual(2, contactShortcut.ContactID);
             Assert.AreEqual(true, contactShortcutService.Delete(contactShortcut));
-            Assert.AreEqual(0, contactShortcutService.GetRead().Count());
+            Assert.AreEqual(count, contactShortcutService.GetRead().Count());
             // ContactID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             contactShortcut.ContactID = 0;
             Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
             Assert.IsTrue(contactShortcut.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactShortcutContactID, "1")).Any());
             Assert.AreEqual(0, contactShortcut.ContactID);
+            Assert.AreEqual(count, contactShortcutService.GetRead().Count());
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[StringLength(100))]
+            // contactShortcut.ShortCutText   (String)
+            //-----------------------------------
+            contactShortcut = null;
+            contactShortcut = GetFilledRandomContactShortcut("ShortCutText");
+            Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
+            Assert.AreEqual(1, contactShortcut.ValidationResults.Count());
+            Assert.IsTrue(contactShortcut.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutShortCutText)).Any());
+            Assert.AreEqual(null, contactShortcut.ShortCutText);
             Assert.AreEqual(0, contactShortcutService.GetRead().Count());
 
-            //-----------------------------------
-            // doing property [ShortCutText] of type [String]
-            //-----------------------------------
 
             contactShortcut = null;
             contactShortcut = GetFilledRandomContactShortcut("");
 
+            // ShortCutText has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
+            string contactShortcutShortCutTextMin = GetRandomString("", 100);
+            contactShortcut.ShortCutText = contactShortcutShortCutTextMin;
+            Assert.AreEqual(true, contactShortcutService.Add(contactShortcut));
+            Assert.AreEqual(0, contactShortcut.ValidationResults.Count());
+            Assert.AreEqual(contactShortcutShortCutTextMin, contactShortcut.ShortCutText);
+            Assert.AreEqual(true, contactShortcutService.Delete(contactShortcut));
+            Assert.AreEqual(count, contactShortcutService.GetRead().Count());
+
+            // ShortCutText has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
+            contactShortcutShortCutTextMin = GetRandomString("", 99);
+            contactShortcut.ShortCutText = contactShortcutShortCutTextMin;
+            Assert.AreEqual(true, contactShortcutService.Add(contactShortcut));
+            Assert.AreEqual(0, contactShortcut.ValidationResults.Count());
+            Assert.AreEqual(contactShortcutShortCutTextMin, contactShortcut.ShortCutText);
+            Assert.AreEqual(true, contactShortcutService.Delete(contactShortcut));
+            Assert.AreEqual(count, contactShortcutService.GetRead().Count());
+
+            // ShortCutText has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
+            contactShortcutShortCutTextMin = GetRandomString("", 101);
+            contactShortcut.ShortCutText = contactShortcutShortCutTextMin;
+            Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
+            Assert.IsTrue(contactShortcut.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactShortcutShortCutText, "100")).Any());
+            Assert.AreEqual(contactShortcutShortCutTextMin, contactShortcut.ShortCutText);
+            Assert.AreEqual(count, contactShortcutService.GetRead().Count());
+
             //-----------------------------------
-            // doing property [ShortCutAddress] of type [String]
+            //Is NOT Nullable
+            //[StringLength(200))]
+            // contactShortcut.ShortCutAddress   (String)
             //-----------------------------------
+            contactShortcut = null;
+            contactShortcut = GetFilledRandomContactShortcut("ShortCutAddress");
+            Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
+            Assert.AreEqual(1, contactShortcut.ValidationResults.Count());
+            Assert.IsTrue(contactShortcut.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutShortCutAddress)).Any());
+            Assert.AreEqual(null, contactShortcut.ShortCutAddress);
+            Assert.AreEqual(0, contactShortcutService.GetRead().Count());
+
 
             contactShortcut = null;
             contactShortcut = GetFilledRandomContactShortcut("");
 
-            //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
-            //-----------------------------------
+            // ShortCutAddress has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
+            string contactShortcutShortCutAddressMin = GetRandomString("", 200);
+            contactShortcut.ShortCutAddress = contactShortcutShortCutAddressMin;
+            Assert.AreEqual(true, contactShortcutService.Add(contactShortcut));
+            Assert.AreEqual(0, contactShortcut.ValidationResults.Count());
+            Assert.AreEqual(contactShortcutShortCutAddressMin, contactShortcut.ShortCutAddress);
+            Assert.AreEqual(true, contactShortcutService.Delete(contactShortcut));
+            Assert.AreEqual(count, contactShortcutService.GetRead().Count());
+
+            // ShortCutAddress has MinLength [empty] and MaxLength [200]. At Max - 1 should return true and no errors
+            contactShortcutShortCutAddressMin = GetRandomString("", 199);
+            contactShortcut.ShortCutAddress = contactShortcutShortCutAddressMin;
+            Assert.AreEqual(true, contactShortcutService.Add(contactShortcut));
+            Assert.AreEqual(0, contactShortcut.ValidationResults.Count());
+            Assert.AreEqual(contactShortcutShortCutAddressMin, contactShortcut.ShortCutAddress);
+            Assert.AreEqual(true, contactShortcutService.Delete(contactShortcut));
+            Assert.AreEqual(count, contactShortcutService.GetRead().Count());
+
+            // ShortCutAddress has MinLength [empty] and MaxLength [200]. At Max + 1 should return false with one error
+            contactShortcutShortCutAddressMin = GetRandomString("", 201);
+            contactShortcut.ShortCutAddress = contactShortcutShortCutAddressMin;
+            Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
+            Assert.IsTrue(contactShortcut.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactShortcutShortCutAddress, "200")).Any());
+            Assert.AreEqual(contactShortcutShortCutAddressMin, contactShortcut.ShortCutAddress);
+            Assert.AreEqual(count, contactShortcutService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // contactShortcut.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // contactShortcut.LastUpdateContactTVItemID   (Int32)
+            //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             contactShortcut = null;
             contactShortcut = GetFilledRandomContactShortcut("");
@@ -196,29 +249,32 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, contactShortcut.ValidationResults.Count());
             Assert.AreEqual(1, contactShortcut.LastUpdateContactTVItemID);
             Assert.AreEqual(true, contactShortcutService.Delete(contactShortcut));
-            Assert.AreEqual(0, contactShortcutService.GetRead().Count());
+            Assert.AreEqual(count, contactShortcutService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             contactShortcut.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, contactShortcutService.Add(contactShortcut));
             Assert.AreEqual(0, contactShortcut.ValidationResults.Count());
             Assert.AreEqual(2, contactShortcut.LastUpdateContactTVItemID);
             Assert.AreEqual(true, contactShortcutService.Delete(contactShortcut));
-            Assert.AreEqual(0, contactShortcutService.GetRead().Count());
+            Assert.AreEqual(count, contactShortcutService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             contactShortcut.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
             Assert.IsTrue(contactShortcut.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactShortcutLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, contactShortcut.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, contactShortcutService.GetRead().Count());
+            Assert.AreEqual(count, contactShortcutService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Contact] of type [Contact]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // contactShortcut.Contact   (Contact)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[NotMapped]
+            // contactShortcut.ValidationResults   (IEnumerable`1)
             //-----------------------------------
-
         }
         #endregion Tests Generated
     }

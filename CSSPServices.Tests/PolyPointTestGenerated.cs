@@ -39,9 +39,9 @@ namespace CSSPServices.Tests
         {
             PolyPoint polyPoint = new PolyPoint();
 
-            if (OmitPropName != "XCoord") polyPoint.XCoord = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "YCoord") polyPoint.YCoord = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Z") polyPoint.Z = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "XCoord") polyPoint.XCoord = GetRandomDouble(-180.0D, 180.0D);
+            if (OmitPropName != "YCoord") polyPoint.YCoord = GetRandomDouble(-90.0D, 90.0D);
+            // should implement a Range for the property Z and type PolyPoint
 
             return polyPoint;
         }
@@ -68,17 +68,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

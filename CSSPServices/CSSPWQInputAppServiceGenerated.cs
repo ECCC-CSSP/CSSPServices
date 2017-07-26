@@ -84,9 +84,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.CSSPWQInputAppApprovalCode, "1", "100"), new[] { ModelsRes.CSSPWQInputAppApprovalCode });
             }
 
-            if (cSSPWQInputApp.ApprovalDate == null)
+            if (cSSPWQInputApp.ApprovalDate.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.CSSPWQInputAppApprovalDate), new[] { ModelsRes.CSSPWQInputAppApprovalDate });
+            }
+            else
+            {
+                if (cSSPWQInputApp.ApprovalDate.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.CSSPWQInputAppApprovalDate, "1980"), new[] { ModelsRes.CSSPWQInputAppApprovalDate });
+                }
             }
 
             retStr = "";

@@ -77,14 +77,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.EmailDistributionListOrdinal, "0", "1000"), new[] { ModelsRes.EmailDistributionListOrdinal });
             }
 
-            if (emailDistributionList.LastUpdateDate_UTC == null)
+            if (emailDistributionList.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListLastUpdateDate_UTC), new[] { ModelsRes.EmailDistributionListLastUpdateDate_UTC });
             }
-
-            if (emailDistributionList.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.EmailDistributionListLastUpdateDate_UTC, "1980"), new[] { ModelsRes.EmailDistributionListLastUpdateDate_UTC });
+                if (emailDistributionList.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.EmailDistributionListLastUpdateDate_UTC, "1980"), new[] { ModelsRes.EmailDistributionListLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

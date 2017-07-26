@@ -99,14 +99,16 @@ namespace CSSPServices
 
             //IsActive (bool) is required but no testing needed 
 
-            if (tvItem.LastUpdateDate_UTC == null)
+            if (tvItem.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLastUpdateDate_UTC), new[] { ModelsRes.TVItemLastUpdateDate_UTC });
             }
-
-            if (tvItem.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVItemLastUpdateDate_UTC });
+                if (tvItem.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVItemLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

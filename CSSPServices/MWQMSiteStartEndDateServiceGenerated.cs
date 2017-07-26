@@ -60,14 +60,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID, mwqmSiteStartEndDate.MWQMSiteTVItemID.ToString()), new[] { ModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID });
             }
 
-            if (mwqmSiteStartEndDate.StartDate == null)
+            if (mwqmSiteStartEndDate.StartDate.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteStartEndDateStartDate), new[] { ModelsRes.MWQMSiteStartEndDateStartDate });
             }
-
-            if (mwqmSiteStartEndDate.StartDate.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSiteStartEndDateStartDate, "1980"), new[] { ModelsRes.MWQMSiteStartEndDateStartDate });
+                if (mwqmSiteStartEndDate.StartDate.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSiteStartEndDateStartDate, "1980"), new[] { ModelsRes.MWQMSiteStartEndDateStartDate });
+                }
             }
 
             if (mwqmSiteStartEndDate.EndDate != null && ((DateTime)mwqmSiteStartEndDate.EndDate).Year < 1980)
@@ -80,14 +82,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.MWQMSiteStartEndDateEndDate, ModelsRes.MWQMSiteStartEndDateStartDate), new[] { ModelsRes.MWQMSiteStartEndDateEndDate });
             }
 
-            if (mwqmSiteStartEndDate.LastUpdateDate_UTC == null)
+            if (mwqmSiteStartEndDate.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteStartEndDateLastUpdateDate_UTC), new[] { ModelsRes.MWQMSiteStartEndDateLastUpdateDate_UTC });
             }
-
-            if (mwqmSiteStartEndDate.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSiteStartEndDateLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MWQMSiteStartEndDateLastUpdateDate_UTC });
+                if (mwqmSiteStartEndDate.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSiteStartEndDateLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MWQMSiteStartEndDateLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

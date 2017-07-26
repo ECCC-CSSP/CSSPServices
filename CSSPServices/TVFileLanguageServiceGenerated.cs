@@ -66,11 +66,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageLanguage), new[] { ModelsRes.TVFileLanguageLanguage });
             }
 
-            if (string.IsNullOrWhiteSpace(tvFileLanguage.FileDescription))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageFileDescription), new[] { ModelsRes.TVFileLanguageFileDescription });
-            }
-
             //FileDescription has no StringLength Attribute
 
             retStr = enums.TranslationStatusOK(tvFileLanguage.TranslationStatus);
@@ -79,14 +74,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageTranslationStatus), new[] { ModelsRes.TVFileLanguageTranslationStatus });
             }
 
-            if (tvFileLanguage.LastUpdateDate_UTC == null)
+            if (tvFileLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageLastUpdateDate_UTC), new[] { ModelsRes.TVFileLanguageLastUpdateDate_UTC });
             }
-
-            if (tvFileLanguage.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileLanguageLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVFileLanguageLastUpdateDate_UTC });
+                if (tvFileLanguage.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileLanguageLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVFileLanguageLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

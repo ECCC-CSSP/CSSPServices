@@ -82,31 +82,30 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeScenarioScenarioStatus), new[] { ModelsRes.MikeScenarioScenarioStatus });
             }
 
-            if (string.IsNullOrWhiteSpace(mikeScenario.ErrorInfo))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeScenarioErrorInfo), new[] { ModelsRes.MikeScenarioErrorInfo });
-            }
-
             //ErrorInfo has no StringLength Attribute
 
-            if (mikeScenario.MikeScenarioStartDateTime_Local == null)
+            if (mikeScenario.MikeScenarioStartDateTime_Local.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeScenarioMikeScenarioStartDateTime_Local), new[] { ModelsRes.MikeScenarioMikeScenarioStartDateTime_Local });
             }
-
-            if (mikeScenario.MikeScenarioStartDateTime_Local.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeScenarioMikeScenarioStartDateTime_Local, "1980"), new[] { ModelsRes.MikeScenarioMikeScenarioStartDateTime_Local });
+                if (mikeScenario.MikeScenarioStartDateTime_Local.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeScenarioMikeScenarioStartDateTime_Local, "1980"), new[] { ModelsRes.MikeScenarioMikeScenarioStartDateTime_Local });
+                }
             }
 
-            if (mikeScenario.MikeScenarioEndDateTime_Local == null)
+            if (mikeScenario.MikeScenarioEndDateTime_Local.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeScenarioMikeScenarioEndDateTime_Local), new[] { ModelsRes.MikeScenarioMikeScenarioEndDateTime_Local });
             }
-
-            if (mikeScenario.MikeScenarioEndDateTime_Local.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeScenarioMikeScenarioEndDateTime_Local, "1980"), new[] { ModelsRes.MikeScenarioMikeScenarioEndDateTime_Local });
+                if (mikeScenario.MikeScenarioEndDateTime_Local.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeScenarioMikeScenarioEndDateTime_Local, "1980"), new[] { ModelsRes.MikeScenarioMikeScenarioEndDateTime_Local });
+                }
             }
 
             if (mikeScenario.MikeScenarioStartExecutionDateTime_Local != null && ((DateTime)mikeScenario.MikeScenarioStartExecutionDateTime_Local).Year < 1980)
@@ -244,14 +243,16 @@ namespace CSSPServices
                 }
             }
 
-            if (mikeScenario.LastUpdateDate_UTC == null)
+            if (mikeScenario.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeScenarioLastUpdateDate_UTC), new[] { ModelsRes.MikeScenarioLastUpdateDate_UTC });
             }
-
-            if (mikeScenario.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeScenarioLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MikeScenarioLastUpdateDate_UTC });
+                if (mikeScenario.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeScenarioLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MikeScenarioLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

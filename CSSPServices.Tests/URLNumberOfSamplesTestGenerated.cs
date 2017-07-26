@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
             URLNumberOfSamples uRLNumberOfSamples = new URLNumberOfSamples();
 
             if (OmitPropName != "url") uRLNumberOfSamples.url = GetRandomString("", 6);
-            if (OmitPropName != "NumberOfSamples") uRLNumberOfSamples.NumberOfSamples = GetRandomInt(1, 1000);
+            // should implement a Range for the property NumberOfSamples and type URLNumberOfSamples
 
             return uRLNumberOfSamples;
         }
@@ -67,17 +67,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

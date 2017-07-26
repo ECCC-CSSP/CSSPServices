@@ -251,11 +251,12 @@ namespace CSSPServicesGenerateCodeHelper
                 }
                 else
                 {
-                    sb.AppendLine(@"            if (" + TypeNameLower + "." + csspProp.PropName + ".Year < " + csspProp.Year + ")");
-                    sb.AppendLine(@"            {");
-                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Year + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
-                    sb.AppendLine(@"            }");
-                    sb.AppendLine(@"");
+                    // already taken care of in the CreateValidation_NotNullable function
+                    //sb.AppendLine(@"            if (" + TypeNameLower + "." + csspProp.PropName + ".Year < " + csspProp.Year + ")");
+                    //sb.AppendLine(@"            {");
+                    //sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Year + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                    //sb.AppendLine(@"            }");
+                    //sb.AppendLine(@"");
                 }
             }
         }
@@ -332,15 +333,17 @@ namespace CSSPServicesGenerateCodeHelper
                     case "Int16":
                     case "Int32":
                     case "Int64":
+                    case "Single":
+                    case "Double":
                         {
-                            if (csspProp.MinInt == null && csspProp.MaxInt == null)
+                            if (csspProp.Min == null && csspProp.Max == null)
                             {
                                 sb.AppendLine(@"            //" + prop.Name + @" has no Range Attribute");
                                 sb.AppendLine(@"");
                             }
-                            else if (csspProp.MinInt != null && csspProp.MaxInt != null)
+                            else if (csspProp.Min != null && csspProp.Max != null)
                             {
-                                if (csspProp.MinInt > csspProp.MaxInt)
+                                if (csspProp.Min > csspProp.Max)
                                 {
                                     sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
                                 }
@@ -350,64 +353,64 @@ namespace CSSPServicesGenerateCodeHelper
                                     {
                                         sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" != null)");
                                         sb.AppendLine(@"            {");
-                                        sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinInt.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxInt.ToString() + @")");
+                                        sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.Min.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.Max.ToString() + @")");
                                         sb.AppendLine(@"                {");
-                                        sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinInt.ToString() + @""", """ + csspProp.MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                        sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                         sb.AppendLine(@"                }");
                                         sb.AppendLine(@"            }");
                                         sb.AppendLine(@"");
                                     }
                                     else
                                     {
-                                        sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinInt.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxInt.ToString() + @")");
+                                        sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.Min.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.Max.ToString() + @")");
                                         sb.AppendLine(@"            {");
-                                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinInt.ToString() + @""", """ + csspProp.MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                         sb.AppendLine(@"            }");
                                         sb.AppendLine(@"");
                                     }
                                 }
                             }
-                            else if (csspProp.MinInt != null)
+                            else if (csspProp.Min != null)
                             {
                                 if (csspProp.IsNullable)
                                 {
                                     sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" != null)");
                                     sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinInt.ToString() + @")");
+                                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.Min.ToString() + @")");
                                     sb.AppendLine(@"                {");
-                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinInt.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                     sb.AppendLine(@"                }");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
                                 }
                                 else
                                 {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinInt.ToString() + @")");
+                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.Min.ToString() + @")");
                                     sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinInt.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
                                 }
 
                             }
-                            else if (csspProp.MaxInt != null)
+                            else if (csspProp.Max != null)
                             {
                                 if (csspProp.IsNullable)
                                 {
                                     sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" != null)");
                                     sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxInt.ToString() + @")");
+                                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.Max.ToString() + @")");
                                     sb.AppendLine(@"                {");
-                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                     sb.AppendLine(@"                }");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
                                 }
                                 else
                                 {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxInt.ToString() + @")");
+                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.Max.ToString() + @")");
                                     sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MaxInt.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
                                 }
@@ -419,215 +422,41 @@ namespace CSSPServicesGenerateCodeHelper
                             }
                         }
                         break;
-                    case "Single":
-                        {
-                            if (csspProp.MinFloat == null && csspProp.MaxFloat == null)
-                            {
-                                sb.AppendLine(@"            //" + prop.Name + @" has no Range Attribute");
-                                sb.AppendLine(@"");
-                            }
-                            else if (csspProp.MinFloat != null && csspProp.MaxFloat != null)
-                            {
-                                if (csspProp.MinFloat > csspProp.MaxFloat)
-                                {
-                                    sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
-                                }
-                                else
-                                {
-                                    if (csspProp.IsNullable)
-                                    {
-                                        sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" != null)");
-                                        sb.AppendLine(@"            {");
-                                        sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinFloat.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxFloat.ToString() + @")");
-                                        sb.AppendLine(@"                {");
-                                        sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinFloat.ToString() + @""", """ + csspProp.MaxFloat.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
-                                        sb.AppendLine(@"                }");
-                                        sb.AppendLine(@"            }");
-                                        sb.AppendLine(@"");
-                                    }
-                                    else
-                                    {
-                                        sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinFloat.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxFloat.ToString() + @")");
-                                        sb.AppendLine(@"            {");
-                                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinFloat.ToString() + @""", """ + csspProp.MaxFloat.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
-                                        sb.AppendLine(@"            }");
-                                        sb.AppendLine(@"");
-                                    }
-                                }
-                            }
-                            else if (csspProp.MinFloat != null)
-                            {
-                                if (csspProp.IsNullable)
-                                {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" != null)");
-                                    sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinFloat.ToString() + @")");
-                                    sb.AppendLine(@"                {");
-                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinFloat.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
-                                    sb.AppendLine(@"                }");
-                                    sb.AppendLine(@"            }");
-                                    sb.AppendLine(@"");
-                                }
-                                else
-                                {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinFloat.ToString() + @")");
-                                    sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinFloat.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
-                                    sb.AppendLine(@"            }");
-                                    sb.AppendLine(@"");
-                                }
-                            }
-                            else if (csspProp.MaxFloat != null)
-                            {
-                                if (csspProp.IsNullable)
-                                {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" != null)");
-                                    sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxFloat.ToString() + @")");
-                                    sb.AppendLine(@"                {");
-                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MaxFloat.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
-                                    sb.AppendLine(@"                }");
-                                    sb.AppendLine(@"            }");
-                                    sb.AppendLine(@"");
-                                }
-                                else
-                                {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxFloat.ToString() + @")");
-                                    sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MaxFloat.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
-                                    sb.AppendLine(@"            }");
-                                    sb.AppendLine(@"");
-                                }
-                            }
-                            else
-                            {
-                                sb.AppendLine(@"                " + prop.Name + @" = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_double_or_single,");
-                                sb.AppendLine(@"");
-                            }
-                        }
-                        break;
-                    case "Double":
-                        {
-                            if (csspProp.MinDouble == null && csspProp.MaxDouble == null)
-                            {
-                                sb.AppendLine(@"            //" + prop.Name + @" has no Range Attribute");
-                                sb.AppendLine(@"");
-                            }
-                            else if (csspProp.MinDouble != null && csspProp.MaxDouble != null)
-                            {
-                                if (csspProp.MinDouble > csspProp.MaxDouble)
-                                {
-                                    sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
-                                }
-                                else
-                                {
-                                    if (csspProp.IsNullable)
-                                    {
-                                        sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" != null)");
-                                        sb.AppendLine(@"            {");
-                                        sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinDouble.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxDouble.ToString() + @")");
-                                        sb.AppendLine(@"                {");
-                                        sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinDouble.ToString() + @""", """ + csspProp.MaxDouble.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
-                                        sb.AppendLine(@"                }");
-                                        sb.AppendLine(@"            }");
-                                        sb.AppendLine(@"");
-                                    }
-                                    else
-                                    {
-                                        sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinDouble.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxDouble.ToString() + @")");
-                                        sb.AppendLine(@"            {");
-                                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinDouble.ToString() + @""", """ + csspProp.MaxDouble.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
-                                        sb.AppendLine(@"            }");
-                                        sb.AppendLine(@"");
-                                    }
-                                }
-                            }
-                            else if (csspProp.MinDouble != null)
-                            {
-                                if (csspProp.IsNullable)
-                                {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" != null)");
-                                    sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinDouble.ToString() + @")");
-                                    sb.AppendLine(@"                {");
-                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinDouble.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
-                                    sb.AppendLine(@"                }");
-                                    sb.AppendLine(@"            }");
-                                    sb.AppendLine(@"");
-                                }
-                                else
-                                {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.MinDouble.ToString() + @")");
-                                    sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinDouble.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
-                                    sb.AppendLine(@"            }");
-                                    sb.AppendLine(@"");
-                                }
-                            }
-                            else if (csspProp.MaxDouble != null)
-                            {
-                                if (csspProp.IsNullable)
-                                {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" != null)");
-                                    sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxDouble.ToString() + @")");
-                                    sb.AppendLine(@"                {");
-                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MaxDouble.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
-                                    sb.AppendLine(@"                }");
-                                    sb.AppendLine(@"            }");
-                                    sb.AppendLine(@"");
-                                }
-                                else
-                                {
-                                    sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.MaxDouble.ToString() + @")");
-                                    sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MaxDouble.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
-                                    sb.AppendLine(@"            }");
-                                    sb.AppendLine(@"");
-                                }
-                            }
-                            else
-                            {
-                                sb.AppendLine(@"                " + prop.Name + @" = CreateValidationNotRequiredLengths_ConditionShouldNotHappenIn_double_or_single,");
-                                sb.AppendLine(@"");
-                            }
-                        }
-                        break;
                     case "String":
                         {
-                            if (csspProp.MinLength == null && csspProp.MaxLength == null)
+                            if (csspProp.Min == null && csspProp.Max == null)
                             {
                                 sb.AppendLine(@"            //" + prop.Name + @" has no StringLength Attribute");
                                 sb.AppendLine(@"");
                             }
-                            else if (csspProp.MinLength != null && csspProp.MaxLength != null)
+                            else if (csspProp.Min != null && csspProp.Max != null)
                             {
-                                if (csspProp.MinLength > csspProp.MaxLength)
+                                if (csspProp.Min > csspProp.Max)
                                 {
                                     sb.AppendLine(@"            " + prop.Name + @" = MinBiggerMaxPleaseFix,");
                                 }
                                 else
                                 {
-                                    sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && (" + TypeNameLower + @"." + csspProp.PropName + @".Length < " + csspProp.MinLength.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @".Length > " + csspProp.MaxLength.ToString() + @"))");
+                                    sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && (" + TypeNameLower + @"." + csspProp.PropName + @".Length < " + csspProp.Min.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @".Length > " + csspProp.Max.ToString() + @"))");
                                     sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinLength.ToString() + @""", """ + csspProp.MaxLength.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
                                 }
                             }
-                            else if (csspProp.MinLength != null)
+                            else if (csspProp.Min != null)
                             {
-                                sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + csspProp.PropName + @".Length < " + csspProp.MinLength.ToString() + @")");
+                                sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + csspProp.PropName + @".Length < " + csspProp.Min.ToString() + @")");
                                 sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MinLength.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                 sb.AppendLine(@"            }");
                                 sb.AppendLine(@"");
                             }
-                            else if (csspProp.MaxLength != null)
+                            else if (csspProp.Max != null)
                             {
-                                sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + csspProp.PropName + @".Length > " + csspProp.MaxLength.ToString() + @")");
+                                sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + csspProp.PropName + @".Length > " + csspProp.Max.ToString() + @")");
                                 sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.MaxLength.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
                                 sb.AppendLine(@"            }");
                                 sb.AppendLine(@"");
                             }
@@ -673,14 +502,18 @@ namespace CSSPServicesGenerateCodeHelper
                     case "DateTime":
                     case "DateTimeOffset":
                         {
-                            if (!csspProp.IsKey)
-                            {
-                                sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" == null)");
-                                sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { ModelsRes." + TypeName + prop.Name + @" });");
-                                sb.AppendLine(@"            }");
-                                sb.AppendLine(@"");
-                            }
+                            sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @".Year == 1)");
+                            sb.AppendLine(@"            {");
+                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { ModelsRes." + TypeName + prop.Name + @" });");
+                            sb.AppendLine(@"            }");
+                            sb.AppendLine(@"            else");
+                            sb.AppendLine(@"            {");
+                            sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @".Year < " + csspProp.Year + ")");
+                            sb.AppendLine(@"                {");
+                            sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes." + TypeName + prop.Name + @", """ + csspProp.Year + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
+                            sb.AppendLine(@"                }");
+                            sb.AppendLine(@"            }");
+                            sb.AppendLine(@"");
                         }
                         break;
                     case "String":

@@ -60,14 +60,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TideDataValueTideSiteTVItemID, tideDataValue.TideSiteTVItemID.ToString()), new[] { ModelsRes.TideDataValueTideSiteTVItemID });
             }
 
-            if (tideDataValue.DateTime_Local == null)
+            if (tideDataValue.DateTime_Local.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueDateTime_Local), new[] { ModelsRes.TideDataValueDateTime_Local });
             }
-
-            if (tideDataValue.DateTime_Local.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TideDataValueDateTime_Local, "1980"), new[] { ModelsRes.TideDataValueDateTime_Local });
+                if (tideDataValue.DateTime_Local.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TideDataValueDateTime_Local, "1980"), new[] { ModelsRes.TideDataValueDateTime_Local });
+                }
             }
 
             //Keep (bool) is required but no testing needed 
@@ -123,14 +125,16 @@ namespace CSSPServices
                 }
             }
 
-            if (tideDataValue.LastUpdateDate_UTC == null)
+            if (tideDataValue.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueLastUpdateDate_UTC), new[] { ModelsRes.TideDataValueLastUpdateDate_UTC });
             }
-
-            if (tideDataValue.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TideDataValueLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TideDataValueLastUpdateDate_UTC });
+                if (tideDataValue.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TideDataValueLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TideDataValueLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

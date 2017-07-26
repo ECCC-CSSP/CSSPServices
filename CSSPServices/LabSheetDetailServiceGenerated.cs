@@ -91,14 +91,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDetailVersion, "1", "5"), new[] { ModelsRes.LabSheetDetailVersion });
             }
 
-            if (labSheetDetail.RunDate == null)
+            if (labSheetDetail.RunDate.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetDetailRunDate), new[] { ModelsRes.LabSheetDetailRunDate });
             }
-
-            if (labSheetDetail.RunDate.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailRunDate, "1980"), new[] { ModelsRes.LabSheetDetailRunDate });
+                if (labSheetDetail.RunDate.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailRunDate, "1980"), new[] { ModelsRes.LabSheetDetailRunDate });
+                }
             }
 
             if (string.IsNullOrWhiteSpace(labSheetDetail.Tides))
@@ -418,14 +420,16 @@ namespace CSSPServices
                 }
             }
 
-            if (labSheetDetail.LastUpdateDate_UTC == null)
+            if (labSheetDetail.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetDetailLastUpdateDate_UTC), new[] { ModelsRes.LabSheetDetailLastUpdateDate_UTC });
             }
-
-            if (labSheetDetail.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailLastUpdateDate_UTC, "1980"), new[] { ModelsRes.LabSheetDetailLastUpdateDate_UTC });
+                if (labSheetDetail.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetDetailLastUpdateDate_UTC, "1980"), new[] { ModelsRes.LabSheetDetailLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

@@ -126,14 +126,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationTVAuth), new[] { ModelsRes.TVItemUserAuthorizationTVAuth });
             }
 
-            if (tvItemUserAuthorization.LastUpdateDate_UTC == null)
+            if (tvItemUserAuthorization.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC), new[] { ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC });
             }
-
-            if (tvItemUserAuthorization.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC });
+                if (tvItemUserAuthorization.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

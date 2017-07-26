@@ -39,7 +39,7 @@ namespace CSSPServices.Tests
         {
             TVItemStat tvItemStat = new TVItemStat();
 
-            if (OmitPropName != "TVItemID") tvItemStat.TVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "TVItemID") tvItemStat.TVItemID = 2;
             if (OmitPropName != "TVType") tvItemStat.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "ChildCount") tvItemStat.ChildCount = GetRandomInt(0, 10000000);
             if (OmitPropName != "LastUpdateDate_UTC") tvItemStat.LastUpdateDate_UTC = GetRandomDateTime();
@@ -91,45 +91,29 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // tvItemStat.TVItemStatID   (Int32)
+            //-----------------------------------
+            tvItemStat = GetFilledRandomTVItemStat("");
+            tvItemStat.TVItemStatID = 0;
+            tvItemStatService.Update(tvItemStat);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemStatTVItemStatID), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // tvItemStat.TVItemID   (Int32)
+            //-----------------------------------
             // TVItemID will automatically be initialized at 0 --> not null
 
-            //Error: Type not implemented [TVType]
-
-            // ChildCount will automatically be initialized at 0 --> not null
-
-            tvItemStat = null;
-            tvItemStat = GetFilledRandomTVItemStat("LastUpdateDate_UTC");
-            Assert.AreEqual(false, tvItemStatService.Add(tvItemStat));
-            Assert.AreEqual(1, tvItemStat.ValidationResults.Count());
-            Assert.IsTrue(tvItemStat.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVItemStatLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(tvItemStat.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, tvItemStatService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [TVItem]
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [TVItemStatID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [TVItemID] of type [Int32]
-            //-----------------------------------
 
             tvItemStat = null;
             tvItemStat = GetFilledRandomTVItemStat("");
@@ -139,28 +123,36 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemStat.ValidationResults.Count());
             Assert.AreEqual(1, tvItemStat.TVItemID);
             Assert.AreEqual(true, tvItemStatService.Delete(tvItemStat));
-            Assert.AreEqual(0, tvItemStatService.GetRead().Count());
+            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
             // TVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             tvItemStat.TVItemID = 2;
             Assert.AreEqual(true, tvItemStatService.Add(tvItemStat));
             Assert.AreEqual(0, tvItemStat.ValidationResults.Count());
             Assert.AreEqual(2, tvItemStat.TVItemID);
             Assert.AreEqual(true, tvItemStatService.Delete(tvItemStat));
-            Assert.AreEqual(0, tvItemStatService.GetRead().Count());
+            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
             // TVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvItemStat.TVItemID = 0;
             Assert.AreEqual(false, tvItemStatService.Add(tvItemStat));
             Assert.IsTrue(tvItemStat.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemStatTVItemID, "1")).Any());
             Assert.AreEqual(0, tvItemStat.TVItemID);
-            Assert.AreEqual(0, tvItemStatService.GetRead().Count());
+            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TVType] of type [TVTypeEnum]
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // tvItemStat.TVType   (TVTypeEnum)
             //-----------------------------------
+            // TVType will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [ChildCount] of type [Int32]
+            //Is NOT Nullable
+            //[Range(0, 10000000)]
+            // tvItemStat.ChildCount   (Int32)
             //-----------------------------------
+            // ChildCount will automatically be initialized at 0 --> not null
+
 
             tvItemStat = null;
             tvItemStat = GetFilledRandomTVItemStat("");
@@ -170,48 +162,57 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemStat.ValidationResults.Count());
             Assert.AreEqual(0, tvItemStat.ChildCount);
             Assert.AreEqual(true, tvItemStatService.Delete(tvItemStat));
-            Assert.AreEqual(0, tvItemStatService.GetRead().Count());
+            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
             // ChildCount has Min [0] and Max [10000000]. At Min + 1 should return true and no errors
             tvItemStat.ChildCount = 1;
             Assert.AreEqual(true, tvItemStatService.Add(tvItemStat));
             Assert.AreEqual(0, tvItemStat.ValidationResults.Count());
             Assert.AreEqual(1, tvItemStat.ChildCount);
             Assert.AreEqual(true, tvItemStatService.Delete(tvItemStat));
-            Assert.AreEqual(0, tvItemStatService.GetRead().Count());
+            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
             // ChildCount has Min [0] and Max [10000000]. At Min - 1 should return false with one error
             tvItemStat.ChildCount = -1;
             Assert.AreEqual(false, tvItemStatService.Add(tvItemStat));
             Assert.IsTrue(tvItemStat.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVItemStatChildCount, "0", "10000000")).Any());
             Assert.AreEqual(-1, tvItemStat.ChildCount);
-            Assert.AreEqual(0, tvItemStatService.GetRead().Count());
+            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
             // ChildCount has Min [0] and Max [10000000]. At Max should return true and no errors
             tvItemStat.ChildCount = 10000000;
             Assert.AreEqual(true, tvItemStatService.Add(tvItemStat));
             Assert.AreEqual(0, tvItemStat.ValidationResults.Count());
             Assert.AreEqual(10000000, tvItemStat.ChildCount);
             Assert.AreEqual(true, tvItemStatService.Delete(tvItemStat));
-            Assert.AreEqual(0, tvItemStatService.GetRead().Count());
+            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
             // ChildCount has Min [0] and Max [10000000]. At Max - 1 should return true and no errors
             tvItemStat.ChildCount = 9999999;
             Assert.AreEqual(true, tvItemStatService.Add(tvItemStat));
             Assert.AreEqual(0, tvItemStat.ValidationResults.Count());
             Assert.AreEqual(9999999, tvItemStat.ChildCount);
             Assert.AreEqual(true, tvItemStatService.Delete(tvItemStat));
-            Assert.AreEqual(0, tvItemStatService.GetRead().Count());
+            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
             // ChildCount has Min [0] and Max [10000000]. At Max + 1 should return false with one error
             tvItemStat.ChildCount = 10000001;
             Assert.AreEqual(false, tvItemStatService.Add(tvItemStat));
             Assert.IsTrue(tvItemStat.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVItemStatChildCount, "0", "10000000")).Any());
             Assert.AreEqual(10000001, tvItemStat.ChildCount);
-            Assert.AreEqual(0, tvItemStatService.GetRead().Count());
+            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // tvItemStat.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // tvItemStat.LastUpdateContactTVItemID   (Int32)
             //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             tvItemStat = null;
             tvItemStat = GetFilledRandomTVItemStat("");
@@ -221,29 +222,32 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemStat.ValidationResults.Count());
             Assert.AreEqual(1, tvItemStat.LastUpdateContactTVItemID);
             Assert.AreEqual(true, tvItemStatService.Delete(tvItemStat));
-            Assert.AreEqual(0, tvItemStatService.GetRead().Count());
+            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             tvItemStat.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, tvItemStatService.Add(tvItemStat));
             Assert.AreEqual(0, tvItemStat.ValidationResults.Count());
             Assert.AreEqual(2, tvItemStat.LastUpdateContactTVItemID);
             Assert.AreEqual(true, tvItemStatService.Delete(tvItemStat));
-            Assert.AreEqual(0, tvItemStatService.GetRead().Count());
+            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvItemStat.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, tvItemStatService.Add(tvItemStat));
             Assert.IsTrue(tvItemStat.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemStatLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, tvItemStat.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, tvItemStatService.GetRead().Count());
+            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TVItem] of type [TVItem]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItemStat.TVItem   (TVItem)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[NotMapped]
+            // tvItemStat.ValidationResults   (IEnumerable`1)
             //-----------------------------------
-
         }
         #endregion Tests Generated
     }

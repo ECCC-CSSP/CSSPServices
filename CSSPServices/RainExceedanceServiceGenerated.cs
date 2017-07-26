@@ -130,14 +130,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceEmailDistributionListIDs, "250"), new[] { ModelsRes.RainExceedanceEmailDistributionListIDs });
             }
 
-            if (rainExceedance.LastUpdateDate_UTC == null)
+            if (rainExceedance.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceLastUpdateDate_UTC), new[] { ModelsRes.RainExceedanceLastUpdateDate_UTC });
             }
-
-            if (rainExceedance.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.RainExceedanceLastUpdateDate_UTC, "1980"), new[] { ModelsRes.RainExceedanceLastUpdateDate_UTC });
+                if (rainExceedance.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.RainExceedanceLastUpdateDate_UTC, "1980"), new[] { ModelsRes.RainExceedanceLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
             LabSheet labSheet = new LabSheet();
 
             if (OmitPropName != "OtherServerLabSheetID") labSheet.OtherServerLabSheetID = GetRandomInt(1, 11);
-            if (OmitPropName != "SamplingPlanID") labSheet.SamplingPlanID = GetRandomInt(1, 11);
+            if (OmitPropName != "SamplingPlanID") labSheet.SamplingPlanID = 1;
             if (OmitPropName != "SamplingPlanName") labSheet.SamplingPlanName = GetRandomString("", 6);
             if (OmitPropName != "Year") labSheet.Year = GetRandomInt(1980, 1990);
             if (OmitPropName != "Month") labSheet.Month = GetRandomInt(1, 12);
@@ -107,101 +107,28 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // labSheet.LabSheetID   (Int32)
+            //-----------------------------------
+            labSheet = GetFilledRandomLabSheet("");
+            labSheet.LabSheetID = 0;
+            labSheetService.Update(labSheet);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetLabSheetID), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[Range(1, -1)]
+            // labSheet.OtherServerLabSheetID   (Int32)
+            //-----------------------------------
             // OtherServerLabSheetID will automatically be initialized at 0 --> not null
 
-            // SamplingPlanID will automatically be initialized at 0 --> not null
-
-            labSheet = null;
-            labSheet = GetFilledRandomLabSheet("SamplingPlanName");
-            Assert.AreEqual(false, labSheetService.Add(labSheet));
-            Assert.AreEqual(1, labSheet.ValidationResults.Count());
-            Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetSamplingPlanName)).Any());
-            Assert.AreEqual(null, labSheet.SamplingPlanName);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
-
-            // Year will automatically be initialized at 0 --> not null
-
-            // Month will automatically be initialized at 0 --> not null
-
-            // Day will automatically be initialized at 0 --> not null
-
-            // RunNumber will automatically be initialized at 0 --> not null
-
-            // SubsectorTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [SamplingPlanType]
-
-            //Error: Type not implemented [SampleType]
-
-            //Error: Type not implemented [LabSheetType]
-
-            //Error: Type not implemented [LabSheetStatus]
-
-            labSheet = null;
-            labSheet = GetFilledRandomLabSheet("FileName");
-            Assert.AreEqual(false, labSheetService.Add(labSheet));
-            Assert.AreEqual(1, labSheet.ValidationResults.Count());
-            Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetFileName)).Any());
-            Assert.AreEqual(null, labSheet.FileName);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
-
-            labSheet = null;
-            labSheet = GetFilledRandomLabSheet("FileLastModifiedDate_Local");
-            Assert.AreEqual(false, labSheetService.Add(labSheet));
-            Assert.AreEqual(1, labSheet.ValidationResults.Count());
-            Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetFileLastModifiedDate_Local)).Any());
-            Assert.IsTrue(labSheet.FileLastModifiedDate_Local.Year < 1900);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
-
-            labSheet = null;
-            labSheet = GetFilledRandomLabSheet("FileContent");
-            Assert.AreEqual(false, labSheetService.Add(labSheet));
-            Assert.AreEqual(1, labSheet.ValidationResults.Count());
-            Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetFileContent)).Any());
-            Assert.AreEqual(null, labSheet.FileContent);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
-
-            labSheet = null;
-            labSheet = GetFilledRandomLabSheet("LastUpdateDate_UTC");
-            Assert.AreEqual(false, labSheetService.Add(labSheet));
-            Assert.AreEqual(1, labSheet.ValidationResults.Count());
-            Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(labSheet.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [LabSheetDetails]
-
-            //Error: Type not implemented [AcceptedOrRejectedByContactTVItem]
-
-            //Error: Type not implemented [MWQMRunTVItem]
-
-            //Error: Type not implemented [SamplingPlan]
-
-            //Error: Type not implemented [SubsectorTVItem]
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [LabSheetID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [OtherServerLabSheetID] of type [Int32]
-            //-----------------------------------
 
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
@@ -211,24 +138,29 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(1, labSheet.OtherServerLabSheetID);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // OtherServerLabSheetID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             labSheet.OtherServerLabSheetID = 2;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(2, labSheet.OtherServerLabSheetID);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // OtherServerLabSheetID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             labSheet.OtherServerLabSheetID = 0;
             Assert.AreEqual(false, labSheetService.Add(labSheet));
             Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetOtherServerLabSheetID, "1")).Any());
             Assert.AreEqual(0, labSheet.OtherServerLabSheetID);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [SamplingPlanID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "SamplingPlan", Plurial = "s", FieldID = "SamplingPlanID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // labSheet.SamplingPlanID   (Int32)
             //-----------------------------------
+            // SamplingPlanID will automatically be initialized at 0 --> not null
+
 
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
@@ -238,31 +170,89 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(1, labSheet.SamplingPlanID);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // SamplingPlanID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             labSheet.SamplingPlanID = 2;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(2, labSheet.SamplingPlanID);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // SamplingPlanID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             labSheet.SamplingPlanID = 0;
             Assert.AreEqual(false, labSheetService.Add(labSheet));
             Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetSamplingPlanID, "1")).Any());
             Assert.AreEqual(0, labSheet.SamplingPlanID);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [SamplingPlanName] of type [String]
+            //Is NOT Nullable
+            //[StringLength(250, MinimumLength = 1)]
+            // labSheet.SamplingPlanName   (String)
             //-----------------------------------
+            labSheet = null;
+            labSheet = GetFilledRandomLabSheet("SamplingPlanName");
+            Assert.AreEqual(false, labSheetService.Add(labSheet));
+            Assert.AreEqual(1, labSheet.ValidationResults.Count());
+            Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetSamplingPlanName)).Any());
+            Assert.AreEqual(null, labSheet.SamplingPlanName);
+            Assert.AreEqual(0, labSheetService.GetRead().Count());
+
 
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
 
+            // SamplingPlanName has MinLength [1] and MaxLength [250]. At Min should return true and no errors
+            string labSheetSamplingPlanNameMin = GetRandomString("", 1);
+            labSheet.SamplingPlanName = labSheetSamplingPlanNameMin;
+            Assert.AreEqual(true, labSheetService.Add(labSheet));
+            Assert.AreEqual(0, labSheet.ValidationResults.Count());
+            Assert.AreEqual(labSheetSamplingPlanNameMin, labSheet.SamplingPlanName);
+            Assert.AreEqual(true, labSheetService.Delete(labSheet));
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
+
+            // SamplingPlanName has MinLength [1] and MaxLength [250]. At Min + 1 should return true and no errors
+            labSheetSamplingPlanNameMin = GetRandomString("", 2);
+            labSheet.SamplingPlanName = labSheetSamplingPlanNameMin;
+            Assert.AreEqual(true, labSheetService.Add(labSheet));
+            Assert.AreEqual(0, labSheet.ValidationResults.Count());
+            Assert.AreEqual(labSheetSamplingPlanNameMin, labSheet.SamplingPlanName);
+            Assert.AreEqual(true, labSheetService.Delete(labSheet));
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
+
+            // SamplingPlanName has MinLength [1] and MaxLength [250]. At Max should return true and no errors
+            labSheetSamplingPlanNameMin = GetRandomString("", 250);
+            labSheet.SamplingPlanName = labSheetSamplingPlanNameMin;
+            Assert.AreEqual(true, labSheetService.Add(labSheet));
+            Assert.AreEqual(0, labSheet.ValidationResults.Count());
+            Assert.AreEqual(labSheetSamplingPlanNameMin, labSheet.SamplingPlanName);
+            Assert.AreEqual(true, labSheetService.Delete(labSheet));
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
+
+            // SamplingPlanName has MinLength [1] and MaxLength [250]. At Max - 1 should return true and no errors
+            labSheetSamplingPlanNameMin = GetRandomString("", 249);
+            labSheet.SamplingPlanName = labSheetSamplingPlanNameMin;
+            Assert.AreEqual(true, labSheetService.Add(labSheet));
+            Assert.AreEqual(0, labSheet.ValidationResults.Count());
+            Assert.AreEqual(labSheetSamplingPlanNameMin, labSheet.SamplingPlanName);
+            Assert.AreEqual(true, labSheetService.Delete(labSheet));
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
+
+            // SamplingPlanName has MinLength [1] and MaxLength [250]. At Max + 1 should return false with one error
+            labSheetSamplingPlanNameMin = GetRandomString("", 251);
+            labSheet.SamplingPlanName = labSheetSamplingPlanNameMin;
+            Assert.AreEqual(false, labSheetService.Add(labSheet));
+            Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetSamplingPlanName, "1", "250")).Any());
+            Assert.AreEqual(labSheetSamplingPlanNameMin, labSheet.SamplingPlanName);
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
+
             //-----------------------------------
-            // doing property [Year] of type [Int32]
+            //Is NOT Nullable
+            //[Range(1980, -1)]
+            // labSheet.Year   (Int32)
             //-----------------------------------
+            // Year will automatically be initialized at 0 --> not null
+
 
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
@@ -272,24 +262,28 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(1980, labSheet.Year);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // Year has Min [1980] and Max [empty]. At Min + 1 should return true and no errors
             labSheet.Year = 1981;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(1981, labSheet.Year);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // Year has Min [1980] and Max [empty]. At Min - 1 should return false with one error
             labSheet.Year = 1979;
             Assert.AreEqual(false, labSheetService.Add(labSheet));
             Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetYear, "1980")).Any());
             Assert.AreEqual(1979, labSheet.Year);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Month] of type [Int32]
+            //Is NOT Nullable
+            //[Range(1, 12)]
+            // labSheet.Month   (Int32)
             //-----------------------------------
+            // Month will automatically be initialized at 0 --> not null
+
 
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
@@ -299,44 +293,48 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(1, labSheet.Month);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // Month has Min [1] and Max [12]. At Min + 1 should return true and no errors
             labSheet.Month = 2;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(2, labSheet.Month);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // Month has Min [1] and Max [12]. At Min - 1 should return false with one error
             labSheet.Month = 0;
             Assert.AreEqual(false, labSheetService.Add(labSheet));
             Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetMonth, "1", "12")).Any());
             Assert.AreEqual(0, labSheet.Month);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // Month has Min [1] and Max [12]. At Max should return true and no errors
             labSheet.Month = 12;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(12, labSheet.Month);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // Month has Min [1] and Max [12]. At Max - 1 should return true and no errors
             labSheet.Month = 11;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(11, labSheet.Month);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // Month has Min [1] and Max [12]. At Max + 1 should return false with one error
             labSheet.Month = 13;
             Assert.AreEqual(false, labSheetService.Add(labSheet));
             Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetMonth, "1", "12")).Any());
             Assert.AreEqual(13, labSheet.Month);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Day] of type [Int32]
+            //Is NOT Nullable
+            //[Range(1, 31)]
+            // labSheet.Day   (Int32)
             //-----------------------------------
+            // Day will automatically be initialized at 0 --> not null
+
 
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
@@ -346,44 +344,48 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(1, labSheet.Day);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // Day has Min [1] and Max [31]. At Min + 1 should return true and no errors
             labSheet.Day = 2;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(2, labSheet.Day);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // Day has Min [1] and Max [31]. At Min - 1 should return false with one error
             labSheet.Day = 0;
             Assert.AreEqual(false, labSheetService.Add(labSheet));
             Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDay, "1", "31")).Any());
             Assert.AreEqual(0, labSheet.Day);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // Day has Min [1] and Max [31]. At Max should return true and no errors
             labSheet.Day = 31;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(31, labSheet.Day);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // Day has Min [1] and Max [31]. At Max - 1 should return true and no errors
             labSheet.Day = 30;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(30, labSheet.Day);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // Day has Min [1] and Max [31]. At Max + 1 should return false with one error
             labSheet.Day = 32;
             Assert.AreEqual(false, labSheetService.Add(labSheet));
             Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDay, "1", "31")).Any());
             Assert.AreEqual(32, labSheet.Day);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [RunNumber] of type [Int32]
+            //Is NOT Nullable
+            //[Range(1, 100)]
+            // labSheet.RunNumber   (Int32)
             //-----------------------------------
+            // RunNumber will automatically be initialized at 0 --> not null
+
 
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
@@ -393,44 +395,49 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(1, labSheet.RunNumber);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // RunNumber has Min [1] and Max [100]. At Min + 1 should return true and no errors
             labSheet.RunNumber = 2;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(2, labSheet.RunNumber);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // RunNumber has Min [1] and Max [100]. At Min - 1 should return false with one error
             labSheet.RunNumber = 0;
             Assert.AreEqual(false, labSheetService.Add(labSheet));
             Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetRunNumber, "1", "100")).Any());
             Assert.AreEqual(0, labSheet.RunNumber);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // RunNumber has Min [1] and Max [100]. At Max should return true and no errors
             labSheet.RunNumber = 100;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(100, labSheet.RunNumber);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // RunNumber has Min [1] and Max [100]. At Max - 1 should return true and no errors
             labSheet.RunNumber = 99;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(99, labSheet.RunNumber);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // RunNumber has Min [1] and Max [100]. At Max + 1 should return false with one error
             labSheet.RunNumber = 101;
             Assert.AreEqual(false, labSheetService.Add(labSheet));
             Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetRunNumber, "1", "100")).Any());
             Assert.AreEqual(101, labSheet.RunNumber);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [SubsectorTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Subsector)]
+            //[Range(1, -1)]
+            // labSheet.SubsectorTVItemID   (Int32)
             //-----------------------------------
+            // SubsectorTVItemID will automatically be initialized at 0 --> not null
+
 
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
@@ -440,23 +447,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(1, labSheet.SubsectorTVItemID);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // SubsectorTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             labSheet.SubsectorTVItemID = 2;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(2, labSheet.SubsectorTVItemID);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // SubsectorTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             labSheet.SubsectorTVItemID = 0;
             Assert.AreEqual(false, labSheetService.Add(labSheet));
             Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetSubsectorTVItemID, "1")).Any());
             Assert.AreEqual(0, labSheet.SubsectorTVItemID);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [MWQMRunTVItemID] of type [Int32]
+            //Is Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMRun)]
+            //[Range(1, -1)]
+            // labSheet.MWQMRunTVItemID   (Int32)
             //-----------------------------------
 
             labSheet = null;
@@ -467,57 +477,143 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(1, labSheet.MWQMRunTVItemID);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // MWQMRunTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             labSheet.MWQMRunTVItemID = 2;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(2, labSheet.MWQMRunTVItemID);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // MWQMRunTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             labSheet.MWQMRunTVItemID = 0;
             Assert.AreEqual(false, labSheetService.Add(labSheet));
             Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetMWQMRunTVItemID, "1")).Any());
             Assert.AreEqual(0, labSheet.MWQMRunTVItemID);
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // labSheet.SamplingPlanType   (SamplingPlanTypeEnum)
+            //-----------------------------------
+            // SamplingPlanType will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // labSheet.SampleType   (SampleTypeEnum)
+            //-----------------------------------
+            // SampleType will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // labSheet.LabSheetType   (LabSheetTypeEnum)
+            //-----------------------------------
+            // LabSheetType will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // labSheet.LabSheetStatus   (LabSheetStatusEnum)
+            //-----------------------------------
+            // LabSheetStatus will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[StringLength(250, MinimumLength = 1)]
+            // labSheet.FileName   (String)
+            //-----------------------------------
+            labSheet = null;
+            labSheet = GetFilledRandomLabSheet("FileName");
+            Assert.AreEqual(false, labSheetService.Add(labSheet));
+            Assert.AreEqual(1, labSheet.ValidationResults.Count());
+            Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetFileName)).Any());
+            Assert.AreEqual(null, labSheet.FileName);
             Assert.AreEqual(0, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            // doing property [SamplingPlanType] of type [SamplingPlanTypeEnum]
-            //-----------------------------------
+
+            labSheet = null;
+            labSheet = GetFilledRandomLabSheet("");
+
+            // FileName has MinLength [1] and MaxLength [250]. At Min should return true and no errors
+            string labSheetFileNameMin = GetRandomString("", 1);
+            labSheet.FileName = labSheetFileNameMin;
+            Assert.AreEqual(true, labSheetService.Add(labSheet));
+            Assert.AreEqual(0, labSheet.ValidationResults.Count());
+            Assert.AreEqual(labSheetFileNameMin, labSheet.FileName);
+            Assert.AreEqual(true, labSheetService.Delete(labSheet));
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
+
+            // FileName has MinLength [1] and MaxLength [250]. At Min + 1 should return true and no errors
+            labSheetFileNameMin = GetRandomString("", 2);
+            labSheet.FileName = labSheetFileNameMin;
+            Assert.AreEqual(true, labSheetService.Add(labSheet));
+            Assert.AreEqual(0, labSheet.ValidationResults.Count());
+            Assert.AreEqual(labSheetFileNameMin, labSheet.FileName);
+            Assert.AreEqual(true, labSheetService.Delete(labSheet));
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
+
+            // FileName has MinLength [1] and MaxLength [250]. At Max should return true and no errors
+            labSheetFileNameMin = GetRandomString("", 250);
+            labSheet.FileName = labSheetFileNameMin;
+            Assert.AreEqual(true, labSheetService.Add(labSheet));
+            Assert.AreEqual(0, labSheet.ValidationResults.Count());
+            Assert.AreEqual(labSheetFileNameMin, labSheet.FileName);
+            Assert.AreEqual(true, labSheetService.Delete(labSheet));
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
+
+            // FileName has MinLength [1] and MaxLength [250]. At Max - 1 should return true and no errors
+            labSheetFileNameMin = GetRandomString("", 249);
+            labSheet.FileName = labSheetFileNameMin;
+            Assert.AreEqual(true, labSheetService.Add(labSheet));
+            Assert.AreEqual(0, labSheet.ValidationResults.Count());
+            Assert.AreEqual(labSheetFileNameMin, labSheet.FileName);
+            Assert.AreEqual(true, labSheetService.Delete(labSheet));
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
+
+            // FileName has MinLength [1] and MaxLength [250]. At Max + 1 should return false with one error
+            labSheetFileNameMin = GetRandomString("", 251);
+            labSheet.FileName = labSheetFileNameMin;
+            Assert.AreEqual(false, labSheetService.Add(labSheet));
+            Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetFileName, "1", "250")).Any());
+            Assert.AreEqual(labSheetFileNameMin, labSheet.FileName);
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [SampleType] of type [SampleTypeEnum]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // labSheet.FileLastModifiedDate_Local   (DateTime)
             //-----------------------------------
+            // FileLastModifiedDate_Local will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LabSheetType] of type [LabSheetTypeEnum]
+            //Is NOT Nullable
+            // labSheet.FileContent   (String)
             //-----------------------------------
+            labSheet = null;
+            labSheet = GetFilledRandomLabSheet("FileContent");
+            Assert.AreEqual(false, labSheetService.Add(labSheet));
+            Assert.AreEqual(1, labSheet.ValidationResults.Count());
+            Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetFileContent)).Any());
+            Assert.AreEqual(null, labSheet.FileContent);
+            Assert.AreEqual(0, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            // doing property [LabSheetStatus] of type [LabSheetStatusEnum]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [FileName] of type [String]
-            //-----------------------------------
 
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
 
             //-----------------------------------
-            // doing property [FileLastModifiedDate_Local] of type [DateTime]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [FileContent] of type [String]
-            //-----------------------------------
-
-            labSheet = null;
-            labSheet = GetFilledRandomLabSheet("");
-
-            //-----------------------------------
-            // doing property [AcceptedOrRejectedByContactTVItemID] of type [Int32]
+            //Is Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // labSheet.AcceptedOrRejectedByContactTVItemID   (Int32)
             //-----------------------------------
 
             labSheet = null;
@@ -528,39 +624,78 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(1, labSheet.AcceptedOrRejectedByContactTVItemID);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // AcceptedOrRejectedByContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             labSheet.AcceptedOrRejectedByContactTVItemID = 2;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(2, labSheet.AcceptedOrRejectedByContactTVItemID);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // AcceptedOrRejectedByContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             labSheet.AcceptedOrRejectedByContactTVItemID = 0;
             Assert.AreEqual(false, labSheetService.Add(labSheet));
             Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID, "1")).Any());
             Assert.AreEqual(0, labSheet.AcceptedOrRejectedByContactTVItemID);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [AcceptedOrRejectedDateTime] of type [DateTime]
+            //Is Nullable
+            //[CSSPAfter(Year = 1980)]
+            // labSheet.AcceptedOrRejectedDateTime   (DateTime)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [RejectReason] of type [String]
+            //Is Nullable
+            //[StringLength(250))]
+            // labSheet.RejectReason   (String)
             //-----------------------------------
 
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
 
-            //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
-            //-----------------------------------
+            // RejectReason has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
+            string labSheetRejectReasonMin = GetRandomString("", 250);
+            labSheet.RejectReason = labSheetRejectReasonMin;
+            Assert.AreEqual(true, labSheetService.Add(labSheet));
+            Assert.AreEqual(0, labSheet.ValidationResults.Count());
+            Assert.AreEqual(labSheetRejectReasonMin, labSheet.RejectReason);
+            Assert.AreEqual(true, labSheetService.Delete(labSheet));
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
+
+            // RejectReason has MinLength [empty] and MaxLength [250]. At Max - 1 should return true and no errors
+            labSheetRejectReasonMin = GetRandomString("", 249);
+            labSheet.RejectReason = labSheetRejectReasonMin;
+            Assert.AreEqual(true, labSheetService.Add(labSheet));
+            Assert.AreEqual(0, labSheet.ValidationResults.Count());
+            Assert.AreEqual(labSheetRejectReasonMin, labSheet.RejectReason);
+            Assert.AreEqual(true, labSheetService.Delete(labSheet));
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
+
+            // RejectReason has MinLength [empty] and MaxLength [250]. At Max + 1 should return false with one error
+            labSheetRejectReasonMin = GetRandomString("", 251);
+            labSheet.RejectReason = labSheetRejectReasonMin;
+            Assert.AreEqual(false, labSheetService.Add(labSheet));
+            Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetRejectReason, "250")).Any());
+            Assert.AreEqual(labSheetRejectReasonMin, labSheet.RejectReason);
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // labSheet.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // labSheet.LastUpdateContactTVItemID   (Int32)
+            //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
@@ -570,45 +705,56 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(1, labSheet.LastUpdateContactTVItemID);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             labSheet.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, labSheetService.Add(labSheet));
             Assert.AreEqual(0, labSheet.ValidationResults.Count());
             Assert.AreEqual(2, labSheet.LastUpdateContactTVItemID);
             Assert.AreEqual(true, labSheetService.Delete(labSheet));
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             labSheet.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, labSheetService.Add(labSheet));
             Assert.IsTrue(labSheet.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, labSheet.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, labSheetService.GetRead().Count());
+            Assert.AreEqual(count, labSheetService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LabSheetDetails] of type [ICollection`1]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [AcceptedOrRejectedByContactTVItem] of type [TVItem]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [MWQMRunTVItem] of type [TVItem]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // labSheet.LabSheetDetails   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SamplingPlan] of type [SamplingPlan]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // labSheet.AcceptedOrRejectedByContactTVItem   (TVItem)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SubsectorTVItem] of type [TVItem]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // labSheet.MWQMRunTVItem   (TVItem)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // labSheet.SamplingPlan   (SamplingPlan)
             //-----------------------------------
 
+            //-----------------------------------
+            //Is NOT Nullable
+            //[IsVirtual]
+            // labSheet.SubsectorTVItem   (TVItem)
+            //-----------------------------------
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[NotMapped]
+            // labSheet.ValidationResults   (IEnumerable`1)
+            //-----------------------------------
         }
         #endregion Tests Generated
     }

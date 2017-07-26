@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
             SubsectorMWQMSampleYear subsectorMWQMSampleYear = new SubsectorMWQMSampleYear();
 
             if (OmitPropName != "SubsectorTVItemID") subsectorMWQMSampleYear.SubsectorTVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "Year") subsectorMWQMSampleYear.Year = GetRandomInt(1, 1000);
+            // should implement a Range for the property Year and type SubsectorMWQMSampleYear
             if (OmitPropName != "EarliestDate") subsectorMWQMSampleYear.EarliestDate = GetRandomDateTime();
             if (OmitPropName != "LatestDate") subsectorMWQMSampleYear.LatestDate = GetRandomDateTime();
 
@@ -69,17 +69,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

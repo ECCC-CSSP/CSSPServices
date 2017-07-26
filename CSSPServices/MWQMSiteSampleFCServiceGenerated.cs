@@ -45,9 +45,16 @@ namespace CSSPServices
 
             //Error has no StringLength Attribute
 
-            if (mwqmSiteSampleFC.SampleDate == null)
+            if (mwqmSiteSampleFC.SampleDate.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteSampleFCSampleDate), new[] { ModelsRes.MWQMSiteSampleFCSampleDate });
+            }
+            else
+            {
+                if (mwqmSiteSampleFC.SampleDate.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSiteSampleFCSampleDate, "1980"), new[] { ModelsRes.MWQMSiteSampleFCSampleDate });
+                }
             }
 
             if (mwqmSiteSampleFC.FC != null)

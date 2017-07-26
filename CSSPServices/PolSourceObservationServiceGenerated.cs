@@ -60,14 +60,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceSite, ModelsRes.PolSourceObservationPolSourceSiteID, polSourceObservation.PolSourceSiteID.ToString()), new[] { ModelsRes.PolSourceObservationPolSourceSiteID });
             }
 
-            if (polSourceObservation.ObservationDate_Local == null)
+            if (polSourceObservation.ObservationDate_Local.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationObservationDate_Local), new[] { ModelsRes.PolSourceObservationObservationDate_Local });
             }
-
-            if (polSourceObservation.ObservationDate_Local.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.PolSourceObservationObservationDate_Local, "1980"), new[] { ModelsRes.PolSourceObservationObservationDate_Local });
+                if (polSourceObservation.ObservationDate_Local.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.PolSourceObservationObservationDate_Local, "1980"), new[] { ModelsRes.PolSourceObservationObservationDate_Local });
+                }
             }
 
             //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -89,14 +91,16 @@ namespace CSSPServices
 
             //Observation_ToBeDeleted has no StringLength Attribute
 
-            if (polSourceObservation.LastUpdateDate_UTC == null)
+            if (polSourceObservation.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationLastUpdateDate_UTC), new[] { ModelsRes.PolSourceObservationLastUpdateDate_UTC });
             }
-
-            if (polSourceObservation.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.PolSourceObservationLastUpdateDate_UTC, "1980"), new[] { ModelsRes.PolSourceObservationLastUpdateDate_UTC });
+                if (polSourceObservation.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.PolSourceObservationLastUpdateDate_UTC, "1980"), new[] { ModelsRes.PolSourceObservationLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

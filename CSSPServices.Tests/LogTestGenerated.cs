@@ -92,10 +92,26 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // log.LogID   (Int32)
+            //-----------------------------------
+            log = GetFilledRandomLog("");
+            log.LogID = 0;
+            logService.Update(log);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LogLogID), log.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[StringLength(50))]
+            // log.TableName   (String)
+            //-----------------------------------
             log = null;
             log = GetFilledRandomLog("TableName");
             Assert.AreEqual(false, logService.Add(log));
@@ -104,52 +120,43 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, log.TableName);
             Assert.AreEqual(0, logService.GetRead().Count());
 
-            // ID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [LogCommand]
-
-            log = null;
-            log = GetFilledRandomLog("Information");
-            Assert.AreEqual(false, logService.Add(log));
-            Assert.AreEqual(1, log.ValidationResults.Count());
-            Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LogInformation)).Any());
-            Assert.AreEqual(null, log.Information);
-            Assert.AreEqual(0, logService.GetRead().Count());
-
-            log = null;
-            log = GetFilledRandomLog("LastUpdateDate_UTC");
-            Assert.AreEqual(false, logService.Add(log));
-            Assert.AreEqual(1, log.ValidationResults.Count());
-            Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LogLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(log.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, logService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [LogID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [TableName] of type [String]
-            //-----------------------------------
 
             log = null;
             log = GetFilledRandomLog("");
 
+            // TableName has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
+            string logTableNameMin = GetRandomString("", 50);
+            log.TableName = logTableNameMin;
+            Assert.AreEqual(true, logService.Add(log));
+            Assert.AreEqual(0, log.ValidationResults.Count());
+            Assert.AreEqual(logTableNameMin, log.TableName);
+            Assert.AreEqual(true, logService.Delete(log));
+            Assert.AreEqual(count, logService.GetRead().Count());
+
+            // TableName has MinLength [empty] and MaxLength [50]. At Max - 1 should return true and no errors
+            logTableNameMin = GetRandomString("", 49);
+            log.TableName = logTableNameMin;
+            Assert.AreEqual(true, logService.Add(log));
+            Assert.AreEqual(0, log.ValidationResults.Count());
+            Assert.AreEqual(logTableNameMin, log.TableName);
+            Assert.AreEqual(true, logService.Delete(log));
+            Assert.AreEqual(count, logService.GetRead().Count());
+
+            // TableName has MinLength [empty] and MaxLength [50]. At Max + 1 should return false with one error
+            logTableNameMin = GetRandomString("", 51);
+            log.TableName = logTableNameMin;
+            Assert.AreEqual(false, logService.Add(log));
+            Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogTableName, "50")).Any());
+            Assert.AreEqual(logTableNameMin, log.TableName);
+            Assert.AreEqual(count, logService.GetRead().Count());
+
             //-----------------------------------
-            // doing property [ID] of type [Int32]
+            //Is NOT Nullable
+            //[Range(1, -1)]
+            // log.ID   (Int32)
             //-----------------------------------
+            // ID will automatically be initialized at 0 --> not null
+
 
             log = null;
             log = GetFilledRandomLog("");
@@ -159,39 +166,61 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, log.ValidationResults.Count());
             Assert.AreEqual(1, log.ID);
             Assert.AreEqual(true, logService.Delete(log));
-            Assert.AreEqual(0, logService.GetRead().Count());
+            Assert.AreEqual(count, logService.GetRead().Count());
             // ID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             log.ID = 2;
             Assert.AreEqual(true, logService.Add(log));
             Assert.AreEqual(0, log.ValidationResults.Count());
             Assert.AreEqual(2, log.ID);
             Assert.AreEqual(true, logService.Delete(log));
-            Assert.AreEqual(0, logService.GetRead().Count());
+            Assert.AreEqual(count, logService.GetRead().Count());
             // ID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             log.ID = 0;
             Assert.AreEqual(false, logService.Add(log));
             Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LogID, "1")).Any());
             Assert.AreEqual(0, log.ID);
+            Assert.AreEqual(count, logService.GetRead().Count());
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // log.LogCommand   (LogCommandEnum)
+            //-----------------------------------
+            // LogCommand will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            // log.Information   (String)
+            //-----------------------------------
+            log = null;
+            log = GetFilledRandomLog("Information");
+            Assert.AreEqual(false, logService.Add(log));
+            Assert.AreEqual(1, log.ValidationResults.Count());
+            Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LogInformation)).Any());
+            Assert.AreEqual(null, log.Information);
             Assert.AreEqual(0, logService.GetRead().Count());
 
-            //-----------------------------------
-            // doing property [LogCommand] of type [LogCommandEnum]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [Information] of type [String]
-            //-----------------------------------
 
             log = null;
             log = GetFilledRandomLog("");
 
             //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // log.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // log.LastUpdateContactTVItemID   (Int32)
             //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             log = null;
             log = GetFilledRandomLog("");
@@ -201,25 +230,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, log.ValidationResults.Count());
             Assert.AreEqual(1, log.LastUpdateContactTVItemID);
             Assert.AreEqual(true, logService.Delete(log));
-            Assert.AreEqual(0, logService.GetRead().Count());
+            Assert.AreEqual(count, logService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             log.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, logService.Add(log));
             Assert.AreEqual(0, log.ValidationResults.Count());
             Assert.AreEqual(2, log.LastUpdateContactTVItemID);
             Assert.AreEqual(true, logService.Delete(log));
-            Assert.AreEqual(0, logService.GetRead().Count());
+            Assert.AreEqual(count, logService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             log.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, logService.Add(log));
             Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LogLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, log.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, logService.GetRead().Count());
+            Assert.AreEqual(count, logService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[NotMapped]
+            // log.ValidationResults   (IEnumerable`1)
             //-----------------------------------
-
         }
         #endregion Tests Generated
     }

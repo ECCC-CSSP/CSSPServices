@@ -139,14 +139,16 @@ namespace CSSPServices
                 }
             }
 
-            if (tvItemLink.LastUpdateDate_UTC == null)
+            if (tvItemLink.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLinkLastUpdateDate_UTC), new[] { ModelsRes.TVItemLinkLastUpdateDate_UTC });
             }
-
-            if (tvItemLink.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemLinkLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVItemLinkLastUpdateDate_UTC });
+                if (tvItemLink.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemLinkLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVItemLinkLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

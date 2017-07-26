@@ -39,9 +39,9 @@ namespace CSSPServices.Tests
         {
             ContourPolygon contourPolygon = new ContourPolygon();
 
-            if (OmitPropName != "ContourValue") contourPolygon.ContourValue = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "ContourValue") contourPolygon.ContourValue = GetRandomDouble(0.0D, 10.0D);
             if (OmitPropName != "Layer") contourPolygon.Layer = GetRandomInt(1, 100);
-            if (OmitPropName != "Depth") contourPolygon.Depth = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "Depth") contourPolygon.Depth = GetRandomDouble(1.0D, 10000.0D);
 
             return contourPolygon;
         }
@@ -68,17 +68,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

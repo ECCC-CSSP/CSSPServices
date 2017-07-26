@@ -41,8 +41,8 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "AccessCode") cSSPWQInputApp.AccessCode = GetRandomString("", 6);
             if (OmitPropName != "ActiveYear") cSSPWQInputApp.ActiveYear = GetRandomString("", 4);
-            if (OmitPropName != "DailyDuplicatePrecisionCriteria") cSSPWQInputApp.DailyDuplicatePrecisionCriteria = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "IntertechDuplicatePrecisionCriteria") cSSPWQInputApp.IntertechDuplicatePrecisionCriteria = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "DailyDuplicatePrecisionCriteria") cSSPWQInputApp.DailyDuplicatePrecisionCriteria = GetRandomDouble(0.0D, 100.0D);
+            if (OmitPropName != "IntertechDuplicatePrecisionCriteria") cSSPWQInputApp.IntertechDuplicatePrecisionCriteria = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "IncludeLaboratoryQAQC") cSSPWQInputApp.IncludeLaboratoryQAQC = true;
             if (OmitPropName != "ApprovalCode") cSSPWQInputApp.ApprovalCode = GetRandomString("", 6);
             if (OmitPropName != "ApprovalDate") cSSPWQInputApp.ApprovalDate = GetRandomDateTime();
@@ -72,17 +72,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

@@ -42,7 +42,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TVLevel") tvItem.TVLevel = GetRandomInt(0, 100);
             if (OmitPropName != "TVPath") tvItem.TVPath = GetRandomString("", 5);
             if (OmitPropName != "TVType") tvItem.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "ParentID") tvItem.ParentID = GetRandomInt(1, 11);
+            if (OmitPropName != "ParentID") tvItem.ParentID = 2;
             if (OmitPropName != "IsActive") tvItem.IsActive = true;
             if (OmitPropName != "LastUpdateDate_UTC") tvItem.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") tvItem.LastUpdateContactTVItemID = 2;
@@ -93,161 +93,28 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // tvItem.TVItemID   (Int32)
+            //-----------------------------------
+            tvItem = GetFilledRandomTVItem("");
+            tvItem.TVItemID = 0;
+            tvItemService.Update(tvItem);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVItemID), tvItem.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[Range(0, 100)]
+            // tvItem.TVLevel   (Int32)
+            //-----------------------------------
             // TVLevel will automatically be initialized at 0 --> not null
 
-            tvItem = null;
-            tvItem = GetFilledRandomTVItem("TVPath");
-            Assert.AreEqual(false, tvItemService.Add(tvItem));
-            Assert.AreEqual(1, tvItem.ValidationResults.Count());
-            Assert.IsTrue(tvItem.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVPath)).Any());
-            Assert.AreEqual(null, tvItem.TVPath);
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
-
-            //Error: Type not implemented [TVType]
-
-            // ParentID will automatically be initialized at 0 --> not null
-
-            // IsActive will automatically be initialized at 0 --> not null
-
-            tvItem = null;
-            tvItem = GetFilledRandomTVItem("LastUpdateDate_UTC");
-            Assert.AreEqual(false, tvItemService.Add(tvItem));
-            Assert.AreEqual(1, tvItem.ValidationResults.Count());
-            Assert.IsTrue(tvItem.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(tvItem.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [AddressesAddressTVItem]
-
-            //Error: Type not implemented [AddressesCountryTVItem]
-
-            //Error: Type not implemented [AddressesMunicipalityTVItem]
-
-            //Error: Type not implemented [AddressesProvinceTVItem]
-
-            //Error: Type not implemented [AppTasks]
-
-            //Error: Type not implemented [BoxModels]
-
-            //Error: Type not implemented [ClimateSites]
-
-            //Error: Type not implemented [Contacts]
-
-            //Error: Type not implemented [DocTemplates]
-
-            //Error: Type not implemented [Emails]
-
-            //Error: Type not implemented [EmailDistributionLists]
-
-            //Error: Type not implemented [HydrometricSites]
-
-            //Error: Type not implemented [Infrastructures]
-
-            //Error: Type not implemented [LabSheetDetails]
-
-            //Error: Type not implemented [LabSheetsAcceptedOrRejectedByContactTVItem]
-
-            //Error: Type not implemented [LabSheetsMWQMRunTVItem]
-
-            //Error: Type not implemented [LabSheetsSubsectorTVItem]
-
-            //Error: Type not implemented [LabSheetTubeMPNDetails]
-
-            //Error: Type not implemented [MapInfos]
-
-            //Error: Type not implemented [MikeBoundaryConditions]
-
-            //Error: Type not implemented [MikeScenarios]
-
-            //Error: Type not implemented [MikeSources]
-
-            //Error: Type not implemented [MWQMRunsLabSampleApprovalContactTVItem]
-
-            //Error: Type not implemented [MWQMRunsMWQMRunTVItem]
-
-            //Error: Type not implemented [MWQMRunsSubsectorTVItem]
-
-            //Error: Type not implemented [MWQMSampleMWQMRunTVItem]
-
-            //Error: Type not implemented [MWQMSampleMWQMSiteTVItem]
-
-            //Error: Type not implemented [MWQMSites]
-
-            //Error: Type not implemented [MWQMSiteStartEndDates]
-
-            //Error: Type not implemented [MWQMSubsectors]
-
-            //Error: Type not implemented [PolSourceObservationsContactTVItem]
-
-            //Error: Type not implemented [PolSourceSites]
-
-            //Error: Type not implemented [SamplingPlansCreatorTVItem]
-
-            //Error: Type not implemented [SamplingPlansProvinceTVItem]
-
-            //Error: Type not implemented [SamplingPlansSamplingPlanFileTVItem]
-
-            //Error: Type not implemented [SamplingPlanSubsectors]
-
-            //Error: Type not implemented [SamplingPlanSubsectorSites]
-
-            //Error: Type not implemented [SpillsInfrastructureTVItem]
-
-            //Error: Type not implemented [SpillsMunicipalityTVItem]
-
-            //Error: Type not implemented [Tels]
-
-            //Error: Type not implemented [TideDataValues]
-
-            //Error: Type not implemented [TideSites]
-
-            //Error: Type not implemented [TVFiles]
-
-            //Error: Type not implemented [TVItemLanguages]
-
-            //Error: Type not implemented [TVItemLinksFromTVItem]
-
-            //Error: Type not implemented [TVItemLinksToTVItem]
-
-            //Error: Type not implemented [TVItemStats]
-
-            //Error: Type not implemented [TVItemUserAuthorizationsContactTVItem]
-
-            //Error: Type not implemented [TVTypeUserAuthorizations]
-
-            //Error: Type not implemented [UseOfSitesSiteTVItem]
-
-            //Error: Type not implemented [UseOfSitesSubsectorTVItem]
-
-            //Error: Type not implemented [VPScenarios]
-
-            //Error: Type not implemented [Parent]
-
-            //Error: Type not implemented [InverseParent]
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [TVItemID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [TVLevel] of type [Int32]
-            //-----------------------------------
 
             tvItem = null;
             tvItem = GetFilledRandomTVItem("");
@@ -257,55 +124,100 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItem.ValidationResults.Count());
             Assert.AreEqual(0, tvItem.TVLevel);
             Assert.AreEqual(true, tvItemService.Delete(tvItem));
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
             // TVLevel has Min [0] and Max [100]. At Min + 1 should return true and no errors
             tvItem.TVLevel = 1;
             Assert.AreEqual(true, tvItemService.Add(tvItem));
             Assert.AreEqual(0, tvItem.ValidationResults.Count());
             Assert.AreEqual(1, tvItem.TVLevel);
             Assert.AreEqual(true, tvItemService.Delete(tvItem));
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
             // TVLevel has Min [0] and Max [100]. At Min - 1 should return false with one error
             tvItem.TVLevel = -1;
             Assert.AreEqual(false, tvItemService.Add(tvItem));
             Assert.IsTrue(tvItem.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVItemTVLevel, "0", "100")).Any());
             Assert.AreEqual(-1, tvItem.TVLevel);
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
             // TVLevel has Min [0] and Max [100]. At Max should return true and no errors
             tvItem.TVLevel = 100;
             Assert.AreEqual(true, tvItemService.Add(tvItem));
             Assert.AreEqual(0, tvItem.ValidationResults.Count());
             Assert.AreEqual(100, tvItem.TVLevel);
             Assert.AreEqual(true, tvItemService.Delete(tvItem));
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
             // TVLevel has Min [0] and Max [100]. At Max - 1 should return true and no errors
             tvItem.TVLevel = 99;
             Assert.AreEqual(true, tvItemService.Add(tvItem));
             Assert.AreEqual(0, tvItem.ValidationResults.Count());
             Assert.AreEqual(99, tvItem.TVLevel);
             Assert.AreEqual(true, tvItemService.Delete(tvItem));
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
             // TVLevel has Min [0] and Max [100]. At Max + 1 should return false with one error
             tvItem.TVLevel = 101;
             Assert.AreEqual(false, tvItemService.Add(tvItem));
             Assert.IsTrue(tvItem.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVItemTVLevel, "0", "100")).Any());
             Assert.AreEqual(101, tvItem.TVLevel);
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TVPath] of type [String]
+            //Is NOT Nullable
+            //[StringLength(250))]
+            // tvItem.TVPath   (String)
             //-----------------------------------
+            tvItem = null;
+            tvItem = GetFilledRandomTVItem("TVPath");
+            Assert.AreEqual(false, tvItemService.Add(tvItem));
+            Assert.AreEqual(1, tvItem.ValidationResults.Count());
+            Assert.IsTrue(tvItem.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVPath)).Any());
+            Assert.AreEqual(null, tvItem.TVPath);
+            Assert.AreEqual(0, tvItemService.GetRead().Count());
+
 
             tvItem = null;
             tvItem = GetFilledRandomTVItem("");
 
-            //-----------------------------------
-            // doing property [TVType] of type [TVTypeEnum]
-            //-----------------------------------
+            // TVPath has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
+            string tvItemTVPathMin = GetRandomString("", 250);
+            tvItem.TVPath = tvItemTVPathMin;
+            Assert.AreEqual(true, tvItemService.Add(tvItem));
+            Assert.AreEqual(0, tvItem.ValidationResults.Count());
+            Assert.AreEqual(tvItemTVPathMin, tvItem.TVPath);
+            Assert.AreEqual(true, tvItemService.Delete(tvItem));
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
+
+            // TVPath has MinLength [empty] and MaxLength [250]. At Max - 1 should return true and no errors
+            tvItemTVPathMin = GetRandomString("", 249);
+            tvItem.TVPath = tvItemTVPathMin;
+            Assert.AreEqual(true, tvItemService.Add(tvItem));
+            Assert.AreEqual(0, tvItem.ValidationResults.Count());
+            Assert.AreEqual(tvItemTVPathMin, tvItem.TVPath);
+            Assert.AreEqual(true, tvItemService.Delete(tvItem));
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
+
+            // TVPath has MinLength [empty] and MaxLength [250]. At Max + 1 should return false with one error
+            tvItemTVPathMin = GetRandomString("", 251);
+            tvItem.TVPath = tvItemTVPathMin;
+            Assert.AreEqual(false, tvItemService.Add(tvItem));
+            Assert.IsTrue(tvItem.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemTVPath, "250")).Any());
+            Assert.AreEqual(tvItemTVPathMin, tvItem.TVPath);
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [ParentID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // tvItem.TVType   (TVTypeEnum)
             //-----------------------------------
+            // TVType will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // tvItem.ParentID   (Int32)
+            //-----------------------------------
+            // ParentID will automatically be initialized at 0 --> not null
+
 
             tvItem = null;
             tvItem = GetFilledRandomTVItem("");
@@ -315,32 +227,44 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItem.ValidationResults.Count());
             Assert.AreEqual(1, tvItem.ParentID);
             Assert.AreEqual(true, tvItemService.Delete(tvItem));
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
             // ParentID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             tvItem.ParentID = 2;
             Assert.AreEqual(true, tvItemService.Add(tvItem));
             Assert.AreEqual(0, tvItem.ValidationResults.Count());
             Assert.AreEqual(2, tvItem.ParentID);
             Assert.AreEqual(true, tvItemService.Delete(tvItem));
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
             // ParentID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvItem.ParentID = 0;
             Assert.AreEqual(false, tvItemService.Add(tvItem));
             Assert.IsTrue(tvItem.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemParentID, "1")).Any());
             Assert.AreEqual(0, tvItem.ParentID);
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [IsActive] of type [Boolean]
+            //Is NOT Nullable
+            // tvItem.IsActive   (Boolean)
             //-----------------------------------
+            // IsActive will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // tvItem.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // tvItem.LastUpdateContactTVItemID   (Int32)
             //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             tvItem = null;
             tvItem = GetFilledRandomTVItem("");
@@ -350,241 +274,350 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItem.ValidationResults.Count());
             Assert.AreEqual(1, tvItem.LastUpdateContactTVItemID);
             Assert.AreEqual(true, tvItemService.Delete(tvItem));
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             tvItem.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, tvItemService.Add(tvItem));
             Assert.AreEqual(0, tvItem.ValidationResults.Count());
             Assert.AreEqual(2, tvItem.LastUpdateContactTVItemID);
             Assert.AreEqual(true, tvItemService.Delete(tvItem));
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvItem.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, tvItemService.Add(tvItem));
             Assert.IsTrue(tvItem.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, tvItem.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, tvItemService.GetRead().Count());
+            Assert.AreEqual(count, tvItemService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [AddressesAddressTVItem] of type [ICollection`1]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [AddressesCountryTVItem] of type [ICollection`1]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [AddressesMunicipalityTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.AddressesAddressTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [AddressesProvinceTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.AddressesCountryTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [AppTasks] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.AddressesMunicipalityTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [BoxModels] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.AddressesProvinceTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ClimateSites] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.AppTasks   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Contacts] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.BoxModels   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [DocTemplates] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.ClimateSites   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Emails] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.Contacts   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [EmailDistributionLists] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.DocTemplates   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [HydrometricSites] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.Emails   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Infrastructures] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.EmailDistributionLists   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LabSheetDetails] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.HydrometricSites   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LabSheetsAcceptedOrRejectedByContactTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.Infrastructures   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LabSheetsMWQMRunTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.LabSheetDetails   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LabSheetsSubsectorTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.LabSheetsAcceptedOrRejectedByContactTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [LabSheetTubeMPNDetails] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.LabSheetsMWQMRunTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MapInfos] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.LabSheetsSubsectorTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MikeBoundaryConditions] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.LabSheetTubeMPNDetails   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MikeScenarios] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.MapInfos   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MikeSources] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.MikeBoundaryConditions   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MWQMRunsLabSampleApprovalContactTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.MikeScenarios   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MWQMRunsMWQMRunTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.MikeSources   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MWQMRunsSubsectorTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.MWQMRunsLabSampleApprovalContactTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MWQMSampleMWQMRunTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.MWQMRunsMWQMRunTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MWQMSampleMWQMSiteTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.MWQMRunsSubsectorTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MWQMSites] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.MWQMSampleMWQMRunTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MWQMSiteStartEndDates] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.MWQMSampleMWQMSiteTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MWQMSubsectors] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.MWQMSites   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [PolSourceObservationsContactTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.MWQMSiteStartEndDates   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [PolSourceSites] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.MWQMSubsectors   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SamplingPlansCreatorTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.PolSourceObservationsContactTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SamplingPlansProvinceTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.PolSourceSites   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SamplingPlansSamplingPlanFileTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.SamplingPlansCreatorTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SamplingPlanSubsectors] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.SamplingPlansProvinceTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SamplingPlanSubsectorSites] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.SamplingPlansSamplingPlanFileTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SpillsInfrastructureTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.SamplingPlanSubsectors   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SpillsMunicipalityTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.SamplingPlanSubsectorSites   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Tels] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.SpillsInfrastructureTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TideDataValues] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.SpillsMunicipalityTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TideSites] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.Tels   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TVFiles] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.TideDataValues   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TVItemLanguages] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.TideSites   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TVItemLinksFromTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.TVFiles   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TVItemLinksToTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.TVItemLanguages   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TVItemStats] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.TVItemLinksFromTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TVItemUserAuthorizationsContactTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.TVItemLinksToTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TVTypeUserAuthorizations] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.TVItemStats   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [UseOfSitesSiteTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.TVItemUserAuthorizationsContactTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [UseOfSitesSubsectorTVItem] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.TVTypeUserAuthorizations   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [VPScenarios] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.UseOfSitesSiteTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Parent] of type [TVItem]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.UseOfSitesSubsectorTVItem   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [InverseParent] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.VPScenarios   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.Parent   (TVItem)
             //-----------------------------------
 
+            //-----------------------------------
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItem.InverseParent   (ICollection`1)
+            //-----------------------------------
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[NotMapped]
+            // tvItem.ValidationResults   (IEnumerable`1)
+            //-----------------------------------
         }
         #endregion Tests Generated
     }

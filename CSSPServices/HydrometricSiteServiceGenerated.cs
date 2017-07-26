@@ -60,19 +60,9 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.HydrometricSiteHydrometricSiteTVItemID, hydrometricSite.HydrometricSiteTVItemID.ToString()), new[] { ModelsRes.HydrometricSiteHydrometricSiteTVItemID });
             }
 
-            if (string.IsNullOrWhiteSpace(hydrometricSite.FedSiteNumber))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteFedSiteNumber), new[] { ModelsRes.HydrometricSiteFedSiteNumber });
-            }
-
             if (!string.IsNullOrWhiteSpace(hydrometricSite.FedSiteNumber) && hydrometricSite.FedSiteNumber.Length > 7)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteFedSiteNumber, "7"), new[] { ModelsRes.HydrometricSiteFedSiteNumber });
-            }
-
-            if (string.IsNullOrWhiteSpace(hydrometricSite.QuebecSiteNumber))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteQuebecSiteNumber), new[] { ModelsRes.HydrometricSiteQuebecSiteNumber });
             }
 
             if (!string.IsNullOrWhiteSpace(hydrometricSite.QuebecSiteNumber) && hydrometricSite.QuebecSiteNumber.Length > 7)
@@ -80,19 +70,24 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteQuebecSiteNumber, "7"), new[] { ModelsRes.HydrometricSiteQuebecSiteNumber });
             }
 
+            if (string.IsNullOrWhiteSpace(hydrometricSite.HydrometricSiteName))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteHydrometricSiteName), new[] { ModelsRes.HydrometricSiteHydrometricSiteName });
+            }
+
             if (!string.IsNullOrWhiteSpace(hydrometricSite.HydrometricSiteName) && hydrometricSite.HydrometricSiteName.Length > 200)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteHydrometricSiteName, "200"), new[] { ModelsRes.HydrometricSiteHydrometricSiteName });
             }
 
-            if (string.IsNullOrWhiteSpace(hydrometricSite.Description))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteDescription), new[] { ModelsRes.HydrometricSiteDescription });
-            }
-
             if (!string.IsNullOrWhiteSpace(hydrometricSite.Description) && hydrometricSite.Description.Length > 200)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteDescription, "200"), new[] { ModelsRes.HydrometricSiteDescription });
+            }
+
+            if (string.IsNullOrWhiteSpace(hydrometricSite.Province))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteProvince), new[] { ModelsRes.HydrometricSiteProvince });
             }
 
             if (!string.IsNullOrWhiteSpace(hydrometricSite.Province) && hydrometricSite.Province.Length > 4)
@@ -139,14 +134,16 @@ namespace CSSPServices
                 }
             }
 
-            if (hydrometricSite.LastUpdateDate_UTC == null)
+            if (hydrometricSite.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteLastUpdateDate_UTC), new[] { ModelsRes.HydrometricSiteLastUpdateDate_UTC });
             }
-
-            if (hydrometricSite.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.HydrometricSiteLastUpdateDate_UTC, "1980"), new[] { ModelsRes.HydrometricSiteLastUpdateDate_UTC });
+                if (hydrometricSite.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.HydrometricSiteLastUpdateDate_UTC, "1980"), new[] { ModelsRes.HydrometricSiteLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

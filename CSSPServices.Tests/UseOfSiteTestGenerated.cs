@@ -39,19 +39,19 @@ namespace CSSPServices.Tests
         {
             UseOfSite useOfSite = new UseOfSite();
 
-            if (OmitPropName != "SiteTVItemID") useOfSite.SiteTVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "SiteTVItemID") useOfSite.SiteTVItemID = 2;
             if (OmitPropName != "SubsectorTVItemID") useOfSite.SubsectorTVItemID = 11;
             if (OmitPropName != "SiteType") useOfSite.SiteType = (SiteTypeEnum)GetRandomEnumType(typeof(SiteTypeEnum));
             if (OmitPropName != "Ordinal") useOfSite.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "StartYear") useOfSite.StartYear = GetRandomInt(1980, 2050);
             if (OmitPropName != "EndYear") useOfSite.EndYear = GetRandomInt(1980, 2050);
             if (OmitPropName != "UseWeight") useOfSite.UseWeight = true;
-            if (OmitPropName != "Weight_perc") useOfSite.Weight_perc = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "Weight_perc") useOfSite.Weight_perc = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "UseEquation") useOfSite.UseEquation = true;
-            if (OmitPropName != "Param1") useOfSite.Param1 = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Param2") useOfSite.Param2 = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Param3") useOfSite.Param3 = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Param4") useOfSite.Param4 = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "Param1") useOfSite.Param1 = GetRandomDouble(0.0D, 100.0D);
+            if (OmitPropName != "Param2") useOfSite.Param2 = GetRandomDouble(0.0D, 100.0D);
+            if (OmitPropName != "Param3") useOfSite.Param3 = GetRandomDouble(0.0D, 100.0D);
+            if (OmitPropName != "Param4") useOfSite.Param4 = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "LastUpdateDate_UTC") useOfSite.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") useOfSite.LastUpdateContactTVItemID = 2;
 
@@ -101,61 +101,29 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // useOfSite.UseOfSiteID   (Int32)
+            //-----------------------------------
+            useOfSite = GetFilledRandomUseOfSite("");
+            useOfSite.UseOfSiteID = 0;
+            useOfSiteService.Update(useOfSite);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteUseOfSiteID), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // useOfSite.SiteTVItemID   (Int32)
+            //-----------------------------------
             // SiteTVItemID will automatically be initialized at 0 --> not null
 
-            // SubsectorTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [SiteType]
-
-            // Ordinal will automatically be initialized at 0 --> not null
-
-            // StartYear will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [Weight_perc]
-
-            //Error: Type not implemented [Param1]
-
-            //Error: Type not implemented [Param2]
-
-            //Error: Type not implemented [Param3]
-
-            //Error: Type not implemented [Param4]
-
-            useOfSite = null;
-            useOfSite = GetFilledRandomUseOfSite("LastUpdateDate_UTC");
-            Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-            Assert.AreEqual(1, useOfSite.ValidationResults.Count());
-            Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(useOfSite.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [SiteTVItem]
-
-            //Error: Type not implemented [SubsectorTVItem]
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [UseOfSiteID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [SiteTVItemID] of type [Int32]
-            //-----------------------------------
 
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
@@ -165,24 +133,29 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(1, useOfSite.SiteTVItemID);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // SiteTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             useOfSite.SiteTVItemID = 2;
             Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(2, useOfSite.SiteTVItemID);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // SiteTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             useOfSite.SiteTVItemID = 0;
             Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
             Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.UseOfSiteSiteTVItemID, "1")).Any());
             Assert.AreEqual(0, useOfSite.SiteTVItemID);
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [SubsectorTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Subsector)]
+            //[Range(1, -1)]
+            // useOfSite.SubsectorTVItemID   (Int32)
             //-----------------------------------
+            // SubsectorTVItemID will automatically be initialized at 0 --> not null
+
 
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
@@ -192,28 +165,36 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(1, useOfSite.SubsectorTVItemID);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // SubsectorTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             useOfSite.SubsectorTVItemID = 2;
             Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(2, useOfSite.SubsectorTVItemID);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // SubsectorTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             useOfSite.SubsectorTVItemID = 0;
             Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
             Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.UseOfSiteSubsectorTVItemID, "1")).Any());
             Assert.AreEqual(0, useOfSite.SubsectorTVItemID);
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [SiteType] of type [SiteTypeEnum]
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // useOfSite.SiteType   (SiteTypeEnum)
             //-----------------------------------
+            // SiteType will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [Ordinal] of type [Int32]
+            //Is NOT Nullable
+            //[Range(0, 1000)]
+            // useOfSite.Ordinal   (Int32)
             //-----------------------------------
+            // Ordinal will automatically be initialized at 0 --> not null
+
 
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
@@ -223,44 +204,48 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(0, useOfSite.Ordinal);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // Ordinal has Min [0] and Max [1000]. At Min + 1 should return true and no errors
             useOfSite.Ordinal = 1;
             Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(1, useOfSite.Ordinal);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // Ordinal has Min [0] and Max [1000]. At Min - 1 should return false with one error
             useOfSite.Ordinal = -1;
             Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
             Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteOrdinal, "0", "1000")).Any());
             Assert.AreEqual(-1, useOfSite.Ordinal);
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // Ordinal has Min [0] and Max [1000]. At Max should return true and no errors
             useOfSite.Ordinal = 1000;
             Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(1000, useOfSite.Ordinal);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // Ordinal has Min [0] and Max [1000]. At Max - 1 should return true and no errors
             useOfSite.Ordinal = 999;
             Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(999, useOfSite.Ordinal);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // Ordinal has Min [0] and Max [1000]. At Max + 1 should return false with one error
             useOfSite.Ordinal = 1001;
             Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
             Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteOrdinal, "0", "1000")).Any());
             Assert.AreEqual(1001, useOfSite.Ordinal);
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [StartYear] of type [Int32]
+            //Is NOT Nullable
+            //[Range(1980, 2050)]
+            // useOfSite.StartYear   (Int32)
             //-----------------------------------
+            // StartYear will automatically be initialized at 0 --> not null
+
 
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
@@ -270,43 +255,45 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(1980, useOfSite.StartYear);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // StartYear has Min [1980] and Max [2050]. At Min + 1 should return true and no errors
             useOfSite.StartYear = 1981;
             Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(1981, useOfSite.StartYear);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // StartYear has Min [1980] and Max [2050]. At Min - 1 should return false with one error
             useOfSite.StartYear = 1979;
             Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
             Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteStartYear, "1980", "2050")).Any());
             Assert.AreEqual(1979, useOfSite.StartYear);
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // StartYear has Min [1980] and Max [2050]. At Max should return true and no errors
             useOfSite.StartYear = 2050;
             Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(2050, useOfSite.StartYear);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // StartYear has Min [1980] and Max [2050]. At Max - 1 should return true and no errors
             useOfSite.StartYear = 2049;
             Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(2049, useOfSite.StartYear);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // StartYear has Min [1980] and Max [2050]. At Max + 1 should return false with one error
             useOfSite.StartYear = 2051;
             Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
             Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteStartYear, "1980", "2050")).Any());
             Assert.AreEqual(2051, useOfSite.StartYear);
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [EndYear] of type [Int32]
+            //Is Nullable
+            //[Range(1980, 2050)]
+            // useOfSite.EndYear   (Int32)
             //-----------------------------------
 
             useOfSite = null;
@@ -317,76 +304,322 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(1980, useOfSite.EndYear);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // EndYear has Min [1980] and Max [2050]. At Min + 1 should return true and no errors
             useOfSite.EndYear = 1981;
             Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(1981, useOfSite.EndYear);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // EndYear has Min [1980] and Max [2050]. At Min - 1 should return false with one error
             useOfSite.EndYear = 1979;
             Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
             Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteEndYear, "1980", "2050")).Any());
             Assert.AreEqual(1979, useOfSite.EndYear);
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // EndYear has Min [1980] and Max [2050]. At Max should return true and no errors
             useOfSite.EndYear = 2050;
             Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(2050, useOfSite.EndYear);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // EndYear has Min [1980] and Max [2050]. At Max - 1 should return true and no errors
             useOfSite.EndYear = 2049;
             Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(2049, useOfSite.EndYear);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // EndYear has Min [1980] and Max [2050]. At Max + 1 should return false with one error
             useOfSite.EndYear = 2051;
             Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
             Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteEndYear, "1980", "2050")).Any());
             Assert.AreEqual(2051, useOfSite.EndYear);
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [UseWeight] of type [Boolean]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [Weight_perc] of type [Double]
+            //Is Nullable
+            // useOfSite.UseWeight   (Boolean)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [UseEquation] of type [Boolean]
+            //Is Nullable
+            //[Range(0, 100)]
+            // useOfSite.Weight_perc   (Double)
+            //-----------------------------------
+            //Error: Type not implemented [Weight_perc]
+
+
+            useOfSite = null;
+            useOfSite = GetFilledRandomUseOfSite("");
+            // Weight_perc has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
+            useOfSite.Weight_perc = 0.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(0.0D, useOfSite.Weight_perc);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Weight_perc has Min [0.0D] and Max [100.0D]. At Min + 1 should return true and no errors
+            useOfSite.Weight_perc = 1.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(1.0D, useOfSite.Weight_perc);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Weight_perc has Min [0.0D] and Max [100.0D]. At Min - 1 should return false with one error
+            useOfSite.Weight_perc = -1.0D;
+            Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+            Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteWeight_perc, "0", "100")).Any());
+            Assert.AreEqual(-1.0D, useOfSite.Weight_perc);
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Weight_perc has Min [0.0D] and Max [100.0D]. At Max should return true and no errors
+            useOfSite.Weight_perc = 100.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(100.0D, useOfSite.Weight_perc);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Weight_perc has Min [0.0D] and Max [100.0D]. At Max - 1 should return true and no errors
+            useOfSite.Weight_perc = 99.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(99.0D, useOfSite.Weight_perc);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Weight_perc has Min [0.0D] and Max [100.0D]. At Max + 1 should return false with one error
+            useOfSite.Weight_perc = 101.0D;
+            Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+            Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteWeight_perc, "0", "100")).Any());
+            Assert.AreEqual(101.0D, useOfSite.Weight_perc);
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+
+            //-----------------------------------
+            //Is Nullable
+            // useOfSite.UseEquation   (Boolean)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [Param1] of type [Double]
+            //Is Nullable
+            //[Range(0, 100)]
+            // useOfSite.Param1   (Double)
             //-----------------------------------
+            //Error: Type not implemented [Param1]
+
+
+            useOfSite = null;
+            useOfSite = GetFilledRandomUseOfSite("");
+            // Param1 has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
+            useOfSite.Param1 = 0.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(0.0D, useOfSite.Param1);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param1 has Min [0.0D] and Max [100.0D]. At Min + 1 should return true and no errors
+            useOfSite.Param1 = 1.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(1.0D, useOfSite.Param1);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param1 has Min [0.0D] and Max [100.0D]. At Min - 1 should return false with one error
+            useOfSite.Param1 = -1.0D;
+            Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+            Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam1, "0", "100")).Any());
+            Assert.AreEqual(-1.0D, useOfSite.Param1);
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param1 has Min [0.0D] and Max [100.0D]. At Max should return true and no errors
+            useOfSite.Param1 = 100.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(100.0D, useOfSite.Param1);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param1 has Min [0.0D] and Max [100.0D]. At Max - 1 should return true and no errors
+            useOfSite.Param1 = 99.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(99.0D, useOfSite.Param1);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param1 has Min [0.0D] and Max [100.0D]. At Max + 1 should return false with one error
+            useOfSite.Param1 = 101.0D;
+            Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+            Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam1, "0", "100")).Any());
+            Assert.AreEqual(101.0D, useOfSite.Param1);
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Param2] of type [Double]
+            //Is Nullable
+            //[Range(0, 100)]
+            // useOfSite.Param2   (Double)
             //-----------------------------------
+            //Error: Type not implemented [Param2]
+
+
+            useOfSite = null;
+            useOfSite = GetFilledRandomUseOfSite("");
+            // Param2 has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
+            useOfSite.Param2 = 0.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(0.0D, useOfSite.Param2);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param2 has Min [0.0D] and Max [100.0D]. At Min + 1 should return true and no errors
+            useOfSite.Param2 = 1.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(1.0D, useOfSite.Param2);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param2 has Min [0.0D] and Max [100.0D]. At Min - 1 should return false with one error
+            useOfSite.Param2 = -1.0D;
+            Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+            Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam2, "0", "100")).Any());
+            Assert.AreEqual(-1.0D, useOfSite.Param2);
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param2 has Min [0.0D] and Max [100.0D]. At Max should return true and no errors
+            useOfSite.Param2 = 100.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(100.0D, useOfSite.Param2);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param2 has Min [0.0D] and Max [100.0D]. At Max - 1 should return true and no errors
+            useOfSite.Param2 = 99.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(99.0D, useOfSite.Param2);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param2 has Min [0.0D] and Max [100.0D]. At Max + 1 should return false with one error
+            useOfSite.Param2 = 101.0D;
+            Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+            Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam2, "0", "100")).Any());
+            Assert.AreEqual(101.0D, useOfSite.Param2);
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Param3] of type [Double]
+            //Is Nullable
+            //[Range(0, 100)]
+            // useOfSite.Param3   (Double)
             //-----------------------------------
+            //Error: Type not implemented [Param3]
+
+
+            useOfSite = null;
+            useOfSite = GetFilledRandomUseOfSite("");
+            // Param3 has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
+            useOfSite.Param3 = 0.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(0.0D, useOfSite.Param3);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param3 has Min [0.0D] and Max [100.0D]. At Min + 1 should return true and no errors
+            useOfSite.Param3 = 1.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(1.0D, useOfSite.Param3);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param3 has Min [0.0D] and Max [100.0D]. At Min - 1 should return false with one error
+            useOfSite.Param3 = -1.0D;
+            Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+            Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam3, "0", "100")).Any());
+            Assert.AreEqual(-1.0D, useOfSite.Param3);
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param3 has Min [0.0D] and Max [100.0D]. At Max should return true and no errors
+            useOfSite.Param3 = 100.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(100.0D, useOfSite.Param3);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param3 has Min [0.0D] and Max [100.0D]. At Max - 1 should return true and no errors
+            useOfSite.Param3 = 99.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(99.0D, useOfSite.Param3);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param3 has Min [0.0D] and Max [100.0D]. At Max + 1 should return false with one error
+            useOfSite.Param3 = 101.0D;
+            Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+            Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam3, "0", "100")).Any());
+            Assert.AreEqual(101.0D, useOfSite.Param3);
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Param4] of type [Double]
+            //Is Nullable
+            //[Range(0, 100)]
+            // useOfSite.Param4   (Double)
             //-----------------------------------
+            //Error: Type not implemented [Param4]
+
+
+            useOfSite = null;
+            useOfSite = GetFilledRandomUseOfSite("");
+            // Param4 has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
+            useOfSite.Param4 = 0.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(0.0D, useOfSite.Param4);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param4 has Min [0.0D] and Max [100.0D]. At Min + 1 should return true and no errors
+            useOfSite.Param4 = 1.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(1.0D, useOfSite.Param4);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param4 has Min [0.0D] and Max [100.0D]. At Min - 1 should return false with one error
+            useOfSite.Param4 = -1.0D;
+            Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+            Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam4, "0", "100")).Any());
+            Assert.AreEqual(-1.0D, useOfSite.Param4);
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param4 has Min [0.0D] and Max [100.0D]. At Max should return true and no errors
+            useOfSite.Param4 = 100.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(100.0D, useOfSite.Param4);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param4 has Min [0.0D] and Max [100.0D]. At Max - 1 should return true and no errors
+            useOfSite.Param4 = 99.0D;
+            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
+            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
+            Assert.AreEqual(99.0D, useOfSite.Param4);
+            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            // Param4 has Min [0.0D] and Max [100.0D]. At Max + 1 should return false with one error
+            useOfSite.Param4 = 101.0D;
+            Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+            Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam4, "0", "100")).Any());
+            Assert.AreEqual(101.0D, useOfSite.Param4);
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // useOfSite.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // useOfSite.LastUpdateContactTVItemID   (Int32)
             //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
@@ -396,33 +629,38 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(1, useOfSite.LastUpdateContactTVItemID);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             useOfSite.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
             Assert.AreEqual(0, useOfSite.ValidationResults.Count());
             Assert.AreEqual(2, useOfSite.LastUpdateContactTVItemID);
             Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             useOfSite.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
             Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.UseOfSiteLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, useOfSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, useOfSiteService.GetRead().Count());
+            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [SiteTVItem] of type [TVItem]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // useOfSite.SiteTVItem   (TVItem)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [SubsectorTVItem] of type [TVItem]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // useOfSite.SubsectorTVItem   (TVItem)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[NotMapped]
+            // useOfSite.ValidationResults   (IEnumerable`1)
             //-----------------------------------
-
         }
         #endregion Tests Generated
     }

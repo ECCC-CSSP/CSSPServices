@@ -46,15 +46,15 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LabSheetType") labSheetA1Sheet.LabSheetType = (LabSheetTypeEnum)GetRandomEnumType(typeof(LabSheetTypeEnum));
             if (OmitPropName != "SubsectorName") labSheetA1Sheet.SubsectorName = GetRandomString("", 20);
             if (OmitPropName != "SubsectorLocation") labSheetA1Sheet.SubsectorLocation = GetRandomString("", 20);
-            if (OmitPropName != "SubsectorTVItemID") labSheetA1Sheet.SubsectorTVItemID = GetRandomInt(1, 1000);
+            // should implement a Range for the property SubsectorTVItemID and type LabSheetA1Sheet
             if (OmitPropName != "RunYear") labSheetA1Sheet.RunYear = GetRandomString("", 20);
             if (OmitPropName != "RunMonth") labSheetA1Sheet.RunMonth = GetRandomString("", 20);
             if (OmitPropName != "RunDay") labSheetA1Sheet.RunDay = GetRandomString("", 20);
-            if (OmitPropName != "RunNumber") labSheetA1Sheet.RunNumber = GetRandomInt(1, 1000);
+            // should implement a Range for the property RunNumber and type LabSheetA1Sheet
             if (OmitPropName != "Tides") labSheetA1Sheet.Tides = GetRandomString("", 20);
             if (OmitPropName != "SampleCrewInitials") labSheetA1Sheet.SampleCrewInitials = GetRandomString("", 20);
             if (OmitPropName != "IncubationStartSameDay") labSheetA1Sheet.IncubationStartSameDay = GetRandomString("", 20);
-            if (OmitPropName != "WaterBathCount") labSheetA1Sheet.WaterBathCount = GetRandomInt(1, 1000);
+            // should implement a Range for the property WaterBathCount and type LabSheetA1Sheet
             if (OmitPropName != "IncubationBath1StartTime") labSheetA1Sheet.IncubationBath1StartTime = GetRandomString("", 20);
             if (OmitPropName != "IncubationBath2StartTime") labSheetA1Sheet.IncubationBath2StartTime = GetRandomString("", 20);
             if (OmitPropName != "IncubationBath3StartTime") labSheetA1Sheet.IncubationBath3StartTime = GetRandomString("", 20);
@@ -147,17 +147,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

@@ -76,14 +76,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNMPN_100ml, "1", "10000"), new[] { ModelsRes.MWQMLookupMPNMPN_100ml });
             }
 
-            if (mwqmLookupMPN.LastUpdateDate_UTC == null)
+            if (mwqmLookupMPN.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMLookupMPNLastUpdateDate_UTC), new[] { ModelsRes.MWQMLookupMPNLastUpdateDate_UTC });
             }
-
-            if (mwqmLookupMPN.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMLookupMPNLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MWQMLookupMPNLastUpdateDate_UTC });
+                if (mwqmLookupMPN.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMLookupMPNLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MWQMLookupMPNLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

@@ -74,14 +74,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000"), new[] { ModelsRes.RatingCurveValueDischargeValue_m3_s });
             }
 
-            if (ratingCurveValue.LastUpdateDate_UTC == null)
+            if (ratingCurveValue.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveValueLastUpdateDate_UTC), new[] { ModelsRes.RatingCurveValueLastUpdateDate_UTC });
             }
-
-            if (ratingCurveValue.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.RatingCurveValueLastUpdateDate_UTC, "1980"), new[] { ModelsRes.RatingCurveValueLastUpdateDate_UTC });
+                if (ratingCurveValue.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.RatingCurveValueLastUpdateDate_UTC, "1980"), new[] { ModelsRes.RatingCurveValueLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

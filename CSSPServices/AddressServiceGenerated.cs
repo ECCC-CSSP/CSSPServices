@@ -48,20 +48,16 @@ namespace CSSPServices
 
             //AddressID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (address.AddressTVItemID != null)
+            //AddressTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            if (address.AddressTVItemID < 1)
             {
-                if (address.AddressTVItemID < 1)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressAddressTVItemID, "1"), new[] { ModelsRes.AddressAddressTVItemID });
-                }
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressAddressTVItemID, "1"), new[] { ModelsRes.AddressAddressTVItemID });
             }
 
-            if (address.AddressTVItemID != null)
+            if (!((from c in db.TVItems where c.TVItemID == address.AddressTVItemID select c).Any()))
             {
-                if (!((from c in db.TVItems where c.TVItemID == address.AddressTVItemID select c).Any()))
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressAddressTVItemID, address.AddressTVItemID.ToString()), new[] { ModelsRes.AddressAddressTVItemID });
-                }
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressAddressTVItemID, address.AddressTVItemID.ToString()), new[] { ModelsRes.AddressAddressTVItemID });
             }
 
             retStr = enums.AddressTypeOK(address.AddressType);
@@ -135,14 +131,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressGoogleAddressText, "10", "200"), new[] { ModelsRes.AddressGoogleAddressText });
             }
 
-            if (address.LastUpdateDate_UTC == null)
+            if (address.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AddressLastUpdateDate_UTC), new[] { ModelsRes.AddressLastUpdateDate_UTC });
             }
-
-            if (address.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AddressLastUpdateDate_UTC, "1980"), new[] { ModelsRes.AddressLastUpdateDate_UTC });
+                if (address.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AddressLastUpdateDate_UTC, "1980"), new[] { ModelsRes.AddressLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

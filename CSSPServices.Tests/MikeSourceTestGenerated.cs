@@ -93,57 +93,29 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // mikeSource.MikeSourceID   (Int32)
+            //-----------------------------------
+            mikeSource = GetFilledRandomMikeSource("");
+            mikeSource.MikeSourceID = 0;
+            mikeSourceService.Update(mikeSource);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceMikeSourceID), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MikeSource)]
+            //[Range(1, -1)]
+            // mikeSource.MikeSourceTVItemID   (Int32)
+            //-----------------------------------
             // MikeSourceTVItemID will automatically be initialized at 0 --> not null
 
-            // IsContinuous will automatically be initialized at 0 --> not null
-
-            // Include will automatically be initialized at 0 --> not null
-
-            // IsRiver will automatically be initialized at 0 --> not null
-
-            mikeSource = null;
-            mikeSource = GetFilledRandomMikeSource("SourceNumberString");
-            Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
-            Assert.AreEqual(1, mikeSource.ValidationResults.Count());
-            Assert.IsTrue(mikeSource.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceSourceNumberString)).Any());
-            Assert.AreEqual(null, mikeSource.SourceNumberString);
-            Assert.AreEqual(0, mikeSourceService.GetRead().Count());
-
-            mikeSource = null;
-            mikeSource = GetFilledRandomMikeSource("LastUpdateDate_UTC");
-            Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
-            Assert.AreEqual(1, mikeSource.ValidationResults.Count());
-            Assert.IsTrue(mikeSource.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(mikeSource.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, mikeSourceService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [MikeSourceStartEnds]
-
-            //Error: Type not implemented [MikeSourceTVItem]
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [MikeSourceID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [MikeSourceTVItemID] of type [Int32]
-            //-----------------------------------
 
             mikeSource = null;
             mikeSource = GetFilledRandomMikeSource("");
@@ -153,47 +125,101 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeSource.ValidationResults.Count());
             Assert.AreEqual(1, mikeSource.MikeSourceTVItemID);
             Assert.AreEqual(true, mikeSourceService.Delete(mikeSource));
-            Assert.AreEqual(0, mikeSourceService.GetRead().Count());
+            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
             // MikeSourceTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             mikeSource.MikeSourceTVItemID = 2;
             Assert.AreEqual(true, mikeSourceService.Add(mikeSource));
             Assert.AreEqual(0, mikeSource.ValidationResults.Count());
             Assert.AreEqual(2, mikeSource.MikeSourceTVItemID);
             Assert.AreEqual(true, mikeSourceService.Delete(mikeSource));
-            Assert.AreEqual(0, mikeSourceService.GetRead().Count());
+            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
             // MikeSourceTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mikeSource.MikeSourceTVItemID = 0;
             Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
             Assert.IsTrue(mikeSource.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeSourceMikeSourceTVItemID, "1")).Any());
             Assert.AreEqual(0, mikeSource.MikeSourceTVItemID);
+            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
+
+            //-----------------------------------
+            //Is NOT Nullable
+            // mikeSource.IsContinuous   (Boolean)
+            //-----------------------------------
+            // IsContinuous will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            // mikeSource.Include   (Boolean)
+            //-----------------------------------
+            // Include will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            // mikeSource.IsRiver   (Boolean)
+            //-----------------------------------
+            // IsRiver will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[StringLength(50))]
+            // mikeSource.SourceNumberString   (String)
+            //-----------------------------------
+            mikeSource = null;
+            mikeSource = GetFilledRandomMikeSource("SourceNumberString");
+            Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
+            Assert.AreEqual(1, mikeSource.ValidationResults.Count());
+            Assert.IsTrue(mikeSource.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceSourceNumberString)).Any());
+            Assert.AreEqual(null, mikeSource.SourceNumberString);
             Assert.AreEqual(0, mikeSourceService.GetRead().Count());
 
-            //-----------------------------------
-            // doing property [IsContinuous] of type [Boolean]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [Include] of type [Boolean]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [IsRiver] of type [Boolean]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [SourceNumberString] of type [String]
-            //-----------------------------------
 
             mikeSource = null;
             mikeSource = GetFilledRandomMikeSource("");
 
-            //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
-            //-----------------------------------
+            // SourceNumberString has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
+            string mikeSourceSourceNumberStringMin = GetRandomString("", 50);
+            mikeSource.SourceNumberString = mikeSourceSourceNumberStringMin;
+            Assert.AreEqual(true, mikeSourceService.Add(mikeSource));
+            Assert.AreEqual(0, mikeSource.ValidationResults.Count());
+            Assert.AreEqual(mikeSourceSourceNumberStringMin, mikeSource.SourceNumberString);
+            Assert.AreEqual(true, mikeSourceService.Delete(mikeSource));
+            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
+
+            // SourceNumberString has MinLength [empty] and MaxLength [50]. At Max - 1 should return true and no errors
+            mikeSourceSourceNumberStringMin = GetRandomString("", 49);
+            mikeSource.SourceNumberString = mikeSourceSourceNumberStringMin;
+            Assert.AreEqual(true, mikeSourceService.Add(mikeSource));
+            Assert.AreEqual(0, mikeSource.ValidationResults.Count());
+            Assert.AreEqual(mikeSourceSourceNumberStringMin, mikeSource.SourceNumberString);
+            Assert.AreEqual(true, mikeSourceService.Delete(mikeSource));
+            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
+
+            // SourceNumberString has MinLength [empty] and MaxLength [50]. At Max + 1 should return false with one error
+            mikeSourceSourceNumberStringMin = GetRandomString("", 51);
+            mikeSource.SourceNumberString = mikeSourceSourceNumberStringMin;
+            Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
+            Assert.IsTrue(mikeSource.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceSourceNumberString, "50")).Any());
+            Assert.AreEqual(mikeSourceSourceNumberStringMin, mikeSource.SourceNumberString);
+            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // mikeSource.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // mikeSource.LastUpdateContactTVItemID   (Int32)
+            //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             mikeSource = null;
             mikeSource = GetFilledRandomMikeSource("");
@@ -203,33 +229,38 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeSource.ValidationResults.Count());
             Assert.AreEqual(1, mikeSource.LastUpdateContactTVItemID);
             Assert.AreEqual(true, mikeSourceService.Delete(mikeSource));
-            Assert.AreEqual(0, mikeSourceService.GetRead().Count());
+            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             mikeSource.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, mikeSourceService.Add(mikeSource));
             Assert.AreEqual(0, mikeSource.ValidationResults.Count());
             Assert.AreEqual(2, mikeSource.LastUpdateContactTVItemID);
             Assert.AreEqual(true, mikeSourceService.Delete(mikeSource));
-            Assert.AreEqual(0, mikeSourceService.GetRead().Count());
+            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mikeSource.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
             Assert.IsTrue(mikeSource.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeSourceLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, mikeSource.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, mikeSourceService.GetRead().Count());
+            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [MikeSourceStartEnds] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // mikeSource.MikeSourceStartEnds   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [MikeSourceTVItem] of type [TVItem]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // mikeSource.MikeSourceTVItem   (TVItem)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[NotMapped]
+            // mikeSource.ValidationResults   (IEnumerable`1)
             //-----------------------------------
-
         }
         #endregion Tests Generated
     }

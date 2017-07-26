@@ -81,14 +81,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointLng, "-180", "180"), new[] { ModelsRes.MapInfoPointLng });
             }
 
-            if (mapInfoPoint.LastUpdateDate_UTC == null)
+            if (mapInfoPoint.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoPointLastUpdateDate_UTC), new[] { ModelsRes.MapInfoPointLastUpdateDate_UTC });
             }
-
-            if (mapInfoPoint.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MapInfoPointLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MapInfoPointLastUpdateDate_UTC });
+                if (mapInfoPoint.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MapInfoPointLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MapInfoPointLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

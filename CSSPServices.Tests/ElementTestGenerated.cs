@@ -42,10 +42,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ID") element.ID = GetRandomInt(1, 11);
             if (OmitPropName != "Type") element.Type = GetRandomInt(1, 11);
             if (OmitPropName != "NumbOfNodes") element.NumbOfNodes = GetRandomInt(1, 11);
-            if (OmitPropName != "Value") element.Value = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "XNode0") element.XNode0 = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "YNode0") element.YNode0 = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "ZNode0") element.ZNode0 = GetRandomDouble(1.0D, 1000.0D);
+            // should implement a Range for the property Value and type Element
+            // should implement a Range for the property XNode0 and type Element
+            // should implement a Range for the property YNode0 and type Element
+            // should implement a Range for the property ZNode0 and type Element
 
             return element;
         }
@@ -72,17 +72,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

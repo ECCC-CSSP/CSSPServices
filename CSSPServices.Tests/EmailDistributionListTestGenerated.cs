@@ -91,53 +91,29 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // emailDistributionList.EmailDistributionListID   (Int32)
+            //-----------------------------------
+            emailDistributionList = GetFilledRandomEmailDistributionList("");
+            emailDistributionList.EmailDistributionListID = 0;
+            emailDistributionListService.Update(emailDistributionList);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListEmailDistributionListID), emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Country)]
+            //[Range(1, -1)]
+            // emailDistributionList.CountryTVItemID   (Int32)
+            //-----------------------------------
             // CountryTVItemID will automatically be initialized at 0 --> not null
 
-            emailDistributionList = null;
-            emailDistributionList = GetFilledRandomEmailDistributionList("RegionName");
-            Assert.AreEqual(false, emailDistributionListService.Add(emailDistributionList));
-            Assert.AreEqual(1, emailDistributionList.ValidationResults.Count());
-            Assert.IsTrue(emailDistributionList.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListRegionName)).Any());
-            Assert.AreEqual(null, emailDistributionList.RegionName);
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
-
-            // Ordinal will automatically be initialized at 0 --> not null
-
-            emailDistributionList = null;
-            emailDistributionList = GetFilledRandomEmailDistributionList("LastUpdateDate_UTC");
-            Assert.AreEqual(false, emailDistributionListService.Add(emailDistributionList));
-            Assert.AreEqual(1, emailDistributionList.ValidationResults.Count());
-            Assert.IsTrue(emailDistributionList.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(emailDistributionList.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [CountryTVItem]
-
-            //Error: Type not implemented [EmailDistributionListContacts]
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [EmailDistributionListID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [CountryTVItemID] of type [Int32]
-            //-----------------------------------
 
             emailDistributionList = null;
             emailDistributionList = GetFilledRandomEmailDistributionList("");
@@ -147,31 +123,71 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, emailDistributionList.ValidationResults.Count());
             Assert.AreEqual(1, emailDistributionList.CountryTVItemID);
             Assert.AreEqual(true, emailDistributionListService.Delete(emailDistributionList));
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
             // CountryTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             emailDistributionList.CountryTVItemID = 2;
             Assert.AreEqual(true, emailDistributionListService.Add(emailDistributionList));
             Assert.AreEqual(0, emailDistributionList.ValidationResults.Count());
             Assert.AreEqual(2, emailDistributionList.CountryTVItemID);
             Assert.AreEqual(true, emailDistributionListService.Delete(emailDistributionList));
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
             // CountryTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             emailDistributionList.CountryTVItemID = 0;
             Assert.AreEqual(false, emailDistributionListService.Add(emailDistributionList));
             Assert.IsTrue(emailDistributionList.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.EmailDistributionListCountryTVItemID, "1")).Any());
             Assert.AreEqual(0, emailDistributionList.CountryTVItemID);
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [RegionName] of type [String]
+            //Is NOT Nullable
+            //[StringLength(100))]
+            // emailDistributionList.RegionName   (String)
             //-----------------------------------
+            emailDistributionList = null;
+            emailDistributionList = GetFilledRandomEmailDistributionList("RegionName");
+            Assert.AreEqual(false, emailDistributionListService.Add(emailDistributionList));
+            Assert.AreEqual(1, emailDistributionList.ValidationResults.Count());
+            Assert.IsTrue(emailDistributionList.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListRegionName)).Any());
+            Assert.AreEqual(null, emailDistributionList.RegionName);
+            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
+
 
             emailDistributionList = null;
             emailDistributionList = GetFilledRandomEmailDistributionList("");
 
+            // RegionName has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
+            string emailDistributionListRegionNameMin = GetRandomString("", 100);
+            emailDistributionList.RegionName = emailDistributionListRegionNameMin;
+            Assert.AreEqual(true, emailDistributionListService.Add(emailDistributionList));
+            Assert.AreEqual(0, emailDistributionList.ValidationResults.Count());
+            Assert.AreEqual(emailDistributionListRegionNameMin, emailDistributionList.RegionName);
+            Assert.AreEqual(true, emailDistributionListService.Delete(emailDistributionList));
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
+
+            // RegionName has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
+            emailDistributionListRegionNameMin = GetRandomString("", 99);
+            emailDistributionList.RegionName = emailDistributionListRegionNameMin;
+            Assert.AreEqual(true, emailDistributionListService.Add(emailDistributionList));
+            Assert.AreEqual(0, emailDistributionList.ValidationResults.Count());
+            Assert.AreEqual(emailDistributionListRegionNameMin, emailDistributionList.RegionName);
+            Assert.AreEqual(true, emailDistributionListService.Delete(emailDistributionList));
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
+
+            // RegionName has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
+            emailDistributionListRegionNameMin = GetRandomString("", 101);
+            emailDistributionList.RegionName = emailDistributionListRegionNameMin;
+            Assert.AreEqual(false, emailDistributionListService.Add(emailDistributionList));
+            Assert.IsTrue(emailDistributionList.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListRegionName, "100")).Any());
+            Assert.AreEqual(emailDistributionListRegionNameMin, emailDistributionList.RegionName);
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
+
             //-----------------------------------
-            // doing property [Ordinal] of type [Int32]
+            //Is NOT Nullable
+            //[Range(0, 1000)]
+            // emailDistributionList.Ordinal   (Int32)
             //-----------------------------------
+            // Ordinal will automatically be initialized at 0 --> not null
+
 
             emailDistributionList = null;
             emailDistributionList = GetFilledRandomEmailDistributionList("");
@@ -181,48 +197,57 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, emailDistributionList.ValidationResults.Count());
             Assert.AreEqual(0, emailDistributionList.Ordinal);
             Assert.AreEqual(true, emailDistributionListService.Delete(emailDistributionList));
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
             // Ordinal has Min [0] and Max [1000]. At Min + 1 should return true and no errors
             emailDistributionList.Ordinal = 1;
             Assert.AreEqual(true, emailDistributionListService.Add(emailDistributionList));
             Assert.AreEqual(0, emailDistributionList.ValidationResults.Count());
             Assert.AreEqual(1, emailDistributionList.Ordinal);
             Assert.AreEqual(true, emailDistributionListService.Delete(emailDistributionList));
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
             // Ordinal has Min [0] and Max [1000]. At Min - 1 should return false with one error
             emailDistributionList.Ordinal = -1;
             Assert.AreEqual(false, emailDistributionListService.Add(emailDistributionList));
             Assert.IsTrue(emailDistributionList.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.EmailDistributionListOrdinal, "0", "1000")).Any());
             Assert.AreEqual(-1, emailDistributionList.Ordinal);
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
             // Ordinal has Min [0] and Max [1000]. At Max should return true and no errors
             emailDistributionList.Ordinal = 1000;
             Assert.AreEqual(true, emailDistributionListService.Add(emailDistributionList));
             Assert.AreEqual(0, emailDistributionList.ValidationResults.Count());
             Assert.AreEqual(1000, emailDistributionList.Ordinal);
             Assert.AreEqual(true, emailDistributionListService.Delete(emailDistributionList));
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
             // Ordinal has Min [0] and Max [1000]. At Max - 1 should return true and no errors
             emailDistributionList.Ordinal = 999;
             Assert.AreEqual(true, emailDistributionListService.Add(emailDistributionList));
             Assert.AreEqual(0, emailDistributionList.ValidationResults.Count());
             Assert.AreEqual(999, emailDistributionList.Ordinal);
             Assert.AreEqual(true, emailDistributionListService.Delete(emailDistributionList));
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
             // Ordinal has Min [0] and Max [1000]. At Max + 1 should return false with one error
             emailDistributionList.Ordinal = 1001;
             Assert.AreEqual(false, emailDistributionListService.Add(emailDistributionList));
             Assert.IsTrue(emailDistributionList.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.EmailDistributionListOrdinal, "0", "1000")).Any());
             Assert.AreEqual(1001, emailDistributionList.Ordinal);
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // emailDistributionList.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // emailDistributionList.LastUpdateContactTVItemID   (Int32)
             //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             emailDistributionList = null;
             emailDistributionList = GetFilledRandomEmailDistributionList("");
@@ -232,33 +257,38 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, emailDistributionList.ValidationResults.Count());
             Assert.AreEqual(1, emailDistributionList.LastUpdateContactTVItemID);
             Assert.AreEqual(true, emailDistributionListService.Delete(emailDistributionList));
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             emailDistributionList.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, emailDistributionListService.Add(emailDistributionList));
             Assert.AreEqual(0, emailDistributionList.ValidationResults.Count());
             Assert.AreEqual(2, emailDistributionList.LastUpdateContactTVItemID);
             Assert.AreEqual(true, emailDistributionListService.Delete(emailDistributionList));
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             emailDistributionList.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, emailDistributionListService.Add(emailDistributionList));
             Assert.IsTrue(emailDistributionList.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.EmailDistributionListLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, emailDistributionList.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, emailDistributionListService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [CountryTVItem] of type [TVItem]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // emailDistributionList.CountryTVItem   (TVItem)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [EmailDistributionListContacts] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // emailDistributionList.EmailDistributionListContacts   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[NotMapped]
+            // emailDistributionList.ValidationResults   (IEnumerable`1)
             //-----------------------------------
-
         }
         #endregion Tests Generated
     }

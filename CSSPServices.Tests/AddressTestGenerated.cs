@@ -98,55 +98,29 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
-            // -------------------------------
-            // -------------------------------
-
-            //Error: Type not implemented [AddressType]
-
-            // CountryTVItemID will automatically be initialized at 0 --> not null
-
-            // ProvinceTVItemID will automatically be initialized at 0 --> not null
-
-            // MunicipalityTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [StreetType]
-
-            address = null;
-            address = GetFilledRandomAddress("LastUpdateDate_UTC");
-            Assert.AreEqual(false, addressService.Add(address));
-            Assert.AreEqual(1, address.ValidationResults.Count());
-            Assert.IsTrue(address.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AddressLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(address.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, addressService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [AddressTVItem]
-
-            //Error: Type not implemented [CountryTVItem]
-
-            //Error: Type not implemented [MunicipalityTVItem]
-
-            //Error: Type not implemented [ProvinceTVItem]
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
 
             //-----------------------------------
-            // doing property [AddressID] of type [Int32]
+            //[Key]
+            //Is NOT Nullable
+            // address.AddressID   (Int32)
             //-----------------------------------
+            address = GetFilledRandomAddress("");
+            address.AddressID = 0;
+            addressService.Update(address);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AddressAddressID), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
             //-----------------------------------
-            // doing property [AddressTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Address)]
+            //[Range(1, -1)]
+            // address.AddressTVItemID   (Int32)
             //-----------------------------------
+            // AddressTVItemID will automatically be initialized at 0 --> not null
+
 
             address = null;
             address = GetFilledRandomAddress("");
@@ -156,28 +130,37 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, address.ValidationResults.Count());
             Assert.AreEqual(1, address.AddressTVItemID);
             Assert.AreEqual(true, addressService.Delete(address));
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
             // AddressTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             address.AddressTVItemID = 2;
             Assert.AreEqual(true, addressService.Add(address));
             Assert.AreEqual(0, address.ValidationResults.Count());
             Assert.AreEqual(2, address.AddressTVItemID);
             Assert.AreEqual(true, addressService.Delete(address));
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
             // AddressTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             address.AddressTVItemID = 0;
             Assert.AreEqual(false, addressService.Add(address));
             Assert.IsTrue(address.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressAddressTVItemID, "1")).Any());
             Assert.AreEqual(0, address.AddressTVItemID);
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [AddressType] of type [AddressTypeEnum]
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // address.AddressType   (AddressTypeEnum)
             //-----------------------------------
+            // AddressType will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [CountryTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Country)]
+            //[Range(1, -1)]
+            // address.CountryTVItemID   (Int32)
             //-----------------------------------
+            // CountryTVItemID will automatically be initialized at 0 --> not null
+
 
             address = null;
             address = GetFilledRandomAddress("");
@@ -187,24 +170,29 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, address.ValidationResults.Count());
             Assert.AreEqual(1, address.CountryTVItemID);
             Assert.AreEqual(true, addressService.Delete(address));
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
             // CountryTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             address.CountryTVItemID = 2;
             Assert.AreEqual(true, addressService.Add(address));
             Assert.AreEqual(0, address.ValidationResults.Count());
             Assert.AreEqual(2, address.CountryTVItemID);
             Assert.AreEqual(true, addressService.Delete(address));
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
             // CountryTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             address.CountryTVItemID = 0;
             Assert.AreEqual(false, addressService.Add(address));
             Assert.IsTrue(address.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressCountryTVItemID, "1")).Any());
             Assert.AreEqual(0, address.CountryTVItemID);
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [ProvinceTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Province)]
+            //[Range(1, -1)]
+            // address.ProvinceTVItemID   (Int32)
             //-----------------------------------
+            // ProvinceTVItemID will automatically be initialized at 0 --> not null
+
 
             address = null;
             address = GetFilledRandomAddress("");
@@ -214,24 +202,29 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, address.ValidationResults.Count());
             Assert.AreEqual(1, address.ProvinceTVItemID);
             Assert.AreEqual(true, addressService.Delete(address));
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
             // ProvinceTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             address.ProvinceTVItemID = 2;
             Assert.AreEqual(true, addressService.Add(address));
             Assert.AreEqual(0, address.ValidationResults.Count());
             Assert.AreEqual(2, address.ProvinceTVItemID);
             Assert.AreEqual(true, addressService.Delete(address));
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
             // ProvinceTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             address.ProvinceTVItemID = 0;
             Assert.AreEqual(false, addressService.Add(address));
             Assert.IsTrue(address.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressProvinceTVItemID, "1")).Any());
             Assert.AreEqual(0, address.ProvinceTVItemID);
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [MunicipalityTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Municipality)]
+            //[Range(1, -1)]
+            // address.MunicipalityTVItemID   (Int32)
             //-----------------------------------
+            // MunicipalityTVItemID will automatically be initialized at 0 --> not null
+
 
             address = null;
             address = GetFilledRandomAddress("");
@@ -241,60 +234,235 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, address.ValidationResults.Count());
             Assert.AreEqual(1, address.MunicipalityTVItemID);
             Assert.AreEqual(true, addressService.Delete(address));
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
             // MunicipalityTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             address.MunicipalityTVItemID = 2;
             Assert.AreEqual(true, addressService.Add(address));
             Assert.AreEqual(0, address.ValidationResults.Count());
             Assert.AreEqual(2, address.MunicipalityTVItemID);
             Assert.AreEqual(true, addressService.Delete(address));
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
             // MunicipalityTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             address.MunicipalityTVItemID = 0;
             Assert.AreEqual(false, addressService.Add(address));
             Assert.IsTrue(address.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressMunicipalityTVItemID, "1")).Any());
             Assert.AreEqual(0, address.MunicipalityTVItemID);
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [StreetName] of type [String]
-            //-----------------------------------
-
-            address = null;
-            address = GetFilledRandomAddress("");
-
-            //-----------------------------------
-            // doing property [StreetNumber] of type [String]
+            //Is Nullable
+            //[StringLength(200))]
+            // address.StreetName   (String)
             //-----------------------------------
 
             address = null;
             address = GetFilledRandomAddress("");
 
-            //-----------------------------------
-            // doing property [StreetType] of type [StreetTypeEnum]
-            //-----------------------------------
+            // StreetName has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
+            string addressStreetNameMin = GetRandomString("", 200);
+            address.StreetName = addressStreetNameMin;
+            Assert.AreEqual(true, addressService.Add(address));
+            Assert.AreEqual(0, address.ValidationResults.Count());
+            Assert.AreEqual(addressStreetNameMin, address.StreetName);
+            Assert.AreEqual(true, addressService.Delete(address));
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            // StreetName has MinLength [empty] and MaxLength [200]. At Max - 1 should return true and no errors
+            addressStreetNameMin = GetRandomString("", 199);
+            address.StreetName = addressStreetNameMin;
+            Assert.AreEqual(true, addressService.Add(address));
+            Assert.AreEqual(0, address.ValidationResults.Count());
+            Assert.AreEqual(addressStreetNameMin, address.StreetName);
+            Assert.AreEqual(true, addressService.Delete(address));
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            // StreetName has MinLength [empty] and MaxLength [200]. At Max + 1 should return false with one error
+            addressStreetNameMin = GetRandomString("", 201);
+            address.StreetName = addressStreetNameMin;
+            Assert.AreEqual(false, addressService.Add(address));
+            Assert.IsTrue(address.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressStreetName, "200")).Any());
+            Assert.AreEqual(addressStreetNameMin, address.StreetName);
+            Assert.AreEqual(count, addressService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [PostalCode] of type [String]
+            //Is Nullable
+            //[StringLength(50))]
+            // address.StreetNumber   (String)
             //-----------------------------------
 
             address = null;
             address = GetFilledRandomAddress("");
 
+            // StreetNumber has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
+            string addressStreetNumberMin = GetRandomString("", 50);
+            address.StreetNumber = addressStreetNumberMin;
+            Assert.AreEqual(true, addressService.Add(address));
+            Assert.AreEqual(0, address.ValidationResults.Count());
+            Assert.AreEqual(addressStreetNumberMin, address.StreetNumber);
+            Assert.AreEqual(true, addressService.Delete(address));
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            // StreetNumber has MinLength [empty] and MaxLength [50]. At Max - 1 should return true and no errors
+            addressStreetNumberMin = GetRandomString("", 49);
+            address.StreetNumber = addressStreetNumberMin;
+            Assert.AreEqual(true, addressService.Add(address));
+            Assert.AreEqual(0, address.ValidationResults.Count());
+            Assert.AreEqual(addressStreetNumberMin, address.StreetNumber);
+            Assert.AreEqual(true, addressService.Delete(address));
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            // StreetNumber has MinLength [empty] and MaxLength [50]. At Max + 1 should return false with one error
+            addressStreetNumberMin = GetRandomString("", 51);
+            address.StreetNumber = addressStreetNumberMin;
+            Assert.AreEqual(false, addressService.Add(address));
+            Assert.IsTrue(address.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressStreetNumber, "50")).Any());
+            Assert.AreEqual(addressStreetNumberMin, address.StreetNumber);
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
             //-----------------------------------
-            // doing property [GoogleAddressText] of type [String]
+            //Is Nullable
+            //[CSSPEnumType]
+            // address.StreetType   (StreetTypeEnum)
+            //-----------------------------------
+
+            //-----------------------------------
+            //Is Nullable
+            //[StringLength(11, MinimumLength = 6)]
+            // address.PostalCode   (String)
             //-----------------------------------
 
             address = null;
             address = GetFilledRandomAddress("");
 
-            //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
-            //-----------------------------------
+            // PostalCode has MinLength [6] and MaxLength [11]. At Min should return true and no errors
+            string addressPostalCodeMin = GetRandomString("", 6);
+            address.PostalCode = addressPostalCodeMin;
+            Assert.AreEqual(true, addressService.Add(address));
+            Assert.AreEqual(0, address.ValidationResults.Count());
+            Assert.AreEqual(addressPostalCodeMin, address.PostalCode);
+            Assert.AreEqual(true, addressService.Delete(address));
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            // PostalCode has MinLength [6] and MaxLength [11]. At Min + 1 should return true and no errors
+            addressPostalCodeMin = GetRandomString("", 7);
+            address.PostalCode = addressPostalCodeMin;
+            Assert.AreEqual(true, addressService.Add(address));
+            Assert.AreEqual(0, address.ValidationResults.Count());
+            Assert.AreEqual(addressPostalCodeMin, address.PostalCode);
+            Assert.AreEqual(true, addressService.Delete(address));
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            // PostalCode has MinLength [6] and MaxLength [11]. At Min - 1 should return false with one error
+            addressPostalCodeMin = GetRandomString("", 5);
+            address.PostalCode = addressPostalCodeMin;
+            Assert.AreEqual(false, addressService.Add(address));
+            Assert.IsTrue(address.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressPostalCode, "6", "11")).Any());
+            Assert.AreEqual(addressPostalCodeMin, address.PostalCode);
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            // PostalCode has MinLength [6] and MaxLength [11]. At Max should return true and no errors
+            addressPostalCodeMin = GetRandomString("", 11);
+            address.PostalCode = addressPostalCodeMin;
+            Assert.AreEqual(true, addressService.Add(address));
+            Assert.AreEqual(0, address.ValidationResults.Count());
+            Assert.AreEqual(addressPostalCodeMin, address.PostalCode);
+            Assert.AreEqual(true, addressService.Delete(address));
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            // PostalCode has MinLength [6] and MaxLength [11]. At Max - 1 should return true and no errors
+            addressPostalCodeMin = GetRandomString("", 10);
+            address.PostalCode = addressPostalCodeMin;
+            Assert.AreEqual(true, addressService.Add(address));
+            Assert.AreEqual(0, address.ValidationResults.Count());
+            Assert.AreEqual(addressPostalCodeMin, address.PostalCode);
+            Assert.AreEqual(true, addressService.Delete(address));
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            // PostalCode has MinLength [6] and MaxLength [11]. At Max + 1 should return false with one error
+            addressPostalCodeMin = GetRandomString("", 12);
+            address.PostalCode = addressPostalCodeMin;
+            Assert.AreEqual(false, addressService.Add(address));
+            Assert.IsTrue(address.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressPostalCode, "6", "11")).Any());
+            Assert.AreEqual(addressPostalCodeMin, address.PostalCode);
+            Assert.AreEqual(count, addressService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is Nullable
+            //[StringLength(200, MinimumLength = 10)]
+            // address.GoogleAddressText   (String)
             //-----------------------------------
+
+            address = null;
+            address = GetFilledRandomAddress("");
+
+            // GoogleAddressText has MinLength [10] and MaxLength [200]. At Min should return true and no errors
+            string addressGoogleAddressTextMin = GetRandomString("", 10);
+            address.GoogleAddressText = addressGoogleAddressTextMin;
+            Assert.AreEqual(true, addressService.Add(address));
+            Assert.AreEqual(0, address.ValidationResults.Count());
+            Assert.AreEqual(addressGoogleAddressTextMin, address.GoogleAddressText);
+            Assert.AreEqual(true, addressService.Delete(address));
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            // GoogleAddressText has MinLength [10] and MaxLength [200]. At Min + 1 should return true and no errors
+            addressGoogleAddressTextMin = GetRandomString("", 11);
+            address.GoogleAddressText = addressGoogleAddressTextMin;
+            Assert.AreEqual(true, addressService.Add(address));
+            Assert.AreEqual(0, address.ValidationResults.Count());
+            Assert.AreEqual(addressGoogleAddressTextMin, address.GoogleAddressText);
+            Assert.AreEqual(true, addressService.Delete(address));
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            // GoogleAddressText has MinLength [10] and MaxLength [200]. At Min - 1 should return false with one error
+            addressGoogleAddressTextMin = GetRandomString("", 9);
+            address.GoogleAddressText = addressGoogleAddressTextMin;
+            Assert.AreEqual(false, addressService.Add(address));
+            Assert.IsTrue(address.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressGoogleAddressText, "10", "200")).Any());
+            Assert.AreEqual(addressGoogleAddressTextMin, address.GoogleAddressText);
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            // GoogleAddressText has MinLength [10] and MaxLength [200]. At Max should return true and no errors
+            addressGoogleAddressTextMin = GetRandomString("", 200);
+            address.GoogleAddressText = addressGoogleAddressTextMin;
+            Assert.AreEqual(true, addressService.Add(address));
+            Assert.AreEqual(0, address.ValidationResults.Count());
+            Assert.AreEqual(addressGoogleAddressTextMin, address.GoogleAddressText);
+            Assert.AreEqual(true, addressService.Delete(address));
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            // GoogleAddressText has MinLength [10] and MaxLength [200]. At Max - 1 should return true and no errors
+            addressGoogleAddressTextMin = GetRandomString("", 199);
+            address.GoogleAddressText = addressGoogleAddressTextMin;
+            Assert.AreEqual(true, addressService.Add(address));
+            Assert.AreEqual(0, address.ValidationResults.Count());
+            Assert.AreEqual(addressGoogleAddressTextMin, address.GoogleAddressText);
+            Assert.AreEqual(true, addressService.Delete(address));
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            // GoogleAddressText has MinLength [10] and MaxLength [200]. At Max + 1 should return false with one error
+            addressGoogleAddressTextMin = GetRandomString("", 201);
+            address.GoogleAddressText = addressGoogleAddressTextMin;
+            Assert.AreEqual(false, addressService.Add(address));
+            Assert.IsTrue(address.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressGoogleAddressText, "10", "200")).Any());
+            Assert.AreEqual(addressGoogleAddressTextMin, address.GoogleAddressText);
+            Assert.AreEqual(count, addressService.GetRead().Count());
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // address.LastUpdateDate_UTC   (DateTime)
+            //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // address.LastUpdateContactTVItemID   (Int32)
+            //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             address = null;
             address = GetFilledRandomAddress("");
@@ -304,41 +472,50 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, address.ValidationResults.Count());
             Assert.AreEqual(1, address.LastUpdateContactTVItemID);
             Assert.AreEqual(true, addressService.Delete(address));
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             address.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, addressService.Add(address));
             Assert.AreEqual(0, address.ValidationResults.Count());
             Assert.AreEqual(2, address.LastUpdateContactTVItemID);
             Assert.AreEqual(true, addressService.Delete(address));
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             address.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, addressService.Add(address));
             Assert.IsTrue(address.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AddressLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, address.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, addressService.GetRead().Count());
+            Assert.AreEqual(count, addressService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [AddressTVItem] of type [TVItem]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [CountryTVItem] of type [TVItem]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [MunicipalityTVItem] of type [TVItem]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // address.AddressTVItem   (TVItem)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ProvinceTVItem] of type [TVItem]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // address.CountryTVItem   (TVItem)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // address.MunicipalityTVItem   (TVItem)
             //-----------------------------------
 
+            //-----------------------------------
+            //Is NOT Nullable
+            //[IsVirtual]
+            // address.ProvinceTVItem   (TVItem)
+            //-----------------------------------
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[NotMapped]
+            // address.ValidationResults   (IEnumerable`1)
+            //-----------------------------------
         }
         #endregion Tests Generated
     }

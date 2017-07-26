@@ -39,8 +39,8 @@ namespace CSSPServices.Tests
         {
             AppTask appTask = new AppTask();
 
-            if (OmitPropName != "TVItemID") appTask.TVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "TVItemID2") appTask.TVItemID2 = GetRandomInt(1, 11);
+            if (OmitPropName != "TVItemID") appTask.TVItemID = 2;
+            if (OmitPropName != "TVItemID2") appTask.TVItemID2 = 2;
             if (OmitPropName != "AppTaskCommand") appTask.AppTaskCommand = (AppTaskCommandEnum)GetRandomEnumType(typeof(AppTaskCommandEnum));
             if (OmitPropName != "AppTaskStatus") appTask.AppTaskStatus = (AppTaskStatusEnum)GetRandomEnumType(typeof(AppTaskStatusEnum));
             if (OmitPropName != "PercentCompleted") appTask.PercentCompleted = GetRandomInt(0, 100);
@@ -99,69 +99,29 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // appTask.AppTaskID   (Int32)
+            //-----------------------------------
+            appTask = GetFilledRandomAppTask("");
+            appTask.AppTaskID = 0;
+            appTaskService.Update(appTask);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskID), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // appTask.TVItemID   (Int32)
+            //-----------------------------------
             // TVItemID will automatically be initialized at 0 --> not null
 
-            // TVItemID2 will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [AppTaskCommand]
-
-            //Error: Type not implemented [AppTaskStatus]
-
-            // PercentCompleted will automatically be initialized at 0 --> not null
-
-            appTask = null;
-            appTask = GetFilledRandomAppTask("Parameters");
-            Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.AreEqual(1, appTask.ValidationResults.Count());
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskParameters)).Any());
-            Assert.AreEqual(null, appTask.Parameters);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
-
-            //Error: Type not implemented [Language]
-
-            appTask = null;
-            appTask = GetFilledRandomAppTask("StartDateTime_UTC");
-            Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.AreEqual(1, appTask.ValidationResults.Count());
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskStartDateTime_UTC)).Any());
-            Assert.IsTrue(appTask.StartDateTime_UTC.Year < 1900);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
-
-            appTask = null;
-            appTask = GetFilledRandomAppTask("LastUpdateDate_UTC");
-            Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.AreEqual(1, appTask.ValidationResults.Count());
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(appTask.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [AppTaskLanguages]
-
-            //Error: Type not implemented [TVItem]
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [AppTaskID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [TVItemID] of type [Int32]
-            //-----------------------------------
 
             appTask = null;
             appTask = GetFilledRandomAppTask("");
@@ -171,24 +131,29 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(1, appTask.TVItemID);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // TVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             appTask.TVItemID = 2;
             Assert.AreEqual(true, appTaskService.Add(appTask));
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(2, appTask.TVItemID);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // TVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             appTask.TVItemID = 0;
             Assert.AreEqual(false, appTaskService.Add(appTask));
             Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskTVItemID, "1")).Any());
             Assert.AreEqual(0, appTask.TVItemID);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TVItemID2] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // appTask.TVItemID2   (Int32)
             //-----------------------------------
+            // TVItemID2 will automatically be initialized at 0 --> not null
+
 
             appTask = null;
             appTask = GetFilledRandomAppTask("");
@@ -198,32 +163,44 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(1, appTask.TVItemID2);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // TVItemID2 has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             appTask.TVItemID2 = 2;
             Assert.AreEqual(true, appTaskService.Add(appTask));
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(2, appTask.TVItemID2);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // TVItemID2 has Min [1] and Max [empty]. At Min - 1 should return false with one error
             appTask.TVItemID2 = 0;
             Assert.AreEqual(false, appTaskService.Add(appTask));
             Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskTVItemID2, "1")).Any());
             Assert.AreEqual(0, appTask.TVItemID2);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [AppTaskCommand] of type [AppTaskCommandEnum]
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // appTask.AppTaskCommand   (AppTaskCommandEnum)
             //-----------------------------------
+            // AppTaskCommand will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [AppTaskStatus] of type [AppTaskStatusEnum]
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // appTask.AppTaskStatus   (AppTaskStatusEnum)
             //-----------------------------------
+            // AppTaskStatus will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [PercentCompleted] of type [Int32]
+            //Is NOT Nullable
+            //[Range(0, 100)]
+            // appTask.PercentCompleted   (Int32)
             //-----------------------------------
+            // PercentCompleted will automatically be initialized at 0 --> not null
+
 
             appTask = null;
             appTask = GetFilledRandomAppTask("");
@@ -233,62 +210,84 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(0, appTask.PercentCompleted);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // PercentCompleted has Min [0] and Max [100]. At Min + 1 should return true and no errors
             appTask.PercentCompleted = 1;
             Assert.AreEqual(true, appTaskService.Add(appTask));
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(1, appTask.PercentCompleted);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // PercentCompleted has Min [0] and Max [100]. At Min - 1 should return false with one error
             appTask.PercentCompleted = -1;
             Assert.AreEqual(false, appTaskService.Add(appTask));
             Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskPercentCompleted, "0", "100")).Any());
             Assert.AreEqual(-1, appTask.PercentCompleted);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // PercentCompleted has Min [0] and Max [100]. At Max should return true and no errors
             appTask.PercentCompleted = 100;
             Assert.AreEqual(true, appTaskService.Add(appTask));
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(100, appTask.PercentCompleted);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // PercentCompleted has Min [0] and Max [100]. At Max - 1 should return true and no errors
             appTask.PercentCompleted = 99;
             Assert.AreEqual(true, appTaskService.Add(appTask));
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(99, appTask.PercentCompleted);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // PercentCompleted has Min [0] and Max [100]. At Max + 1 should return false with one error
             appTask.PercentCompleted = 101;
             Assert.AreEqual(false, appTaskService.Add(appTask));
             Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskPercentCompleted, "0", "100")).Any());
             Assert.AreEqual(101, appTask.PercentCompleted);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Parameters] of type [String]
+            //Is NOT Nullable
+            // appTask.Parameters   (String)
             //-----------------------------------
+            appTask = null;
+            appTask = GetFilledRandomAppTask("Parameters");
+            Assert.AreEqual(false, appTaskService.Add(appTask));
+            Assert.AreEqual(1, appTask.ValidationResults.Count());
+            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskParameters)).Any());
+            Assert.AreEqual(null, appTask.Parameters);
+            Assert.AreEqual(0, appTaskService.GetRead().Count());
+
 
             appTask = null;
             appTask = GetFilledRandomAppTask("");
 
             //-----------------------------------
-            // doing property [Language] of type [LanguageEnum]
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // appTask.Language   (LanguageEnum)
+            //-----------------------------------
+            // Language will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // appTask.StartDateTime_UTC   (DateTime)
+            //-----------------------------------
+            // StartDateTime_UTC will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is Nullable
+            //[CSSPAfter(Year = 1980)]
+            //[CSSPBigger(OtherField = StartDateTime_UTC)]
+            // appTask.EndDateTime_UTC   (DateTime)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [StartDateTime_UTC] of type [DateTime]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [EndDateTime_UTC] of type [DateTime]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [EstimatedLength_second] of type [Int32]
+            //Is Nullable
+            //[Range(0, 1000000)]
+            // appTask.EstimatedLength_second   (Int32)
             //-----------------------------------
 
             appTask = null;
@@ -299,43 +298,45 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(0, appTask.EstimatedLength_second);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // EstimatedLength_second has Min [0] and Max [1000000]. At Min + 1 should return true and no errors
             appTask.EstimatedLength_second = 1;
             Assert.AreEqual(true, appTaskService.Add(appTask));
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(1, appTask.EstimatedLength_second);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // EstimatedLength_second has Min [0] and Max [1000000]. At Min - 1 should return false with one error
             appTask.EstimatedLength_second = -1;
             Assert.AreEqual(false, appTaskService.Add(appTask));
             Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000")).Any());
             Assert.AreEqual(-1, appTask.EstimatedLength_second);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // EstimatedLength_second has Min [0] and Max [1000000]. At Max should return true and no errors
             appTask.EstimatedLength_second = 1000000;
             Assert.AreEqual(true, appTaskService.Add(appTask));
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(1000000, appTask.EstimatedLength_second);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // EstimatedLength_second has Min [0] and Max [1000000]. At Max - 1 should return true and no errors
             appTask.EstimatedLength_second = 999999;
             Assert.AreEqual(true, appTaskService.Add(appTask));
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(999999, appTask.EstimatedLength_second);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // EstimatedLength_second has Min [0] and Max [1000000]. At Max + 1 should return false with one error
             appTask.EstimatedLength_second = 1000001;
             Assert.AreEqual(false, appTaskService.Add(appTask));
             Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000")).Any());
             Assert.AreEqual(1000001, appTask.EstimatedLength_second);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [RemainingTime_second] of type [Int32]
+            //Is Nullable
+            //[Range(0, 1000000)]
+            // appTask.RemainingTime_second   (Int32)
             //-----------------------------------
 
             appTask = null;
@@ -346,48 +347,57 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(0, appTask.RemainingTime_second);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // RemainingTime_second has Min [0] and Max [1000000]. At Min + 1 should return true and no errors
             appTask.RemainingTime_second = 1;
             Assert.AreEqual(true, appTaskService.Add(appTask));
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(1, appTask.RemainingTime_second);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // RemainingTime_second has Min [0] and Max [1000000]. At Min - 1 should return false with one error
             appTask.RemainingTime_second = -1;
             Assert.AreEqual(false, appTaskService.Add(appTask));
             Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000")).Any());
             Assert.AreEqual(-1, appTask.RemainingTime_second);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // RemainingTime_second has Min [0] and Max [1000000]. At Max should return true and no errors
             appTask.RemainingTime_second = 1000000;
             Assert.AreEqual(true, appTaskService.Add(appTask));
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(1000000, appTask.RemainingTime_second);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // RemainingTime_second has Min [0] and Max [1000000]. At Max - 1 should return true and no errors
             appTask.RemainingTime_second = 999999;
             Assert.AreEqual(true, appTaskService.Add(appTask));
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(999999, appTask.RemainingTime_second);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // RemainingTime_second has Min [0] and Max [1000000]. At Max + 1 should return false with one error
             appTask.RemainingTime_second = 1000001;
             Assert.AreEqual(false, appTaskService.Add(appTask));
             Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000")).Any());
             Assert.AreEqual(1000001, appTask.RemainingTime_second);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // appTask.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // appTask.LastUpdateContactTVItemID   (Int32)
             //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             appTask = null;
             appTask = GetFilledRandomAppTask("");
@@ -397,33 +407,38 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(1, appTask.LastUpdateContactTVItemID);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             appTask.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, appTaskService.Add(appTask));
             Assert.AreEqual(0, appTask.ValidationResults.Count());
             Assert.AreEqual(2, appTask.LastUpdateContactTVItemID);
             Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             appTask.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, appTaskService.Add(appTask));
             Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, appTask.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [AppTaskLanguages] of type [ICollection`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // appTask.AppTaskLanguages   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [TVItem] of type [TVItem]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // appTask.TVItem   (TVItem)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[NotMapped]
+            // appTask.ValidationResults   (IEnumerable`1)
             //-----------------------------------
-
         }
         #endregion Tests Generated
     }

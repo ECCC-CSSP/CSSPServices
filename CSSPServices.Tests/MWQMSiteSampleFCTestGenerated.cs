@@ -42,19 +42,19 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Error") mwqmSiteSampleFC.Error = GetRandomString("", 20);
             if (OmitPropName != "SampleDate") mwqmSiteSampleFC.SampleDate = GetRandomDateTime();
             if (OmitPropName != "FC") mwqmSiteSampleFC.FC = GetRandomInt(1, 100000000);
-            if (OmitPropName != "Sal") mwqmSiteSampleFC.Sal = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Temp") mwqmSiteSampleFC.Temp = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "PH") mwqmSiteSampleFC.PH = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "DO") mwqmSiteSampleFC.DO = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Depth") mwqmSiteSampleFC.Depth = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "SampCount") mwqmSiteSampleFC.SampCount = GetRandomInt(1, 1000);
-            if (OmitPropName != "MinFC") mwqmSiteSampleFC.MinFC = GetRandomInt(1, 1000);
-            if (OmitPropName != "MaxFC") mwqmSiteSampleFC.MaxFC = GetRandomInt(1, 1000);
-            if (OmitPropName != "GeoMean") mwqmSiteSampleFC.GeoMean = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Median") mwqmSiteSampleFC.Median = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "P90") mwqmSiteSampleFC.P90 = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "PercOver43") mwqmSiteSampleFC.PercOver43 = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "PercOver260") mwqmSiteSampleFC.PercOver260 = GetRandomDouble(1.0D, 1000.0D);
+            // should implement a Range for the property Sal and type MWQMSiteSampleFC
+            // should implement a Range for the property Temp and type MWQMSiteSampleFC
+            // should implement a Range for the property PH and type MWQMSiteSampleFC
+            // should implement a Range for the property DO and type MWQMSiteSampleFC
+            // should implement a Range for the property Depth and type MWQMSiteSampleFC
+            // should implement a Range for the property SampCount and type MWQMSiteSampleFC
+            // should implement a Range for the property MinFC and type MWQMSiteSampleFC
+            // should implement a Range for the property MaxFC and type MWQMSiteSampleFC
+            // should implement a Range for the property GeoMean and type MWQMSiteSampleFC
+            // should implement a Range for the property Median and type MWQMSiteSampleFC
+            // should implement a Range for the property P90 and type MWQMSiteSampleFC
+            // should implement a Range for the property PercOver43 and type MWQMSiteSampleFC
+            // should implement a Range for the property PercOver260 and type MWQMSiteSampleFC
 
             return mwqmSiteSampleFC;
         }
@@ -81,17 +81,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

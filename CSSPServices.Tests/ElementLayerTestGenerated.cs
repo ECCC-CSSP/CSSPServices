@@ -40,8 +40,8 @@ namespace CSSPServices.Tests
             ElementLayer elementLayer = new ElementLayer();
 
             if (OmitPropName != "Layer") elementLayer.Layer = GetRandomInt(1, 1000);
-            if (OmitPropName != "ZMin") elementLayer.ZMin = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "ZMax") elementLayer.ZMax = GetRandomDouble(1.0D, 1000.0D);
+            // should implement a Range for the property ZMin and type ElementLayer
+            // should implement a Range for the property ZMax and type ElementLayer
 
             return elementLayer;
         }
@@ -68,17 +68,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

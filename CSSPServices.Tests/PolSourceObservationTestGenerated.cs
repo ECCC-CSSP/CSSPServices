@@ -39,7 +39,7 @@ namespace CSSPServices.Tests
         {
             PolSourceObservation polSourceObservation = new PolSourceObservation();
 
-            if (OmitPropName != "PolSourceSiteID") polSourceObservation.PolSourceSiteID = GetRandomInt(1, 11);
+            if (OmitPropName != "PolSourceSiteID") polSourceObservation.PolSourceSiteID = 1;
             if (OmitPropName != "ObservationDate_Local") polSourceObservation.ObservationDate_Local = GetRandomDateTime();
             if (OmitPropName != "ContactTVItemID") polSourceObservation.ContactTVItemID = 2;
             if (OmitPropName != "Observation_ToBeDeleted") polSourceObservation.Observation_ToBeDeleted = GetRandomString("", 20);
@@ -92,63 +92,29 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // polSourceObservation.PolSourceObservationID   (Int32)
+            //-----------------------------------
+            polSourceObservation = GetFilledRandomPolSourceObservation("");
+            polSourceObservation.PolSourceObservationID = 0;
+            polSourceObservationService.Update(polSourceObservation);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationPolSourceObservationID), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "PolSourceSite", Plurial = "s", FieldID = "PolSourceSiteID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // polSourceObservation.PolSourceSiteID   (Int32)
+            //-----------------------------------
             // PolSourceSiteID will automatically be initialized at 0 --> not null
 
-            polSourceObservation = null;
-            polSourceObservation = GetFilledRandomPolSourceObservation("ObservationDate_Local");
-            Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
-            Assert.AreEqual(1, polSourceObservation.ValidationResults.Count());
-            Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationObservationDate_Local)).Any());
-            Assert.IsTrue(polSourceObservation.ObservationDate_Local.Year < 1900);
-            Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
-
-            // ContactTVItemID will automatically be initialized at 0 --> not null
-
-            polSourceObservation = null;
-            polSourceObservation = GetFilledRandomPolSourceObservation("Observation_ToBeDeleted");
-            Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
-            Assert.AreEqual(1, polSourceObservation.ValidationResults.Count());
-            Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationObservation_ToBeDeleted)).Any());
-            Assert.AreEqual(null, polSourceObservation.Observation_ToBeDeleted);
-            Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
-
-            polSourceObservation = null;
-            polSourceObservation = GetFilledRandomPolSourceObservation("LastUpdateDate_UTC");
-            Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
-            Assert.AreEqual(1, polSourceObservation.ValidationResults.Count());
-            Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(polSourceObservation.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [PolSourceObservationIssues]
-
-            //Error: Type not implemented [ContactTVItem]
-
-            //Error: Type not implemented [PolSourceSite]
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [PolSourceObservationID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [PolSourceSiteID] of type [Int32]
-            //-----------------------------------
 
             polSourceObservation = null;
             polSourceObservation = GetFilledRandomPolSourceObservation("");
@@ -158,28 +124,37 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, polSourceObservation.ValidationResults.Count());
             Assert.AreEqual(1, polSourceObservation.PolSourceSiteID);
             Assert.AreEqual(true, polSourceObservationService.Delete(polSourceObservation));
-            Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
+            Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
             // PolSourceSiteID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             polSourceObservation.PolSourceSiteID = 2;
             Assert.AreEqual(true, polSourceObservationService.Add(polSourceObservation));
             Assert.AreEqual(0, polSourceObservation.ValidationResults.Count());
             Assert.AreEqual(2, polSourceObservation.PolSourceSiteID);
             Assert.AreEqual(true, polSourceObservationService.Delete(polSourceObservation));
-            Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
+            Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
             // PolSourceSiteID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             polSourceObservation.PolSourceSiteID = 0;
             Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
             Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceObservationPolSourceSiteID, "1")).Any());
             Assert.AreEqual(0, polSourceObservation.PolSourceSiteID);
-            Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
+            Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [ObservationDate_Local] of type [DateTime]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // polSourceObservation.ObservationDate_Local   (DateTime)
             //-----------------------------------
+            // ObservationDate_Local will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [ContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // polSourceObservation.ContactTVItemID   (Int32)
             //-----------------------------------
+            // ContactTVItemID will automatically be initialized at 0 --> not null
+
 
             polSourceObservation = null;
             polSourceObservation = GetFilledRandomPolSourceObservation("");
@@ -189,35 +164,53 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, polSourceObservation.ValidationResults.Count());
             Assert.AreEqual(1, polSourceObservation.ContactTVItemID);
             Assert.AreEqual(true, polSourceObservationService.Delete(polSourceObservation));
-            Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
+            Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
             // ContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             polSourceObservation.ContactTVItemID = 2;
             Assert.AreEqual(true, polSourceObservationService.Add(polSourceObservation));
             Assert.AreEqual(0, polSourceObservation.ValidationResults.Count());
             Assert.AreEqual(2, polSourceObservation.ContactTVItemID);
             Assert.AreEqual(true, polSourceObservationService.Delete(polSourceObservation));
-            Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
+            Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
             // ContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             polSourceObservation.ContactTVItemID = 0;
             Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
             Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceObservationContactTVItemID, "1")).Any());
             Assert.AreEqual(0, polSourceObservation.ContactTVItemID);
-            Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
+            Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Observation_ToBeDeleted] of type [String]
+            //Is NOT Nullable
+            // polSourceObservation.Observation_ToBeDeleted   (String)
             //-----------------------------------
+            polSourceObservation = null;
+            polSourceObservation = GetFilledRandomPolSourceObservation("Observation_ToBeDeleted");
+            Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
+            Assert.AreEqual(1, polSourceObservation.ValidationResults.Count());
+            Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationObservation_ToBeDeleted)).Any());
+            Assert.AreEqual(null, polSourceObservation.Observation_ToBeDeleted);
+            Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
+
 
             polSourceObservation = null;
             polSourceObservation = GetFilledRandomPolSourceObservation("");
 
             //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // polSourceObservation.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // polSourceObservation.LastUpdateContactTVItemID   (Int32)
             //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             polSourceObservation = null;
             polSourceObservation = GetFilledRandomPolSourceObservation("");
@@ -227,37 +220,44 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, polSourceObservation.ValidationResults.Count());
             Assert.AreEqual(1, polSourceObservation.LastUpdateContactTVItemID);
             Assert.AreEqual(true, polSourceObservationService.Delete(polSourceObservation));
-            Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
+            Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             polSourceObservation.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, polSourceObservationService.Add(polSourceObservation));
             Assert.AreEqual(0, polSourceObservation.ValidationResults.Count());
             Assert.AreEqual(2, polSourceObservation.LastUpdateContactTVItemID);
             Assert.AreEqual(true, polSourceObservationService.Delete(polSourceObservation));
-            Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
+            Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             polSourceObservation.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
             Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, polSourceObservation.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
+            Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [PolSourceObservationIssues] of type [ICollection`1]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [ContactTVItem] of type [TVItem]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [PolSourceSite] of type [PolSourceSite]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // polSourceObservation.PolSourceObservationIssues   (ICollection`1)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // polSourceObservation.ContactTVItem   (TVItem)
             //-----------------------------------
 
+            //-----------------------------------
+            //Is NOT Nullable
+            //[IsVirtual]
+            // polSourceObservation.PolSourceSite   (PolSourceSite)
+            //-----------------------------------
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[NotMapped]
+            // polSourceObservation.ValidationResults   (IEnumerable`1)
+            //-----------------------------------
         }
         #endregion Tests Generated
     }

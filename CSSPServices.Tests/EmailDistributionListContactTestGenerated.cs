@@ -39,7 +39,7 @@ namespace CSSPServices.Tests
         {
             EmailDistributionListContact emailDistributionListContact = new EmailDistributionListContact();
 
-            if (OmitPropName != "EmailDistributionListID") emailDistributionListContact.EmailDistributionListID = GetRandomInt(1, 11);
+            if (OmitPropName != "EmailDistributionListID") emailDistributionListContact.EmailDistributionListID = 1;
             if (OmitPropName != "IsCC") emailDistributionListContact.IsCC = true;
             if (OmitPropName != "Agency") emailDistributionListContact.Agency = GetRandomString("", 5);
             if (OmitPropName != "Name") emailDistributionListContact.Name = GetRandomString("", 5);
@@ -98,77 +98,29 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // emailDistributionListContact.EmailDistributionListContactID   (Int32)
+            //-----------------------------------
+            emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
+            emailDistributionListContact.EmailDistributionListContactID = 0;
+            emailDistributionListContactService.Update(emailDistributionListContact);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactEmailDistributionListContactID), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "EmailDistributionList", Plurial = "s", FieldID = "EmailDistributionListID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // emailDistributionListContact.EmailDistributionListID   (Int32)
+            //-----------------------------------
             // EmailDistributionListID will automatically be initialized at 0 --> not null
 
-            // IsCC will automatically be initialized at 0 --> not null
-
-            emailDistributionListContact = null;
-            emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Agency");
-            Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-            Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
-            Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactAgency)).Any());
-            Assert.AreEqual(null, emailDistributionListContact.Agency);
-            Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
-
-            emailDistributionListContact = null;
-            emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Name");
-            Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-            Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
-            Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactName)).Any());
-            Assert.AreEqual(null, emailDistributionListContact.Name);
-            Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
-
-            emailDistributionListContact = null;
-            emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Email");
-            Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-            Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
-            Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactEmail)).Any());
-            Assert.AreEqual(null, emailDistributionListContact.Email);
-            Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
-
-            // CMPRainfallSeasonal will automatically be initialized at 0 --> not null
-
-            // CMPWastewater will automatically be initialized at 0 --> not null
-
-            // EmergencyWeather will automatically be initialized at 0 --> not null
-
-            // EmergencyWastewater will automatically be initialized at 0 --> not null
-
-            // ReopeningAllTypes will automatically be initialized at 0 --> not null
-
-            emailDistributionListContact = null;
-            emailDistributionListContact = GetFilledRandomEmailDistributionListContact("LastUpdateDate_UTC");
-            Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-            Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
-            Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(emailDistributionListContact.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [EmailDistributionList]
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [EmailDistributionListContactID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [EmailDistributionListID] of type [Int32]
-            //-----------------------------------
 
             emailDistributionListContact = null;
             emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
@@ -178,73 +130,201 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
             Assert.AreEqual(1, emailDistributionListContact.EmailDistributionListID);
             Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
-            Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
             // EmailDistributionListID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             emailDistributionListContact.EmailDistributionListID = 2;
             Assert.AreEqual(true, emailDistributionListContactService.Add(emailDistributionListContact));
             Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
             Assert.AreEqual(2, emailDistributionListContact.EmailDistributionListID);
             Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
-            Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
             // EmailDistributionListID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             emailDistributionListContact.EmailDistributionListID = 0;
             Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
             Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.EmailDistributionListContactEmailDistributionListID, "1")).Any());
             Assert.AreEqual(0, emailDistributionListContact.EmailDistributionListID);
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+
+            //-----------------------------------
+            //Is NOT Nullable
+            // emailDistributionListContact.IsCC   (Boolean)
+            //-----------------------------------
+            // IsCC will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[StringLength(20))]
+            // emailDistributionListContact.Agency   (String)
+            //-----------------------------------
+            emailDistributionListContact = null;
+            emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Agency");
+            Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
+            Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
+            Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactAgency)).Any());
+            Assert.AreEqual(null, emailDistributionListContact.Agency);
             Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
 
-            //-----------------------------------
-            // doing property [IsCC] of type [Boolean]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [Agency] of type [String]
-            //-----------------------------------
 
             emailDistributionListContact = null;
             emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
 
+            // Agency has MinLength [empty] and MaxLength [20]. At Max should return true and no errors
+            string emailDistributionListContactAgencyMin = GetRandomString("", 20);
+            emailDistributionListContact.Agency = emailDistributionListContactAgencyMin;
+            Assert.AreEqual(true, emailDistributionListContactService.Add(emailDistributionListContact));
+            Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
+            Assert.AreEqual(emailDistributionListContactAgencyMin, emailDistributionListContact.Agency);
+            Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+
+            // Agency has MinLength [empty] and MaxLength [20]. At Max - 1 should return true and no errors
+            emailDistributionListContactAgencyMin = GetRandomString("", 19);
+            emailDistributionListContact.Agency = emailDistributionListContactAgencyMin;
+            Assert.AreEqual(true, emailDistributionListContactService.Add(emailDistributionListContact));
+            Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
+            Assert.AreEqual(emailDistributionListContactAgencyMin, emailDistributionListContact.Agency);
+            Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+
+            // Agency has MinLength [empty] and MaxLength [20]. At Max + 1 should return false with one error
+            emailDistributionListContactAgencyMin = GetRandomString("", 21);
+            emailDistributionListContact.Agency = emailDistributionListContactAgencyMin;
+            Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
+            Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactAgency, "20")).Any());
+            Assert.AreEqual(emailDistributionListContactAgencyMin, emailDistributionListContact.Agency);
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+
             //-----------------------------------
-            // doing property [Name] of type [String]
+            //Is NOT Nullable
+            //[StringLength(100))]
+            // emailDistributionListContact.Name   (String)
             //-----------------------------------
+            emailDistributionListContact = null;
+            emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Name");
+            Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
+            Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
+            Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactName)).Any());
+            Assert.AreEqual(null, emailDistributionListContact.Name);
+            Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
+
 
             emailDistributionListContact = null;
             emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
 
+            // Name has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
+            string emailDistributionListContactNameMin = GetRandomString("", 100);
+            emailDistributionListContact.Name = emailDistributionListContactNameMin;
+            Assert.AreEqual(true, emailDistributionListContactService.Add(emailDistributionListContact));
+            Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
+            Assert.AreEqual(emailDistributionListContactNameMin, emailDistributionListContact.Name);
+            Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+
+            // Name has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
+            emailDistributionListContactNameMin = GetRandomString("", 99);
+            emailDistributionListContact.Name = emailDistributionListContactNameMin;
+            Assert.AreEqual(true, emailDistributionListContactService.Add(emailDistributionListContact));
+            Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
+            Assert.AreEqual(emailDistributionListContactNameMin, emailDistributionListContact.Name);
+            Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+
+            // Name has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
+            emailDistributionListContactNameMin = GetRandomString("", 101);
+            emailDistributionListContact.Name = emailDistributionListContactNameMin;
+            Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
+            Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactName, "100")).Any());
+            Assert.AreEqual(emailDistributionListContactNameMin, emailDistributionListContact.Name);
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+
             //-----------------------------------
-            // doing property [Email] of type [String]
+            //Is NOT Nullable
+            //[DataType(DataType.EmailAddress)]
+            //[StringLength(200))]
+            // emailDistributionListContact.Email   (String)
             //-----------------------------------
+            emailDistributionListContact = null;
+            emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Email");
+            Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
+            Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
+            Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactEmail)).Any());
+            Assert.AreEqual(null, emailDistributionListContact.Email);
+            Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
+
 
             emailDistributionListContact = null;
             emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
 
-            //-----------------------------------
-            // doing property [CMPRainfallSeasonal] of type [Boolean]
-            //-----------------------------------
+            // Email has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
+            string emailDistributionListContactEmailMin = GetRandomEmail();
+            emailDistributionListContact.Email = emailDistributionListContactEmailMin;
+            Assert.AreEqual(true, emailDistributionListContactService.Add(emailDistributionListContact));
+            Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
+            Assert.AreEqual(emailDistributionListContactEmailMin, emailDistributionListContact.Email);
+            Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+
+            // Email has MinLength [empty] and MaxLength [200]. At Max - 1 should return true and no errors
+            emailDistributionListContactEmailMin = GetRandomEmail();
+            emailDistributionListContact.Email = emailDistributionListContactEmailMin;
+            Assert.AreEqual(true, emailDistributionListContactService.Add(emailDistributionListContact));
+            Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
+            Assert.AreEqual(emailDistributionListContactEmailMin, emailDistributionListContact.Email);
+            Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [CMPWastewater] of type [Boolean]
+            //Is NOT Nullable
+            // emailDistributionListContact.CMPRainfallSeasonal   (Boolean)
             //-----------------------------------
+            // CMPRainfallSeasonal will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [EmergencyWeather] of type [Boolean]
+            //Is NOT Nullable
+            // emailDistributionListContact.CMPWastewater   (Boolean)
             //-----------------------------------
+            // CMPWastewater will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [EmergencyWastewater] of type [Boolean]
+            //Is NOT Nullable
+            // emailDistributionListContact.EmergencyWeather   (Boolean)
             //-----------------------------------
+            // EmergencyWeather will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [ReopeningAllTypes] of type [Boolean]
+            //Is NOT Nullable
+            // emailDistributionListContact.EmergencyWastewater   (Boolean)
             //-----------------------------------
+            // EmergencyWastewater will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
+            //Is NOT Nullable
+            // emailDistributionListContact.ReopeningAllTypes   (Boolean)
             //-----------------------------------
+            // ReopeningAllTypes will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // emailDistributionListContact.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // emailDistributionListContact.LastUpdateContactTVItemID   (Int32)
+            //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             emailDistributionListContact = null;
             emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
@@ -254,29 +334,32 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
             Assert.AreEqual(1, emailDistributionListContact.LastUpdateContactTVItemID);
             Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
-            Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             emailDistributionListContact.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, emailDistributionListContactService.Add(emailDistributionListContact));
             Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
             Assert.AreEqual(2, emailDistributionListContact.LastUpdateContactTVItemID);
             Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
-            Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             emailDistributionListContact.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
             Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, emailDistributionListContact.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [EmailDistributionList] of type [EmailDistributionList]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // emailDistributionListContact.EmailDistributionList   (EmailDistributionList)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[NotMapped]
+            // emailDistributionListContact.ValidationResults   (IEnumerable`1)
             //-----------------------------------
-
         }
         #endregion Tests Generated
     }

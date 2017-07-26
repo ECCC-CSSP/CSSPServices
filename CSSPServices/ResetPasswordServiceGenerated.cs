@@ -58,14 +58,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordEmail, "256"), new[] { ModelsRes.ResetPasswordEmail });
             }
 
-            if (resetPassword.ExpireDate_Local == null)
+            if (resetPassword.ExpireDate_Local.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordExpireDate_Local), new[] { ModelsRes.ResetPasswordExpireDate_Local });
             }
-
-            if (resetPassword.ExpireDate_Local.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ResetPasswordExpireDate_Local, "1980"), new[] { ModelsRes.ResetPasswordExpireDate_Local });
+                if (resetPassword.ExpireDate_Local.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ResetPasswordExpireDate_Local, "1980"), new[] { ModelsRes.ResetPasswordExpireDate_Local });
+                }
             }
 
             if (string.IsNullOrWhiteSpace(resetPassword.Code))
@@ -78,14 +80,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordCode, "8"), new[] { ModelsRes.ResetPasswordCode });
             }
 
-            if (resetPassword.LastUpdateDate_UTC == null)
+            if (resetPassword.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordLastUpdateDate_UTC), new[] { ModelsRes.ResetPasswordLastUpdateDate_UTC });
             }
-
-            if (resetPassword.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ResetPasswordLastUpdateDate_UTC, "1980"), new[] { ModelsRes.ResetPasswordLastUpdateDate_UTC });
+                if (resetPassword.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ResetPasswordLastUpdateDate_UTC, "1980"), new[] { ModelsRes.ResetPasswordLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

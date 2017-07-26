@@ -39,7 +39,7 @@ namespace CSSPServices.Tests
         {
             InfrastructureLanguage infrastructureLanguage = new InfrastructureLanguage();
 
-            if (OmitPropName != "InfrastructureID") infrastructureLanguage.InfrastructureID = GetRandomInt(1, 11);
+            if (OmitPropName != "InfrastructureID") infrastructureLanguage.InfrastructureID = 1;
             if (OmitPropName != "Language") infrastructureLanguage.Language = language;
             if (OmitPropName != "Comment") infrastructureLanguage.Comment = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatus") infrastructureLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
@@ -92,53 +92,29 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // infrastructureLanguage.InfrastructureLanguageID   (Int32)
+            //-----------------------------------
+            infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
+            infrastructureLanguage.InfrastructureLanguageID = 0;
+            infrastructureLanguageService.Update(infrastructureLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageInfrastructureLanguageID), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "Infrastructure", Plurial = "s", FieldID = "InfrastructureID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // infrastructureLanguage.InfrastructureID   (Int32)
+            //-----------------------------------
             // InfrastructureID will automatically be initialized at 0 --> not null
 
-            //Error: Type not implemented [Language]
-
-            infrastructureLanguage = null;
-            infrastructureLanguage = GetFilledRandomInfrastructureLanguage("Comment");
-            Assert.AreEqual(false, infrastructureLanguageService.Add(infrastructureLanguage));
-            Assert.AreEqual(1, infrastructureLanguage.ValidationResults.Count());
-            Assert.IsTrue(infrastructureLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageComment)).Any());
-            Assert.AreEqual(null, infrastructureLanguage.Comment);
-            Assert.AreEqual(0, infrastructureLanguageService.GetRead().Count());
-
-            //Error: Type not implemented [TranslationStatus]
-
-            infrastructureLanguage = null;
-            infrastructureLanguage = GetFilledRandomInfrastructureLanguage("LastUpdateDate_UTC");
-            Assert.AreEqual(false, infrastructureLanguageService.Add(infrastructureLanguage));
-            Assert.AreEqual(1, infrastructureLanguage.ValidationResults.Count());
-            Assert.IsTrue(infrastructureLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(infrastructureLanguage.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, infrastructureLanguageService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [Infrastructure]
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [InfrastructureLanguageID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [InfrastructureID] of type [Int32]
-            //-----------------------------------
 
             infrastructureLanguage = null;
             infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
@@ -148,43 +124,69 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, infrastructureLanguage.ValidationResults.Count());
             Assert.AreEqual(1, infrastructureLanguage.InfrastructureID);
             Assert.AreEqual(true, infrastructureLanguageService.Delete(infrastructureLanguage));
-            Assert.AreEqual(0, infrastructureLanguageService.GetRead().Count());
+            Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
             // InfrastructureID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             infrastructureLanguage.InfrastructureID = 2;
             Assert.AreEqual(true, infrastructureLanguageService.Add(infrastructureLanguage));
             Assert.AreEqual(0, infrastructureLanguage.ValidationResults.Count());
             Assert.AreEqual(2, infrastructureLanguage.InfrastructureID);
             Assert.AreEqual(true, infrastructureLanguageService.Delete(infrastructureLanguage));
-            Assert.AreEqual(0, infrastructureLanguageService.GetRead().Count());
+            Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
             // InfrastructureID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             infrastructureLanguage.InfrastructureID = 0;
             Assert.AreEqual(false, infrastructureLanguageService.Add(infrastructureLanguage));
             Assert.IsTrue(infrastructureLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.InfrastructureLanguageInfrastructureID, "1")).Any());
             Assert.AreEqual(0, infrastructureLanguage.InfrastructureID);
+            Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // infrastructureLanguage.Language   (LanguageEnum)
+            //-----------------------------------
+            // Language will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            // infrastructureLanguage.Comment   (String)
+            //-----------------------------------
+            infrastructureLanguage = null;
+            infrastructureLanguage = GetFilledRandomInfrastructureLanguage("Comment");
+            Assert.AreEqual(false, infrastructureLanguageService.Add(infrastructureLanguage));
+            Assert.AreEqual(1, infrastructureLanguage.ValidationResults.Count());
+            Assert.IsTrue(infrastructureLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageComment)).Any());
+            Assert.AreEqual(null, infrastructureLanguage.Comment);
             Assert.AreEqual(0, infrastructureLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            // doing property [Language] of type [LanguageEnum]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [Comment] of type [String]
-            //-----------------------------------
 
             infrastructureLanguage = null;
             infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
 
             //-----------------------------------
-            // doing property [TranslationStatus] of type [TranslationStatusEnum]
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // infrastructureLanguage.TranslationStatus   (TranslationStatusEnum)
             //-----------------------------------
+            // TranslationStatus will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // infrastructureLanguage.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // infrastructureLanguage.LastUpdateContactTVItemID   (Int32)
             //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             infrastructureLanguage = null;
             infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
@@ -194,29 +196,32 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, infrastructureLanguage.ValidationResults.Count());
             Assert.AreEqual(1, infrastructureLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(true, infrastructureLanguageService.Delete(infrastructureLanguage));
-            Assert.AreEqual(0, infrastructureLanguageService.GetRead().Count());
+            Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             infrastructureLanguage.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, infrastructureLanguageService.Add(infrastructureLanguage));
             Assert.AreEqual(0, infrastructureLanguage.ValidationResults.Count());
             Assert.AreEqual(2, infrastructureLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(true, infrastructureLanguageService.Delete(infrastructureLanguage));
-            Assert.AreEqual(0, infrastructureLanguageService.GetRead().Count());
+            Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             infrastructureLanguage.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, infrastructureLanguageService.Add(infrastructureLanguage));
             Assert.IsTrue(infrastructureLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.InfrastructureLanguageLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, infrastructureLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, infrastructureLanguageService.GetRead().Count());
+            Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Infrastructure] of type [Infrastructure]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // infrastructureLanguage.Infrastructure   (Infrastructure)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[NotMapped]
+            // infrastructureLanguage.ValidationResults   (IEnumerable`1)
             //-----------------------------------
-
         }
         #endregion Tests Generated
     }

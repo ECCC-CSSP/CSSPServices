@@ -70,11 +70,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorSubsectorHistoricKey, "20"), new[] { ModelsRes.MWQMSubsectorSubsectorHistoricKey });
             }
 
-            if (string.IsNullOrWhiteSpace(mwqmSubsector.TideLocationSIDText))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorTideLocationSIDText), new[] { ModelsRes.MWQMSubsectorTideLocationSIDText });
-            }
-
             if (!string.IsNullOrWhiteSpace(mwqmSubsector.TideLocationSIDText) && mwqmSubsector.TideLocationSIDText.Length > 20)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorTideLocationSIDText, "20"), new[] { ModelsRes.MWQMSubsectorTideLocationSIDText });
@@ -222,14 +217,16 @@ namespace CSSPServices
                 }
             }
 
-            if (mwqmSubsector.LastUpdateDate_UTC == null)
+            if (mwqmSubsector.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorLastUpdateDate_UTC), new[] { ModelsRes.MWQMSubsectorLastUpdateDate_UTC });
             }
-
-            if (mwqmSubsector.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSubsectorLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MWQMSubsectorLastUpdateDate_UTC });
+                if (mwqmSubsector.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSubsectorLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MWQMSubsectorLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

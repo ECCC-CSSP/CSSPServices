@@ -40,11 +40,11 @@ namespace CSSPServices.Tests
             VPResValues vpResValues = new VPResValues();
 
             if (OmitPropName != "Conc") vpResValues.Conc = GetRandomInt(0, 10);
-            if (OmitPropName != "Dilu") vpResValues.Dilu = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "FarfieldWidth") vpResValues.FarfieldWidth = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Distance") vpResValues.Distance = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "TheTime") vpResValues.TheTime = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Decay") vpResValues.Decay = GetRandomDouble(1.0D, 1000.0D);
+            // should implement a Range for the property Dilu and type VPResValues
+            // should implement a Range for the property FarfieldWidth and type VPResValues
+            // should implement a Range for the property Distance and type VPResValues
+            // should implement a Range for the property TheTime and type VPResValues
+            // should implement a Range for the property Decay and type VPResValues
 
             return vpResValues;
         }
@@ -71,17 +71,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

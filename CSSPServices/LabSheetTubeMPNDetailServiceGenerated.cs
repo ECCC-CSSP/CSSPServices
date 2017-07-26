@@ -148,14 +148,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetTubeMPNDetailSiteComment, "250"), new[] { ModelsRes.LabSheetTubeMPNDetailSiteComment });
             }
 
-            if (labSheetTubeMPNDetail.LastUpdateDate_UTC == null)
+            if (labSheetTubeMPNDetail.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC), new[] { ModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC });
             }
-
-            if (labSheetTubeMPNDetail.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC, "1980"), new[] { ModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC });
+                if (labSheetTubeMPNDetail.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC, "1980"), new[] { ModelsRes.LabSheetTubeMPNDetailLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

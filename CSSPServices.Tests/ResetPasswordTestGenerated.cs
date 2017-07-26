@@ -93,10 +93,26 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // resetPassword.ResetPasswordID   (Int32)
+            //-----------------------------------
+            resetPassword = GetFilledRandomResetPassword("");
+            resetPassword.ResetPasswordID = 0;
+            resetPasswordService.Update(resetPassword);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordResetPasswordID), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[StringLength(256))]
+            // resetPassword.Email   (String)
+            //-----------------------------------
             resetPassword = null;
             resetPassword = GetFilledRandomResetPassword("Email");
             Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
@@ -105,14 +121,41 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, resetPassword.Email);
             Assert.AreEqual(0, resetPasswordService.GetRead().Count());
 
-            resetPassword = null;
-            resetPassword = GetFilledRandomResetPassword("ExpireDate_Local");
-            Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-            Assert.AreEqual(1, resetPassword.ValidationResults.Count());
-            Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordExpireDate_Local)).Any());
-            Assert.IsTrue(resetPassword.ExpireDate_Local.Year < 1900);
-            Assert.AreEqual(0, resetPasswordService.GetRead().Count());
 
+            resetPassword = null;
+            resetPassword = GetFilledRandomResetPassword("");
+
+            // Email has MinLength [empty] and MaxLength [256]. At Max should return true and no errors
+            string resetPasswordEmailMin = GetRandomEmail();
+            resetPassword.Email = resetPasswordEmailMin;
+            Assert.AreEqual(true, resetPasswordService.Add(resetPassword));
+            Assert.AreEqual(0, resetPassword.ValidationResults.Count());
+            Assert.AreEqual(resetPasswordEmailMin, resetPassword.Email);
+            Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            // Email has MinLength [empty] and MaxLength [256]. At Max - 1 should return true and no errors
+            resetPasswordEmailMin = GetRandomEmail();
+            resetPassword.Email = resetPasswordEmailMin;
+            Assert.AreEqual(true, resetPasswordService.Add(resetPassword));
+            Assert.AreEqual(0, resetPassword.ValidationResults.Count());
+            Assert.AreEqual(resetPasswordEmailMin, resetPassword.Email);
+            Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // resetPassword.ExpireDate_Local   (DateTime)
+            //-----------------------------------
+            // ExpireDate_Local will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[StringLength(8))]
+            // resetPassword.Code   (String)
+            //-----------------------------------
             resetPassword = null;
             resetPassword = GetFilledRandomResetPassword("Code");
             Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
@@ -121,71 +164,52 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, resetPassword.Code);
             Assert.AreEqual(0, resetPasswordService.GetRead().Count());
 
-            resetPassword = null;
-            resetPassword = GetFilledRandomResetPassword("LastUpdateDate_UTC");
-            Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-            Assert.AreEqual(1, resetPassword.ValidationResults.Count());
-            Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(resetPassword.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, resetPasswordService.GetRead().Count());
 
+            resetPassword = null;
+            resetPassword = GetFilledRandomResetPassword("");
+
+            // Code has MinLength [empty] and MaxLength [8]. At Max should return true and no errors
+            string resetPasswordCodeMin = GetRandomString("", 8);
+            resetPassword.Code = resetPasswordCodeMin;
+            Assert.AreEqual(true, resetPasswordService.Add(resetPassword));
+            Assert.AreEqual(0, resetPassword.ValidationResults.Count());
+            Assert.AreEqual(resetPasswordCodeMin, resetPassword.Code);
+            Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            // Code has MinLength [empty] and MaxLength [8]. At Max - 1 should return true and no errors
+            resetPasswordCodeMin = GetRandomString("", 7);
+            resetPassword.Code = resetPasswordCodeMin;
+            Assert.AreEqual(true, resetPasswordService.Add(resetPassword));
+            Assert.AreEqual(0, resetPassword.ValidationResults.Count());
+            Assert.AreEqual(resetPasswordCodeMin, resetPassword.Code);
+            Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            // Code has MinLength [empty] and MaxLength [8]. At Max + 1 should return false with one error
+            resetPasswordCodeMin = GetRandomString("", 9);
+            resetPassword.Code = resetPasswordCodeMin;
+            Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
+            Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordCode, "8")).Any());
+            Assert.AreEqual(resetPasswordCodeMin, resetPassword.Code);
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // resetPassword.LastUpdateDate_UTC   (DateTime)
+            //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // resetPassword.LastUpdateContactTVItemID   (Int32)
+            //-----------------------------------
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
-            resetPassword = null;
-            resetPassword = GetFilledRandomResetPassword("Password");
-            Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-            Assert.AreEqual(1, resetPassword.ValidationResults.Count());
-            Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordPassword)).Any());
-            Assert.AreEqual(null, resetPassword.Password);
-            Assert.AreEqual(0, resetPasswordService.GetRead().Count());
-
-            resetPassword = null;
-            resetPassword = GetFilledRandomResetPassword("ConfirmPassword");
-            Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-            Assert.AreEqual(1, resetPassword.ValidationResults.Count());
-            Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordConfirmPassword)).Any());
-            Assert.AreEqual(null, resetPassword.ConfirmPassword);
-            Assert.AreEqual(0, resetPasswordService.GetRead().Count());
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [ResetPasswordID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [Email] of type [String]
-            //-----------------------------------
-
-            resetPassword = null;
-            resetPassword = GetFilledRandomResetPassword("");
-
-            //-----------------------------------
-            // doing property [ExpireDate_Local] of type [DateTime]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [Code] of type [String]
-            //-----------------------------------
-
-            resetPassword = null;
-            resetPassword = GetFilledRandomResetPassword("");
-
-            //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
-            //-----------------------------------
 
             resetPassword = null;
             resetPassword = GetFilledRandomResetPassword("");
@@ -195,39 +219,166 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, resetPassword.ValidationResults.Count());
             Assert.AreEqual(1, resetPassword.LastUpdateContactTVItemID);
             Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
-            Assert.AreEqual(0, resetPasswordService.GetRead().Count());
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             resetPassword.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, resetPasswordService.Add(resetPassword));
             Assert.AreEqual(0, resetPassword.ValidationResults.Count());
             Assert.AreEqual(2, resetPassword.LastUpdateContactTVItemID);
             Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
-            Assert.AreEqual(0, resetPasswordService.GetRead().Count());
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             resetPassword.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
             Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ResetPasswordLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, resetPassword.LastUpdateContactTVItemID);
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[NotMapped]
+            //[StringLength(100, MinimumLength = 6)]
+            // resetPassword.Password   (String)
+            //-----------------------------------
+            resetPassword = null;
+            resetPassword = GetFilledRandomResetPassword("Password");
+            Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
+            Assert.AreEqual(1, resetPassword.ValidationResults.Count());
+            Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordPassword)).Any());
+            Assert.AreEqual(null, resetPassword.Password);
             Assert.AreEqual(0, resetPasswordService.GetRead().Count());
 
-            //-----------------------------------
-            // doing property [Password] of type [String]
-            //-----------------------------------
 
             resetPassword = null;
             resetPassword = GetFilledRandomResetPassword("");
 
+            // Password has MinLength [6] and MaxLength [100]. At Min should return true and no errors
+            string resetPasswordPasswordMin = GetRandomString("", 6);
+            resetPassword.Password = resetPasswordPasswordMin;
+            Assert.AreEqual(true, resetPasswordService.Add(resetPassword));
+            Assert.AreEqual(0, resetPassword.ValidationResults.Count());
+            Assert.AreEqual(resetPasswordPasswordMin, resetPassword.Password);
+            Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            // Password has MinLength [6] and MaxLength [100]. At Min + 1 should return true and no errors
+            resetPasswordPasswordMin = GetRandomString("", 7);
+            resetPassword.Password = resetPasswordPasswordMin;
+            Assert.AreEqual(true, resetPasswordService.Add(resetPassword));
+            Assert.AreEqual(0, resetPassword.ValidationResults.Count());
+            Assert.AreEqual(resetPasswordPasswordMin, resetPassword.Password);
+            Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            // Password has MinLength [6] and MaxLength [100]. At Min - 1 should return false with one error
+            resetPasswordPasswordMin = GetRandomString("", 5);
+            resetPassword.Password = resetPasswordPasswordMin;
+            Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
+            Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordPassword, "6", "100")).Any());
+            Assert.AreEqual(resetPasswordPasswordMin, resetPassword.Password);
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            // Password has MinLength [6] and MaxLength [100]. At Max should return true and no errors
+            resetPasswordPasswordMin = GetRandomString("", 100);
+            resetPassword.Password = resetPasswordPasswordMin;
+            Assert.AreEqual(true, resetPasswordService.Add(resetPassword));
+            Assert.AreEqual(0, resetPassword.ValidationResults.Count());
+            Assert.AreEqual(resetPasswordPasswordMin, resetPassword.Password);
+            Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            // Password has MinLength [6] and MaxLength [100]. At Max - 1 should return true and no errors
+            resetPasswordPasswordMin = GetRandomString("", 99);
+            resetPassword.Password = resetPasswordPasswordMin;
+            Assert.AreEqual(true, resetPasswordService.Add(resetPassword));
+            Assert.AreEqual(0, resetPassword.ValidationResults.Count());
+            Assert.AreEqual(resetPasswordPasswordMin, resetPassword.Password);
+            Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            // Password has MinLength [6] and MaxLength [100]. At Max + 1 should return false with one error
+            resetPasswordPasswordMin = GetRandomString("", 101);
+            resetPassword.Password = resetPasswordPasswordMin;
+            Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
+            Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordPassword, "6", "100")).Any());
+            Assert.AreEqual(resetPasswordPasswordMin, resetPassword.Password);
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
             //-----------------------------------
-            // doing property [ConfirmPassword] of type [String]
+            //Is NOT Nullable
+            //[NotMapped]
+            //[StringLength(100, MinimumLength = 6)]
+            // resetPassword.ConfirmPassword   (String)
             //-----------------------------------
+            resetPassword = null;
+            resetPassword = GetFilledRandomResetPassword("ConfirmPassword");
+            Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
+            Assert.AreEqual(1, resetPassword.ValidationResults.Count());
+            Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordConfirmPassword)).Any());
+            Assert.AreEqual(null, resetPassword.ConfirmPassword);
+            Assert.AreEqual(0, resetPasswordService.GetRead().Count());
+
 
             resetPassword = null;
             resetPassword = GetFilledRandomResetPassword("");
 
-            //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
-            //-----------------------------------
+            // ConfirmPassword has MinLength [6] and MaxLength [100]. At Min should return true and no errors
+            string resetPasswordConfirmPasswordMin = GetRandomString("", 6);
+            resetPassword.ConfirmPassword = resetPasswordConfirmPasswordMin;
+            Assert.AreEqual(true, resetPasswordService.Add(resetPassword));
+            Assert.AreEqual(0, resetPassword.ValidationResults.Count());
+            Assert.AreEqual(resetPasswordConfirmPasswordMin, resetPassword.ConfirmPassword);
+            Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
+            // ConfirmPassword has MinLength [6] and MaxLength [100]. At Min + 1 should return true and no errors
+            resetPasswordConfirmPasswordMin = GetRandomString("", 7);
+            resetPassword.ConfirmPassword = resetPasswordConfirmPasswordMin;
+            Assert.AreEqual(true, resetPasswordService.Add(resetPassword));
+            Assert.AreEqual(0, resetPassword.ValidationResults.Count());
+            Assert.AreEqual(resetPasswordConfirmPasswordMin, resetPassword.ConfirmPassword);
+            Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            // ConfirmPassword has MinLength [6] and MaxLength [100]. At Min - 1 should return false with one error
+            resetPasswordConfirmPasswordMin = GetRandomString("", 5);
+            resetPassword.ConfirmPassword = resetPasswordConfirmPasswordMin;
+            Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
+            Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordConfirmPassword, "6", "100")).Any());
+            Assert.AreEqual(resetPasswordConfirmPasswordMin, resetPassword.ConfirmPassword);
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            // ConfirmPassword has MinLength [6] and MaxLength [100]. At Max should return true and no errors
+            resetPasswordConfirmPasswordMin = GetRandomString("", 100);
+            resetPassword.ConfirmPassword = resetPasswordConfirmPasswordMin;
+            Assert.AreEqual(true, resetPasswordService.Add(resetPassword));
+            Assert.AreEqual(0, resetPassword.ValidationResults.Count());
+            Assert.AreEqual(resetPasswordConfirmPasswordMin, resetPassword.ConfirmPassword);
+            Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            // ConfirmPassword has MinLength [6] and MaxLength [100]. At Max - 1 should return true and no errors
+            resetPasswordConfirmPasswordMin = GetRandomString("", 99);
+            resetPassword.ConfirmPassword = resetPasswordConfirmPasswordMin;
+            Assert.AreEqual(true, resetPasswordService.Add(resetPassword));
+            Assert.AreEqual(0, resetPassword.ValidationResults.Count());
+            Assert.AreEqual(resetPasswordConfirmPasswordMin, resetPassword.ConfirmPassword);
+            Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            // ConfirmPassword has MinLength [6] and MaxLength [100]. At Max + 1 should return false with one error
+            resetPasswordConfirmPasswordMin = GetRandomString("", 101);
+            resetPassword.ConfirmPassword = resetPasswordConfirmPasswordMin;
+            Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
+            Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordConfirmPassword, "6", "100")).Any());
+            Assert.AreEqual(resetPasswordConfirmPasswordMin, resetPassword.ConfirmPassword);
+            Assert.AreEqual(count, resetPasswordService.GetRead().Count());
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[NotMapped]
+            // resetPassword.ValidationResults   (IEnumerable`1)
+            //-----------------------------------
         }
         #endregion Tests Generated
     }

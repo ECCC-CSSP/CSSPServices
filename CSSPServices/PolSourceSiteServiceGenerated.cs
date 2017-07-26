@@ -60,11 +60,6 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceSitePolSourceSiteTVItemID, polSourceSite.PolSourceSiteTVItemID.ToString()), new[] { ModelsRes.PolSourceSitePolSourceSiteTVItemID });
             }
 
-            if (string.IsNullOrWhiteSpace(polSourceSite.Temp_Locator_CanDelete))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceSiteTemp_Locator_CanDelete), new[] { ModelsRes.PolSourceSiteTemp_Locator_CanDelete });
-            }
-
             if (!string.IsNullOrWhiteSpace(polSourceSite.Temp_Locator_CanDelete) && polSourceSite.Temp_Locator_CanDelete.Length > 50)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSiteTemp_Locator_CanDelete, "50"), new[] { ModelsRes.PolSourceSiteTemp_Locator_CanDelete });
@@ -121,14 +116,16 @@ namespace CSSPServices
                 }
             }
 
-            if (polSourceSite.LastUpdateDate_UTC == null)
+            if (polSourceSite.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceSiteLastUpdateDate_UTC), new[] { ModelsRes.PolSourceSiteLastUpdateDate_UTC });
             }
-
-            if (polSourceSite.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.PolSourceSiteLastUpdateDate_UTC, "1980"), new[] { ModelsRes.PolSourceSiteLastUpdateDate_UTC });
+                if (polSourceSite.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.PolSourceSiteLastUpdateDate_UTC, "1980"), new[] { ModelsRes.PolSourceSiteLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

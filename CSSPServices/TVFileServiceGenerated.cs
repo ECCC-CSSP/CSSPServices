@@ -91,21 +91,18 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVFileFileSize_kb, "0", "1000000"), new[] { ModelsRes.TVFileFileSize_kb });
             }
 
-            if (string.IsNullOrWhiteSpace(tvFile.FileInfo))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileInfo), new[] { ModelsRes.TVFileFileInfo });
-            }
-
             //FileInfo has no StringLength Attribute
 
-            if (tvFile.FileCreatedDate_UTC == null)
+            if (tvFile.FileCreatedDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileCreatedDate_UTC), new[] { ModelsRes.TVFileFileCreatedDate_UTC });
             }
-
-            if (tvFile.FileCreatedDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileFileCreatedDate_UTC, "1980"), new[] { ModelsRes.TVFileFileCreatedDate_UTC });
+                if (tvFile.FileCreatedDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileFileCreatedDate_UTC, "1980"), new[] { ModelsRes.TVFileFileCreatedDate_UTC });
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.ClientFilePath) && tvFile.ClientFilePath.Length > 250)
@@ -133,14 +130,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileServerFilePath, "250"), new[] { ModelsRes.TVFileServerFilePath });
             }
 
-            if (tvFile.LastUpdateDate_UTC == null)
+            if (tvFile.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLastUpdateDate_UTC), new[] { ModelsRes.TVFileLastUpdateDate_UTC });
             }
-
-            if (tvFile.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVFileLastUpdateDate_UTC });
+                if (tvFile.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVFileLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

@@ -104,14 +104,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguage), new[] { ModelsRes.AppTaskLanguage });
             }
 
-            if (appTask.StartDateTime_UTC == null)
+            if (appTask.StartDateTime_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskStartDateTime_UTC), new[] { ModelsRes.AppTaskStartDateTime_UTC });
             }
-
-            if (appTask.StartDateTime_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppTaskStartDateTime_UTC, "1980"), new[] { ModelsRes.AppTaskStartDateTime_UTC });
+                if (appTask.StartDateTime_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppTaskStartDateTime_UTC, "1980"), new[] { ModelsRes.AppTaskStartDateTime_UTC });
+                }
             }
 
             if (appTask.EndDateTime_UTC != null && ((DateTime)appTask.EndDateTime_UTC).Year < 1980)
@@ -140,14 +142,16 @@ namespace CSSPServices
                 }
             }
 
-            if (appTask.LastUpdateDate_UTC == null)
+            if (appTask.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLastUpdateDate_UTC), new[] { ModelsRes.AppTaskLastUpdateDate_UTC });
             }
-
-            if (appTask.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppTaskLastUpdateDate_UTC, "1980"), new[] { ModelsRes.AppTaskLastUpdateDate_UTC });
+                if (appTask.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppTaskLastUpdateDate_UTC, "1980"), new[] { ModelsRes.AppTaskLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

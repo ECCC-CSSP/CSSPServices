@@ -40,10 +40,10 @@ namespace CSSPServices.Tests
             TVItemUserAuthorization tvItemUserAuthorization = new TVItemUserAuthorization();
 
             if (OmitPropName != "ContactTVItemID") tvItemUserAuthorization.ContactTVItemID = 2;
-            if (OmitPropName != "TVItemID1") tvItemUserAuthorization.TVItemID1 = GetRandomInt(1, 11);
-            if (OmitPropName != "TVItemID2") tvItemUserAuthorization.TVItemID2 = GetRandomInt(1, 11);
-            if (OmitPropName != "TVItemID3") tvItemUserAuthorization.TVItemID3 = GetRandomInt(1, 11);
-            if (OmitPropName != "TVItemID4") tvItemUserAuthorization.TVItemID4 = GetRandomInt(1, 11);
+            if (OmitPropName != "TVItemID1") tvItemUserAuthorization.TVItemID1 = 2;
+            if (OmitPropName != "TVItemID2") tvItemUserAuthorization.TVItemID2 = 2;
+            if (OmitPropName != "TVItemID3") tvItemUserAuthorization.TVItemID3 = 2;
+            if (OmitPropName != "TVItemID4") tvItemUserAuthorization.TVItemID4 = 2;
             if (OmitPropName != "TVAuth") tvItemUserAuthorization.TVAuth = (TVAuthEnum)GetRandomEnumType(typeof(TVAuthEnum));
             if (OmitPropName != "LastUpdateDate_UTC") tvItemUserAuthorization.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") tvItemUserAuthorization.LastUpdateContactTVItemID = 2;
@@ -94,45 +94,29 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // tvItemUserAuthorization.TVItemUserAuthorizationID   (Int32)
+            //-----------------------------------
+            tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
+            tvItemUserAuthorization.TVItemUserAuthorizationID = 0;
+            tvItemUserAuthorizationService.Update(tvItemUserAuthorization);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationTVItemUserAuthorizationID), tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // tvItemUserAuthorization.ContactTVItemID   (Int32)
+            //-----------------------------------
             // ContactTVItemID will automatically be initialized at 0 --> not null
 
-            // TVItemID1 will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [TVAuth]
-
-            tvItemUserAuthorization = null;
-            tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("LastUpdateDate_UTC");
-            Assert.AreEqual(false, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
-            Assert.AreEqual(1, tvItemUserAuthorization.ValidationResults.Count());
-            Assert.IsTrue(tvItemUserAuthorization.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(tvItemUserAuthorization.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [ContactTVItem]
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [TVItemUserAuthorizationID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [ContactTVItemID] of type [Int32]
-            //-----------------------------------
 
             tvItemUserAuthorization = null;
             tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
@@ -142,24 +126,29 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorization.ValidationResults.Count());
             Assert.AreEqual(1, tvItemUserAuthorization.ContactTVItemID);
             Assert.AreEqual(true, tvItemUserAuthorizationService.Delete(tvItemUserAuthorization));
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
             // ContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             tvItemUserAuthorization.ContactTVItemID = 2;
             Assert.AreEqual(true, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
             Assert.AreEqual(0, tvItemUserAuthorization.ValidationResults.Count());
             Assert.AreEqual(2, tvItemUserAuthorization.ContactTVItemID);
             Assert.AreEqual(true, tvItemUserAuthorizationService.Delete(tvItemUserAuthorization));
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
             // ContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvItemUserAuthorization.ContactTVItemID = 0;
             Assert.AreEqual(false, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
             Assert.IsTrue(tvItemUserAuthorization.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationContactTVItemID, "1")).Any());
             Assert.AreEqual(0, tvItemUserAuthorization.ContactTVItemID);
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TVItemID1] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // tvItemUserAuthorization.TVItemID1   (Int32)
             //-----------------------------------
+            // TVItemID1 will automatically be initialized at 0 --> not null
+
 
             tvItemUserAuthorization = null;
             tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
@@ -169,23 +158,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorization.ValidationResults.Count());
             Assert.AreEqual(1, tvItemUserAuthorization.TVItemID1);
             Assert.AreEqual(true, tvItemUserAuthorizationService.Delete(tvItemUserAuthorization));
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
             // TVItemID1 has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             tvItemUserAuthorization.TVItemID1 = 2;
             Assert.AreEqual(true, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
             Assert.AreEqual(0, tvItemUserAuthorization.ValidationResults.Count());
             Assert.AreEqual(2, tvItemUserAuthorization.TVItemID1);
             Assert.AreEqual(true, tvItemUserAuthorizationService.Delete(tvItemUserAuthorization));
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
             // TVItemID1 has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvItemUserAuthorization.TVItemID1 = 0;
             Assert.AreEqual(false, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
             Assert.IsTrue(tvItemUserAuthorization.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID1, "1")).Any());
             Assert.AreEqual(0, tvItemUserAuthorization.TVItemID1);
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TVItemID2] of type [Int32]
+            //Is Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // tvItemUserAuthorization.TVItemID2   (Int32)
             //-----------------------------------
 
             tvItemUserAuthorization = null;
@@ -196,23 +188,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorization.ValidationResults.Count());
             Assert.AreEqual(1, tvItemUserAuthorization.TVItemID2);
             Assert.AreEqual(true, tvItemUserAuthorizationService.Delete(tvItemUserAuthorization));
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
             // TVItemID2 has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             tvItemUserAuthorization.TVItemID2 = 2;
             Assert.AreEqual(true, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
             Assert.AreEqual(0, tvItemUserAuthorization.ValidationResults.Count());
             Assert.AreEqual(2, tvItemUserAuthorization.TVItemID2);
             Assert.AreEqual(true, tvItemUserAuthorizationService.Delete(tvItemUserAuthorization));
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
             // TVItemID2 has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvItemUserAuthorization.TVItemID2 = 0;
             Assert.AreEqual(false, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
             Assert.IsTrue(tvItemUserAuthorization.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID2, "1")).Any());
             Assert.AreEqual(0, tvItemUserAuthorization.TVItemID2);
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TVItemID3] of type [Int32]
+            //Is Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // tvItemUserAuthorization.TVItemID3   (Int32)
             //-----------------------------------
 
             tvItemUserAuthorization = null;
@@ -223,23 +218,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorization.ValidationResults.Count());
             Assert.AreEqual(1, tvItemUserAuthorization.TVItemID3);
             Assert.AreEqual(true, tvItemUserAuthorizationService.Delete(tvItemUserAuthorization));
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
             // TVItemID3 has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             tvItemUserAuthorization.TVItemID3 = 2;
             Assert.AreEqual(true, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
             Assert.AreEqual(0, tvItemUserAuthorization.ValidationResults.Count());
             Assert.AreEqual(2, tvItemUserAuthorization.TVItemID3);
             Assert.AreEqual(true, tvItemUserAuthorizationService.Delete(tvItemUserAuthorization));
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
             // TVItemID3 has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvItemUserAuthorization.TVItemID3 = 0;
             Assert.AreEqual(false, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
             Assert.IsTrue(tvItemUserAuthorization.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID3, "1")).Any());
             Assert.AreEqual(0, tvItemUserAuthorization.TVItemID3);
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TVItemID4] of type [Int32]
+            //Is Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // tvItemUserAuthorization.TVItemID4   (Int32)
             //-----------------------------------
 
             tvItemUserAuthorization = null;
@@ -250,32 +248,45 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorization.ValidationResults.Count());
             Assert.AreEqual(1, tvItemUserAuthorization.TVItemID4);
             Assert.AreEqual(true, tvItemUserAuthorizationService.Delete(tvItemUserAuthorization));
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
             // TVItemID4 has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             tvItemUserAuthorization.TVItemID4 = 2;
             Assert.AreEqual(true, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
             Assert.AreEqual(0, tvItemUserAuthorization.ValidationResults.Count());
             Assert.AreEqual(2, tvItemUserAuthorization.TVItemID4);
             Assert.AreEqual(true, tvItemUserAuthorizationService.Delete(tvItemUserAuthorization));
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
             // TVItemID4 has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvItemUserAuthorization.TVItemID4 = 0;
             Assert.AreEqual(false, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
             Assert.IsTrue(tvItemUserAuthorization.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationTVItemID4, "1")).Any());
             Assert.AreEqual(0, tvItemUserAuthorization.TVItemID4);
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [TVAuth] of type [TVAuthEnum]
+            //Is NOT Nullable
+            //[CSSPEnumType]
+            // tvItemUserAuthorization.TVAuth   (TVAuthEnum)
             //-----------------------------------
+            // TVAuth will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // tvItemUserAuthorization.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // tvItemUserAuthorization.LastUpdateContactTVItemID   (Int32)
             //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             tvItemUserAuthorization = null;
             tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
@@ -285,29 +296,32 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorization.ValidationResults.Count());
             Assert.AreEqual(1, tvItemUserAuthorization.LastUpdateContactTVItemID);
             Assert.AreEqual(true, tvItemUserAuthorizationService.Delete(tvItemUserAuthorization));
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             tvItemUserAuthorization.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
             Assert.AreEqual(0, tvItemUserAuthorization.ValidationResults.Count());
             Assert.AreEqual(2, tvItemUserAuthorization.LastUpdateContactTVItemID);
             Assert.AreEqual(true, tvItemUserAuthorizationService.Delete(tvItemUserAuthorization));
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvItemUserAuthorization.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, tvItemUserAuthorizationService.Add(tvItemUserAuthorization));
             Assert.IsTrue(tvItemUserAuthorization.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemUserAuthorizationLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, tvItemUserAuthorization.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, tvItemUserAuthorizationService.GetRead().Count());
+            Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [ContactTVItem] of type [TVItem]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // tvItemUserAuthorization.ContactTVItem   (TVItem)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[NotMapped]
+            // tvItemUserAuthorization.ValidationResults   (IEnumerable`1)
             //-----------------------------------
-
         }
         #endregion Tests Generated
     }

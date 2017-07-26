@@ -60,24 +60,28 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeSource, ModelsRes.MikeSourceStartEndMikeSourceID, mikeSourceStartEnd.MikeSourceID.ToString()), new[] { ModelsRes.MikeSourceStartEndMikeSourceID });
             }
 
-            if (mikeSourceStartEnd.StartDateAndTime_Local == null)
+            if (mikeSourceStartEnd.StartDateAndTime_Local.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndStartDateAndTime_Local), new[] { ModelsRes.MikeSourceStartEndStartDateAndTime_Local });
             }
-
-            if (mikeSourceStartEnd.StartDateAndTime_Local.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeSourceStartEndStartDateAndTime_Local, "1980"), new[] { ModelsRes.MikeSourceStartEndStartDateAndTime_Local });
+                if (mikeSourceStartEnd.StartDateAndTime_Local.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeSourceStartEndStartDateAndTime_Local, "1980"), new[] { ModelsRes.MikeSourceStartEndStartDateAndTime_Local });
+                }
             }
 
-            if (mikeSourceStartEnd.EndDateAndTime_Local == null)
+            if (mikeSourceStartEnd.EndDateAndTime_Local.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndEndDateAndTime_Local), new[] { ModelsRes.MikeSourceStartEndEndDateAndTime_Local });
             }
-
-            if (mikeSourceStartEnd.EndDateAndTime_Local.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeSourceStartEndEndDateAndTime_Local, "1980"), new[] { ModelsRes.MikeSourceStartEndEndDateAndTime_Local });
+                if (mikeSourceStartEnd.EndDateAndTime_Local.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeSourceStartEndEndDateAndTime_Local, "1980"), new[] { ModelsRes.MikeSourceStartEndEndDateAndTime_Local });
+                }
             }
 
             if (mikeSourceStartEnd.StartDateAndTime_Local < mikeSourceStartEnd.EndDateAndTime_Local)
@@ -141,14 +145,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityEnd_PSU, "0", "40"), new[] { ModelsRes.MikeSourceStartEndSourceSalinityEnd_PSU });
             }
 
-            if (mikeSourceStartEnd.LastUpdateDate_UTC == null)
+            if (mikeSourceStartEnd.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndLastUpdateDate_UTC), new[] { ModelsRes.MikeSourceStartEndLastUpdateDate_UTC });
             }
-
-            if (mikeSourceStartEnd.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeSourceStartEndLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MikeSourceStartEndLastUpdateDate_UTC });
+                if (mikeSourceStartEnd.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeSourceStartEndLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MikeSourceStartEndLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

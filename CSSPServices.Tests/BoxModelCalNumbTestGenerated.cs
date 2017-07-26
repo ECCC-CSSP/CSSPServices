@@ -41,11 +41,11 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Error") boxModelCalNumb.Error = GetRandomString("", 5);
             if (OmitPropName != "BoxModelResultType") boxModelCalNumb.BoxModelResultType = (BoxModelResultTypeEnum)GetRandomEnumType(typeof(BoxModelResultTypeEnum));
-            if (OmitPropName != "CalLength_m") boxModelCalNumb.CalLength_m = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "CalRadius_m") boxModelCalNumb.CalRadius_m = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "CalSurface_m2") boxModelCalNumb.CalSurface_m2 = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "CalVolume_m3") boxModelCalNumb.CalVolume_m3 = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "CalWidth_m") boxModelCalNumb.CalWidth_m = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "CalLength_m") boxModelCalNumb.CalLength_m = GetRandomDouble(0.0D, 10.0D);
+            if (OmitPropName != "CalRadius_m") boxModelCalNumb.CalRadius_m = GetRandomDouble(0.0D, 10.0D);
+            if (OmitPropName != "CalSurface_m2") boxModelCalNumb.CalSurface_m2 = GetRandomDouble(0.0D, 10.0D);
+            if (OmitPropName != "CalVolume_m3") boxModelCalNumb.CalVolume_m3 = GetRandomDouble(0.0D, 10.0D);
+            if (OmitPropName != "CalWidth_m") boxModelCalNumb.CalWidth_m = GetRandomDouble(0.0D, 10.0D);
             if (OmitPropName != "FixLength") boxModelCalNumb.FixLength = true;
             if (OmitPropName != "FixWidth") boxModelCalNumb.FixWidth = true;
 
@@ -74,17 +74,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

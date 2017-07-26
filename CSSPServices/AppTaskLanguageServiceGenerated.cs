@@ -66,19 +66,9 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageLanguage), new[] { ModelsRes.AppTaskLanguageLanguage });
             }
 
-            if (string.IsNullOrWhiteSpace(appTaskLanguage.StatusText))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageStatusText), new[] { ModelsRes.AppTaskLanguageStatusText });
-            }
-
             if (!string.IsNullOrWhiteSpace(appTaskLanguage.StatusText) && appTaskLanguage.StatusText.Length > 250)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageStatusText, "250"), new[] { ModelsRes.AppTaskLanguageStatusText });
-            }
-
-            if (string.IsNullOrWhiteSpace(appTaskLanguage.ErrorText))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageErrorText), new[] { ModelsRes.AppTaskLanguageErrorText });
             }
 
             if (!string.IsNullOrWhiteSpace(appTaskLanguage.ErrorText) && appTaskLanguage.ErrorText.Length > 250)
@@ -92,14 +82,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageTranslationStatus), new[] { ModelsRes.AppTaskLanguageTranslationStatus });
             }
 
-            if (appTaskLanguage.LastUpdateDate_UTC == null)
+            if (appTaskLanguage.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageLastUpdateDate_UTC), new[] { ModelsRes.AppTaskLanguageLastUpdateDate_UTC });
             }
-
-            if (appTaskLanguage.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppTaskLanguageLastUpdateDate_UTC, "1980"), new[] { ModelsRes.AppTaskLanguageLastUpdateDate_UTC });
+                if (appTaskLanguage.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppTaskLanguageLastUpdateDate_UTC, "1980"), new[] { ModelsRes.AppTaskLanguageLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

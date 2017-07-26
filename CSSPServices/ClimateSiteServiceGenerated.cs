@@ -95,11 +95,6 @@ namespace CSSPServices
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(climateSite.ClimateID))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteClimateID), new[] { ModelsRes.ClimateSiteClimateID });
-            }
-
             if (!string.IsNullOrWhiteSpace(climateSite.ClimateID) && climateSite.ClimateID.Length > 10)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteClimateID, "10"), new[] { ModelsRes.ClimateSiteClimateID });
@@ -113,19 +108,9 @@ namespace CSSPServices
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(climateSite.TCID))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteTCID), new[] { ModelsRes.ClimateSiteTCID });
-            }
-
             if (!string.IsNullOrWhiteSpace(climateSite.TCID) && climateSite.TCID.Length > 3)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteTCID, "3"), new[] { ModelsRes.ClimateSiteTCID });
-            }
-
-            if (string.IsNullOrWhiteSpace(climateSite.ProvSiteID))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteProvSiteID), new[] { ModelsRes.ClimateSiteProvSiteID });
             }
 
             if (!string.IsNullOrWhiteSpace(climateSite.ProvSiteID) && climateSite.ProvSiteID.Length > 50)
@@ -139,11 +124,6 @@ namespace CSSPServices
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateSiteTimeOffset_hour, "-10", "0"), new[] { ModelsRes.ClimateSiteTimeOffset_hour });
                 }
-            }
-
-            if (string.IsNullOrWhiteSpace(climateSite.File_desc))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteFile_desc), new[] { ModelsRes.ClimateSiteFile_desc });
             }
 
             if (!string.IsNullOrWhiteSpace(climateSite.File_desc) && climateSite.File_desc.Length > 50)
@@ -181,14 +161,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ClimateSiteMonthlyEndDate_Local, "1980"), new[] { ModelsRes.ClimateSiteMonthlyEndDate_Local });
             }
 
-            if (climateSite.LastUpdateDate_UTC == null)
+            if (climateSite.LastUpdateDate_UTC.Year == 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteLastUpdateDate_UTC), new[] { ModelsRes.ClimateSiteLastUpdateDate_UTC });
             }
-
-            if (climateSite.LastUpdateDate_UTC.Year < 1980)
+            else
             {
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ClimateSiteLastUpdateDate_UTC, "1980"), new[] { ModelsRes.ClimateSiteLastUpdateDate_UTC });
+                if (climateSite.LastUpdateDate_UTC.Year < 1980)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ClimateSiteLastUpdateDate_UTC, "1980"), new[] { ModelsRes.ClimateSiteLastUpdateDate_UTC });
+                }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

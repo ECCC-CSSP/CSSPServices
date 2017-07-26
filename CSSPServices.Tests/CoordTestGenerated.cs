@@ -39,8 +39,8 @@ namespace CSSPServices.Tests
         {
             Coord coord = new Coord();
 
-            if (OmitPropName != "Lat") coord.Lat = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Lng") coord.Lng = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "Lat") coord.Lat = GetRandomDouble(-180.0D, 180.0D);
+            if (OmitPropName != "Lng") coord.Lng = GetRandomDouble(-90.0D, 90.0D);
             if (OmitPropName != "Ordinal") coord.Ordinal = GetRandomInt(0, 10000);
 
             return coord;
@@ -68,17 +68,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

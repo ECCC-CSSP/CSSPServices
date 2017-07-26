@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
             TVItemInfrastructureTypeTVItemLink tvItemInfrastructureTypeTVItemLink = new TVItemInfrastructureTypeTVItemLink();
 
             if (OmitPropName != "InfrastructureType") tvItemInfrastructureTypeTVItemLink.InfrastructureType = (InfrastructureTypeEnum)GetRandomEnumType(typeof(InfrastructureTypeEnum));
-            if (OmitPropName != "SeeOtherTVItemID") tvItemInfrastructureTypeTVItemLink.SeeOtherTVItemID = GetRandomInt(1, 1000);
+            // should implement a Range for the property SeeOtherTVItemID and type TVItemInfrastructureTypeTVItemLink
 
             return tvItemInfrastructureTypeTVItemLink;
         }
@@ -67,17 +67,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

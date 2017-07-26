@@ -579,18 +579,18 @@ namespace CSSPServicesGenerateCodeHelper
             #endregion TVItem Subsector NB-06_020_001 
             #region MWQMSubsector NB-06_020_002 and MWQMSubsectorLanguage
             StatusTempEvent(new StatusEventArgs("doing ... MWQM Subsector NB-06-020-002"));
-            // MWQMSubsector NB-06_020_002 TVItemID = 634
-            MWQMSubsector mwqmSubsector002 = dbCSSPWebToolsDBRead.MWQMSubsectors.AsNoTracking().Where(c => c.MWQMSubsectorTVItemID == 634).FirstOrDefault();
+            // MWQMSubsector NB-06_020_002 TVItemID = 635
+            MWQMSubsector mwqmSubsector002 = dbCSSPWebToolsDBRead.MWQMSubsectors.AsNoTracking().Where(c => c.MWQMSubsectorTVItemID == 635).FirstOrDefault();
             int MWQMSubsector002ID = mwqmSubsector002.MWQMSubsectorID;
             mwqmSubsector002.MWQMSubsectorTVItemID = tvItemNB_06_020_002.TVItemID;
             if (!AddObject("MWQMSubsector", mwqmSubsector002)) return false;
 
-            // MWQMSubsectorLanguage EN NB-06_020_002 TVItemID = 634
+            // MWQMSubsectorLanguage EN NB-06_020_002 TVItemID = 635
             MWQMSubsectorLanguage mwqmSubsector002EN = dbCSSPWebToolsDBRead.MWQMSubsectorLanguages.AsNoTracking().Where(c => c.MWQMSubsectorID == MWQMSubsector002ID && c.Language == LanguageEnum.en).FirstOrDefault();
             mwqmSubsector002EN.MWQMSubsectorID = mwqmSubsector002.MWQMSubsectorID;
             if (!AddObject("MWQMSubsectorLanguage", mwqmSubsector002EN)) return false;
 
-            // MWQMSubsectorLanguage FR NB-06_020_002 TVItemID = 634
+            // MWQMSubsectorLanguage FR NB-06_020_002 TVItemID = 635
             MWQMSubsectorLanguage mwqmSubsector002FR = dbCSSPWebToolsDBRead.MWQMSubsectorLanguages.AsNoTracking().Where(c => c.MWQMSubsectorID == MWQMSubsector002ID && c.Language == LanguageEnum.fr).FirstOrDefault();
             mwqmSubsector002FR.MWQMSubsectorID = mwqmSubsector002.MWQMSubsectorID;
             if (!AddObject("MWQMSubsectorLanguage", mwqmSubsector002FR)) return false;
@@ -1266,6 +1266,89 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemLinkContactEmail.TVPath = "p" + tvItemContactCharles.TVItemID.ToString() + "p" + tvItemEmail.TVItemID.ToString();
             if (!AddObject("TVItemLink", tvItemLinkContactEmail)) return false;
             #endregion TVItemLink
+            #region Spill and SpillLanguage
+            StatusTempEvent(new StatusEventArgs("doing ... Spill and SpillLanguage"));
+            Spill spill = new Spill();
+            spill.MunicipalityTVItemID = tvItemBouctouche.TVItemID;
+            spill.InfrastructureTVItemID = tvItemBouctoucheWWTP.TVItemID;
+            spill.StartDateTime_Local = DateTime.Now.AddYears(-5);
+            spill.EndDateTime_Local = DateTime.Now.AddYears(-5).AddHours(6);
+            spill.AverageFlow_m3_day = 34.5D;
+            spill.LastUpdateDate_UTC = DateTime.Now;
+            spill.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("Spill", spill)) return false;
+
+            SpillLanguage spillLanguageEN = new SpillLanguage();
+            spillLanguageEN.SpillID = spill.SpillID;
+            spillLanguageEN.Language = LanguageEnum.en;
+            spillLanguageEN.SpillComment = "This is the spill comment";
+            spillLanguageEN.TranslationStatus = TranslationStatusEnum.Translated;
+            spillLanguageEN.LastUpdateDate_UTC = DateTime.Now;
+            spillLanguageEN.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("SpillLanguage", spillLanguageEN)) return false;
+
+            SpillLanguage spillLanguageFR = new SpillLanguage();
+            spillLanguageFR.SpillID = spill.SpillID;
+            spillLanguageFR.Language = LanguageEnum.fr;
+            spillLanguageFR.SpillComment = "This is the spill comment";
+            spillLanguageFR.TranslationStatus = TranslationStatusEnum.NotTranslated;
+            spillLanguageFR.LastUpdateDate_UTC = DateTime.Now;
+            spillLanguageFR.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("SpillLanguage", spillLanguageFR)) return false;
+            #endregion Spill and SpillLanguage
+            #region EmailDistributionList and EmailDistributionListContact
+            StatusTempEvent(new StatusEventArgs("doing ... EmailDistributionList and EmailDistributionListContact"));
+            EmailDistributionList emailDistributionList = dbCSSPWebToolsDBRead.EmailDistributionLists.AsNoTracking().FirstOrDefault();
+            int EmailDistributionListID = emailDistributionList.EmailDistributionListID;
+            emailDistributionList.CountryTVItemID = tvItemCanada.TVItemID;
+            if (!AddObject("EmailDistributionList", emailDistributionList)) return false;
+
+            List<EmailDistributionListContact> emailDistributionListContactList = dbCSSPWebToolsDBRead.EmailDistributionListContacts.AsNoTracking().Where(c => c.EmailDistributionListID == EmailDistributionListID).Take(5).ToList();
+            foreach (EmailDistributionListContact emailDistributionListContact in emailDistributionListContactList)
+            {
+                emailDistributionListContact.EmailDistributionListID = emailDistributionList.EmailDistributionListID;
+                if (!AddObject("EmailDistributionListContact", emailDistributionListContact)) return false;
+            }
+            #endregion TVItemLink
+            #region AppTask and AppTaskLanguage
+            StatusTempEvent(new StatusEventArgs("doing ... AppTask and AppTaskLanguage"));
+            AppTask appTask = new AppTask();
+            appTask.TVItemID = tvItemCanada.TVItemID;
+            appTask.TVItemID2 = tvItemCanada.TVItemID;
+            appTask.AppTaskCommand = AppTaskCommandEnum.Error;
+            appTask.AppTaskStatus = AppTaskStatusEnum.Error;
+            appTask.PercentCompleted = 1;
+            appTask.Parameters = "a,a";
+            appTask.Language = LanguageEnum.en;
+            appTask.StartDateTime_UTC = DateTime.Now.AddYears(-5);
+            appTask.EndDateTime_UTC = DateTime.Now.AddYears(-5).AddHours(4);
+            appTask.EstimatedLength_second = 1201;
+            appTask.RemainingTime_second = 234;
+            appTask.LastUpdateDate_UTC = DateTime.Now;
+            appTask.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("AppTask", appTask)) return false;
+
+            AppTaskLanguage appTaskLanguageEN = new AppTaskLanguage();
+            appTaskLanguageEN.AppTaskID = appTask.AppTaskID;
+            appTaskLanguageEN.Language = LanguageEnum.en;
+            appTaskLanguageEN.StatusText = "This is the Status text";
+            appTaskLanguageEN.ErrorText = "This is the Error text";
+            appTaskLanguageEN.TranslationStatus = TranslationStatusEnum.Translated;
+            appTaskLanguageEN.LastUpdateDate_UTC = DateTime.Now;
+            appTaskLanguageEN.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("AppTaskLanguage", appTaskLanguageEN)) return false;
+
+            AppTaskLanguage appTaskLanguageFR = new AppTaskLanguage();
+            appTaskLanguageFR.AppTaskID = appTask.AppTaskID;
+            appTaskLanguageFR.Language = LanguageEnum.fr;
+            appTaskLanguageFR.StatusText = "This is the Status text";
+            appTaskLanguageFR.ErrorText = "This is the Error text";
+            appTaskLanguageFR.TranslationStatus = TranslationStatusEnum.NotTranslated;
+            appTaskLanguageFR.LastUpdateDate_UTC = DateTime.Now;
+            appTaskLanguageFR.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("AppTaskLanguage", appTaskLanguageFR)) return false;
+            #endregion AppTask and AppTaskLanguage
+
 
             return true;
         }
@@ -1327,6 +1410,20 @@ namespace CSSPServicesGenerateCodeHelper
                         dbTestDBWrite.Addresses.Add((Address)objTarget);
                     }
                     break;
+                case "AppTask":
+                    {
+                        ((AppTask)objTarget).AppTaskID = 0;
+                        ((AppTask)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.AppTasks.Add((AppTask)objTarget);
+                    }
+                    break;
+                case "AppTaskLanguage":
+                    {
+                        ((AppTaskLanguage)objTarget).AppTaskLanguageID = 0;
+                        ((AppTaskLanguage)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.AppTaskLanguages.Add((AppTaskLanguage)objTarget);
+                    }
+                    break;
                 case "BoxModel":
                     {
                         ((BoxModel)objTarget).BoxModelID = 0;
@@ -1381,6 +1478,20 @@ namespace CSSPServicesGenerateCodeHelper
                         ((Email)objTarget).EmailID = 0;
                         ((Email)objTarget).LastUpdateContactTVItemID = 2;
                         dbTestDBWrite.Emails.Add((Email)objTarget);
+                    }
+                    break;
+                case "EmailDistributionList":
+                    {
+                        ((EmailDistributionList)objTarget).EmailDistributionListID = 0;
+                        ((EmailDistributionList)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.EmailDistributionLists.Add((EmailDistributionList)objTarget);
+                    }
+                    break;
+                case "EmailDistributionListContact":
+                    {
+                        ((EmailDistributionListContact)objTarget).EmailDistributionListContactID = 0;
+                        ((EmailDistributionListContact)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.EmailDistributionListContacts.Add((EmailDistributionListContact)objTarget);
                     }
                     break;
                 case "HydrometricDataValue":
@@ -1570,6 +1681,20 @@ namespace CSSPServicesGenerateCodeHelper
                         ((SamplingPlanSubsectorSite)objTarget).SamplingPlanSubsectorSiteID = 0;
                         ((SamplingPlanSubsectorSite)objTarget).LastUpdateContactTVItemID = 2;
                         dbTestDBWrite.SamplingPlanSubsectorSites.Add((SamplingPlanSubsectorSite)objTarget);
+                    }
+                    break;
+                case "Spill":
+                    {
+                        ((Spill)objTarget).SpillID = 0;
+                        ((Spill)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.Spills.Add((Spill)objTarget);
+                    }
+                    break;
+                case "SpillLanguage":
+                    {
+                        ((SpillLanguage)objTarget).SpillLanguageID = 0;
+                        ((SpillLanguage)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.SpillLanguages.Add((SpillLanguage)objTarget);
                     }
                     break;
                 case "Tel":

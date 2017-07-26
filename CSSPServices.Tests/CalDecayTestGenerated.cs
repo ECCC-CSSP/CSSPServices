@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
             CalDecay calDecay = new CalDecay();
 
             if (OmitPropName != "Error") calDecay.Error = GetRandomString("", 5);
-            if (OmitPropName != "Decay") calDecay.Decay = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "Decay") calDecay.Decay = GetRandomDouble(0.0D, 10.0D);
 
             return calDecay;
         }
@@ -67,17 +67,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

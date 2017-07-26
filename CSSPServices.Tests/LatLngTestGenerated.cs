@@ -39,8 +39,8 @@ namespace CSSPServices.Tests
         {
             LatLng latLng = new LatLng();
 
-            if (OmitPropName != "Lat") latLng.Lat = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Lng") latLng.Lng = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "Lat") latLng.Lat = GetRandomDouble(-180.0D, 180.0D);
+            if (OmitPropName != "Lng") latLng.Lng = GetRandomDouble(-90.0D, 90.0D);
 
             return latLng;
         }
@@ -67,17 +67,9 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
 
         }
         #endregion Tests Generated

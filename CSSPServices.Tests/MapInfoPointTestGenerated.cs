@@ -39,10 +39,10 @@ namespace CSSPServices.Tests
         {
             MapInfoPoint mapInfoPoint = new MapInfoPoint();
 
-            if (OmitPropName != "MapInfoID") mapInfoPoint.MapInfoID = GetRandomInt(1, 11);
+            if (OmitPropName != "MapInfoID") mapInfoPoint.MapInfoID = 1;
             if (OmitPropName != "Ordinal") mapInfoPoint.Ordinal = GetRandomInt(0, 10);
-            if (OmitPropName != "Lat") mapInfoPoint.Lat = GetRandomDouble(1.0D, 1000.0D);
-            if (OmitPropName != "Lng") mapInfoPoint.Lng = GetRandomDouble(1.0D, 1000.0D);
+            if (OmitPropName != "Lat") mapInfoPoint.Lat = GetRandomDouble(-90.0D, 90.0D);
+            if (OmitPropName != "Lng") mapInfoPoint.Lng = GetRandomDouble(-180.0D, 180.0D);
             if (OmitPropName != "LastUpdateDate_UTC") mapInfoPoint.LastUpdateDate_UTC = GetRandomDateTime();
             if (OmitPropName != "LastUpdateContactTVItemID") mapInfoPoint.LastUpdateContactTVItemID = 2;
 
@@ -92,47 +92,29 @@ namespace CSSPServices.Tests
 
             // -------------------------------
             // -------------------------------
-            // Required properties testing
+            // Properties testing
             // -------------------------------
             // -------------------------------
 
+
+            //-----------------------------------
+            //[Key]
+            //Is NOT Nullable
+            // mapInfoPoint.MapInfoPointID   (Int32)
+            //-----------------------------------
+            mapInfoPoint = GetFilledRandomMapInfoPoint("");
+            mapInfoPoint.MapInfoPointID = 0;
+            mapInfoPointService.Update(mapInfoPoint);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoPointMapInfoPointID), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            //-----------------------------------
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "MapInfo", Plurial = "s", FieldID = "MapInfoID", TVType = TVTypeEnum.Error)]
+            //[Range(1, -1)]
+            // mapInfoPoint.MapInfoID   (Int32)
+            //-----------------------------------
             // MapInfoID will automatically be initialized at 0 --> not null
 
-            // Ordinal will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [Lat]
-
-            //Error: Type not implemented [Lng]
-
-            mapInfoPoint = null;
-            mapInfoPoint = GetFilledRandomMapInfoPoint("LastUpdateDate_UTC");
-            Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
-            Assert.AreEqual(1, mapInfoPoint.ValidationResults.Count());
-            Assert.IsTrue(mapInfoPoint.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoPointLastUpdateDate_UTC)).Any());
-            Assert.IsTrue(mapInfoPoint.LastUpdateDate_UTC.Year < 1900);
-            Assert.AreEqual(0, mapInfoPointService.GetRead().Count());
-
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-            //Error: Type not implemented [MapInfo]
-
-            //Error: Type not implemented [ValidationResults]
-
-
-            // -------------------------------
-            // -------------------------------
-            // Min and Max properties testing
-            // -------------------------------
-            // -------------------------------
-
-
-            //-----------------------------------
-            // doing property [MapInfoPointID] of type [Int32]
-            //-----------------------------------
-
-            //-----------------------------------
-            // doing property [MapInfoID] of type [Int32]
-            //-----------------------------------
 
             mapInfoPoint = null;
             mapInfoPoint = GetFilledRandomMapInfoPoint("");
@@ -142,24 +124,28 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mapInfoPoint.ValidationResults.Count());
             Assert.AreEqual(1, mapInfoPoint.MapInfoID);
             Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
-            Assert.AreEqual(0, mapInfoPointService.GetRead().Count());
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
             // MapInfoID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             mapInfoPoint.MapInfoID = 2;
             Assert.AreEqual(true, mapInfoPointService.Add(mapInfoPoint));
             Assert.AreEqual(0, mapInfoPoint.ValidationResults.Count());
             Assert.AreEqual(2, mapInfoPoint.MapInfoID);
             Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
-            Assert.AreEqual(0, mapInfoPointService.GetRead().Count());
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
             // MapInfoID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mapInfoPoint.MapInfoID = 0;
             Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
             Assert.IsTrue(mapInfoPoint.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MapInfoPointMapInfoID, "1")).Any());
             Assert.AreEqual(0, mapInfoPoint.MapInfoID);
-            Assert.AreEqual(0, mapInfoPointService.GetRead().Count());
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Ordinal] of type [Int32]
+            //Is NOT Nullable
+            //[Range(0, -1)]
+            // mapInfoPoint.Ordinal   (Int32)
             //-----------------------------------
+            // Ordinal will automatically be initialized at 0 --> not null
+
 
             mapInfoPoint = null;
             mapInfoPoint = GetFilledRandomMapInfoPoint("");
@@ -169,36 +155,139 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mapInfoPoint.ValidationResults.Count());
             Assert.AreEqual(0, mapInfoPoint.Ordinal);
             Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
-            Assert.AreEqual(0, mapInfoPointService.GetRead().Count());
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
             // Ordinal has Min [0] and Max [empty]. At Min + 1 should return true and no errors
             mapInfoPoint.Ordinal = 1;
             Assert.AreEqual(true, mapInfoPointService.Add(mapInfoPoint));
             Assert.AreEqual(0, mapInfoPoint.ValidationResults.Count());
             Assert.AreEqual(1, mapInfoPoint.Ordinal);
             Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
-            Assert.AreEqual(0, mapInfoPointService.GetRead().Count());
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
             // Ordinal has Min [0] and Max [empty]. At Min - 1 should return false with one error
             mapInfoPoint.Ordinal = -1;
             Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
             Assert.IsTrue(mapInfoPoint.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MapInfoPointOrdinal, "0")).Any());
             Assert.AreEqual(-1, mapInfoPoint.Ordinal);
-            Assert.AreEqual(0, mapInfoPointService.GetRead().Count());
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Lat] of type [Double]
+            //Is NOT Nullable
+            //[Range(-90, 90)]
+            // mapInfoPoint.Lat   (Double)
             //-----------------------------------
+            //Error: Type not implemented [Lat]
+
+
+            mapInfoPoint = null;
+            mapInfoPoint = GetFilledRandomMapInfoPoint("");
+            // Lat has Min [-90.0D] and Max [90.0D]. At Min should return true and no errors
+            mapInfoPoint.Lat = -90.0D;
+            Assert.AreEqual(true, mapInfoPointService.Add(mapInfoPoint));
+            Assert.AreEqual(0, mapInfoPoint.ValidationResults.Count());
+            Assert.AreEqual(-90.0D, mapInfoPoint.Lat);
+            Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+            // Lat has Min [-90.0D] and Max [90.0D]. At Min + 1 should return true and no errors
+            mapInfoPoint.Lat = -89.0D;
+            Assert.AreEqual(true, mapInfoPointService.Add(mapInfoPoint));
+            Assert.AreEqual(0, mapInfoPoint.ValidationResults.Count());
+            Assert.AreEqual(-89.0D, mapInfoPoint.Lat);
+            Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+            // Lat has Min [-90.0D] and Max [90.0D]. At Min - 1 should return false with one error
+            mapInfoPoint.Lat = -91.0D;
+            Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
+            Assert.IsTrue(mapInfoPoint.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointLat, "-90", "90")).Any());
+            Assert.AreEqual(-91.0D, mapInfoPoint.Lat);
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+            // Lat has Min [-90.0D] and Max [90.0D]. At Max should return true and no errors
+            mapInfoPoint.Lat = 90.0D;
+            Assert.AreEqual(true, mapInfoPointService.Add(mapInfoPoint));
+            Assert.AreEqual(0, mapInfoPoint.ValidationResults.Count());
+            Assert.AreEqual(90.0D, mapInfoPoint.Lat);
+            Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+            // Lat has Min [-90.0D] and Max [90.0D]. At Max - 1 should return true and no errors
+            mapInfoPoint.Lat = 89.0D;
+            Assert.AreEqual(true, mapInfoPointService.Add(mapInfoPoint));
+            Assert.AreEqual(0, mapInfoPoint.ValidationResults.Count());
+            Assert.AreEqual(89.0D, mapInfoPoint.Lat);
+            Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+            // Lat has Min [-90.0D] and Max [90.0D]. At Max + 1 should return false with one error
+            mapInfoPoint.Lat = 91.0D;
+            Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
+            Assert.IsTrue(mapInfoPoint.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointLat, "-90", "90")).Any());
+            Assert.AreEqual(91.0D, mapInfoPoint.Lat);
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [Lng] of type [Double]
+            //Is NOT Nullable
+            //[Range(-180, 180)]
+            // mapInfoPoint.Lng   (Double)
             //-----------------------------------
+            //Error: Type not implemented [Lng]
+
+
+            mapInfoPoint = null;
+            mapInfoPoint = GetFilledRandomMapInfoPoint("");
+            // Lng has Min [-180.0D] and Max [180.0D]. At Min should return true and no errors
+            mapInfoPoint.Lng = -180.0D;
+            Assert.AreEqual(true, mapInfoPointService.Add(mapInfoPoint));
+            Assert.AreEqual(0, mapInfoPoint.ValidationResults.Count());
+            Assert.AreEqual(-180.0D, mapInfoPoint.Lng);
+            Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+            // Lng has Min [-180.0D] and Max [180.0D]. At Min + 1 should return true and no errors
+            mapInfoPoint.Lng = -179.0D;
+            Assert.AreEqual(true, mapInfoPointService.Add(mapInfoPoint));
+            Assert.AreEqual(0, mapInfoPoint.ValidationResults.Count());
+            Assert.AreEqual(-179.0D, mapInfoPoint.Lng);
+            Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+            // Lng has Min [-180.0D] and Max [180.0D]. At Min - 1 should return false with one error
+            mapInfoPoint.Lng = -181.0D;
+            Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
+            Assert.IsTrue(mapInfoPoint.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointLng, "-180", "180")).Any());
+            Assert.AreEqual(-181.0D, mapInfoPoint.Lng);
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+            // Lng has Min [-180.0D] and Max [180.0D]. At Max should return true and no errors
+            mapInfoPoint.Lng = 180.0D;
+            Assert.AreEqual(true, mapInfoPointService.Add(mapInfoPoint));
+            Assert.AreEqual(0, mapInfoPoint.ValidationResults.Count());
+            Assert.AreEqual(180.0D, mapInfoPoint.Lng);
+            Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+            // Lng has Min [-180.0D] and Max [180.0D]. At Max - 1 should return true and no errors
+            mapInfoPoint.Lng = 179.0D;
+            Assert.AreEqual(true, mapInfoPointService.Add(mapInfoPoint));
+            Assert.AreEqual(0, mapInfoPoint.ValidationResults.Count());
+            Assert.AreEqual(179.0D, mapInfoPoint.Lng);
+            Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
+            // Lng has Min [-180.0D] and Max [180.0D]. At Max + 1 should return false with one error
+            mapInfoPoint.Lng = 181.0D;
+            Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
+            Assert.IsTrue(mapInfoPoint.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointLng, "-180", "180")).Any());
+            Assert.AreEqual(181.0D, mapInfoPoint.Lng);
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [LastUpdateDate_UTC] of type [DateTime]
+            //Is NOT Nullable
+            //[CSSPAfter(Year = 1980)]
+            // mapInfoPoint.LastUpdateDate_UTC   (DateTime)
             //-----------------------------------
+            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
+
 
             //-----------------------------------
-            // doing property [LastUpdateContactTVItemID] of type [Int32]
+            //Is NOT Nullable
+            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            //[Range(1, -1)]
+            // mapInfoPoint.LastUpdateContactTVItemID   (Int32)
             //-----------------------------------
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             mapInfoPoint = null;
             mapInfoPoint = GetFilledRandomMapInfoPoint("");
@@ -208,29 +297,32 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mapInfoPoint.ValidationResults.Count());
             Assert.AreEqual(1, mapInfoPoint.LastUpdateContactTVItemID);
             Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
-            Assert.AreEqual(0, mapInfoPointService.GetRead().Count());
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
             mapInfoPoint.LastUpdateContactTVItemID = 2;
             Assert.AreEqual(true, mapInfoPointService.Add(mapInfoPoint));
             Assert.AreEqual(0, mapInfoPoint.ValidationResults.Count());
             Assert.AreEqual(2, mapInfoPoint.LastUpdateContactTVItemID);
             Assert.AreEqual(true, mapInfoPointService.Delete(mapInfoPoint));
-            Assert.AreEqual(0, mapInfoPointService.GetRead().Count());
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
             // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mapInfoPoint.LastUpdateContactTVItemID = 0;
             Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
             Assert.IsTrue(mapInfoPoint.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MapInfoPointLastUpdateContactTVItemID, "1")).Any());
             Assert.AreEqual(0, mapInfoPoint.LastUpdateContactTVItemID);
-            Assert.AreEqual(0, mapInfoPointService.GetRead().Count());
+            Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
             //-----------------------------------
-            // doing property [MapInfo] of type [MapInfo]
+            //Is NOT Nullable
+            //[IsVirtual]
+            // mapInfoPoint.MapInfo   (MapInfo)
             //-----------------------------------
 
             //-----------------------------------
-            // doing property [ValidationResults] of type [IEnumerable`1]
+            //Is NOT Nullable
+            //[NotMapped]
+            // mapInfoPoint.ValidationResults   (IEnumerable`1)
             //-----------------------------------
-
         }
         #endregion Tests Generated
     }
