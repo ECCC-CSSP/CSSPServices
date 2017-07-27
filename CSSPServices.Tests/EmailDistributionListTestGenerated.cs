@@ -96,22 +96,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // emailDistributionList.EmailDistributionListID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             emailDistributionList = GetFilledRandomEmailDistributionList("");
             emailDistributionList.EmailDistributionListID = 0;
             emailDistributionListService.Update(emailDistributionList);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListEmailDistributionListID), emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Country)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Country)]
+            // [Range(1, -1)]
             // emailDistributionList.CountryTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // CountryTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -138,11 +140,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, emailDistributionList.CountryTVItemID);
             Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // emailDistributionList.RegionName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             emailDistributionList = null;
             emailDistributionList = GetFilledRandomEmailDistributionList("RegionName");
             Assert.AreEqual(false, emailDistributionListService.Add(emailDistributionList));
@@ -181,11 +184,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(emailDistributionListRegionNameMin, emailDistributionList.RegionName);
             Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000)]
             // emailDistributionList.Ordinal   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Ordinal will automatically be initialized at 0 --> not null
 
 
@@ -232,20 +236,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001, emailDistributionList.Ordinal);
             Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // emailDistributionList.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // emailDistributionList.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -272,23 +278,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, emailDistributionList.LastUpdateContactTVItemID);
             Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // emailDistributionList.CountryTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // emailDistributionList.EmailDistributionListContacts   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // emailDistributionList.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

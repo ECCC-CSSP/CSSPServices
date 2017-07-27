@@ -98,21 +98,23 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // tvItem.TVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             tvItem = GetFilledRandomTVItem("");
             tvItem.TVItemID = 0;
             tvItemService.Update(tvItem);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVItemID), tvItem.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // tvItem.TVLevel   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVLevel will automatically be initialized at 0 --> not null
 
 
@@ -159,11 +161,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101, tvItem.TVLevel);
             Assert.AreEqual(count, tvItemService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(250))]
             // tvItem.TVPath   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             tvItem = null;
             tvItem = GetFilledRandomTVItem("TVPath");
             Assert.AreEqual(false, tvItemService.Add(tvItem));
@@ -202,20 +205,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(tvItemTVPathMin, tvItem.TVPath);
             Assert.AreEqual(count, tvItemService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // tvItem.TVType   (TVTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // tvItem.ParentID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ParentID will automatically be initialized at 0 --> not null
 
 
@@ -242,27 +247,30 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItem.ParentID);
             Assert.AreEqual(count, tvItemService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // tvItem.IsActive   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // IsActive will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // tvItem.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // tvItem.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -289,335 +297,390 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItem.LastUpdateContactTVItemID);
             Assert.AreEqual(count, tvItemService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.AddressesAddressTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.AddressesCountryTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.AddressesMunicipalityTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.AddressesProvinceTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.AppTasks   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.BoxModels   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.ClimateSites   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.Contacts   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.DocTemplates   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.Emails   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.EmailDistributionLists   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.HydrometricSites   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.Infrastructures   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.LabSheetDetails   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.LabSheetsAcceptedOrRejectedByContactTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.LabSheetsMWQMRunTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.LabSheetsSubsectorTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.LabSheetTubeMPNDetails   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.MapInfos   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.MikeBoundaryConditions   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.MikeScenarios   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.MikeSources   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.MWQMRunsLabSampleApprovalContactTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.MWQMRunsMWQMRunTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.MWQMRunsSubsectorTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.MWQMSampleMWQMRunTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.MWQMSampleMWQMSiteTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.MWQMSites   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.MWQMSiteStartEndDates   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.MWQMSubsectors   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.PolSourceObservationsContactTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.PolSourceSites   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.SamplingPlansCreatorTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.SamplingPlansProvinceTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.SamplingPlansSamplingPlanFileTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.SamplingPlanSubsectors   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.SamplingPlanSubsectorSites   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.SpillsInfrastructureTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.SpillsMunicipalityTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.Tels   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.TideDataValues   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.TideSites   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.TVFiles   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.TVItemLanguages   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.TVItemLinksFromTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.TVItemLinksToTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.TVItemStats   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.TVItemUserAuthorizationsContactTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.TVTypeUserAuthorizations   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.UseOfSitesSiteTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.UseOfSitesSubsectorTVItem   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.VPScenarios   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.Parent   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItem.InverseParent   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // tvItem.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

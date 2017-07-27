@@ -96,22 +96,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // mwqmSiteStartEndDate.MWQMSiteStartEndDateID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
             mwqmSiteStartEndDate.MWQMSiteStartEndDateID = 0;
             mwqmSiteStartEndDateService.Update(mwqmSiteStartEndDate);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteStartEndDateMWQMSiteStartEndDateID), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMSite)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMSite)]
+            // [Range(1, -1)]
             // mwqmSiteStartEndDate.MWQMSiteTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -138,35 +140,39 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSiteStartEndDate.MWQMSiteTVItemID);
             Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmSiteStartEndDate.StartDate   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // StartDate will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
-            //[CSSPBigger(OtherField = StartDate)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
+            // [CSSPBigger(OtherField = StartDate)]
             // mwqmSiteStartEndDate.EndDate   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmSiteStartEndDate.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // mwqmSiteStartEndDate.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -193,17 +199,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSiteStartEndDate.LastUpdateContactTVItemID);
             Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mwqmSiteStartEndDate.MWQMSiteTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // mwqmSiteStartEndDate.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

@@ -119,22 +119,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // mwqmSubsector.MWQMSubsectorID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
             mwqmSubsector.MWQMSubsectorID = 0;
             mwqmSubsectorService.Update(mwqmSubsector);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorMWQMSubsectorID), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Subsector)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Subsector)]
+            // [Range(1, -1)]
             // mwqmSubsector.MWQMSubsectorTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MWQMSubsectorTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -161,11 +163,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSubsector.MWQMSubsectorTVItemID);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(20))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(20))]
             // mwqmSubsector.SubsectorHistoricKey   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("SubsectorHistoricKey");
             Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
@@ -204,11 +207,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(mwqmSubsectorSubsectorHistoricKeyMin, mwqmSubsector.SubsectorHistoricKey);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(20))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(20))]
             // mwqmSubsector.TideLocationSIDText   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
@@ -239,11 +243,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(mwqmSubsectorTideLocationSIDTextMin, mwqmSubsector.TideLocationSIDText);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 300)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 300)]
             // mwqmSubsector.RainDay0Limit   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RainDay0Limit]
 
 
@@ -290,11 +295,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(301.0D, mwqmSubsector.RainDay0Limit);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 300)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 300)]
             // mwqmSubsector.RainDay1Limit   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RainDay1Limit]
 
 
@@ -341,11 +347,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(301.0D, mwqmSubsector.RainDay1Limit);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 300)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 300)]
             // mwqmSubsector.RainDay2Limit   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RainDay2Limit]
 
 
@@ -392,11 +399,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(301.0D, mwqmSubsector.RainDay2Limit);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 300)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 300)]
             // mwqmSubsector.RainDay3Limit   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RainDay3Limit]
 
 
@@ -443,11 +451,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(301.0D, mwqmSubsector.RainDay3Limit);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 300)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 300)]
             // mwqmSubsector.RainDay4Limit   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RainDay4Limit]
 
 
@@ -494,11 +503,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(301.0D, mwqmSubsector.RainDay4Limit);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 300)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 300)]
             // mwqmSubsector.RainDay5Limit   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RainDay5Limit]
 
 
@@ -545,11 +555,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(301.0D, mwqmSubsector.RainDay5Limit);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 300)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 300)]
             // mwqmSubsector.RainDay6Limit   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RainDay6Limit]
 
 
@@ -596,11 +607,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(301.0D, mwqmSubsector.RainDay6Limit);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 300)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 300)]
             // mwqmSubsector.RainDay7Limit   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RainDay7Limit]
 
 
@@ -647,11 +659,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(301.0D, mwqmSubsector.RainDay7Limit);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 300)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 300)]
             // mwqmSubsector.RainDay8Limit   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RainDay8Limit]
 
 
@@ -698,11 +711,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(301.0D, mwqmSubsector.RainDay8Limit);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 300)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 300)]
             // mwqmSubsector.RainDay9Limit   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RainDay9Limit]
 
 
@@ -749,11 +763,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(301.0D, mwqmSubsector.RainDay9Limit);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 300)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 300)]
             // mwqmSubsector.RainDay10Limit   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RainDay10Limit]
 
 
@@ -800,23 +815,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(301.0D, mwqmSubsector.RainDay10Limit);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmSubsector.IncludeRainStartDate   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmSubsector.IncludeRainEndDate   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10)]
             // mwqmSubsector.IncludeRainRunCount   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
@@ -861,28 +879,32 @@ namespace CSSPServices.Tests
             Assert.AreEqual(11, mwqmSubsector.IncludeRainRunCount);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // mwqmSubsector.IncludeRainSelectFullYear   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmSubsector.NoRainStartDate   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmSubsector.NoRainEndDate   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10)]
             // mwqmSubsector.NoRainRunCount   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
@@ -927,28 +949,32 @@ namespace CSSPServices.Tests
             Assert.AreEqual(11, mwqmSubsector.NoRainRunCount);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // mwqmSubsector.NoRainSelectFullYear   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmSubsector.OnlyRainStartDate   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmSubsector.OnlyRainEndDate   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10)]
             // mwqmSubsector.OnlyRainRunCount   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
@@ -993,25 +1019,28 @@ namespace CSSPServices.Tests
             Assert.AreEqual(11, mwqmSubsector.OnlyRainRunCount);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // mwqmSubsector.OnlyRainSelectFullYear   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmSubsector.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // mwqmSubsector.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -1038,23 +1067,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSubsector.LastUpdateContactTVItemID);
             Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mwqmSubsector.MWQMSubsectorLanguages   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mwqmSubsector.MWQMSubsectorTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // mwqmSubsector.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

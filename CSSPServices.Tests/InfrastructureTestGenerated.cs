@@ -138,22 +138,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // infrastructure.InfrastructureID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             infrastructure = GetFilledRandomInfrastructure("");
             infrastructure.InfrastructureID = 0;
             infrastructureService.Update(infrastructure);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureInfrastructureID), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
+            // [Range(1, -1)]
             // infrastructure.InfrastructureTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // InfrastructureTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -180,11 +182,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, infrastructure.InfrastructureTVItemID);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100000)]
             // infrastructure.PrismID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -229,11 +232,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100001, infrastructure.PrismID);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100000)]
             // infrastructure.TPID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -278,11 +282,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100001, infrastructure.TPID);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100000)]
             // infrastructure.LSID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -327,11 +332,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100001, infrastructure.LSID);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100000)]
             // infrastructure.SiteID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -376,11 +382,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100001, infrastructure.SiteID);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100000)]
             // infrastructure.Site   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -425,11 +432,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100001, infrastructure.Site);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // infrastructure.InfrastructureCategory   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -460,28 +468,32 @@ namespace CSSPServices.Tests
             Assert.AreEqual(infrastructureInfrastructureCategoryMin, infrastructure.InfrastructureCategory);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // infrastructure.InfrastructureType   (InfrastructureTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // infrastructure.FacilityType   (FacilityTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
+
+            // -----------------------------------
+            // Is Nullable
             // infrastructure.IsMechanicallyAerated   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10)]
             // infrastructure.NumberOfCells   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -526,11 +538,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(11, infrastructure.NumberOfCells);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10)]
             // infrastructure.NumberOfAeratedCells   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -575,65 +588,75 @@ namespace CSSPServices.Tests
             Assert.AreEqual(11, infrastructure.NumberOfAeratedCells);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // infrastructure.AerationType   (AerationTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // infrastructure.PreliminaryTreatmentType   (PreliminaryTreatmentTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // infrastructure.PrimaryTreatmentType   (PrimaryTreatmentTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // infrastructure.SecondaryTreatmentType   (SecondaryTreatmentTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // infrastructure.TertiaryTreatmentType   (TertiaryTreatmentTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // infrastructure.TreatmentType   (TreatmentTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // infrastructure.DisinfectionType   (DisinfectionTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // infrastructure.CollectionSystemType   (CollectionSystemTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // infrastructure.AlarmSystemType   (AlarmSystemTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 1000000)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 1000000)]
             // infrastructure.DesignFlow_m3_day   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [DesignFlow_m3_day]
 
 
@@ -680,11 +703,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1000001.0D, infrastructure.DesignFlow_m3_day);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 1000000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 1000000)]
             // infrastructure.AverageFlow_m3_day   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [AverageFlow_m3_day]
 
 
@@ -731,11 +755,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1000001.0D, infrastructure.AverageFlow_m3_day);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 1000000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 1000000)]
             // infrastructure.PeakFlow_m3_day   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [PeakFlow_m3_day]
 
 
@@ -782,11 +807,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1000001.0D, infrastructure.PeakFlow_m3_day);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 1000000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 1000000)]
             // infrastructure.PopServed   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -831,16 +857,18 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1000001, infrastructure.PopServed);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // infrastructure.CanOverflow   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // infrastructure.PercFlowOfTotal   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [PercFlowOfTotal]
 
 
@@ -887,11 +915,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, infrastructure.PercFlowOfTotal);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-10, 0)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-10, 0)]
             // infrastructure.TimeOffset_hour   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [TimeOffset_hour]
 
 
@@ -938,19 +967,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1.0D, infrastructure.TimeOffset_hour);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // infrastructure.TempCatchAllRemoveLater   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 1000)]
             // infrastructure.AverageDepth_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [AverageDepth_m]
 
 
@@ -997,11 +1028,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001.0D, infrastructure.AverageDepth_m);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(1, 1000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(1, 1000)]
             // infrastructure.NumberOfPorts   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -1046,11 +1078,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001, infrastructure.NumberOfPorts);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10)]
             // infrastructure.PortDiameter_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [PortDiameter_m]
 
 
@@ -1097,11 +1130,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(11.0D, infrastructure.PortDiameter_m);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10000)]
             // infrastructure.PortSpacing_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [PortSpacing_m]
 
 
@@ -1148,11 +1182,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001.0D, infrastructure.PortSpacing_m);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 1000)]
             // infrastructure.PortElevation_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [PortElevation_m]
 
 
@@ -1199,11 +1234,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001.0D, infrastructure.PortElevation_m);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-90, 90)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-90, 90)]
             // infrastructure.VerticalAngle_deg   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [VerticalAngle_deg]
 
 
@@ -1250,11 +1286,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(91.0D, infrastructure.VerticalAngle_deg);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-180, 180)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-180, 180)]
             // infrastructure.HorizontalAngle_deg   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [HorizontalAngle_deg]
 
 
@@ -1301,11 +1338,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(181.0D, infrastructure.HorizontalAngle_deg);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // infrastructure.DecayRate_per_day   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [DecayRate_per_day]
 
 
@@ -1352,11 +1390,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, infrastructure.DecayRate_per_day);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10)]
             // infrastructure.NearFieldVelocity_m_s   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [NearFieldVelocity_m_s]
 
 
@@ -1403,11 +1442,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(11.0D, infrastructure.NearFieldVelocity_m_s);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10)]
             // infrastructure.FarFieldVelocity_m_s   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [FarFieldVelocity_m_s]
 
 
@@ -1454,11 +1494,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(11.0D, infrastructure.FarFieldVelocity_m_s);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 40)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 40)]
             // infrastructure.ReceivingWaterSalinity_PSU   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [ReceivingWaterSalinity_PSU]
 
 
@@ -1505,11 +1546,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, infrastructure.ReceivingWaterSalinity_PSU);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-10, 40)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-10, 40)]
             // infrastructure.ReceivingWaterTemperature_C   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [ReceivingWaterTemperature_C]
 
 
@@ -1556,11 +1598,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, infrastructure.ReceivingWaterTemperature_C);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10000000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10000000)]
             // infrastructure.ReceivingWater_MPN_per_100ml   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -1605,11 +1648,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10000001, infrastructure.ReceivingWater_MPN_per_100ml);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 1000)]
             // infrastructure.DistanceFromShore_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [DistanceFromShore_m]
 
 
@@ -1656,12 +1700,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001.0D, infrastructure.DistanceFromShore_m);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
+            // [Range(1, -1)]
             // infrastructure.SeeOtherTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -1686,12 +1731,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, infrastructure.SeeOtherTVItemID);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Address)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Address)]
+            // [Range(1, -1)]
             // infrastructure.CivicAddressTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -1716,20 +1762,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, infrastructure.CivicAddressTVItemID);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // infrastructure.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // infrastructure.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -1756,23 +1804,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, infrastructure.LastUpdateContactTVItemID);
             Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // infrastructure.InfrastructureLanguages   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // infrastructure.InfrastructureTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // infrastructure.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

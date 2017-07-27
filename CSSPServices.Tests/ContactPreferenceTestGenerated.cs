@@ -96,22 +96,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // contactPreference.ContactPreferenceID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             contactPreference = GetFilledRandomContactPreference("");
             contactPreference.ContactPreferenceID = 0;
             contactPreferenceService.Update(contactPreference);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPreferenceContactPreferenceID), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "Contact", Plurial = "s", FieldID = "ContactID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "Contact", Plurial = "s", FieldID = "ContactID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // contactPreference.ContactID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ContactID will automatically be initialized at 0 --> not null
 
 
@@ -138,19 +140,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, contactPreference.ContactID);
             Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // contactPreference.TVType   (TVTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(1, 1000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(1, 1000)]
             // contactPreference.MarkerSize   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MarkerSize will automatically be initialized at 0 --> not null
 
 
@@ -197,20 +201,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001, contactPreference.MarkerSize);
             Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // contactPreference.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // contactPreference.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -237,17 +243,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, contactPreference.LastUpdateContactTVItemID);
             Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // contactPreference.Contact   (Contact)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // contactPreference.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

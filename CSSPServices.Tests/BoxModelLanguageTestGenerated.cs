@@ -97,22 +97,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // boxModelLanguage.BoxModelLanguageID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             boxModelLanguage = GetFilledRandomBoxModelLanguage("");
             boxModelLanguage.BoxModelLanguageID = 0;
             boxModelLanguageService.Update(boxModelLanguage);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLanguageBoxModelLanguageID), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "BoxModel", Plurial = "s", FieldID = "BoxModelID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "BoxModel", Plurial = "s", FieldID = "BoxModelID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // boxModelLanguage.BoxModelID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // BoxModelID will automatically be initialized at 0 --> not null
 
 
@@ -139,19 +141,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, boxModelLanguage.BoxModelID);
             Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // boxModelLanguage.Language   (LanguageEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // Language will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(250))]
             // boxModelLanguage.ScenarioName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             boxModelLanguage = null;
             boxModelLanguage = GetFilledRandomBoxModelLanguage("ScenarioName");
             Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
@@ -190,28 +194,31 @@ namespace CSSPServices.Tests
             Assert.AreEqual(boxModelLanguageScenarioNameMin, boxModelLanguage.ScenarioName);
             Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // boxModelLanguage.TranslationStatus   (TranslationStatusEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TranslationStatus will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // boxModelLanguage.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // boxModelLanguage.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -238,17 +245,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, boxModelLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // boxModelLanguage.BoxModel   (BoxModel)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // boxModelLanguage.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

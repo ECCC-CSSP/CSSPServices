@@ -112,21 +112,23 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // labSheet.LabSheetID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             labSheet = GetFilledRandomLabSheet("");
             labSheet.LabSheetID = 0;
             labSheetService.Update(labSheet);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetLabSheetID), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(1, -1)]
             // labSheet.OtherServerLabSheetID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // OtherServerLabSheetID will automatically be initialized at 0 --> not null
 
 
@@ -153,12 +155,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.OtherServerLabSheetID);
             Assert.AreEqual(count, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "SamplingPlan", Plurial = "s", FieldID = "SamplingPlanID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "SamplingPlan", Plurial = "s", FieldID = "SamplingPlanID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // labSheet.SamplingPlanID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // SamplingPlanID will automatically be initialized at 0 --> not null
 
 
@@ -185,11 +188,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.SamplingPlanID);
             Assert.AreEqual(count, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(250, MinimumLength = 1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(250, MinimumLength = 1)]
             // labSheet.SamplingPlanName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("SamplingPlanName");
             Assert.AreEqual(false, labSheetService.Add(labSheet));
@@ -246,11 +250,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetSamplingPlanNameMin, labSheet.SamplingPlanName);
             Assert.AreEqual(count, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(1980, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(1980, -1)]
             // labSheet.Year   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Year will automatically be initialized at 0 --> not null
 
 
@@ -277,11 +282,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1979, labSheet.Year);
             Assert.AreEqual(count, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(1, 12)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(1, 12)]
             // labSheet.Month   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Month will automatically be initialized at 0 --> not null
 
 
@@ -328,11 +334,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(13, labSheet.Month);
             Assert.AreEqual(count, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(1, 31)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(1, 31)]
             // labSheet.Day   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Day will automatically be initialized at 0 --> not null
 
 
@@ -379,11 +386,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(32, labSheet.Day);
             Assert.AreEqual(count, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(1, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(1, 100)]
             // labSheet.RunNumber   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // RunNumber will automatically be initialized at 0 --> not null
 
 
@@ -430,12 +438,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101, labSheet.RunNumber);
             Assert.AreEqual(count, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Subsector)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Subsector)]
+            // [Range(1, -1)]
             // labSheet.SubsectorTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // SubsectorTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -462,12 +471,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.SubsectorTVItemID);
             Assert.AreEqual(count, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMRun)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMRun)]
+            // [Range(1, -1)]
             // labSheet.MWQMRunTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
@@ -492,43 +502,48 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.MWQMRunTVItemID);
             Assert.AreEqual(count, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // labSheet.SamplingPlanType   (SamplingPlanTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // SamplingPlanType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // labSheet.SampleType   (SampleTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // SampleType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // labSheet.LabSheetType   (LabSheetTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // LabSheetType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // labSheet.LabSheetStatus   (LabSheetStatusEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // LabSheetStatus will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(250, MinimumLength = 1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(250, MinimumLength = 1)]
             // labSheet.FileName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("FileName");
             Assert.AreEqual(false, labSheetService.Add(labSheet));
@@ -585,18 +600,20 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetFileNameMin, labSheet.FileName);
             Assert.AreEqual(count, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheet.FileLastModifiedDate_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // FileLastModifiedDate_Local will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // labSheet.FileContent   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("FileContent");
             Assert.AreEqual(false, labSheetService.Add(labSheet));
@@ -609,12 +626,13 @@ namespace CSSPServices.Tests
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // labSheet.AcceptedOrRejectedByContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
@@ -639,17 +657,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.AcceptedOrRejectedByContactTVItemID);
             Assert.AreEqual(count, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheet.AcceptedOrRejectedDateTime   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(250))]
+
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(250))]
             // labSheet.RejectReason   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheet = null;
             labSheet = GetFilledRandomLabSheet("");
@@ -680,20 +700,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetRejectReasonMin, labSheet.RejectReason);
             Assert.AreEqual(count, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheet.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // labSheet.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -720,41 +742,47 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheet.LastUpdateContactTVItemID);
             Assert.AreEqual(count, labSheetService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // labSheet.LabSheetDetails   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // labSheet.AcceptedOrRejectedByContactTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // labSheet.MWQMRunTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // labSheet.SamplingPlan   (SamplingPlan)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // labSheet.SubsectorTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // labSheet.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

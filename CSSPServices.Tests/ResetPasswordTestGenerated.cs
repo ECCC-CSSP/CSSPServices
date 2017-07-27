@@ -98,21 +98,23 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // resetPassword.ResetPasswordID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             resetPassword = GetFilledRandomResetPassword("");
             resetPassword.ResetPasswordID = 0;
             resetPasswordService.Update(resetPassword);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordResetPasswordID), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(256))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(256))]
             // resetPassword.Email   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             resetPassword = null;
             resetPassword = GetFilledRandomResetPassword("Email");
             Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
@@ -143,19 +145,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(true, resetPasswordService.Delete(resetPassword));
             Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // resetPassword.ExpireDate_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // ExpireDate_Local will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(8))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(8))]
             // resetPassword.Code   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             resetPassword = null;
             resetPassword = GetFilledRandomResetPassword("Code");
             Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
@@ -194,20 +198,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(resetPasswordCodeMin, resetPassword.Code);
             Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // resetPassword.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // resetPassword.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -234,12 +240,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, resetPassword.LastUpdateContactTVItemID);
             Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
-            //[StringLength(100, MinimumLength = 6)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
+            // [StringLength(100, MinimumLength = 6)]
             // resetPassword.Password   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             resetPassword = null;
             resetPassword = GetFilledRandomResetPassword("Password");
             Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
@@ -304,12 +311,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(resetPasswordPasswordMin, resetPassword.Password);
             Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
-            //[StringLength(100, MinimumLength = 6)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
+            // [StringLength(100, MinimumLength = 6)]
             // resetPassword.ConfirmPassword   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             resetPassword = null;
             resetPassword = GetFilledRandomResetPassword("ConfirmPassword");
             Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
@@ -374,11 +382,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(resetPasswordConfirmPasswordMin, resetPassword.ConfirmPassword);
             Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // resetPassword.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

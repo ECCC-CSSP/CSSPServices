@@ -97,22 +97,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // mwqmSubsectorLanguage.MWQMSubsectorLanguageID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmSubsectorLanguage = GetFilledRandomMWQMSubsectorLanguage("");
             mwqmSubsectorLanguage.MWQMSubsectorLanguageID = 0;
             mwqmSubsectorLanguageService.Update(mwqmSubsectorLanguage);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorLanguageMWQMSubsectorLanguageID), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "MWQMSubsector", Plurial = "s", FieldID = "MWQMSubsectorID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "MWQMSubsector", Plurial = "s", FieldID = "MWQMSubsectorID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // mwqmSubsectorLanguage.MWQMSubsectorID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MWQMSubsectorID will automatically be initialized at 0 --> not null
 
 
@@ -139,19 +141,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSubsectorLanguage.MWQMSubsectorID);
             Assert.AreEqual(count, mwqmSubsectorLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mwqmSubsectorLanguage.Language   (LanguageEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // Language will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(250))]
             // mwqmSubsectorLanguage.SubsectorDesc   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmSubsectorLanguage = null;
             mwqmSubsectorLanguage = GetFilledRandomMWQMSubsectorLanguage("SubsectorDesc");
             Assert.AreEqual(false, mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage));
@@ -190,28 +194,31 @@ namespace CSSPServices.Tests
             Assert.AreEqual(mwqmSubsectorLanguageSubsectorDescMin, mwqmSubsectorLanguage.SubsectorDesc);
             Assert.AreEqual(count, mwqmSubsectorLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mwqmSubsectorLanguage.TranslationStatus   (TranslationStatusEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TranslationStatus will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmSubsectorLanguage.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // mwqmSubsectorLanguage.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -238,17 +245,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSubsectorLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(count, mwqmSubsectorLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mwqmSubsectorLanguage.MWQMSubsector   (MWQMSubsector)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // mwqmSubsectorLanguage.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

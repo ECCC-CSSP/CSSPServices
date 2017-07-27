@@ -97,21 +97,23 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // mwqmLookupMPN.MWQMLookupMPNID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
             mwqmLookupMPN.MWQMLookupMPNID = 0;
             mwqmLookupMPNService.Update(mwqmLookupMPN);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMLookupMPNMWQMLookupMPNID), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 5)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 5)]
             // mwqmLookupMPN.Tubes10   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Tubes10 will automatically be initialized at 0 --> not null
 
 
@@ -158,11 +160,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(6, mwqmLookupMPN.Tubes10);
             Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 5)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 5)]
             // mwqmLookupMPN.Tubes1   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Tubes1 will automatically be initialized at 0 --> not null
 
 
@@ -209,11 +212,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(6, mwqmLookupMPN.Tubes1);
             Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 5)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 5)]
             // mwqmLookupMPN.Tubes01   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Tubes01 will automatically be initialized at 0 --> not null
 
 
@@ -260,11 +264,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(6, mwqmLookupMPN.Tubes01);
             Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(1, 10000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(1, 10000)]
             // mwqmLookupMPN.MPN_100ml   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MPN_100ml will automatically be initialized at 0 --> not null
 
 
@@ -311,20 +316,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001, mwqmLookupMPN.MPN_100ml);
             Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmLookupMPN.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // mwqmLookupMPN.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -351,11 +358,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmLookupMPN.LastUpdateContactTVItemID);
             Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // mwqmLookupMPN.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

@@ -96,22 +96,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // contactShortcut.ContactShortcutID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             contactShortcut = GetFilledRandomContactShortcut("");
             contactShortcut.ContactShortcutID = 0;
             contactShortcutService.Update(contactShortcut);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutContactShortcutID), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "Contact", Plurial = "s", FieldID = "ContactID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "Contact", Plurial = "s", FieldID = "ContactID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // contactShortcut.ContactID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ContactID will automatically be initialized at 0 --> not null
 
 
@@ -138,11 +140,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, contactShortcut.ContactID);
             Assert.AreEqual(count, contactShortcutService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // contactShortcut.ShortCutText   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             contactShortcut = null;
             contactShortcut = GetFilledRandomContactShortcut("ShortCutText");
             Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
@@ -181,11 +184,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(contactShortcutShortCutTextMin, contactShortcut.ShortCutText);
             Assert.AreEqual(count, contactShortcutService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(200))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(200))]
             // contactShortcut.ShortCutAddress   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             contactShortcut = null;
             contactShortcut = GetFilledRandomContactShortcut("ShortCutAddress");
             Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
@@ -224,20 +228,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(contactShortcutShortCutAddressMin, contactShortcut.ShortCutAddress);
             Assert.AreEqual(count, contactShortcutService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // contactShortcut.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // contactShortcut.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -264,17 +270,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, contactShortcut.LastUpdateContactTVItemID);
             Assert.AreEqual(count, contactShortcutService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // contactShortcut.Contact   (Contact)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // contactShortcut.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

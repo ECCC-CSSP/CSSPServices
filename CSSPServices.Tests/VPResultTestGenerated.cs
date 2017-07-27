@@ -100,22 +100,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // vpResult.VPResultID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             vpResult = GetFilledRandomVPResult("");
             vpResult.VPResultID = 0;
             vpResultService.Update(vpResult);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPResultVPResultID), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "VPScenario", Plurial = "s", FieldID = "VPScenarioID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "VPScenario", Plurial = "s", FieldID = "VPScenarioID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // vpResult.VPScenarioID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // VPScenarioID will automatically be initialized at 0 --> not null
 
 
@@ -142,11 +144,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpResult.VPScenarioID);
             Assert.AreEqual(count, vpResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000)]
             // vpResult.Ordinal   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Ordinal will automatically be initialized at 0 --> not null
 
 
@@ -193,11 +196,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001, vpResult.Ordinal);
             Assert.AreEqual(count, vpResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000000)]
             // vpResult.Concentration_MPN_100ml   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Concentration_MPN_100ml will automatically be initialized at 0 --> not null
 
 
@@ -244,11 +248,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10000001, vpResult.Concentration_MPN_100ml);
             Assert.AreEqual(count, vpResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000000)]
             // vpResult.Dilution   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Dilution]
 
 
@@ -295,11 +300,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1000001.0D, vpResult.Dilution);
             Assert.AreEqual(count, vpResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000)]
             // vpResult.FarFieldWidth_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [FarFieldWidth_m]
 
 
@@ -346,11 +352,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001.0D, vpResult.FarFieldWidth_m);
             Assert.AreEqual(count, vpResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100000)]
             // vpResult.DispersionDistance_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [DispersionDistance_m]
 
 
@@ -397,11 +404,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100001.0D, vpResult.DispersionDistance_m);
             Assert.AreEqual(count, vpResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // vpResult.TravelTime_hour   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [TravelTime_hour]
 
 
@@ -448,20 +456,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, vpResult.TravelTime_hour);
             Assert.AreEqual(count, vpResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // vpResult.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // vpResult.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -488,17 +498,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpResult.LastUpdateContactTVItemID);
             Assert.AreEqual(count, vpResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // vpResult.VPScenario   (VPScenario)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // vpResult.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

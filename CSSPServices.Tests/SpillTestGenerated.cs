@@ -98,22 +98,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // spill.SpillID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             spill = GetFilledRandomSpill("");
             spill.SpillID = 0;
             spillService.Update(spill);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SpillSpillID), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Municipality)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Municipality)]
+            // [Range(1, -1)]
             // spill.MunicipalityTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MunicipalityTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -140,12 +142,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, spill.MunicipalityTVItemID);
             Assert.AreEqual(count, spillService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
+            // [Range(1, -1)]
             // spill.InfrastructureTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             spill = null;
             spill = GetFilledRandomSpill("");
@@ -170,26 +173,29 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, spill.InfrastructureTVItemID);
             Assert.AreEqual(count, spillService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // spill.StartDateTime_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // StartDateTime_Local will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
-            //[CSSPBigger(OtherField = StartDateTime_Local)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
+            // [CSSPBigger(OtherField = StartDateTime_Local)]
             // spill.EndDateTime_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000000)]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000000)]
             // spill.AverageFlow_m3_day   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [AverageFlow_m3_day]
 
 
@@ -236,20 +242,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1000001.0D, spill.AverageFlow_m3_day);
             Assert.AreEqual(count, spillService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // spill.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // spill.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -276,29 +284,33 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, spill.LastUpdateContactTVItemID);
             Assert.AreEqual(count, spillService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // spill.SpillLanguages   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // spill.InfrastructureTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // spill.MunicipalityTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // spill.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

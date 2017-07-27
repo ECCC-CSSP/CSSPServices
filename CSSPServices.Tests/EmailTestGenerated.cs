@@ -96,22 +96,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // email.EmailID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             email = GetFilledRandomEmail("");
             email.EmailID = 0;
             emailService.Update(email);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailID), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Email)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Email)]
+            // [Range(1, -1)]
             // email.EmailTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // EmailTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -138,12 +140,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, email.EmailTVItemID);
             Assert.AreEqual(count, emailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[DataType(DataType.EmailAddress)]
-            //[StringLength(255))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [DataType(DataType.EmailAddress)]
+            // [StringLength(255))]
             // email.EmailAddress   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             email = null;
             email = GetFilledRandomEmail("EmailAddress");
             Assert.AreEqual(false, emailService.Add(email));
@@ -174,28 +177,31 @@ namespace CSSPServices.Tests
             Assert.AreEqual(true, emailService.Delete(email));
             Assert.AreEqual(count, emailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // email.EmailType   (EmailTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // EmailType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // email.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // email.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -222,17 +228,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, email.LastUpdateContactTVItemID);
             Assert.AreEqual(count, emailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // email.EmailTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // email.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

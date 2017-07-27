@@ -105,22 +105,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // vpAmbient.VPAmbientID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             vpAmbient = GetFilledRandomVPAmbient("");
             vpAmbient.VPAmbientID = 0;
             vpAmbientService.Update(vpAmbient);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPAmbientVPAmbientID), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "VPScenario", Plurial = "s", FieldID = "VPScenarioID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "VPScenario", Plurial = "s", FieldID = "VPScenarioID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // vpAmbient.VPScenarioID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // VPScenarioID will automatically be initialized at 0 --> not null
 
 
@@ -147,11 +149,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpAmbient.VPScenarioID);
             Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10)]
             // vpAmbient.Row   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Row will automatically be initialized at 0 --> not null
 
 
@@ -198,11 +201,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(11, vpAmbient.Row);
             Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000)]
             // vpAmbient.MeasurementDepth_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [MeasurementDepth_m]
 
 
@@ -249,11 +253,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001.0D, vpAmbient.MeasurementDepth_m);
             Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10)]
             // vpAmbient.CurrentSpeed_m_s   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [CurrentSpeed_m_s]
 
 
@@ -300,11 +305,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(11.0D, vpAmbient.CurrentSpeed_m_s);
             Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-180, 180)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-180, 180)]
             // vpAmbient.CurrentDirection_deg   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [CurrentDirection_deg]
 
 
@@ -351,11 +357,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(181.0D, vpAmbient.CurrentDirection_deg);
             Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 40)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 40)]
             // vpAmbient.AmbientSalinity_PSU   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [AmbientSalinity_PSU]
 
 
@@ -402,11 +409,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, vpAmbient.AmbientSalinity_PSU);
             Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-10, 40)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-10, 40)]
             // vpAmbient.AmbientTemperature_C   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [AmbientTemperature_C]
 
 
@@ -453,11 +461,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, vpAmbient.AmbientTemperature_C);
             Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000000)]
             // vpAmbient.BackgroundConcentration_MPN_100ml   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // BackgroundConcentration_MPN_100ml will automatically be initialized at 0 --> not null
 
 
@@ -504,11 +513,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10000001, vpAmbient.BackgroundConcentration_MPN_100ml);
             Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // vpAmbient.PollutantDecayRate_per_day   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [PollutantDecayRate_per_day]
 
 
@@ -555,11 +565,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, vpAmbient.PollutantDecayRate_per_day);
             Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10)]
             // vpAmbient.FarFieldCurrentSpeed_m_s   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [FarFieldCurrentSpeed_m_s]
 
 
@@ -606,11 +617,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(11.0D, vpAmbient.FarFieldCurrentSpeed_m_s);
             Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-180, 180)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-180, 180)]
             // vpAmbient.FarFieldCurrentDirection_deg   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [FarFieldCurrentDirection_deg]
 
 
@@ -657,11 +669,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(181.0D, vpAmbient.FarFieldCurrentDirection_deg);
             Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1)]
             // vpAmbient.FarFieldDiffusionCoefficient   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [FarFieldDiffusionCoefficient]
 
 
@@ -708,20 +721,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(2.0D, vpAmbient.FarFieldDiffusionCoefficient);
             Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // vpAmbient.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // vpAmbient.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -748,17 +763,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpAmbient.LastUpdateContactTVItemID);
             Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // vpAmbient.VPScenario   (VPScenario)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // vpAmbient.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

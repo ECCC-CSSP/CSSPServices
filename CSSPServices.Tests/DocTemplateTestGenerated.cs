@@ -97,38 +97,42 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // docTemplate.DocTemplateID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             docTemplate = GetFilledRandomDocTemplate("");
             docTemplate.DocTemplateID = 0;
             docTemplateService.Update(docTemplate);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateDocTemplateID), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // docTemplate.Language   (LanguageEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // Language will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // docTemplate.TVType   (TVTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.File)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.File)]
+            // [Range(1, -1)]
             // docTemplate.TVFileTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVFileTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -155,11 +159,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, docTemplate.TVFileTVItemID);
             Assert.AreEqual(count, docTemplateService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(150))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(150))]
             // docTemplate.FileName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             docTemplate = null;
             docTemplate = GetFilledRandomDocTemplate("FileName");
             Assert.AreEqual(false, docTemplateService.Add(docTemplate));
@@ -198,20 +203,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(docTemplateFileNameMin, docTemplate.FileName);
             Assert.AreEqual(count, docTemplateService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // docTemplate.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // docTemplate.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -238,17 +245,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, docTemplate.LastUpdateContactTVItemID);
             Assert.AreEqual(count, docTemplateService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // docTemplate.TVFileTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // docTemplate.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

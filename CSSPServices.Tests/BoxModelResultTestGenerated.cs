@@ -108,22 +108,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // boxModelResult.BoxModelResultID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             boxModelResult = GetFilledRandomBoxModelResult("");
             boxModelResult.BoxModelResultID = 0;
             boxModelResultService.Update(boxModelResult);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelResultBoxModelResultID), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "BoxModel", Plurial = "s", FieldID = "BoxModelID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "BoxModel", Plurial = "s", FieldID = "BoxModelID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // boxModelResult.BoxModelID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // BoxModelID will automatically be initialized at 0 --> not null
 
 
@@ -150,19 +152,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, boxModelResult.BoxModelID);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // boxModelResult.BoxModelResultType   (BoxModelResultTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // BoxModelResultType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, -1)]
             // boxModelResult.Volume_m3   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Volume_m3]
 
 
@@ -189,11 +193,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(-1.0D, boxModelResult.Volume_m3);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, -1)]
             // boxModelResult.Surface_m2   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Surface_m2]
 
 
@@ -220,11 +225,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(-1.0D, boxModelResult.Surface_m2);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100000)]
             // boxModelResult.Radius_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Radius_m]
 
 
@@ -271,11 +277,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100001.0D, boxModelResult.Radius_m);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 360)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 360)]
             // boxModelResult.LeftSideDiameterLineAngle_deg   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [LeftSideDiameterLineAngle_deg]
 
 
@@ -322,11 +329,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(361.0D, boxModelResult.LeftSideDiameterLineAngle_deg);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-90, 90)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-90, 90)]
             // boxModelResult.CircleCenterLatitude   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [CircleCenterLatitude]
 
 
@@ -373,11 +381,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(91.0D, boxModelResult.CircleCenterLatitude);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-180, 180)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-180, 180)]
             // boxModelResult.CircleCenterLongitude   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [CircleCenterLongitude]
 
 
@@ -424,25 +433,28 @@ namespace CSSPServices.Tests
             Assert.AreEqual(181.0D, boxModelResult.CircleCenterLongitude);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // boxModelResult.FixLength   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // FixLength will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // boxModelResult.FixWidth   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // FixWidth will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100000)]
             // boxModelResult.RectLength_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RectLength_m]
 
 
@@ -489,11 +501,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100001.0D, boxModelResult.RectLength_m);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100000)]
             // boxModelResult.RectWidth_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RectWidth_m]
 
 
@@ -540,11 +553,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100001.0D, boxModelResult.RectWidth_m);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 360)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 360)]
             // boxModelResult.LeftSideLineAngle_deg   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [LeftSideLineAngle_deg]
 
 
@@ -591,11 +605,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(361.0D, boxModelResult.LeftSideLineAngle_deg);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-90, 90)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-90, 90)]
             // boxModelResult.LeftSideLineStartLatitude   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [LeftSideLineStartLatitude]
 
 
@@ -642,11 +657,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(91.0D, boxModelResult.LeftSideLineStartLatitude);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-180, 180)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-180, 180)]
             // boxModelResult.LeftSideLineStartLongitude   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [LeftSideLineStartLongitude]
 
 
@@ -693,20 +709,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(181.0D, boxModelResult.LeftSideLineStartLongitude);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // boxModelResult.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // boxModelResult.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -733,17 +751,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, boxModelResult.LastUpdateContactTVItemID);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // boxModelResult.BoxModel   (BoxModel)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // boxModelResult.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

@@ -105,22 +105,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // tvFile.TVFileID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             tvFile = GetFilledRandomTVFile("");
             tvFile.TVFileID = 0;
             tvFileService.Update(tvFile);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTVFileID), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.File)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.File)]
+            // [Range(1, -1)]
             // tvFile.TVFileTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVFileTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -147,43 +149,48 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvFile.TVFileTVItemID);
             Assert.AreEqual(count, tvFileService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // tvFile.TemplateTVType   (TVTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TemplateTVType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // tvFile.Language   (LanguageEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // Language will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // tvFile.FilePurpose   (FilePurposeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // FilePurpose will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // tvFile.FileType   (FileTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // FileType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000000)]
             // tvFile.FileSize_kb   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // FileSize_kb will automatically be initialized at 0 --> not null
 
 
@@ -230,32 +237,36 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1000001, tvFile.FileSize_kb);
             Assert.AreEqual(count, tvFileService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // tvFile.FileInfo   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             tvFile = null;
             tvFile = GetFilledRandomTVFile("");
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // tvFile.FileCreatedDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // FileCreatedDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // tvFile.FromWater   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(250))]
+
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(250))]
             // tvFile.ClientFilePath   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             tvFile = null;
             tvFile = GetFilledRandomTVFile("");
@@ -286,11 +297,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(tvFileClientFilePathMin, tvFile.ClientFilePath);
             Assert.AreEqual(count, tvFileService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(250))]
             // tvFile.ServerFileName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             tvFile = null;
             tvFile = GetFilledRandomTVFile("ServerFileName");
             Assert.AreEqual(false, tvFileService.Add(tvFile));
@@ -329,11 +341,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(tvFileServerFileNameMin, tvFile.ServerFileName);
             Assert.AreEqual(count, tvFileService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(250))]
             // tvFile.ServerFilePath   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             tvFile = null;
             tvFile = GetFilledRandomTVFile("ServerFilePath");
             Assert.AreEqual(false, tvFileService.Add(tvFile));
@@ -372,20 +385,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(tvFileServerFilePathMin, tvFile.ServerFilePath);
             Assert.AreEqual(count, tvFileService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // tvFile.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // tvFile.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -412,23 +427,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvFile.LastUpdateContactTVItemID);
             Assert.AreEqual(count, tvFileService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvFile.TVFileLanguages   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvFile.TVFileTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // tvFile.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

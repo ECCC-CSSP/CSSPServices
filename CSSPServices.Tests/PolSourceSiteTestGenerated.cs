@@ -101,22 +101,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // polSourceSite.PolSourceSiteID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             polSourceSite = GetFilledRandomPolSourceSite("");
             polSourceSite.PolSourceSiteID = 0;
             polSourceSiteService.Update(polSourceSite);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceSitePolSourceSiteID), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.PolSourceSite)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.PolSourceSite)]
+            // [Range(1, -1)]
             // polSourceSite.PolSourceSiteTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // PolSourceSiteTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -143,11 +145,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, polSourceSite.PolSourceSiteTVItemID);
             Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(50))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(50))]
             // polSourceSite.Temp_Locator_CanDelete   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
@@ -178,11 +181,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(polSourceSiteTemp_Locator_CanDeleteMin, polSourceSite.Temp_Locator_CanDelete);
             Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 1000)]
             // polSourceSite.Oldsiteid   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
@@ -227,11 +231,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001, polSourceSite.Oldsiteid);
             Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 1000)]
             // polSourceSite.Site   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
@@ -276,11 +281,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001, polSourceSite.Site);
             Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 1000)]
             // polSourceSite.SiteID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
@@ -325,25 +331,28 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001, polSourceSite.SiteID);
             Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // polSourceSite.IsPointSource   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // IsPointSource will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // polSourceSite.InactiveReason   (PolSourceInactiveReasonEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Address)]
-            //[Range(1, -1)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Address)]
+            // [Range(1, -1)]
             // polSourceSite.CivicAddressTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
@@ -368,20 +377,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, polSourceSite.CivicAddressTVItemID);
             Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // polSourceSite.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // polSourceSite.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -408,23 +419,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, polSourceSite.LastUpdateContactTVItemID);
             Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // polSourceSite.PolSourceObservations   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // polSourceSite.PolSourceSiteTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // polSourceSite.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

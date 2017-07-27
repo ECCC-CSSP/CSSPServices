@@ -104,22 +104,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // boxModel.BoxModelID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             boxModel = GetFilledRandomBoxModel("");
             boxModel.BoxModelID = 0;
             boxModelService.Update(boxModel);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelBoxModelID), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
+            // [Range(1, -1)]
             // boxModel.InfrastructureTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // InfrastructureTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -146,11 +148,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, boxModel.InfrastructureTVItemID);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000)]
             // boxModel.Flow_m3_day   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Flow_m3_day]
 
 
@@ -197,11 +200,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001.0D, boxModel.Flow_m3_day);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000)]
             // boxModel.Depth_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Depth_m]
 
 
@@ -248,11 +252,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001.0D, boxModel.Depth_m);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-15, 40)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-15, 40)]
             // boxModel.Temperature_C   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Temperature_C]
 
 
@@ -299,11 +304,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, boxModel.Temperature_C);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000000)]
             // boxModel.Dilution   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Dilution will automatically be initialized at 0 --> not null
 
 
@@ -350,11 +356,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10000001, boxModel.Dilution);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // boxModel.DecayRate_per_day   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [DecayRate_per_day]
 
 
@@ -401,11 +408,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, boxModel.DecayRate_per_day);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000000)]
             // boxModel.FCUntreated_MPN_100ml   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // FCUntreated_MPN_100ml will automatically be initialized at 0 --> not null
 
 
@@ -452,11 +460,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10000001, boxModel.FCUntreated_MPN_100ml);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000000)]
             // boxModel.FCPreDisinfection_MPN_100ml   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // FCPreDisinfection_MPN_100ml will automatically be initialized at 0 --> not null
 
 
@@ -503,11 +512,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10000001, boxModel.FCPreDisinfection_MPN_100ml);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000000)]
             // boxModel.Concentration_MPN_100ml   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Concentration_MPN_100ml will automatically be initialized at 0 --> not null
 
 
@@ -554,11 +564,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10000001, boxModel.Concentration_MPN_100ml);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, -1)]
             // boxModel.T90_hour   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [T90_hour]
 
 
@@ -585,11 +596,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(-1.0D, boxModel.T90_hour);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 24)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 24)]
             // boxModel.FlowDuration_hour   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [FlowDuration_hour]
 
 
@@ -636,20 +648,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(25.0D, boxModel.FlowDuration_hour);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // boxModel.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // boxModel.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -676,29 +690,33 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, boxModel.LastUpdateContactTVItemID);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // boxModel.BoxModelLanguages   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // boxModel.BoxModelResults   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // boxModel.InfrastructureTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // boxModel.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

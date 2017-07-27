@@ -97,22 +97,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // spillLanguage.SpillLanguageID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             spillLanguage = GetFilledRandomSpillLanguage("");
             spillLanguage.SpillLanguageID = 0;
             spillLanguageService.Update(spillLanguage);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageSpillLanguageID), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "Spill", Plurial = "s", FieldID = "SpillID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "Spill", Plurial = "s", FieldID = "SpillID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // spillLanguage.SpillID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // SpillID will automatically be initialized at 0 --> not null
 
 
@@ -139,18 +141,20 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, spillLanguage.SpillID);
             Assert.AreEqual(count, spillLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // spillLanguage.Language   (LanguageEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // Language will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // spillLanguage.SpillComment   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             spillLanguage = null;
             spillLanguage = GetFilledRandomSpillLanguage("SpillComment");
             Assert.AreEqual(false, spillLanguageService.Add(spillLanguage));
@@ -163,28 +167,31 @@ namespace CSSPServices.Tests
             spillLanguage = null;
             spillLanguage = GetFilledRandomSpillLanguage("");
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // spillLanguage.TranslationStatus   (TranslationStatusEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TranslationStatus will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // spillLanguage.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // spillLanguage.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -211,17 +218,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, spillLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(count, spillLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // spillLanguage.Spill   (Spill)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // spillLanguage.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

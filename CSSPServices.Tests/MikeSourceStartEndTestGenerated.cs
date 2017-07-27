@@ -104,22 +104,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // mikeSourceStartEnd.MikeSourceStartEndID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
             mikeSourceStartEnd.MikeSourceStartEndID = 0;
             mikeSourceStartEndService.Update(mikeSourceStartEnd);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndMikeSourceStartEndID), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "MikeSource", Plurial = "s", FieldID = "MikeSourceID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "MikeSource", Plurial = "s", FieldID = "MikeSourceID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // mikeSourceStartEnd.MikeSourceID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MikeSourceID will automatically be initialized at 0 --> not null
 
 
@@ -146,28 +148,31 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeSourceStartEnd.MikeSourceID);
             Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mikeSourceStartEnd.StartDateAndTime_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // StartDateAndTime_Local will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
-            //[CSSPBigger(OtherField = StartDateAndTime_Local)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
+            // [CSSPBigger(OtherField = StartDateAndTime_Local)]
             // mikeSourceStartEnd.EndDateAndTime_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // EndDateAndTime_Local will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000000)]
             // mikeSourceStartEnd.SourceFlowStart_m3_day   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [SourceFlowStart_m3_day]
 
 
@@ -214,11 +219,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1000001.0D, mikeSourceStartEnd.SourceFlowStart_m3_day);
             Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000000)]
             // mikeSourceStartEnd.SourceFlowEnd_m3_day   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [SourceFlowEnd_m3_day]
 
 
@@ -265,11 +271,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1000001.0D, mikeSourceStartEnd.SourceFlowEnd_m3_day);
             Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000000)]
             // mikeSourceStartEnd.SourcePollutionStart_MPN_100ml   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // SourcePollutionStart_MPN_100ml will automatically be initialized at 0 --> not null
 
 
@@ -316,11 +323,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10000001, mikeSourceStartEnd.SourcePollutionStart_MPN_100ml);
             Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000000)]
             // mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // SourcePollutionEnd_MPN_100ml will automatically be initialized at 0 --> not null
 
 
@@ -367,11 +375,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10000001, mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml);
             Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-10, 40)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-10, 40)]
             // mikeSourceStartEnd.SourceTemperatureStart_C   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [SourceTemperatureStart_C]
 
 
@@ -418,11 +427,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, mikeSourceStartEnd.SourceTemperatureStart_C);
             Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-10, 40)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-10, 40)]
             // mikeSourceStartEnd.SourceTemperatureEnd_C   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [SourceTemperatureEnd_C]
 
 
@@ -469,11 +479,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, mikeSourceStartEnd.SourceTemperatureEnd_C);
             Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 40)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 40)]
             // mikeSourceStartEnd.SourceSalinityStart_PSU   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [SourceSalinityStart_PSU]
 
 
@@ -520,11 +531,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, mikeSourceStartEnd.SourceSalinityStart_PSU);
             Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 40)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 40)]
             // mikeSourceStartEnd.SourceSalinityEnd_PSU   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [SourceSalinityEnd_PSU]
 
 
@@ -571,20 +583,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, mikeSourceStartEnd.SourceSalinityEnd_PSU);
             Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mikeSourceStartEnd.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // mikeSourceStartEnd.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -611,17 +625,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeSourceStartEnd.LastUpdateContactTVItemID);
             Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mikeSourceStartEnd.MikeSource   (MikeSource)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // mikeSourceStartEnd.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

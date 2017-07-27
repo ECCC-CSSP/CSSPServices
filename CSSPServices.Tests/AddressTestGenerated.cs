@@ -103,22 +103,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // address.AddressID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             address = GetFilledRandomAddress("");
             address.AddressID = 0;
             addressService.Update(address);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AddressAddressID), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Address)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Address)]
+            // [Range(1, -1)]
             // address.AddressTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // AddressTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -145,20 +147,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, address.AddressTVItemID);
             Assert.AreEqual(count, addressService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // address.AddressType   (AddressTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // AddressType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Country)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Country)]
+            // [Range(1, -1)]
             // address.CountryTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // CountryTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -185,12 +189,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, address.CountryTVItemID);
             Assert.AreEqual(count, addressService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Province)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Province)]
+            // [Range(1, -1)]
             // address.ProvinceTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ProvinceTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -217,12 +222,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, address.ProvinceTVItemID);
             Assert.AreEqual(count, addressService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Municipality)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Municipality)]
+            // [Range(1, -1)]
             // address.MunicipalityTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MunicipalityTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -249,11 +255,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, address.MunicipalityTVItemID);
             Assert.AreEqual(count, addressService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(200))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(200))]
             // address.StreetName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             address = null;
             address = GetFilledRandomAddress("");
@@ -284,11 +291,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(addressStreetNameMin, address.StreetName);
             Assert.AreEqual(count, addressService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(50))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(50))]
             // address.StreetNumber   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             address = null;
             address = GetFilledRandomAddress("");
@@ -319,17 +327,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(addressStreetNumberMin, address.StreetNumber);
             Assert.AreEqual(count, addressService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // address.StreetType   (StreetTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(11, MinimumLength = 6)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(11, MinimumLength = 6)]
             // address.PostalCode   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             address = null;
             address = GetFilledRandomAddress("");
@@ -386,11 +396,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(addressPostalCodeMin, address.PostalCode);
             Assert.AreEqual(count, addressService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(200, MinimumLength = 10)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(200, MinimumLength = 10)]
             // address.GoogleAddressText   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             address = null;
             address = GetFilledRandomAddress("");
@@ -447,20 +458,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(addressGoogleAddressTextMin, address.GoogleAddressText);
             Assert.AreEqual(count, addressService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // address.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // address.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -487,35 +500,40 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, address.LastUpdateContactTVItemID);
             Assert.AreEqual(count, addressService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // address.AddressTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // address.CountryTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // address.MunicipalityTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // address.ProvinceTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // address.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

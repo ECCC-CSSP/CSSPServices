@@ -98,21 +98,23 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // appErrLog.AppErrLogID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             appErrLog = GetFilledRandomAppErrLog("");
             appErrLog.AppErrLogID = 0;
             appErrLogService.Update(appErrLog);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogAppErrLogID), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // appErrLog.Tag   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             appErrLog = null;
             appErrLog = GetFilledRandomAppErrLog("Tag");
             Assert.AreEqual(false, appErrLogService.Add(appErrLog));
@@ -151,11 +153,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(appErrLogTagMin, appErrLog.Tag);
             Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(1, -1)]
             // appErrLog.LineNumber   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LineNumber will automatically be initialized at 0 --> not null
 
 
@@ -182,10 +185,11 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appErrLog.LineNumber);
             Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // appErrLog.Source   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             appErrLog = null;
             appErrLog = GetFilledRandomAppErrLog("Source");
             Assert.AreEqual(false, appErrLogService.Add(appErrLog));
@@ -198,10 +202,11 @@ namespace CSSPServices.Tests
             appErrLog = null;
             appErrLog = GetFilledRandomAppErrLog("");
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // appErrLog.Message   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             appErrLog = null;
             appErrLog = GetFilledRandomAppErrLog("Message");
             Assert.AreEqual(false, appErrLogService.Add(appErrLog));
@@ -214,28 +219,31 @@ namespace CSSPServices.Tests
             appErrLog = null;
             appErrLog = GetFilledRandomAppErrLog("");
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // appErrLog.DateTime_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // DateTime_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // appErrLog.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // appErrLog.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -262,11 +270,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appErrLog.LastUpdateContactTVItemID);
             Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // appErrLog.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

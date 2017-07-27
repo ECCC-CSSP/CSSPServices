@@ -95,22 +95,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // samplingPlanSubsector.SamplingPlanSubsectorID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             samplingPlanSubsector = GetFilledRandomSamplingPlanSubsector("");
             samplingPlanSubsector.SamplingPlanSubsectorID = 0;
             samplingPlanSubsectorService.Update(samplingPlanSubsector);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSubsectorSamplingPlanSubsectorID), samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "SamplingPlan", Plurial = "s", FieldID = "SamplingPlanID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "SamplingPlan", Plurial = "s", FieldID = "SamplingPlanID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // samplingPlanSubsector.SamplingPlanID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // SamplingPlanID will automatically be initialized at 0 --> not null
 
 
@@ -137,12 +139,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, samplingPlanSubsector.SamplingPlanID);
             Assert.AreEqual(count, samplingPlanSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Subsector)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Subsector)]
+            // [Range(1, -1)]
             // samplingPlanSubsector.SubsectorTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // SubsectorTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -169,20 +172,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, samplingPlanSubsector.SubsectorTVItemID);
             Assert.AreEqual(count, samplingPlanSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // samplingPlanSubsector.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // samplingPlanSubsector.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -209,29 +214,33 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, samplingPlanSubsector.LastUpdateContactTVItemID);
             Assert.AreEqual(count, samplingPlanSubsectorService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // samplingPlanSubsector.SamplingPlanSubsectorSites   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // samplingPlanSubsector.SamplingPlan   (SamplingPlan)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // samplingPlanSubsector.SubsectorTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // samplingPlanSubsector.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

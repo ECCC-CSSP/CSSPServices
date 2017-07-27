@@ -96,22 +96,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // tvItemStat.TVItemStatID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             tvItemStat = GetFilledRandomTVItemStat("");
             tvItemStat.TVItemStatID = 0;
             tvItemStatService.Update(tvItemStat);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemStatTVItemStatID), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // tvItemStat.TVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVItemID will automatically be initialized at 0 --> not null
 
 
@@ -138,19 +140,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemStat.TVItemID);
             Assert.AreEqual(count, tvItemStatService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // tvItemStat.TVType   (TVTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000000)]
             // tvItemStat.ChildCount   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ChildCount will automatically be initialized at 0 --> not null
 
 
@@ -197,20 +201,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10000001, tvItemStat.ChildCount);
             Assert.AreEqual(count, tvItemStatService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // tvItemStat.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // tvItemStat.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -237,17 +243,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemStat.LastUpdateContactTVItemID);
             Assert.AreEqual(count, tvItemStatService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItemStat.TVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // tvItemStat.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

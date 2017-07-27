@@ -104,41 +104,46 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // rainExceedance.RainExceedanceID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             rainExceedance = GetFilledRandomRainExceedance("");
             rainExceedance.RainExceedanceID = 0;
             rainExceedanceService.Update(rainExceedance);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceRainExceedanceID), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // rainExceedance.YearRound   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // YearRound will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // rainExceedance.StartDate_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
-            //[CSSPBigger(OtherField = StartDate)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
+            // [CSSPBigger(OtherField = StartDate)]
             // rainExceedance.EndDate_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 300)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 300)]
             // rainExceedance.RainMaximum_mm   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RainMaximum_mm]
 
 
@@ -185,11 +190,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(301.0D, rainExceedance.RainMaximum_mm);
             Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 300)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 300)]
             // rainExceedance.RainExtreme_mm   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RainExtreme_mm]
 
 
@@ -236,11 +242,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(301.0D, rainExceedance.RainExtreme_mm);
             Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 30)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 30)]
             // rainExceedance.DaysPriorToStart   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // DaysPriorToStart will automatically be initialized at 0 --> not null
 
 
@@ -287,18 +294,20 @@ namespace CSSPServices.Tests
             Assert.AreEqual(31, rainExceedance.DaysPriorToStart);
             Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // rainExceedance.RepeatEveryYear   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // RepeatEveryYear will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(250))]
             // rainExceedance.ProvinceTVItemIDs   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             rainExceedance = null;
             rainExceedance = GetFilledRandomRainExceedance("ProvinceTVItemIDs");
             Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
@@ -337,11 +346,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(rainExceedanceProvinceTVItemIDsMin, rainExceedance.ProvinceTVItemIDs);
             Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(250))]
             // rainExceedance.SubsectorTVItemIDs   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             rainExceedance = null;
             rainExceedance = GetFilledRandomRainExceedance("SubsectorTVItemIDs");
             Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
@@ -380,11 +390,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(rainExceedanceSubsectorTVItemIDsMin, rainExceedance.SubsectorTVItemIDs);
             Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(250))]
             // rainExceedance.ClimateSiteTVItemIDs   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             rainExceedance = null;
             rainExceedance = GetFilledRandomRainExceedance("ClimateSiteTVItemIDs");
             Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
@@ -423,11 +434,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(rainExceedanceClimateSiteTVItemIDsMin, rainExceedance.ClimateSiteTVItemIDs);
             Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(250))]
             // rainExceedance.EmailDistributionListIDs   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             rainExceedance = null;
             rainExceedance = GetFilledRandomRainExceedance("EmailDistributionListIDs");
             Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
@@ -458,20 +470,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(true, rainExceedanceService.Delete(rainExceedance));
             Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // rainExceedance.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // rainExceedance.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -498,11 +512,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, rainExceedance.LastUpdateContactTVItemID);
             Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // rainExceedance.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

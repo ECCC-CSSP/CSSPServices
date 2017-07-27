@@ -96,22 +96,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // tideSite.TideSiteID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             tideSite = GetFilledRandomTideSite("");
             tideSite.TideSiteID = 0;
             tideSiteService.Update(tideSite);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TideSiteTideSiteID), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.TideSite)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.TideSite)]
+            // [Range(1, -1)]
             // tideSite.TideSiteTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // TideSiteTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -138,11 +140,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tideSite.TideSiteTVItemID);
             Assert.AreEqual(count, tideSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // tideSite.WebTideModel   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             tideSite = null;
             tideSite = GetFilledRandomTideSite("WebTideModel");
             Assert.AreEqual(false, tideSiteService.Add(tideSite));
@@ -181,11 +184,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(tideSiteWebTideModelMin, tideSite.WebTideModel);
             Assert.AreEqual(count, tideSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-100, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-100, 100)]
             // tideSite.WebTideDatum_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [WebTideDatum_m]
 
 
@@ -232,20 +236,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, tideSite.WebTideDatum_m);
             Assert.AreEqual(count, tideSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // tideSite.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // tideSite.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -272,17 +278,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tideSite.LastUpdateContactTVItemID);
             Assert.AreEqual(count, tideSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tideSite.TideSiteTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // tideSite.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

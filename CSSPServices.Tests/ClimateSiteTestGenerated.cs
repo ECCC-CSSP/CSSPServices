@@ -114,22 +114,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // climateSite.ClimateSiteID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             climateSite = GetFilledRandomClimateSite("");
             climateSite.ClimateSiteID = 0;
             climateSiteService.Update(climateSite);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteClimateSiteID), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.ClimateSite)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.ClimateSite)]
+            // [Range(1, -1)]
             // climateSite.ClimateSiteTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ClimateSiteTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -156,11 +158,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, climateSite.ClimateSiteTVItemID);
             Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(1, 100000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(1, 100000)]
             // climateSite.ECDBID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ECDBID will automatically be initialized at 0 --> not null
 
 
@@ -207,11 +210,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100001, climateSite.ECDBID);
             Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // climateSite.ClimateSiteName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("ClimateSiteName");
             Assert.AreEqual(false, climateSiteService.Add(climateSite));
@@ -250,11 +254,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(climateSiteClimateSiteNameMin, climateSite.ClimateSiteName);
             Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(4))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(4))]
             // climateSite.Province   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("Province");
             Assert.AreEqual(false, climateSiteService.Add(climateSite));
@@ -293,11 +298,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(climateSiteProvinceMin, climateSite.Province);
             Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10000)]
             // climateSite.Elevation_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Elevation_m]
 
 
@@ -344,11 +350,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001.0D, climateSite.Elevation_m);
             Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(10))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(10))]
             // climateSite.ClimateID   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
@@ -379,11 +386,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(climateSiteClimateIDMin, climateSite.ClimateID);
             Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(1, 100000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(1, 100000)]
             // climateSite.WMOID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
@@ -428,11 +436,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100001, climateSite.WMOID);
             Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(3))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(3))]
             // climateSite.TCID   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
@@ -463,16 +472,18 @@ namespace CSSPServices.Tests
             Assert.AreEqual(climateSiteTCIDMin, climateSite.TCID);
             Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // climateSite.IsProvincial   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(50))]
+
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(50))]
             // climateSite.ProvSiteID   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
@@ -503,11 +514,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(climateSiteProvSiteIDMin, climateSite.ProvSiteID);
             Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-10, 0)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-10, 0)]
             // climateSite.TimeOffset_hour   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [TimeOffset_hour]
 
 
@@ -554,11 +566,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1.0D, climateSite.TimeOffset_hour);
             Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(50))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(50))]
             // climateSite.File_desc   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
@@ -589,71 +602,82 @@ namespace CSSPServices.Tests
             Assert.AreEqual(climateSiteFile_descMin, climateSite.File_desc);
             Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // climateSite.HourlyStartDate_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // climateSite.HourlyEndDate_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
+
+            // -----------------------------------
+            // Is Nullable
             // climateSite.HourlyNow   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // climateSite.DailyStartDate_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // climateSite.DailyEndDate_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
+
+            // -----------------------------------
+            // Is Nullable
             // climateSite.DailyNow   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // climateSite.MonthlyStartDate_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // climateSite.MonthlyEndDate_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
+
+            // -----------------------------------
+            // Is Nullable
             // climateSite.MonthlyNow   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // climateSite.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // climateSite.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -680,23 +704,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, climateSite.LastUpdateContactTVItemID);
             Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // climateSite.ClimateDataValues   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // climateSite.ClimateSiteTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // climateSite.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

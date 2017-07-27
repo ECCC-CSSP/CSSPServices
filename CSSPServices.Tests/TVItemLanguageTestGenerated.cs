@@ -97,22 +97,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // tvItemLanguage.TVItemLanguageID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             tvItemLanguage = GetFilledRandomTVItemLanguage("");
             tvItemLanguage.TVItemLanguageID = 0;
             tvItemLanguageService.Update(tvItemLanguage);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageTVItemLanguageID), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // tvItemLanguage.TVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVItemID will automatically be initialized at 0 --> not null
 
 
@@ -139,19 +141,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemLanguage.TVItemID);
             Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // tvItemLanguage.Language   (LanguageEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // Language will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(200))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(200))]
             // tvItemLanguage.TVText   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             tvItemLanguage = null;
             tvItemLanguage = GetFilledRandomTVItemLanguage("TVText");
             Assert.AreEqual(false, tvItemLanguageService.Add(tvItemLanguage));
@@ -190,28 +194,31 @@ namespace CSSPServices.Tests
             Assert.AreEqual(tvItemLanguageTVTextMin, tvItemLanguage.TVText);
             Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // tvItemLanguage.TranslationStatus   (TranslationStatusEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TranslationStatus will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // tvItemLanguage.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // tvItemLanguage.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -238,17 +245,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItemLanguage.TVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // tvItemLanguage.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

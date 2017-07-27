@@ -96,22 +96,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // ratingCurveValue.RatingCurveValueID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             ratingCurveValue = GetFilledRandomRatingCurveValue("");
             ratingCurveValue.RatingCurveValueID = 0;
             ratingCurveValueService.Update(ratingCurveValue);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveValueRatingCurveValueID), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "RatingCurve", Plurial = "s", FieldID = "RatingCurveID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "RatingCurve", Plurial = "s", FieldID = "RatingCurveID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // ratingCurveValue.RatingCurveID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // RatingCurveID will automatically be initialized at 0 --> not null
 
 
@@ -138,11 +140,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, ratingCurveValue.RatingCurveID);
             Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000)]
             // ratingCurveValue.StageValue_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [StageValue_m]
 
 
@@ -189,11 +192,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001.0D, ratingCurveValue.StageValue_m);
             Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000000)]
             // ratingCurveValue.DischargeValue_m3_s   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [DischargeValue_m3_s]
 
 
@@ -240,20 +244,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1000001.0D, ratingCurveValue.DischargeValue_m3_s);
             Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // ratingCurveValue.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // ratingCurveValue.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -280,17 +286,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, ratingCurveValue.LastUpdateContactTVItemID);
             Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // ratingCurveValue.RatingCurve   (RatingCurve)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // ratingCurveValue.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

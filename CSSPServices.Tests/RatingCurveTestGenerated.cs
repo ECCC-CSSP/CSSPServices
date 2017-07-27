@@ -95,22 +95,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // ratingCurve.RatingCurveID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             ratingCurve = GetFilledRandomRatingCurve("");
             ratingCurve.RatingCurveID = 0;
             ratingCurveService.Update(ratingCurve);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveRatingCurveID), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "HydrometricSite", Plurial = "s", FieldID = "HydrometricSiteID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "HydrometricSite", Plurial = "s", FieldID = "HydrometricSiteID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // ratingCurve.HydrometricSiteID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // HydrometricSiteID will automatically be initialized at 0 --> not null
 
 
@@ -137,11 +139,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, ratingCurve.HydrometricSiteID);
             Assert.AreEqual(count, ratingCurveService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(50))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(50))]
             // ratingCurve.RatingCurveNumber   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             ratingCurve = null;
             ratingCurve = GetFilledRandomRatingCurve("RatingCurveNumber");
             Assert.AreEqual(false, ratingCurveService.Add(ratingCurve));
@@ -180,20 +183,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(ratingCurveRatingCurveNumberMin, ratingCurve.RatingCurveNumber);
             Assert.AreEqual(count, ratingCurveService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // ratingCurve.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // ratingCurve.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -220,23 +225,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, ratingCurve.LastUpdateContactTVItemID);
             Assert.AreEqual(count, ratingCurveService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // ratingCurve.RatingCurveValues   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // ratingCurve.HydrometricSite   (HydrometricSite)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // ratingCurve.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

@@ -99,22 +99,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // tvItemUserAuthorization.TVItemUserAuthorizationID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
             tvItemUserAuthorization.TVItemUserAuthorizationID = 0;
             tvItemUserAuthorizationService.Update(tvItemUserAuthorization);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationTVItemUserAuthorizationID), tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // tvItemUserAuthorization.ContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -141,12 +143,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorization.ContactTVItemID);
             Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // tvItemUserAuthorization.TVItemID1   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVItemID1 will automatically be initialized at 0 --> not null
 
 
@@ -173,12 +176,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorization.TVItemID1);
             Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // tvItemUserAuthorization.TVItemID2   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             tvItemUserAuthorization = null;
             tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
@@ -203,12 +207,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorization.TVItemID2);
             Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // tvItemUserAuthorization.TVItemID3   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             tvItemUserAuthorization = null;
             tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
@@ -233,12 +238,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorization.TVItemID3);
             Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // tvItemUserAuthorization.TVItemID4   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             tvItemUserAuthorization = null;
             tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
@@ -263,28 +269,31 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorization.TVItemID4);
             Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // tvItemUserAuthorization.TVAuth   (TVAuthEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVAuth will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // tvItemUserAuthorization.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // tvItemUserAuthorization.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -311,17 +320,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemUserAuthorization.LastUpdateContactTVItemID);
             Assert.AreEqual(count, tvItemUserAuthorizationService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItemUserAuthorization.ContactTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // tvItemUserAuthorization.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

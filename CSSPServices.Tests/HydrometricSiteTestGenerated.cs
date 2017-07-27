@@ -110,22 +110,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // hydrometricSite.HydrometricSiteID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             hydrometricSite = GetFilledRandomHydrometricSite("");
             hydrometricSite.HydrometricSiteID = 0;
             hydrometricSiteService.Update(hydrometricSite);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteHydrometricSiteID), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.HydrometricSite)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.HydrometricSite)]
+            // [Range(1, -1)]
             // hydrometricSite.HydrometricSiteTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // HydrometricSiteTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -152,11 +154,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, hydrometricSite.HydrometricSiteTVItemID);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(7))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(7))]
             // hydrometricSite.FedSiteNumber   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
@@ -187,11 +190,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(hydrometricSiteFedSiteNumberMin, hydrometricSite.FedSiteNumber);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(7))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(7))]
             // hydrometricSite.QuebecSiteNumber   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
@@ -222,11 +226,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(hydrometricSiteQuebecSiteNumberMin, hydrometricSite.QuebecSiteNumber);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(200))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(200))]
             // hydrometricSite.HydrometricSiteName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("HydrometricSiteName");
             Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
@@ -265,11 +270,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(hydrometricSiteHydrometricSiteNameMin, hydrometricSite.HydrometricSiteName);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(200))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(200))]
             // hydrometricSite.Description   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
@@ -300,11 +306,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(hydrometricSiteDescriptionMin, hydrometricSite.Description);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(4))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(4))]
             // hydrometricSite.Province   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("Province");
             Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
@@ -343,11 +350,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(hydrometricSiteProvinceMin, hydrometricSite.Province);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10000)]
             // hydrometricSite.Elevation_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Elevation_m]
 
 
@@ -394,24 +402,27 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001.0D, hydrometricSite.Elevation_m);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // hydrometricSite.StartDate_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
-            //[CSSPBigger(OtherField = StartDate_Local)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
+            // [CSSPBigger(OtherField = StartDate_Local)]
             // hydrometricSite.EndDate_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-10, 0)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-10, 0)]
             // hydrometricSite.TimeOffset_hour   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [TimeOffset_hour]
 
 
@@ -458,11 +469,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1.0D, hydrometricSite.TimeOffset_hour);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 1000000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 1000000)]
             // hydrometricSite.DrainageArea_km2   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [DrainageArea_km2]
 
 
@@ -509,50 +521,58 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1000001.0D, hydrometricSite.DrainageArea_km2);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // hydrometricSite.IsNatural   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
+
+            // -----------------------------------
+            // Is Nullable
             // hydrometricSite.IsActive   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
+
+            // -----------------------------------
+            // Is Nullable
             // hydrometricSite.Sediment   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
+
+            // -----------------------------------
+            // Is Nullable
             // hydrometricSite.RHBN   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
+
+            // -----------------------------------
+            // Is Nullable
             // hydrometricSite.RealTime   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
+
+            // -----------------------------------
+            // Is Nullable
             // hydrometricSite.HasRatingCurve   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // hydrometricSite.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // hydrometricSite.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -579,29 +599,33 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, hydrometricSite.LastUpdateContactTVItemID);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // hydrometricSite.HydrometricDataValues   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // hydrometricSite.RatingCurves   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // hydrometricSite.HydrometricSiteTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // hydrometricSite.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

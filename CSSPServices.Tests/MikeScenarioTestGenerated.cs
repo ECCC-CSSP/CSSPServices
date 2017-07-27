@@ -118,22 +118,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // mikeScenario.MikeScenarioID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             mikeScenario = GetFilledRandomMikeScenario("");
             mikeScenario.MikeScenarioID = 0;
             mikeScenarioService.Update(mikeScenario);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeScenarioMikeScenarioID), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MikeScenario)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MikeScenario)]
+            // [Range(1, -1)]
             // mikeScenario.MikeScenarioTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MikeScenarioTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -160,12 +162,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeScenario.MikeScenarioTVItemID);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MikeScenario)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MikeScenario)]
+            // [Range(1, -1)]
             // mikeScenario.ParentMikeScenarioID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mikeScenario = null;
             mikeScenario = GetFilledRandomMikeScenario("");
@@ -190,49 +193,55 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeScenario.ParentMikeScenarioID);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mikeScenario.ScenarioStatus   (ScenarioStatusEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // ScenarioStatus will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // mikeScenario.ErrorInfo   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mikeScenario = null;
             mikeScenario = GetFilledRandomMikeScenario("");
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mikeScenario.MikeScenarioStartDateTime_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // MikeScenarioStartDateTime_Local will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mikeScenario.MikeScenarioEndDateTime_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // MikeScenarioEndDateTime_Local will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // mikeScenario.MikeScenarioStartExecutionDateTime_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(1, 100000)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(1, 100000)]
             // mikeScenario.MikeScenarioExecutionTime_min   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [MikeScenarioExecutionTime_min]
 
 
@@ -279,11 +288,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100001.0D, mikeScenario.MikeScenarioExecutionTime_min);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // mikeScenario.WindSpeed_km_h   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [WindSpeed_km_h]
 
 
@@ -330,11 +340,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, mikeScenario.WindSpeed_km_h);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 360)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 360)]
             // mikeScenario.WindDirection_deg   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [WindDirection_deg]
 
 
@@ -381,11 +392,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(361.0D, mikeScenario.WindDirection_deg);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // mikeScenario.DecayFactor_per_day   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [DecayFactor_per_day]
 
 
@@ -432,18 +444,20 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, mikeScenario.DecayFactor_per_day);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // mikeScenario.DecayIsConstant   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // DecayIsConstant will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // mikeScenario.DecayFactorAmplitude   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [DecayFactorAmplitude]
 
 
@@ -490,11 +504,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, mikeScenario.DecayFactorAmplitude);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // mikeScenario.ResultFrequency_min   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ResultFrequency_min will automatically be initialized at 0 --> not null
 
 
@@ -541,11 +556,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101, mikeScenario.ResultFrequency_min);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-10, 40)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-10, 40)]
             // mikeScenario.AmbientTemperature_C   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [AmbientTemperature_C]
 
 
@@ -592,11 +608,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, mikeScenario.AmbientTemperature_C);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 40)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 40)]
             // mikeScenario.AmbientSalinity_PSU   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [AmbientSalinity_PSU]
 
 
@@ -643,11 +660,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, mikeScenario.AmbientSalinity_PSU);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // mikeScenario.ManningNumber   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [ManningNumber]
 
 
@@ -694,11 +712,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, mikeScenario.ManningNumber);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(1, 10000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(1, 10000)]
             // mikeScenario.NumberOfElements   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mikeScenario = null;
             mikeScenario = GetFilledRandomMikeScenario("");
@@ -743,11 +762,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001, mikeScenario.NumberOfElements);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(1, 10000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(1, 10000)]
             // mikeScenario.NumberOfTimeSteps   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mikeScenario = null;
             mikeScenario = GetFilledRandomMikeScenario("");
@@ -792,11 +812,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001, mikeScenario.NumberOfTimeSteps);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // mikeScenario.NumberOfSigmaLayers   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mikeScenario = null;
             mikeScenario = GetFilledRandomMikeScenario("");
@@ -841,11 +862,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101, mikeScenario.NumberOfSigmaLayers);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // mikeScenario.NumberOfZLayers   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mikeScenario = null;
             mikeScenario = GetFilledRandomMikeScenario("");
@@ -890,11 +912,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101, mikeScenario.NumberOfZLayers);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // mikeScenario.NumberOfHydroOutputParameters   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mikeScenario = null;
             mikeScenario = GetFilledRandomMikeScenario("");
@@ -939,11 +962,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101, mikeScenario.NumberOfHydroOutputParameters);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // mikeScenario.NumberOfTransOutputParameters   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mikeScenario = null;
             mikeScenario = GetFilledRandomMikeScenario("");
@@ -988,11 +1012,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101, mikeScenario.NumberOfTransOutputParameters);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100000000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100000000)]
             // mikeScenario.EstimatedHydroFileSize   (Int64)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mikeScenario = null;
             mikeScenario = GetFilledRandomMikeScenario("");
@@ -1037,11 +1062,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100000001, mikeScenario.EstimatedHydroFileSize);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100000000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100000000)]
             // mikeScenario.EstimatedTransFileSize   (Int64)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mikeScenario = null;
             mikeScenario = GetFilledRandomMikeScenario("");
@@ -1086,20 +1112,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100000001, mikeScenario.EstimatedTransFileSize);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mikeScenario.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // mikeScenario.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -1126,17 +1154,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeScenario.LastUpdateContactTVItemID);
             Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mikeScenario.MikeScenarioTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // mikeScenario.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

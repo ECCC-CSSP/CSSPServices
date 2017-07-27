@@ -39,7 +39,7 @@ namespace CSSPServices.Tests
         {
             AppTaskLanguage appTaskLanguage = new AppTaskLanguage();
 
-            if (OmitPropName != "AppTaskID") appTaskLanguage.AppTaskID = 0;
+            if (OmitPropName != "AppTaskID") appTaskLanguage.AppTaskID = 1;
             if (OmitPropName != "Language") appTaskLanguage.Language = language;
             if (OmitPropName != "StatusText") appTaskLanguage.StatusText = GetRandomString("", 5);
             if (OmitPropName != "ErrorText") appTaskLanguage.ErrorText = GetRandomString("", 5);
@@ -98,22 +98,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // appTaskLanguage.AppTaskLanguageID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             appTaskLanguage = GetFilledRandomAppTaskLanguage("");
             appTaskLanguage.AppTaskLanguageID = 0;
             appTaskLanguageService.Update(appTaskLanguage);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageAppTaskLanguageID), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "AppTask", Plurial = "s", FieldID = "AppTaskID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "AppTask", Plurial = "s", FieldID = "AppTaskID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // appTaskLanguage.AppTaskID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // AppTaskID will automatically be initialized at 0 --> not null
 
 
@@ -140,19 +142,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appTaskLanguage.AppTaskID);
             Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // appTaskLanguage.Language   (LanguageEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // Language will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(250))]
             // appTaskLanguage.StatusText   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             appTaskLanguage = null;
             appTaskLanguage = GetFilledRandomAppTaskLanguage("");
@@ -183,11 +187,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(appTaskLanguageStatusTextMin, appTaskLanguage.StatusText);
             Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(250))]
             // appTaskLanguage.ErrorText   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             appTaskLanguage = null;
             appTaskLanguage = GetFilledRandomAppTaskLanguage("");
@@ -218,28 +223,31 @@ namespace CSSPServices.Tests
             Assert.AreEqual(appTaskLanguageErrorTextMin, appTaskLanguage.ErrorText);
             Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // appTaskLanguage.TranslationStatus   (TranslationStatusEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TranslationStatus will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // appTaskLanguage.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // appTaskLanguage.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -266,17 +274,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appTaskLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // appTaskLanguage.AppTask   (AppTask)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // appTaskLanguage.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

@@ -99,22 +99,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // contactLogin.ContactLoginID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             contactLogin = GetFilledRandomContactLogin("");
             contactLogin.ContactLoginID = 0;
             contactLoginService.Update(contactLogin);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginContactLoginID), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "Contact", Plurial = "s", FieldID = "ContactID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "Contact", Plurial = "s", FieldID = "ContactID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // contactLogin.ContactID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ContactID will automatically be initialized at 0 --> not null
 
 
@@ -141,12 +143,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, contactLogin.ContactID);
             Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[DataType(DataType.EmailAddress)]
-            //[StringLength(200))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [DataType(DataType.EmailAddress)]
+            // [StringLength(200))]
             // contactLogin.LoginEmail   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             contactLogin = null;
             contactLogin = GetFilledRandomContactLogin("LoginEmail");
             Assert.AreEqual(false, contactLoginService.Add(contactLogin));
@@ -177,34 +180,38 @@ namespace CSSPServices.Tests
             Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
             Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // contactLogin.PasswordHash   (Byte[])
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [PasswordHash]
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // contactLogin.PasswordSalt   (Byte[])
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [PasswordSalt]
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // contactLogin.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // contactLogin.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -231,18 +238,20 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, contactLogin.LastUpdateContactTVItemID);
             Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // contactLogin.Contact   (Contact)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
-            //[StringLength(100, MinimumLength = 6)]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
+            // [StringLength(100, MinimumLength = 6)]
             // contactLogin.Password   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             contactLogin = null;
             contactLogin = GetFilledRandomContactLogin("Password");
             Assert.AreEqual(false, contactLoginService.Add(contactLogin));
@@ -307,12 +316,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(contactLoginPasswordMin, contactLogin.Password);
             Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
-            //[StringLength(100, MinimumLength = 6)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
+            // [StringLength(100, MinimumLength = 6)]
             // contactLogin.ConfirmPassword   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             contactLogin = null;
             contactLogin = GetFilledRandomContactLogin("ConfirmPassword");
             Assert.AreEqual(false, contactLoginService.Add(contactLogin));
@@ -377,11 +387,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(contactLoginConfirmPasswordMin, contactLogin.ConfirmPassword);
             Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // contactLogin.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

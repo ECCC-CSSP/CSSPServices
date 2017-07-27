@@ -103,22 +103,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // tvItemLink.TVItemLinkID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             tvItemLink = GetFilledRandomTVItemLink("");
             tvItemLink.TVItemLinkID = 0;
             tvItemLinkService.Update(tvItemLink);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLinkTVItemLinkID), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // tvItemLink.FromTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // FromTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -145,12 +147,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemLink.FromTVItemID);
             Assert.AreEqual(count, tvItemLinkService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // tvItemLink.ToTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ToTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -177,40 +180,45 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemLink.ToTVItemID);
             Assert.AreEqual(count, tvItemLinkService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // tvItemLink.FromTVType   (TVTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // FromTVType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // tvItemLink.ToTVType   (TVTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // ToTVType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // tvItemLink.StartDateTime_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
-            //[CSSPBigger(OtherField = StartDateTime_Local)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
+            // [CSSPBigger(OtherField = StartDateTime_Local)]
             // tvItemLink.EndDateTime_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // tvItemLink.Ordinal   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Ordinal will automatically be initialized at 0 --> not null
 
 
@@ -257,11 +265,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101, tvItemLink.Ordinal);
             Assert.AreEqual(count, tvItemLinkService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // tvItemLink.TVLevel   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVLevel will automatically be initialized at 0 --> not null
 
 
@@ -308,11 +317,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101, tvItemLink.TVLevel);
             Assert.AreEqual(count, tvItemLinkService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(250))]
             // tvItemLink.TVPath   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             tvItemLink = null;
             tvItemLink = GetFilledRandomTVItemLink("TVPath");
             Assert.AreEqual(false, tvItemLinkService.Add(tvItemLink));
@@ -351,12 +361,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(tvItemLinkTVPathMin, tvItemLink.TVPath);
             Assert.AreEqual(count, tvItemLinkService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // tvItemLink.ParentTVItemLinkID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             tvItemLink = null;
             tvItemLink = GetFilledRandomTVItemLink("");
@@ -381,20 +392,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemLink.ParentTVItemLinkID);
             Assert.AreEqual(count, tvItemLinkService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // tvItemLink.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // tvItemLink.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -421,35 +434,40 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tvItemLink.LastUpdateContactTVItemID);
             Assert.AreEqual(count, tvItemLinkService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItemLink.FromTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItemLink.ParentTVItemLink   (TVItemLink)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItemLink.InverseParentTVItemLink   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tvItemLink.ToTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // tvItemLink.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

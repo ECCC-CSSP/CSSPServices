@@ -103,22 +103,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // tideDataValue.TideDataValueID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             tideDataValue = GetFilledRandomTideDataValue("");
             tideDataValue.TideDataValueID = 0;
             tideDataValueService.Update(tideDataValue);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueTideDataValueID), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.TideSite)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.TideSite)]
+            // [Range(1, -1)]
             // tideDataValue.TideSiteTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // TideSiteTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -145,42 +147,47 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tideDataValue.TideSiteTVItemID);
             Assert.AreEqual(count, tideDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // tideDataValue.DateTime_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // DateTime_Local will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // tideDataValue.Keep   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // Keep will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // tideDataValue.TideDataType   (TideDataTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TideDataType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // tideDataValue.StorageDataType   (StorageDataTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // StorageDataType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000)]
             // tideDataValue.Depth_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Depth_m]
 
 
@@ -227,11 +234,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001.0D, tideDataValue.Depth_m);
             Assert.AreEqual(count, tideDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10)]
             // tideDataValue.UVelocity_m_s   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [UVelocity_m_s]
 
 
@@ -278,11 +286,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(11.0D, tideDataValue.UVelocity_m_s);
             Assert.AreEqual(count, tideDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10)]
             // tideDataValue.VVelocity_m_s   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [VVelocity_m_s]
 
 
@@ -329,32 +338,36 @@ namespace CSSPServices.Tests
             Assert.AreEqual(11.0D, tideDataValue.VVelocity_m_s);
             Assert.AreEqual(count, tideDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // tideDataValue.TideStart   (TideTextEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // tideDataValue.TideEnd   (TideTextEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // tideDataValue.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // tideDataValue.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -381,17 +394,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, tideDataValue.LastUpdateContactTVItemID);
             Assert.AreEqual(count, tideDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // tideDataValue.TideSiteTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // tideDataValue.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

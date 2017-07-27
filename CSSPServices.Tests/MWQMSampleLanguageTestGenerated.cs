@@ -97,22 +97,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // mwqmSampleLanguage.MWQMSampleLanguageID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
             mwqmSampleLanguage.MWQMSampleLanguageID = 0;
             mwqmSampleLanguageService.Update(mwqmSampleLanguage);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageMWQMSampleLanguageID), mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "MWQMSample", Plurial = "s", FieldID = "MWQMSampleID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "MWQMSample", Plurial = "s", FieldID = "MWQMSampleID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // mwqmSampleLanguage.MWQMSampleID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MWQMSampleID will automatically be initialized at 0 --> not null
 
 
@@ -139,18 +141,20 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSampleLanguage.MWQMSampleID);
             Assert.AreEqual(count, mwqmSampleLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mwqmSampleLanguage.Language   (LanguageEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // Language will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // mwqmSampleLanguage.MWQMSampleNote   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmSampleLanguage = null;
             mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("MWQMSampleNote");
             Assert.AreEqual(false, mwqmSampleLanguageService.Add(mwqmSampleLanguage));
@@ -163,28 +167,31 @@ namespace CSSPServices.Tests
             mwqmSampleLanguage = null;
             mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mwqmSampleLanguage.TranslationStatus   (TranslationStatusEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TranslationStatus will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmSampleLanguage.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // mwqmSampleLanguage.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -211,17 +218,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSampleLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(count, mwqmSampleLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mwqmSampleLanguage.MWQMSample   (MWQMSample)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // mwqmSampleLanguage.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

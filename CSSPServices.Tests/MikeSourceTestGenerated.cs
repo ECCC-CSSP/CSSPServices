@@ -98,22 +98,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // mikeSource.MikeSourceID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             mikeSource = GetFilledRandomMikeSource("");
             mikeSource.MikeSourceID = 0;
             mikeSourceService.Update(mikeSource);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceMikeSourceID), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MikeSource)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MikeSource)]
+            // [Range(1, -1)]
             // mikeSource.MikeSourceTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MikeSourceTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -140,32 +142,36 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeSource.MikeSourceTVItemID);
             Assert.AreEqual(count, mikeSourceService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // mikeSource.IsContinuous   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // IsContinuous will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // mikeSource.Include   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // Include will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // mikeSource.IsRiver   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // IsRiver will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(50))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(50))]
             // mikeSource.SourceNumberString   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             mikeSource = null;
             mikeSource = GetFilledRandomMikeSource("SourceNumberString");
             Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
@@ -204,20 +210,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(mikeSourceSourceNumberStringMin, mikeSource.SourceNumberString);
             Assert.AreEqual(count, mikeSourceService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mikeSource.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // mikeSource.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -244,23 +252,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeSource.LastUpdateContactTVItemID);
             Assert.AreEqual(count, mikeSourceService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mikeSource.MikeSourceStartEnds   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mikeSource.MikeSourceTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // mikeSource.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

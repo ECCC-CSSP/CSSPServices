@@ -107,21 +107,23 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // contact.ContactID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             contact = GetFilledRandomContact("");
             contact.ContactID = 0;
             contactService.Update(contact);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactContactID), contact.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(128))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(128))]
             // contact.Id   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             contact = null;
             contact = GetFilledRandomContact("Id");
             Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.LoggedIn));
@@ -160,12 +162,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(contactIdMin, contact.Id);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // contact.ContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -192,12 +195,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, contact.ContactTVItemID);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[DataType(DataType.EmailAddress)]
-            //[StringLength(255, MinimumLength = 6)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [DataType(DataType.EmailAddress)]
+            // [StringLength(255, MinimumLength = 6)]
             // contact.LoginEmail   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             contact = null;
             contact = GetFilledRandomContact("LoginEmail");
             Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.LoggedIn));
@@ -246,11 +250,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(true, contactService.Delete(contact));
             Assert.AreEqual(count, contactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // contact.FirstName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             contact = null;
             contact = GetFilledRandomContact("FirstName");
             Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.LoggedIn));
@@ -289,11 +294,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(contactFirstNameMin, contact.FirstName);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // contact.LastName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             contact = null;
             contact = GetFilledRandomContact("LastName");
             Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.LoggedIn));
@@ -332,11 +338,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(contactLastNameMin, contact.LastName);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(50))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(50))]
             // contact.Initial   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             contact = null;
             contact = GetFilledRandomContact("");
@@ -367,11 +374,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(contactInitialMin, contact.Initial);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // contact.WebName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             contact = null;
             contact = GetFilledRandomContact("WebName");
             Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.LoggedIn));
@@ -410,45 +418,51 @@ namespace CSSPServices.Tests
             Assert.AreEqual(contactWebNameMin, contact.WebName);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPEnumType]
             // contact.ContactTitle   (ContactTitleEnum)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
+
+            // -----------------------------------
+            // Is NOT Nullable
             // contact.IsAdmin   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // IsAdmin will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // contact.EmailValidated   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // EmailValidated will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // contact.Disabled   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // Disabled will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // contact.IsNew   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // IsNew will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(200))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(200))]
             // contact.SamplingPlanner_ProvincesTVItemID   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             contact = null;
             contact = GetFilledRandomContact("");
@@ -479,20 +493,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(contactSamplingPlanner_ProvincesTVItemIDMin, contact.SamplingPlanner_ProvincesTVItemID);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // contact.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // contact.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -519,36 +535,41 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, contact.LastUpdateContactTVItemID);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // contact.ContactLogins   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // contact.ContactPreferences   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // contact.ContactShortcuts   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // contact.ContactTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
-            //[Range(1, -1)]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
+            // [Range(1, -1)]
             // contact.ParentTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ParentTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -575,11 +596,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, contact.ParentTVItemID);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // contact.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

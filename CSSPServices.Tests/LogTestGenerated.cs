@@ -97,21 +97,23 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // log.LogID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             log = GetFilledRandomLog("");
             log.LogID = 0;
             logService.Update(log);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LogLogID), log.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(50))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(50))]
             // log.TableName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             log = null;
             log = GetFilledRandomLog("TableName");
             Assert.AreEqual(false, logService.Add(log));
@@ -150,11 +152,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(logTableNameMin, log.TableName);
             Assert.AreEqual(count, logService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(1, -1)]
             // log.ID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ID will automatically be initialized at 0 --> not null
 
 
@@ -181,18 +184,20 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, log.ID);
             Assert.AreEqual(count, logService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // log.LogCommand   (LogCommandEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // LogCommand will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // log.Information   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             log = null;
             log = GetFilledRandomLog("Information");
             Assert.AreEqual(false, logService.Add(log));
@@ -205,20 +210,22 @@ namespace CSSPServices.Tests
             log = null;
             log = GetFilledRandomLog("");
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // log.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // log.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -245,11 +252,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, log.LastUpdateContactTVItemID);
             Assert.AreEqual(count, logService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // log.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

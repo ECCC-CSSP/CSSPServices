@@ -107,22 +107,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // mwqmSample.MWQMSampleID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmSample = GetFilledRandomMWQMSample("");
             mwqmSample.MWQMSampleID = 0;
             mwqmSampleService.Update(mwqmSample);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleMWQMSampleID), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMSite)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMSite)]
+            // [Range(1, -1)]
             // mwqmSample.MWQMSiteTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -149,12 +151,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSample.MWQMSiteTVItemID);
             Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMRun)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMRun)]
+            // [Range(1, -1)]
             // mwqmSample.MWQMRunTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MWQMRunTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -181,19 +184,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSample.MWQMRunTVItemID);
             Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmSample.SampleDateTime_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // SampleDateTime_Local will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 1000)]
             // mwqmSample.Depth_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Depth_m]
 
 
@@ -240,11 +245,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001.0D, mwqmSample.Depth_m);
             Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000000)]
             // mwqmSample.FecCol_MPN_100ml   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // FecCol_MPN_100ml will automatically be initialized at 0 --> not null
 
 
@@ -291,11 +297,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10000001, mwqmSample.FecCol_MPN_100ml);
             Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 40)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 40)]
             // mwqmSample.Salinity_PPT   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Salinity_PPT]
 
 
@@ -342,11 +349,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, mwqmSample.Salinity_PPT);
             Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-10, 40)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-10, 40)]
             // mwqmSample.WaterTemp_C   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [WaterTemp_C]
 
 
@@ -393,11 +401,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, mwqmSample.WaterTemp_C);
             Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 14)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 14)]
             // mwqmSample.PH   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [PH]
 
 
@@ -444,11 +453,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(15.0D, mwqmSample.PH);
             Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(50))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(50))]
             // mwqmSample.SampleTypesText   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmSample = null;
             mwqmSample = GetFilledRandomMWQMSample("SampleTypesText");
             Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
@@ -487,19 +497,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(mwqmSampleSampleTypesTextMin, mwqmSample.SampleTypesText);
             Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mwqmSample.SampleType_old   (SampleTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // SampleType_old will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 5)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 5)]
             // mwqmSample.Tube_10   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mwqmSample = null;
             mwqmSample = GetFilledRandomMWQMSample("");
@@ -544,11 +556,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(6, mwqmSample.Tube_10);
             Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 5)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 5)]
             // mwqmSample.Tube_1_0   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mwqmSample = null;
             mwqmSample = GetFilledRandomMWQMSample("");
@@ -593,11 +606,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(6, mwqmSample.Tube_1_0);
             Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 5)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 5)]
             // mwqmSample.Tube_0_1   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mwqmSample = null;
             mwqmSample = GetFilledRandomMWQMSample("");
@@ -642,11 +656,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(6, mwqmSample.Tube_0_1);
             Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(10))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(10))]
             // mwqmSample.ProcessedBy   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             mwqmSample = null;
             mwqmSample = GetFilledRandomMWQMSample("");
@@ -677,20 +692,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(mwqmSampleProcessedByMin, mwqmSample.ProcessedBy);
             Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmSample.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // mwqmSample.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -717,29 +734,33 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSample.LastUpdateContactTVItemID);
             Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mwqmSample.MWQMSampleLanguages   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mwqmSample.MWQMRunTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mwqmSample.MWQMSiteTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // mwqmSample.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

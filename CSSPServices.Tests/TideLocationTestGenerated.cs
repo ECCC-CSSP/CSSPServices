@@ -97,21 +97,23 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // tideLocation.TideLocationID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             tideLocation = GetFilledRandomTideLocation("");
             tideLocation.TideLocationID = 0;
             tideLocationService.Update(tideLocation);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TideLocationTideLocationID), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000)]
             // tideLocation.Zone   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Zone will automatically be initialized at 0 --> not null
 
 
@@ -158,11 +160,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001, tideLocation.Zone);
             Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // tideLocation.Name   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             tideLocation = null;
             tideLocation = GetFilledRandomTideLocation("Name");
             Assert.AreEqual(false, tideLocationService.Add(tideLocation));
@@ -201,11 +204,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(tideLocationNameMin, tideLocation.Name);
             Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // tideLocation.Prov   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             tideLocation = null;
             tideLocation = GetFilledRandomTideLocation("Prov");
             Assert.AreEqual(false, tideLocationService.Add(tideLocation));
@@ -244,11 +248,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(tideLocationProvMin, tideLocation.Prov);
             Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100000)]
             // tideLocation.sid   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // sid will automatically be initialized at 0 --> not null
 
 
@@ -295,11 +300,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100001, tideLocation.sid);
             Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-90, 90)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-90, 90)]
             // tideLocation.Lat   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Lat]
 
 
@@ -346,11 +352,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(91.0D, tideLocation.Lat);
             Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-180, 180)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-180, 180)]
             // tideLocation.Lng   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Lng]
 
 
@@ -397,11 +404,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(181.0D, tideLocation.Lng);
             Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // tideLocation.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

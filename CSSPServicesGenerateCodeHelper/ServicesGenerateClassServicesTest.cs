@@ -1358,65 +1358,66 @@ namespace CSSPServicesGenerateCodeHelper
                         }
 
                         sb.AppendLine(@"");
-                        sb.AppendLine(@"            //-----------------------------------");
+                        sb.AppendLine(@"            // -----------------------------------");
                         if (csspProp.IsKey)
                         {
-                            sb.AppendLine(@"            //[Key]");
+                            sb.AppendLine(@"            // [Key]");
                         }
                         if (csspProp.IsNullable)
                         {
-                            sb.AppendLine(@"            //Is Nullable");
+                            sb.AppendLine(@"            // Is Nullable");
                         }
                         else
                         {
-                            sb.AppendLine(@"            //Is NOT Nullable");
+                            sb.AppendLine(@"            // Is NOT Nullable");
                         }
                         if (csspProp.IsVirtual)
                         {
-                            sb.AppendLine(@"            //[IsVirtual]");
+                            sb.AppendLine(@"            // [IsVirtual]");
                         }
                         if (csspProp.HasCompareAttribute)
                         {
-                            sb.AppendLine(@"            //[Compare(OtherField = " + csspProp.OtherField + ")]");
+                            sb.AppendLine(@"            // [Compare(OtherField = " + csspProp.OtherField + ")]");
                         }
                         if (csspProp.HasCSSPAfterAttribute)
                         {
-                            sb.AppendLine(@"            //[CSSPAfter(Year = " + csspProp.Year + ")]");
+                            sb.AppendLine(@"            // [CSSPAfter(Year = " + csspProp.Year + ")]");
                         }
                         if (csspProp.HasCSSPAllowNullAttribute)
                         {
-                            sb.AppendLine(@"            //[CSSPAllowNull]");
+                            sb.AppendLine(@"            // [CSSPAllowNull]");
                         }
                         if (csspProp.HasCSSPBiggerAttribute)
                         {
-                            sb.AppendLine(@"            //[CSSPBigger(OtherField = " + csspProp.OtherField + ")]");
+                            sb.AppendLine(@"            // [CSSPBigger(OtherField = " + csspProp.OtherField + ")]");
                         }
                         if (csspProp.HasCSSPEnumTypeAttribute)
                         {
-                            sb.AppendLine(@"            //[CSSPEnumType]");
+                            sb.AppendLine(@"            // [CSSPEnumType]");
                         }
                         if (csspProp.HasCSSPExistAttribute)
                         {
-                            sb.AppendLine(@"            //[CSSPExist(TypeName = """ + csspProp.ObjectExistTypeName + @""", Plurial = """ + csspProp.ObjectExistPlurial + @""", FieldID = """ + csspProp.ObjectExistFieldID + @""", TVType = TVTypeEnum." + csspProp.TVType.ToString() + (csspProp.OrTVType != TVTypeEnum.Error ? @""", OrTVType = """ + csspProp.OrTVType + @"""" : "") + ")]");
+                            sb.AppendLine(@"            // [CSSPExist(TypeName = """ + csspProp.ObjectExistTypeName + @""", Plurial = """ + csspProp.ObjectExistPlurial + @""", FieldID = """ + csspProp.ObjectExistFieldID + @""", TVType = TVTypeEnum." + csspProp.TVType.ToString() + (csspProp.OrTVType != TVTypeEnum.Error ? @""", OrTVType = """ + csspProp.OrTVType + @"""" : "") + ")]");
                         }
                         if (csspProp.HasDataTypeAttribute)
                         {
-                            sb.AppendLine(@"            //[DataType(DataType." + csspProp.dataType.ToString() + @")]");
+                            sb.AppendLine(@"            // [DataType(DataType." + csspProp.dataType.ToString() + @")]");
                         }
                         if (csspProp.HasNotMappedAttribute)
                         {
-                            sb.AppendLine(@"            //[NotMapped]");
+                            sb.AppendLine(@"            // [NotMapped]");
                         }
                         if (csspProp.HasRangeAttribute)
                         {
-                            sb.AppendLine(@"            //[Range(" + csspProp.Min + ", " + (csspProp.Max == null ? "-1" : csspProp.Max.ToString()) + ")]");
+                            sb.AppendLine(@"            // [Range(" + csspProp.Min + ", " + (csspProp.Max == null ? "-1" : csspProp.Max.ToString()) + ")]");
                         }
                         if (csspProp.HasStringLengthAttribute)
                         {
-                            sb.AppendLine(@"            //[StringLength(" + csspProp.Max + (csspProp.Min == null ? ")" : ", MinimumLength = " + csspProp.Min.ToString()) + ")]");
+                            sb.AppendLine(@"            // [StringLength(" + csspProp.Max + (csspProp.Min == null ? ")" : ", MinimumLength = " + csspProp.Min.ToString()) + ")]");
                         }
                         sb.AppendLine(@"            // " + TypeNameLower + "." + csspProp.PropName + "   (" + csspProp.PropType + ")");
-                        sb.AppendLine(@"            //-----------------------------------");
+                        sb.AppendLine(@"            // -----------------------------------");
+                        sb.AppendLine(@"");
 
                         if (csspProp.IsVirtual || csspProp.PropName == "ValidationResults")
                         {

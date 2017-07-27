@@ -155,22 +155,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // labSheetDetail.LabSheetDetailID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             labSheetDetail = GetFilledRandomLabSheetDetail("");
             labSheetDetail.LabSheetDetailID = 0;
             labSheetDetailService.Update(labSheetDetail);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetDetailLabSheetDetailID), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "LabSheet", Plurial = "s", FieldID = "LabSheetID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "LabSheet", Plurial = "s", FieldID = "LabSheetID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // labSheetDetail.LabSheetID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LabSheetID will automatically be initialized at 0 --> not null
 
 
@@ -197,12 +199,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheetDetail.LabSheetID);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "LabSheet", Plurial = "s", FieldID = "LabSheetID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "LabSheet", Plurial = "s", FieldID = "LabSheetID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // labSheetDetail.SamplingPlanID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // SamplingPlanID will automatically be initialized at 0 --> not null
 
 
@@ -229,12 +232,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheetDetail.SamplingPlanID);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "LabSheet", Plurial = "s", FieldID = "LabSheetID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "LabSheet", Plurial = "s", FieldID = "LabSheetID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // labSheetDetail.SubsectorTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // SubsectorTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -261,11 +265,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheetDetail.SubsectorTVItemID);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(1, 5)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(1, 5)]
             // labSheetDetail.Version   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Version will automatically be initialized at 0 --> not null
 
 
@@ -312,19 +317,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(6, labSheetDetail.Version);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheetDetail.RunDate   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // RunDate will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(7, MinimumLength = 1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(7, MinimumLength = 1)]
             // labSheetDetail.Tides   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("Tides");
             Assert.AreEqual(false, labSheetDetailService.Add(labSheetDetail));
@@ -381,11 +388,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailTidesMin, labSheetDetail.Tides);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(20))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(20))]
             // labSheetDetail.SampleCrewInitials   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -416,11 +424,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailSampleCrewInitialsMin, labSheetDetail.SampleCrewInitials);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(1, 3)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(1, 3)]
             // labSheetDetail.WaterBathCount   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -465,47 +474,54 @@ namespace CSSPServices.Tests
             Assert.AreEqual(4, labSheetDetail.WaterBathCount);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheetDetail.IncubationBath1StartTime   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheetDetail.IncubationBath2StartTime   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheetDetail.IncubationBath3StartTime   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheetDetail.IncubationBath1EndTime   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheetDetail.IncubationBath2EndTime   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheetDetail.IncubationBath3EndTime   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10000)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10000)]
             // labSheetDetail.IncubationBath1TimeCalculated_minutes   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -550,11 +566,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001, labSheetDetail.IncubationBath1TimeCalculated_minutes);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10000)]
             // labSheetDetail.IncubationBath2TimeCalculated_minutes   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -599,11 +616,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001, labSheetDetail.IncubationBath2TimeCalculated_minutes);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10000)]
             // labSheetDetail.IncubationBath3TimeCalculated_minutes   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -648,11 +666,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001, labSheetDetail.IncubationBath3TimeCalculated_minutes);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(10))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(10))]
             // labSheetDetail.WaterBath1   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -683,11 +702,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailWaterBath1Min, labSheetDetail.WaterBath1);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(10))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(10))]
             // labSheetDetail.WaterBath2   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -718,11 +738,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailWaterBath2Min, labSheetDetail.WaterBath2);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(10))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(10))]
             // labSheetDetail.WaterBath3   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -753,11 +774,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailWaterBath3Min, labSheetDetail.WaterBath3);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-10, 40)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-10, 40)]
             // labSheetDetail.TCField1   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [TCField1]
 
 
@@ -804,11 +826,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, labSheetDetail.TCField1);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-10, 40)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-10, 40)]
             // labSheetDetail.TCLab1   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [TCLab1]
 
 
@@ -855,11 +878,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, labSheetDetail.TCLab1);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-10, 40)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-10, 40)]
             // labSheetDetail.TCField2   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [TCField2]
 
 
@@ -906,11 +930,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, labSheetDetail.TCField2);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-10, 40)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-10, 40)]
             // labSheetDetail.TCLab2   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [TCLab2]
 
 
@@ -957,11 +982,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, labSheetDetail.TCLab2);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-10, 40)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-10, 40)]
             // labSheetDetail.TCFirst   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [TCFirst]
 
 
@@ -1008,11 +1034,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, labSheetDetail.TCFirst);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-10, 40)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-10, 40)]
             // labSheetDetail.TCAverage   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [TCAverage]
 
 
@@ -1059,11 +1086,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, labSheetDetail.TCAverage);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(100))]
             // labSheetDetail.ControlLot   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1094,11 +1122,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailControlLotMin, labSheetDetail.ControlLot);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Positive35   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1129,11 +1158,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailPositive35Min, labSheetDetail.Positive35);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.NonTarget35   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1164,11 +1194,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailNonTarget35Min, labSheetDetail.NonTarget35);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Negative35   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1199,11 +1230,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailNegative35Min, labSheetDetail.Negative35);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath1Positive44_5   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1234,11 +1266,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailBath1Positive44_5Min, labSheetDetail.Bath1Positive44_5);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath2Positive44_5   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1269,11 +1302,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailBath2Positive44_5Min, labSheetDetail.Bath2Positive44_5);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath3Positive44_5   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1304,11 +1338,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailBath3Positive44_5Min, labSheetDetail.Bath3Positive44_5);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath1NonTarget44_5   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1339,11 +1374,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailBath1NonTarget44_5Min, labSheetDetail.Bath1NonTarget44_5);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath2NonTarget44_5   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1374,11 +1410,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailBath2NonTarget44_5Min, labSheetDetail.Bath2NonTarget44_5);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath3NonTarget44_5   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1409,11 +1446,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailBath3NonTarget44_5Min, labSheetDetail.Bath3NonTarget44_5);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath1Negative44_5   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1444,11 +1482,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailBath1Negative44_5Min, labSheetDetail.Bath1Negative44_5);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath2Negative44_5   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1479,11 +1518,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailBath2Negative44_5Min, labSheetDetail.Bath2Negative44_5);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath3Negative44_5   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1514,11 +1554,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailBath3Negative44_5Min, labSheetDetail.Bath3Negative44_5);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Blank35   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1549,11 +1590,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailBlank35Min, labSheetDetail.Blank35);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath1Blank44_5   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1584,11 +1626,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailBath1Blank44_5Min, labSheetDetail.Bath1Blank44_5);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath2Blank44_5   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1619,11 +1662,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailBath2Blank44_5Min, labSheetDetail.Bath2Blank44_5);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(1, MinimumLength = 1)]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath3Blank44_5   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1654,11 +1698,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailBath3Blank44_5Min, labSheetDetail.Bath3Blank44_5);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(20))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(20))]
             // labSheetDetail.Lot35   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1689,11 +1734,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailLot35Min, labSheetDetail.Lot35);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(20))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(20))]
             // labSheetDetail.Lot44_5   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1724,11 +1770,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailLot44_5Min, labSheetDetail.Lot44_5);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(250))]
             // labSheetDetail.Weather   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1759,11 +1806,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailWeatherMin, labSheetDetail.Weather);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(250))]
             // labSheetDetail.RunComment   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1794,11 +1842,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailRunCommentMin, labSheetDetail.RunComment);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(250))]
             // labSheetDetail.RunWeatherComment   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1829,11 +1878,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailRunWeatherCommentMin, labSheetDetail.RunWeatherComment);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(20))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(20))]
             // labSheetDetail.SampleBottleLotNumber   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1864,11 +1914,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailSampleBottleLotNumberMin, labSheetDetail.SampleBottleLotNumber);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(20))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(20))]
             // labSheetDetail.SalinitiesReadBy   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1899,17 +1950,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailSalinitiesReadByMin, labSheetDetail.SalinitiesReadBy);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheetDetail.SalinitiesReadDate   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(20))]
+
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(20))]
             // labSheetDetail.ResultsReadBy   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1940,17 +1993,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailResultsReadByMin, labSheetDetail.ResultsReadBy);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheetDetail.ResultsReadDate   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(20))]
+
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(20))]
             // labSheetDetail.ResultsRecordedBy   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1981,17 +2036,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetDetailResultsRecordedByMin, labSheetDetail.ResultsRecordedBy);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheetDetail.ResultsRecordedDate   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // labSheetDetail.DailyDuplicateRLog   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [DailyDuplicateRLog]
 
 
@@ -2038,11 +2095,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, labSheetDetail.DailyDuplicateRLog);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // labSheetDetail.DailyDuplicatePrecisionCriteria   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [DailyDuplicatePrecisionCriteria]
 
 
@@ -2089,16 +2147,18 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, labSheetDetail.DailyDuplicatePrecisionCriteria);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // labSheetDetail.DailyDuplicateAcceptable   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // labSheetDetail.IntertechDuplicateRLog   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [IntertechDuplicateRLog]
 
 
@@ -2145,11 +2205,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, labSheetDetail.IntertechDuplicateRLog);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // labSheetDetail.IntertechDuplicatePrecisionCriteria   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [IntertechDuplicatePrecisionCriteria]
 
 
@@ -2196,30 +2257,34 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, labSheetDetail.IntertechDuplicatePrecisionCriteria);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // labSheetDetail.IntertechDuplicateAcceptable   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
+
+            // -----------------------------------
+            // Is Nullable
             // labSheetDetail.IntertechReadAcceptable   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheetDetail.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // labSheetDetail.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -2246,35 +2311,40 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheetDetail.LastUpdateContactTVItemID);
             Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // labSheetDetail.LabSheetTubeMPNDetails   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // labSheetDetail.LabSheet   (LabSheet)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // labSheetDetail.SamplingPlan   (SamplingPlan)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // labSheetDetail.SubsectorTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // labSheetDetail.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

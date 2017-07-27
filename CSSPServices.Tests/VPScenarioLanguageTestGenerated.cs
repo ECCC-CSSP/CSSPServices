@@ -97,22 +97,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // vpScenarioLanguage.VPScenarioLanguageID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
             vpScenarioLanguage.VPScenarioLanguageID = 0;
             vpScenarioLanguageService.Update(vpScenarioLanguage);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageVPScenarioLanguageID), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "VPScenario", Plurial = "s", FieldID = "VPScenarioID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "VPScenario", Plurial = "s", FieldID = "VPScenarioID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // vpScenarioLanguage.VPScenarioID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // VPScenarioID will automatically be initialized at 0 --> not null
 
 
@@ -139,19 +141,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpScenarioLanguage.VPScenarioID);
             Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // vpScenarioLanguage.Language   (LanguageEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // Language will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // vpScenarioLanguage.VPScenarioName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             vpScenarioLanguage = null;
             vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("VPScenarioName");
             Assert.AreEqual(false, vpScenarioLanguageService.Add(vpScenarioLanguage));
@@ -190,28 +194,31 @@ namespace CSSPServices.Tests
             Assert.AreEqual(vpScenarioLanguageVPScenarioNameMin, vpScenarioLanguage.VPScenarioName);
             Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // vpScenarioLanguage.TranslationStatus   (TranslationStatusEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TranslationStatus will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // vpScenarioLanguage.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // vpScenarioLanguage.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -238,17 +245,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpScenarioLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // vpScenarioLanguage.VPScenario   (VPScenario)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // vpScenarioLanguage.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

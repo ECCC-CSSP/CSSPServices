@@ -112,22 +112,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // vpScenario.VPScenarioID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             vpScenario = GetFilledRandomVPScenario("");
             vpScenario.VPScenarioID = 0;
             vpScenarioService.Update(vpScenario);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioVPScenarioID), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
+            // [Range(1, -1)]
             // vpScenario.InfrastructureTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // InfrastructureTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -154,26 +156,29 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpScenario.InfrastructureTVItemID);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // vpScenario.VPScenarioStatus   (ScenarioStatusEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // VPScenarioStatus will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // vpScenario.UseAsBestEstimate   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // UseAsBestEstimate will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000)]
             // vpScenario.EffluentFlow_m3_s   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [EffluentFlow_m3_s]
 
 
@@ -220,11 +225,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001.0D, vpScenario.EffluentFlow_m3_s);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000000)]
             // vpScenario.EffluentConcentration_MPN_100ml   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // EffluentConcentration_MPN_100ml will automatically be initialized at 0 --> not null
 
 
@@ -271,11 +277,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10000001, vpScenario.EffluentConcentration_MPN_100ml);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000)]
             // vpScenario.FroudeNumber   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [FroudeNumber]
 
 
@@ -322,11 +329,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001.0D, vpScenario.FroudeNumber);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10)]
             // vpScenario.PortDiameter_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [PortDiameter_m]
 
 
@@ -373,11 +381,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(11.0D, vpScenario.PortDiameter_m);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000)]
             // vpScenario.PortDepth_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [PortDepth_m]
 
 
@@ -424,11 +433,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001.0D, vpScenario.PortDepth_m);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000)]
             // vpScenario.PortElevation_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [PortElevation_m]
 
 
@@ -475,11 +485,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001.0D, vpScenario.PortElevation_m);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-90, 90)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-90, 90)]
             // vpScenario.VerticalAngle_deg   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [VerticalAngle_deg]
 
 
@@ -526,11 +537,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(91.0D, vpScenario.VerticalAngle_deg);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-180, 180)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-180, 180)]
             // vpScenario.HorizontalAngle_deg   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [HorizontalAngle_deg]
 
 
@@ -577,11 +589,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(181.0D, vpScenario.HorizontalAngle_deg);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(1, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(1, 100)]
             // vpScenario.NumberOfPorts   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // NumberOfPorts will automatically be initialized at 0 --> not null
 
 
@@ -628,11 +641,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101, vpScenario.NumberOfPorts);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000)]
             // vpScenario.PortSpacing_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [PortSpacing_m]
 
 
@@ -679,11 +693,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001.0D, vpScenario.PortSpacing_m);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // vpScenario.AcuteMixZone_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [AcuteMixZone_m]
 
 
@@ -730,11 +745,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, vpScenario.AcuteMixZone_m);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 40000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 40000)]
             // vpScenario.ChronicMixZone_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [ChronicMixZone_m]
 
 
@@ -781,11 +797,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(40001.0D, vpScenario.ChronicMixZone_m);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 40)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 40)]
             // vpScenario.EffluentSalinity_PSU   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [EffluentSalinity_PSU]
 
 
@@ -832,11 +849,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, vpScenario.EffluentSalinity_PSU);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-10, 40)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-10, 40)]
             // vpScenario.EffluentTemperature_C   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [EffluentTemperature_C]
 
 
@@ -883,11 +901,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, vpScenario.EffluentTemperature_C);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // vpScenario.EffluentVelocity_m_s   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [EffluentVelocity_m_s]
 
 
@@ -934,28 +953,31 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, vpScenario.EffluentVelocity_m_s);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // vpScenario.RawResults   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // vpScenario.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // vpScenario.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -982,35 +1004,40 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, vpScenario.LastUpdateContactTVItemID);
             Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // vpScenario.VPAmbients   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // vpScenario.VPResults   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // vpScenario.VPScenarioLanguages   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // vpScenario.InfrastructureTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // vpScenario.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

@@ -103,22 +103,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // emailDistributionListContact.EmailDistributionListContactID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
             emailDistributionListContact.EmailDistributionListContactID = 0;
             emailDistributionListContactService.Update(emailDistributionListContact);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactEmailDistributionListContactID), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "EmailDistributionList", Plurial = "s", FieldID = "EmailDistributionListID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "EmailDistributionList", Plurial = "s", FieldID = "EmailDistributionListID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // emailDistributionListContact.EmailDistributionListID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // EmailDistributionListID will automatically be initialized at 0 --> not null
 
 
@@ -145,18 +147,20 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, emailDistributionListContact.EmailDistributionListID);
             Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // emailDistributionListContact.IsCC   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // IsCC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(20))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(20))]
             // emailDistributionListContact.Agency   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             emailDistributionListContact = null;
             emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Agency");
             Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
@@ -195,11 +199,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(emailDistributionListContactAgencyMin, emailDistributionListContact.Agency);
             Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // emailDistributionListContact.Name   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             emailDistributionListContact = null;
             emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Name");
             Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
@@ -238,12 +243,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(emailDistributionListContactNameMin, emailDistributionListContact.Name);
             Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[DataType(DataType.EmailAddress)]
-            //[StringLength(200))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [DataType(DataType.EmailAddress)]
+            // [StringLength(200))]
             // emailDistributionListContact.Email   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             emailDistributionListContact = null;
             emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Email");
             Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
@@ -274,55 +280,62 @@ namespace CSSPServices.Tests
             Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
             Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // emailDistributionListContact.CMPRainfallSeasonal   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // CMPRainfallSeasonal will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // emailDistributionListContact.CMPWastewater   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // CMPWastewater will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // emailDistributionListContact.EmergencyWeather   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // EmergencyWeather will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // emailDistributionListContact.EmergencyWastewater   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // EmergencyWastewater will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // emailDistributionListContact.ReopeningAllTypes   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // ReopeningAllTypes will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // emailDistributionListContact.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // emailDistributionListContact.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -349,17 +362,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, emailDistributionListContact.LastUpdateContactTVItemID);
             Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // emailDistributionListContact.EmailDistributionList   (EmailDistributionList)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // emailDistributionListContact.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

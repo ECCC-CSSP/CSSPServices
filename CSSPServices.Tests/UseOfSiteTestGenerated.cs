@@ -106,22 +106,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // useOfSite.UseOfSiteID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             useOfSite = GetFilledRandomUseOfSite("");
             useOfSite.UseOfSiteID = 0;
             useOfSiteService.Update(useOfSite);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteUseOfSiteID), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // useOfSite.SiteTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // SiteTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -148,12 +150,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, useOfSite.SiteTVItemID);
             Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Subsector)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Subsector)]
+            // [Range(1, -1)]
             // useOfSite.SubsectorTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // SubsectorTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -180,19 +183,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, useOfSite.SubsectorTVItemID);
             Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // useOfSite.SiteType   (SiteTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // SiteType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000)]
             // useOfSite.Ordinal   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Ordinal will automatically be initialized at 0 --> not null
 
 
@@ -239,11 +244,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001, useOfSite.Ordinal);
             Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(1980, 2050)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(1980, 2050)]
             // useOfSite.StartYear   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // StartYear will automatically be initialized at 0 --> not null
 
 
@@ -290,11 +296,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(2051, useOfSite.StartYear);
             Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(1980, 2050)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(1980, 2050)]
             // useOfSite.EndYear   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
@@ -339,16 +346,18 @@ namespace CSSPServices.Tests
             Assert.AreEqual(2051, useOfSite.EndYear);
             Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // useOfSite.UseWeight   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // useOfSite.Weight_perc   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Weight_perc]
 
 
@@ -395,16 +404,18 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, useOfSite.Weight_perc);
             Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // useOfSite.UseEquation   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // useOfSite.Param1   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Param1]
 
 
@@ -451,11 +462,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, useOfSite.Param1);
             Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // useOfSite.Param2   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Param2]
 
 
@@ -502,11 +514,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, useOfSite.Param2);
             Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // useOfSite.Param3   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Param3]
 
 
@@ -553,11 +566,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, useOfSite.Param3);
             Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 100)]
             // useOfSite.Param4   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Param4]
 
 
@@ -604,20 +618,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, useOfSite.Param4);
             Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // useOfSite.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // useOfSite.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -644,23 +660,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, useOfSite.LastUpdateContactTVItemID);
             Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // useOfSite.SiteTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // useOfSite.SubsectorTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // useOfSite.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

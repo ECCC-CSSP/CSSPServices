@@ -99,22 +99,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // hydrometricDataValue.HydrometricDataValueID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
             hydrometricDataValue.HydrometricDataValueID = 0;
             hydrometricDataValueService.Update(hydrometricDataValue);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricDataValueHydrometricDataValueID), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "HydrometricSite", Plurial = "s", FieldID = "HydrometricSiteID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "HydrometricSite", Plurial = "s", FieldID = "HydrometricSiteID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // hydrometricDataValue.HydrometricSiteID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // HydrometricSiteID will automatically be initialized at 0 --> not null
 
 
@@ -141,34 +143,38 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, hydrometricDataValue.HydrometricSiteID);
             Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // hydrometricDataValue.DateTime_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // DateTime_Local will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // hydrometricDataValue.Keep   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // Keep will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // hydrometricDataValue.StorageDataType   (StorageDataTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // StorageDataType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 10000)]
             // hydrometricDataValue.Flow_m3_s   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Flow_m3_s]
 
 
@@ -215,28 +221,31 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001.0D, hydrometricDataValue.Flow_m3_s);
             Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // hydrometricDataValue.HourlyValues   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             hydrometricDataValue = null;
             hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // hydrometricDataValue.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // hydrometricDataValue.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -263,17 +272,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, hydrometricDataValue.LastUpdateContactTVItemID);
             Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // hydrometricDataValue.HydrometricSite   (HydrometricSite)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // hydrometricDataValue.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

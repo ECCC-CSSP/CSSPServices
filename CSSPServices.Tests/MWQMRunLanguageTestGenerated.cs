@@ -99,22 +99,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // mwqmRunLanguage.MWQMRunLanguageID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("");
             mwqmRunLanguage.MWQMRunLanguageID = 0;
             mwqmRunLanguageService.Update(mwqmRunLanguage);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLanguageMWQMRunLanguageID), mwqmRunLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "MWQMRun", Plurial = "s", FieldID = "MWQMRunID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "MWQMRun", Plurial = "s", FieldID = "MWQMRunID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // mwqmRunLanguage.MWQMRunID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MWQMRunID will automatically be initialized at 0 --> not null
 
 
@@ -141,18 +143,20 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmRunLanguage.MWQMRunID);
             Assert.AreEqual(count, mwqmRunLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mwqmRunLanguage.Language   (LanguageEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // Language will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // mwqmRunLanguage.RunComment   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmRunLanguage = null;
             mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("RunComment");
             Assert.AreEqual(false, mwqmRunLanguageService.Add(mwqmRunLanguage));
@@ -165,18 +169,20 @@ namespace CSSPServices.Tests
             mwqmRunLanguage = null;
             mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("");
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mwqmRunLanguage.TranslationStatusRunComment   (TranslationStatusEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TranslationStatusRunComment will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // mwqmRunLanguage.RunWeatherComment   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmRunLanguage = null;
             mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("RunWeatherComment");
             Assert.AreEqual(false, mwqmRunLanguageService.Add(mwqmRunLanguage));
@@ -189,28 +195,31 @@ namespace CSSPServices.Tests
             mwqmRunLanguage = null;
             mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("");
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mwqmRunLanguage.TranslationStatusRunWeatherComment   (TranslationStatusEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TranslationStatusRunWeatherComment will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmRunLanguage.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // mwqmRunLanguage.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -237,17 +246,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmRunLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(count, mwqmRunLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mwqmRunLanguage.MWQMRun   (MWQMRun)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // mwqmRunLanguage.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

@@ -98,22 +98,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // mwqmSite.MWQMSiteID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmSite = GetFilledRandomMWQMSite("");
             mwqmSite.MWQMSiteID = 0;
             mwqmSiteService.Update(mwqmSite);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteID), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMSite)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMSite)]
+            // [Range(1, -1)]
             // mwqmSite.MWQMSiteTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -140,11 +142,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSite.MWQMSiteTVItemID);
             Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(8))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(8))]
             // mwqmSite.MWQMSiteNumber   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmSite = null;
             mwqmSite = GetFilledRandomMWQMSite("MWQMSiteNumber");
             Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
@@ -183,11 +186,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(mwqmSiteMWQMSiteNumberMin, mwqmSite.MWQMSiteNumber);
             Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(200))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(200))]
             // mwqmSite.MWQMSiteDescription   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             mwqmSite = null;
             mwqmSite = GetFilledRandomMWQMSite("MWQMSiteDescription");
             Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
@@ -226,19 +230,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(mwqmSiteMWQMSiteDescriptionMin, mwqmSite.MWQMSiteDescription);
             Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mwqmSite.MWQMSiteLatestClassification   (MWQMSiteLatestClassificationEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // MWQMSiteLatestClassification will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000)]
             // mwqmSite.Ordinal   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Ordinal will automatically be initialized at 0 --> not null
 
 
@@ -285,20 +291,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001, mwqmSite.Ordinal);
             Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mwqmSite.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // mwqmSite.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -325,17 +333,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSite.LastUpdateContactTVItemID);
             Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mwqmSite.MWQMSiteTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // mwqmSite.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

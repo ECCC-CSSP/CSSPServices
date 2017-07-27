@@ -106,22 +106,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // labSheetTubeMPNDetail.LabSheetTubeMPNDetailID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
             labSheetTubeMPNDetail.LabSheetTubeMPNDetailID = 0;
             labSheetTubeMPNDetailService.Update(labSheetTubeMPNDetail);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetTubeMPNDetailLabSheetTubeMPNDetailID), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "LabSheetDetail", Plurial = "s", FieldID = "LabSheetDetailID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "LabSheetDetail", Plurial = "s", FieldID = "LabSheetDetailID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // labSheetTubeMPNDetail.LabSheetDetailID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LabSheetDetailID will automatically be initialized at 0 --> not null
 
 
@@ -148,11 +150,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheetTubeMPNDetail.LabSheetDetailID);
             Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000)]
             // labSheetTubeMPNDetail.Ordinal   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Ordinal will automatically be initialized at 0 --> not null
 
 
@@ -199,12 +202,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001, labSheetTubeMPNDetail.Ordinal);
             Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMSite)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMSite)]
+            // [Range(1, -1)]
             // labSheetTubeMPNDetail.MWQMSiteTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -231,17 +235,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheetTubeMPNDetail.MWQMSiteTVItemID);
             Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheetTubeMPNDetail.SampleDateTime   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(1, 10000000)]
+
+            // -----------------------------------
+            // Is Nullable
+            // [Range(1, 10000000)]
             // labSheetTubeMPNDetail.MPN   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
@@ -286,11 +292,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10000001, labSheetTubeMPNDetail.MPN);
             Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 5)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 5)]
             // labSheetTubeMPNDetail.Tube10   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
@@ -335,11 +342,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(6, labSheetTubeMPNDetail.Tube10);
             Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 5)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 5)]
             // labSheetTubeMPNDetail.Tube1_0   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
@@ -384,11 +392,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(6, labSheetTubeMPNDetail.Tube1_0);
             Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 5)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 5)]
             // labSheetTubeMPNDetail.Tube0_1   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
@@ -433,11 +442,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(6, labSheetTubeMPNDetail.Tube0_1);
             Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 40)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 40)]
             // labSheetTubeMPNDetail.Salinity   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Salinity]
 
 
@@ -484,11 +494,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, labSheetTubeMPNDetail.Salinity);
             Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-10, 40)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-10, 40)]
             // labSheetTubeMPNDetail.Temperature   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Temperature]
 
 
@@ -535,11 +546,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(41.0D, labSheetTubeMPNDetail.Temperature);
             Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(10))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(10))]
             // labSheetTubeMPNDetail.ProcessedBy   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
@@ -570,19 +582,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetTubeMPNDetailProcessedByMin, labSheetTubeMPNDetail.ProcessedBy);
             Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // labSheetTubeMPNDetail.SampleType   (SampleTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // SampleType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is Nullable
-            //[StringLength(250))]
+            // -----------------------------------
+            // Is Nullable
+            // [StringLength(250))]
             // labSheetTubeMPNDetail.SiteComment   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
@@ -613,20 +627,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(labSheetTubeMPNDetailSiteCommentMin, labSheetTubeMPNDetail.SiteComment);
             Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // labSheetTubeMPNDetail.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // labSheetTubeMPNDetail.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -653,23 +669,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, labSheetTubeMPNDetail.LastUpdateContactTVItemID);
             Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // labSheetTubeMPNDetail.LabSheetDetail   (LabSheetDetail)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // labSheetTubeMPNDetail.MWQMSiteTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // labSheetTubeMPNDetail.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

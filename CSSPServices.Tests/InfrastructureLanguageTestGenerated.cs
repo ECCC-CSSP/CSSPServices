@@ -97,22 +97,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // infrastructureLanguage.InfrastructureLanguageID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
             infrastructureLanguage.InfrastructureLanguageID = 0;
             infrastructureLanguageService.Update(infrastructureLanguage);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageInfrastructureLanguageID), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "Infrastructure", Plurial = "s", FieldID = "InfrastructureID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "Infrastructure", Plurial = "s", FieldID = "InfrastructureID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // infrastructureLanguage.InfrastructureID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // InfrastructureID will automatically be initialized at 0 --> not null
 
 
@@ -139,18 +141,20 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, infrastructureLanguage.InfrastructureID);
             Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // infrastructureLanguage.Language   (LanguageEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // Language will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // infrastructureLanguage.Comment   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             infrastructureLanguage = null;
             infrastructureLanguage = GetFilledRandomInfrastructureLanguage("Comment");
             Assert.AreEqual(false, infrastructureLanguageService.Add(infrastructureLanguage));
@@ -163,28 +167,31 @@ namespace CSSPServices.Tests
             infrastructureLanguage = null;
             infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // infrastructureLanguage.TranslationStatus   (TranslationStatusEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TranslationStatus will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // infrastructureLanguage.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // infrastructureLanguage.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -211,17 +218,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, infrastructureLanguage.LastUpdateContactTVItemID);
             Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // infrastructureLanguage.Infrastructure   (Infrastructure)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // infrastructureLanguage.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

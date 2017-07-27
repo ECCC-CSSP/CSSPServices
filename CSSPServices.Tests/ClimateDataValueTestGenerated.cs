@@ -109,22 +109,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // climateDataValue.ClimateDataValueID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             climateDataValue = GetFilledRandomClimateDataValue("");
             climateDataValue.ClimateDataValueID = 0;
             climateDataValueService.Update(climateDataValue);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueClimateDataValueID), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "ClimateSite", Plurial = "s", FieldID = "ClimateSiteID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "ClimateSite", Plurial = "s", FieldID = "ClimateSiteID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // climateDataValue.ClimateSiteID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ClimateSiteID will automatically be initialized at 0 --> not null
 
 
@@ -151,34 +153,38 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, climateDataValue.ClimateSiteID);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // climateDataValue.DateTime_Local   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // DateTime_Local will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // climateDataValue.Keep   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // Keep will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // climateDataValue.StorageDataType   (StorageDataTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // StorageDataType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10000)]
             // climateDataValue.Snow_cm   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Snow_cm]
 
 
@@ -225,11 +231,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001.0D, climateDataValue.Snow_cm);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10000)]
             // climateDataValue.Rainfall_mm   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Rainfall_mm]
 
 
@@ -276,11 +283,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001.0D, climateDataValue.Rainfall_mm);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10000)]
             // climateDataValue.RainfallEntered_mm   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [RainfallEntered_mm]
 
 
@@ -327,11 +335,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001.0D, climateDataValue.RainfallEntered_mm);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10000)]
             // climateDataValue.TotalPrecip_mm_cm   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [TotalPrecip_mm_cm]
 
 
@@ -378,11 +387,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001.0D, climateDataValue.TotalPrecip_mm_cm);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-50, 50)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-50, 50)]
             // climateDataValue.MaxTemp_C   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [MaxTemp_C]
 
 
@@ -429,11 +439,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(51.0D, climateDataValue.MaxTemp_C);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-50, 50)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-50, 50)]
             // climateDataValue.MinTemp_C   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [MinTemp_C]
 
 
@@ -480,11 +491,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(51.0D, climateDataValue.MinTemp_C);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-1000, 100)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-1000, 100)]
             // climateDataValue.HeatDegDays_C   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [HeatDegDays_C]
 
 
@@ -531,11 +543,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, climateDataValue.HeatDegDays_C);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(-1000, 100)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(-1000, 100)]
             // climateDataValue.CoolDegDays_C   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [CoolDegDays_C]
 
 
@@ -582,11 +595,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, climateDataValue.CoolDegDays_C);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 10000)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 10000)]
             // climateDataValue.SnowOnGround_cm   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [SnowOnGround_cm]
 
 
@@ -633,11 +647,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(10001.0D, climateDataValue.SnowOnGround_cm);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 360)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 360)]
             // climateDataValue.DirMaxGust_0North   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [DirMaxGust_0North]
 
 
@@ -684,11 +699,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(361.0D, climateDataValue.DirMaxGust_0North);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[Range(0, 300)]
+            // -----------------------------------
+            // Is Nullable
+            // [Range(0, 300)]
             // climateDataValue.SpdMaxGust_kmh   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [SpdMaxGust_kmh]
 
 
@@ -735,28 +751,31 @@ namespace CSSPServices.Tests
             Assert.AreEqual(301.0D, climateDataValue.SpdMaxGust_kmh);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
+            // -----------------------------------
+            // Is Nullable
             // climateDataValue.HourlyValues   (String)
-            //-----------------------------------
+            // -----------------------------------
+
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // climateDataValue.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // climateDataValue.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -783,17 +802,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, climateDataValue.LastUpdateContactTVItemID);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // climateDataValue.ClimateSite   (ClimateSite)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // climateDataValue.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

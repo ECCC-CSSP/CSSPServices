@@ -100,22 +100,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // mapInfo.MapInfoID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             mapInfo = GetFilledRandomMapInfo("");
             mapInfo.MapInfoID = 0;
             mapInfoService.Update(mapInfo);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoID), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // mapInfo.TVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVItemID will automatically be initialized at 0 --> not null
 
 
@@ -142,19 +144,21 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mapInfo.TVItemID);
             Assert.AreEqual(count, mapInfoService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mapInfo.TVType   (TVTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-90, 90)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-90, 90)]
             // mapInfo.LatMin   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [LatMin]
 
 
@@ -201,11 +205,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(91.0D, mapInfo.LatMin);
             Assert.AreEqual(count, mapInfoService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-90, 90)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-90, 90)]
             // mapInfo.LatMax   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [LatMax]
 
 
@@ -252,11 +257,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(91.0D, mapInfo.LatMax);
             Assert.AreEqual(count, mapInfoService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-180, 180)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-180, 180)]
             // mapInfo.LngMin   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [LngMin]
 
 
@@ -303,11 +309,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(181.0D, mapInfo.LngMin);
             Assert.AreEqual(count, mapInfoService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-180, 180)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-180, 180)]
             // mapInfo.LngMax   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [LngMax]
 
 
@@ -354,28 +361,31 @@ namespace CSSPServices.Tests
             Assert.AreEqual(181.0D, mapInfo.LngMax);
             Assert.AreEqual(count, mapInfoService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mapInfo.MapInfoDrawType   (MapInfoDrawTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // MapInfoDrawType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mapInfo.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // mapInfo.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -402,23 +412,26 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mapInfo.LastUpdateContactTVItemID);
             Assert.AreEqual(count, mapInfoService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mapInfo.MapInfoPoints   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mapInfo.TVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // mapInfo.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

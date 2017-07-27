@@ -103,22 +103,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // mikeBoundaryCondition.MikeBoundaryConditionID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
             mikeBoundaryCondition.MikeBoundaryConditionID = 0;
             mikeBoundaryConditionService.Update(mikeBoundaryCondition);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionID), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MikeBoundaryConditionMesh", OrTVType = "MikeBoundaryConditionWebTide")]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MikeBoundaryConditionMesh", OrTVType = "MikeBoundaryConditionWebTide")]
+            // [Range(1, -1)]
             // mikeBoundaryCondition.MikeBoundaryConditionTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MikeBoundaryConditionTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -145,11 +147,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeBoundaryCondition.MikeBoundaryConditionTVItemID);
             Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // mikeBoundaryCondition.MikeBoundaryConditionCode   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("MikeBoundaryConditionCode");
             Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
@@ -188,11 +191,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(mikeBoundaryConditionMikeBoundaryConditionCodeMin, mikeBoundaryCondition.MikeBoundaryConditionCode);
             Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // mikeBoundaryCondition.MikeBoundaryConditionName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("MikeBoundaryConditionName");
             Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
@@ -231,11 +235,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(mikeBoundaryConditionMikeBoundaryConditionNameMin, mikeBoundaryCondition.MikeBoundaryConditionName);
             Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(1, 100000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(1, 100000)]
             // mikeBoundaryCondition.MikeBoundaryConditionLength_m   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [MikeBoundaryConditionLength_m]
 
 
@@ -282,11 +287,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(100001.0D, mikeBoundaryCondition.MikeBoundaryConditionLength_m);
             Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // mikeBoundaryCondition.MikeBoundaryConditionFormat   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("MikeBoundaryConditionFormat");
             Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
@@ -325,27 +331,30 @@ namespace CSSPServices.Tests
             Assert.AreEqual(mikeBoundaryConditionMikeBoundaryConditionFormatMin, mikeBoundaryCondition.MikeBoundaryConditionFormat);
             Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity   (MikeBoundaryConditionLevelOrVelocityEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // MikeBoundaryConditionLevelOrVelocity will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mikeBoundaryCondition.WebTideDataSet   (WebTideDataSetEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // WebTideDataSet will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 1000)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 1000)]
             // mikeBoundaryCondition.NumberOfWebTideNodes   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // NumberOfWebTideNodes will automatically be initialized at 0 --> not null
 
 
@@ -392,10 +401,11 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1001, mikeBoundaryCondition.NumberOfWebTideNodes);
             Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // mikeBoundaryCondition.WebTideDataFromStartToEndDate   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("WebTideDataFromStartToEndDate");
             Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
@@ -408,28 +418,31 @@ namespace CSSPServices.Tests
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // mikeBoundaryCondition.TVType   (TVTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // TVType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mikeBoundaryCondition.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // mikeBoundaryCondition.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -456,17 +469,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeBoundaryCondition.LastUpdateContactTVItemID);
             Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mikeBoundaryCondition.MikeBoundaryConditionTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // mikeBoundaryCondition.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

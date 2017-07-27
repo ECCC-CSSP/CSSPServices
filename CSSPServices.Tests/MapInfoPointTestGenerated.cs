@@ -97,22 +97,24 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // mapInfoPoint.MapInfoPointID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             mapInfoPoint = GetFilledRandomMapInfoPoint("");
             mapInfoPoint.MapInfoPointID = 0;
             mapInfoPointService.Update(mapInfoPoint);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoPointMapInfoPointID), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "MapInfo", Plurial = "s", FieldID = "MapInfoID", TVType = TVTypeEnum.Error)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "MapInfo", Plurial = "s", FieldID = "MapInfoID", TVType = TVTypeEnum.Error)]
+            // [Range(1, -1)]
             // mapInfoPoint.MapInfoID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // MapInfoID will automatically be initialized at 0 --> not null
 
 
@@ -139,11 +141,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mapInfoPoint.MapInfoID);
             Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, -1)]
             // mapInfoPoint.Ordinal   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Ordinal will automatically be initialized at 0 --> not null
 
 
@@ -170,11 +173,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(-1, mapInfoPoint.Ordinal);
             Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-90, 90)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-90, 90)]
             // mapInfoPoint.Lat   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Lat]
 
 
@@ -221,11 +225,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(91.0D, mapInfoPoint.Lat);
             Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(-180, 180)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(-180, 180)]
             // mapInfoPoint.Lng   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [Lng]
 
 
@@ -272,20 +277,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(181.0D, mapInfoPoint.Lng);
             Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // mapInfoPoint.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // mapInfoPoint.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -312,17 +319,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mapInfoPoint.LastUpdateContactTVItemID);
             Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // mapInfoPoint.MapInfo   (MapInfo)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // mapInfoPoint.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }

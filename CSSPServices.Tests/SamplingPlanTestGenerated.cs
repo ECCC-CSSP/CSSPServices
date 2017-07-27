@@ -107,21 +107,23 @@ namespace CSSPServices.Tests
             // -------------------------------
 
 
-            //-----------------------------------
-            //[Key]
-            //Is NOT Nullable
+            // -----------------------------------
+            // [Key]
+            // Is NOT Nullable
             // samplingPlan.SamplingPlanID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             samplingPlan = GetFilledRandomSamplingPlan("");
             samplingPlan.SamplingPlanID = 0;
             samplingPlanService.Update(samplingPlan);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanID), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(200))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(200))]
             // samplingPlan.SamplingPlanName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("SamplingPlanName");
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
@@ -160,11 +162,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(samplingPlanSamplingPlanNameMin, samplingPlan.SamplingPlanName);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(100))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(100))]
             // samplingPlan.ForGroupName   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("ForGroupName");
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
@@ -203,36 +206,40 @@ namespace CSSPServices.Tests
             Assert.AreEqual(samplingPlanForGroupNameMin, samplingPlan.ForGroupName);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // samplingPlan.SampleType   (SampleTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // SampleType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // samplingPlan.SamplingPlanType   (SamplingPlanTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // SamplingPlanType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPEnumType]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPEnumType]
             // samplingPlan.LabSheetType   (LabSheetTypeEnum)
-            //-----------------------------------
+            // -----------------------------------
+
             // LabSheetType will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Province)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Province)]
+            // [Range(1, -1)]
             // samplingPlan.ProvinceTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // ProvinceTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -259,12 +266,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, samplingPlan.ProvinceTVItemID);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // samplingPlan.CreatorTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // CreatorTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -291,11 +299,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, samplingPlan.CreatorTVItemID);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(2000, 2050)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(2000, 2050)]
             // samplingPlan.Year   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // Year will automatically be initialized at 0 --> not null
 
 
@@ -342,11 +351,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(2051, samplingPlan.Year);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(15))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(15))]
             // samplingPlan.AccessCode   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("AccessCode");
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
@@ -385,11 +395,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(samplingPlanAccessCodeMin, samplingPlan.AccessCode);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // samplingPlan.DailyDuplicatePrecisionCriteria   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [DailyDuplicatePrecisionCriteria]
 
 
@@ -436,11 +447,12 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, samplingPlan.DailyDuplicatePrecisionCriteria);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[Range(0, 100)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [Range(0, 100)]
             // samplingPlan.IntertechDuplicatePrecisionCriteria   (Double)
-            //-----------------------------------
+            // -----------------------------------
+
             //Error: Type not implemented [IntertechDuplicatePrecisionCriteria]
 
 
@@ -487,18 +499,20 @@ namespace CSSPServices.Tests
             Assert.AreEqual(101.0D, samplingPlan.IntertechDuplicatePrecisionCriteria);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
+            // -----------------------------------
+            // Is NOT Nullable
             // samplingPlan.IncludeLaboratoryQAQC   (Boolean)
-            //-----------------------------------
+            // -----------------------------------
+
             // IncludeLaboratoryQAQC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[StringLength(15))]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [StringLength(15))]
             // samplingPlan.ApprovalCode   (String)
-            //-----------------------------------
+            // -----------------------------------
+
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("ApprovalCode");
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
@@ -537,12 +551,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(samplingPlanApprovalCodeMin, samplingPlan.ApprovalCode);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
-            //-----------------------------------
-            //Is Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.File)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.File)]
+            // [Range(1, -1)]
             // samplingPlan.SamplingPlanFileTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
 
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("");
@@ -567,20 +582,22 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, samplingPlan.SamplingPlanFileTVItemID);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPAfter(Year = 1980)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPAfter(Year = 1980)]
             // samplingPlan.LastUpdateDate_UTC   (DateTime)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            //[Range(1, -1)]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
+            // [Range(1, -1)]
             // samplingPlan.LastUpdateContactTVItemID   (Int32)
-            //-----------------------------------
+            // -----------------------------------
+
             // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
 
 
@@ -607,47 +624,54 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, samplingPlan.LastUpdateContactTVItemID);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // samplingPlan.LabSheetDetails   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // samplingPlan.LabSheets   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // samplingPlan.SamplingPlanSubsectors   (ICollection`1)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // samplingPlan.CreatorTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // samplingPlan.ProvinceTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[IsVirtual]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [IsVirtual]
             // samplingPlan.SamplingPlanFileTVItem   (TVItem)
-            //-----------------------------------
+            // -----------------------------------
 
-            //-----------------------------------
-            //Is NOT Nullable
-            //[NotMapped]
+
+            // -----------------------------------
+            // Is NOT Nullable
+            // [NotMapped]
             // samplingPlan.ValidationResults   (IEnumerable`1)
-            //-----------------------------------
+            // -----------------------------------
+
         }
         #endregion Tests Generated
     }
