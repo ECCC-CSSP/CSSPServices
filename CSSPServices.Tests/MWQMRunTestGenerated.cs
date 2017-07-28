@@ -42,11 +42,11 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SubsectorTVItemID") mwqmRun.SubsectorTVItemID = 11;
             if (OmitPropName != "MWQMRunTVItemID") mwqmRun.MWQMRunTVItemID = 24;
             if (OmitPropName != "RunSampleType") mwqmRun.RunSampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
-            if (OmitPropName != "DateTime_Local") mwqmRun.DateTime_Local = GetRandomDateTime();
+            if (OmitPropName != "DateTime_Local") mwqmRun.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "RunNumber") mwqmRun.RunNumber = GetRandomInt(1, 1000);
-            if (OmitPropName != "StartDateTime_Local") mwqmRun.StartDateTime_Local = GetRandomDateTime();
-            if (OmitPropName != "EndDateTime_Local") mwqmRun.EndDateTime_Local = GetRandomDateTime();
-            if (OmitPropName != "LabReceivedDateTime_Local") mwqmRun.LabReceivedDateTime_Local = GetRandomDateTime();
+            if (OmitPropName != "StartDateTime_Local") mwqmRun.StartDateTime_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "EndDateTime_Local") mwqmRun.EndDateTime_Local = new DateTime(2005, 3, 7);
+            if (OmitPropName != "LabReceivedDateTime_Local") mwqmRun.LabReceivedDateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "TemperatureControl1_C") mwqmRun.TemperatureControl1_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "TemperatureControl2_C") mwqmRun.TemperatureControl2_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "SeaStateAtStart_BeaufortScale") mwqmRun.SeaStateAtStart_BeaufortScale = (BeaufortScaleEnum)GetRandomEnumType(typeof(BeaufortScaleEnum));
@@ -60,10 +60,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Laboratory") mwqmRun.Laboratory = (LaboratoryEnum)GetRandomEnumType(typeof(LaboratoryEnum));
             if (OmitPropName != "SampleStatus") mwqmRun.SampleStatus = (SampleStatusEnum)GetRandomEnumType(typeof(SampleStatusEnum));
             if (OmitPropName != "LabSampleApprovalContactTVItemID") mwqmRun.LabSampleApprovalContactTVItemID = 2;
-            if (OmitPropName != "LabAnalyzeBath1IncubationStartDateTime_Local") mwqmRun.LabAnalyzeBath1IncubationStartDateTime_Local = GetRandomDateTime();
-            if (OmitPropName != "LabAnalyzeBath2IncubationStartDateTime_Local") mwqmRun.LabAnalyzeBath2IncubationStartDateTime_Local = GetRandomDateTime();
-            if (OmitPropName != "LabAnalyzeBath3IncubationStartDateTime_Local") mwqmRun.LabAnalyzeBath3IncubationStartDateTime_Local = GetRandomDateTime();
-            if (OmitPropName != "LabRunSampleApprovalDateTime_Local") mwqmRun.LabRunSampleApprovalDateTime_Local = GetRandomDateTime();
+            if (OmitPropName != "LabAnalyzeBath1IncubationStartDateTime_Local") mwqmRun.LabAnalyzeBath1IncubationStartDateTime_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LabAnalyzeBath2IncubationStartDateTime_Local") mwqmRun.LabAnalyzeBath2IncubationStartDateTime_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LabAnalyzeBath3IncubationStartDateTime_Local") mwqmRun.LabAnalyzeBath3IncubationStartDateTime_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LabRunSampleApprovalDateTime_Local") mwqmRun.LabRunSampleApprovalDateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Tide_Start") mwqmRun.Tide_Start = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
             if (OmitPropName != "Tide_End") mwqmRun.Tide_End = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
             if (OmitPropName != "RainDay0_mm") mwqmRun.RainDay0_mm = GetRandomDouble(0.0D, 300.0D);
@@ -78,7 +78,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "RainDay9_mm") mwqmRun.RainDay9_mm = GetRandomDouble(0.0D, 300.0D);
             if (OmitPropName != "RainDay10_mm") mwqmRun.RainDay10_mm = GetRandomDouble(0.0D, 300.0D);
             if (OmitPropName != "RemoveFromStat") mwqmRun.RemoveFromStat = true;
-            if (OmitPropName != "LastUpdateDate_UTC") mwqmRun.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") mwqmRun.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmRun.LastUpdateContactTVItemID = 2;
 
             return mwqmRun;
@@ -138,76 +138,42 @@ namespace CSSPServices.Tests
             // mwqmRun.MWQMRunID   (Int32)
             // -----------------------------------
 
+            mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
             mwqmRun.MWQMRunID = 0;
             mwqmRunService.Update(mwqmRun);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunMWQMRunID), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Subsector)]
-            // [Range(1, -1)]
             // mwqmRun.SubsectorTVItemID   (Int32)
             // -----------------------------------
+
+            mwqmRun = null;
+            mwqmRun = GetFilledRandomMWQMRun("");
+            mwqmRun.SubsectorTVItemID = 0;
+            mwqmRunService.Add(mwqmRun);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunSubsectorTVItemID, mwqmRun.SubsectorTVItemID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
             // SubsectorTVItemID will automatically be initialized at 0 --> not null
 
 
-            mwqmRun = null;
-            mwqmRun = GetFilledRandomMWQMRun("");
-            // SubsectorTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mwqmRun.SubsectorTVItemID = 1;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1, mwqmRun.SubsectorTVItemID);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-            // SubsectorTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mwqmRun.SubsectorTVItemID = 2;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(2, mwqmRun.SubsectorTVItemID);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-            // SubsectorTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
-            mwqmRun.SubsectorTVItemID = 0;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunSubsectorTVItemID, "1")).Any());
-            Assert.AreEqual(0, mwqmRun.SubsectorTVItemID);
-            Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMRun)]
-            // [Range(1, -1)]
             // mwqmRun.MWQMRunTVItemID   (Int32)
             // -----------------------------------
 
-            // MWQMRunTVItemID will automatically be initialized at 0 --> not null
-
-
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
-            // MWQMRunTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mwqmRun.MWQMRunTVItemID = 1;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1, mwqmRun.MWQMRunTVItemID);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-            // MWQMRunTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mwqmRun.MWQMRunTVItemID = 2;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(2, mwqmRun.MWQMRunTVItemID);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-            // MWQMRunTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mwqmRun.MWQMRunTVItemID = 0;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunMWQMRunTVItemID, "1")).Any());
-            Assert.AreEqual(0, mwqmRun.MWQMRunTVItemID);
-            Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+            mwqmRunService.Add(mwqmRun);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunMWQMRunTVItemID, mwqmRun.MWQMRunTVItemID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // MWQMRunTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -234,7 +200,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // RunNumber will automatically be initialized at 0 --> not null
-
 
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
@@ -309,7 +274,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [TemperatureControl1_C]
 
-
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
             // TemperatureControl1_C has Min [-10.0D] and Max [40.0D]. At Min should return true and no errors
@@ -360,7 +324,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [TemperatureControl2_C]
-
 
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
@@ -427,7 +390,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [WaterLevelAtBrook_m]
 
-
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
             // WaterLevelAtBrook_m has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
@@ -478,7 +440,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [WaveHightAtStart_m]
-
 
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
@@ -531,7 +492,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [WaveHightAtEnd_m]
 
-
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
             // WaveHightAtEnd_m has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
@@ -581,10 +541,8 @@ namespace CSSPServices.Tests
             // mwqmRun.SampleCrewInitials   (String)
             // -----------------------------------
 
-
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
-
             // SampleCrewInitials has MinLength [empty] and MaxLength [20]. At Max should return true and no errors
             string mwqmRunSampleCrewInitialsMin = GetRandomString("", 20);
             mwqmRun.SampleCrewInitials = mwqmRunSampleCrewInitialsMin;
@@ -642,33 +600,15 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // mwqmRun.LabSampleApprovalContactTVItemID   (Int32)
             // -----------------------------------
 
-
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
-            // LabSampleApprovalContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mwqmRun.LabSampleApprovalContactTVItemID = 1;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1, mwqmRun.LabSampleApprovalContactTVItemID);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-            // LabSampleApprovalContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mwqmRun.LabSampleApprovalContactTVItemID = 2;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(2, mwqmRun.LabSampleApprovalContactTVItemID);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-            // LabSampleApprovalContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mwqmRun.LabSampleApprovalContactTVItemID = 0;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, mwqmRun.LabSampleApprovalContactTVItemID);
-            Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+            mwqmRunService.Add(mwqmRun);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, mwqmRun.LabSampleApprovalContactTVItemID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is Nullable
@@ -719,7 +659,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RainDay0_mm]
-
 
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
@@ -772,7 +711,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [RainDay1_mm]
 
-
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
             // RainDay1_mm has Min [0.0D] and Max [300.0D]. At Min should return true and no errors
@@ -823,7 +761,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RainDay2_mm]
-
 
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
@@ -876,7 +813,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [RainDay3_mm]
 
-
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
             // RainDay3_mm has Min [0.0D] and Max [300.0D]. At Min should return true and no errors
@@ -927,7 +863,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RainDay4_mm]
-
 
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
@@ -980,7 +915,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [RainDay5_mm]
 
-
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
             // RainDay5_mm has Min [0.0D] and Max [300.0D]. At Min should return true and no errors
@@ -1031,7 +965,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RainDay6_mm]
-
 
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
@@ -1084,7 +1017,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [RainDay7_mm]
 
-
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
             // RainDay7_mm has Min [0.0D] and Max [300.0D]. At Min should return true and no errors
@@ -1135,7 +1067,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RainDay8_mm]
-
 
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
@@ -1188,7 +1119,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [RainDay9_mm]
 
-
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
             // RainDay9_mm has Min [0.0D] and Max [300.0D]. At Min should return true and no errors
@@ -1239,7 +1169,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RainDay10_mm]
-
 
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
@@ -1302,35 +1231,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // mwqmRun.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             mwqmRun = null;
             mwqmRun = GetFilledRandomMWQMRun("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mwqmRun.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(1, mwqmRun.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mwqmRun.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, mwqmRunService.Add(mwqmRun));
-            Assert.AreEqual(0, mwqmRun.ValidationResults.Count());
-            Assert.AreEqual(2, mwqmRun.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mwqmRunService.Delete(mwqmRun));
-            Assert.AreEqual(count, mwqmRunService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mwqmRun.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-            Assert.IsTrue(mwqmRun.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMRunLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, mwqmRun.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+            mwqmRunService.Add(mwqmRun);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLastUpdateContactTVItemID, mwqmRun.LastUpdateContactTVItemID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

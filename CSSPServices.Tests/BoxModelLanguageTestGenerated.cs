@@ -43,7 +43,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Language") boxModelLanguage.Language = language;
             if (OmitPropName != "ScenarioName") boxModelLanguage.ScenarioName = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatus") boxModelLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
-            if (OmitPropName != "LastUpdateDate_UTC") boxModelLanguage.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") boxModelLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") boxModelLanguage.LastUpdateContactTVItemID = 2;
 
             return boxModelLanguage;
@@ -103,43 +103,27 @@ namespace CSSPServices.Tests
             // boxModelLanguage.BoxModelLanguageID   (Int32)
             // -----------------------------------
 
+            boxModelLanguage = null;
             boxModelLanguage = GetFilledRandomBoxModelLanguage("");
             boxModelLanguage.BoxModelLanguageID = 0;
             boxModelLanguageService.Update(boxModelLanguage);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLanguageBoxModelLanguageID), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "BoxModel", Plurial = "s", FieldID = "BoxModelID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // boxModelLanguage.BoxModelID   (Int32)
             // -----------------------------------
 
-            // BoxModelID will automatically be initialized at 0 --> not null
-
-
             boxModelLanguage = null;
             boxModelLanguage = GetFilledRandomBoxModelLanguage("");
-            // BoxModelID has Min [1] and Max [empty]. At Min should return true and no errors
-            boxModelLanguage.BoxModelID = 1;
-            Assert.AreEqual(true, boxModelLanguageService.Add(boxModelLanguage));
-            Assert.AreEqual(0, boxModelLanguage.ValidationResults.Count());
-            Assert.AreEqual(1, boxModelLanguage.BoxModelID);
-            Assert.AreEqual(true, boxModelLanguageService.Delete(boxModelLanguage));
-            Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
-            // BoxModelID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            boxModelLanguage.BoxModelID = 2;
-            Assert.AreEqual(true, boxModelLanguageService.Add(boxModelLanguage));
-            Assert.AreEqual(0, boxModelLanguage.ValidationResults.Count());
-            Assert.AreEqual(2, boxModelLanguage.BoxModelID);
-            Assert.AreEqual(true, boxModelLanguageService.Delete(boxModelLanguage));
-            Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
-            // BoxModelID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             boxModelLanguage.BoxModelID = 0;
-            Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
-            Assert.IsTrue(boxModelLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelLanguageBoxModelID, "1")).Any());
-            Assert.AreEqual(0, boxModelLanguage.BoxModelID);
-            Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
+            boxModelLanguageService.Add(boxModelLanguage);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModel, ModelsRes.BoxModelLanguageBoxModelID, boxModelLanguage.BoxModelID.ToString()), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // BoxModelID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -164,10 +148,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, boxModelLanguage.ScenarioName);
             Assert.AreEqual(0, boxModelLanguageService.GetRead().Count());
 
-
             boxModelLanguage = null;
             boxModelLanguage = GetFilledRandomBoxModelLanguage("");
-
             // ScenarioName has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
             string boxModelLanguageScenarioNameMin = GetRandomString("", 250);
             boxModelLanguage.ScenarioName = boxModelLanguageScenarioNameMin;
@@ -215,35 +197,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // boxModelLanguage.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             boxModelLanguage = null;
             boxModelLanguage = GetFilledRandomBoxModelLanguage("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            boxModelLanguage.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, boxModelLanguageService.Add(boxModelLanguage));
-            Assert.AreEqual(0, boxModelLanguage.ValidationResults.Count());
-            Assert.AreEqual(1, boxModelLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, boxModelLanguageService.Delete(boxModelLanguage));
-            Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            boxModelLanguage.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, boxModelLanguageService.Add(boxModelLanguage));
-            Assert.AreEqual(0, boxModelLanguage.ValidationResults.Count());
-            Assert.AreEqual(2, boxModelLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, boxModelLanguageService.Delete(boxModelLanguage));
-            Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             boxModelLanguage.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
-            Assert.IsTrue(boxModelLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelLanguageLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, boxModelLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
+            boxModelLanguageService.Add(boxModelLanguage);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelLanguageLastUpdateContactTVItemID, boxModelLanguage.LastUpdateContactTVItemID.ToString()), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

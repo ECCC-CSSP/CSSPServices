@@ -40,61 +40,61 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(boxModelCalNumb.Error))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelCalNumbError), new[] { ModelsRes.BoxModelCalNumbError });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelCalNumbError), new[] { "Error" });
             }
 
             if (!string.IsNullOrWhiteSpace(boxModelCalNumb.Error) && boxModelCalNumb.Error.Length > 255)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelCalNumbError, "255"), new[] { ModelsRes.BoxModelCalNumbError });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelCalNumbError, "255"), new[] { "Error" });
             }
 
             retStr = enums.BoxModelResultTypeOK(boxModelCalNumb.BoxModelResultType);
             if (boxModelCalNumb.BoxModelResultType == BoxModelResultTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelCalNumbBoxModelResultType), new[] { ModelsRes.BoxModelCalNumbBoxModelResultType });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelCalNumbBoxModelResultType), new[] { "BoxModelResultType" });
             }
 
             //CalLength_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelCalNumb.CalLength_m < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelCalNumbCalLength_m, "0"), new[] { ModelsRes.BoxModelCalNumbCalLength_m });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelCalNumbCalLength_m, "0"), new[] { "CalLength_m" });
             }
 
             //CalRadius_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelCalNumb.CalRadius_m < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelCalNumbCalRadius_m, "0"), new[] { ModelsRes.BoxModelCalNumbCalRadius_m });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelCalNumbCalRadius_m, "0"), new[] { "CalRadius_m" });
             }
 
             //CalSurface_m2 (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelCalNumb.CalSurface_m2 < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelCalNumbCalSurface_m2, "0"), new[] { ModelsRes.BoxModelCalNumbCalSurface_m2 });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelCalNumbCalSurface_m2, "0"), new[] { "CalSurface_m2" });
             }
 
             //CalVolume_m3 (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelCalNumb.CalVolume_m3 < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelCalNumbCalVolume_m3, "0"), new[] { ModelsRes.BoxModelCalNumbCalVolume_m3 });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelCalNumbCalVolume_m3, "0"), new[] { "CalVolume_m3" });
             }
 
             //CalWidth_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (boxModelCalNumb.CalWidth_m < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelCalNumbCalWidth_m, "0"), new[] { ModelsRes.BoxModelCalNumbCalWidth_m });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelCalNumbCalWidth_m, "0"), new[] { "CalWidth_m" });
             }
 
             //FixLength (bool) is required but no testing needed 
 
             //FixWidth (bool) is required but no testing needed 
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

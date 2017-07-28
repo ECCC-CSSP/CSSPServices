@@ -42,18 +42,18 @@ namespace CSSPServices
 
             if (samplingPlanAndFilesLabSheetCount.LabSheetHistoryCount < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetHistoryCount, "0"), new[] { ModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetHistoryCount });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetHistoryCount, "0"), new[] { "LabSheetHistoryCount" });
             }
 
             //LabSheetTransferredCount (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (samplingPlanAndFilesLabSheetCount.LabSheetTransferredCount < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetTransferredCount, "0"), new[] { ModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetTransferredCount });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetTransferredCount, "0"), new[] { "LabSheetTransferredCount" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

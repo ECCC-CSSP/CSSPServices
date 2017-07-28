@@ -52,7 +52,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Disabled") contact.Disabled = true;
             if (OmitPropName != "IsNew") contact.IsNew = true;
             if (OmitPropName != "SamplingPlanner_ProvincesTVItemID") contact.SamplingPlanner_ProvincesTVItemID = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateDate_UTC") contact.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") contact.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contact.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "ParentTVItemID") contact.ParentTVItemID = GetRandomInt(1, 11);
 
@@ -113,10 +113,12 @@ namespace CSSPServices.Tests
             // contact.ContactID   (Int32)
             // -----------------------------------
 
+            contact = null;
             contact = GetFilledRandomContact("");
             contact.ContactID = 0;
             contactService.Update(contact);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactContactID), contact.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -132,10 +134,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, contact.Id);
             Assert.AreEqual(0, contactService.GetRead().Count());
 
-
             contact = null;
             contact = GetFilledRandomContact("");
-
             // Id has MinLength [empty] and MaxLength [128]. At Max should return true and no errors
             string contactIdMin = GetRandomString("", 128);
             contact.Id = contactIdMin;
@@ -165,35 +165,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // contact.ContactTVItemID   (Int32)
             // -----------------------------------
 
-            // ContactTVItemID will automatically be initialized at 0 --> not null
-
-
             contact = null;
             contact = GetFilledRandomContact("");
-            // ContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            contact.ContactTVItemID = 1;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(1, contact.ContactTVItemID);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-            // ContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            contact.ContactTVItemID = 2;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(2, contact.ContactTVItemID);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-            // ContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             contact.ContactTVItemID = 0;
-            Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, contact.ContactTVItemID);
-            Assert.AreEqual(count, contactService.GetRead().Count());
+            contactService.Add(contact, ContactService.AddContactType.LoggedIn);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactContactTVItemID, contact.ContactTVItemID.ToString()), contact.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // ContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -209,7 +191,6 @@ namespace CSSPServices.Tests
             Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail)).Any());
             Assert.AreEqual(null, contact.LoginEmail);
             Assert.AreEqual(0, contactService.GetRead().Count());
-
 
             contact = null;
             contact = GetFilledRandomContact("");
@@ -264,10 +245,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, contact.FirstName);
             Assert.AreEqual(0, contactService.GetRead().Count());
 
-
             contact = null;
             contact = GetFilledRandomContact("");
-
             // FirstName has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
             string contactFirstNameMin = GetRandomString("", 100);
             contact.FirstName = contactFirstNameMin;
@@ -308,10 +287,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, contact.LastName);
             Assert.AreEqual(0, contactService.GetRead().Count());
 
-
             contact = null;
             contact = GetFilledRandomContact("");
-
             // LastName has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
             string contactLastNameMin = GetRandomString("", 100);
             contact.LastName = contactLastNameMin;
@@ -344,10 +321,8 @@ namespace CSSPServices.Tests
             // contact.Initial   (String)
             // -----------------------------------
 
-
             contact = null;
             contact = GetFilledRandomContact("");
-
             // Initial has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
             string contactInitialMin = GetRandomString("", 50);
             contact.Initial = contactInitialMin;
@@ -388,10 +363,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, contact.WebName);
             Assert.AreEqual(0, contactService.GetRead().Count());
 
-
             contact = null;
             contact = GetFilledRandomContact("");
-
             // WebName has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
             string contactWebNameMin = GetRandomString("", 100);
             contact.WebName = contactWebNameMin;
@@ -463,10 +436,8 @@ namespace CSSPServices.Tests
             // contact.SamplingPlanner_ProvincesTVItemID   (String)
             // -----------------------------------
 
-
             contact = null;
             contact = GetFilledRandomContact("");
-
             // SamplingPlanner_ProvincesTVItemID has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
             string contactSamplingPlanner_ProvincesTVItemIDMin = GetRandomString("", 200);
             contact.SamplingPlanner_ProvincesTVItemID = contactSamplingPlanner_ProvincesTVItemIDMin;
@@ -505,35 +476,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // contact.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             contact = null;
             contact = GetFilledRandomContact("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            contact.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(1, contact.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            contact.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(2, contact.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             contact.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, contact.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, contactService.GetRead().Count());
+            contactService.Add(contact, ContactService.AddContactType.LoggedIn);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactLastUpdateContactTVItemID, contact.LastUpdateContactTVItemID.ToString()), contact.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -571,7 +524,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // ParentTVItemID will automatically be initialized at 0 --> not null
-
 
             contact = null;
             contact = GetFilledRandomContact("");

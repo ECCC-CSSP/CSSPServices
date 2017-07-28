@@ -42,7 +42,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TelTVItemID") tel.TelTVItemID = 30;
             if (OmitPropName != "TelNumber") tel.TelNumber = GetRandomString("", 5);
             if (OmitPropName != "TelType") tel.TelType = (TelTypeEnum)GetRandomEnumType(typeof(TelTypeEnum));
-            if (OmitPropName != "LastUpdateDate_UTC") tel.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") tel.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tel.LastUpdateContactTVItemID = 2;
 
             return tel;
@@ -102,43 +102,27 @@ namespace CSSPServices.Tests
             // tel.TelID   (Int32)
             // -----------------------------------
 
+            tel = null;
             tel = GetFilledRandomTel("");
             tel.TelID = 0;
             telService.Update(tel);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TelTelID), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Tel)]
-            // [Range(1, -1)]
             // tel.TelTVItemID   (Int32)
             // -----------------------------------
 
-            // TelTVItemID will automatically be initialized at 0 --> not null
-
-
             tel = null;
             tel = GetFilledRandomTel("");
-            // TelTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            tel.TelTVItemID = 1;
-            Assert.AreEqual(true, telService.Add(tel));
-            Assert.AreEqual(0, tel.ValidationResults.Count());
-            Assert.AreEqual(1, tel.TelTVItemID);
-            Assert.AreEqual(true, telService.Delete(tel));
-            Assert.AreEqual(count, telService.GetRead().Count());
-            // TelTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            tel.TelTVItemID = 2;
-            Assert.AreEqual(true, telService.Add(tel));
-            Assert.AreEqual(0, tel.ValidationResults.Count());
-            Assert.AreEqual(2, tel.TelTVItemID);
-            Assert.AreEqual(true, telService.Delete(tel));
-            Assert.AreEqual(count, telService.GetRead().Count());
-            // TelTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tel.TelTVItemID = 0;
-            Assert.AreEqual(false, telService.Add(tel));
-            Assert.IsTrue(tel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TelTelTVItemID, "1")).Any());
-            Assert.AreEqual(0, tel.TelTVItemID);
-            Assert.AreEqual(count, telService.GetRead().Count());
+            telService.Add(tel);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TelTelTVItemID, tel.TelTVItemID.ToString()), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // TelTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -154,10 +138,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, tel.TelNumber);
             Assert.AreEqual(0, telService.GetRead().Count());
 
-
             tel = null;
             tel = GetFilledRandomTel("");
-
             // TelNumber has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
             string telTelNumberMin = GetRandomString("", 50);
             tel.TelNumber = telTelNumberMin;
@@ -205,35 +187,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // tel.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             tel = null;
             tel = GetFilledRandomTel("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            tel.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, telService.Add(tel));
-            Assert.AreEqual(0, tel.ValidationResults.Count());
-            Assert.AreEqual(1, tel.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, telService.Delete(tel));
-            Assert.AreEqual(count, telService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            tel.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, telService.Add(tel));
-            Assert.AreEqual(0, tel.ValidationResults.Count());
-            Assert.AreEqual(2, tel.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, telService.Delete(tel));
-            Assert.AreEqual(count, telService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tel.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, telService.Add(tel));
-            Assert.IsTrue(tel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TelLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, tel.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, telService.GetRead().Count());
+            telService.Add(tel);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TelLastUpdateContactTVItemID, tel.LastUpdateContactTVItemID.ToString()), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

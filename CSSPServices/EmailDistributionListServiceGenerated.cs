@@ -42,7 +42,7 @@ namespace CSSPServices
             {
                 if (emailDistributionList.EmailDistributionListID == 0)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListEmailDistributionListID), new[] { ModelsRes.EmailDistributionListEmailDistributionListID });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListEmailDistributionListID), new[] { "EmailDistributionListID" });
                 }
             }
 
@@ -50,59 +50,67 @@ namespace CSSPServices
 
             //CountryTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (emailDistributionList.CountryTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.EmailDistributionListCountryTVItemID, "1"), new[] { ModelsRes.EmailDistributionListCountryTVItemID });
-            }
+            TVItem TVItemCountryTVItemID = (from c in db.TVItems where c.TVItemID == emailDistributionList.CountryTVItemID select c).FirstOrDefault();
 
-            if (!((from c in db.TVItems where c.TVItemID == emailDistributionList.CountryTVItemID select c).Any()))
+            if (TVItemCountryTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailDistributionListCountryTVItemID, emailDistributionList.CountryTVItemID.ToString()), new[] { ModelsRes.EmailDistributionListCountryTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailDistributionListCountryTVItemID, emailDistributionList.CountryTVItemID.ToString()), new[] { "CountryTVItemID" });
+            }
+            else
+            {
+                if (TVItemCountryTVItemID.TVType != TVTypeEnum.Country)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListCountryTVItemID, "Country"), new[] { "CountryTVItemID" });
+                }
             }
 
             if (string.IsNullOrWhiteSpace(emailDistributionList.RegionName))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListRegionName), new[] { ModelsRes.EmailDistributionListRegionName });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListRegionName), new[] { "RegionName" });
             }
 
             if (!string.IsNullOrWhiteSpace(emailDistributionList.RegionName) && emailDistributionList.RegionName.Length > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListRegionName, "100"), new[] { ModelsRes.EmailDistributionListRegionName });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListRegionName, "100"), new[] { "RegionName" });
             }
 
             //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (emailDistributionList.Ordinal < 0 || emailDistributionList.Ordinal > 1000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.EmailDistributionListOrdinal, "0", "1000"), new[] { ModelsRes.EmailDistributionListOrdinal });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.EmailDistributionListOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
 
             if (emailDistributionList.LastUpdateDate_UTC.Year == 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListLastUpdateDate_UTC), new[] { ModelsRes.EmailDistributionListLastUpdateDate_UTC });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (emailDistributionList.LastUpdateDate_UTC.Year < 1980)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.EmailDistributionListLastUpdateDate_UTC, "1980"), new[] { ModelsRes.EmailDistributionListLastUpdateDate_UTC });
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.EmailDistributionListLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (emailDistributionList.LastUpdateContactTVItemID < 1)
+            TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == emailDistributionList.LastUpdateContactTVItemID select c).FirstOrDefault();
+
+            if (TVItemLastUpdateContactTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.EmailDistributionListLastUpdateContactTVItemID, "1"), new[] { ModelsRes.EmailDistributionListLastUpdateContactTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailDistributionListLastUpdateContactTVItemID, emailDistributionList.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+            }
+            else
+            {
+                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == emailDistributionList.LastUpdateContactTVItemID select c).Any()))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailDistributionListLastUpdateContactTVItemID, emailDistributionList.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.EmailDistributionListLastUpdateContactTVItemID });
-            }
-
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

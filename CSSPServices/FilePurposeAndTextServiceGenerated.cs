@@ -41,21 +41,21 @@ namespace CSSPServices
             retStr = enums.FilePurposeOK(filePurposeAndText.FilePurpose);
             if (filePurposeAndText.FilePurpose == FilePurposeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FilePurposeAndTextFilePurpose), new[] { ModelsRes.FilePurposeAndTextFilePurpose });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FilePurposeAndTextFilePurpose), new[] { "FilePurpose" });
             }
 
             if (string.IsNullOrWhiteSpace(filePurposeAndText.FilePurposeText))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FilePurposeAndTextFilePurposeText), new[] { ModelsRes.FilePurposeAndTextFilePurposeText });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FilePurposeAndTextFilePurposeText), new[] { "FilePurposeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(filePurposeAndText.FilePurposeText) && (filePurposeAndText.FilePurposeText.Length < 1 || filePurposeAndText.FilePurposeText.Length > 200))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FilePurposeAndTextFilePurposeText, "1", "200"), new[] { ModelsRes.FilePurposeAndTextFilePurposeText });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FilePurposeAndTextFilePurposeText, "1", "200"), new[] { "FilePurposeText" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

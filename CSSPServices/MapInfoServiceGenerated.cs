@@ -42,7 +42,7 @@ namespace CSSPServices
             {
                 if (mapInfo.MapInfoID == 0)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoID), new[] { ModelsRes.MapInfoMapInfoID });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoID), new[] { "MapInfoID" });
                 }
             }
 
@@ -50,82 +50,90 @@ namespace CSSPServices
 
             //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (mapInfo.TVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MapInfoTVItemID, "1"), new[] { ModelsRes.MapInfoTVItemID });
-            }
+            TVItem TVItemTVItemID = (from c in db.TVItems where c.TVItemID == mapInfo.TVItemID select c).FirstOrDefault();
 
-            if (!((from c in db.TVItems where c.TVItemID == mapInfo.TVItemID select c).Any()))
+            if (TVItemTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoTVItemID, mapInfo.TVItemID.ToString()), new[] { ModelsRes.MapInfoTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoTVItemID, mapInfo.TVItemID.ToString()), new[] { "TVItemID" });
+            }
+            else
+            {
+                if (TVItemTVItemID.TVType != TVTypeEnum.Error)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoTVItemID, "Error"), new[] { "TVItemID" });
+                }
             }
 
             retStr = enums.TVTypeOK(mapInfo.TVType);
             if (mapInfo.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoTVType), new[] { ModelsRes.MapInfoTVType });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoTVType), new[] { "TVType" });
             }
 
             //LatMin (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfo.LatMin < -90 || mapInfo.LatMin > 90)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMin, "-90", "90"), new[] { ModelsRes.MapInfoLatMin });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMin, "-90", "90"), new[] { "LatMin" });
             }
 
             //LatMax (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfo.LatMax < -90 || mapInfo.LatMax > 90)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMax, "-90", "90"), new[] { ModelsRes.MapInfoLatMax });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMax, "-90", "90"), new[] { "LatMax" });
             }
 
             //LngMin (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfo.LngMin < -180 || mapInfo.LngMin > 180)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMin, "-180", "180"), new[] { ModelsRes.MapInfoLngMin });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMin, "-180", "180"), new[] { "LngMin" });
             }
 
             //LngMax (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapInfo.LngMax < -180 || mapInfo.LngMax > 180)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMax, "-180", "180"), new[] { ModelsRes.MapInfoLngMax });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMax, "-180", "180"), new[] { "LngMax" });
             }
 
             retStr = enums.MapInfoDrawTypeOK(mapInfo.MapInfoDrawType);
             if (mapInfo.MapInfoDrawType == MapInfoDrawTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoDrawType), new[] { ModelsRes.MapInfoMapInfoDrawType });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoDrawType), new[] { "MapInfoDrawType" });
             }
 
             if (mapInfo.LastUpdateDate_UTC.Year == 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoLastUpdateDate_UTC), new[] { ModelsRes.MapInfoLastUpdateDate_UTC });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mapInfo.LastUpdateDate_UTC.Year < 1980)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MapInfoLastUpdateDate_UTC, "1980"), new[] { ModelsRes.MapInfoLastUpdateDate_UTC });
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MapInfoLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (mapInfo.LastUpdateContactTVItemID < 1)
+            TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == mapInfo.LastUpdateContactTVItemID select c).FirstOrDefault();
+
+            if (TVItemLastUpdateContactTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MapInfoLastUpdateContactTVItemID, "1"), new[] { ModelsRes.MapInfoLastUpdateContactTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoLastUpdateContactTVItemID, mapInfo.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+            }
+            else
+            {
+                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == mapInfo.LastUpdateContactTVItemID select c).Any()))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoLastUpdateContactTVItemID, mapInfo.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.MapInfoLastUpdateContactTVItemID });
-            }
-
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

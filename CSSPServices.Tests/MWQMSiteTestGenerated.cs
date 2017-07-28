@@ -44,7 +44,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MWQMSiteDescription") mwqmSite.MWQMSiteDescription = GetRandomString("", 5);
             if (OmitPropName != "MWQMSiteLatestClassification") mwqmSite.MWQMSiteLatestClassification = (MWQMSiteLatestClassificationEnum)GetRandomEnumType(typeof(MWQMSiteLatestClassificationEnum));
             if (OmitPropName != "Ordinal") mwqmSite.Ordinal = GetRandomInt(0, 1000);
-            if (OmitPropName != "LastUpdateDate_UTC") mwqmSite.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") mwqmSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSite.LastUpdateContactTVItemID = 2;
 
             return mwqmSite;
@@ -104,43 +104,27 @@ namespace CSSPServices.Tests
             // mwqmSite.MWQMSiteID   (Int32)
             // -----------------------------------
 
+            mwqmSite = null;
             mwqmSite = GetFilledRandomMWQMSite("");
             mwqmSite.MWQMSiteID = 0;
             mwqmSiteService.Update(mwqmSite);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteID), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMSite)]
-            // [Range(1, -1)]
             // mwqmSite.MWQMSiteTVItemID   (Int32)
             // -----------------------------------
 
-            // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
-
-
             mwqmSite = null;
             mwqmSite = GetFilledRandomMWQMSite("");
-            // MWQMSiteTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mwqmSite.MWQMSiteTVItemID = 1;
-            Assert.AreEqual(true, mwqmSiteService.Add(mwqmSite));
-            Assert.AreEqual(0, mwqmSite.ValidationResults.Count());
-            Assert.AreEqual(1, mwqmSite.MWQMSiteTVItemID);
-            Assert.AreEqual(true, mwqmSiteService.Delete(mwqmSite));
-            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-            // MWQMSiteTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mwqmSite.MWQMSiteTVItemID = 2;
-            Assert.AreEqual(true, mwqmSiteService.Add(mwqmSite));
-            Assert.AreEqual(0, mwqmSite.ValidationResults.Count());
-            Assert.AreEqual(2, mwqmSite.MWQMSiteTVItemID);
-            Assert.AreEqual(true, mwqmSiteService.Delete(mwqmSite));
-            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-            // MWQMSiteTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mwqmSite.MWQMSiteTVItemID = 0;
-            Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-            Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSiteMWQMSiteTVItemID, "1")).Any());
-            Assert.AreEqual(0, mwqmSite.MWQMSiteTVItemID);
-            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+            mwqmSiteService.Add(mwqmSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteMWQMSiteTVItemID, mwqmSite.MWQMSiteTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -156,10 +140,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, mwqmSite.MWQMSiteNumber);
             Assert.AreEqual(0, mwqmSiteService.GetRead().Count());
 
-
             mwqmSite = null;
             mwqmSite = GetFilledRandomMWQMSite("");
-
             // MWQMSiteNumber has MinLength [empty] and MaxLength [8]. At Max should return true and no errors
             string mwqmSiteMWQMSiteNumberMin = GetRandomString("", 8);
             mwqmSite.MWQMSiteNumber = mwqmSiteMWQMSiteNumberMin;
@@ -200,10 +182,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, mwqmSite.MWQMSiteDescription);
             Assert.AreEqual(0, mwqmSiteService.GetRead().Count());
 
-
             mwqmSite = null;
             mwqmSite = GetFilledRandomMWQMSite("");
-
             // MWQMSiteDescription has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
             string mwqmSiteMWQMSiteDescriptionMin = GetRandomString("", 200);
             mwqmSite.MWQMSiteDescription = mwqmSiteMWQMSiteDescriptionMin;
@@ -246,7 +226,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // Ordinal will automatically be initialized at 0 --> not null
-
 
             mwqmSite = null;
             mwqmSite = GetFilledRandomMWQMSite("");
@@ -303,35 +282,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // mwqmSite.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             mwqmSite = null;
             mwqmSite = GetFilledRandomMWQMSite("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mwqmSite.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, mwqmSiteService.Add(mwqmSite));
-            Assert.AreEqual(0, mwqmSite.ValidationResults.Count());
-            Assert.AreEqual(1, mwqmSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mwqmSiteService.Delete(mwqmSite));
-            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mwqmSite.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, mwqmSiteService.Add(mwqmSite));
-            Assert.AreEqual(0, mwqmSite.ValidationResults.Count());
-            Assert.AreEqual(2, mwqmSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mwqmSiteService.Delete(mwqmSite));
-            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mwqmSite.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-            Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSiteLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, mwqmSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+            mwqmSiteService.Add(mwqmSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteLastUpdateContactTVItemID, mwqmSite.LastUpdateContactTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

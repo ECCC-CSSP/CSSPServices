@@ -42,7 +42,7 @@ namespace CSSPServices
             {
                 if (useOfSite.UseOfSiteID == 0)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteUseOfSiteID), new[] { ModelsRes.UseOfSiteUseOfSiteID });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteUseOfSiteID), new[] { "UseOfSiteID" });
                 }
             }
 
@@ -50,53 +50,61 @@ namespace CSSPServices
 
             //SiteTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (useOfSite.SiteTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.UseOfSiteSiteTVItemID, "1"), new[] { ModelsRes.UseOfSiteSiteTVItemID });
-            }
+            TVItem TVItemSiteTVItemID = (from c in db.TVItems where c.TVItemID == useOfSite.SiteTVItemID select c).FirstOrDefault();
 
-            if (!((from c in db.TVItems where c.TVItemID == useOfSite.SiteTVItemID select c).Any()))
+            if (TVItemSiteTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteSiteTVItemID, useOfSite.SiteTVItemID.ToString()), new[] { ModelsRes.UseOfSiteSiteTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteSiteTVItemID, useOfSite.SiteTVItemID.ToString()), new[] { "SiteTVItemID" });
+            }
+            else
+            {
+                if (TVItemSiteTVItemID.TVType != TVTypeEnum.Error)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.UseOfSiteSiteTVItemID, "Error"), new[] { "SiteTVItemID" });
+                }
             }
 
             //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (useOfSite.SubsectorTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.UseOfSiteSubsectorTVItemID, "1"), new[] { ModelsRes.UseOfSiteSubsectorTVItemID });
-            }
+            TVItem TVItemSubsectorTVItemID = (from c in db.TVItems where c.TVItemID == useOfSite.SubsectorTVItemID select c).FirstOrDefault();
 
-            if (!((from c in db.TVItems where c.TVItemID == useOfSite.SubsectorTVItemID select c).Any()))
+            if (TVItemSubsectorTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteSubsectorTVItemID, useOfSite.SubsectorTVItemID.ToString()), new[] { ModelsRes.UseOfSiteSubsectorTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteSubsectorTVItemID, useOfSite.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
+            }
+            else
+            {
+                if (TVItemSubsectorTVItemID.TVType != TVTypeEnum.Subsector)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.UseOfSiteSubsectorTVItemID, "Subsector"), new[] { "SubsectorTVItemID" });
+                }
             }
 
             retStr = enums.SiteTypeOK(useOfSite.SiteType);
             if (useOfSite.SiteType == SiteTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteSiteType), new[] { ModelsRes.UseOfSiteSiteType });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteSiteType), new[] { "SiteType" });
             }
 
             //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (useOfSite.Ordinal < 0 || useOfSite.Ordinal > 1000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteOrdinal, "0", "1000"), new[] { ModelsRes.UseOfSiteOrdinal });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
 
             //StartYear (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (useOfSite.StartYear < 1980 || useOfSite.StartYear > 2050)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteStartYear, "1980", "2050"), new[] { ModelsRes.UseOfSiteStartYear });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteStartYear, "1980", "2050"), new[] { "StartYear" });
             }
 
             if (useOfSite.EndYear != null)
             {
                 if (useOfSite.EndYear < 1980 || useOfSite.EndYear > 2050)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteEndYear, "1980", "2050"), new[] { ModelsRes.UseOfSiteEndYear });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteEndYear, "1980", "2050"), new[] { "EndYear" });
                 }
             }
 
@@ -104,7 +112,7 @@ namespace CSSPServices
             {
                 if (useOfSite.Weight_perc < 0 || useOfSite.Weight_perc > 100)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteWeight_perc, "0", "100"), new[] { ModelsRes.UseOfSiteWeight_perc });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteWeight_perc, "0", "100"), new[] { "Weight_perc" });
                 }
             }
 
@@ -112,7 +120,7 @@ namespace CSSPServices
             {
                 if (useOfSite.Param1 < 0 || useOfSite.Param1 > 100)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam1, "0", "100"), new[] { ModelsRes.UseOfSiteParam1 });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam1, "0", "100"), new[] { "Param1" });
                 }
             }
 
@@ -120,7 +128,7 @@ namespace CSSPServices
             {
                 if (useOfSite.Param2 < 0 || useOfSite.Param2 > 100)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam2, "0", "100"), new[] { ModelsRes.UseOfSiteParam2 });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam2, "0", "100"), new[] { "Param2" });
                 }
             }
 
@@ -128,7 +136,7 @@ namespace CSSPServices
             {
                 if (useOfSite.Param3 < 0 || useOfSite.Param3 > 100)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam3, "0", "100"), new[] { ModelsRes.UseOfSiteParam3 });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam3, "0", "100"), new[] { "Param3" });
                 }
             }
 
@@ -136,36 +144,40 @@ namespace CSSPServices
             {
                 if (useOfSite.Param4 < 0 || useOfSite.Param4 > 100)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam4, "0", "100"), new[] { ModelsRes.UseOfSiteParam4 });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam4, "0", "100"), new[] { "Param4" });
                 }
             }
 
             if (useOfSite.LastUpdateDate_UTC.Year == 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteLastUpdateDate_UTC), new[] { ModelsRes.UseOfSiteLastUpdateDate_UTC });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (useOfSite.LastUpdateDate_UTC.Year < 1980)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.UseOfSiteLastUpdateDate_UTC, "1980"), new[] { ModelsRes.UseOfSiteLastUpdateDate_UTC });
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.UseOfSiteLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (useOfSite.LastUpdateContactTVItemID < 1)
+            TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == useOfSite.LastUpdateContactTVItemID select c).FirstOrDefault();
+
+            if (TVItemLastUpdateContactTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.UseOfSiteLastUpdateContactTVItemID, "1"), new[] { ModelsRes.UseOfSiteLastUpdateContactTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteLastUpdateContactTVItemID, useOfSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+            }
+            else
+            {
+                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.UseOfSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == useOfSite.LastUpdateContactTVItemID select c).Any()))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteLastUpdateContactTVItemID, useOfSite.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.UseOfSiteLastUpdateContactTVItemID });
-            }
-
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

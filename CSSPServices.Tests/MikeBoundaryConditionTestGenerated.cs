@@ -49,7 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "NumberOfWebTideNodes") mikeBoundaryCondition.NumberOfWebTideNodes = GetRandomInt(0, 1000);
             if (OmitPropName != "WebTideDataFromStartToEndDate") mikeBoundaryCondition.WebTideDataFromStartToEndDate = GetRandomString("", 20);
             if (OmitPropName != "TVType") mikeBoundaryCondition.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
-            if (OmitPropName != "LastUpdateDate_UTC") mikeBoundaryCondition.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") mikeBoundaryCondition.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeBoundaryCondition.LastUpdateContactTVItemID = 2;
 
             return mikeBoundaryCondition;
@@ -109,43 +109,27 @@ namespace CSSPServices.Tests
             // mikeBoundaryCondition.MikeBoundaryConditionID   (Int32)
             // -----------------------------------
 
+            mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
             mikeBoundaryCondition.MikeBoundaryConditionID = 0;
             mikeBoundaryConditionService.Update(mikeBoundaryCondition);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionID), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MikeBoundaryConditionMesh", OrTVType = "MikeBoundaryConditionWebTide")]
-            // [Range(1, -1)]
             // mikeBoundaryCondition.MikeBoundaryConditionTVItemID   (Int32)
             // -----------------------------------
 
-            // MikeBoundaryConditionTVItemID will automatically be initialized at 0 --> not null
-
-
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-            // MikeBoundaryConditionTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mikeBoundaryCondition.MikeBoundaryConditionTVItemID = 1;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(1, mikeBoundaryCondition.MikeBoundaryConditionTVItemID);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-            // MikeBoundaryConditionTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mikeBoundaryCondition.MikeBoundaryConditionTVItemID = 2;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(2, mikeBoundaryCondition.MikeBoundaryConditionTVItemID);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-            // MikeBoundaryConditionTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mikeBoundaryCondition.MikeBoundaryConditionTVItemID = 0;
-            Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVItemID, "1")).Any());
-            Assert.AreEqual(0, mikeBoundaryCondition.MikeBoundaryConditionTVItemID);
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+            mikeBoundaryConditionService.Add(mikeBoundaryCondition);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVItemID, mikeBoundaryCondition.MikeBoundaryConditionTVItemID.ToString()), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // MikeBoundaryConditionTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -161,10 +145,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, mikeBoundaryCondition.MikeBoundaryConditionCode);
             Assert.AreEqual(0, mikeBoundaryConditionService.GetRead().Count());
 
-
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-
             // MikeBoundaryConditionCode has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
             string mikeBoundaryConditionMikeBoundaryConditionCodeMin = GetRandomString("", 100);
             mikeBoundaryCondition.MikeBoundaryConditionCode = mikeBoundaryConditionMikeBoundaryConditionCodeMin;
@@ -205,10 +187,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, mikeBoundaryCondition.MikeBoundaryConditionName);
             Assert.AreEqual(0, mikeBoundaryConditionService.GetRead().Count());
 
-
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-
             // MikeBoundaryConditionName has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
             string mikeBoundaryConditionMikeBoundaryConditionNameMin = GetRandomString("", 100);
             mikeBoundaryCondition.MikeBoundaryConditionName = mikeBoundaryConditionMikeBoundaryConditionNameMin;
@@ -242,7 +222,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [MikeBoundaryConditionLength_m]
-
 
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
@@ -301,10 +280,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, mikeBoundaryCondition.MikeBoundaryConditionFormat);
             Assert.AreEqual(0, mikeBoundaryConditionService.GetRead().Count());
 
-
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-
             // MikeBoundaryConditionFormat has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
             string mikeBoundaryConditionMikeBoundaryConditionFormatMin = GetRandomString("", 100);
             mikeBoundaryCondition.MikeBoundaryConditionFormat = mikeBoundaryConditionMikeBoundaryConditionFormatMin;
@@ -356,7 +333,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // NumberOfWebTideNodes will automatically be initialized at 0 --> not null
-
 
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
@@ -415,9 +391,6 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mikeBoundaryConditionService.GetRead().Count());
 
 
-            mikeBoundaryCondition = null;
-            mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPEnumType]
@@ -439,35 +412,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // mikeBoundaryCondition.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mikeBoundaryCondition.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(1, mikeBoundaryCondition.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mikeBoundaryCondition.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(2, mikeBoundaryCondition.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mikeBoundaryCondition.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeBoundaryConditionLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, mikeBoundaryCondition.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+            mikeBoundaryConditionService.Add(mikeBoundaryCondition);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeBoundaryConditionLastUpdateContactTVItemID, mikeBoundaryCondition.LastUpdateContactTVItemID.ToString()), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

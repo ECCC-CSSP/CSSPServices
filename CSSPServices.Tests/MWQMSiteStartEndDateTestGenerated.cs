@@ -40,9 +40,9 @@ namespace CSSPServices.Tests
             MWQMSiteStartEndDate mwqmSiteStartEndDate = new MWQMSiteStartEndDate();
 
             if (OmitPropName != "MWQMSiteTVItemID") mwqmSiteStartEndDate.MWQMSiteTVItemID = 19;
-            if (OmitPropName != "StartDate") mwqmSiteStartEndDate.StartDate = GetRandomDateTime();
-            if (OmitPropName != "EndDate") mwqmSiteStartEndDate.EndDate = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateDate_UTC") mwqmSiteStartEndDate.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "StartDate") mwqmSiteStartEndDate.StartDate = new DateTime(2005, 3, 6);
+            if (OmitPropName != "EndDate") mwqmSiteStartEndDate.EndDate = new DateTime(2005, 3, 7);
+            if (OmitPropName != "LastUpdateDate_UTC") mwqmSiteStartEndDate.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSiteStartEndDate.LastUpdateContactTVItemID = 2;
 
             return mwqmSiteStartEndDate;
@@ -102,43 +102,27 @@ namespace CSSPServices.Tests
             // mwqmSiteStartEndDate.MWQMSiteStartEndDateID   (Int32)
             // -----------------------------------
 
+            mwqmSiteStartEndDate = null;
             mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
             mwqmSiteStartEndDate.MWQMSiteStartEndDateID = 0;
             mwqmSiteStartEndDateService.Update(mwqmSiteStartEndDate);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteStartEndDateMWQMSiteStartEndDateID), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMSite)]
-            // [Range(1, -1)]
             // mwqmSiteStartEndDate.MWQMSiteTVItemID   (Int32)
             // -----------------------------------
 
-            // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
-
-
             mwqmSiteStartEndDate = null;
             mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
-            // MWQMSiteTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mwqmSiteStartEndDate.MWQMSiteTVItemID = 1;
-            Assert.AreEqual(true, mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate));
-            Assert.AreEqual(0, mwqmSiteStartEndDate.ValidationResults.Count());
-            Assert.AreEqual(1, mwqmSiteStartEndDate.MWQMSiteTVItemID);
-            Assert.AreEqual(true, mwqmSiteStartEndDateService.Delete(mwqmSiteStartEndDate));
-            Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
-            // MWQMSiteTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mwqmSiteStartEndDate.MWQMSiteTVItemID = 2;
-            Assert.AreEqual(true, mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate));
-            Assert.AreEqual(0, mwqmSiteStartEndDate.ValidationResults.Count());
-            Assert.AreEqual(2, mwqmSiteStartEndDate.MWQMSiteTVItemID);
-            Assert.AreEqual(true, mwqmSiteStartEndDateService.Delete(mwqmSiteStartEndDate));
-            Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
-            // MWQMSiteTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mwqmSiteStartEndDate.MWQMSiteTVItemID = 0;
-            Assert.AreEqual(false, mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate));
-            Assert.IsTrue(mwqmSiteStartEndDate.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID, "1")).Any());
-            Assert.AreEqual(0, mwqmSiteStartEndDate.MWQMSiteTVItemID);
-            Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
+            mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID, mwqmSiteStartEndDate.MWQMSiteTVItemID.ToString()), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -169,35 +153,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // mwqmSiteStartEndDate.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             mwqmSiteStartEndDate = null;
             mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mwqmSiteStartEndDate.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate));
-            Assert.AreEqual(0, mwqmSiteStartEndDate.ValidationResults.Count());
-            Assert.AreEqual(1, mwqmSiteStartEndDate.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mwqmSiteStartEndDateService.Delete(mwqmSiteStartEndDate));
-            Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mwqmSiteStartEndDate.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate));
-            Assert.AreEqual(0, mwqmSiteStartEndDate.ValidationResults.Count());
-            Assert.AreEqual(2, mwqmSiteStartEndDate.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mwqmSiteStartEndDateService.Delete(mwqmSiteStartEndDate));
-            Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mwqmSiteStartEndDate.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate));
-            Assert.IsTrue(mwqmSiteStartEndDate.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, mwqmSiteStartEndDate.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
+            mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, mwqmSiteStartEndDate.LastUpdateContactTVItemID.ToString()), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

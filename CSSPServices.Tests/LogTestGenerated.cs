@@ -43,7 +43,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ID") log.ID = GetRandomInt(1, 11);
             if (OmitPropName != "LogCommand") log.LogCommand = (LogCommandEnum)GetRandomEnumType(typeof(LogCommandEnum));
             if (OmitPropName != "Information") log.Information = GetRandomString("", 20);
-            if (OmitPropName != "LastUpdateDate_UTC") log.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") log.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") log.LastUpdateContactTVItemID = 2;
 
             return log;
@@ -103,10 +103,12 @@ namespace CSSPServices.Tests
             // log.LogID   (Int32)
             // -----------------------------------
 
+            log = null;
             log = GetFilledRandomLog("");
             log.LogID = 0;
             logService.Update(log);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LogLogID), log.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -122,10 +124,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, log.TableName);
             Assert.AreEqual(0, logService.GetRead().Count());
 
-
             log = null;
             log = GetFilledRandomLog("");
-
             // TableName has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
             string logTableNameMin = GetRandomString("", 50);
             log.TableName = logTableNameMin;
@@ -159,7 +159,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // ID will automatically be initialized at 0 --> not null
-
 
             log = null;
             log = GetFilledRandomLog("");
@@ -207,9 +206,6 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, logService.GetRead().Count());
 
 
-            log = null;
-            log = GetFilledRandomLog("");
-
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPAfter(Year = 1980)]
@@ -222,35 +218,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // log.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             log = null;
             log = GetFilledRandomLog("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            log.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, logService.Add(log));
-            Assert.AreEqual(0, log.ValidationResults.Count());
-            Assert.AreEqual(1, log.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, logService.Delete(log));
-            Assert.AreEqual(count, logService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            log.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, logService.Add(log));
-            Assert.AreEqual(0, log.ValidationResults.Count());
-            Assert.AreEqual(2, log.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, logService.Delete(log));
-            Assert.AreEqual(count, logService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             log.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, logService.Add(log));
-            Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LogLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, log.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, logService.GetRead().Count());
+            logService.Add(log);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LogLastUpdateContactTVItemID, log.LastUpdateContactTVItemID.ToString()), log.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

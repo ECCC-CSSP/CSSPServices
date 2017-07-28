@@ -42,7 +42,7 @@ namespace CSSPServices
 
             if (subsectorMWQMSampleYear.SubsectorTVItemID < 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SubsectorMWQMSampleYearSubsectorTVItemID, "1"), new[] { ModelsRes.SubsectorMWQMSampleYearSubsectorTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SubsectorMWQMSampleYearSubsectorTVItemID, "1"), new[] { "SubsectorTVItemID" });
             }
 
             //Year (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -51,35 +51,35 @@ namespace CSSPServices
 
             if (subsectorMWQMSampleYear.EarliestDate.Year == 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SubsectorMWQMSampleYearEarliestDate), new[] { ModelsRes.SubsectorMWQMSampleYearEarliestDate });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SubsectorMWQMSampleYearEarliestDate), new[] { "EarliestDate" });
             }
             else
             {
                 if (subsectorMWQMSampleYear.EarliestDate.Year < 1980)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SubsectorMWQMSampleYearEarliestDate, "1980"), new[] { ModelsRes.SubsectorMWQMSampleYearEarliestDate });
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SubsectorMWQMSampleYearEarliestDate, "1980"), new[] { "EarliestDate" });
                 }
             }
 
             if (subsectorMWQMSampleYear.LatestDate.Year == 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SubsectorMWQMSampleYearLatestDate), new[] { ModelsRes.SubsectorMWQMSampleYearLatestDate });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SubsectorMWQMSampleYearLatestDate), new[] { "LatestDate" });
             }
             else
             {
                 if (subsectorMWQMSampleYear.LatestDate.Year < 1980)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SubsectorMWQMSampleYearLatestDate, "1980"), new[] { ModelsRes.SubsectorMWQMSampleYearLatestDate });
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SubsectorMWQMSampleYearLatestDate, "1980"), new[] { "LatestDate" });
                 }
             }
 
-            if (subsectorMWQMSampleYear.EarliestDate < subsectorMWQMSampleYear.LatestDate)
+            if (subsectorMWQMSampleYear.EarliestDate > subsectorMWQMSampleYear.LatestDate)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.SubsectorMWQMSampleYearLatestDate, ModelsRes.SubsectorMWQMSampleYearEarliestDate), new[] { ModelsRes.SubsectorMWQMSampleYearLatestDate });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

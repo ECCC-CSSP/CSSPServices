@@ -40,18 +40,18 @@ namespace CSSPServices
 
             if (!string.IsNullOrWhiteSpace(calDecay.Error) && calDecay.Error.Length > 255)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.CalDecayError, "255"), new[] { ModelsRes.CalDecayError });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.CalDecayError, "255"), new[] { "Error" });
             }
 
             //Decay (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (calDecay.Decay < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.CalDecayDecay, "0"), new[] { ModelsRes.CalDecayDecay });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.CalDecayDecay, "0"), new[] { "Decay" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

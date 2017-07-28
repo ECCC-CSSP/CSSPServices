@@ -40,26 +40,26 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(appTaskParameter.Name))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskParameterName), new[] { ModelsRes.AppTaskParameterName });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskParameterName), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(appTaskParameter.Name) && appTaskParameter.Name.Length > 255)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskParameterName, "255"), new[] { ModelsRes.AppTaskParameterName });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskParameterName, "255"), new[] { "Name" });
             }
 
             if (string.IsNullOrWhiteSpace(appTaskParameter.Value))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskParameterValue), new[] { ModelsRes.AppTaskParameterValue });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskParameterValue), new[] { "Value" });
             }
 
             if (!string.IsNullOrWhiteSpace(appTaskParameter.Value) && appTaskParameter.Value.Length > 255)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskParameterValue, "255"), new[] { ModelsRes.AppTaskParameterValue });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskParameterValue, "255"), new[] { "Value" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

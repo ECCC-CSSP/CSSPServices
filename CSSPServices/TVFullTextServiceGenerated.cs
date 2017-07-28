@@ -40,26 +40,26 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(tvFullText.TVPath))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFullTextTVPath), new[] { ModelsRes.TVFullTextTVPath });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFullTextTVPath), new[] { "TVPath" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFullText.TVPath) && (tvFullText.TVPath.Length < 1 || tvFullText.TVPath.Length > 255))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFullTextTVPath, "1", "255"), new[] { ModelsRes.TVFullTextTVPath });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFullTextTVPath, "1", "255"), new[] { "TVPath" });
             }
 
             if (string.IsNullOrWhiteSpace(tvFullText.FullText))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFullTextFullText), new[] { ModelsRes.TVFullTextFullText });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFullTextFullText), new[] { "FullText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFullText.FullText) && (tvFullText.FullText.Length < 1 || tvFullText.FullText.Length > 255))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFullTextFullText, "1", "255"), new[] { ModelsRes.TVFullTextFullText });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFullTextFullText, "1", "255"), new[] { "FullText" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

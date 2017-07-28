@@ -30,10 +30,49 @@ namespace CSSPServicesGenerateCodeHelper
         #region Functions private
         private void CreateClass_Key_Testing(CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
+            sb.AppendLine(@"            " + TypeNameLower + @" = null;");
             sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
             sb.AppendLine(@"            " + TypeNameLower + "." + csspProp.PropName + " = 0;");
             sb.AppendLine(@"            " + TypeNameLower + @"Service.Update(" + TypeNameLower + @");");
             sb.AppendLine(@"            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + csspProp.PropName + "), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+            sb.AppendLine(@"");
+        }
+        private void CreateClass_CSSPExist_Testing(CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
+        {
+            if (csspProp.IsVirtual || csspProp.IsKey || csspProp.PropName == "ValidationResults")
+            {
+                return;
+            }
+
+            switch (csspProp.PropType)
+            {
+                case "Int16":
+                case "Int32":
+                case "Int64":
+                case "Boolean":
+                case "Single":
+                    {
+                        if (csspProp.IsKey)
+                        {
+                            break;
+                        }
+
+                        if (csspProp.HasCSSPExistAttribute)
+                        {
+                            sb.AppendLine(@"            " + TypeNameLower + @" = null;");
+                            sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
+                            sb.AppendLine(@"            " + TypeNameLower + "." + csspProp.PropName + " = 0;");
+                            sb.AppendLine(@"            " + TypeNameLower + @"Service.Add(" + TypeNameLower + @");");
+                            sb.AppendLine(@"            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+                            sb.AppendLine(@"");
+                        }
+                    }
+                    break;
+                default:
+                    {
+                    }
+                    break;
+            }
         }
         private void CreateClass_CRUD_Testing(string TypeName, string TypeNameLower, StringBuilder sb)
         {
@@ -85,7 +124,7 @@ namespace CSSPServicesGenerateCodeHelper
                         string numbExt = "";
                         if (csspProp.PropType == "Single")
                         {
-                          //  propTypeTxt = "Float";
+                            //  propTypeTxt = "Float";
                             numbExt = ".0f";
                         }
                         else if (csspProp.PropType == "Double")
@@ -94,12 +133,11 @@ namespace CSSPServicesGenerateCodeHelper
                             numbExt = ".0D";
                         }
 
-                        sb.AppendLine(@"");
-                        sb.AppendLine(@"            " + TypeNameLower + @" = null;");
-                        sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
-
                         if (csspProp.Min != null && csspProp.Max != null)
                         {
+                            sb.AppendLine(@"            " + TypeNameLower + @" = null;");
+                            sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
+
                             sb.AppendLine(@"            // " + csspProp.PropName + @" has Min [" + csspProp.Min + numbExt + "] and Max [" + csspProp.Max + numbExt + "]. At Min should return true and no errors");
                             sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + csspProp.Min.ToString() + numbExt + ";");
                             if (TypeName == "Contact")
@@ -191,6 +229,9 @@ namespace CSSPServicesGenerateCodeHelper
                         }
                         else if (csspProp.Min != null)
                         {
+                            sb.AppendLine(@"            " + TypeNameLower + @" = null;");
+                            sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
+
                             sb.AppendLine(@"            // " + csspProp.PropName + @" has Min [" + csspProp.Min + numbExt + "] and Max [empty]. At Min should return true and no errors");
                             sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + csspProp.Min.ToString() + numbExt + ";");
                             if (TypeName == "Contact")
@@ -237,6 +278,9 @@ namespace CSSPServicesGenerateCodeHelper
                         }
                         else if (csspProp.Max != null)
                         {
+                            sb.AppendLine(@"            " + TypeNameLower + @" = null;");
+                            sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
+
                             sb.AppendLine(@"            // " + csspProp.PropName + @" has Min [empty] and Max [" + csspProp.Max + numbExt + "]. At Max should return true and no errors");
                             sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + csspProp.Max.ToString() + numbExt + ";");
                             if (TypeName == "Contact")
@@ -296,185 +340,39 @@ namespace CSSPServicesGenerateCodeHelper
                     break;
                 case "String":
                     {
-                        if (!csspProp.IsKey)
+                        if (csspProp.Min != null && csspProp.Max > 0)
                         {
-                            sb.AppendLine(@"");
                             sb.AppendLine(@"            " + TypeNameLower + @" = null;");
                             sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
 
-                            if (csspProp.Min != null && csspProp.Max > 0)
+                            sb.AppendLine(@"");
+                            sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [" + csspProp.Max + "]. At Min should return true and no errors");
+                            if (csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName"))
                             {
-                                sb.AppendLine(@"");
-                                sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [" + csspProp.Max + "]. At Min should return true and no errors");
-                                if (csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName"))
-                                {
-                                    sb.AppendLine(@"            string " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
-                                }
-                                else
-                                {
-                                    sb.AppendLine(@"            string " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + csspProp.Min.ToString() + ");");
-                                }
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
-                                if (TypeName == "Contact")
-                                {
-                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                }
-                                else
-                                {
-                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                }
-                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
-                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                if (csspProp.Min + 1 < csspProp.Max)
-                                {
-                                    sb.AppendLine(@"");
-                                    sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [" + csspProp.Max + "]. At Min + 1 should return true and no errors");
-                                    if (csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName"))
-                                    {
-                                        sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
-                                    }
-                                    else
-                                    {
-                                        sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + (csspProp.Min + 1).ToString() + ");");
-                                    }
-                                    sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
-                                    if (TypeName == "Contact")
-                                    {
-                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                    }
-                                    else
-                                    {
-                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                    }
-                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
-                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                    sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
-                                }
-
-                                if (csspProp.Min - 1 > 0)
-                                {
-                                    if (!(csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName")))
-                                    {
-                                        sb.AppendLine(@"");
-                                        sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [" + csspProp.Max + "]. At Min - 1 should return false with one error");
-                                        sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + (csspProp.Min - 1).ToString() + ");");
-                                        sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
-                                        if (TypeName == "Contact")
-                                        {
-                                            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                        }
-                                        sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @""")).Any());");
-                                        sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
-                                        sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
-                                    }
-                                }
-
-                                sb.AppendLine(@"");
-                                sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [" + csspProp.Max + "]. At Max should return true and no errors");
-                                if (csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName"))
-                                {
-                                    sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
-                                }
-                                else
-                                {
-                                    sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + csspProp.Max.ToString() + ");");
-                                }
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
-                                if (TypeName == "Contact")
-                                {
-                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                }
-                                else
-                                {
-                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                }
-                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
-                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                if (csspProp.Max - 1 > 0 && csspProp.Max - 1 > csspProp.Min)
-                                {
-                                    sb.AppendLine(@"");
-                                    sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [" + csspProp.Max + "]. At Max - 1 should return true and no errors");
-                                    if (csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName"))
-                                    {
-                                        sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
-                                    }
-                                    else
-                                    {
-                                        sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + (csspProp.Max - 1).ToString() + ");");
-                                    }
-                                    sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
-                                    if (TypeName == "Contact")
-                                    {
-                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                    }
-                                    else
-                                    {
-                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                    }
-                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
-                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                    sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
-                                }
-
-                                if (!(csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName")))
-                                {
-                                    sb.AppendLine(@"");
-                                    sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [" + csspProp.Max + "]. At Max + 1 should return false with one error");
-                                    sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + (csspProp.Max + 1).ToString() + ");");
-                                    sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
-                                    if (TypeName == "Contact")
-                                    {
-                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                    }
-                                    else
-                                    {
-                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                    }
-                                    sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @""")).Any());");
-                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
-                                    sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
-                                }
+                                sb.AppendLine(@"            string " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
                             }
-                            else if (csspProp.Min != null)
+                            else
+                            {
+                                sb.AppendLine(@"            string " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + csspProp.Min.ToString() + ");");
+                            }
+                            sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
+                            if (TypeName == "Contact")
+                            {
+                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                            }
+                            sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                            sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
+                            sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                            sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                            if (csspProp.Min + 1 < csspProp.Max)
                             {
                                 sb.AppendLine(@"");
-                                sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [empty]. At Min should return true and no errors");
-                                if (csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName"))
-                                {
-                                    sb.AppendLine(@"            string " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
-                                }
-                                else
-                                {
-                                    sb.AppendLine(@"            string " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + csspProp.Min.ToString() + ");");
-                                }
-                                sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
-                                if (TypeName == "Contact")
-                                {
-                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                }
-                                else
-                                {
-                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                }
-                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
-                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
-
-                                sb.AppendLine(@"");
-                                sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [empty]. At Min + 1 should return true and no errors");
+                                sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [" + csspProp.Max + "]. At Min + 1 should return true and no errors");
                                 if (csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName"))
                                 {
                                     sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
@@ -496,40 +394,65 @@ namespace CSSPServicesGenerateCodeHelper
                                 sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
                                 sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
                                 sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
+                            }
 
-                                if (csspProp.Min - 1 > 0)
+                            if (csspProp.Min - 1 > 0)
+                            {
+                                if (!(csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName")))
                                 {
-                                    if (!(csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName")))
+                                    sb.AppendLine(@"");
+                                    sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [" + csspProp.Max + "]. At Min - 1 should return false with one error");
+                                    sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + (csspProp.Min - 1).ToString() + ");");
+                                    sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
+                                    if (TypeName == "Contact")
                                     {
-                                        sb.AppendLine(@"");
-                                        sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [empty]. At Min - 1 should return false with one error");
-                                        sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + (csspProp.Min - 1).ToString() + ");");
-                                        sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
-                                        if (TypeName == "Contact")
-                                        {
-                                            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                        }
-                                        else
-                                        {
-                                            sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                        }
-                                        sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""")).Any());");
-                                        sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
-                                        sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
                                     }
+                                    else
+                                    {
+                                        sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                    }
+                                    sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @""")).Any());");
+                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
+                                    sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
                                 }
                             }
-                            else if (csspProp.Max > 0)
+
+                            sb.AppendLine(@"");
+                            sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [" + csspProp.Max + "]. At Max should return true and no errors");
+                            if (csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName"))
+                            {
+                                sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + csspProp.Max.ToString() + ");");
+                            }
+                            sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
+                            if (TypeName == "Contact")
+                            {
+                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                            }
+                            sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                            sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
+                            sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                            sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                            if (csspProp.Max - 1 > 0 && csspProp.Max - 1 > csspProp.Min)
                             {
                                 sb.AppendLine(@"");
-                                sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [empty] and MaxLength [" + csspProp.Max + "]. At Max should return true and no errors");
+                                sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [" + csspProp.Max + "]. At Max - 1 should return true and no errors");
                                 if (csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName"))
                                 {
-                                    sb.AppendLine(@"            string " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
+                                    sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
                                 }
                                 else
                                 {
-                                    sb.AppendLine(@"            string " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + csspProp.Max.ToString() + ");");
+                                    sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + (csspProp.Max - 1).ToString() + ");");
                                 }
                                 sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
                                 if (TypeName == "Contact")
@@ -544,39 +467,86 @@ namespace CSSPServicesGenerateCodeHelper
                                 sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
                                 sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
                                 sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
+                            }
 
-                                if (csspProp.Max - 1 > 0)
+                            if (!(csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName")))
+                            {
+                                sb.AppendLine(@"");
+                                sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [" + csspProp.Max + "]. At Max + 1 should return false with one error");
+                                sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + (csspProp.Max + 1).ToString() + ");");
+                                sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
+                                if (TypeName == "Contact")
                                 {
-                                    sb.AppendLine(@"");
-                                    sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [empty] and MaxLength [" + csspProp.Max + "]. At Max - 1 should return true and no errors");
-                                    if (csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName"))
-                                    {
-                                        sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
-                                    }
-                                    else
-                                    {
-                                        sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + (csspProp.Max - 1).ToString() + ");");
-                                    }
-                                    sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
-                                    if (TypeName == "Contact")
-                                    {
-                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
-                                    }
-                                    else
-                                    {
-                                        sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
-                                    }
-                                    sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
-                                    sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
-                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
-                                    sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
+                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
                                 }
+                                else
+                                {
+                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                }
+                                sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @""")).Any());");
+                                sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
+                                sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
+                            }
+                        }
+                        else if (csspProp.Min != null)
+                        {
+                            sb.AppendLine(@"            " + TypeNameLower + @" = null;");
+                            sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
 
+                            sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [empty]. At Min should return true and no errors");
+                            if (csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName"))
+                            {
+                                sb.AppendLine(@"            string " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"            string " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + csspProp.Min.ToString() + ");");
+                            }
+                            sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
+                            if (TypeName == "Contact")
+                            {
+                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                            }
+                            sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                            sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
+                            sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                            sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                            sb.AppendLine(@"");
+                            sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [empty]. At Min + 1 should return true and no errors");
+                            if (csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName"))
+                            {
+                                sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + (csspProp.Min + 1).ToString() + ");");
+                            }
+                            sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
+                            if (TypeName == "Contact")
+                            {
+                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                            }
+                            sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                            sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
+                            sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                            sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                            if (csspProp.Min - 1 > 0)
+                            {
                                 if (!(csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName")))
                                 {
                                     sb.AppendLine(@"");
-                                    sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [empty] and MaxLength [" + csspProp.Max + "]. At Max + 1 should return false with one error");
-                                    sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + (csspProp.Max + 1).ToString() + ");");
+                                    sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [" + csspProp.Min + "] and MaxLength [empty]. At Min - 1 should return false with one error");
+                                    sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + (csspProp.Min - 1).ToString() + ");");
                                     sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
                                     if (TypeName == "Contact")
                                     {
@@ -586,10 +556,84 @@ namespace CSSPServicesGenerateCodeHelper
                                     {
                                         sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
                                     }
-                                    sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @""")).Any());");
+                                    sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""")).Any());");
                                     sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
                                     sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
                                 }
+                            }
+                        }
+                        else if (csspProp.Max > 0)
+                        {
+                            sb.AppendLine(@"            " + TypeNameLower + @" = null;");
+                            sb.AppendLine(@"            " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
+
+                            sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [empty] and MaxLength [" + csspProp.Max + "]. At Max should return true and no errors");
+                            if (csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName"))
+                            {
+                                sb.AppendLine(@"            string " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"            string " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + csspProp.Max.ToString() + ");");
+                            }
+                            sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
+                            if (TypeName == "Contact")
+                            {
+                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                            }
+                            else
+                            {
+                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                            }
+                            sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                            sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
+                            sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                            sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
+
+                            if (csspProp.Max - 1 > 0)
+                            {
+                                sb.AppendLine(@"");
+                                sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [empty] and MaxLength [" + csspProp.Max + "]. At Max - 1 should return true and no errors");
+                                if (csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName"))
+                                {
+                                    sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomEmail();");
+                                }
+                                else
+                                {
+                                    sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + (csspProp.Max - 1).ToString() + ");");
+                                }
+                                sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
+                                if (TypeName == "Contact")
+                                {
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                }
+                                else
+                                {
+                                    sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                }
+                                sb.AppendLine(@"            Assert.AreEqual(0, " + TypeNameLower + @".ValidationResults.Count());");
+                                sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
+                                sb.AppendLine(@"            Assert.AreEqual(true, " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @"));");
+                                sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
+                            }
+
+                            if (!(csspProp.PropName.Contains("Email") || (TypeName == "Contact" && csspProp.PropName == "UserName")))
+                            {
+                                sb.AppendLine(@"");
+                                sb.AppendLine(@"            // " + csspProp.PropName + @" has MinLength [empty] and MaxLength [" + csspProp.Max + "]. At Max + 1 should return false with one error");
+                                sb.AppendLine(@"            " + TypeNameLower + csspProp.PropName + @"Min = GetRandomString("""", " + (csspProp.Max + 1).ToString() + ");");
+                                sb.AppendLine(@"            " + TypeNameLower + @"." + csspProp.PropName + @" = " + TypeNameLower + csspProp.PropName + @"Min;");
+                                if (TypeName == "Contact")
+                                {
+                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.First));");
+                                }
+                                else
+                                {
+                                    sb.AppendLine(@"            Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
+                                }
+                                sb.AppendLine(@"            Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @""")).Any());");
+                                sb.AppendLine(@"            Assert.AreEqual(" + TypeNameLower + csspProp.PropName + @"Min, " + TypeNameLower + @"." + csspProp.PropName + @");");
+                                sb.AppendLine(@"            Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
                             }
                         }
                     }
@@ -1063,23 +1107,30 @@ namespace CSSPServicesGenerateCodeHelper
                                         break;
                                     case "TVItem":
                                         {
-                                            TVItemService tvItemService = new TVItemService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
-                                            TVTypeEnum TheType = csspProp.TVType;
-                                            if (TheType == TVTypeEnum.Error) TheType = TVTypeEnum.Contact;
-                                            TVItem tvItem = tvItemService.GetRead().Where(c => c.TVType == TheType).FirstOrDefault();
-                                            if (tvItem == null)
+                                            if (TypeName == "MikeScenario" && csspProp.PropName == "ParentMikeScenarioID")
                                             {
-                                                sb.AppendLine(@"            // Need to implement (no items found, would need to add at least one in the TestDB) [" + TypeName + " " + csspProp.PropName + " " + csspProp.ObjectExistTypeName + " " + csspProp.ObjectExistFieldID + "]");
+                                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = null;");
                                             }
                                             else
                                             {
-                                                sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = " + tvItem.TVItemID + ";");
+                                                TVItemService tvItemService = new TVItemService(LanguageEnum.en, dbTestDBWrite, 2 /* charles LeBlanc */);
+                                                TVTypeEnum TheType = csspProp.TVType;
+                                                if (TheType == TVTypeEnum.Error) TheType = TVTypeEnum.Contact;
+                                                TVItem tvItem = tvItemService.GetRead().Where(c => c.TVType == TheType).FirstOrDefault();
+                                                if (tvItem == null)
+                                                {
+                                                    sb.AppendLine(@"            // Need to implement (no items found, would need to add at least one in the TestDB) [" + TypeName + " " + csspProp.PropName + " " + csspProp.ObjectExistTypeName + " " + csspProp.ObjectExistFieldID + "]");
+                                                }
+                                                else
+                                                {
+                                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = " + tvItem.TVItemID + ";");
+                                                }
                                             }
                                         }
                                         break;
                                     default:
                                         {
-                                            sb.AppendLine(@"            // Need to implement [" + TypeName + " " + csspProp.PropName + " " + csspProp.ObjectExistTypeName + " " + csspProp.ObjectExistFieldID +  "]");
+                                            sb.AppendLine(@"            // Need to implement [" + TypeName + " " + csspProp.PropName + " " + csspProp.ObjectExistTypeName + " " + csspProp.ObjectExistFieldID + "]");
                                         }
                                         break;
                                 }
@@ -1117,7 +1168,48 @@ namespace CSSPServicesGenerateCodeHelper
                 case "DateTime":
                 case "DateTimeOffset":
                     {
-                        sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomDateTime();");
+                        switch (TypeName + "_" + csspProp.PropName)
+                        {
+                            case "AppTask_EndDateTime_UTC":
+                            case "ClimateSite_HourlyEndDate_Local":
+                            case "ClimateSite_DailyEndDate_Local":
+                            case "ClimateSite_MonthlyEndDate_Local":
+                            case "HydrometricSite_EndDate_Local":
+                            case "MikeScenario_MikeScenarioEndDateTime_Local":
+                            case "MikeSourceStartEnd_EndDateAndTime_Local":
+                            case "MWQMRun_EndDateTime_Local":
+                            case "MWQMSiteStartEndDate_EndDate":
+                            case "MWQMSubsector_IncludeRainEndDate":
+                            case "MWQMSubsector_NoRainEndDate":
+                            case "MWQMSubsector_OnlyRainEndDate":
+                            case "Spill_EndDateTime_Local":
+                            case "TVItemLink_EndDateTime_Local":
+                                break;
+                            case "AppTask_StartDateTime_UTC":
+                            case "ClimateSite_HourlyStartDate_Local":
+                            case "ClimateSite_DailyStartDate_Local":
+                            case "ClimateSite_MonthlyStartDate_Local":
+                            case "HydrometricSite_StartDate_Local":
+                            case "MikeScenario_MikeScenarioStartDateTime_Local":
+                            case "MikeSourceStartEnd_StartDateAndTime_Local":
+                            case "MWQMRun_StartDateTime_Local":
+                            case "MWQMSiteStartEndDate_StartDate":
+                            case "MWQMSubsector_IncludeRainStartDate":
+                            case "MWQMSubsector_NoRainStartDate":
+                            case "MWQMSubsector_OnlyRainStartDate":
+                            case "Spill_StartDateTime_Local":
+                            case "TVItemLink_StartDateTime_Local":
+                                {
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = new DateTime(2005, 3, 6);");
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name.Replace("Start", "End") + @""") " + TypeNameLower + @"." + prop.Name.Replace("Start", "End") + @" = new DateTime(2005, 3, 7);");
+                                }
+                                break;
+                            default:
+                                {
+                                    sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = new DateTime(2005, 3, 6);");
+                                }
+                                break;
+                        }
                     }
                     break;
                 case "Boolean":
@@ -1166,6 +1258,33 @@ namespace CSSPServicesGenerateCodeHelper
                             else
                             {
                                 sb.AppendLine(@"            if (OmitPropName != """ + prop.Name + @""") " + TypeNameLower + @"." + prop.Name + @" = GetRandomString("""", 20);");
+                            }
+                        }
+                    }
+                    break;
+                case "Byte[]":
+                    {
+                        if (TypeName == "ContactLogin")
+                        {
+                            if (csspProp.PropName == "PasswordSalt")
+                            {
+                                // Don't do anything for this property
+                                // everything will be done while at the PasswordHash property
+                            }
+
+                            if (csspProp.PropName == "PasswordHash")
+                            {
+                                sb.AppendLine(@"            ContactService contactService = new ContactService(LanguageRequest, dbTestDB, ContactID);");
+                                sb.AppendLine(@"");
+                                sb.AppendLine(@"            Register register = new Register();");
+                                sb.AppendLine(@"            register.Password = GetRandomPassword(); // the only thing needed for CreatePasswordHashAndSalt");
+                                sb.AppendLine(@"");
+                                sb.AppendLine(@"            byte[] passwordHash;");
+                                sb.AppendLine(@"            byte[] passwordSalt;");
+                                sb.AppendLine(@"            contactService.CreatePasswordHashAndSalt(register, out passwordHash, out passwordSalt);");
+                                sb.AppendLine(@"");
+                                sb.AppendLine(@"            if (OmitPropName != ""PasswordHash"") contactLogin.PasswordHash = passwordHash;");
+                                sb.AppendLine(@"            if (OmitPropName != ""PasswordSalt"") contactLogin.PasswordSalt = passwordSalt;");
                             }
                         }
                     }
@@ -1244,7 +1363,7 @@ namespace CSSPServicesGenerateCodeHelper
                     }
                 }
 
-                //if (TypeName != "BoxModelResult")
+                //if (TypeName != "Address")
                 //{
                 //    continue;
                 //}
@@ -1428,6 +1547,7 @@ namespace CSSPServicesGenerateCodeHelper
                             CreateClass_Key_Testing(csspProp, TypeName, TypeNameLower, sb);
                         }
 
+                        CreateClass_CSSPExist_Testing(csspProp, TypeName, TypeNameLower, sb);
                         CreateClass_Required_Properties_Testing(csspProp, TypeName, TypeNameLower, sb);
                         CreateClass_Min_And_Max_Properties_Testing(csspProp, TypeName, TypeNameLower, sb);
                     }

@@ -43,8 +43,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LineNumber") appErrLog.LineNumber = GetRandomInt(1, 11);
             if (OmitPropName != "Source") appErrLog.Source = GetRandomString("", 20);
             if (OmitPropName != "Message") appErrLog.Message = GetRandomString("", 20);
-            if (OmitPropName != "DateTime_UTC") appErrLog.DateTime_UTC = GetRandomDateTime();
-            if (OmitPropName != "LastUpdateDate_UTC") appErrLog.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "DateTime_UTC") appErrLog.DateTime_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "LastUpdateDate_UTC") appErrLog.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") appErrLog.LastUpdateContactTVItemID = 2;
 
             return appErrLog;
@@ -104,10 +104,12 @@ namespace CSSPServices.Tests
             // appErrLog.AppErrLogID   (Int32)
             // -----------------------------------
 
+            appErrLog = null;
             appErrLog = GetFilledRandomAppErrLog("");
             appErrLog.AppErrLogID = 0;
             appErrLogService.Update(appErrLog);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogAppErrLogID), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -123,10 +125,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, appErrLog.Tag);
             Assert.AreEqual(0, appErrLogService.GetRead().Count());
 
-
             appErrLog = null;
             appErrLog = GetFilledRandomAppErrLog("");
-
             // Tag has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
             string appErrLogTagMin = GetRandomString("", 100);
             appErrLog.Tag = appErrLogTagMin;
@@ -160,7 +160,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // LineNumber will automatically be initialized at 0 --> not null
-
 
             appErrLog = null;
             appErrLog = GetFilledRandomAppErrLog("");
@@ -199,9 +198,6 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appErrLogService.GetRead().Count());
 
 
-            appErrLog = null;
-            appErrLog = GetFilledRandomAppErrLog("");
-
             // -----------------------------------
             // Is NOT Nullable
             // appErrLog.Message   (String)
@@ -215,9 +211,6 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, appErrLog.Message);
             Assert.AreEqual(0, appErrLogService.GetRead().Count());
 
-
-            appErrLog = null;
-            appErrLog = GetFilledRandomAppErrLog("");
 
             // -----------------------------------
             // Is NOT Nullable
@@ -240,35 +233,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // appErrLog.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             appErrLog = null;
             appErrLog = GetFilledRandomAppErrLog("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            appErrLog.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, appErrLogService.Add(appErrLog));
-            Assert.AreEqual(0, appErrLog.ValidationResults.Count());
-            Assert.AreEqual(1, appErrLog.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, appErrLogService.Delete(appErrLog));
-            Assert.AreEqual(count, appErrLogService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            appErrLog.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, appErrLogService.Add(appErrLog));
-            Assert.AreEqual(0, appErrLog.ValidationResults.Count());
-            Assert.AreEqual(2, appErrLog.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, appErrLogService.Delete(appErrLog));
-            Assert.AreEqual(count, appErrLogService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             appErrLog.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, appErrLogService.Add(appErrLog));
-            Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AppErrLogLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, appErrLog.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, appErrLogService.GetRead().Count());
+            appErrLogService.Add(appErrLog);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppErrLogLastUpdateContactTVItemID, appErrLog.LastUpdateContactTVItemID.ToString()), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

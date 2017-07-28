@@ -42,18 +42,18 @@ namespace CSSPServices
 
             if (vpScenarioIDAndRawResults.VPScenarioID < 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPScenarioIDAndRawResultsVPScenarioID, "1"), new[] { ModelsRes.VPScenarioIDAndRawResultsVPScenarioID });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPScenarioIDAndRawResultsVPScenarioID, "1"), new[] { "VPScenarioID" });
             }
 
             if (string.IsNullOrWhiteSpace(vpScenarioIDAndRawResults.RawResults))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioIDAndRawResultsRawResults), new[] { ModelsRes.VPScenarioIDAndRawResultsRawResults });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioIDAndRawResultsRawResults), new[] { "RawResults" });
             }
 
             //RawResults has no StringLength Attribute
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

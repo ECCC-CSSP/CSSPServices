@@ -51,7 +51,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "FarFieldCurrentSpeed_m_s") vpAmbient.FarFieldCurrentSpeed_m_s = GetRandomDouble(0.0D, 10.0D);
             if (OmitPropName != "FarFieldCurrentDirection_deg") vpAmbient.FarFieldCurrentDirection_deg = GetRandomDouble(-180.0D, 180.0D);
             if (OmitPropName != "FarFieldDiffusionCoefficient") vpAmbient.FarFieldDiffusionCoefficient = GetRandomDouble(0.0D, 1.0D);
-            if (OmitPropName != "LastUpdateDate_UTC") vpAmbient.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") vpAmbient.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") vpAmbient.LastUpdateContactTVItemID = 2;
 
             return vpAmbient;
@@ -111,43 +111,27 @@ namespace CSSPServices.Tests
             // vpAmbient.VPAmbientID   (Int32)
             // -----------------------------------
 
+            vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("");
             vpAmbient.VPAmbientID = 0;
             vpAmbientService.Update(vpAmbient);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPAmbientVPAmbientID), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "VPScenario", Plurial = "s", FieldID = "VPScenarioID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // vpAmbient.VPScenarioID   (Int32)
             // -----------------------------------
 
-            // VPScenarioID will automatically be initialized at 0 --> not null
-
-
             vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("");
-            // VPScenarioID has Min [1] and Max [empty]. At Min should return true and no errors
-            vpAmbient.VPScenarioID = 1;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(1, vpAmbient.VPScenarioID);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-            // VPScenarioID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            vpAmbient.VPScenarioID = 2;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(2, vpAmbient.VPScenarioID);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-            // VPScenarioID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             vpAmbient.VPScenarioID = 0;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.VPAmbientVPScenarioID, "1")).Any());
-            Assert.AreEqual(0, vpAmbient.VPScenarioID);
-            Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+            vpAmbientService.Add(vpAmbient);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPAmbientVPScenarioID, vpAmbient.VPScenarioID.ToString()), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // VPScenarioID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -156,7 +140,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // Row will automatically be initialized at 0 --> not null
-
 
             vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("");
@@ -209,7 +192,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [MeasurementDepth_m]
 
-
             vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("");
             // MeasurementDepth_m has Min [0.0D] and Max [1000.0D]. At Min should return true and no errors
@@ -260,7 +242,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [CurrentSpeed_m_s]
-
 
             vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("");
@@ -313,7 +294,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [CurrentDirection_deg]
 
-
             vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("");
             // CurrentDirection_deg has Min [-180.0D] and Max [180.0D]. At Min should return true and no errors
@@ -364,7 +344,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [AmbientSalinity_PSU]
-
 
             vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("");
@@ -417,7 +396,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [AmbientTemperature_C]
 
-
             vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("");
             // AmbientTemperature_C has Min [-10.0D] and Max [40.0D]. At Min should return true and no errors
@@ -468,7 +446,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // BackgroundConcentration_MPN_100ml will automatically be initialized at 0 --> not null
-
 
             vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("");
@@ -521,7 +498,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [PollutantDecayRate_per_day]
 
-
             vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("");
             // PollutantDecayRate_per_day has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
@@ -572,7 +548,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [FarFieldCurrentSpeed_m_s]
-
 
             vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("");
@@ -625,7 +600,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [FarFieldCurrentDirection_deg]
 
-
             vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("");
             // FarFieldCurrentDirection_deg has Min [-180.0D] and Max [180.0D]. At Min should return true and no errors
@@ -676,7 +650,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [FarFieldDiffusionCoefficient]
-
 
             vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("");
@@ -733,35 +706,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // vpAmbient.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             vpAmbient = null;
             vpAmbient = GetFilledRandomVPAmbient("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            vpAmbient.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(1, vpAmbient.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            vpAmbient.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, vpAmbientService.Add(vpAmbient));
-            Assert.AreEqual(0, vpAmbient.ValidationResults.Count());
-            Assert.AreEqual(2, vpAmbient.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, vpAmbientService.Delete(vpAmbient));
-            Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             vpAmbient.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-            Assert.IsTrue(vpAmbient.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.VPAmbientLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, vpAmbient.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+            vpAmbientService.Add(vpAmbient);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPAmbientLastUpdateContactTVItemID, vpAmbient.LastUpdateContactTVItemID.ToString()), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

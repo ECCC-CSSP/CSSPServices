@@ -52,7 +52,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Param2") useOfSite.Param2 = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "Param3") useOfSite.Param3 = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "Param4") useOfSite.Param4 = GetRandomDouble(0.0D, 100.0D);
-            if (OmitPropName != "LastUpdateDate_UTC") useOfSite.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") useOfSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") useOfSite.LastUpdateContactTVItemID = 2;
 
             return useOfSite;
@@ -112,76 +112,42 @@ namespace CSSPServices.Tests
             // useOfSite.UseOfSiteID   (Int32)
             // -----------------------------------
 
+            useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
             useOfSite.UseOfSiteID = 0;
             useOfSiteService.Update(useOfSite);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteUseOfSiteID), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // useOfSite.SiteTVItemID   (Int32)
             // -----------------------------------
+
+            useOfSite = null;
+            useOfSite = GetFilledRandomUseOfSite("");
+            useOfSite.SiteTVItemID = 0;
+            useOfSiteService.Add(useOfSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteSiteTVItemID, useOfSite.SiteTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
             // SiteTVItemID will automatically be initialized at 0 --> not null
 
 
-            useOfSite = null;
-            useOfSite = GetFilledRandomUseOfSite("");
-            // SiteTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            useOfSite.SiteTVItemID = 1;
-            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
-            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
-            Assert.AreEqual(1, useOfSite.SiteTVItemID);
-            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-            // SiteTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            useOfSite.SiteTVItemID = 2;
-            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
-            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
-            Assert.AreEqual(2, useOfSite.SiteTVItemID);
-            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-            // SiteTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
-            useOfSite.SiteTVItemID = 0;
-            Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-            Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.UseOfSiteSiteTVItemID, "1")).Any());
-            Assert.AreEqual(0, useOfSite.SiteTVItemID);
-            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Subsector)]
-            // [Range(1, -1)]
             // useOfSite.SubsectorTVItemID   (Int32)
             // -----------------------------------
 
-            // SubsectorTVItemID will automatically be initialized at 0 --> not null
-
-
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
-            // SubsectorTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            useOfSite.SubsectorTVItemID = 1;
-            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
-            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
-            Assert.AreEqual(1, useOfSite.SubsectorTVItemID);
-            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-            // SubsectorTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            useOfSite.SubsectorTVItemID = 2;
-            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
-            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
-            Assert.AreEqual(2, useOfSite.SubsectorTVItemID);
-            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-            // SubsectorTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             useOfSite.SubsectorTVItemID = 0;
-            Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-            Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.UseOfSiteSubsectorTVItemID, "1")).Any());
-            Assert.AreEqual(0, useOfSite.SubsectorTVItemID);
-            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            useOfSiteService.Add(useOfSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteSubsectorTVItemID, useOfSite.SubsectorTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // SubsectorTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -199,7 +165,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // Ordinal will automatically be initialized at 0 --> not null
-
 
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
@@ -252,7 +217,6 @@ namespace CSSPServices.Tests
 
             // StartYear will automatically be initialized at 0 --> not null
 
-
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
             // StartYear has Min [1980] and Max [2050]. At Min should return true and no errors
@@ -301,7 +265,6 @@ namespace CSSPServices.Tests
             // [Range(1980, 2050)]
             // useOfSite.EndYear   (Int32)
             // -----------------------------------
-
 
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
@@ -360,7 +323,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [Weight_perc]
 
-
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
             // Weight_perc has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
@@ -418,7 +380,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [Param1]
 
-
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
             // Param1 has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
@@ -469,7 +430,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [Param2]
-
 
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
@@ -522,7 +482,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [Param3]
 
-
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
             // Param3 has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
@@ -573,7 +532,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [Param4]
-
 
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
@@ -630,35 +588,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // useOfSite.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             useOfSite = null;
             useOfSite = GetFilledRandomUseOfSite("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            useOfSite.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
-            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
-            Assert.AreEqual(1, useOfSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            useOfSite.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, useOfSiteService.Add(useOfSite));
-            Assert.AreEqual(0, useOfSite.ValidationResults.Count());
-            Assert.AreEqual(2, useOfSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, useOfSiteService.Delete(useOfSite));
-            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             useOfSite.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-            Assert.IsTrue(useOfSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.UseOfSiteLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, useOfSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+            useOfSiteService.Add(useOfSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteLastUpdateContactTVItemID, useOfSite.LastUpdateContactTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

@@ -43,7 +43,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Tubes1") mwqmLookupMPN.Tubes1 = GetRandomInt(0, 5);
             if (OmitPropName != "Tubes01") mwqmLookupMPN.Tubes01 = GetRandomInt(0, 5);
             if (OmitPropName != "MPN_100ml") mwqmLookupMPN.MPN_100ml = GetRandomInt(1, 10000);
-            if (OmitPropName != "LastUpdateDate_UTC") mwqmLookupMPN.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") mwqmLookupMPN.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmLookupMPN.LastUpdateContactTVItemID = 2;
 
             return mwqmLookupMPN;
@@ -103,10 +103,12 @@ namespace CSSPServices.Tests
             // mwqmLookupMPN.MWQMLookupMPNID   (Int32)
             // -----------------------------------
 
+            mwqmLookupMPN = null;
             mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
             mwqmLookupMPN.MWQMLookupMPNID = 0;
             mwqmLookupMPNService.Update(mwqmLookupMPN);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMLookupMPNMWQMLookupMPNID), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -115,7 +117,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // Tubes10 will automatically be initialized at 0 --> not null
-
 
             mwqmLookupMPN = null;
             mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
@@ -168,7 +169,6 @@ namespace CSSPServices.Tests
 
             // Tubes1 will automatically be initialized at 0 --> not null
 
-
             mwqmLookupMPN = null;
             mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
             // Tubes1 has Min [0] and Max [5]. At Min should return true and no errors
@@ -220,7 +220,6 @@ namespace CSSPServices.Tests
 
             // Tubes01 will automatically be initialized at 0 --> not null
 
-
             mwqmLookupMPN = null;
             mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
             // Tubes01 has Min [0] and Max [5]. At Min should return true and no errors
@@ -271,7 +270,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // MPN_100ml will automatically be initialized at 0 --> not null
-
 
             mwqmLookupMPN = null;
             mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
@@ -328,35 +326,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // mwqmLookupMPN.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             mwqmLookupMPN = null;
             mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mwqmLookupMPN.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
-            Assert.AreEqual(1, mwqmLookupMPN.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mwqmLookupMPN.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, mwqmLookupMPNService.Add(mwqmLookupMPN));
-            Assert.AreEqual(0, mwqmLookupMPN.ValidationResults.Count());
-            Assert.AreEqual(2, mwqmLookupMPN.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mwqmLookupMPNService.Delete(mwqmLookupMPN));
-            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mwqmLookupMPN.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
-            Assert.IsTrue(mwqmLookupMPN.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMLookupMPNLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, mwqmLookupMPN.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
+            mwqmLookupMPNService.Add(mwqmLookupMPN);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMLookupMPNLastUpdateContactTVItemID, mwqmLookupMPN.LastUpdateContactTVItemID.ToString()), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

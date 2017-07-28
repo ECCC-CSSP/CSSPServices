@@ -40,20 +40,20 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(mwqmSiteSampleFC.Error))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteSampleFCError), new[] { ModelsRes.MWQMSiteSampleFCError });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteSampleFCError), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
 
             if (mwqmSiteSampleFC.SampleDate.Year == 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteSampleFCSampleDate), new[] { ModelsRes.MWQMSiteSampleFCSampleDate });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteSampleFCSampleDate), new[] { "SampleDate" });
             }
             else
             {
                 if (mwqmSiteSampleFC.SampleDate.Year < 1980)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSiteSampleFCSampleDate, "1980"), new[] { ModelsRes.MWQMSiteSampleFCSampleDate });
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSiteSampleFCSampleDate, "1980"), new[] { "SampleDate" });
                 }
             }
 
@@ -61,7 +61,7 @@ namespace CSSPServices
             {
                 if (mwqmSiteSampleFC.FC < 1 || mwqmSiteSampleFC.FC > 100000000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteSampleFCFC, "1", "100000000"), new[] { ModelsRes.MWQMSiteSampleFCFC });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteSampleFCFC, "1", "100000000"), new[] { "FC" });
                 }
             }
 
@@ -91,8 +91,8 @@ namespace CSSPServices
 
             //PercOver260 has no Range Attribute
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

@@ -42,7 +42,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SamplingPlanSubsectorID") samplingPlanSubsectorSite.SamplingPlanSubsectorID = 1;
             if (OmitPropName != "MWQMSiteTVItemID") samplingPlanSubsectorSite.MWQMSiteTVItemID = 19;
             if (OmitPropName != "IsDuplicate") samplingPlanSubsectorSite.IsDuplicate = true;
-            if (OmitPropName != "LastUpdateDate_UTC") samplingPlanSubsectorSite.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") samplingPlanSubsectorSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") samplingPlanSubsectorSite.LastUpdateContactTVItemID = 2;
 
             return samplingPlanSubsectorSite;
@@ -102,76 +102,42 @@ namespace CSSPServices.Tests
             // samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID   (Int32)
             // -----------------------------------
 
+            samplingPlanSubsectorSite = null;
             samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
             samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID = 0;
             samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "SamplingPlanSubsector", Plurial = "s", FieldID = "SamplingPlanSubsectorID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // samplingPlanSubsectorSite.SamplingPlanSubsectorID   (Int32)
             // -----------------------------------
+
+            samplingPlanSubsectorSite = null;
+            samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+            samplingPlanSubsectorSite.SamplingPlanSubsectorID = 0;
+            samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlanSubsector, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorID, samplingPlanSubsectorSite.SamplingPlanSubsectorID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
             // SamplingPlanSubsectorID will automatically be initialized at 0 --> not null
 
 
-            samplingPlanSubsectorSite = null;
-            samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-            // SamplingPlanSubsectorID has Min [1] and Max [empty]. At Min should return true and no errors
-            samplingPlanSubsectorSite.SamplingPlanSubsectorID = 1;
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
-            Assert.AreEqual(0, samplingPlanSubsectorSite.ValidationResults.Count());
-            Assert.AreEqual(1, samplingPlanSubsectorSite.SamplingPlanSubsectorID);
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Delete(samplingPlanSubsectorSite));
-            Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
-            // SamplingPlanSubsectorID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            samplingPlanSubsectorSite.SamplingPlanSubsectorID = 2;
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
-            Assert.AreEqual(0, samplingPlanSubsectorSite.ValidationResults.Count());
-            Assert.AreEqual(2, samplingPlanSubsectorSite.SamplingPlanSubsectorID);
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Delete(samplingPlanSubsectorSite));
-            Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
-            // SamplingPlanSubsectorID has Min [1] and Max [empty]. At Min - 1 should return false with one error
-            samplingPlanSubsectorSite.SamplingPlanSubsectorID = 0;
-            Assert.AreEqual(false, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
-            Assert.IsTrue(samplingPlanSubsectorSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorID, "1")).Any());
-            Assert.AreEqual(0, samplingPlanSubsectorSite.SamplingPlanSubsectorID);
-            Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
-
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMSite)]
-            // [Range(1, -1)]
             // samplingPlanSubsectorSite.MWQMSiteTVItemID   (Int32)
             // -----------------------------------
 
-            // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
-
-
             samplingPlanSubsectorSite = null;
             samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-            // MWQMSiteTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            samplingPlanSubsectorSite.MWQMSiteTVItemID = 1;
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
-            Assert.AreEqual(0, samplingPlanSubsectorSite.ValidationResults.Count());
-            Assert.AreEqual(1, samplingPlanSubsectorSite.MWQMSiteTVItemID);
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Delete(samplingPlanSubsectorSite));
-            Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
-            // MWQMSiteTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            samplingPlanSubsectorSite.MWQMSiteTVItemID = 2;
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
-            Assert.AreEqual(0, samplingPlanSubsectorSite.ValidationResults.Count());
-            Assert.AreEqual(2, samplingPlanSubsectorSite.MWQMSiteTVItemID);
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Delete(samplingPlanSubsectorSite));
-            Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
-            // MWQMSiteTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             samplingPlanSubsectorSite.MWQMSiteTVItemID = 0;
-            Assert.AreEqual(false, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
-            Assert.IsTrue(samplingPlanSubsectorSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, "1")).Any());
-            Assert.AreEqual(0, samplingPlanSubsectorSite.MWQMSiteTVItemID);
-            Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
+            samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, samplingPlanSubsectorSite.MWQMSiteTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -193,35 +159,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // samplingPlanSubsectorSite.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             samplingPlanSubsectorSite = null;
             samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            samplingPlanSubsectorSite.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
-            Assert.AreEqual(0, samplingPlanSubsectorSite.ValidationResults.Count());
-            Assert.AreEqual(1, samplingPlanSubsectorSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Delete(samplingPlanSubsectorSite));
-            Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            samplingPlanSubsectorSite.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
-            Assert.AreEqual(0, samplingPlanSubsectorSite.ValidationResults.Count());
-            Assert.AreEqual(2, samplingPlanSubsectorSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, samplingPlanSubsectorSiteService.Delete(samplingPlanSubsectorSite));
-            Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             samplingPlanSubsectorSite.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
-            Assert.IsTrue(samplingPlanSubsectorSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, samplingPlanSubsectorSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
+            samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, samplingPlanSubsectorSite.LastUpdateContactTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

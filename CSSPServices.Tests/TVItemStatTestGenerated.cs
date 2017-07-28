@@ -42,7 +42,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TVItemID") tvItemStat.TVItemID = 2;
             if (OmitPropName != "TVType") tvItemStat.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "ChildCount") tvItemStat.ChildCount = GetRandomInt(0, 10000000);
-            if (OmitPropName != "LastUpdateDate_UTC") tvItemStat.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") tvItemStat.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvItemStat.LastUpdateContactTVItemID = 2;
 
             return tvItemStat;
@@ -102,43 +102,27 @@ namespace CSSPServices.Tests
             // tvItemStat.TVItemStatID   (Int32)
             // -----------------------------------
 
+            tvItemStat = null;
             tvItemStat = GetFilledRandomTVItemStat("");
             tvItemStat.TVItemStatID = 0;
             tvItemStatService.Update(tvItemStat);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemStatTVItemStatID), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // tvItemStat.TVItemID   (Int32)
             // -----------------------------------
 
-            // TVItemID will automatically be initialized at 0 --> not null
-
-
             tvItemStat = null;
             tvItemStat = GetFilledRandomTVItemStat("");
-            // TVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            tvItemStat.TVItemID = 1;
-            Assert.AreEqual(true, tvItemStatService.Add(tvItemStat));
-            Assert.AreEqual(0, tvItemStat.ValidationResults.Count());
-            Assert.AreEqual(1, tvItemStat.TVItemID);
-            Assert.AreEqual(true, tvItemStatService.Delete(tvItemStat));
-            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
-            // TVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            tvItemStat.TVItemID = 2;
-            Assert.AreEqual(true, tvItemStatService.Add(tvItemStat));
-            Assert.AreEqual(0, tvItemStat.ValidationResults.Count());
-            Assert.AreEqual(2, tvItemStat.TVItemID);
-            Assert.AreEqual(true, tvItemStatService.Delete(tvItemStat));
-            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
-            // TVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvItemStat.TVItemID = 0;
-            Assert.AreEqual(false, tvItemStatService.Add(tvItemStat));
-            Assert.IsTrue(tvItemStat.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemStatTVItemID, "1")).Any());
-            Assert.AreEqual(0, tvItemStat.TVItemID);
-            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
+            tvItemStatService.Add(tvItemStat);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemStatTVItemID, tvItemStat.TVItemID.ToString()), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // TVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -156,7 +140,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // ChildCount will automatically be initialized at 0 --> not null
-
 
             tvItemStat = null;
             tvItemStat = GetFilledRandomTVItemStat("");
@@ -213,35 +196,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // tvItemStat.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             tvItemStat = null;
             tvItemStat = GetFilledRandomTVItemStat("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            tvItemStat.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, tvItemStatService.Add(tvItemStat));
-            Assert.AreEqual(0, tvItemStat.ValidationResults.Count());
-            Assert.AreEqual(1, tvItemStat.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, tvItemStatService.Delete(tvItemStat));
-            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            tvItemStat.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, tvItemStatService.Add(tvItemStat));
-            Assert.AreEqual(0, tvItemStat.ValidationResults.Count());
-            Assert.AreEqual(2, tvItemStat.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, tvItemStatService.Delete(tvItemStat));
-            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvItemStat.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, tvItemStatService.Add(tvItemStat));
-            Assert.IsTrue(tvItemStat.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemStatLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, tvItemStat.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, tvItemStatService.GetRead().Count());
+            tvItemStatService.Add(tvItemStat);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemStatLastUpdateContactTVItemID, tvItemStat.LastUpdateContactTVItemID.ToString()), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

@@ -40,20 +40,20 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(uRLNumberOfSamples.url))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.URLNumberOfSamplesurl), new[] { ModelsRes.URLNumberOfSamplesurl });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.URLNumberOfSamplesurl), new[] { "url" });
             }
 
             if (!string.IsNullOrWhiteSpace(uRLNumberOfSamples.url) && (uRLNumberOfSamples.url.Length < 1 || uRLNumberOfSamples.url.Length > 255))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.URLNumberOfSamplesurl, "1", "255"), new[] { ModelsRes.URLNumberOfSamplesurl });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.URLNumberOfSamplesurl, "1", "255"), new[] { "url" });
             }
 
             //NumberOfSamples (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //NumberOfSamples has no Range Attribute
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

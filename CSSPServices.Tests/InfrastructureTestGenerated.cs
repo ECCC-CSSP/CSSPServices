@@ -84,7 +84,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DistanceFromShore_m") infrastructure.DistanceFromShore_m = GetRandomDouble(0.0D, 1000.0D);
             if (OmitPropName != "SeeOtherTVItemID") infrastructure.SeeOtherTVItemID = 16;
             if (OmitPropName != "CivicAddressTVItemID") infrastructure.CivicAddressTVItemID = 28;
-            if (OmitPropName != "LastUpdateDate_UTC") infrastructure.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") infrastructure.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") infrastructure.LastUpdateContactTVItemID = 2;
 
             return infrastructure;
@@ -144,50 +144,33 @@ namespace CSSPServices.Tests
             // infrastructure.InfrastructureID   (Int32)
             // -----------------------------------
 
+            infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             infrastructure.InfrastructureID = 0;
             infrastructureService.Update(infrastructure);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureInfrastructureID), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
-            // [Range(1, -1)]
             // infrastructure.InfrastructureTVItemID   (Int32)
             // -----------------------------------
 
-            // InfrastructureTVItemID will automatically be initialized at 0 --> not null
-
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
-            // InfrastructureTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            infrastructure.InfrastructureTVItemID = 1;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1, infrastructure.InfrastructureTVItemID);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(count, infrastructureService.GetRead().Count());
-            // InfrastructureTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            infrastructure.InfrastructureTVItemID = 2;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(2, infrastructure.InfrastructureTVItemID);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(count, infrastructureService.GetRead().Count());
-            // InfrastructureTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             infrastructure.InfrastructureTVItemID = 0;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.InfrastructureInfrastructureTVItemID, "1")).Any());
-            Assert.AreEqual(0, infrastructure.InfrastructureTVItemID);
-            Assert.AreEqual(count, infrastructureService.GetRead().Count());
+            infrastructureService.Add(infrastructure);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureInfrastructureTVItemID, infrastructure.InfrastructureTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // InfrastructureTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is Nullable
             // [Range(0, 100000)]
             // infrastructure.PrismID   (Int32)
             // -----------------------------------
-
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -238,7 +221,6 @@ namespace CSSPServices.Tests
             // infrastructure.TPID   (Int32)
             // -----------------------------------
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // TPID has Min [0] and Max [100000]. At Min should return true and no errors
@@ -287,7 +269,6 @@ namespace CSSPServices.Tests
             // [Range(0, 100000)]
             // infrastructure.LSID   (Int32)
             // -----------------------------------
-
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -338,7 +319,6 @@ namespace CSSPServices.Tests
             // infrastructure.SiteID   (Int32)
             // -----------------------------------
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // SiteID has Min [0] and Max [100000]. At Min should return true and no errors
@@ -388,7 +368,6 @@ namespace CSSPServices.Tests
             // infrastructure.Site   (Int32)
             // -----------------------------------
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // Site has Min [0] and Max [100000]. At Min should return true and no errors
@@ -437,7 +416,6 @@ namespace CSSPServices.Tests
             // [StringLength(1, MinimumLength = 1)]
             // infrastructure.InfrastructureCategory   (String)
             // -----------------------------------
-
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -494,7 +472,6 @@ namespace CSSPServices.Tests
             // infrastructure.NumberOfCells   (Int32)
             // -----------------------------------
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // NumberOfCells has Min [0] and Max [10]. At Min should return true and no errors
@@ -543,7 +520,6 @@ namespace CSSPServices.Tests
             // [Range(0, 10)]
             // infrastructure.NumberOfAeratedCells   (Int32)
             // -----------------------------------
-
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -659,7 +635,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [DesignFlow_m3_day]
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // DesignFlow_m3_day has Min [0.0D] and Max [1000000.0D]. At Min should return true and no errors
@@ -710,7 +685,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [AverageFlow_m3_day]
-
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -763,7 +737,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [PeakFlow_m3_day]
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // PeakFlow_m3_day has Min [0.0D] and Max [1000000.0D]. At Min should return true and no errors
@@ -812,7 +785,6 @@ namespace CSSPServices.Tests
             // [Range(0, 1000000)]
             // infrastructure.PopServed   (Int32)
             // -----------------------------------
-
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -871,7 +843,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [PercFlowOfTotal]
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // PercFlowOfTotal has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
@@ -923,7 +894,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [TimeOffset_hour]
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // TimeOffset_hour has Min [-10.0D] and Max [0.0D]. At Min should return true and no errors
@@ -973,9 +943,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
 
-            infrastructure = null;
-            infrastructure = GetFilledRandomInfrastructure("");
-
             // -----------------------------------
             // Is Nullable
             // [Range(0, 1000)]
@@ -983,7 +950,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [AverageDepth_m]
-
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -1033,7 +999,6 @@ namespace CSSPServices.Tests
             // [Range(1, 1000)]
             // infrastructure.NumberOfPorts   (Int32)
             // -----------------------------------
-
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -1086,7 +1051,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [PortDiameter_m]
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // PortDiameter_m has Min [0.0D] and Max [10.0D]. At Min should return true and no errors
@@ -1137,7 +1101,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [PortSpacing_m]
-
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -1190,7 +1153,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [PortElevation_m]
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // PortElevation_m has Min [0.0D] and Max [1000.0D]. At Min should return true and no errors
@@ -1241,7 +1203,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [VerticalAngle_deg]
-
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -1294,7 +1255,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [HorizontalAngle_deg]
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // HorizontalAngle_deg has Min [-180.0D] and Max [180.0D]. At Min should return true and no errors
@@ -1345,7 +1305,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [DecayRate_per_day]
-
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -1398,7 +1357,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [NearFieldVelocity_m_s]
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // NearFieldVelocity_m_s has Min [0.0D] and Max [10.0D]. At Min should return true and no errors
@@ -1449,7 +1407,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [FarFieldVelocity_m_s]
-
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -1502,7 +1459,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [ReceivingWaterSalinity_PSU]
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // ReceivingWaterSalinity_PSU has Min [0.0D] and Max [40.0D]. At Min should return true and no errors
@@ -1554,7 +1510,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [ReceivingWaterTemperature_C]
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // ReceivingWaterTemperature_C has Min [-10.0D] and Max [40.0D]. At Min should return true and no errors
@@ -1603,7 +1558,6 @@ namespace CSSPServices.Tests
             // [Range(0, 10000000)]
             // infrastructure.ReceivingWater_MPN_per_100ml   (Int32)
             // -----------------------------------
-
 
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
@@ -1656,7 +1610,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [DistanceFromShore_m]
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
             // DistanceFromShore_m has Min [0.0D] and Max [1000.0D]. At Min should return true and no errors
@@ -1703,64 +1656,28 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
-            // [Range(1, -1)]
             // infrastructure.SeeOtherTVItemID   (Int32)
             // -----------------------------------
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
-            // SeeOtherTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            infrastructure.SeeOtherTVItemID = 1;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1, infrastructure.SeeOtherTVItemID);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(count, infrastructureService.GetRead().Count());
-            // SeeOtherTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            infrastructure.SeeOtherTVItemID = 2;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(2, infrastructure.SeeOtherTVItemID);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(count, infrastructureService.GetRead().Count());
-            // SeeOtherTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             infrastructure.SeeOtherTVItemID = 0;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.InfrastructureSeeOtherTVItemID, "1")).Any());
-            Assert.AreEqual(0, infrastructure.SeeOtherTVItemID);
-            Assert.AreEqual(count, infrastructureService.GetRead().Count());
+            infrastructureService.Add(infrastructure);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureSeeOtherTVItemID, infrastructure.SeeOtherTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Address)]
-            // [Range(1, -1)]
             // infrastructure.CivicAddressTVItemID   (Int32)
             // -----------------------------------
 
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
-            // CivicAddressTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            infrastructure.CivicAddressTVItemID = 1;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1, infrastructure.CivicAddressTVItemID);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(count, infrastructureService.GetRead().Count());
-            // CivicAddressTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            infrastructure.CivicAddressTVItemID = 2;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(2, infrastructure.CivicAddressTVItemID);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(count, infrastructureService.GetRead().Count());
-            // CivicAddressTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             infrastructure.CivicAddressTVItemID = 0;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.InfrastructureCivicAddressTVItemID, "1")).Any());
-            Assert.AreEqual(0, infrastructure.CivicAddressTVItemID);
-            Assert.AreEqual(count, infrastructureService.GetRead().Count());
+            infrastructureService.Add(infrastructure);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureCivicAddressTVItemID, infrastructure.CivicAddressTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -1774,35 +1691,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // infrastructure.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             infrastructure = null;
             infrastructure = GetFilledRandomInfrastructure("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            infrastructure.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(1, infrastructure.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(count, infrastructureService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            infrastructure.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, infrastructureService.Add(infrastructure));
-            Assert.AreEqual(0, infrastructure.ValidationResults.Count());
-            Assert.AreEqual(2, infrastructure.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, infrastructureService.Delete(infrastructure));
-            Assert.AreEqual(count, infrastructureService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             infrastructure.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-            Assert.IsTrue(infrastructure.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.InfrastructureLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, infrastructure.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, infrastructureService.GetRead().Count());
+            infrastructureService.Add(infrastructure);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureLastUpdateContactTVItemID, infrastructure.LastUpdateContactTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

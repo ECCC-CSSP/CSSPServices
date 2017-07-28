@@ -58,7 +58,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EffluentTemperature_C") vpScenario.EffluentTemperature_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "EffluentVelocity_m_s") vpScenario.EffluentVelocity_m_s = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "RawResults") vpScenario.RawResults = GetRandomString("", 20);
-            if (OmitPropName != "LastUpdateDate_UTC") vpScenario.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") vpScenario.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") vpScenario.LastUpdateContactTVItemID = 2;
 
             return vpScenario;
@@ -118,43 +118,27 @@ namespace CSSPServices.Tests
             // vpScenario.VPScenarioID   (Int32)
             // -----------------------------------
 
+            vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
             vpScenario.VPScenarioID = 0;
             vpScenarioService.Update(vpScenario);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioVPScenarioID), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
-            // [Range(1, -1)]
             // vpScenario.InfrastructureTVItemID   (Int32)
             // -----------------------------------
 
-            // InfrastructureTVItemID will automatically be initialized at 0 --> not null
-
-
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
-            // InfrastructureTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            vpScenario.InfrastructureTVItemID = 1;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1, vpScenario.InfrastructureTVItemID);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(count, vpScenarioService.GetRead().Count());
-            // InfrastructureTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            vpScenario.InfrastructureTVItemID = 2;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(2, vpScenario.InfrastructureTVItemID);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(count, vpScenarioService.GetRead().Count());
-            // InfrastructureTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             vpScenario.InfrastructureTVItemID = 0;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.VPScenarioInfrastructureTVItemID, "1")).Any());
-            Assert.AreEqual(0, vpScenario.InfrastructureTVItemID);
-            Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+            vpScenarioService.Add(vpScenario);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPScenarioInfrastructureTVItemID, vpScenario.InfrastructureTVItemID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // InfrastructureTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -180,7 +164,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [EffluentFlow_m3_s]
-
 
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
@@ -233,7 +216,6 @@ namespace CSSPServices.Tests
 
             // EffluentConcentration_MPN_100ml will automatically be initialized at 0 --> not null
 
-
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
             // EffluentConcentration_MPN_100ml has Min [0] and Max [10000000]. At Min should return true and no errors
@@ -284,7 +266,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [FroudeNumber]
-
 
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
@@ -337,7 +318,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [PortDiameter_m]
 
-
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
             // PortDiameter_m has Min [0.0D] and Max [10.0D]. At Min should return true and no errors
@@ -388,7 +368,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [PortDepth_m]
-
 
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
@@ -441,7 +420,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [PortElevation_m]
 
-
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
             // PortElevation_m has Min [0.0D] and Max [1000.0D]. At Min should return true and no errors
@@ -492,7 +470,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [VerticalAngle_deg]
-
 
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
@@ -545,7 +522,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [HorizontalAngle_deg]
 
-
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
             // HorizontalAngle_deg has Min [-180.0D] and Max [180.0D]. At Min should return true and no errors
@@ -596,7 +572,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // NumberOfPorts will automatically be initialized at 0 --> not null
-
 
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
@@ -649,7 +624,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [PortSpacing_m]
 
-
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
             // PortSpacing_m has Min [0.0D] and Max [1000.0D]. At Min should return true and no errors
@@ -700,7 +674,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [AcuteMixZone_m]
-
 
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
@@ -753,7 +726,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [ChronicMixZone_m]
 
-
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
             // ChronicMixZone_m has Min [0.0D] and Max [40000.0D]. At Min should return true and no errors
@@ -804,7 +776,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [EffluentSalinity_PSU]
-
 
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
@@ -857,7 +828,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [EffluentTemperature_C]
 
-
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
             // EffluentTemperature_C has Min [-10.0D] and Max [40.0D]. At Min should return true and no errors
@@ -909,7 +879,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [EffluentVelocity_m_s]
 
-
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
             // EffluentVelocity_m_s has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
@@ -959,9 +928,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
 
-            vpScenario = null;
-            vpScenario = GetFilledRandomVPScenario("");
-
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPAfter(Year = 1980)]
@@ -974,35 +940,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // vpScenario.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             vpScenario = null;
             vpScenario = GetFilledRandomVPScenario("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            vpScenario.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(1, vpScenario.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(count, vpScenarioService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            vpScenario.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, vpScenarioService.Add(vpScenario));
-            Assert.AreEqual(0, vpScenario.ValidationResults.Count());
-            Assert.AreEqual(2, vpScenario.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, vpScenarioService.Delete(vpScenario));
-            Assert.AreEqual(count, vpScenarioService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             vpScenario.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-            Assert.IsTrue(vpScenario.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.VPScenarioLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, vpScenario.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+            vpScenarioService.Add(vpScenario);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPScenarioLastUpdateContactTVItemID, vpScenario.LastUpdateContactTVItemID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

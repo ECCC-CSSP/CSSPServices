@@ -42,14 +42,14 @@ namespace CSSPServices
 
             if (mapObj.MapInfoID < 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MapObjMapInfoID, "1"), new[] { ModelsRes.MapObjMapInfoID });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MapObjMapInfoID, "1"), new[] { "MapInfoID" });
             }
 
                 //Error: Type not implemented [MapInfoDrawType] of type [MapInfoDrawTypeEnum]
 
                 //Error: Type not implemented [MapInfoDrawType] of type [MapInfoDrawTypeEnum]
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

@@ -41,9 +41,18 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "ContactID") contactLogin.ContactID = 1;
             if (OmitPropName != "LoginEmail") contactLogin.LoginEmail = GetRandomEmail();
-            //Error: property [PasswordHash] and type [ContactLogin] is  not implemented
-            //Error: property [PasswordSalt] and type [ContactLogin] is  not implemented
-            if (OmitPropName != "LastUpdateDate_UTC") contactLogin.LastUpdateDate_UTC = GetRandomDateTime();
+            ContactService contactService = new ContactService(LanguageRequest, dbTestDB, ContactID);
+
+            Register register = new Register();
+            register.Password = GetRandomPassword(); // the only thing needed for CreatePasswordHashAndSalt
+
+            byte[] passwordHash;
+            byte[] passwordSalt;
+            contactService.CreatePasswordHashAndSalt(register, out passwordHash, out passwordSalt);
+
+            if (OmitPropName != "PasswordHash") contactLogin.PasswordHash = passwordHash;
+            if (OmitPropName != "PasswordSalt") contactLogin.PasswordSalt = passwordSalt;
+            if (OmitPropName != "LastUpdateDate_UTC") contactLogin.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contactLogin.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "Password") contactLogin.Password = GetRandomString("", 11);
             if (OmitPropName != "ConfirmPassword") contactLogin.ConfirmPassword = GetRandomString("", 11);
@@ -105,43 +114,27 @@ namespace CSSPServices.Tests
             // contactLogin.ContactLoginID   (Int32)
             // -----------------------------------
 
+            contactLogin = null;
             contactLogin = GetFilledRandomContactLogin("");
             contactLogin.ContactLoginID = 0;
             contactLoginService.Update(contactLogin);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginContactLoginID), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "Contact", Plurial = "s", FieldID = "ContactID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // contactLogin.ContactID   (Int32)
             // -----------------------------------
 
-            // ContactID will automatically be initialized at 0 --> not null
-
-
             contactLogin = null;
             contactLogin = GetFilledRandomContactLogin("");
-            // ContactID has Min [1] and Max [empty]. At Min should return true and no errors
-            contactLogin.ContactID = 1;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(1, contactLogin.ContactID);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
-            // ContactID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            contactLogin.ContactID = 2;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(2, contactLogin.ContactID);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
-            // ContactID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             contactLogin.ContactID = 0;
-            Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-            Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactLoginContactID, "1")).Any());
-            Assert.AreEqual(0, contactLogin.ContactID);
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
+            contactLoginService.Add(contactLogin);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactLoginContactID, contactLogin.ContactID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // ContactID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -158,10 +151,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, contactLogin.LoginEmail);
             Assert.AreEqual(0, contactLoginService.GetRead().Count());
 
-
             contactLogin = null;
             contactLogin = GetFilledRandomContactLogin("");
-
             // LoginEmail has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
             string contactLoginLoginEmailMin = GetRandomEmail();
             contactLogin.LoginEmail = contactLoginLoginEmailMin;
@@ -208,35 +199,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // contactLogin.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             contactLogin = null;
             contactLogin = GetFilledRandomContactLogin("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            contactLogin.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(1, contactLogin.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            contactLogin.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(2, contactLogin.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             contactLogin.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-            Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactLoginLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, contactLogin.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
+            contactLoginService.Add(contactLogin);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactLoginLastUpdateContactTVItemID, contactLogin.LastUpdateContactTVItemID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -259,7 +232,6 @@ namespace CSSPServices.Tests
             Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginPassword)).Any());
             Assert.AreEqual(null, contactLogin.Password);
             Assert.AreEqual(0, contactLoginService.GetRead().Count());
-
 
             contactLogin = null;
             contactLogin = GetFilledRandomContactLogin("");
@@ -330,7 +302,6 @@ namespace CSSPServices.Tests
             Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginConfirmPassword)).Any());
             Assert.AreEqual(null, contactLogin.ConfirmPassword);
             Assert.AreEqual(0, contactLoginService.GetRead().Count());
-
 
             contactLogin = null;
             contactLogin = GetFilledRandomContactLogin("");

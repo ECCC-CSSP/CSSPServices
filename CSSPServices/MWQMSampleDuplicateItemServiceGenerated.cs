@@ -40,26 +40,26 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.ParentSite))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleDuplicateItemParentSite), new[] { ModelsRes.MWQMSampleDuplicateItemParentSite });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleDuplicateItemParentSite), new[] { "ParentSite" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.ParentSite) && (mwqmSampleDuplicateItem.ParentSite.Length < 1 || mwqmSampleDuplicateItem.ParentSite.Length > 200))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMSampleDuplicateItemParentSite, "1", "200"), new[] { ModelsRes.MWQMSampleDuplicateItemParentSite });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMSampleDuplicateItemParentSite, "1", "200"), new[] { "ParentSite" });
             }
 
             if (string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.DuplicateSite))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleDuplicateItemDuplicateSite), new[] { ModelsRes.MWQMSampleDuplicateItemDuplicateSite });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleDuplicateItemDuplicateSite), new[] { "DuplicateSite" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.DuplicateSite) && (mwqmSampleDuplicateItem.DuplicateSite.Length < 1 || mwqmSampleDuplicateItem.DuplicateSite.Length > 200))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMSampleDuplicateItemDuplicateSite, "1", "200"), new[] { ModelsRes.MWQMSampleDuplicateItemDuplicateSite });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMSampleDuplicateItemDuplicateSite, "1", "200"), new[] { "DuplicateSite" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

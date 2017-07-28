@@ -43,7 +43,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Language") tvFileLanguage.Language = language;
             if (OmitPropName != "FileDescription") tvFileLanguage.FileDescription = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatus") tvFileLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
-            if (OmitPropName != "LastUpdateDate_UTC") tvFileLanguage.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") tvFileLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvFileLanguage.LastUpdateContactTVItemID = 2;
 
             return tvFileLanguage;
@@ -103,43 +103,27 @@ namespace CSSPServices.Tests
             // tvFileLanguage.TVFileLanguageID   (Int32)
             // -----------------------------------
 
+            tvFileLanguage = null;
             tvFileLanguage = GetFilledRandomTVFileLanguage("");
             tvFileLanguage.TVFileLanguageID = 0;
             tvFileLanguageService.Update(tvFileLanguage);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageTVFileLanguageID), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVFile", Plurial = "s", FieldID = "TVFileID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // tvFileLanguage.TVFileID   (Int32)
             // -----------------------------------
 
-            // TVFileID will automatically be initialized at 0 --> not null
-
-
             tvFileLanguage = null;
             tvFileLanguage = GetFilledRandomTVFileLanguage("");
-            // TVFileID has Min [1] and Max [empty]. At Min should return true and no errors
-            tvFileLanguage.TVFileID = 1;
-            Assert.AreEqual(true, tvFileLanguageService.Add(tvFileLanguage));
-            Assert.AreEqual(0, tvFileLanguage.ValidationResults.Count());
-            Assert.AreEqual(1, tvFileLanguage.TVFileID);
-            Assert.AreEqual(true, tvFileLanguageService.Delete(tvFileLanguage));
-            Assert.AreEqual(count, tvFileLanguageService.GetRead().Count());
-            // TVFileID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            tvFileLanguage.TVFileID = 2;
-            Assert.AreEqual(true, tvFileLanguageService.Add(tvFileLanguage));
-            Assert.AreEqual(0, tvFileLanguage.ValidationResults.Count());
-            Assert.AreEqual(2, tvFileLanguage.TVFileID);
-            Assert.AreEqual(true, tvFileLanguageService.Delete(tvFileLanguage));
-            Assert.AreEqual(count, tvFileLanguageService.GetRead().Count());
-            // TVFileID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvFileLanguage.TVFileID = 0;
-            Assert.AreEqual(false, tvFileLanguageService.Add(tvFileLanguage));
-            Assert.IsTrue(tvFileLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVFileLanguageTVFileID, "1")).Any());
-            Assert.AreEqual(0, tvFileLanguage.TVFileID);
-            Assert.AreEqual(count, tvFileLanguageService.GetRead().Count());
+            tvFileLanguageService.Add(tvFileLanguage);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVFile, ModelsRes.TVFileLanguageTVFileID, tvFileLanguage.TVFileID.ToString()), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // TVFileID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -155,9 +139,6 @@ namespace CSSPServices.Tests
             // tvFileLanguage.FileDescription   (String)
             // -----------------------------------
 
-
-            tvFileLanguage = null;
-            tvFileLanguage = GetFilledRandomTVFileLanguage("");
 
             // -----------------------------------
             // Is NOT Nullable
@@ -180,35 +161,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // tvFileLanguage.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             tvFileLanguage = null;
             tvFileLanguage = GetFilledRandomTVFileLanguage("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            tvFileLanguage.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, tvFileLanguageService.Add(tvFileLanguage));
-            Assert.AreEqual(0, tvFileLanguage.ValidationResults.Count());
-            Assert.AreEqual(1, tvFileLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, tvFileLanguageService.Delete(tvFileLanguage));
-            Assert.AreEqual(count, tvFileLanguageService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            tvFileLanguage.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, tvFileLanguageService.Add(tvFileLanguage));
-            Assert.AreEqual(0, tvFileLanguage.ValidationResults.Count());
-            Assert.AreEqual(2, tvFileLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, tvFileLanguageService.Delete(tvFileLanguage));
-            Assert.AreEqual(count, tvFileLanguageService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvFileLanguage.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, tvFileLanguageService.Add(tvFileLanguage));
-            Assert.IsTrue(tvFileLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVFileLanguageLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, tvFileLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, tvFileLanguageService.GetRead().Count());
+            tvFileLanguageService.Add(tvFileLanguage);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileLanguageLastUpdateContactTVItemID, tvFileLanguage.LastUpdateContactTVItemID.ToString()), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

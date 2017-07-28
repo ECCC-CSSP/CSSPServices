@@ -51,16 +51,16 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ProvSiteID") climateSite.ProvSiteID = GetRandomString("", 5);
             if (OmitPropName != "TimeOffset_hour") climateSite.TimeOffset_hour = GetRandomDouble(-10.0D, 0.0D);
             if (OmitPropName != "File_desc") climateSite.File_desc = GetRandomString("", 5);
-            if (OmitPropName != "HourlyStartDate_Local") climateSite.HourlyStartDate_Local = GetRandomDateTime();
-            if (OmitPropName != "HourlyEndDate_Local") climateSite.HourlyEndDate_Local = GetRandomDateTime();
+            if (OmitPropName != "HourlyStartDate_Local") climateSite.HourlyStartDate_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "HourlyEndDate_Local") climateSite.HourlyEndDate_Local = new DateTime(2005, 3, 7);
             if (OmitPropName != "HourlyNow") climateSite.HourlyNow = true;
-            if (OmitPropName != "DailyStartDate_Local") climateSite.DailyStartDate_Local = GetRandomDateTime();
-            if (OmitPropName != "DailyEndDate_Local") climateSite.DailyEndDate_Local = GetRandomDateTime();
+            if (OmitPropName != "DailyStartDate_Local") climateSite.DailyStartDate_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "DailyEndDate_Local") climateSite.DailyEndDate_Local = new DateTime(2005, 3, 7);
             if (OmitPropName != "DailyNow") climateSite.DailyNow = true;
-            if (OmitPropName != "MonthlyStartDate_Local") climateSite.MonthlyStartDate_Local = GetRandomDateTime();
-            if (OmitPropName != "MonthlyEndDate_Local") climateSite.MonthlyEndDate_Local = GetRandomDateTime();
+            if (OmitPropName != "MonthlyStartDate_Local") climateSite.MonthlyStartDate_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "MonthlyEndDate_Local") climateSite.MonthlyEndDate_Local = new DateTime(2005, 3, 7);
             if (OmitPropName != "MonthlyNow") climateSite.MonthlyNow = true;
-            if (OmitPropName != "LastUpdateDate_UTC") climateSite.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") climateSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") climateSite.LastUpdateContactTVItemID = 2;
 
             return climateSite;
@@ -120,43 +120,27 @@ namespace CSSPServices.Tests
             // climateSite.ClimateSiteID   (Int32)
             // -----------------------------------
 
+            climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
             climateSite.ClimateSiteID = 0;
             climateSiteService.Update(climateSite);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteClimateSiteID), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.ClimateSite)]
-            // [Range(1, -1)]
             // climateSite.ClimateSiteTVItemID   (Int32)
             // -----------------------------------
 
-            // ClimateSiteTVItemID will automatically be initialized at 0 --> not null
-
-
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
-            // ClimateSiteTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            climateSite.ClimateSiteTVItemID = 1;
-            Assert.AreEqual(true, climateSiteService.Add(climateSite));
-            Assert.AreEqual(0, climateSite.ValidationResults.Count());
-            Assert.AreEqual(1, climateSite.ClimateSiteTVItemID);
-            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
-            Assert.AreEqual(count, climateSiteService.GetRead().Count());
-            // ClimateSiteTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            climateSite.ClimateSiteTVItemID = 2;
-            Assert.AreEqual(true, climateSiteService.Add(climateSite));
-            Assert.AreEqual(0, climateSite.ValidationResults.Count());
-            Assert.AreEqual(2, climateSite.ClimateSiteTVItemID);
-            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
-            Assert.AreEqual(count, climateSiteService.GetRead().Count());
-            // ClimateSiteTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             climateSite.ClimateSiteTVItemID = 0;
-            Assert.AreEqual(false, climateSiteService.Add(climateSite));
-            Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ClimateSiteClimateSiteTVItemID, "1")).Any());
-            Assert.AreEqual(0, climateSite.ClimateSiteTVItemID);
-            Assert.AreEqual(count, climateSiteService.GetRead().Count());
+            climateSiteService.Add(climateSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ClimateSiteClimateSiteTVItemID, climateSite.ClimateSiteTVItemID.ToString()), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // ClimateSiteTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -165,7 +149,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // ECDBID will automatically be initialized at 0 --> not null
-
 
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
@@ -224,10 +207,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, climateSite.ClimateSiteName);
             Assert.AreEqual(0, climateSiteService.GetRead().Count());
 
-
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
-
             // ClimateSiteName has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
             string climateSiteClimateSiteNameMin = GetRandomString("", 100);
             climateSite.ClimateSiteName = climateSiteClimateSiteNameMin;
@@ -268,10 +249,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, climateSite.Province);
             Assert.AreEqual(0, climateSiteService.GetRead().Count());
 
-
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
-
             // Province has MinLength [empty] and MaxLength [4]. At Max should return true and no errors
             string climateSiteProvinceMin = GetRandomString("", 4);
             climateSite.Province = climateSiteProvinceMin;
@@ -305,7 +284,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [Elevation_m]
-
 
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
@@ -356,10 +334,8 @@ namespace CSSPServices.Tests
             // climateSite.ClimateID   (String)
             // -----------------------------------
 
-
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
-
             // ClimateID has MinLength [empty] and MaxLength [10]. At Max should return true and no errors
             string climateSiteClimateIDMin = GetRandomString("", 10);
             climateSite.ClimateID = climateSiteClimateIDMin;
@@ -391,7 +367,6 @@ namespace CSSPServices.Tests
             // [Range(1, 100000)]
             // climateSite.WMOID   (Int32)
             // -----------------------------------
-
 
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
@@ -442,10 +417,8 @@ namespace CSSPServices.Tests
             // climateSite.TCID   (String)
             // -----------------------------------
 
-
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
-
             // TCID has MinLength [empty] and MaxLength [3]. At Max should return true and no errors
             string climateSiteTCIDMin = GetRandomString("", 3);
             climateSite.TCID = climateSiteTCIDMin;
@@ -484,10 +457,8 @@ namespace CSSPServices.Tests
             // climateSite.ProvSiteID   (String)
             // -----------------------------------
 
-
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
-
             // ProvSiteID has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
             string climateSiteProvSiteIDMin = GetRandomString("", 50);
             climateSite.ProvSiteID = climateSiteProvSiteIDMin;
@@ -521,7 +492,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [TimeOffset_hour]
-
 
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
@@ -572,10 +542,8 @@ namespace CSSPServices.Tests
             // climateSite.File_desc   (String)
             // -----------------------------------
 
-
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
-
             // File_desc has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
             string climateSiteFile_descMin = GetRandomString("", 50);
             climateSite.File_desc = climateSiteFile_descMin;
@@ -674,35 +642,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // climateSite.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             climateSite = null;
             climateSite = GetFilledRandomClimateSite("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            climateSite.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, climateSiteService.Add(climateSite));
-            Assert.AreEqual(0, climateSite.ValidationResults.Count());
-            Assert.AreEqual(1, climateSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
-            Assert.AreEqual(count, climateSiteService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            climateSite.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, climateSiteService.Add(climateSite));
-            Assert.AreEqual(0, climateSite.ValidationResults.Count());
-            Assert.AreEqual(2, climateSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, climateSiteService.Delete(climateSite));
-            Assert.AreEqual(count, climateSiteService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             climateSite.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, climateSiteService.Add(climateSite));
-            Assert.IsTrue(climateSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ClimateSiteLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, climateSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, climateSiteService.GetRead().Count());
+            climateSiteService.Add(climateSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ClimateSiteLastUpdateContactTVItemID, climateSite.LastUpdateContactTVItemID.ToString()), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

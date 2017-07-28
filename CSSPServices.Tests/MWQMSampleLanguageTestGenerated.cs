@@ -43,7 +43,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Language") mwqmSampleLanguage.Language = language;
             if (OmitPropName != "MWQMSampleNote") mwqmSampleLanguage.MWQMSampleNote = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatus") mwqmSampleLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
-            if (OmitPropName != "LastUpdateDate_UTC") mwqmSampleLanguage.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") mwqmSampleLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSampleLanguage.LastUpdateContactTVItemID = 2;
 
             return mwqmSampleLanguage;
@@ -103,43 +103,27 @@ namespace CSSPServices.Tests
             // mwqmSampleLanguage.MWQMSampleLanguageID   (Int32)
             // -----------------------------------
 
+            mwqmSampleLanguage = null;
             mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
             mwqmSampleLanguage.MWQMSampleLanguageID = 0;
             mwqmSampleLanguageService.Update(mwqmSampleLanguage);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageMWQMSampleLanguageID), mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "MWQMSample", Plurial = "s", FieldID = "MWQMSampleID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // mwqmSampleLanguage.MWQMSampleID   (Int32)
             // -----------------------------------
 
-            // MWQMSampleID will automatically be initialized at 0 --> not null
-
-
             mwqmSampleLanguage = null;
             mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
-            // MWQMSampleID has Min [1] and Max [empty]. At Min should return true and no errors
-            mwqmSampleLanguage.MWQMSampleID = 1;
-            Assert.AreEqual(true, mwqmSampleLanguageService.Add(mwqmSampleLanguage));
-            Assert.AreEqual(0, mwqmSampleLanguage.ValidationResults.Count());
-            Assert.AreEqual(1, mwqmSampleLanguage.MWQMSampleID);
-            Assert.AreEqual(true, mwqmSampleLanguageService.Delete(mwqmSampleLanguage));
-            Assert.AreEqual(count, mwqmSampleLanguageService.GetRead().Count());
-            // MWQMSampleID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mwqmSampleLanguage.MWQMSampleID = 2;
-            Assert.AreEqual(true, mwqmSampleLanguageService.Add(mwqmSampleLanguage));
-            Assert.AreEqual(0, mwqmSampleLanguage.ValidationResults.Count());
-            Assert.AreEqual(2, mwqmSampleLanguage.MWQMSampleID);
-            Assert.AreEqual(true, mwqmSampleLanguageService.Delete(mwqmSampleLanguage));
-            Assert.AreEqual(count, mwqmSampleLanguageService.GetRead().Count());
-            // MWQMSampleID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mwqmSampleLanguage.MWQMSampleID = 0;
-            Assert.AreEqual(false, mwqmSampleLanguageService.Add(mwqmSampleLanguage));
-            Assert.IsTrue(mwqmSampleLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSampleLanguageMWQMSampleID, "1")).Any());
-            Assert.AreEqual(0, mwqmSampleLanguage.MWQMSampleID);
-            Assert.AreEqual(count, mwqmSampleLanguageService.GetRead().Count());
+            mwqmSampleLanguageService.Add(mwqmSampleLanguage);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSample, ModelsRes.MWQMSampleLanguageMWQMSampleID, mwqmSampleLanguage.MWQMSampleID.ToString()), mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // MWQMSampleID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -164,9 +148,6 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, mwqmSampleLanguageService.GetRead().Count());
 
 
-            mwqmSampleLanguage = null;
-            mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
-
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPEnumType]
@@ -188,35 +169,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // mwqmSampleLanguage.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             mwqmSampleLanguage = null;
             mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mwqmSampleLanguage.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, mwqmSampleLanguageService.Add(mwqmSampleLanguage));
-            Assert.AreEqual(0, mwqmSampleLanguage.ValidationResults.Count());
-            Assert.AreEqual(1, mwqmSampleLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mwqmSampleLanguageService.Delete(mwqmSampleLanguage));
-            Assert.AreEqual(count, mwqmSampleLanguageService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mwqmSampleLanguage.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, mwqmSampleLanguageService.Add(mwqmSampleLanguage));
-            Assert.AreEqual(0, mwqmSampleLanguage.ValidationResults.Count());
-            Assert.AreEqual(2, mwqmSampleLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mwqmSampleLanguageService.Delete(mwqmSampleLanguage));
-            Assert.AreEqual(count, mwqmSampleLanguageService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mwqmSampleLanguage.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, mwqmSampleLanguageService.Add(mwqmSampleLanguage));
-            Assert.IsTrue(mwqmSampleLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSampleLanguageLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, mwqmSampleLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, mwqmSampleLanguageService.GetRead().Count());
+            mwqmSampleLanguageService.Add(mwqmSampleLanguage);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSampleLanguageLastUpdateContactTVItemID, mwqmSampleLanguage.LastUpdateContactTVItemID.ToString()), mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

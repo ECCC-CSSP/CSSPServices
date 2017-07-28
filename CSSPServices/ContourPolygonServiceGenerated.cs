@@ -42,25 +42,25 @@ namespace CSSPServices
 
             if (contourPolygon.ContourValue < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContourPolygonContourValue, "0"), new[] { ModelsRes.ContourPolygonContourValue });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContourPolygonContourValue, "0"), new[] { "ContourValue" });
             }
 
             //Layer (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contourPolygon.Layer < 1 || contourPolygon.Layer > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContourPolygonLayer, "1", "100"), new[] { ModelsRes.ContourPolygonLayer });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContourPolygonLayer, "1", "100"), new[] { "Layer" });
             }
 
             //Depth (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contourPolygon.Depth < 1 || contourPolygon.Depth > 10000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContourPolygonDepth, "1", "10000"), new[] { ModelsRes.ContourPolygonDepth });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContourPolygonDepth, "1", "10000"), new[] { "Depth" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

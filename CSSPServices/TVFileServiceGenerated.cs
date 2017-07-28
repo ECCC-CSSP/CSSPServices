@@ -42,7 +42,7 @@ namespace CSSPServices
             {
                 if (tvFile.TVFileID == 0)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTVFileID), new[] { ModelsRes.TVFileTVFileID });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTVFileID), new[] { "TVFileID" });
                 }
             }
 
@@ -50,112 +50,120 @@ namespace CSSPServices
 
             //TVFileTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (tvFile.TVFileTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVFileTVFileTVItemID, "1"), new[] { ModelsRes.TVFileTVFileTVItemID });
-            }
+            TVItem TVItemTVFileTVItemID = (from c in db.TVItems where c.TVItemID == tvFile.TVFileTVItemID select c).FirstOrDefault();
 
-            if (!((from c in db.TVItems where c.TVItemID == tvFile.TVFileTVItemID select c).Any()))
+            if (TVItemTVFileTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileTVFileTVItemID, tvFile.TVFileTVItemID.ToString()), new[] { ModelsRes.TVFileTVFileTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileTVFileTVItemID, tvFile.TVFileTVItemID.ToString()), new[] { "TVFileTVItemID" });
+            }
+            else
+            {
+                if (TVItemTVFileTVItemID.TVType != TVTypeEnum.File)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVFileTVFileTVItemID, "File"), new[] { "TVFileTVItemID" });
+                }
             }
 
             retStr = enums.TVTypeOK(tvFile.TemplateTVType);
             if (tvFile.TemplateTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTemplateTVType), new[] { ModelsRes.TVFileTemplateTVType });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTemplateTVType), new[] { "TemplateTVType" });
             }
 
             retStr = enums.LanguageOK(tvFile.Language);
             if (tvFile.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguage), new[] { ModelsRes.TVFileLanguage });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguage), new[] { "Language" });
             }
 
             retStr = enums.FilePurposeOK(tvFile.FilePurpose);
             if (tvFile.FilePurpose == FilePurposeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFilePurpose), new[] { ModelsRes.TVFileFilePurpose });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFilePurpose), new[] { "FilePurpose" });
             }
 
             retStr = enums.FileTypeOK(tvFile.FileType);
             if (tvFile.FileType == FileTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileType), new[] { ModelsRes.TVFileFileType });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileType), new[] { "FileType" });
             }
 
             //FileSize_kb (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (tvFile.FileSize_kb < 0 || tvFile.FileSize_kb > 1000000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVFileFileSize_kb, "0", "1000000"), new[] { ModelsRes.TVFileFileSize_kb });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVFileFileSize_kb, "0", "1000000"), new[] { "FileSize_kb" });
             }
 
             //FileInfo has no StringLength Attribute
 
             if (tvFile.FileCreatedDate_UTC.Year == 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileCreatedDate_UTC), new[] { ModelsRes.TVFileFileCreatedDate_UTC });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileCreatedDate_UTC), new[] { "FileCreatedDate_UTC" });
             }
             else
             {
                 if (tvFile.FileCreatedDate_UTC.Year < 1980)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileFileCreatedDate_UTC, "1980"), new[] { ModelsRes.TVFileFileCreatedDate_UTC });
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileFileCreatedDate_UTC, "1980"), new[] { "FileCreatedDate_UTC" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.ClientFilePath) && tvFile.ClientFilePath.Length > 250)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileClientFilePath, "250"), new[] { ModelsRes.TVFileClientFilePath });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileClientFilePath, "250"), new[] { "ClientFilePath" });
             }
 
             if (string.IsNullOrWhiteSpace(tvFile.ServerFileName))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileServerFileName), new[] { ModelsRes.TVFileServerFileName });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileServerFileName), new[] { "ServerFileName" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.ServerFileName) && tvFile.ServerFileName.Length > 250)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileServerFileName, "250"), new[] { ModelsRes.TVFileServerFileName });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileServerFileName, "250"), new[] { "ServerFileName" });
             }
 
             if (string.IsNullOrWhiteSpace(tvFile.ServerFilePath))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileServerFilePath), new[] { ModelsRes.TVFileServerFilePath });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileServerFilePath), new[] { "ServerFilePath" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.ServerFilePath) && tvFile.ServerFilePath.Length > 250)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileServerFilePath, "250"), new[] { ModelsRes.TVFileServerFilePath });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileServerFilePath, "250"), new[] { "ServerFilePath" });
             }
 
             if (tvFile.LastUpdateDate_UTC.Year == 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLastUpdateDate_UTC), new[] { ModelsRes.TVFileLastUpdateDate_UTC });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tvFile.LastUpdateDate_UTC.Year < 1980)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileLastUpdateDate_UTC, "1980"), new[] { ModelsRes.TVFileLastUpdateDate_UTC });
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (tvFile.LastUpdateContactTVItemID < 1)
+            TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == tvFile.LastUpdateContactTVItemID select c).FirstOrDefault();
+
+            if (TVItemLastUpdateContactTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVFileLastUpdateContactTVItemID, "1"), new[] { ModelsRes.TVFileLastUpdateContactTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileLastUpdateContactTVItemID, tvFile.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+            }
+            else
+            {
+                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVFileLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == tvFile.LastUpdateContactTVItemID select c).Any()))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileLastUpdateContactTVItemID, tvFile.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.TVFileLastUpdateContactTVItemID });
-            }
-
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

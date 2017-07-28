@@ -53,19 +53,19 @@ namespace CSSPServices.Tests
             if (OmitPropName != "RainDay8Limit") mwqmSubsector.RainDay8Limit = GetRandomDouble(0.0D, 300.0D);
             if (OmitPropName != "RainDay9Limit") mwqmSubsector.RainDay9Limit = GetRandomDouble(0.0D, 300.0D);
             if (OmitPropName != "RainDay10Limit") mwqmSubsector.RainDay10Limit = GetRandomDouble(0.0D, 300.0D);
-            if (OmitPropName != "IncludeRainStartDate") mwqmSubsector.IncludeRainStartDate = GetRandomDateTime();
-            if (OmitPropName != "IncludeRainEndDate") mwqmSubsector.IncludeRainEndDate = GetRandomDateTime();
+            if (OmitPropName != "IncludeRainStartDate") mwqmSubsector.IncludeRainStartDate = new DateTime(2005, 3, 6);
+            if (OmitPropName != "IncludeRainEndDate") mwqmSubsector.IncludeRainEndDate = new DateTime(2005, 3, 7);
             if (OmitPropName != "IncludeRainRunCount") mwqmSubsector.IncludeRainRunCount = GetRandomInt(0, 10);
             if (OmitPropName != "IncludeRainSelectFullYear") mwqmSubsector.IncludeRainSelectFullYear = true;
-            if (OmitPropName != "NoRainStartDate") mwqmSubsector.NoRainStartDate = GetRandomDateTime();
-            if (OmitPropName != "NoRainEndDate") mwqmSubsector.NoRainEndDate = GetRandomDateTime();
+            if (OmitPropName != "NoRainStartDate") mwqmSubsector.NoRainStartDate = new DateTime(2005, 3, 6);
+            if (OmitPropName != "NoRainEndDate") mwqmSubsector.NoRainEndDate = new DateTime(2005, 3, 7);
             if (OmitPropName != "NoRainRunCount") mwqmSubsector.NoRainRunCount = GetRandomInt(0, 10);
             if (OmitPropName != "NoRainSelectFullYear") mwqmSubsector.NoRainSelectFullYear = true;
-            if (OmitPropName != "OnlyRainStartDate") mwqmSubsector.OnlyRainStartDate = GetRandomDateTime();
-            if (OmitPropName != "OnlyRainEndDate") mwqmSubsector.OnlyRainEndDate = GetRandomDateTime();
+            if (OmitPropName != "OnlyRainStartDate") mwqmSubsector.OnlyRainStartDate = new DateTime(2005, 3, 6);
+            if (OmitPropName != "OnlyRainEndDate") mwqmSubsector.OnlyRainEndDate = new DateTime(2005, 3, 7);
             if (OmitPropName != "OnlyRainRunCount") mwqmSubsector.OnlyRainRunCount = GetRandomInt(0, 10);
             if (OmitPropName != "OnlyRainSelectFullYear") mwqmSubsector.OnlyRainSelectFullYear = true;
-            if (OmitPropName != "LastUpdateDate_UTC") mwqmSubsector.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") mwqmSubsector.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSubsector.LastUpdateContactTVItemID = 2;
 
             return mwqmSubsector;
@@ -125,43 +125,27 @@ namespace CSSPServices.Tests
             // mwqmSubsector.MWQMSubsectorID   (Int32)
             // -----------------------------------
 
+            mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
             mwqmSubsector.MWQMSubsectorID = 0;
             mwqmSubsectorService.Update(mwqmSubsector);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorMWQMSubsectorID), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Subsector)]
-            // [Range(1, -1)]
             // mwqmSubsector.MWQMSubsectorTVItemID   (Int32)
             // -----------------------------------
 
-            // MWQMSubsectorTVItemID will automatically be initialized at 0 --> not null
-
-
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
-            // MWQMSubsectorTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mwqmSubsector.MWQMSubsectorTVItemID = 1;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(1, mwqmSubsector.MWQMSubsectorTVItemID);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
-            // MWQMSubsectorTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mwqmSubsector.MWQMSubsectorTVItemID = 2;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(2, mwqmSubsector.MWQMSubsectorTVItemID);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
-            // MWQMSubsectorTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mwqmSubsector.MWQMSubsectorTVItemID = 0;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSubsectorMWQMSubsectorTVItemID, "1")).Any());
-            Assert.AreEqual(0, mwqmSubsector.MWQMSubsectorTVItemID);
-            Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
+            mwqmSubsectorService.Add(mwqmSubsector);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSubsectorMWQMSubsectorTVItemID, mwqmSubsector.MWQMSubsectorTVItemID.ToString()), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // MWQMSubsectorTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -177,10 +161,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, mwqmSubsector.SubsectorHistoricKey);
             Assert.AreEqual(0, mwqmSubsectorService.GetRead().Count());
 
-
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
-
             // SubsectorHistoricKey has MinLength [empty] and MaxLength [20]. At Max should return true and no errors
             string mwqmSubsectorSubsectorHistoricKeyMin = GetRandomString("", 20);
             mwqmSubsector.SubsectorHistoricKey = mwqmSubsectorSubsectorHistoricKeyMin;
@@ -213,10 +195,8 @@ namespace CSSPServices.Tests
             // mwqmSubsector.TideLocationSIDText   (String)
             // -----------------------------------
 
-
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
-
             // TideLocationSIDText has MinLength [empty] and MaxLength [20]. At Max should return true and no errors
             string mwqmSubsectorTideLocationSIDTextMin = GetRandomString("", 20);
             mwqmSubsector.TideLocationSIDText = mwqmSubsectorTideLocationSIDTextMin;
@@ -250,7 +230,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RainDay0Limit]
-
 
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
@@ -303,7 +282,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [RainDay1Limit]
 
-
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
             // RainDay1Limit has Min [0.0D] and Max [300.0D]. At Min should return true and no errors
@@ -354,7 +332,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RainDay2Limit]
-
 
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
@@ -407,7 +384,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [RainDay3Limit]
 
-
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
             // RainDay3Limit has Min [0.0D] and Max [300.0D]. At Min should return true and no errors
@@ -458,7 +434,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RainDay4Limit]
-
 
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
@@ -511,7 +486,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [RainDay5Limit]
 
-
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
             // RainDay5Limit has Min [0.0D] and Max [300.0D]. At Min should return true and no errors
@@ -562,7 +536,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RainDay6Limit]
-
 
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
@@ -615,7 +588,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [RainDay7Limit]
 
-
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
             // RainDay7Limit has Min [0.0D] and Max [300.0D]. At Min should return true and no errors
@@ -666,7 +638,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RainDay8Limit]
-
 
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
@@ -719,7 +690,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [RainDay9Limit]
 
-
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
             // RainDay9Limit has Min [0.0D] and Max [300.0D]. At Min should return true and no errors
@@ -770,7 +740,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RainDay10Limit]
-
 
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
@@ -834,7 +803,6 @@ namespace CSSPServices.Tests
             // [Range(0, 10)]
             // mwqmSubsector.IncludeRainRunCount   (Int32)
             // -----------------------------------
-
 
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
@@ -905,7 +873,6 @@ namespace CSSPServices.Tests
             // mwqmSubsector.NoRainRunCount   (Int32)
             // -----------------------------------
 
-
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
             // NoRainRunCount has Min [0] and Max [10]. At Min should return true and no errors
@@ -975,7 +942,6 @@ namespace CSSPServices.Tests
             // mwqmSubsector.OnlyRainRunCount   (Int32)
             // -----------------------------------
 
-
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
             // OnlyRainRunCount has Min [0] and Max [10]. At Min should return true and no errors
@@ -1037,35 +1003,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // mwqmSubsector.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             mwqmSubsector = null;
             mwqmSubsector = GetFilledRandomMWQMSubsector("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mwqmSubsector.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(1, mwqmSubsector.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mwqmSubsector.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.AreEqual(0, mwqmSubsector.ValidationResults.Count());
-            Assert.AreEqual(2, mwqmSubsector.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mwqmSubsectorService.Delete(mwqmSubsector));
-            Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mwqmSubsector.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-            Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MWQMSubsectorLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, mwqmSubsector.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
+            mwqmSubsectorService.Add(mwqmSubsector);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSubsectorLastUpdateContactTVItemID, mwqmSubsector.LastUpdateContactTVItemID.ToString()), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

@@ -42,7 +42,7 @@ namespace CSSPServices
             {
                 if (rainExceedance.RainExceedanceID == 0)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceRainExceedanceID), new[] { ModelsRes.RainExceedanceRainExceedanceID });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceRainExceedanceID), new[] { "RainExceedanceID" });
                 }
             }
 
@@ -60,7 +60,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.RainExceedanceEndDate_Local, "1980"), new[] { ModelsRes.RainExceedanceEndDate_Local });
             }
 
-            if (rainExceedance.StartDate < rainExceedance.EndDate_Local)
+            if (rainExceedance.StartDate > rainExceedance.EndDate_Local)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.RainExceedanceEndDate_Local, ModelsRes.RainExceedanceStartDate), new[] { ModelsRes.RainExceedanceEndDate_Local });
             }
@@ -69,7 +69,7 @@ namespace CSSPServices
             {
                 if (rainExceedance.RainMaximum_mm < 0 || rainExceedance.RainMaximum_mm > 300)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainMaximum_mm, "0", "300"), new[] { ModelsRes.RainExceedanceRainMaximum_mm });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainMaximum_mm, "0", "300"), new[] { "RainMaximum_mm" });
                 }
             }
 
@@ -77,7 +77,7 @@ namespace CSSPServices
             {
                 if (rainExceedance.RainExtreme_mm < 0 || rainExceedance.RainExtreme_mm > 300)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainExtreme_mm, "0", "300"), new[] { ModelsRes.RainExceedanceRainExtreme_mm });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainExtreme_mm, "0", "300"), new[] { "RainExtreme_mm" });
                 }
             }
 
@@ -85,77 +85,81 @@ namespace CSSPServices
 
             if (rainExceedance.DaysPriorToStart < 0 || rainExceedance.DaysPriorToStart > 30)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceDaysPriorToStart, "0", "30"), new[] { ModelsRes.RainExceedanceDaysPriorToStart });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceDaysPriorToStart, "0", "30"), new[] { "DaysPriorToStart" });
             }
 
             //RepeatEveryYear (bool) is required but no testing needed 
 
             if (string.IsNullOrWhiteSpace(rainExceedance.ProvinceTVItemIDs))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceProvinceTVItemIDs), new[] { ModelsRes.RainExceedanceProvinceTVItemIDs });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceProvinceTVItemIDs), new[] { "ProvinceTVItemIDs" });
             }
 
             if (!string.IsNullOrWhiteSpace(rainExceedance.ProvinceTVItemIDs) && rainExceedance.ProvinceTVItemIDs.Length > 250)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceProvinceTVItemIDs, "250"), new[] { ModelsRes.RainExceedanceProvinceTVItemIDs });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceProvinceTVItemIDs, "250"), new[] { "ProvinceTVItemIDs" });
             }
 
             if (string.IsNullOrWhiteSpace(rainExceedance.SubsectorTVItemIDs))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceSubsectorTVItemIDs), new[] { ModelsRes.RainExceedanceSubsectorTVItemIDs });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceSubsectorTVItemIDs), new[] { "SubsectorTVItemIDs" });
             }
 
             if (!string.IsNullOrWhiteSpace(rainExceedance.SubsectorTVItemIDs) && rainExceedance.SubsectorTVItemIDs.Length > 250)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceSubsectorTVItemIDs, "250"), new[] { ModelsRes.RainExceedanceSubsectorTVItemIDs });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceSubsectorTVItemIDs, "250"), new[] { "SubsectorTVItemIDs" });
             }
 
             if (string.IsNullOrWhiteSpace(rainExceedance.ClimateSiteTVItemIDs))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceClimateSiteTVItemIDs), new[] { ModelsRes.RainExceedanceClimateSiteTVItemIDs });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceClimateSiteTVItemIDs), new[] { "ClimateSiteTVItemIDs" });
             }
 
             if (!string.IsNullOrWhiteSpace(rainExceedance.ClimateSiteTVItemIDs) && rainExceedance.ClimateSiteTVItemIDs.Length > 250)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceClimateSiteTVItemIDs, "250"), new[] { ModelsRes.RainExceedanceClimateSiteTVItemIDs });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceClimateSiteTVItemIDs, "250"), new[] { "ClimateSiteTVItemIDs" });
             }
 
             if (string.IsNullOrWhiteSpace(rainExceedance.EmailDistributionListIDs))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceEmailDistributionListIDs), new[] { ModelsRes.RainExceedanceEmailDistributionListIDs });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceEmailDistributionListIDs), new[] { "EmailDistributionListIDs" });
             }
 
             if (!string.IsNullOrWhiteSpace(rainExceedance.EmailDistributionListIDs) && rainExceedance.EmailDistributionListIDs.Length > 250)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceEmailDistributionListIDs, "250"), new[] { ModelsRes.RainExceedanceEmailDistributionListIDs });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceEmailDistributionListIDs, "250"), new[] { "EmailDistributionListIDs" });
             }
 
             if (rainExceedance.LastUpdateDate_UTC.Year == 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceLastUpdateDate_UTC), new[] { ModelsRes.RainExceedanceLastUpdateDate_UTC });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (rainExceedance.LastUpdateDate_UTC.Year < 1980)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.RainExceedanceLastUpdateDate_UTC, "1980"), new[] { ModelsRes.RainExceedanceLastUpdateDate_UTC });
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.RainExceedanceLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (rainExceedance.LastUpdateContactTVItemID < 1)
+            TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == rainExceedance.LastUpdateContactTVItemID select c).FirstOrDefault();
+
+            if (TVItemLastUpdateContactTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.RainExceedanceLastUpdateContactTVItemID, "1"), new[] { ModelsRes.RainExceedanceLastUpdateContactTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RainExceedanceLastUpdateContactTVItemID, rainExceedance.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+            }
+            else
+            {
+                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RainExceedanceLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == rainExceedance.LastUpdateContactTVItemID select c).Any()))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RainExceedanceLastUpdateContactTVItemID, rainExceedance.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.RainExceedanceLastUpdateContactTVItemID });
-            }
-
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

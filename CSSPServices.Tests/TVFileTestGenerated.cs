@@ -46,12 +46,12 @@ namespace CSSPServices.Tests
             if (OmitPropName != "FileType") tvFile.FileType = (FileTypeEnum)GetRandomEnumType(typeof(FileTypeEnum));
             if (OmitPropName != "FileSize_kb") tvFile.FileSize_kb = GetRandomInt(0, 1000000);
             if (OmitPropName != "FileInfo") tvFile.FileInfo = GetRandomString("", 20);
-            if (OmitPropName != "FileCreatedDate_UTC") tvFile.FileCreatedDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "FileCreatedDate_UTC") tvFile.FileCreatedDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "FromWater") tvFile.FromWater = true;
             if (OmitPropName != "ClientFilePath") tvFile.ClientFilePath = GetRandomString("", 5);
             if (OmitPropName != "ServerFileName") tvFile.ServerFileName = GetRandomString("", 5);
             if (OmitPropName != "ServerFilePath") tvFile.ServerFilePath = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateDate_UTC") tvFile.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") tvFile.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvFile.LastUpdateContactTVItemID = 2;
 
             return tvFile;
@@ -111,43 +111,27 @@ namespace CSSPServices.Tests
             // tvFile.TVFileID   (Int32)
             // -----------------------------------
 
+            tvFile = null;
             tvFile = GetFilledRandomTVFile("");
             tvFile.TVFileID = 0;
             tvFileService.Update(tvFile);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTVFileID), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.File)]
-            // [Range(1, -1)]
             // tvFile.TVFileTVItemID   (Int32)
             // -----------------------------------
 
-            // TVFileTVItemID will automatically be initialized at 0 --> not null
-
-
             tvFile = null;
             tvFile = GetFilledRandomTVFile("");
-            // TVFileTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            tvFile.TVFileTVItemID = 1;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(1, tvFile.TVFileTVItemID);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(count, tvFileService.GetRead().Count());
-            // TVFileTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            tvFile.TVFileTVItemID = 2;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(2, tvFile.TVFileTVItemID);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(count, tvFileService.GetRead().Count());
-            // TVFileTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvFile.TVFileTVItemID = 0;
-            Assert.AreEqual(false, tvFileService.Add(tvFile));
-            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVFileTVFileTVItemID, "1")).Any());
-            Assert.AreEqual(0, tvFile.TVFileTVItemID);
-            Assert.AreEqual(count, tvFileService.GetRead().Count());
+            tvFileService.Add(tvFile);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileTVFileTVItemID, tvFile.TVFileTVItemID.ToString()), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // TVFileTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -192,7 +176,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // FileSize_kb will automatically be initialized at 0 --> not null
-
 
             tvFile = null;
             tvFile = GetFilledRandomTVFile("");
@@ -243,9 +226,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
 
-            tvFile = null;
-            tvFile = GetFilledRandomTVFile("");
-
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPAfter(Year = 1980)]
@@ -267,10 +247,8 @@ namespace CSSPServices.Tests
             // tvFile.ClientFilePath   (String)
             // -----------------------------------
 
-
             tvFile = null;
             tvFile = GetFilledRandomTVFile("");
-
             // ClientFilePath has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
             string tvFileClientFilePathMin = GetRandomString("", 250);
             tvFile.ClientFilePath = tvFileClientFilePathMin;
@@ -311,10 +289,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, tvFile.ServerFileName);
             Assert.AreEqual(0, tvFileService.GetRead().Count());
 
-
             tvFile = null;
             tvFile = GetFilledRandomTVFile("");
-
             // ServerFileName has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
             string tvFileServerFileNameMin = GetRandomString("", 250);
             tvFile.ServerFileName = tvFileServerFileNameMin;
@@ -355,10 +331,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, tvFile.ServerFilePath);
             Assert.AreEqual(0, tvFileService.GetRead().Count());
 
-
             tvFile = null;
             tvFile = GetFilledRandomTVFile("");
-
             // ServerFilePath has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
             string tvFileServerFilePathMin = GetRandomString("", 250);
             tvFile.ServerFilePath = tvFileServerFilePathMin;
@@ -397,35 +371,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // tvFile.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             tvFile = null;
             tvFile = GetFilledRandomTVFile("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            tvFile.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(1, tvFile.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(count, tvFileService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            tvFile.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, tvFileService.Add(tvFile));
-            Assert.AreEqual(0, tvFile.ValidationResults.Count());
-            Assert.AreEqual(2, tvFile.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, tvFileService.Delete(tvFile));
-            Assert.AreEqual(count, tvFileService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvFile.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, tvFileService.Add(tvFile));
-            Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVFileLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, tvFile.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, tvFileService.GetRead().Count());
+            tvFileService.Add(tvFile);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileLastUpdateContactTVItemID, tvFile.LastUpdateContactTVItemID.ToString()), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

@@ -40,19 +40,19 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(dataPathOfTide.Text))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DataPathOfTideText), new[] { ModelsRes.DataPathOfTideText });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DataPathOfTideText), new[] { "Text" });
             }
 
             if (!string.IsNullOrWhiteSpace(dataPathOfTide.Text) && (dataPathOfTide.Text.Length < 1 || dataPathOfTide.Text.Length > 200))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.DataPathOfTideText, "1", "200"), new[] { ModelsRes.DataPathOfTideText });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.DataPathOfTideText, "1", "200"), new[] { "Text" });
             }
 
                 //Error: Type not implemented [WebTideDataSet] of type [WebTideDataSetEnum]
 
                 //Error: Type not implemented [WebTideDataSet] of type [WebTideDataSetEnum]
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

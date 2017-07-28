@@ -40,36 +40,36 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(login.LoginEmail))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LoginLoginEmail), new[] { ModelsRes.LoginLoginEmail });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LoginLoginEmail), new[] { "LoginEmail" });
             }
 
             if (!string.IsNullOrWhiteSpace(login.LoginEmail) && (login.LoginEmail.Length < 6 || login.LoginEmail.Length > 200))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LoginLoginEmail, "6", "200"), new[] { ModelsRes.LoginLoginEmail });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LoginLoginEmail, "6", "200"), new[] { "LoginEmail" });
             }
 
             if (string.IsNullOrWhiteSpace(login.Password))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LoginPassword), new[] { ModelsRes.LoginPassword });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LoginPassword), new[] { "Password" });
             }
 
             if (!string.IsNullOrWhiteSpace(login.Password) && (login.Password.Length < 6 || login.Password.Length > 100))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LoginPassword, "6", "100"), new[] { ModelsRes.LoginPassword });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LoginPassword, "6", "100"), new[] { "Password" });
             }
 
             if (string.IsNullOrWhiteSpace(login.ConfirmPassword))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LoginConfirmPassword), new[] { ModelsRes.LoginConfirmPassword });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LoginConfirmPassword), new[] { "ConfirmPassword" });
             }
 
             if (!string.IsNullOrWhiteSpace(login.ConfirmPassword) && (login.ConfirmPassword.Length < 6 || login.ConfirmPassword.Length > 100))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LoginConfirmPassword, "6", "100"), new[] { ModelsRes.LoginConfirmPassword });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LoginConfirmPassword, "6", "100"), new[] { "ConfirmPassword" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

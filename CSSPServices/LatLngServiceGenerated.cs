@@ -42,18 +42,18 @@ namespace CSSPServices
 
             if (latLng.Lat < -180 || latLng.Lat > 180)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LatLngLat, "-180", "180"), new[] { ModelsRes.LatLngLat });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LatLngLat, "-180", "180"), new[] { "Lat" });
             }
 
             //Lng (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (latLng.Lng < -90 || latLng.Lng > 90)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LatLngLng, "-90", "90"), new[] { ModelsRes.LatLngLng });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LatLngLng, "-90", "90"), new[] { "Lng" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

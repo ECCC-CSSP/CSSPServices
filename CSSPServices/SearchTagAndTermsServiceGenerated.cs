@@ -41,8 +41,8 @@ namespace CSSPServices
                 //Error: Type not implemented [SearchTag] of type [SearchTagEnum]
 
                 //Error: Type not implemented [SearchTag] of type [SearchTagEnum]
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

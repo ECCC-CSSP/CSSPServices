@@ -42,7 +42,7 @@ namespace CSSPServices
             {
                 if (samplingPlan.SamplingPlanID == 0)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanID), new[] { ModelsRes.SamplingPlanSamplingPlanID });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanID), new[] { "SamplingPlanID" });
                 }
             }
 
@@ -50,151 +50,164 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(samplingPlan.SamplingPlanName))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanName), new[] { ModelsRes.SamplingPlanSamplingPlanName });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanName), new[] { "SamplingPlanName" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.SamplingPlanName) && samplingPlan.SamplingPlanName.Length > 200)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanName, "200"), new[] { ModelsRes.SamplingPlanSamplingPlanName });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanName, "200"), new[] { "SamplingPlanName" });
             }
 
             if (string.IsNullOrWhiteSpace(samplingPlan.ForGroupName))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanForGroupName), new[] { ModelsRes.SamplingPlanForGroupName });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanForGroupName), new[] { "ForGroupName" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.ForGroupName) && samplingPlan.ForGroupName.Length > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanForGroupName, "100"), new[] { ModelsRes.SamplingPlanForGroupName });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanForGroupName, "100"), new[] { "ForGroupName" });
             }
 
             retStr = enums.SampleTypeOK(samplingPlan.SampleType);
             if (samplingPlan.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSampleType), new[] { ModelsRes.SamplingPlanSampleType });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSampleType), new[] { "SampleType" });
             }
 
             retStr = enums.SamplingPlanTypeOK(samplingPlan.SamplingPlanType);
             if (samplingPlan.SamplingPlanType == SamplingPlanTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanType), new[] { ModelsRes.SamplingPlanSamplingPlanType });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanType), new[] { "SamplingPlanType" });
             }
 
             retStr = enums.LabSheetTypeOK(samplingPlan.LabSheetType);
             if (samplingPlan.LabSheetType == LabSheetTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanLabSheetType), new[] { ModelsRes.SamplingPlanLabSheetType });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanLabSheetType), new[] { "LabSheetType" });
             }
 
             //ProvinceTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (samplingPlan.ProvinceTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanProvinceTVItemID, "1"), new[] { ModelsRes.SamplingPlanProvinceTVItemID });
-            }
+            TVItem TVItemProvinceTVItemID = (from c in db.TVItems where c.TVItemID == samplingPlan.ProvinceTVItemID select c).FirstOrDefault();
 
-            if (!((from c in db.TVItems where c.TVItemID == samplingPlan.ProvinceTVItemID select c).Any()))
+            if (TVItemProvinceTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanProvinceTVItemID, samplingPlan.ProvinceTVItemID.ToString()), new[] { ModelsRes.SamplingPlanProvinceTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanProvinceTVItemID, samplingPlan.ProvinceTVItemID.ToString()), new[] { "ProvinceTVItemID" });
+            }
+            else
+            {
+                if (TVItemProvinceTVItemID.TVType != TVTypeEnum.Province)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanProvinceTVItemID, "Province"), new[] { "ProvinceTVItemID" });
+                }
             }
 
             //CreatorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (samplingPlan.CreatorTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanCreatorTVItemID, "1"), new[] { ModelsRes.SamplingPlanCreatorTVItemID });
-            }
+            TVItem TVItemCreatorTVItemID = (from c in db.TVItems where c.TVItemID == samplingPlan.CreatorTVItemID select c).FirstOrDefault();
 
-            if (!((from c in db.TVItems where c.TVItemID == samplingPlan.CreatorTVItemID select c).Any()))
+            if (TVItemCreatorTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanCreatorTVItemID, samplingPlan.CreatorTVItemID.ToString()), new[] { ModelsRes.SamplingPlanCreatorTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanCreatorTVItemID, samplingPlan.CreatorTVItemID.ToString()), new[] { "CreatorTVItemID" });
+            }
+            else
+            {
+                if (TVItemCreatorTVItemID.TVType != TVTypeEnum.Contact)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanCreatorTVItemID, "Contact"), new[] { "CreatorTVItemID" });
+                }
             }
 
             //Year (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (samplingPlan.Year < 2000 || samplingPlan.Year > 2050)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050"), new[] { ModelsRes.SamplingPlanYear });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050"), new[] { "Year" });
             }
 
             if (string.IsNullOrWhiteSpace(samplingPlan.AccessCode))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanAccessCode), new[] { ModelsRes.SamplingPlanAccessCode });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanAccessCode), new[] { "AccessCode" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.AccessCode) && samplingPlan.AccessCode.Length > 15)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanAccessCode, "15"), new[] { ModelsRes.SamplingPlanAccessCode });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanAccessCode, "15"), new[] { "AccessCode" });
             }
 
             //DailyDuplicatePrecisionCriteria (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (samplingPlan.DailyDuplicatePrecisionCriteria < 0 || samplingPlan.DailyDuplicatePrecisionCriteria > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), new[] { ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), new[] { "DailyDuplicatePrecisionCriteria" });
             }
 
             //IntertechDuplicatePrecisionCriteria (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (samplingPlan.IntertechDuplicatePrecisionCriteria < 0 || samplingPlan.IntertechDuplicatePrecisionCriteria > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), new[] { ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), new[] { "IntertechDuplicatePrecisionCriteria" });
             }
 
             //IncludeLaboratoryQAQC (bool) is required but no testing needed 
 
             if (string.IsNullOrWhiteSpace(samplingPlan.ApprovalCode))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanApprovalCode), new[] { ModelsRes.SamplingPlanApprovalCode });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanApprovalCode), new[] { "ApprovalCode" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.ApprovalCode) && samplingPlan.ApprovalCode.Length > 15)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanApprovalCode, "15"), new[] { ModelsRes.SamplingPlanApprovalCode });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanApprovalCode, "15"), new[] { "ApprovalCode" });
             }
 
             if (samplingPlan.SamplingPlanFileTVItemID != null)
             {
-                if (samplingPlan.SamplingPlanFileTVItemID < 1)
+                TVItem TVItemSamplingPlanFileTVItemID = (from c in db.TVItems where c.TVItemID == samplingPlan.SamplingPlanFileTVItemID select c).FirstOrDefault();
+
+                if (TVItemSamplingPlanFileTVItemID == null)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, "1"), new[] { ModelsRes.SamplingPlanSamplingPlanFileTVItemID });
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, samplingPlan.SamplingPlanFileTVItemID.ToString()), new[] { "SamplingPlanFileTVItemID" });
                 }
-            }
-
-            if (samplingPlan.SamplingPlanFileTVItemID != null)
-            {
-                if (!((from c in db.TVItems where c.TVItemID == samplingPlan.SamplingPlanFileTVItemID select c).Any()))
+                else
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, samplingPlan.SamplingPlanFileTVItemID.ToString()), new[] { ModelsRes.SamplingPlanSamplingPlanFileTVItemID });
+                    if (TVItemSamplingPlanFileTVItemID.TVType != TVTypeEnum.File)
+                    {
+                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, "File"), new[] { "SamplingPlanFileTVItemID" });
+                    }
                 }
             }
 
             if (samplingPlan.LastUpdateDate_UTC.Year == 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanLastUpdateDate_UTC), new[] { ModelsRes.SamplingPlanLastUpdateDate_UTC });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (samplingPlan.LastUpdateDate_UTC.Year < 1980)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SamplingPlanLastUpdateDate_UTC, "1980"), new[] { ModelsRes.SamplingPlanLastUpdateDate_UTC });
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SamplingPlanLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (samplingPlan.LastUpdateContactTVItemID < 1)
+            TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == samplingPlan.LastUpdateContactTVItemID select c).FirstOrDefault();
+
+            if (TVItemLastUpdateContactTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanLastUpdateContactTVItemID, "1"), new[] { ModelsRes.SamplingPlanLastUpdateContactTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanLastUpdateContactTVItemID, samplingPlan.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+            }
+            else
+            {
+                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == samplingPlan.LastUpdateContactTVItemID select c).Any()))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanLastUpdateContactTVItemID, samplingPlan.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.SamplingPlanLastUpdateContactTVItemID });
-            }
-
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

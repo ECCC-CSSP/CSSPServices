@@ -40,7 +40,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Measurement.Site))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementSite), new[] { ModelsRes.LabSheetA1MeasurementSite });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementSite), new[] { "Site" });
             }
 
             //Site has no StringLength Attribute
@@ -49,7 +49,7 @@ namespace CSSPServices
 
             if (labSheetA1Measurement.TVItemID < 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetA1MeasurementTVItemID, "1"), new[] { ModelsRes.LabSheetA1MeasurementTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetA1MeasurementTVItemID, "1"), new[] { "TVItemID" });
             }
 
             //MPN has no Range Attribute
@@ -68,7 +68,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Measurement.ProcessedBy))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementProcessedBy), new[] { ModelsRes.LabSheetA1MeasurementProcessedBy });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementProcessedBy), new[] { "ProcessedBy" });
             }
 
             //ProcessedBy has no StringLength Attribute
@@ -76,13 +76,13 @@ namespace CSSPServices
                 //Error: Type not implemented [SampleType] of type [SampleTypeEnum]
             if (string.IsNullOrWhiteSpace(labSheetA1Measurement.SiteComment))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementSiteComment), new[] { ModelsRes.LabSheetA1MeasurementSiteComment });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementSiteComment), new[] { "SiteComment" });
             }
 
             //SiteComment has no StringLength Attribute
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

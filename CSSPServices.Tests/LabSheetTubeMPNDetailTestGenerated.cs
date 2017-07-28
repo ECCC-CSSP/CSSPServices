@@ -42,7 +42,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LabSheetDetailID") labSheetTubeMPNDetail.LabSheetDetailID = 1;
             if (OmitPropName != "Ordinal") labSheetTubeMPNDetail.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "MWQMSiteTVItemID") labSheetTubeMPNDetail.MWQMSiteTVItemID = 19;
-            if (OmitPropName != "SampleDateTime") labSheetTubeMPNDetail.SampleDateTime = GetRandomDateTime();
+            if (OmitPropName != "SampleDateTime") labSheetTubeMPNDetail.SampleDateTime = new DateTime(2005, 3, 6);
             if (OmitPropName != "MPN") labSheetTubeMPNDetail.MPN = GetRandomInt(1, 10000000);
             if (OmitPropName != "Tube10") labSheetTubeMPNDetail.Tube10 = GetRandomInt(0, 5);
             if (OmitPropName != "Tube1_0") labSheetTubeMPNDetail.Tube1_0 = GetRandomInt(0, 5);
@@ -52,7 +52,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ProcessedBy") labSheetTubeMPNDetail.ProcessedBy = GetRandomString("", 5);
             if (OmitPropName != "SampleType") labSheetTubeMPNDetail.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "SiteComment") labSheetTubeMPNDetail.SiteComment = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateDate_UTC") labSheetTubeMPNDetail.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") labSheetTubeMPNDetail.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") labSheetTubeMPNDetail.LastUpdateContactTVItemID = 2;
 
             return labSheetTubeMPNDetail;
@@ -112,43 +112,27 @@ namespace CSSPServices.Tests
             // labSheetTubeMPNDetail.LabSheetTubeMPNDetailID   (Int32)
             // -----------------------------------
 
+            labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
             labSheetTubeMPNDetail.LabSheetTubeMPNDetailID = 0;
             labSheetTubeMPNDetailService.Update(labSheetTubeMPNDetail);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetTubeMPNDetailLabSheetTubeMPNDetailID), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "LabSheetDetail", Plurial = "s", FieldID = "LabSheetDetailID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // labSheetTubeMPNDetail.LabSheetDetailID   (Int32)
             // -----------------------------------
 
-            // LabSheetDetailID will automatically be initialized at 0 --> not null
-
-
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
-            // LabSheetDetailID has Min [1] and Max [empty]. At Min should return true and no errors
-            labSheetTubeMPNDetail.LabSheetDetailID = 1;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(1, labSheetTubeMPNDetail.LabSheetDetailID);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
-            // LabSheetDetailID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            labSheetTubeMPNDetail.LabSheetDetailID = 2;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(2, labSheetTubeMPNDetail.LabSheetDetailID);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
-            // LabSheetDetailID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             labSheetTubeMPNDetail.LabSheetDetailID = 0;
-            Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetTubeMPNDetailLabSheetDetailID, "1")).Any());
-            Assert.AreEqual(0, labSheetTubeMPNDetail.LabSheetDetailID);
-            Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
+            labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheetDetail, ModelsRes.LabSheetTubeMPNDetailLabSheetDetailID, labSheetTubeMPNDetail.LabSheetDetailID.ToString()), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LabSheetDetailID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -157,7 +141,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // Ordinal will automatically be initialized at 0 --> not null
-
 
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
@@ -205,35 +188,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MWQMSite)]
-            // [Range(1, -1)]
             // labSheetTubeMPNDetail.MWQMSiteTVItemID   (Int32)
             // -----------------------------------
 
-            // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
-
-
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
-            // MWQMSiteTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            labSheetTubeMPNDetail.MWQMSiteTVItemID = 1;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(1, labSheetTubeMPNDetail.MWQMSiteTVItemID);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
-            // MWQMSiteTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            labSheetTubeMPNDetail.MWQMSiteTVItemID = 2;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(2, labSheetTubeMPNDetail.MWQMSiteTVItemID);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
-            // MWQMSiteTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             labSheetTubeMPNDetail.MWQMSiteTVItemID = 0;
-            Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetTubeMPNDetailMWQMSiteTVItemID, "1")).Any());
-            Assert.AreEqual(0, labSheetTubeMPNDetail.MWQMSiteTVItemID);
-            Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
+            labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetTubeMPNDetailMWQMSiteTVItemID, labSheetTubeMPNDetail.MWQMSiteTVItemID.ToString()), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is Nullable
@@ -247,7 +212,6 @@ namespace CSSPServices.Tests
             // [Range(1, 10000000)]
             // labSheetTubeMPNDetail.MPN   (Int32)
             // -----------------------------------
-
 
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
@@ -298,7 +262,6 @@ namespace CSSPServices.Tests
             // labSheetTubeMPNDetail.Tube10   (Int32)
             // -----------------------------------
 
-
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
             // Tube10 has Min [0] and Max [5]. At Min should return true and no errors
@@ -348,7 +311,6 @@ namespace CSSPServices.Tests
             // labSheetTubeMPNDetail.Tube1_0   (Int32)
             // -----------------------------------
 
-
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
             // Tube1_0 has Min [0] and Max [5]. At Min should return true and no errors
@@ -397,7 +359,6 @@ namespace CSSPServices.Tests
             // [Range(0, 5)]
             // labSheetTubeMPNDetail.Tube0_1   (Int32)
             // -----------------------------------
-
 
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
@@ -450,7 +411,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [Salinity]
 
-
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
             // Salinity has Min [0.0D] and Max [40.0D]. At Min should return true and no errors
@@ -502,7 +462,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [Temperature]
 
-
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
             // Temperature has Min [-10.0D] and Max [40.0D]. At Min should return true and no errors
@@ -552,10 +511,8 @@ namespace CSSPServices.Tests
             // labSheetTubeMPNDetail.ProcessedBy   (String)
             // -----------------------------------
 
-
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
-
             // ProcessedBy has MinLength [empty] and MaxLength [10]. At Max should return true and no errors
             string labSheetTubeMPNDetailProcessedByMin = GetRandomString("", 10);
             labSheetTubeMPNDetail.ProcessedBy = labSheetTubeMPNDetailProcessedByMin;
@@ -597,10 +554,8 @@ namespace CSSPServices.Tests
             // labSheetTubeMPNDetail.SiteComment   (String)
             // -----------------------------------
 
-
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
-
             // SiteComment has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
             string labSheetTubeMPNDetailSiteCommentMin = GetRandomString("", 250);
             labSheetTubeMPNDetail.SiteComment = labSheetTubeMPNDetailSiteCommentMin;
@@ -639,35 +594,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // labSheetTubeMPNDetail.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             labSheetTubeMPNDetail = null;
             labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            labSheetTubeMPNDetail.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(1, labSheetTubeMPNDetail.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            labSheetTubeMPNDetail.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.AreEqual(0, labSheetTubeMPNDetail.ValidationResults.Count());
-            Assert.AreEqual(2, labSheetTubeMPNDetail.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail));
-            Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             labSheetTubeMPNDetail.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
-            Assert.IsTrue(labSheetTubeMPNDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, labSheetTubeMPNDetail.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
+            labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVItemID, labSheetTubeMPNDetail.LastUpdateContactTVItemID.ToString()), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

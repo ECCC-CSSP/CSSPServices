@@ -252,4 +252,7 @@
   <data name="_DateIsBiggerThan_" xml:space="preserve">
     <value>[{0}] date est plus grand que [{1}]</value>
   </data>
+  <data name="_IsNotOfType_" xml:space="preserve">
+    <value>{0} n'est pas du type {1}</value>
+  </data>
 </root>

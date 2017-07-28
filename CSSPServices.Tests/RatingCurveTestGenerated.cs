@@ -41,7 +41,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "HydrometricSiteID") ratingCurve.HydrometricSiteID = 1;
             if (OmitPropName != "RatingCurveNumber") ratingCurve.RatingCurveNumber = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateDate_UTC") ratingCurve.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") ratingCurve.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") ratingCurve.LastUpdateContactTVItemID = 2;
 
             return ratingCurve;
@@ -101,43 +101,27 @@ namespace CSSPServices.Tests
             // ratingCurve.RatingCurveID   (Int32)
             // -----------------------------------
 
+            ratingCurve = null;
             ratingCurve = GetFilledRandomRatingCurve("");
             ratingCurve.RatingCurveID = 0;
             ratingCurveService.Update(ratingCurve);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveRatingCurveID), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "HydrometricSite", Plurial = "s", FieldID = "HydrometricSiteID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // ratingCurve.HydrometricSiteID   (Int32)
             // -----------------------------------
 
-            // HydrometricSiteID will automatically be initialized at 0 --> not null
-
-
             ratingCurve = null;
             ratingCurve = GetFilledRandomRatingCurve("");
-            // HydrometricSiteID has Min [1] and Max [empty]. At Min should return true and no errors
-            ratingCurve.HydrometricSiteID = 1;
-            Assert.AreEqual(true, ratingCurveService.Add(ratingCurve));
-            Assert.AreEqual(0, ratingCurve.ValidationResults.Count());
-            Assert.AreEqual(1, ratingCurve.HydrometricSiteID);
-            Assert.AreEqual(true, ratingCurveService.Delete(ratingCurve));
-            Assert.AreEqual(count, ratingCurveService.GetRead().Count());
-            // HydrometricSiteID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            ratingCurve.HydrometricSiteID = 2;
-            Assert.AreEqual(true, ratingCurveService.Add(ratingCurve));
-            Assert.AreEqual(0, ratingCurve.ValidationResults.Count());
-            Assert.AreEqual(2, ratingCurve.HydrometricSiteID);
-            Assert.AreEqual(true, ratingCurveService.Delete(ratingCurve));
-            Assert.AreEqual(count, ratingCurveService.GetRead().Count());
-            // HydrometricSiteID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             ratingCurve.HydrometricSiteID = 0;
-            Assert.AreEqual(false, ratingCurveService.Add(ratingCurve));
-            Assert.IsTrue(ratingCurve.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.RatingCurveHydrometricSiteID, "1")).Any());
-            Assert.AreEqual(0, ratingCurve.HydrometricSiteID);
-            Assert.AreEqual(count, ratingCurveService.GetRead().Count());
+            ratingCurveService.Add(ratingCurve);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricSite, ModelsRes.RatingCurveHydrometricSiteID, ratingCurve.HydrometricSiteID.ToString()), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // HydrometricSiteID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -153,10 +137,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, ratingCurve.RatingCurveNumber);
             Assert.AreEqual(0, ratingCurveService.GetRead().Count());
 
-
             ratingCurve = null;
             ratingCurve = GetFilledRandomRatingCurve("");
-
             // RatingCurveNumber has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
             string ratingCurveRatingCurveNumberMin = GetRandomString("", 50);
             ratingCurve.RatingCurveNumber = ratingCurveRatingCurveNumberMin;
@@ -195,35 +177,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // ratingCurve.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             ratingCurve = null;
             ratingCurve = GetFilledRandomRatingCurve("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            ratingCurve.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, ratingCurveService.Add(ratingCurve));
-            Assert.AreEqual(0, ratingCurve.ValidationResults.Count());
-            Assert.AreEqual(1, ratingCurve.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, ratingCurveService.Delete(ratingCurve));
-            Assert.AreEqual(count, ratingCurveService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            ratingCurve.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, ratingCurveService.Add(ratingCurve));
-            Assert.AreEqual(0, ratingCurve.ValidationResults.Count());
-            Assert.AreEqual(2, ratingCurve.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, ratingCurveService.Delete(ratingCurve));
-            Assert.AreEqual(count, ratingCurveService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             ratingCurve.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, ratingCurveService.Add(ratingCurve));
-            Assert.IsTrue(ratingCurve.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.RatingCurveLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, ratingCurve.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, ratingCurveService.GetRead().Count());
+            ratingCurveService.Add(ratingCurve);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RatingCurveLastUpdateContactTVItemID, ratingCurve.LastUpdateContactTVItemID.ToString()), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

@@ -42,32 +42,32 @@ namespace CSSPServices
 
             if (rTBStringPos.StartPos < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.RTBStringPosStartPos, "0"), new[] { ModelsRes.RTBStringPosStartPos });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.RTBStringPosStartPos, "0"), new[] { "StartPos" });
             }
 
             //EndPos (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (rTBStringPos.EndPos < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.RTBStringPosEndPos, "0"), new[] { ModelsRes.RTBStringPosEndPos });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.RTBStringPosEndPos, "0"), new[] { "EndPos" });
             }
 
             if (string.IsNullOrWhiteSpace(rTBStringPos.Text))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RTBStringPosText), new[] { ModelsRes.RTBStringPosText });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RTBStringPosText), new[] { "Text" });
             }
 
             //Text has no StringLength Attribute
 
             if (string.IsNullOrWhiteSpace(rTBStringPos.TagText))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RTBStringPosTagText), new[] { ModelsRes.RTBStringPosTagText });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RTBStringPosTagText), new[] { "TagText" });
             }
 
             //TagText has no StringLength Attribute
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

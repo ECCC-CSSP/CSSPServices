@@ -38,8 +38,8 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             Vector vector = validationContext.ObjectInstance as Vector;
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

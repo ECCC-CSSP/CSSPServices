@@ -41,10 +41,10 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "MunicipalityTVItemID") spill.MunicipalityTVItemID = 14;
             if (OmitPropName != "InfrastructureTVItemID") spill.InfrastructureTVItemID = 16;
-            if (OmitPropName != "StartDateTime_Local") spill.StartDateTime_Local = GetRandomDateTime();
-            if (OmitPropName != "EndDateTime_Local") spill.EndDateTime_Local = GetRandomDateTime();
+            if (OmitPropName != "StartDateTime_Local") spill.StartDateTime_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "EndDateTime_Local") spill.EndDateTime_Local = new DateTime(2005, 3, 7);
             if (OmitPropName != "AverageFlow_m3_day") spill.AverageFlow_m3_day = GetRandomDouble(0.0D, 1000000.0D);
-            if (OmitPropName != "LastUpdateDate_UTC") spill.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") spill.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") spill.LastUpdateContactTVItemID = 2;
 
             return spill;
@@ -104,74 +104,40 @@ namespace CSSPServices.Tests
             // spill.SpillID   (Int32)
             // -----------------------------------
 
+            spill = null;
             spill = GetFilledRandomSpill("");
             spill.SpillID = 0;
             spillService.Update(spill);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SpillSpillID), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Municipality)]
-            // [Range(1, -1)]
             // spill.MunicipalityTVItemID   (Int32)
             // -----------------------------------
+
+            spill = null;
+            spill = GetFilledRandomSpill("");
+            spill.MunicipalityTVItemID = 0;
+            spillService.Add(spill);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillMunicipalityTVItemID, spill.MunicipalityTVItemID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
             // MunicipalityTVItemID will automatically be initialized at 0 --> not null
 
 
-            spill = null;
-            spill = GetFilledRandomSpill("");
-            // MunicipalityTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            spill.MunicipalityTVItemID = 1;
-            Assert.AreEqual(true, spillService.Add(spill));
-            Assert.AreEqual(0, spill.ValidationResults.Count());
-            Assert.AreEqual(1, spill.MunicipalityTVItemID);
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(count, spillService.GetRead().Count());
-            // MunicipalityTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            spill.MunicipalityTVItemID = 2;
-            Assert.AreEqual(true, spillService.Add(spill));
-            Assert.AreEqual(0, spill.ValidationResults.Count());
-            Assert.AreEqual(2, spill.MunicipalityTVItemID);
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(count, spillService.GetRead().Count());
-            // MunicipalityTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
-            spill.MunicipalityTVItemID = 0;
-            Assert.AreEqual(false, spillService.Add(spill));
-            Assert.IsTrue(spill.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.SpillMunicipalityTVItemID, "1")).Any());
-            Assert.AreEqual(0, spill.MunicipalityTVItemID);
-            Assert.AreEqual(count, spillService.GetRead().Count());
-
             // -----------------------------------
             // Is Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
-            // [Range(1, -1)]
             // spill.InfrastructureTVItemID   (Int32)
             // -----------------------------------
 
-
             spill = null;
             spill = GetFilledRandomSpill("");
-            // InfrastructureTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            spill.InfrastructureTVItemID = 1;
-            Assert.AreEqual(true, spillService.Add(spill));
-            Assert.AreEqual(0, spill.ValidationResults.Count());
-            Assert.AreEqual(1, spill.InfrastructureTVItemID);
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(count, spillService.GetRead().Count());
-            // InfrastructureTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            spill.InfrastructureTVItemID = 2;
-            Assert.AreEqual(true, spillService.Add(spill));
-            Assert.AreEqual(0, spill.ValidationResults.Count());
-            Assert.AreEqual(2, spill.InfrastructureTVItemID);
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(count, spillService.GetRead().Count());
-            // InfrastructureTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             spill.InfrastructureTVItemID = 0;
-            Assert.AreEqual(false, spillService.Add(spill));
-            Assert.IsTrue(spill.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.SpillInfrastructureTVItemID, "1")).Any());
-            Assert.AreEqual(0, spill.InfrastructureTVItemID);
-            Assert.AreEqual(count, spillService.GetRead().Count());
+            spillService.Add(spill);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillInfrastructureTVItemID, spill.InfrastructureTVItemID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -197,7 +163,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [AverageFlow_m3_day]
-
 
             spill = null;
             spill = GetFilledRandomSpill("");
@@ -254,35 +219,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // spill.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             spill = null;
             spill = GetFilledRandomSpill("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            spill.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, spillService.Add(spill));
-            Assert.AreEqual(0, spill.ValidationResults.Count());
-            Assert.AreEqual(1, spill.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(count, spillService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            spill.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, spillService.Add(spill));
-            Assert.AreEqual(0, spill.ValidationResults.Count());
-            Assert.AreEqual(2, spill.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(count, spillService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             spill.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, spillService.Add(spill));
-            Assert.IsTrue(spill.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.SpillLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, spill.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, spillService.GetRead().Count());
+            spillService.Add(spill);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillLastUpdateContactTVItemID, spill.LastUpdateContactTVItemID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

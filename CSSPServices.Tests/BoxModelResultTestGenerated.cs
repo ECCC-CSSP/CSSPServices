@@ -54,7 +54,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LeftSideLineAngle_deg") boxModelResult.LeftSideLineAngle_deg = GetRandomDouble(0.0D, 360.0D);
             if (OmitPropName != "LeftSideLineStartLatitude") boxModelResult.LeftSideLineStartLatitude = GetRandomDouble(-90.0D, 90.0D);
             if (OmitPropName != "LeftSideLineStartLongitude") boxModelResult.LeftSideLineStartLongitude = GetRandomDouble(-180.0D, 180.0D);
-            if (OmitPropName != "LastUpdateDate_UTC") boxModelResult.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") boxModelResult.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") boxModelResult.LastUpdateContactTVItemID = 2;
 
             return boxModelResult;
@@ -114,43 +114,27 @@ namespace CSSPServices.Tests
             // boxModelResult.BoxModelResultID   (Int32)
             // -----------------------------------
 
+            boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
             boxModelResult.BoxModelResultID = 0;
             boxModelResultService.Update(boxModelResult);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelResultBoxModelResultID), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "BoxModel", Plurial = "s", FieldID = "BoxModelID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // boxModelResult.BoxModelID   (Int32)
             // -----------------------------------
 
-            // BoxModelID will automatically be initialized at 0 --> not null
-
-
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
-            // BoxModelID has Min [1] and Max [empty]. At Min should return true and no errors
-            boxModelResult.BoxModelID = 1;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(1, boxModelResult.BoxModelID);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // BoxModelID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            boxModelResult.BoxModelID = 2;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(2, boxModelResult.BoxModelID);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // BoxModelID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             boxModelResult.BoxModelID = 0;
-            Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultBoxModelID, "1")).Any());
-            Assert.AreEqual(0, boxModelResult.BoxModelID);
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+            boxModelResultService.Add(boxModelResult);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModel, ModelsRes.BoxModelResultBoxModelID, boxModelResult.BoxModelID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // BoxModelID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -168,7 +152,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [Volume_m3]
-
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
@@ -201,7 +184,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [Surface_m2]
 
-
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
             // Surface_m2 has Min [0.0D] and Max [empty]. At Min should return true and no errors
@@ -232,7 +214,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [Radius_m]
-
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
@@ -285,7 +266,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [LeftSideDiameterLineAngle_deg]
 
-
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
             // LeftSideDiameterLineAngle_deg has Min [0.0D] and Max [360.0D]. At Min should return true and no errors
@@ -337,7 +317,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [CircleCenterLatitude]
 
-
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
             // CircleCenterLatitude has Min [-90.0D] and Max [90.0D]. At Min should return true and no errors
@@ -388,7 +367,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [CircleCenterLongitude]
-
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
@@ -457,7 +435,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [RectLength_m]
 
-
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
             // RectLength_m has Min [0.0D] and Max [100000.0D]. At Min should return true and no errors
@@ -508,7 +485,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RectWidth_m]
-
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
@@ -561,7 +537,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [LeftSideLineAngle_deg]
 
-
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
             // LeftSideLineAngle_deg has Min [0.0D] and Max [360.0D]. At Min should return true and no errors
@@ -613,7 +588,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [LeftSideLineStartLatitude]
 
-
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
             // LeftSideLineStartLatitude has Min [-90.0D] and Max [90.0D]. At Min should return true and no errors
@@ -664,7 +638,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [LeftSideLineStartLongitude]
-
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
@@ -721,35 +694,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // boxModelResult.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            boxModelResult.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(1, boxModelResult.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            boxModelResult.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(2, boxModelResult.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             boxModelResult.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, boxModelResult.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+            boxModelResultService.Add(boxModelResult);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelResultLastUpdateContactTVItemID, boxModelResult.LastUpdateContactTVItemID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

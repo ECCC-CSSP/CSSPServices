@@ -43,16 +43,16 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SamplingPlanID") labSheetDetail.SamplingPlanID = 1;
             if (OmitPropName != "SubsectorTVItemID") labSheetDetail.SubsectorTVItemID = 1;
             if (OmitPropName != "Version") labSheetDetail.Version = GetRandomInt(1, 5);
-            if (OmitPropName != "RunDate") labSheetDetail.RunDate = GetRandomDateTime();
+            if (OmitPropName != "RunDate") labSheetDetail.RunDate = new DateTime(2005, 3, 6);
             if (OmitPropName != "Tides") labSheetDetail.Tides = GetRandomString("", 6);
             if (OmitPropName != "SampleCrewInitials") labSheetDetail.SampleCrewInitials = GetRandomString("", 5);
             if (OmitPropName != "WaterBathCount") labSheetDetail.WaterBathCount = GetRandomInt(1, 3);
-            if (OmitPropName != "IncubationBath1StartTime") labSheetDetail.IncubationBath1StartTime = GetRandomDateTime();
-            if (OmitPropName != "IncubationBath2StartTime") labSheetDetail.IncubationBath2StartTime = GetRandomDateTime();
-            if (OmitPropName != "IncubationBath3StartTime") labSheetDetail.IncubationBath3StartTime = GetRandomDateTime();
-            if (OmitPropName != "IncubationBath1EndTime") labSheetDetail.IncubationBath1EndTime = GetRandomDateTime();
-            if (OmitPropName != "IncubationBath2EndTime") labSheetDetail.IncubationBath2EndTime = GetRandomDateTime();
-            if (OmitPropName != "IncubationBath3EndTime") labSheetDetail.IncubationBath3EndTime = GetRandomDateTime();
+            if (OmitPropName != "IncubationBath1StartTime") labSheetDetail.IncubationBath1StartTime = new DateTime(2005, 3, 6);
+            if (OmitPropName != "IncubationBath2StartTime") labSheetDetail.IncubationBath2StartTime = new DateTime(2005, 3, 6);
+            if (OmitPropName != "IncubationBath3StartTime") labSheetDetail.IncubationBath3StartTime = new DateTime(2005, 3, 6);
+            if (OmitPropName != "IncubationBath1EndTime") labSheetDetail.IncubationBath1EndTime = new DateTime(2005, 3, 6);
+            if (OmitPropName != "IncubationBath2EndTime") labSheetDetail.IncubationBath2EndTime = new DateTime(2005, 3, 6);
+            if (OmitPropName != "IncubationBath3EndTime") labSheetDetail.IncubationBath3EndTime = new DateTime(2005, 3, 6);
             if (OmitPropName != "IncubationBath1TimeCalculated_minutes") labSheetDetail.IncubationBath1TimeCalculated_minutes = GetRandomInt(0, 10000);
             if (OmitPropName != "IncubationBath2TimeCalculated_minutes") labSheetDetail.IncubationBath2TimeCalculated_minutes = GetRandomInt(0, 10000);
             if (OmitPropName != "IncubationBath3TimeCalculated_minutes") labSheetDetail.IncubationBath3TimeCalculated_minutes = GetRandomInt(0, 10000);
@@ -89,11 +89,11 @@ namespace CSSPServices.Tests
             if (OmitPropName != "RunWeatherComment") labSheetDetail.RunWeatherComment = GetRandomString("", 5);
             if (OmitPropName != "SampleBottleLotNumber") labSheetDetail.SampleBottleLotNumber = GetRandomString("", 5);
             if (OmitPropName != "SalinitiesReadBy") labSheetDetail.SalinitiesReadBy = GetRandomString("", 5);
-            if (OmitPropName != "SalinitiesReadDate") labSheetDetail.SalinitiesReadDate = GetRandomDateTime();
+            if (OmitPropName != "SalinitiesReadDate") labSheetDetail.SalinitiesReadDate = new DateTime(2005, 3, 6);
             if (OmitPropName != "ResultsReadBy") labSheetDetail.ResultsReadBy = GetRandomString("", 5);
-            if (OmitPropName != "ResultsReadDate") labSheetDetail.ResultsReadDate = GetRandomDateTime();
+            if (OmitPropName != "ResultsReadDate") labSheetDetail.ResultsReadDate = new DateTime(2005, 3, 6);
             if (OmitPropName != "ResultsRecordedBy") labSheetDetail.ResultsRecordedBy = GetRandomString("", 5);
-            if (OmitPropName != "ResultsRecordedDate") labSheetDetail.ResultsRecordedDate = GetRandomDateTime();
+            if (OmitPropName != "ResultsRecordedDate") labSheetDetail.ResultsRecordedDate = new DateTime(2005, 3, 6);
             if (OmitPropName != "DailyDuplicateRLog") labSheetDetail.DailyDuplicateRLog = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "DailyDuplicatePrecisionCriteria") labSheetDetail.DailyDuplicatePrecisionCriteria = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "DailyDuplicateAcceptable") labSheetDetail.DailyDuplicateAcceptable = true;
@@ -101,7 +101,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "IntertechDuplicatePrecisionCriteria") labSheetDetail.IntertechDuplicatePrecisionCriteria = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "IntertechDuplicateAcceptable") labSheetDetail.IntertechDuplicateAcceptable = true;
             if (OmitPropName != "IntertechReadAcceptable") labSheetDetail.IntertechReadAcceptable = true;
-            if (OmitPropName != "LastUpdateDate_UTC") labSheetDetail.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") labSheetDetail.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") labSheetDetail.LastUpdateContactTVItemID = 2;
 
             return labSheetDetail;
@@ -161,109 +161,57 @@ namespace CSSPServices.Tests
             // labSheetDetail.LabSheetDetailID   (Int32)
             // -----------------------------------
 
+            labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
             labSheetDetail.LabSheetDetailID = 0;
             labSheetDetailService.Update(labSheetDetail);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetDetailLabSheetDetailID), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "LabSheet", Plurial = "s", FieldID = "LabSheetID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // labSheetDetail.LabSheetID   (Int32)
             // -----------------------------------
+
+            labSheetDetail = null;
+            labSheetDetail = GetFilledRandomLabSheetDetail("");
+            labSheetDetail.LabSheetID = 0;
+            labSheetDetailService.Add(labSheetDetail);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheet, ModelsRes.LabSheetDetailLabSheetID, labSheetDetail.LabSheetID.ToString()), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
             // LabSheetID will automatically be initialized at 0 --> not null
 
 
-            labSheetDetail = null;
-            labSheetDetail = GetFilledRandomLabSheetDetail("");
-            // LabSheetID has Min [1] and Max [empty]. At Min should return true and no errors
-            labSheetDetail.LabSheetID = 1;
-            Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
-            Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(1, labSheetDetail.LabSheetID);
-            Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
-            Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
-            // LabSheetID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            labSheetDetail.LabSheetID = 2;
-            Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
-            Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(2, labSheetDetail.LabSheetID);
-            Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
-            Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
-            // LabSheetID has Min [1] and Max [empty]. At Min - 1 should return false with one error
-            labSheetDetail.LabSheetID = 0;
-            Assert.AreEqual(false, labSheetDetailService.Add(labSheetDetail));
-            Assert.IsTrue(labSheetDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetDetailLabSheetID, "1")).Any());
-            Assert.AreEqual(0, labSheetDetail.LabSheetID);
-            Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
-
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "LabSheet", Plurial = "s", FieldID = "LabSheetID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // labSheetDetail.SamplingPlanID   (Int32)
             // -----------------------------------
+
+            labSheetDetail = null;
+            labSheetDetail = GetFilledRandomLabSheetDetail("");
+            labSheetDetail.SamplingPlanID = 0;
+            labSheetDetailService.Add(labSheetDetail);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheet, ModelsRes.LabSheetDetailSamplingPlanID, labSheetDetail.SamplingPlanID.ToString()), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
             // SamplingPlanID will automatically be initialized at 0 --> not null
 
 
-            labSheetDetail = null;
-            labSheetDetail = GetFilledRandomLabSheetDetail("");
-            // SamplingPlanID has Min [1] and Max [empty]. At Min should return true and no errors
-            labSheetDetail.SamplingPlanID = 1;
-            Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
-            Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(1, labSheetDetail.SamplingPlanID);
-            Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
-            Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
-            // SamplingPlanID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            labSheetDetail.SamplingPlanID = 2;
-            Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
-            Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(2, labSheetDetail.SamplingPlanID);
-            Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
-            Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
-            // SamplingPlanID has Min [1] and Max [empty]. At Min - 1 should return false with one error
-            labSheetDetail.SamplingPlanID = 0;
-            Assert.AreEqual(false, labSheetDetailService.Add(labSheetDetail));
-            Assert.IsTrue(labSheetDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetDetailSamplingPlanID, "1")).Any());
-            Assert.AreEqual(0, labSheetDetail.SamplingPlanID);
-            Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
-
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "LabSheet", Plurial = "s", FieldID = "LabSheetID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // labSheetDetail.SubsectorTVItemID   (Int32)
             // -----------------------------------
 
-            // SubsectorTVItemID will automatically be initialized at 0 --> not null
-
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-            // SubsectorTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            labSheetDetail.SubsectorTVItemID = 1;
-            Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
-            Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(1, labSheetDetail.SubsectorTVItemID);
-            Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
-            Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
-            // SubsectorTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            labSheetDetail.SubsectorTVItemID = 2;
-            Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
-            Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(2, labSheetDetail.SubsectorTVItemID);
-            Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
-            Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
-            // SubsectorTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             labSheetDetail.SubsectorTVItemID = 0;
-            Assert.AreEqual(false, labSheetDetailService.Add(labSheetDetail));
-            Assert.IsTrue(labSheetDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetDetailSubsectorTVItemID, "1")).Any());
-            Assert.AreEqual(0, labSheetDetail.SubsectorTVItemID);
-            Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
+            labSheetDetailService.Add(labSheetDetail);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheet, ModelsRes.LabSheetDetailSubsectorTVItemID, labSheetDetail.SubsectorTVItemID.ToString()), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // SubsectorTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -272,7 +220,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // Version will automatically be initialized at 0 --> not null
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -340,7 +287,6 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, labSheetDetail.Tides);
             Assert.AreEqual(0, labSheetDetailService.GetRead().Count());
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
 
@@ -394,10 +340,8 @@ namespace CSSPServices.Tests
             // labSheetDetail.SampleCrewInitials   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-
             // SampleCrewInitials has MinLength [empty] and MaxLength [20]. At Max should return true and no errors
             string labSheetDetailSampleCrewInitialsMin = GetRandomString("", 20);
             labSheetDetail.SampleCrewInitials = labSheetDetailSampleCrewInitialsMin;
@@ -429,7 +373,6 @@ namespace CSSPServices.Tests
             // [Range(1, 3)]
             // labSheetDetail.WaterBathCount   (Int32)
             // -----------------------------------
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -522,7 +465,6 @@ namespace CSSPServices.Tests
             // labSheetDetail.IncubationBath1TimeCalculated_minutes   (Int32)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
             // IncubationBath1TimeCalculated_minutes has Min [0] and Max [10000]. At Min should return true and no errors
@@ -571,7 +513,6 @@ namespace CSSPServices.Tests
             // [Range(0, 10000)]
             // labSheetDetail.IncubationBath2TimeCalculated_minutes   (Int32)
             // -----------------------------------
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -622,7 +563,6 @@ namespace CSSPServices.Tests
             // labSheetDetail.IncubationBath3TimeCalculated_minutes   (Int32)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
             // IncubationBath3TimeCalculated_minutes has Min [0] and Max [10000]. At Min should return true and no errors
@@ -672,10 +612,8 @@ namespace CSSPServices.Tests
             // labSheetDetail.WaterBath1   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-
             // WaterBath1 has MinLength [empty] and MaxLength [10]. At Max should return true and no errors
             string labSheetDetailWaterBath1Min = GetRandomString("", 10);
             labSheetDetail.WaterBath1 = labSheetDetailWaterBath1Min;
@@ -708,10 +646,8 @@ namespace CSSPServices.Tests
             // labSheetDetail.WaterBath2   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-
             // WaterBath2 has MinLength [empty] and MaxLength [10]. At Max should return true and no errors
             string labSheetDetailWaterBath2Min = GetRandomString("", 10);
             labSheetDetail.WaterBath2 = labSheetDetailWaterBath2Min;
@@ -744,10 +680,8 @@ namespace CSSPServices.Tests
             // labSheetDetail.WaterBath3   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-
             // WaterBath3 has MinLength [empty] and MaxLength [10]. At Max should return true and no errors
             string labSheetDetailWaterBath3Min = GetRandomString("", 10);
             labSheetDetail.WaterBath3 = labSheetDetailWaterBath3Min;
@@ -781,7 +715,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [TCField1]
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -834,7 +767,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [TCLab1]
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
             // TCLab1 has Min [-10.0D] and Max [40.0D]. At Min should return true and no errors
@@ -885,7 +817,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [TCField2]
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -938,7 +869,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [TCLab2]
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
             // TCLab2 has Min [-10.0D] and Max [40.0D]. At Min should return true and no errors
@@ -989,7 +919,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [TCFirst]
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1042,7 +971,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [TCAverage]
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
             // TCAverage has Min [-10.0D] and Max [40.0D]. At Min should return true and no errors
@@ -1092,10 +1020,8 @@ namespace CSSPServices.Tests
             // labSheetDetail.ControlLot   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-
             // ControlLot has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
             string labSheetDetailControlLotMin = GetRandomString("", 100);
             labSheetDetail.ControlLot = labSheetDetailControlLotMin;
@@ -1127,7 +1053,6 @@ namespace CSSPServices.Tests
             // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Positive35   (String)
             // -----------------------------------
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1164,7 +1089,6 @@ namespace CSSPServices.Tests
             // labSheetDetail.NonTarget35   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
 
@@ -1199,7 +1123,6 @@ namespace CSSPServices.Tests
             // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Negative35   (String)
             // -----------------------------------
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1236,7 +1159,6 @@ namespace CSSPServices.Tests
             // labSheetDetail.Bath1Positive44_5   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
 
@@ -1271,7 +1193,6 @@ namespace CSSPServices.Tests
             // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath2Positive44_5   (String)
             // -----------------------------------
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1308,7 +1229,6 @@ namespace CSSPServices.Tests
             // labSheetDetail.Bath3Positive44_5   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
 
@@ -1343,7 +1263,6 @@ namespace CSSPServices.Tests
             // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath1NonTarget44_5   (String)
             // -----------------------------------
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1380,7 +1299,6 @@ namespace CSSPServices.Tests
             // labSheetDetail.Bath2NonTarget44_5   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
 
@@ -1415,7 +1333,6 @@ namespace CSSPServices.Tests
             // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath3NonTarget44_5   (String)
             // -----------------------------------
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1452,7 +1369,6 @@ namespace CSSPServices.Tests
             // labSheetDetail.Bath1Negative44_5   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
 
@@ -1487,7 +1403,6 @@ namespace CSSPServices.Tests
             // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath2Negative44_5   (String)
             // -----------------------------------
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1524,7 +1439,6 @@ namespace CSSPServices.Tests
             // labSheetDetail.Bath3Negative44_5   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
 
@@ -1559,7 +1473,6 @@ namespace CSSPServices.Tests
             // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Blank35   (String)
             // -----------------------------------
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1596,7 +1509,6 @@ namespace CSSPServices.Tests
             // labSheetDetail.Bath1Blank44_5   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
 
@@ -1631,7 +1543,6 @@ namespace CSSPServices.Tests
             // [StringLength(1, MinimumLength = 1)]
             // labSheetDetail.Bath2Blank44_5   (String)
             // -----------------------------------
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -1668,7 +1579,6 @@ namespace CSSPServices.Tests
             // labSheetDetail.Bath3Blank44_5   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
 
@@ -1704,10 +1614,8 @@ namespace CSSPServices.Tests
             // labSheetDetail.Lot35   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-
             // Lot35 has MinLength [empty] and MaxLength [20]. At Max should return true and no errors
             string labSheetDetailLot35Min = GetRandomString("", 20);
             labSheetDetail.Lot35 = labSheetDetailLot35Min;
@@ -1740,10 +1648,8 @@ namespace CSSPServices.Tests
             // labSheetDetail.Lot44_5   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-
             // Lot44_5 has MinLength [empty] and MaxLength [20]. At Max should return true and no errors
             string labSheetDetailLot44_5Min = GetRandomString("", 20);
             labSheetDetail.Lot44_5 = labSheetDetailLot44_5Min;
@@ -1776,10 +1682,8 @@ namespace CSSPServices.Tests
             // labSheetDetail.Weather   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-
             // Weather has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
             string labSheetDetailWeatherMin = GetRandomString("", 250);
             labSheetDetail.Weather = labSheetDetailWeatherMin;
@@ -1812,10 +1716,8 @@ namespace CSSPServices.Tests
             // labSheetDetail.RunComment   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-
             // RunComment has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
             string labSheetDetailRunCommentMin = GetRandomString("", 250);
             labSheetDetail.RunComment = labSheetDetailRunCommentMin;
@@ -1848,10 +1750,8 @@ namespace CSSPServices.Tests
             // labSheetDetail.RunWeatherComment   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-
             // RunWeatherComment has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
             string labSheetDetailRunWeatherCommentMin = GetRandomString("", 250);
             labSheetDetail.RunWeatherComment = labSheetDetailRunWeatherCommentMin;
@@ -1884,10 +1784,8 @@ namespace CSSPServices.Tests
             // labSheetDetail.SampleBottleLotNumber   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-
             // SampleBottleLotNumber has MinLength [empty] and MaxLength [20]. At Max should return true and no errors
             string labSheetDetailSampleBottleLotNumberMin = GetRandomString("", 20);
             labSheetDetail.SampleBottleLotNumber = labSheetDetailSampleBottleLotNumberMin;
@@ -1920,10 +1818,8 @@ namespace CSSPServices.Tests
             // labSheetDetail.SalinitiesReadBy   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-
             // SalinitiesReadBy has MinLength [empty] and MaxLength [20]. At Max should return true and no errors
             string labSheetDetailSalinitiesReadByMin = GetRandomString("", 20);
             labSheetDetail.SalinitiesReadBy = labSheetDetailSalinitiesReadByMin;
@@ -1963,10 +1859,8 @@ namespace CSSPServices.Tests
             // labSheetDetail.ResultsReadBy   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-
             // ResultsReadBy has MinLength [empty] and MaxLength [20]. At Max should return true and no errors
             string labSheetDetailResultsReadByMin = GetRandomString("", 20);
             labSheetDetail.ResultsReadBy = labSheetDetailResultsReadByMin;
@@ -2006,10 +1900,8 @@ namespace CSSPServices.Tests
             // labSheetDetail.ResultsRecordedBy   (String)
             // -----------------------------------
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-
             // ResultsRecordedBy has MinLength [empty] and MaxLength [20]. At Max should return true and no errors
             string labSheetDetailResultsRecordedByMin = GetRandomString("", 20);
             labSheetDetail.ResultsRecordedBy = labSheetDetailResultsRecordedByMin;
@@ -2050,7 +1942,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [DailyDuplicateRLog]
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -2102,7 +1993,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [DailyDuplicatePrecisionCriteria]
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -2161,7 +2051,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [IntertechDuplicateRLog]
 
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
             // IntertechDuplicateRLog has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
@@ -2212,7 +2101,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [IntertechDuplicatePrecisionCriteria]
-
 
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
@@ -2281,35 +2169,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // labSheetDetail.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             labSheetDetail = null;
             labSheetDetail = GetFilledRandomLabSheetDetail("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            labSheetDetail.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
-            Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(1, labSheetDetail.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
-            Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            labSheetDetail.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, labSheetDetailService.Add(labSheetDetail));
-            Assert.AreEqual(0, labSheetDetail.ValidationResults.Count());
-            Assert.AreEqual(2, labSheetDetail.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, labSheetDetailService.Delete(labSheetDetail));
-            Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             labSheetDetail.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, labSheetDetailService.Add(labSheetDetail));
-            Assert.IsTrue(labSheetDetail.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetDetailLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, labSheetDetail.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
+            labSheetDetailService.Add(labSheetDetail);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetDetailLastUpdateContactTVItemID, labSheetDetail.LastUpdateContactTVItemID.ToString()), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

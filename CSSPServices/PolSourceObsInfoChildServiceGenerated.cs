@@ -44,8 +44,8 @@ namespace CSSPServices
                 //Error: Type not implemented [PolSourceObsInfoChildStart] of type [PolSourceObsInfoEnum]
 
                 //Error: Type not implemented [PolSourceObsInfoChildStart] of type [PolSourceObsInfoEnum]
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

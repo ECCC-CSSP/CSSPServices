@@ -42,22 +42,22 @@ namespace CSSPServices
 
             if (polyPoint.XCoord < -180 || polyPoint.XCoord > 180)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolyPointXCoord, "-180", "180"), new[] { ModelsRes.PolyPointXCoord });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolyPointXCoord, "-180", "180"), new[] { "XCoord" });
             }
 
             //YCoord (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (polyPoint.YCoord < -90 || polyPoint.YCoord > 90)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolyPointYCoord, "-90", "90"), new[] { ModelsRes.PolyPointYCoord });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolyPointYCoord, "-90", "90"), new[] { "YCoord" });
             }
 
             //Z (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //Z has no Range Attribute
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

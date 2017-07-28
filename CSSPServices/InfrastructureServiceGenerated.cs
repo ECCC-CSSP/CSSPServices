@@ -42,7 +42,7 @@ namespace CSSPServices
             {
                 if (infrastructure.InfrastructureID == 0)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureInfrastructureID), new[] { ModelsRes.InfrastructureInfrastructureID });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureInfrastructureID), new[] { "InfrastructureID" });
                 }
             }
 
@@ -50,21 +50,25 @@ namespace CSSPServices
 
             //InfrastructureTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (infrastructure.InfrastructureTVItemID < 1)
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.InfrastructureInfrastructureTVItemID, "1"), new[] { ModelsRes.InfrastructureInfrastructureTVItemID });
-            }
+            TVItem TVItemInfrastructureTVItemID = (from c in db.TVItems where c.TVItemID == infrastructure.InfrastructureTVItemID select c).FirstOrDefault();
 
-            if (!((from c in db.TVItems where c.TVItemID == infrastructure.InfrastructureTVItemID select c).Any()))
+            if (TVItemInfrastructureTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureInfrastructureTVItemID, infrastructure.InfrastructureTVItemID.ToString()), new[] { ModelsRes.InfrastructureInfrastructureTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureInfrastructureTVItemID, infrastructure.InfrastructureTVItemID.ToString()), new[] { "InfrastructureTVItemID" });
+            }
+            else
+            {
+                if (TVItemInfrastructureTVItemID.TVType != TVTypeEnum.Infrastructure)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureInfrastructureTVItemID, "Infrastructure"), new[] { "InfrastructureTVItemID" });
+                }
             }
 
             if (infrastructure.PrismID != null)
             {
                 if (infrastructure.PrismID < 0 || infrastructure.PrismID > 100000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePrismID, "0", "100000"), new[] { ModelsRes.InfrastructurePrismID });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePrismID, "0", "100000"), new[] { "PrismID" });
                 }
             }
 
@@ -72,7 +76,7 @@ namespace CSSPServices
             {
                 if (infrastructure.TPID < 0 || infrastructure.TPID > 100000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureTPID, "0", "100000"), new[] { ModelsRes.InfrastructureTPID });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureTPID, "0", "100000"), new[] { "TPID" });
                 }
             }
 
@@ -80,7 +84,7 @@ namespace CSSPServices
             {
                 if (infrastructure.LSID < 0 || infrastructure.LSID > 100000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureLSID, "0", "100000"), new[] { ModelsRes.InfrastructureLSID });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureLSID, "0", "100000"), new[] { "LSID" });
                 }
             }
 
@@ -88,7 +92,7 @@ namespace CSSPServices
             {
                 if (infrastructure.SiteID < 0 || infrastructure.SiteID > 100000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureSiteID, "0", "100000"), new[] { ModelsRes.InfrastructureSiteID });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureSiteID, "0", "100000"), new[] { "SiteID" });
                 }
             }
 
@@ -96,13 +100,13 @@ namespace CSSPServices
             {
                 if (infrastructure.Site < 0 || infrastructure.Site > 100000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureSite, "0", "100000"), new[] { ModelsRes.InfrastructureSite });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureSite, "0", "100000"), new[] { "Site" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(infrastructure.InfrastructureCategory) && (infrastructure.InfrastructureCategory.Length < 1 || infrastructure.InfrastructureCategory.Length > 1))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.InfrastructureInfrastructureCategory, "1", "1"), new[] { ModelsRes.InfrastructureInfrastructureCategory });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.InfrastructureInfrastructureCategory, "1", "1"), new[] { "InfrastructureCategory" });
             }
 
             if (infrastructure.InfrastructureType != null)
@@ -127,7 +131,7 @@ namespace CSSPServices
             {
                 if (infrastructure.NumberOfCells < 0 || infrastructure.NumberOfCells > 10)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNumberOfCells, "0", "10"), new[] { ModelsRes.InfrastructureNumberOfCells });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNumberOfCells, "0", "10"), new[] { "NumberOfCells" });
                 }
             }
 
@@ -135,7 +139,7 @@ namespace CSSPServices
             {
                 if (infrastructure.NumberOfAeratedCells < 0 || infrastructure.NumberOfAeratedCells > 10)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNumberOfAeratedCells, "0", "10"), new[] { ModelsRes.InfrastructureNumberOfAeratedCells });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNumberOfAeratedCells, "0", "10"), new[] { "NumberOfAeratedCells" });
                 }
             }
 
@@ -224,7 +228,7 @@ namespace CSSPServices
             {
                 if (infrastructure.DesignFlow_m3_day < 0 || infrastructure.DesignFlow_m3_day > 1000000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDesignFlow_m3_day, "0", "1000000"), new[] { ModelsRes.InfrastructureDesignFlow_m3_day });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDesignFlow_m3_day, "0", "1000000"), new[] { "DesignFlow_m3_day" });
                 }
             }
 
@@ -232,7 +236,7 @@ namespace CSSPServices
             {
                 if (infrastructure.AverageFlow_m3_day < 0 || infrastructure.AverageFlow_m3_day > 1000000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageFlow_m3_day, "0", "1000000"), new[] { ModelsRes.InfrastructureAverageFlow_m3_day });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageFlow_m3_day, "0", "1000000"), new[] { "AverageFlow_m3_day" });
                 }
             }
 
@@ -240,7 +244,7 @@ namespace CSSPServices
             {
                 if (infrastructure.PeakFlow_m3_day < 0 || infrastructure.PeakFlow_m3_day > 1000000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePeakFlow_m3_day, "0", "1000000"), new[] { ModelsRes.InfrastructurePeakFlow_m3_day });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePeakFlow_m3_day, "0", "1000000"), new[] { "PeakFlow_m3_day" });
                 }
             }
 
@@ -248,7 +252,7 @@ namespace CSSPServices
             {
                 if (infrastructure.PopServed < 0 || infrastructure.PopServed > 1000000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePopServed, "0", "1000000"), new[] { ModelsRes.InfrastructurePopServed });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePopServed, "0", "1000000"), new[] { "PopServed" });
                 }
             }
 
@@ -256,7 +260,7 @@ namespace CSSPServices
             {
                 if (infrastructure.PercFlowOfTotal < 0 || infrastructure.PercFlowOfTotal > 100)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePercFlowOfTotal, "0", "100"), new[] { ModelsRes.InfrastructurePercFlowOfTotal });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePercFlowOfTotal, "0", "100"), new[] { "PercFlowOfTotal" });
                 }
             }
 
@@ -264,7 +268,7 @@ namespace CSSPServices
             {
                 if (infrastructure.TimeOffset_hour < -10 || infrastructure.TimeOffset_hour > 0)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureTimeOffset_hour, "-10", "0"), new[] { ModelsRes.InfrastructureTimeOffset_hour });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureTimeOffset_hour, "-10", "0"), new[] { "TimeOffset_hour" });
                 }
             }
 
@@ -274,7 +278,7 @@ namespace CSSPServices
             {
                 if (infrastructure.AverageDepth_m < 0 || infrastructure.AverageDepth_m > 1000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageDepth_m, "0", "1000"), new[] { ModelsRes.InfrastructureAverageDepth_m });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageDepth_m, "0", "1000"), new[] { "AverageDepth_m" });
                 }
             }
 
@@ -282,7 +286,7 @@ namespace CSSPServices
             {
                 if (infrastructure.NumberOfPorts < 1 || infrastructure.NumberOfPorts > 1000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNumberOfPorts, "1", "1000"), new[] { ModelsRes.InfrastructureNumberOfPorts });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNumberOfPorts, "1", "1000"), new[] { "NumberOfPorts" });
                 }
             }
 
@@ -290,7 +294,7 @@ namespace CSSPServices
             {
                 if (infrastructure.PortDiameter_m < 0 || infrastructure.PortDiameter_m > 10)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortDiameter_m, "0", "10"), new[] { ModelsRes.InfrastructurePortDiameter_m });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortDiameter_m, "0", "10"), new[] { "PortDiameter_m" });
                 }
             }
 
@@ -298,7 +302,7 @@ namespace CSSPServices
             {
                 if (infrastructure.PortSpacing_m < 0 || infrastructure.PortSpacing_m > 10000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortSpacing_m, "0", "10000"), new[] { ModelsRes.InfrastructurePortSpacing_m });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortSpacing_m, "0", "10000"), new[] { "PortSpacing_m" });
                 }
             }
 
@@ -306,7 +310,7 @@ namespace CSSPServices
             {
                 if (infrastructure.PortElevation_m < 0 || infrastructure.PortElevation_m > 1000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortElevation_m, "0", "1000"), new[] { ModelsRes.InfrastructurePortElevation_m });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortElevation_m, "0", "1000"), new[] { "PortElevation_m" });
                 }
             }
 
@@ -314,7 +318,7 @@ namespace CSSPServices
             {
                 if (infrastructure.VerticalAngle_deg < -90 || infrastructure.VerticalAngle_deg > 90)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureVerticalAngle_deg, "-90", "90"), new[] { ModelsRes.InfrastructureVerticalAngle_deg });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureVerticalAngle_deg, "-90", "90"), new[] { "VerticalAngle_deg" });
                 }
             }
 
@@ -322,7 +326,7 @@ namespace CSSPServices
             {
                 if (infrastructure.HorizontalAngle_deg < -180 || infrastructure.HorizontalAngle_deg > 180)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureHorizontalAngle_deg, "-180", "180"), new[] { ModelsRes.InfrastructureHorizontalAngle_deg });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureHorizontalAngle_deg, "-180", "180"), new[] { "HorizontalAngle_deg" });
                 }
             }
 
@@ -330,7 +334,7 @@ namespace CSSPServices
             {
                 if (infrastructure.DecayRate_per_day < 0 || infrastructure.DecayRate_per_day > 100)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDecayRate_per_day, "0", "100"), new[] { ModelsRes.InfrastructureDecayRate_per_day });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDecayRate_per_day, "0", "100"), new[] { "DecayRate_per_day" });
                 }
             }
 
@@ -338,7 +342,7 @@ namespace CSSPServices
             {
                 if (infrastructure.NearFieldVelocity_m_s < 0 || infrastructure.NearFieldVelocity_m_s > 10)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNearFieldVelocity_m_s, "0", "10"), new[] { ModelsRes.InfrastructureNearFieldVelocity_m_s });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNearFieldVelocity_m_s, "0", "10"), new[] { "NearFieldVelocity_m_s" });
                 }
             }
 
@@ -346,7 +350,7 @@ namespace CSSPServices
             {
                 if (infrastructure.FarFieldVelocity_m_s < 0 || infrastructure.FarFieldVelocity_m_s > 10)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureFarFieldVelocity_m_s, "0", "10"), new[] { ModelsRes.InfrastructureFarFieldVelocity_m_s });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureFarFieldVelocity_m_s, "0", "10"), new[] { "FarFieldVelocity_m_s" });
                 }
             }
 
@@ -354,7 +358,7 @@ namespace CSSPServices
             {
                 if (infrastructure.ReceivingWaterSalinity_PSU < 0 || infrastructure.ReceivingWaterSalinity_PSU > 40)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWaterSalinity_PSU, "0", "40"), new[] { ModelsRes.InfrastructureReceivingWaterSalinity_PSU });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWaterSalinity_PSU, "0", "40"), new[] { "ReceivingWaterSalinity_PSU" });
                 }
             }
 
@@ -362,7 +366,7 @@ namespace CSSPServices
             {
                 if (infrastructure.ReceivingWaterTemperature_C < -10 || infrastructure.ReceivingWaterTemperature_C > 40)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWaterTemperature_C, "-10", "40"), new[] { ModelsRes.InfrastructureReceivingWaterTemperature_C });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWaterTemperature_C, "-10", "40"), new[] { "ReceivingWaterTemperature_C" });
                 }
             }
 
@@ -370,7 +374,7 @@ namespace CSSPServices
             {
                 if (infrastructure.ReceivingWater_MPN_per_100ml < 0 || infrastructure.ReceivingWater_MPN_per_100ml > 10000000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWater_MPN_per_100ml, "0", "10000000"), new[] { ModelsRes.InfrastructureReceivingWater_MPN_per_100ml });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWater_MPN_per_100ml, "0", "10000000"), new[] { "ReceivingWater_MPN_per_100ml" });
                 }
             }
 
@@ -378,68 +382,74 @@ namespace CSSPServices
             {
                 if (infrastructure.DistanceFromShore_m < 0 || infrastructure.DistanceFromShore_m > 1000)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDistanceFromShore_m, "0", "1000"), new[] { ModelsRes.InfrastructureDistanceFromShore_m });
+                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDistanceFromShore_m, "0", "1000"), new[] { "DistanceFromShore_m" });
                 }
             }
 
             if (infrastructure.SeeOtherTVItemID != null)
             {
-                if (infrastructure.SeeOtherTVItemID < 1)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.InfrastructureSeeOtherTVItemID, "1"), new[] { ModelsRes.InfrastructureSeeOtherTVItemID });
-                }
-            }
+                TVItem TVItemSeeOtherTVItemID = (from c in db.TVItems where c.TVItemID == infrastructure.SeeOtherTVItemID select c).FirstOrDefault();
 
-            if (infrastructure.SeeOtherTVItemID != null)
-            {
-                if (!((from c in db.TVItems where c.TVItemID == infrastructure.SeeOtherTVItemID select c).Any()))
+                if (TVItemSeeOtherTVItemID == null)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureSeeOtherTVItemID, infrastructure.SeeOtherTVItemID.ToString()), new[] { ModelsRes.InfrastructureSeeOtherTVItemID });
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureSeeOtherTVItemID, infrastructure.SeeOtherTVItemID.ToString()), new[] { "SeeOtherTVItemID" });
                 }
-            }
-
-            if (infrastructure.CivicAddressTVItemID != null)
-            {
-                if (infrastructure.CivicAddressTVItemID < 1)
+                else
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.InfrastructureCivicAddressTVItemID, "1"), new[] { ModelsRes.InfrastructureCivicAddressTVItemID });
+                    if (TVItemSeeOtherTVItemID.TVType != TVTypeEnum.Infrastructure)
+                    {
+                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureSeeOtherTVItemID, "Infrastructure"), new[] { "SeeOtherTVItemID" });
+                    }
                 }
             }
 
             if (infrastructure.CivicAddressTVItemID != null)
             {
-                if (!((from c in db.TVItems where c.TVItemID == infrastructure.CivicAddressTVItemID select c).Any()))
+                TVItem TVItemCivicAddressTVItemID = (from c in db.TVItems where c.TVItemID == infrastructure.CivicAddressTVItemID select c).FirstOrDefault();
+
+                if (TVItemCivicAddressTVItemID == null)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureCivicAddressTVItemID, infrastructure.CivicAddressTVItemID.ToString()), new[] { ModelsRes.InfrastructureCivicAddressTVItemID });
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureCivicAddressTVItemID, infrastructure.CivicAddressTVItemID.ToString()), new[] { "CivicAddressTVItemID" });
+                }
+                else
+                {
+                    if (TVItemCivicAddressTVItemID.TVType != TVTypeEnum.Address)
+                    {
+                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureCivicAddressTVItemID, "Address"), new[] { "CivicAddressTVItemID" });
+                    }
                 }
             }
 
             if (infrastructure.LastUpdateDate_UTC.Year == 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLastUpdateDate_UTC), new[] { ModelsRes.InfrastructureLastUpdateDate_UTC });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (infrastructure.LastUpdateDate_UTC.Year < 1980)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.InfrastructureLastUpdateDate_UTC, "1980"), new[] { ModelsRes.InfrastructureLastUpdateDate_UTC });
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.InfrastructureLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
             //LastUpdateContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            if (infrastructure.LastUpdateContactTVItemID < 1)
+            TVItem TVItemLastUpdateContactTVItemID = (from c in db.TVItems where c.TVItemID == infrastructure.LastUpdateContactTVItemID select c).FirstOrDefault();
+
+            if (TVItemLastUpdateContactTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.InfrastructureLastUpdateContactTVItemID, "1"), new[] { ModelsRes.InfrastructureLastUpdateContactTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureLastUpdateContactTVItemID, infrastructure.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+            }
+            else
+            {
+                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                }
             }
 
-            if (!((from c in db.TVItems where c.TVItemID == infrastructure.LastUpdateContactTVItemID select c).Any()))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureLastUpdateContactTVItemID, infrastructure.LastUpdateContactTVItemID.ToString()), new[] { ModelsRes.InfrastructureLastUpdateContactTVItemID });
-            }
-
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

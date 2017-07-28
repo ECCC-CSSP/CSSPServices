@@ -46,11 +46,11 @@ namespace CSSPServices.Tests
             if (OmitPropName != "PercentCompleted") appTask.PercentCompleted = GetRandomInt(0, 100);
             if (OmitPropName != "Parameters") appTask.Parameters = GetRandomString("", 20);
             if (OmitPropName != "Language") appTask.Language = language;
-            if (OmitPropName != "StartDateTime_UTC") appTask.StartDateTime_UTC = GetRandomDateTime();
-            if (OmitPropName != "EndDateTime_UTC") appTask.EndDateTime_UTC = GetRandomDateTime();
+            if (OmitPropName != "StartDateTime_UTC") appTask.StartDateTime_UTC = new DateTime(2005, 3, 6);
+            if (OmitPropName != "EndDateTime_UTC") appTask.EndDateTime_UTC = new DateTime(2005, 3, 7);
             if (OmitPropName != "EstimatedLength_second") appTask.EstimatedLength_second = GetRandomInt(0, 1000000);
             if (OmitPropName != "RemainingTime_second") appTask.RemainingTime_second = GetRandomInt(0, 1000000);
-            if (OmitPropName != "LastUpdateDate_UTC") appTask.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") appTask.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") appTask.LastUpdateContactTVItemID = 2;
 
             return appTask;
@@ -110,76 +110,42 @@ namespace CSSPServices.Tests
             // appTask.AppTaskID   (Int32)
             // -----------------------------------
 
+            appTask = null;
             appTask = GetFilledRandomAppTask("");
             appTask.AppTaskID = 0;
             appTaskService.Update(appTask);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskID), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // appTask.TVItemID   (Int32)
             // -----------------------------------
+
+            appTask = null;
+            appTask = GetFilledRandomAppTask("");
+            appTask.TVItemID = 0;
+            appTaskService.Add(appTask);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID, appTask.TVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
             // TVItemID will automatically be initialized at 0 --> not null
 
 
-            appTask = null;
-            appTask = GetFilledRandomAppTask("");
-            // TVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            appTask.TVItemID = 1;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(1, appTask.TVItemID);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // TVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            appTask.TVItemID = 2;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(2, appTask.TVItemID);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // TVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
-            appTask.TVItemID = 0;
-            Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskTVItemID, "1")).Any());
-            Assert.AreEqual(0, appTask.TVItemID);
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // appTask.TVItemID2   (Int32)
             // -----------------------------------
 
-            // TVItemID2 will automatically be initialized at 0 --> not null
-
-
             appTask = null;
             appTask = GetFilledRandomAppTask("");
-            // TVItemID2 has Min [1] and Max [empty]. At Min should return true and no errors
-            appTask.TVItemID2 = 1;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(1, appTask.TVItemID2);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // TVItemID2 has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            appTask.TVItemID2 = 2;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(2, appTask.TVItemID2);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // TVItemID2 has Min [1] and Max [empty]. At Min - 1 should return false with one error
             appTask.TVItemID2 = 0;
-            Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskTVItemID2, "1")).Any());
-            Assert.AreEqual(0, appTask.TVItemID2);
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
+            appTaskService.Add(appTask);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID2, appTask.TVItemID2.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // TVItemID2 will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -206,7 +172,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // PercentCompleted will automatically be initialized at 0 --> not null
-
 
             appTask = null;
             appTask = GetFilledRandomAppTask("");
@@ -265,9 +230,6 @@ namespace CSSPServices.Tests
             Assert.AreEqual(0, appTaskService.GetRead().Count());
 
 
-            appTask = null;
-            appTask = GetFilledRandomAppTask("");
-
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPEnumType]
@@ -299,7 +261,6 @@ namespace CSSPServices.Tests
             // [Range(0, 1000000)]
             // appTask.EstimatedLength_second   (Int32)
             // -----------------------------------
-
 
             appTask = null;
             appTask = GetFilledRandomAppTask("");
@@ -349,7 +310,6 @@ namespace CSSPServices.Tests
             // [Range(0, 1000000)]
             // appTask.RemainingTime_second   (Int32)
             // -----------------------------------
-
 
             appTask = null;
             appTask = GetFilledRandomAppTask("");
@@ -406,35 +366,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // appTask.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             appTask = null;
             appTask = GetFilledRandomAppTask("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            appTask.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(1, appTask.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            appTask.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(2, appTask.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             appTask.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, appTask.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
+            appTaskService.Add(appTask);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskLastUpdateContactTVItemID, appTask.LastUpdateContactTVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

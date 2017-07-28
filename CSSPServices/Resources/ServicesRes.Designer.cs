@@ -169,6 +169,15 @@ namespace CSSPServices.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is not of type {1}.
+        /// </summary>
+        public static string _IsNotOfType_ {
+            get {
+                return ResourceManager.GetString("_IsNotOfType_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is null or empty.
         /// </summary>
         public static string _IsNullOrEmpty {

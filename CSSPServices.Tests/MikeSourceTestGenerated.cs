@@ -44,7 +44,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Include") mikeSource.Include = true;
             if (OmitPropName != "IsRiver") mikeSource.IsRiver = true;
             if (OmitPropName != "SourceNumberString") mikeSource.SourceNumberString = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateDate_UTC") mikeSource.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") mikeSource.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeSource.LastUpdateContactTVItemID = 2;
 
             return mikeSource;
@@ -104,43 +104,27 @@ namespace CSSPServices.Tests
             // mikeSource.MikeSourceID   (Int32)
             // -----------------------------------
 
+            mikeSource = null;
             mikeSource = GetFilledRandomMikeSource("");
             mikeSource.MikeSourceID = 0;
             mikeSourceService.Update(mikeSource);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceMikeSourceID), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.MikeSource)]
-            // [Range(1, -1)]
             // mikeSource.MikeSourceTVItemID   (Int32)
             // -----------------------------------
 
-            // MikeSourceTVItemID will automatically be initialized at 0 --> not null
-
-
             mikeSource = null;
             mikeSource = GetFilledRandomMikeSource("");
-            // MikeSourceTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mikeSource.MikeSourceTVItemID = 1;
-            Assert.AreEqual(true, mikeSourceService.Add(mikeSource));
-            Assert.AreEqual(0, mikeSource.ValidationResults.Count());
-            Assert.AreEqual(1, mikeSource.MikeSourceTVItemID);
-            Assert.AreEqual(true, mikeSourceService.Delete(mikeSource));
-            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
-            // MikeSourceTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mikeSource.MikeSourceTVItemID = 2;
-            Assert.AreEqual(true, mikeSourceService.Add(mikeSource));
-            Assert.AreEqual(0, mikeSource.ValidationResults.Count());
-            Assert.AreEqual(2, mikeSource.MikeSourceTVItemID);
-            Assert.AreEqual(true, mikeSourceService.Delete(mikeSource));
-            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
-            // MikeSourceTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mikeSource.MikeSourceTVItemID = 0;
-            Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
-            Assert.IsTrue(mikeSource.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeSourceMikeSourceTVItemID, "1")).Any());
-            Assert.AreEqual(0, mikeSource.MikeSourceTVItemID);
-            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
+            mikeSourceService.Add(mikeSource);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeSourceMikeSourceTVItemID, mikeSource.MikeSourceTVItemID.ToString()), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // MikeSourceTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -180,10 +164,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, mikeSource.SourceNumberString);
             Assert.AreEqual(0, mikeSourceService.GetRead().Count());
 
-
             mikeSource = null;
             mikeSource = GetFilledRandomMikeSource("");
-
             // SourceNumberString has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
             string mikeSourceSourceNumberStringMin = GetRandomString("", 50);
             mikeSource.SourceNumberString = mikeSourceSourceNumberStringMin;
@@ -222,35 +204,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // mikeSource.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             mikeSource = null;
             mikeSource = GetFilledRandomMikeSource("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mikeSource.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, mikeSourceService.Add(mikeSource));
-            Assert.AreEqual(0, mikeSource.ValidationResults.Count());
-            Assert.AreEqual(1, mikeSource.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mikeSourceService.Delete(mikeSource));
-            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mikeSource.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, mikeSourceService.Add(mikeSource));
-            Assert.AreEqual(0, mikeSource.ValidationResults.Count());
-            Assert.AreEqual(2, mikeSource.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mikeSourceService.Delete(mikeSource));
-            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mikeSource.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
-            Assert.IsTrue(mikeSource.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeSourceLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, mikeSource.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, mikeSourceService.GetRead().Count());
+            mikeSourceService.Add(mikeSource);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeSourceLastUpdateContactTVItemID, mikeSource.LastUpdateContactTVItemID.ToString()), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

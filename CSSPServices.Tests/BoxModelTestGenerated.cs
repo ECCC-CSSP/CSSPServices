@@ -50,7 +50,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Concentration_MPN_100ml") boxModel.Concentration_MPN_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "T90_hour") boxModel.T90_hour = GetRandomDouble(0.0D, 10.0D);
             if (OmitPropName != "FlowDuration_hour") boxModel.FlowDuration_hour = GetRandomDouble(0.0D, 24.0D);
-            if (OmitPropName != "LastUpdateDate_UTC") boxModel.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") boxModel.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") boxModel.LastUpdateContactTVItemID = 2;
 
             return boxModel;
@@ -110,43 +110,27 @@ namespace CSSPServices.Tests
             // boxModel.BoxModelID   (Int32)
             // -----------------------------------
 
+            boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
             boxModel.BoxModelID = 0;
             boxModelService.Update(boxModel);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelBoxModelID), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Infrastructure)]
-            // [Range(1, -1)]
             // boxModel.InfrastructureTVItemID   (Int32)
             // -----------------------------------
 
-            // InfrastructureTVItemID will automatically be initialized at 0 --> not null
-
-
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
-            // InfrastructureTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            boxModel.InfrastructureTVItemID = 1;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(1, boxModel.InfrastructureTVItemID);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // InfrastructureTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            boxModel.InfrastructureTVItemID = 2;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(2, boxModel.InfrastructureTVItemID);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // InfrastructureTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             boxModel.InfrastructureTVItemID = 0;
-            Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelInfrastructureTVItemID, "1")).Any());
-            Assert.AreEqual(0, boxModel.InfrastructureTVItemID);
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
+            boxModelService.Add(boxModel);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelInfrastructureTVItemID, boxModel.InfrastructureTVItemID.ToString()), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // InfrastructureTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -155,7 +139,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [Flow_m3_day]
-
 
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
@@ -208,7 +191,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [Depth_m]
 
-
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
             // Depth_m has Min [0.0D] and Max [1000.0D]. At Min should return true and no errors
@@ -259,7 +241,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [Temperature_C]
-
 
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
@@ -312,7 +293,6 @@ namespace CSSPServices.Tests
 
             // Dilution will automatically be initialized at 0 --> not null
 
-
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
             // Dilution has Min [0] and Max [10000000]. At Min should return true and no errors
@@ -363,7 +343,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [DecayRate_per_day]
-
 
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
@@ -416,7 +395,6 @@ namespace CSSPServices.Tests
 
             // FCUntreated_MPN_100ml will automatically be initialized at 0 --> not null
 
-
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
             // FCUntreated_MPN_100ml has Min [0] and Max [10000000]. At Min should return true and no errors
@@ -467,7 +445,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // FCPreDisinfection_MPN_100ml will automatically be initialized at 0 --> not null
-
 
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
@@ -520,7 +497,6 @@ namespace CSSPServices.Tests
 
             // Concentration_MPN_100ml will automatically be initialized at 0 --> not null
 
-
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
             // Concentration_MPN_100ml has Min [0] and Max [10000000]. At Min should return true and no errors
@@ -572,7 +548,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [T90_hour]
 
-
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
             // T90_hour has Min [0.0D] and Max [empty]. At Min should return true and no errors
@@ -603,7 +578,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [FlowDuration_hour]
-
 
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
@@ -660,35 +634,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // boxModel.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            boxModel.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(1, boxModel.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            boxModel.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(2, boxModel.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             boxModel.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, boxModel.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
+            boxModelService.Add(boxModel);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelLastUpdateContactTVItemID, boxModel.LastUpdateContactTVItemID.ToString()), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

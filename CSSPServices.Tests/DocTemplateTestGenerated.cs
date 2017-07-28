@@ -43,7 +43,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TVType") docTemplate.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "TVFileTVItemID") docTemplate.TVFileTVItemID = 17;
             if (OmitPropName != "FileName") docTemplate.FileName = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateDate_UTC") docTemplate.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") docTemplate.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") docTemplate.LastUpdateContactTVItemID = 2;
 
             return docTemplate;
@@ -103,10 +103,12 @@ namespace CSSPServices.Tests
             // docTemplate.DocTemplateID   (Int32)
             // -----------------------------------
 
+            docTemplate = null;
             docTemplate = GetFilledRandomDocTemplate("");
             docTemplate.DocTemplateID = 0;
             docTemplateService.Update(docTemplate);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateDocTemplateID), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -129,35 +131,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.File)]
-            // [Range(1, -1)]
             // docTemplate.TVFileTVItemID   (Int32)
             // -----------------------------------
 
-            // TVFileTVItemID will automatically be initialized at 0 --> not null
-
-
             docTemplate = null;
             docTemplate = GetFilledRandomDocTemplate("");
-            // TVFileTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            docTemplate.TVFileTVItemID = 1;
-            Assert.AreEqual(true, docTemplateService.Add(docTemplate));
-            Assert.AreEqual(0, docTemplate.ValidationResults.Count());
-            Assert.AreEqual(1, docTemplate.TVFileTVItemID);
-            Assert.AreEqual(true, docTemplateService.Delete(docTemplate));
-            Assert.AreEqual(count, docTemplateService.GetRead().Count());
-            // TVFileTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            docTemplate.TVFileTVItemID = 2;
-            Assert.AreEqual(true, docTemplateService.Add(docTemplate));
-            Assert.AreEqual(0, docTemplate.ValidationResults.Count());
-            Assert.AreEqual(2, docTemplate.TVFileTVItemID);
-            Assert.AreEqual(true, docTemplateService.Delete(docTemplate));
-            Assert.AreEqual(count, docTemplateService.GetRead().Count());
-            // TVFileTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             docTemplate.TVFileTVItemID = 0;
-            Assert.AreEqual(false, docTemplateService.Add(docTemplate));
-            Assert.IsTrue(docTemplate.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.DocTemplateTVFileTVItemID, "1")).Any());
-            Assert.AreEqual(0, docTemplate.TVFileTVItemID);
-            Assert.AreEqual(count, docTemplateService.GetRead().Count());
+            docTemplateService.Add(docTemplate);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.DocTemplateTVFileTVItemID, docTemplate.TVFileTVItemID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // TVFileTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -173,10 +157,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, docTemplate.FileName);
             Assert.AreEqual(0, docTemplateService.GetRead().Count());
 
-
             docTemplate = null;
             docTemplate = GetFilledRandomDocTemplate("");
-
             // FileName has MinLength [empty] and MaxLength [150]. At Max should return true and no errors
             string docTemplateFileNameMin = GetRandomString("", 150);
             docTemplate.FileName = docTemplateFileNameMin;
@@ -215,35 +197,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // docTemplate.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             docTemplate = null;
             docTemplate = GetFilledRandomDocTemplate("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            docTemplate.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, docTemplateService.Add(docTemplate));
-            Assert.AreEqual(0, docTemplate.ValidationResults.Count());
-            Assert.AreEqual(1, docTemplate.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, docTemplateService.Delete(docTemplate));
-            Assert.AreEqual(count, docTemplateService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            docTemplate.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, docTemplateService.Add(docTemplate));
-            Assert.AreEqual(0, docTemplate.ValidationResults.Count());
-            Assert.AreEqual(2, docTemplate.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, docTemplateService.Delete(docTemplate));
-            Assert.AreEqual(count, docTemplateService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             docTemplate.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, docTemplateService.Add(docTemplate));
-            Assert.IsTrue(docTemplate.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.DocTemplateLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, docTemplate.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, docTemplateService.GetRead().Count());
+            docTemplateService.Add(docTemplate);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.DocTemplateLastUpdateContactTVItemID, docTemplate.LastUpdateContactTVItemID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

@@ -42,15 +42,15 @@ namespace CSSPServices
 
             if (nodeLayer.Layer < 1 || nodeLayer.Layer > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.NodeLayerLayer, "1", "100"), new[] { ModelsRes.NodeLayerLayer });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.NodeLayerLayer, "1", "100"), new[] { "Layer" });
             }
 
             //Z (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             //Z has no Range Attribute
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

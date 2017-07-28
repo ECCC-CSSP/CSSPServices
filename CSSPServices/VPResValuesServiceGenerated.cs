@@ -42,7 +42,7 @@ namespace CSSPServices
 
             if (vpResValues.Conc < 0)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPResValuesConc, "0"), new[] { ModelsRes.VPResValuesConc });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPResValuesConc, "0"), new[] { "Conc" });
             }
 
             //Dilu (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -65,8 +65,8 @@ namespace CSSPServices
 
             //Decay has no Range Attribute
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

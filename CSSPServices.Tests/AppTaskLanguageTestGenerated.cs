@@ -44,7 +44,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "StatusText") appTaskLanguage.StatusText = GetRandomString("", 5);
             if (OmitPropName != "ErrorText") appTaskLanguage.ErrorText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatus") appTaskLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
-            if (OmitPropName != "LastUpdateDate_UTC") appTaskLanguage.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") appTaskLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") appTaskLanguage.LastUpdateContactTVItemID = 2;
 
             return appTaskLanguage;
@@ -104,43 +104,27 @@ namespace CSSPServices.Tests
             // appTaskLanguage.AppTaskLanguageID   (Int32)
             // -----------------------------------
 
+            appTaskLanguage = null;
             appTaskLanguage = GetFilledRandomAppTaskLanguage("");
             appTaskLanguage.AppTaskLanguageID = 0;
             appTaskLanguageService.Update(appTaskLanguage);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageAppTaskLanguageID), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "AppTask", Plurial = "s", FieldID = "AppTaskID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // appTaskLanguage.AppTaskID   (Int32)
             // -----------------------------------
 
-            // AppTaskID will automatically be initialized at 0 --> not null
-
-
             appTaskLanguage = null;
             appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-            // AppTaskID has Min [1] and Max [empty]. At Min should return true and no errors
-            appTaskLanguage.AppTaskID = 1;
-            Assert.AreEqual(true, appTaskLanguageService.Add(appTaskLanguage));
-            Assert.AreEqual(0, appTaskLanguage.ValidationResults.Count());
-            Assert.AreEqual(1, appTaskLanguage.AppTaskID);
-            Assert.AreEqual(true, appTaskLanguageService.Delete(appTaskLanguage));
-            Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
-            // AppTaskID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            appTaskLanguage.AppTaskID = 2;
-            Assert.AreEqual(true, appTaskLanguageService.Add(appTaskLanguage));
-            Assert.AreEqual(0, appTaskLanguage.ValidationResults.Count());
-            Assert.AreEqual(2, appTaskLanguage.AppTaskID);
-            Assert.AreEqual(true, appTaskLanguageService.Delete(appTaskLanguage));
-            Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
-            // AppTaskID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             appTaskLanguage.AppTaskID = 0;
-            Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
-            Assert.IsTrue(appTaskLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskLanguageAppTaskID, "1")).Any());
-            Assert.AreEqual(0, appTaskLanguage.AppTaskID);
-            Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
+            appTaskLanguageService.Add(appTaskLanguage);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppTask, ModelsRes.AppTaskLanguageAppTaskID, appTaskLanguage.AppTaskID.ToString()), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // AppTaskID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -157,10 +141,8 @@ namespace CSSPServices.Tests
             // appTaskLanguage.StatusText   (String)
             // -----------------------------------
 
-
             appTaskLanguage = null;
             appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-
             // StatusText has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
             string appTaskLanguageStatusTextMin = GetRandomString("", 250);
             appTaskLanguage.StatusText = appTaskLanguageStatusTextMin;
@@ -193,10 +175,8 @@ namespace CSSPServices.Tests
             // appTaskLanguage.ErrorText   (String)
             // -----------------------------------
 
-
             appTaskLanguage = null;
             appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-
             // ErrorText has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
             string appTaskLanguageErrorTextMin = GetRandomString("", 250);
             appTaskLanguage.ErrorText = appTaskLanguageErrorTextMin;
@@ -244,35 +224,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // appTaskLanguage.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             appTaskLanguage = null;
             appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            appTaskLanguage.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, appTaskLanguageService.Add(appTaskLanguage));
-            Assert.AreEqual(0, appTaskLanguage.ValidationResults.Count());
-            Assert.AreEqual(1, appTaskLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, appTaskLanguageService.Delete(appTaskLanguage));
-            Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            appTaskLanguage.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, appTaskLanguageService.Add(appTaskLanguage));
-            Assert.AreEqual(0, appTaskLanguage.ValidationResults.Count());
-            Assert.AreEqual(2, appTaskLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, appTaskLanguageService.Delete(appTaskLanguage));
-            Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             appTaskLanguage.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
-            Assert.IsTrue(appTaskLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AppTaskLanguageLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, appTaskLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
+            appTaskLanguageService.Add(appTaskLanguage);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskLanguageLastUpdateContactTVItemID, appTaskLanguage.LastUpdateContactTVItemID.ToString()), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

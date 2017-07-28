@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
             TideDataValue tideDataValue = new TideDataValue();
 
             if (OmitPropName != "TideSiteTVItemID") tideDataValue.TideSiteTVItemID = 13;
-            if (OmitPropName != "DateTime_Local") tideDataValue.DateTime_Local = GetRandomDateTime();
+            if (OmitPropName != "DateTime_Local") tideDataValue.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Keep") tideDataValue.Keep = true;
             if (OmitPropName != "TideDataType") tideDataValue.TideDataType = (TideDataTypeEnum)GetRandomEnumType(typeof(TideDataTypeEnum));
             if (OmitPropName != "StorageDataType") tideDataValue.StorageDataType = (StorageDataTypeEnum)GetRandomEnumType(typeof(StorageDataTypeEnum));
@@ -49,7 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "VVelocity_m_s") tideDataValue.VVelocity_m_s = GetRandomDouble(0.0D, 10.0D);
             if (OmitPropName != "TideStart") tideDataValue.TideStart = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
             if (OmitPropName != "TideEnd") tideDataValue.TideEnd = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
-            if (OmitPropName != "LastUpdateDate_UTC") tideDataValue.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") tideDataValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tideDataValue.LastUpdateContactTVItemID = 2;
 
             return tideDataValue;
@@ -109,43 +109,27 @@ namespace CSSPServices.Tests
             // tideDataValue.TideDataValueID   (Int32)
             // -----------------------------------
 
+            tideDataValue = null;
             tideDataValue = GetFilledRandomTideDataValue("");
             tideDataValue.TideDataValueID = 0;
             tideDataValueService.Update(tideDataValue);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueTideDataValueID), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.TideSite)]
-            // [Range(1, -1)]
             // tideDataValue.TideSiteTVItemID   (Int32)
             // -----------------------------------
 
-            // TideSiteTVItemID will automatically be initialized at 0 --> not null
-
-
             tideDataValue = null;
             tideDataValue = GetFilledRandomTideDataValue("");
-            // TideSiteTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            tideDataValue.TideSiteTVItemID = 1;
-            Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
-            Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
-            Assert.AreEqual(1, tideDataValue.TideSiteTVItemID);
-            Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
-            Assert.AreEqual(count, tideDataValueService.GetRead().Count());
-            // TideSiteTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            tideDataValue.TideSiteTVItemID = 2;
-            Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
-            Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
-            Assert.AreEqual(2, tideDataValue.TideSiteTVItemID);
-            Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
-            Assert.AreEqual(count, tideDataValueService.GetRead().Count());
-            // TideSiteTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tideDataValue.TideSiteTVItemID = 0;
-            Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
-            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TideDataValueTideSiteTVItemID, "1")).Any());
-            Assert.AreEqual(0, tideDataValue.TideSiteTVItemID);
-            Assert.AreEqual(count, tideDataValueService.GetRead().Count());
+            tideDataValueService.Add(tideDataValue);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TideDataValueTideSiteTVItemID, tideDataValue.TideSiteTVItemID.ToString()), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // TideSiteTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -189,7 +173,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [Depth_m]
-
 
             tideDataValue = null;
             tideDataValue = GetFilledRandomTideDataValue("");
@@ -242,7 +225,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [UVelocity_m_s]
 
-
             tideDataValue = null;
             tideDataValue = GetFilledRandomTideDataValue("");
             // UVelocity_m_s has Min [0.0D] and Max [10.0D]. At Min should return true and no errors
@@ -293,7 +275,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [VVelocity_m_s]
-
 
             tideDataValue = null;
             tideDataValue = GetFilledRandomTideDataValue("");
@@ -364,35 +345,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // tideDataValue.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             tideDataValue = null;
             tideDataValue = GetFilledRandomTideDataValue("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            tideDataValue.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
-            Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
-            Assert.AreEqual(1, tideDataValue.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
-            Assert.AreEqual(count, tideDataValueService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            tideDataValue.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, tideDataValueService.Add(tideDataValue));
-            Assert.AreEqual(0, tideDataValue.ValidationResults.Count());
-            Assert.AreEqual(2, tideDataValue.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, tideDataValueService.Delete(tideDataValue));
-            Assert.AreEqual(count, tideDataValueService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tideDataValue.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
-            Assert.IsTrue(tideDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TideDataValueLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, tideDataValue.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, tideDataValueService.GetRead().Count());
+            tideDataValueService.Add(tideDataValue);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TideDataValueLastUpdateContactTVItemID, tideDataValue.LastUpdateContactTVItemID.ToString()), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

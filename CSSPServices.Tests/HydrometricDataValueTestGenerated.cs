@@ -40,12 +40,12 @@ namespace CSSPServices.Tests
             HydrometricDataValue hydrometricDataValue = new HydrometricDataValue();
 
             if (OmitPropName != "HydrometricSiteID") hydrometricDataValue.HydrometricSiteID = 1;
-            if (OmitPropName != "DateTime_Local") hydrometricDataValue.DateTime_Local = GetRandomDateTime();
+            if (OmitPropName != "DateTime_Local") hydrometricDataValue.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Keep") hydrometricDataValue.Keep = true;
             if (OmitPropName != "StorageDataType") hydrometricDataValue.StorageDataType = (StorageDataTypeEnum)GetRandomEnumType(typeof(StorageDataTypeEnum));
             if (OmitPropName != "Flow_m3_s") hydrometricDataValue.Flow_m3_s = GetRandomDouble(0.0D, 10000.0D);
             if (OmitPropName != "HourlyValues") hydrometricDataValue.HourlyValues = GetRandomString("", 20);
-            if (OmitPropName != "LastUpdateDate_UTC") hydrometricDataValue.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") hydrometricDataValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") hydrometricDataValue.LastUpdateContactTVItemID = 2;
 
             return hydrometricDataValue;
@@ -105,43 +105,27 @@ namespace CSSPServices.Tests
             // hydrometricDataValue.HydrometricDataValueID   (Int32)
             // -----------------------------------
 
+            hydrometricDataValue = null;
             hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
             hydrometricDataValue.HydrometricDataValueID = 0;
             hydrometricDataValueService.Update(hydrometricDataValue);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricDataValueHydrometricDataValueID), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "HydrometricSite", Plurial = "s", FieldID = "HydrometricSiteID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // hydrometricDataValue.HydrometricSiteID   (Int32)
             // -----------------------------------
 
-            // HydrometricSiteID will automatically be initialized at 0 --> not null
-
-
             hydrometricDataValue = null;
             hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-            // HydrometricSiteID has Min [1] and Max [empty]. At Min should return true and no errors
-            hydrometricDataValue.HydrometricSiteID = 1;
-            Assert.AreEqual(true, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValue.ValidationResults.Count());
-            Assert.AreEqual(1, hydrometricDataValue.HydrometricSiteID);
-            Assert.AreEqual(true, hydrometricDataValueService.Delete(hydrometricDataValue));
-            Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
-            // HydrometricSiteID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            hydrometricDataValue.HydrometricSiteID = 2;
-            Assert.AreEqual(true, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValue.ValidationResults.Count());
-            Assert.AreEqual(2, hydrometricDataValue.HydrometricSiteID);
-            Assert.AreEqual(true, hydrometricDataValueService.Delete(hydrometricDataValue));
-            Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
-            // HydrometricSiteID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             hydrometricDataValue.HydrometricSiteID = 0;
-            Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.IsTrue(hydrometricDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.HydrometricDataValueHydrometricSiteID, "1")).Any());
-            Assert.AreEqual(0, hydrometricDataValue.HydrometricSiteID);
-            Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
+            hydrometricDataValueService.Add(hydrometricDataValue);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricSite, ModelsRes.HydrometricDataValueHydrometricSiteID, hydrometricDataValue.HydrometricSiteID.ToString()), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // HydrometricSiteID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -176,7 +160,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [Flow_m3_s]
-
 
             hydrometricDataValue = null;
             hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
@@ -227,9 +210,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
 
-            hydrometricDataValue = null;
-            hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPAfter(Year = 1980)]
@@ -242,35 +222,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // hydrometricDataValue.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             hydrometricDataValue = null;
             hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            hydrometricDataValue.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValue.ValidationResults.Count());
-            Assert.AreEqual(1, hydrometricDataValue.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, hydrometricDataValueService.Delete(hydrometricDataValue));
-            Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            hydrometricDataValue.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValue.ValidationResults.Count());
-            Assert.AreEqual(2, hydrometricDataValue.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, hydrometricDataValueService.Delete(hydrometricDataValue));
-            Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             hydrometricDataValue.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.IsTrue(hydrometricDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.HydrometricDataValueLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, hydrometricDataValue.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
+            hydrometricDataValueService.Add(hydrometricDataValue);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.HydrometricDataValueLastUpdateContactTVItemID, hydrometricDataValue.LastUpdateContactTVItemID.ToString()), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

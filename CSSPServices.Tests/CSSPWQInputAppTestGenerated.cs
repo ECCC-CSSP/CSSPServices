@@ -45,7 +45,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "IntertechDuplicatePrecisionCriteria") cSSPWQInputApp.IntertechDuplicatePrecisionCriteria = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "IncludeLaboratoryQAQC") cSSPWQInputApp.IncludeLaboratoryQAQC = true;
             if (OmitPropName != "ApprovalCode") cSSPWQInputApp.ApprovalCode = GetRandomString("", 6);
-            if (OmitPropName != "ApprovalDate") cSSPWQInputApp.ApprovalDate = GetRandomDateTime();
+            if (OmitPropName != "ApprovalDate") cSSPWQInputApp.ApprovalDate = new DateTime(2005, 3, 6);
 
             return cSSPWQInputApp;
         }

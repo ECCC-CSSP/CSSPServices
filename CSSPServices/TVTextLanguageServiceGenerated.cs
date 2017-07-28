@@ -40,7 +40,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(tvTextLanguage.TVText))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTextLanguageTVText), new[] { ModelsRes.TVTextLanguageTVText });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTextLanguageTVText), new[] { "TVText" });
             }
 
             //TVText has no StringLength Attribute
@@ -48,8 +48,8 @@ namespace CSSPServices
                 //Error: Type not implemented [Language] of type [LanguageEnum]
 
                 //Error: Type not implemented [Language] of type [LanguageEnum]
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

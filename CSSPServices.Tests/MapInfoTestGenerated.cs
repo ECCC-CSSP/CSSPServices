@@ -46,7 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LngMin") mapInfo.LngMin = GetRandomDouble(-180.0D, 180.0D);
             if (OmitPropName != "LngMax") mapInfo.LngMax = GetRandomDouble(-180.0D, 180.0D);
             if (OmitPropName != "MapInfoDrawType") mapInfo.MapInfoDrawType = (MapInfoDrawTypeEnum)GetRandomEnumType(typeof(MapInfoDrawTypeEnum));
-            if (OmitPropName != "LastUpdateDate_UTC") mapInfo.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") mapInfo.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mapInfo.LastUpdateContactTVItemID = 2;
 
             return mapInfo;
@@ -106,43 +106,27 @@ namespace CSSPServices.Tests
             // mapInfo.MapInfoID   (Int32)
             // -----------------------------------
 
+            mapInfo = null;
             mapInfo = GetFilledRandomMapInfo("");
             mapInfo.MapInfoID = 0;
             mapInfoService.Update(mapInfo);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoID), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // mapInfo.TVItemID   (Int32)
             // -----------------------------------
 
-            // TVItemID will automatically be initialized at 0 --> not null
-
-
             mapInfo = null;
             mapInfo = GetFilledRandomMapInfo("");
-            // TVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mapInfo.TVItemID = 1;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(1, mapInfo.TVItemID);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // TVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mapInfo.TVItemID = 2;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(2, mapInfo.TVItemID);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // TVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mapInfo.TVItemID = 0;
-            Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-            Assert.IsTrue(mapInfo.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MapInfoTVItemID, "1")).Any());
-            Assert.AreEqual(0, mapInfo.TVItemID);
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
+            mapInfoService.Add(mapInfo);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoTVItemID, mapInfo.TVItemID.ToString()), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // TVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -160,7 +144,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [LatMin]
-
 
             mapInfo = null;
             mapInfo = GetFilledRandomMapInfo("");
@@ -213,7 +196,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [LatMax]
 
-
             mapInfo = null;
             mapInfo = GetFilledRandomMapInfo("");
             // LatMax has Min [-90.0D] and Max [90.0D]. At Min should return true and no errors
@@ -265,7 +247,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [LngMin]
 
-
             mapInfo = null;
             mapInfo = GetFilledRandomMapInfo("");
             // LngMin has Min [-180.0D] and Max [180.0D]. At Min should return true and no errors
@@ -316,7 +297,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [LngMax]
-
 
             mapInfo = null;
             mapInfo = GetFilledRandomMapInfo("");
@@ -382,35 +362,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // mapInfo.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             mapInfo = null;
             mapInfo = GetFilledRandomMapInfo("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mapInfo.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(1, mapInfo.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mapInfo.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(2, mapInfo.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mapInfo.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-            Assert.IsTrue(mapInfo.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MapInfoLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, mapInfo.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
+            mapInfoService.Add(mapInfo);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoLastUpdateContactTVItemID, mapInfo.LastUpdateContactTVItemID.ToString()), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

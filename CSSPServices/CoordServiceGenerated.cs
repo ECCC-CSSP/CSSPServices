@@ -42,25 +42,25 @@ namespace CSSPServices
 
             if (coord.Lat < -180 || coord.Lat > 180)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordLat, "-180", "180"), new[] { ModelsRes.CoordLat });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordLat, "-180", "180"), new[] { "Lat" });
             }
 
             //Lng (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (coord.Lng < -90 || coord.Lng > 90)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordLng, "-90", "90"), new[] { ModelsRes.CoordLng });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordLng, "-90", "90"), new[] { "Lng" });
             }
 
             //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (coord.Ordinal < 0 || coord.Ordinal > 10000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordOrdinal, "0", "10000"), new[] { ModelsRes.CoordOrdinal });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordOrdinal, "0", "10000"), new[] { "Ordinal" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

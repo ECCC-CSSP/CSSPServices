@@ -43,8 +43,8 @@ namespace CSSPServices
                 //Error: Type not implemented [InfrastructureType] of type [InfrastructureTypeEnum]
             //SeeOtherTVItemID has no Range Attribute
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

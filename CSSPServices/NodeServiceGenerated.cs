@@ -42,7 +42,7 @@ namespace CSSPServices
 
             if (node.ID < 1 || node.ID > 1000000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.NodeID, "1", "1000000"), new[] { ModelsRes.NodeID });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.NodeID, "1", "1000000"), new[] { "ID" });
             }
 
             //X (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -65,8 +65,8 @@ namespace CSSPServices
 
             //Value has no Range Attribute
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

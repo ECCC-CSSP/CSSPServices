@@ -264,7 +264,7 @@ namespace CSSPServicesGenerateCodeHelper
         {
             if (!string.IsNullOrWhiteSpace(csspProp.OtherField))
             {
-                sb.AppendLine(@"            if (" + TypeNameLower + "." + csspProp.OtherField + " < " + TypeNameLower + "." + csspProp.PropName + ")");
+                sb.AppendLine(@"            if (" + TypeNameLower + "." + csspProp.OtherField + " > " + TypeNameLower + "." + csspProp.PropName + ")");
                 sb.AppendLine(@"            {");
                 sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes." + TypeName + csspProp.PropName + ", ModelsRes." + TypeName + csspProp.OtherField + "), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
                 sb.AppendLine(@"            }");
@@ -280,7 +280,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"                Regex regex = new Regex(@""^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$"");");
                 sb.AppendLine(@"                if (!regex.IsMatch(" + TypeNameLower + @"." + prop.Name + @"))");
                 sb.AppendLine(@"                {");
-                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes." + TypeName + prop.Name + @"), new[] { ModelsRes." + TypeName + prop.Name + @" });");
+                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
                 sb.AppendLine(@"                }");
                 sb.AppendLine(@"            }");
                 sb.AppendLine(@"");
@@ -307,7 +307,7 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"            retStr = enums." + prop.PropertyType.Name.Replace("Enum", "") + @"OK(" + TypeNameLower + @"." + prop.Name + @");");
                     sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" == " + prop.PropertyType.Name + @".Error || !string.IsNullOrWhiteSpace(retStr))");
                     sb.AppendLine(@"            {");
-                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { ModelsRes." + TypeName + prop.Name + @" });");
+                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
                     sb.AppendLine(@"            }");
                     sb.AppendLine(@"");
                 }
@@ -338,8 +338,11 @@ namespace CSSPServicesGenerateCodeHelper
                         {
                             if (csspProp.Min == null && csspProp.Max == null)
                             {
-                                sb.AppendLine(@"            //" + prop.Name + @" has no Range Attribute");
-                                sb.AppendLine(@"");
+                                if (!csspProp.HasCSSPExistAttribute)
+                                {
+                                    sb.AppendLine(@"            //" + prop.Name + @" has no Range Attribute");
+                                    sb.AppendLine(@"");
+                                }
                             }
                             else if (csspProp.Min != null && csspProp.Max != null)
                             {
@@ -355,7 +358,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         sb.AppendLine(@"            {");
                                         sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.Min.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.Max.ToString() + @")");
                                         sb.AppendLine(@"                {");
-                                        sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                        sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                         sb.AppendLine(@"                }");
                                         sb.AppendLine(@"            }");
                                         sb.AppendLine(@"");
@@ -364,7 +367,7 @@ namespace CSSPServicesGenerateCodeHelper
                                     {
                                         sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.Min.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.Max.ToString() + @")");
                                         sb.AppendLine(@"            {");
-                                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                         sb.AppendLine(@"            }");
                                         sb.AppendLine(@"");
                                     }
@@ -378,7 +381,7 @@ namespace CSSPServicesGenerateCodeHelper
                                     sb.AppendLine(@"            {");
                                     sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.Min.ToString() + @")");
                                     sb.AppendLine(@"                {");
-                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                     sb.AppendLine(@"                }");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
@@ -387,7 +390,7 @@ namespace CSSPServicesGenerateCodeHelper
                                 {
                                     sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.Min.ToString() + @")");
                                     sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
                                 }
@@ -401,7 +404,7 @@ namespace CSSPServicesGenerateCodeHelper
                                     sb.AppendLine(@"            {");
                                     sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.Max.ToString() + @")");
                                     sb.AppendLine(@"                {");
-                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                     sb.AppendLine(@"                }");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
@@ -410,7 +413,7 @@ namespace CSSPServicesGenerateCodeHelper
                                 {
                                     sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.Max.ToString() + @")");
                                     sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
                                 }
@@ -439,7 +442,7 @@ namespace CSSPServicesGenerateCodeHelper
                                 {
                                     sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && (" + TypeNameLower + @"." + csspProp.PropName + @".Length < " + csspProp.Min.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @".Length > " + csspProp.Max.ToString() + @"))");
                                     sb.AppendLine(@"            {");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
                                 }
@@ -448,7 +451,7 @@ namespace CSSPServicesGenerateCodeHelper
                             {
                                 sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + csspProp.PropName + @".Length < " + csspProp.Min.ToString() + @")");
                                 sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                 sb.AppendLine(@"            }");
                                 sb.AppendLine(@"");
                             }
@@ -456,7 +459,7 @@ namespace CSSPServicesGenerateCodeHelper
                             {
                                 sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + csspProp.PropName + @".Length > " + csspProp.Max.ToString() + @")");
                                 sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + @" });");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                 sb.AppendLine(@"            }");
                                 sb.AppendLine(@"");
                             }
@@ -504,13 +507,13 @@ namespace CSSPServicesGenerateCodeHelper
                         {
                             sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @".Year == 1)");
                             sb.AppendLine(@"            {");
-                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { ModelsRes." + TypeName + prop.Name + @" });");
+                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
                             sb.AppendLine(@"            }");
                             sb.AppendLine(@"            else");
                             sb.AppendLine(@"            {");
                             sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @".Year < " + csspProp.Year + ")");
                             sb.AppendLine(@"                {");
-                            sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes." + TypeName + prop.Name + @", """ + csspProp.Year + @"""), new[] { ModelsRes." + TypeName + prop.Name + @" });");
+                            sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes." + TypeName + prop.Name + @", """ + csspProp.Year + @"""), new[] { """ + csspProp.PropName + @""" });");
                             sb.AppendLine(@"                }");
                             sb.AppendLine(@"            }");
                             sb.AppendLine(@"");
@@ -522,7 +525,7 @@ namespace CSSPServicesGenerateCodeHelper
                             {
                                 sb.AppendLine(@"            if (string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @"))");
                                 sb.AppendLine(@"            {");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { ModelsRes." + TypeName + prop.Name + @" });");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
                                 sb.AppendLine(@"            }");
                                 sb.AppendLine(@"");
                             }
@@ -547,7 +550,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"            {");
                 sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" == 0)");
                 sb.AppendLine(@"                {");
-                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { ModelsRes." + TypeName + prop.Name + @" });");
+                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
                 sb.AppendLine(@"                }");
                 sb.AppendLine(@"            }");
                 sb.AppendLine(@"");
@@ -562,10 +565,28 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     sb.AppendLine(@"            if (tvItem.TVType != TVTypeEnum.Root)");
                     sb.AppendLine(@"            {");
-                    sb.AppendLine(@"                if (!((from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).Any()))");
+                    //sb.AppendLine(@"                if (!((from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).Any()))");
+                    //sb.AppendLine(@"                {");
+                    //sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                    //sb.AppendLine(@"                }");
+
+
+                    sb.AppendLine(@"                " + csspProp.ObjectExistTypeName + " " + csspProp.ObjectExistTypeName + csspProp.PropName + " = (from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).FirstOrDefault();");
+                    sb.AppendLine(@"");
+                    sb.AppendLine(@"                if (" + csspProp.ObjectExistTypeName + csspProp.PropName + " == null)");
                     sb.AppendLine(@"                {");
-                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
                     sb.AppendLine(@"                }");
+                    if (csspProp.ObjectExistTypeName == "TVItem")
+                    {
+                        sb.AppendLine(@"                else");
+                        sb.AppendLine(@"                {");
+                        sb.AppendLine(@"                    if (" + csspProp.ObjectExistTypeName + csspProp.PropName + ".TVType != TVTypeEnum." + csspProp.TVType + ")");
+                        sb.AppendLine(@"                    {");
+                        sb.AppendLine(@"                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.TVType + @"""), new[] { """ + csspProp.PropName + @""" });");
+                        sb.AppendLine(@"                    }");
+                        sb.AppendLine(@"                }");
+                    }
                     sb.AppendLine(@"            }");
                     sb.AppendLine(@"");
                 }
@@ -575,19 +596,53 @@ namespace CSSPServicesGenerateCodeHelper
                     {
                         sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" != null)");
                         sb.AppendLine(@"            {");
-                        sb.AppendLine(@"                if (!((from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).Any()))");
+                        //sb.AppendLine(@"                if (!((from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).Any()))");
+                        //sb.AppendLine(@"                {");
+                        //sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                        //sb.AppendLine(@"                }");
+
+                        sb.AppendLine(@"                " + csspProp.ObjectExistTypeName + " " + csspProp.ObjectExistTypeName + csspProp.PropName + " = (from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).FirstOrDefault();");
+                        sb.AppendLine(@"");
+                        sb.AppendLine(@"                if (" + csspProp.ObjectExistTypeName + csspProp.PropName + " == null)");
                         sb.AppendLine(@"                {");
-                        sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                        sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
                         sb.AppendLine(@"                }");
+                        if (csspProp.ObjectExistTypeName == "TVItem")
+                        {
+                            sb.AppendLine(@"                else");
+                            sb.AppendLine(@"                {");
+                            sb.AppendLine(@"                    if (" + csspProp.ObjectExistTypeName + csspProp.PropName + ".TVType != TVTypeEnum." + csspProp.TVType + ")");
+                            sb.AppendLine(@"                    {");
+                            sb.AppendLine(@"                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.TVType + @"""), new[] { """ + csspProp.PropName + @""" });");
+                            sb.AppendLine(@"                    }");
+                            sb.AppendLine(@"                }");
+                        }
                         sb.AppendLine(@"            }");
                         sb.AppendLine(@"");
                     }
                     else
                     {
-                        sb.AppendLine(@"            if (!((from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).Any()))");
+                        //sb.AppendLine(@"            if (!((from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).Any()))");
+                        //sb.AppendLine(@"            {");
+                        //sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                        //sb.AppendLine(@"            }");
+
+                        sb.AppendLine(@"            " + csspProp.ObjectExistTypeName + " " + csspProp.ObjectExistTypeName + csspProp.PropName + " = (from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).FirstOrDefault();");
+                        sb.AppendLine(@"");
+                        sb.AppendLine(@"            if (" + csspProp.ObjectExistTypeName + csspProp.PropName + " == null)");
                         sb.AppendLine(@"            {");
-                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
                         sb.AppendLine(@"            }");
+                        if (csspProp.ObjectExistTypeName == "TVItem")
+                        {
+                            sb.AppendLine(@"            else");
+                            sb.AppendLine(@"            {");
+                            sb.AppendLine(@"                if (" + csspProp.ObjectExistTypeName + csspProp.PropName + ".TVType != TVTypeEnum." + csspProp.TVType + ")");
+                            sb.AppendLine(@"                {");
+                            sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.TVType + @"""), new[] { """ + csspProp.PropName + @""" });");
+                            sb.AppendLine(@"                }");
+                            sb.AppendLine(@"            }");
+                        }
                         sb.AppendLine(@"");
                     }
                 }
@@ -638,7 +693,7 @@ namespace CSSPServicesGenerateCodeHelper
                     continue;
                 }
 
-                //if (type.Name != "Address")
+                //if (type.Name != "BoxModelLanguage")
                 //{
                 //    continue;
                 //}
@@ -740,20 +795,16 @@ namespace CSSPServicesGenerateCodeHelper
                     }
 
                     CreateValidation_NotNullable(prop, csspProp, TypeName, TypeNameLower, sb);
-
                     CreateValidation_Length(prop, csspProp, TypeName, TypeNameLower, sb);
-
-
                     CreateValidation_Email(prop, csspProp, TypeName, TypeNameLower, sb);
-
                     CreateValidation_AfterYear(prop, csspProp, TypeName, TypeNameLower, sb);
                     CreateValidation_Bigger(prop, csspProp, TypeName, TypeNameLower, sb);
                     CreateValidation_Exist(prop, csspProp, TypeName, TypeNameLower, sb);
                     CreateValidation_EnumType(prop, csspProp, TypeName, TypeNameLower, sb);
                 }
 
-                sb.AppendLine(@"            retStr = """";");
-                sb.AppendLine(@"            if (retStr != """")");
+                sb.AppendLine(@"            retStr = """"; // added to stop compiling error");
+                sb.AppendLine(@"            if (retStr != """") // will never be true");
                 sb.AppendLine(@"            {");
                 sb.AppendLine(@"                yield return new ValidationResult(""AAA"", new[] { ""AAA"" });");
                 sb.AppendLine(@"            }");

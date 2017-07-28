@@ -40,26 +40,26 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(dBTable.TableName))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DBTableTableName), new[] { ModelsRes.DBTableTableName });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DBTableTableName), new[] { "TableName" });
             }
 
             if (!string.IsNullOrWhiteSpace(dBTable.TableName) && (dBTable.TableName.Length < 1 || dBTable.TableName.Length > 200))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.DBTableTableName, "1", "200"), new[] { ModelsRes.DBTableTableName });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.DBTableTableName, "1", "200"), new[] { "TableName" });
             }
 
             if (string.IsNullOrWhiteSpace(dBTable.Plurial))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DBTablePlurial), new[] { ModelsRes.DBTablePlurial });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DBTablePlurial), new[] { "Plurial" });
             }
 
             if (!string.IsNullOrWhiteSpace(dBTable.Plurial) && (dBTable.Plurial.Length < 1 || dBTable.Plurial.Length > 3))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.DBTablePlurial, "1", "3"), new[] { ModelsRes.DBTablePlurial });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.DBTablePlurial, "1", "3"), new[] { "Plurial" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

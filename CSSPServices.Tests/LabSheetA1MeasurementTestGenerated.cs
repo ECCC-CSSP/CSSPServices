@@ -41,7 +41,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Site") labSheetA1Measurement.Site = GetRandomString("", 20);
             if (OmitPropName != "TVItemID") labSheetA1Measurement.TVItemID = GetRandomInt(1, 11);
-            if (OmitPropName != "Time") labSheetA1Measurement.Time = GetRandomDateTime();
+            if (OmitPropName != "Time") labSheetA1Measurement.Time = new DateTime(2005, 3, 6);
             // should implement a Range for the property MPN and type LabSheetA1Measurement
             // should implement a Range for the property Tube10 and type LabSheetA1Measurement
             // should implement a Range for the property Tube1_0 and type LabSheetA1Measurement

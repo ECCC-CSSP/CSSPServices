@@ -40,8 +40,8 @@ namespace CSSPServices.Tests
             MikeSourceStartEnd mikeSourceStartEnd = new MikeSourceStartEnd();
 
             if (OmitPropName != "MikeSourceID") mikeSourceStartEnd.MikeSourceID = 1;
-            if (OmitPropName != "StartDateAndTime_Local") mikeSourceStartEnd.StartDateAndTime_Local = GetRandomDateTime();
-            if (OmitPropName != "EndDateAndTime_Local") mikeSourceStartEnd.EndDateAndTime_Local = GetRandomDateTime();
+            if (OmitPropName != "StartDateAndTime_Local") mikeSourceStartEnd.StartDateAndTime_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "EndDateAndTime_Local") mikeSourceStartEnd.EndDateAndTime_Local = new DateTime(2005, 3, 7);
             if (OmitPropName != "SourceFlowStart_m3_day") mikeSourceStartEnd.SourceFlowStart_m3_day = GetRandomDouble(0.0D, 1000000.0D);
             if (OmitPropName != "SourceFlowEnd_m3_day") mikeSourceStartEnd.SourceFlowEnd_m3_day = GetRandomDouble(0.0D, 1000000.0D);
             if (OmitPropName != "SourcePollutionStart_MPN_100ml") mikeSourceStartEnd.SourcePollutionStart_MPN_100ml = GetRandomInt(0, 10000000);
@@ -50,7 +50,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SourceTemperatureEnd_C") mikeSourceStartEnd.SourceTemperatureEnd_C = GetRandomDouble(-10.0D, 40.0D);
             if (OmitPropName != "SourceSalinityStart_PSU") mikeSourceStartEnd.SourceSalinityStart_PSU = GetRandomDouble(0.0D, 40.0D);
             if (OmitPropName != "SourceSalinityEnd_PSU") mikeSourceStartEnd.SourceSalinityEnd_PSU = GetRandomDouble(0.0D, 40.0D);
-            if (OmitPropName != "LastUpdateDate_UTC") mikeSourceStartEnd.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") mikeSourceStartEnd.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeSourceStartEnd.LastUpdateContactTVItemID = 2;
 
             return mikeSourceStartEnd;
@@ -110,43 +110,27 @@ namespace CSSPServices.Tests
             // mikeSourceStartEnd.MikeSourceStartEndID   (Int32)
             // -----------------------------------
 
+            mikeSourceStartEnd = null;
             mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
             mikeSourceStartEnd.MikeSourceStartEndID = 0;
             mikeSourceStartEndService.Update(mikeSourceStartEnd);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndMikeSourceStartEndID), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "MikeSource", Plurial = "s", FieldID = "MikeSourceID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // mikeSourceStartEnd.MikeSourceID   (Int32)
             // -----------------------------------
 
-            // MikeSourceID will automatically be initialized at 0 --> not null
-
-
             mikeSourceStartEnd = null;
             mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-            // MikeSourceID has Min [1] and Max [empty]. At Min should return true and no errors
-            mikeSourceStartEnd.MikeSourceID = 1;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(1, mikeSourceStartEnd.MikeSourceID);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-            // MikeSourceID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mikeSourceStartEnd.MikeSourceID = 2;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(2, mikeSourceStartEnd.MikeSourceID);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-            // MikeSourceID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mikeSourceStartEnd.MikeSourceID = 0;
-            Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.IsTrue(mikeSourceStartEnd.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeSourceStartEndMikeSourceID, "1")).Any());
-            Assert.AreEqual(0, mikeSourceStartEnd.MikeSourceID);
-            Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+            mikeSourceStartEndService.Add(mikeSourceStartEnd);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeSource, ModelsRes.MikeSourceStartEndMikeSourceID, mikeSourceStartEnd.MikeSourceID.ToString()), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // MikeSourceID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -174,7 +158,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [SourceFlowStart_m3_day]
-
 
             mikeSourceStartEnd = null;
             mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
@@ -227,7 +210,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [SourceFlowEnd_m3_day]
 
-
             mikeSourceStartEnd = null;
             mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
             // SourceFlowEnd_m3_day has Min [0.0D] and Max [1000000.0D]. At Min should return true and no errors
@@ -278,7 +260,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // SourcePollutionStart_MPN_100ml will automatically be initialized at 0 --> not null
-
 
             mikeSourceStartEnd = null;
             mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
@@ -331,7 +312,6 @@ namespace CSSPServices.Tests
 
             // SourcePollutionEnd_MPN_100ml will automatically be initialized at 0 --> not null
 
-
             mikeSourceStartEnd = null;
             mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
             // SourcePollutionEnd_MPN_100ml has Min [0] and Max [10000000]. At Min should return true and no errors
@@ -382,7 +362,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [SourceTemperatureStart_C]
-
 
             mikeSourceStartEnd = null;
             mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
@@ -435,7 +414,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [SourceTemperatureEnd_C]
 
-
             mikeSourceStartEnd = null;
             mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
             // SourceTemperatureEnd_C has Min [-10.0D] and Max [40.0D]. At Min should return true and no errors
@@ -487,7 +465,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [SourceSalinityStart_PSU]
 
-
             mikeSourceStartEnd = null;
             mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
             // SourceSalinityStart_PSU has Min [0.0D] and Max [40.0D]. At Min should return true and no errors
@@ -538,7 +515,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [SourceSalinityEnd_PSU]
-
 
             mikeSourceStartEnd = null;
             mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
@@ -595,35 +571,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // mikeSourceStartEnd.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             mikeSourceStartEnd = null;
             mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            mikeSourceStartEnd.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(1, mikeSourceStartEnd.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            mikeSourceStartEnd.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.AreEqual(0, mikeSourceStartEnd.ValidationResults.Count());
-            Assert.AreEqual(2, mikeSourceStartEnd.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, mikeSourceStartEndService.Delete(mikeSourceStartEnd));
-            Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             mikeSourceStartEnd.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-            Assert.IsTrue(mikeSourceStartEnd.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, mikeSourceStartEnd.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+            mikeSourceStartEndService.Add(mikeSourceStartEnd);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, mikeSourceStartEnd.LastUpdateContactTVItemID.ToString()), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

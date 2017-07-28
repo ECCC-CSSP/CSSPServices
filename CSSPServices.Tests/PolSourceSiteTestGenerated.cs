@@ -47,7 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "IsPointSource") polSourceSite.IsPointSource = true;
             if (OmitPropName != "InactiveReason") polSourceSite.InactiveReason = (PolSourceInactiveReasonEnum)GetRandomEnumType(typeof(PolSourceInactiveReasonEnum));
             if (OmitPropName != "CivicAddressTVItemID") polSourceSite.CivicAddressTVItemID = 28;
-            if (OmitPropName != "LastUpdateDate_UTC") polSourceSite.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") polSourceSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") polSourceSite.LastUpdateContactTVItemID = 2;
 
             return polSourceSite;
@@ -107,43 +107,27 @@ namespace CSSPServices.Tests
             // polSourceSite.PolSourceSiteID   (Int32)
             // -----------------------------------
 
+            polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
             polSourceSite.PolSourceSiteID = 0;
             polSourceSiteService.Update(polSourceSite);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceSitePolSourceSiteID), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.PolSourceSite)]
-            // [Range(1, -1)]
             // polSourceSite.PolSourceSiteTVItemID   (Int32)
             // -----------------------------------
 
-            // PolSourceSiteTVItemID will automatically be initialized at 0 --> not null
-
-
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
-            // PolSourceSiteTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            polSourceSite.PolSourceSiteTVItemID = 1;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(1, polSourceSite.PolSourceSiteTVItemID);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // PolSourceSiteTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            polSourceSite.PolSourceSiteTVItemID = 2;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(2, polSourceSite.PolSourceSiteTVItemID);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // PolSourceSiteTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             polSourceSite.PolSourceSiteTVItemID = 0;
-            Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
-            Assert.IsTrue(polSourceSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceSitePolSourceSiteTVItemID, "1")).Any());
-            Assert.AreEqual(0, polSourceSite.PolSourceSiteTVItemID);
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
+            polSourceSiteService.Add(polSourceSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceSitePolSourceSiteTVItemID, polSourceSite.PolSourceSiteTVItemID.ToString()), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // PolSourceSiteTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is Nullable
@@ -151,10 +135,8 @@ namespace CSSPServices.Tests
             // polSourceSite.Temp_Locator_CanDelete   (String)
             // -----------------------------------
 
-
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
-
             // Temp_Locator_CanDelete has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
             string polSourceSiteTemp_Locator_CanDeleteMin = GetRandomString("", 50);
             polSourceSite.Temp_Locator_CanDelete = polSourceSiteTemp_Locator_CanDeleteMin;
@@ -186,7 +168,6 @@ namespace CSSPServices.Tests
             // [Range(0, 1000)]
             // polSourceSite.Oldsiteid   (Int32)
             // -----------------------------------
-
 
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
@@ -237,7 +218,6 @@ namespace CSSPServices.Tests
             // polSourceSite.Site   (Int32)
             // -----------------------------------
 
-
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
             // Site has Min [0] and Max [1000]. At Min should return true and no errors
@@ -286,7 +266,6 @@ namespace CSSPServices.Tests
             // [Range(0, 1000)]
             // polSourceSite.SiteID   (Int32)
             // -----------------------------------
-
 
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
@@ -349,33 +328,15 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Address)]
-            // [Range(1, -1)]
             // polSourceSite.CivicAddressTVItemID   (Int32)
             // -----------------------------------
 
-
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
-            // CivicAddressTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            polSourceSite.CivicAddressTVItemID = 1;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(1, polSourceSite.CivicAddressTVItemID);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // CivicAddressTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            polSourceSite.CivicAddressTVItemID = 2;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(2, polSourceSite.CivicAddressTVItemID);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // CivicAddressTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             polSourceSite.CivicAddressTVItemID = 0;
-            Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
-            Assert.IsTrue(polSourceSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceSiteCivicAddressTVItemID, "1")).Any());
-            Assert.AreEqual(0, polSourceSite.CivicAddressTVItemID);
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
+            polSourceSiteService.Add(polSourceSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceSiteCivicAddressTVItemID, polSourceSite.CivicAddressTVItemID.ToString()), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -389,35 +350,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // polSourceSite.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            polSourceSite.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(1, polSourceSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            polSourceSite.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(2, polSourceSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             polSourceSite.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
-            Assert.IsTrue(polSourceSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceSiteLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, polSourceSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
+            polSourceSiteService.Add(polSourceSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceSiteLastUpdateContactTVItemID, polSourceSite.LastUpdateContactTVItemID.ToString()), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

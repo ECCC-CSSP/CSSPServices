@@ -103,10 +103,12 @@ namespace CSSPServices.Tests
             // tideLocation.TideLocationID   (Int32)
             // -----------------------------------
 
+            tideLocation = null;
             tideLocation = GetFilledRandomTideLocation("");
             tideLocation.TideLocationID = 0;
             tideLocationService.Update(tideLocation);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TideLocationTideLocationID), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -115,7 +117,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // Zone will automatically be initialized at 0 --> not null
-
 
             tideLocation = null;
             tideLocation = GetFilledRandomTideLocation("");
@@ -174,10 +175,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, tideLocation.Name);
             Assert.AreEqual(0, tideLocationService.GetRead().Count());
 
-
             tideLocation = null;
             tideLocation = GetFilledRandomTideLocation("");
-
             // Name has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
             string tideLocationNameMin = GetRandomString("", 100);
             tideLocation.Name = tideLocationNameMin;
@@ -218,10 +217,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, tideLocation.Prov);
             Assert.AreEqual(0, tideLocationService.GetRead().Count());
 
-
             tideLocation = null;
             tideLocation = GetFilledRandomTideLocation("");
-
             // Prov has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
             string tideLocationProvMin = GetRandomString("", 100);
             tideLocation.Prov = tideLocationProvMin;
@@ -255,7 +252,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // sid will automatically be initialized at 0 --> not null
-
 
             tideLocation = null;
             tideLocation = GetFilledRandomTideLocation("");
@@ -308,7 +304,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [Lat]
 
-
             tideLocation = null;
             tideLocation = GetFilledRandomTideLocation("");
             // Lat has Min [-90.0D] and Max [90.0D]. At Min should return true and no errors
@@ -359,7 +354,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [Lng]
-
 
             tideLocation = null;
             tideLocation = GetFilledRandomTideLocation("");

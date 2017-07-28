@@ -42,7 +42,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EmailTVItemID") email.EmailTVItemID = 29;
             if (OmitPropName != "EmailAddress") email.EmailAddress = GetRandomEmail();
             if (OmitPropName != "EmailType") email.EmailType = (EmailTypeEnum)GetRandomEnumType(typeof(EmailTypeEnum));
-            if (OmitPropName != "LastUpdateDate_UTC") email.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") email.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") email.LastUpdateContactTVItemID = 2;
 
             return email;
@@ -102,43 +102,27 @@ namespace CSSPServices.Tests
             // email.EmailID   (Int32)
             // -----------------------------------
 
+            email = null;
             email = GetFilledRandomEmail("");
             email.EmailID = 0;
             emailService.Update(email);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailID), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Email)]
-            // [Range(1, -1)]
             // email.EmailTVItemID   (Int32)
             // -----------------------------------
 
-            // EmailTVItemID will automatically be initialized at 0 --> not null
-
-
             email = null;
             email = GetFilledRandomEmail("");
-            // EmailTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            email.EmailTVItemID = 1;
-            Assert.AreEqual(true, emailService.Add(email));
-            Assert.AreEqual(0, email.ValidationResults.Count());
-            Assert.AreEqual(1, email.EmailTVItemID);
-            Assert.AreEqual(true, emailService.Delete(email));
-            Assert.AreEqual(count, emailService.GetRead().Count());
-            // EmailTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            email.EmailTVItemID = 2;
-            Assert.AreEqual(true, emailService.Add(email));
-            Assert.AreEqual(0, email.ValidationResults.Count());
-            Assert.AreEqual(2, email.EmailTVItemID);
-            Assert.AreEqual(true, emailService.Delete(email));
-            Assert.AreEqual(count, emailService.GetRead().Count());
-            // EmailTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             email.EmailTVItemID = 0;
-            Assert.AreEqual(false, emailService.Add(email));
-            Assert.IsTrue(email.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.EmailEmailTVItemID, "1")).Any());
-            Assert.AreEqual(0, email.EmailTVItemID);
-            Assert.AreEqual(count, emailService.GetRead().Count());
+            emailService.Add(email);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailEmailTVItemID, email.EmailTVItemID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // EmailTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -155,10 +139,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, email.EmailAddress);
             Assert.AreEqual(0, emailService.GetRead().Count());
 
-
             email = null;
             email = GetFilledRandomEmail("");
-
             // EmailAddress has MinLength [empty] and MaxLength [255]. At Max should return true and no errors
             string emailEmailAddressMin = GetRandomEmail();
             email.EmailAddress = emailEmailAddressMin;
@@ -198,35 +180,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // email.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             email = null;
             email = GetFilledRandomEmail("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            email.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, emailService.Add(email));
-            Assert.AreEqual(0, email.ValidationResults.Count());
-            Assert.AreEqual(1, email.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, emailService.Delete(email));
-            Assert.AreEqual(count, emailService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            email.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, emailService.Add(email));
-            Assert.AreEqual(0, email.ValidationResults.Count());
-            Assert.AreEqual(2, email.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, emailService.Delete(email));
-            Assert.AreEqual(count, emailService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             email.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, emailService.Add(email));
-            Assert.IsTrue(email.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.EmailLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, email.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, emailService.GetRead().Count());
+            emailService.Add(email);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailLastUpdateContactTVItemID, email.LastUpdateContactTVItemID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

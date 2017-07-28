@@ -40,23 +40,23 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(fileItem.Name))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FileItemName), new[] { ModelsRes.FileItemName });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FileItemName), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(fileItem.Name) && (fileItem.Name.Length < 0 || fileItem.Name.Length > 255))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FileItemName, "0", "255"), new[] { ModelsRes.FileItemName });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FileItemName, "0", "255"), new[] { "Name" });
             }
 
             //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (fileItem.TVItemID < 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.FileItemTVItemID, "1"), new[] { ModelsRes.FileItemTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.FileItemTVItemID, "1"), new[] { "TVItemID" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

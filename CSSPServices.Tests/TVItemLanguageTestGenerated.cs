@@ -43,7 +43,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Language") tvItemLanguage.Language = language;
             if (OmitPropName != "TVText") tvItemLanguage.TVText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatus") tvItemLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
-            if (OmitPropName != "LastUpdateDate_UTC") tvItemLanguage.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") tvItemLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvItemLanguage.LastUpdateContactTVItemID = 2;
 
             return tvItemLanguage;
@@ -103,43 +103,27 @@ namespace CSSPServices.Tests
             // tvItemLanguage.TVItemLanguageID   (Int32)
             // -----------------------------------
 
+            tvItemLanguage = null;
             tvItemLanguage = GetFilledRandomTVItemLanguage("");
             tvItemLanguage.TVItemLanguageID = 0;
             tvItemLanguageService.Update(tvItemLanguage);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageTVItemLanguageID), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // tvItemLanguage.TVItemID   (Int32)
             // -----------------------------------
 
-            // TVItemID will automatically be initialized at 0 --> not null
-
-
             tvItemLanguage = null;
             tvItemLanguage = GetFilledRandomTVItemLanguage("");
-            // TVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            tvItemLanguage.TVItemID = 1;
-            Assert.AreEqual(true, tvItemLanguageService.Add(tvItemLanguage));
-            Assert.AreEqual(0, tvItemLanguage.ValidationResults.Count());
-            Assert.AreEqual(1, tvItemLanguage.TVItemID);
-            Assert.AreEqual(true, tvItemLanguageService.Delete(tvItemLanguage));
-            Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
-            // TVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            tvItemLanguage.TVItemID = 2;
-            Assert.AreEqual(true, tvItemLanguageService.Add(tvItemLanguage));
-            Assert.AreEqual(0, tvItemLanguage.ValidationResults.Count());
-            Assert.AreEqual(2, tvItemLanguage.TVItemID);
-            Assert.AreEqual(true, tvItemLanguageService.Delete(tvItemLanguage));
-            Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
-            // TVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvItemLanguage.TVItemID = 0;
-            Assert.AreEqual(false, tvItemLanguageService.Add(tvItemLanguage));
-            Assert.IsTrue(tvItemLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemLanguageTVItemID, "1")).Any());
-            Assert.AreEqual(0, tvItemLanguage.TVItemID);
-            Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
+            tvItemLanguageService.Add(tvItemLanguage);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLanguageTVItemID, tvItemLanguage.TVItemID.ToString()), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // TVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -164,10 +148,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, tvItemLanguage.TVText);
             Assert.AreEqual(0, tvItemLanguageService.GetRead().Count());
 
-
             tvItemLanguage = null;
             tvItemLanguage = GetFilledRandomTVItemLanguage("");
-
             // TVText has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
             string tvItemLanguageTVTextMin = GetRandomString("", 200);
             tvItemLanguage.TVText = tvItemLanguageTVTextMin;
@@ -215,35 +197,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // tvItemLanguage.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             tvItemLanguage = null;
             tvItemLanguage = GetFilledRandomTVItemLanguage("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            tvItemLanguage.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, tvItemLanguageService.Add(tvItemLanguage));
-            Assert.AreEqual(0, tvItemLanguage.ValidationResults.Count());
-            Assert.AreEqual(1, tvItemLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, tvItemLanguageService.Delete(tvItemLanguage));
-            Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            tvItemLanguage.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, tvItemLanguageService.Add(tvItemLanguage));
-            Assert.AreEqual(0, tvItemLanguage.ValidationResults.Count());
-            Assert.AreEqual(2, tvItemLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, tvItemLanguageService.Delete(tvItemLanguage));
-            Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             tvItemLanguage.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, tvItemLanguageService.Add(tvItemLanguage));
-            Assert.IsTrue(tvItemLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.TVItemLanguageLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, tvItemLanguage.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
+            tvItemLanguageService.Add(tvItemLanguage);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLanguageLastUpdateContactTVItemID, tvItemLanguage.LastUpdateContactTVItemID.ToString()), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

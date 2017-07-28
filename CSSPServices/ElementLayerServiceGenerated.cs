@@ -42,7 +42,7 @@ namespace CSSPServices
 
             if (elementLayer.Layer < 1 || elementLayer.Layer > 1000)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ElementLayerLayer, "1", "1000"), new[] { ModelsRes.ElementLayerLayer });
+                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ElementLayerLayer, "1", "1000"), new[] { "Layer" });
             }
 
             //ZMin (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -53,8 +53,8 @@ namespace CSSPServices
 
             //ZMax has no Range Attribute
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

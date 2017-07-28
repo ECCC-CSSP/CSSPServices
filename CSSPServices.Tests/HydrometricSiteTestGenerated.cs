@@ -46,8 +46,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Description") hydrometricSite.Description = GetRandomString("", 5);
             if (OmitPropName != "Province") hydrometricSite.Province = GetRandomString("", 4);
             if (OmitPropName != "Elevation_m") hydrometricSite.Elevation_m = GetRandomDouble(0.0D, 10000.0D);
-            if (OmitPropName != "StartDate_Local") hydrometricSite.StartDate_Local = GetRandomDateTime();
-            if (OmitPropName != "EndDate_Local") hydrometricSite.EndDate_Local = GetRandomDateTime();
+            if (OmitPropName != "StartDate_Local") hydrometricSite.StartDate_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "EndDate_Local") hydrometricSite.EndDate_Local = new DateTime(2005, 3, 7);
             if (OmitPropName != "TimeOffset_hour") hydrometricSite.TimeOffset_hour = GetRandomDouble(-10.0D, 0.0D);
             if (OmitPropName != "DrainageArea_km2") hydrometricSite.DrainageArea_km2 = GetRandomDouble(0.0D, 1000000.0D);
             if (OmitPropName != "IsNatural") hydrometricSite.IsNatural = true;
@@ -56,7 +56,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "RHBN") hydrometricSite.RHBN = true;
             if (OmitPropName != "RealTime") hydrometricSite.RealTime = true;
             if (OmitPropName != "HasRatingCurve") hydrometricSite.HasRatingCurve = true;
-            if (OmitPropName != "LastUpdateDate_UTC") hydrometricSite.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") hydrometricSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") hydrometricSite.LastUpdateContactTVItemID = 2;
 
             return hydrometricSite;
@@ -116,43 +116,27 @@ namespace CSSPServices.Tests
             // hydrometricSite.HydrometricSiteID   (Int32)
             // -----------------------------------
 
+            hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
             hydrometricSite.HydrometricSiteID = 0;
             hydrometricSiteService.Update(hydrometricSite);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteHydrometricSiteID), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.HydrometricSite)]
-            // [Range(1, -1)]
             // hydrometricSite.HydrometricSiteTVItemID   (Int32)
             // -----------------------------------
 
-            // HydrometricSiteTVItemID will automatically be initialized at 0 --> not null
-
-
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-            // HydrometricSiteTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            hydrometricSite.HydrometricSiteTVItemID = 1;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(1, hydrometricSite.HydrometricSiteTVItemID);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // HydrometricSiteTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            hydrometricSite.HydrometricSiteTVItemID = 2;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(2, hydrometricSite.HydrometricSiteTVItemID);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // HydrometricSiteTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             hydrometricSite.HydrometricSiteTVItemID = 0;
-            Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
-            Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.HydrometricSiteHydrometricSiteTVItemID, "1")).Any());
-            Assert.AreEqual(0, hydrometricSite.HydrometricSiteTVItemID);
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+            hydrometricSiteService.Add(hydrometricSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.HydrometricSiteHydrometricSiteTVItemID, hydrometricSite.HydrometricSiteTVItemID.ToString()), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // HydrometricSiteTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is Nullable
@@ -160,10 +144,8 @@ namespace CSSPServices.Tests
             // hydrometricSite.FedSiteNumber   (String)
             // -----------------------------------
 
-
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-
             // FedSiteNumber has MinLength [empty] and MaxLength [7]. At Max should return true and no errors
             string hydrometricSiteFedSiteNumberMin = GetRandomString("", 7);
             hydrometricSite.FedSiteNumber = hydrometricSiteFedSiteNumberMin;
@@ -196,10 +178,8 @@ namespace CSSPServices.Tests
             // hydrometricSite.QuebecSiteNumber   (String)
             // -----------------------------------
 
-
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-
             // QuebecSiteNumber has MinLength [empty] and MaxLength [7]. At Max should return true and no errors
             string hydrometricSiteQuebecSiteNumberMin = GetRandomString("", 7);
             hydrometricSite.QuebecSiteNumber = hydrometricSiteQuebecSiteNumberMin;
@@ -240,10 +220,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, hydrometricSite.HydrometricSiteName);
             Assert.AreEqual(0, hydrometricSiteService.GetRead().Count());
 
-
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-
             // HydrometricSiteName has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
             string hydrometricSiteHydrometricSiteNameMin = GetRandomString("", 200);
             hydrometricSite.HydrometricSiteName = hydrometricSiteHydrometricSiteNameMin;
@@ -276,10 +254,8 @@ namespace CSSPServices.Tests
             // hydrometricSite.Description   (String)
             // -----------------------------------
 
-
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-
             // Description has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
             string hydrometricSiteDescriptionMin = GetRandomString("", 200);
             hydrometricSite.Description = hydrometricSiteDescriptionMin;
@@ -320,10 +296,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, hydrometricSite.Province);
             Assert.AreEqual(0, hydrometricSiteService.GetRead().Count());
 
-
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-
             // Province has MinLength [empty] and MaxLength [4]. At Max should return true and no errors
             string hydrometricSiteProvinceMin = GetRandomString("", 4);
             hydrometricSite.Province = hydrometricSiteProvinceMin;
@@ -357,7 +331,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [Elevation_m]
-
 
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
@@ -425,7 +398,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [TimeOffset_hour]
 
-
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
             // TimeOffset_hour has Min [-10.0D] and Max [0.0D]. At Min should return true and no errors
@@ -476,7 +448,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [DrainageArea_km2]
-
 
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
@@ -569,35 +540,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // hydrometricSite.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            hydrometricSite.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(1, hydrometricSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            hydrometricSite.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(2, hydrometricSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             hydrometricSite.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
-            Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.HydrometricSiteLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, hydrometricSite.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+            hydrometricSiteService.Add(hydrometricSite);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.HydrometricSiteLastUpdateContactTVItemID, hydrometricSite.LastUpdateContactTVItemID.ToString()), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

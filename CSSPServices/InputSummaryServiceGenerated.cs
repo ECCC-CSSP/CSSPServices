@@ -40,20 +40,20 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(inputSummary.Error))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InputSummaryError), new[] { ModelsRes.InputSummaryError });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InputSummaryError), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
 
             if (string.IsNullOrWhiteSpace(inputSummary.Summary))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InputSummarySummary), new[] { ModelsRes.InputSummarySummary });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InputSummarySummary), new[] { "Summary" });
             }
 
             //Summary has no StringLength Attribute
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

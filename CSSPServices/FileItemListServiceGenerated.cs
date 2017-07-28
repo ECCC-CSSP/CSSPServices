@@ -40,26 +40,26 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(fileItemList.Text))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FileItemListText), new[] { ModelsRes.FileItemListText });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FileItemListText), new[] { "Text" });
             }
 
             if (!string.IsNullOrWhiteSpace(fileItemList.Text) && (fileItemList.Text.Length < 1 || fileItemList.Text.Length > 255))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FileItemListText, "1", "255"), new[] { ModelsRes.FileItemListText });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FileItemListText, "1", "255"), new[] { "Text" });
             }
 
             if (string.IsNullOrWhiteSpace(fileItemList.FileName))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FileItemListFileName), new[] { ModelsRes.FileItemListFileName });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FileItemListFileName), new[] { "FileName" });
             }
 
             if (!string.IsNullOrWhiteSpace(fileItemList.FileName) && (fileItemList.FileName.Length < 1 || fileItemList.FileName.Length > 255))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FileItemListFileName, "1", "255"), new[] { ModelsRes.FileItemListFileName });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FileItemListFileName, "1", "255"), new[] { "FileName" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

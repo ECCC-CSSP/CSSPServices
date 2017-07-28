@@ -40,7 +40,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(polSourceInactiveReasonEnumTextAndID.Text))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceInactiveReasonEnumTextAndIDText), new[] { ModelsRes.PolSourceInactiveReasonEnumTextAndIDText });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceInactiveReasonEnumTextAndIDText), new[] { "Text" });
             }
 
             //Text has no StringLength Attribute
@@ -49,11 +49,11 @@ namespace CSSPServices
 
             if (polSourceInactiveReasonEnumTextAndID.ID < 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceInactiveReasonEnumTextAndIDID, "1"), new[] { ModelsRes.PolSourceInactiveReasonEnumTextAndIDID });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceInactiveReasonEnumTextAndIDID, "1"), new[] { "ID" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

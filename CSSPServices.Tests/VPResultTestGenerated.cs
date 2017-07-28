@@ -46,7 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "FarFieldWidth_m") vpResult.FarFieldWidth_m = GetRandomDouble(0.0D, 10000.0D);
             if (OmitPropName != "DispersionDistance_m") vpResult.DispersionDistance_m = GetRandomDouble(0.0D, 100000.0D);
             if (OmitPropName != "TravelTime_hour") vpResult.TravelTime_hour = GetRandomDouble(0.0D, 100.0D);
-            if (OmitPropName != "LastUpdateDate_UTC") vpResult.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") vpResult.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") vpResult.LastUpdateContactTVItemID = 2;
 
             return vpResult;
@@ -106,43 +106,27 @@ namespace CSSPServices.Tests
             // vpResult.VPResultID   (Int32)
             // -----------------------------------
 
+            vpResult = null;
             vpResult = GetFilledRandomVPResult("");
             vpResult.VPResultID = 0;
             vpResultService.Update(vpResult);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPResultVPResultID), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "VPScenario", Plurial = "s", FieldID = "VPScenarioID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // vpResult.VPScenarioID   (Int32)
             // -----------------------------------
 
-            // VPScenarioID will automatically be initialized at 0 --> not null
-
-
             vpResult = null;
             vpResult = GetFilledRandomVPResult("");
-            // VPScenarioID has Min [1] and Max [empty]. At Min should return true and no errors
-            vpResult.VPScenarioID = 1;
-            Assert.AreEqual(true, vpResultService.Add(vpResult));
-            Assert.AreEqual(0, vpResult.ValidationResults.Count());
-            Assert.AreEqual(1, vpResult.VPScenarioID);
-            Assert.AreEqual(true, vpResultService.Delete(vpResult));
-            Assert.AreEqual(count, vpResultService.GetRead().Count());
-            // VPScenarioID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            vpResult.VPScenarioID = 2;
-            Assert.AreEqual(true, vpResultService.Add(vpResult));
-            Assert.AreEqual(0, vpResult.ValidationResults.Count());
-            Assert.AreEqual(2, vpResult.VPScenarioID);
-            Assert.AreEqual(true, vpResultService.Delete(vpResult));
-            Assert.AreEqual(count, vpResultService.GetRead().Count());
-            // VPScenarioID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             vpResult.VPScenarioID = 0;
-            Assert.AreEqual(false, vpResultService.Add(vpResult));
-            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.VPResultVPScenarioID, "1")).Any());
-            Assert.AreEqual(0, vpResult.VPScenarioID);
-            Assert.AreEqual(count, vpResultService.GetRead().Count());
+            vpResultService.Add(vpResult);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPResultVPScenarioID, vpResult.VPScenarioID.ToString()), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // VPScenarioID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -151,7 +135,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // Ordinal will automatically be initialized at 0 --> not null
-
 
             vpResult = null;
             vpResult = GetFilledRandomVPResult("");
@@ -204,7 +187,6 @@ namespace CSSPServices.Tests
 
             // Concentration_MPN_100ml will automatically be initialized at 0 --> not null
 
-
             vpResult = null;
             vpResult = GetFilledRandomVPResult("");
             // Concentration_MPN_100ml has Min [0] and Max [10000000]. At Min should return true and no errors
@@ -255,7 +237,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [Dilution]
-
 
             vpResult = null;
             vpResult = GetFilledRandomVPResult("");
@@ -308,7 +289,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [FarFieldWidth_m]
 
-
             vpResult = null;
             vpResult = GetFilledRandomVPResult("");
             // FarFieldWidth_m has Min [0.0D] and Max [10000.0D]. At Min should return true and no errors
@@ -360,7 +340,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [DispersionDistance_m]
 
-
             vpResult = null;
             vpResult = GetFilledRandomVPResult("");
             // DispersionDistance_m has Min [0.0D] and Max [100000.0D]. At Min should return true and no errors
@@ -411,7 +390,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [TravelTime_hour]
-
 
             vpResult = null;
             vpResult = GetFilledRandomVPResult("");
@@ -468,35 +446,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // vpResult.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             vpResult = null;
             vpResult = GetFilledRandomVPResult("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            vpResult.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, vpResultService.Add(vpResult));
-            Assert.AreEqual(0, vpResult.ValidationResults.Count());
-            Assert.AreEqual(1, vpResult.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, vpResultService.Delete(vpResult));
-            Assert.AreEqual(count, vpResultService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            vpResult.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, vpResultService.Add(vpResult));
-            Assert.AreEqual(0, vpResult.ValidationResults.Count());
-            Assert.AreEqual(2, vpResult.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, vpResultService.Delete(vpResult));
-            Assert.AreEqual(count, vpResultService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             vpResult.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, vpResultService.Add(vpResult));
-            Assert.IsTrue(vpResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.VPResultLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, vpResult.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, vpResultService.GetRead().Count());
+            vpResultService.Add(vpResult);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPResultLastUpdateContactTVItemID, vpResult.LastUpdateContactTVItemID.ToString()), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

@@ -40,7 +40,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(otherFilesToUpload.Error))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.OtherFilesToUploadError), new[] { ModelsRes.OtherFilesToUploadError });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.OtherFilesToUploadError), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
@@ -49,11 +49,11 @@ namespace CSSPServices
 
             if (otherFilesToUpload.MikeScenarioID < 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.OtherFilesToUploadMikeScenarioID, "1"), new[] { ModelsRes.OtherFilesToUploadMikeScenarioID });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.OtherFilesToUploadMikeScenarioID, "1"), new[] { "MikeScenarioID" });
             }
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

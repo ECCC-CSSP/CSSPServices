@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
             ClimateDataValue climateDataValue = new ClimateDataValue();
 
             if (OmitPropName != "ClimateSiteID") climateDataValue.ClimateSiteID = 1;
-            if (OmitPropName != "DateTime_Local") climateDataValue.DateTime_Local = GetRandomDateTime();
+            if (OmitPropName != "DateTime_Local") climateDataValue.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Keep") climateDataValue.Keep = true;
             if (OmitPropName != "StorageDataType") climateDataValue.StorageDataType = (StorageDataTypeEnum)GetRandomEnumType(typeof(StorageDataTypeEnum));
             if (OmitPropName != "Snow_cm") climateDataValue.Snow_cm = GetRandomDouble(0.0D, 10000.0D);
@@ -55,7 +55,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DirMaxGust_0North") climateDataValue.DirMaxGust_0North = GetRandomDouble(0.0D, 360.0D);
             if (OmitPropName != "SpdMaxGust_kmh") climateDataValue.SpdMaxGust_kmh = GetRandomDouble(0.0D, 300.0D);
             if (OmitPropName != "HourlyValues") climateDataValue.HourlyValues = GetRandomString("", 20);
-            if (OmitPropName != "LastUpdateDate_UTC") climateDataValue.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") climateDataValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") climateDataValue.LastUpdateContactTVItemID = 2;
 
             return climateDataValue;
@@ -115,43 +115,27 @@ namespace CSSPServices.Tests
             // climateDataValue.ClimateDataValueID   (Int32)
             // -----------------------------------
 
+            climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
             climateDataValue.ClimateDataValueID = 0;
             climateDataValueService.Update(climateDataValue);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueClimateDataValueID), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "ClimateSite", Plurial = "s", FieldID = "ClimateSiteID", TVType = TVTypeEnum.Error)]
-            // [Range(1, -1)]
             // climateDataValue.ClimateSiteID   (Int32)
             // -----------------------------------
 
-            // ClimateSiteID will automatically be initialized at 0 --> not null
-
-
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
-            // ClimateSiteID has Min [1] and Max [empty]. At Min should return true and no errors
-            climateDataValue.ClimateSiteID = 1;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(1, climateDataValue.ClimateSiteID);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // ClimateSiteID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            climateDataValue.ClimateSiteID = 2;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(2, climateDataValue.ClimateSiteID);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // ClimateSiteID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             climateDataValue.ClimateSiteID = 0;
-            Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ClimateDataValueClimateSiteID, "1")).Any());
-            Assert.AreEqual(0, climateDataValue.ClimateSiteID);
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
+            climateDataValueService.Add(climateDataValue);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ClimateSite, ModelsRes.ClimateDataValueClimateSiteID, climateDataValue.ClimateSiteID.ToString()), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // ClimateSiteID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -186,7 +170,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [Snow_cm]
-
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
@@ -239,7 +222,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [Rainfall_mm]
 
-
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
             // Rainfall_mm has Min [0.0D] and Max [10000.0D]. At Min should return true and no errors
@@ -290,7 +272,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RainfallEntered_mm]
-
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
@@ -343,7 +324,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [TotalPrecip_mm_cm]
 
-
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
             // TotalPrecip_mm_cm has Min [0.0D] and Max [10000.0D]. At Min should return true and no errors
@@ -394,7 +374,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [MaxTemp_C]
-
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
@@ -447,7 +426,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [MinTemp_C]
 
-
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
             // MinTemp_C has Min [-50.0D] and Max [50.0D]. At Min should return true and no errors
@@ -498,7 +476,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [HeatDegDays_C]
-
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
@@ -551,7 +528,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [CoolDegDays_C]
 
-
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
             // CoolDegDays_C has Min [-1000.0D] and Max [100.0D]. At Min should return true and no errors
@@ -602,7 +578,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [SnowOnGround_cm]
-
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
@@ -655,7 +630,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [DirMaxGust_0North]
 
-
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
             // DirMaxGust_0North has Min [0.0D] and Max [360.0D]. At Min should return true and no errors
@@ -707,7 +681,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [SpdMaxGust_kmh]
 
-
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
             // SpdMaxGust_kmh has Min [0.0D] and Max [300.0D]. At Min should return true and no errors
@@ -757,9 +730,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
 
-            climateDataValue = null;
-            climateDataValue = GetFilledRandomClimateDataValue("");
-
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPAfter(Year = 1980)]
@@ -772,35 +742,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // climateDataValue.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            climateDataValue.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(1, climateDataValue.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            climateDataValue.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(2, climateDataValue.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             climateDataValue.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ClimateDataValueLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, climateDataValue.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
+            climateDataValueService.Add(climateDataValue);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ClimateDataValueLastUpdateContactTVItemID, climateDataValue.LastUpdateContactTVItemID.ToString()), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

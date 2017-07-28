@@ -42,21 +42,21 @@ namespace CSSPServices
 
             if (element.ID < 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ElementID, "1"), new[] { ModelsRes.ElementID });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ElementID, "1"), new[] { "ID" });
             }
 
             //Type (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (element.Type < 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ElementType, "1"), new[] { ModelsRes.ElementType });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ElementType, "1"), new[] { "Type" });
             }
 
             //NumbOfNodes (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (element.NumbOfNodes < 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ElementNumbOfNodes, "1"), new[] { ModelsRes.ElementNumbOfNodes });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ElementNumbOfNodes, "1"), new[] { "NumbOfNodes" });
             }
 
             //Value (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -75,8 +75,8 @@ namespace CSSPServices
 
             //ZNode0 has no Range Attribute
 
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }

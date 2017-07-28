@@ -40,8 +40,8 @@ namespace CSSPServices.Tests
             RainExceedance rainExceedance = new RainExceedance();
 
             if (OmitPropName != "YearRound") rainExceedance.YearRound = true;
-            if (OmitPropName != "StartDate_Local") rainExceedance.StartDate_Local = GetRandomDateTime();
-            if (OmitPropName != "EndDate_Local") rainExceedance.EndDate_Local = GetRandomDateTime();
+            if (OmitPropName != "StartDate_Local") rainExceedance.StartDate_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "EndDate_Local") rainExceedance.EndDate_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "RainMaximum_mm") rainExceedance.RainMaximum_mm = GetRandomDouble(0.0D, 300.0D);
             if (OmitPropName != "RainExtreme_mm") rainExceedance.RainExtreme_mm = GetRandomDouble(0.0D, 300.0D);
             if (OmitPropName != "DaysPriorToStart") rainExceedance.DaysPriorToStart = GetRandomInt(0, 30);
@@ -50,7 +50,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SubsectorTVItemIDs") rainExceedance.SubsectorTVItemIDs = GetRandomString("", 5);
             if (OmitPropName != "ClimateSiteTVItemIDs") rainExceedance.ClimateSiteTVItemIDs = GetRandomString("", 5);
             if (OmitPropName != "EmailDistributionListIDs") rainExceedance.EmailDistributionListIDs = GetRandomString("", 5);
-            if (OmitPropName != "LastUpdateDate_UTC") rainExceedance.LastUpdateDate_UTC = GetRandomDateTime();
+            if (OmitPropName != "LastUpdateDate_UTC") rainExceedance.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") rainExceedance.LastUpdateContactTVItemID = 2;
 
             return rainExceedance;
@@ -110,10 +110,12 @@ namespace CSSPServices.Tests
             // rainExceedance.RainExceedanceID   (Int32)
             // -----------------------------------
 
+            rainExceedance = null;
             rainExceedance = GetFilledRandomRainExceedance("");
             rainExceedance.RainExceedanceID = 0;
             rainExceedanceService.Update(rainExceedance);
             Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceRainExceedanceID), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is NOT Nullable
@@ -145,7 +147,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             //Error: Type not implemented [RainMaximum_mm]
-
 
             rainExceedance = null;
             rainExceedance = GetFilledRandomRainExceedance("");
@@ -198,7 +199,6 @@ namespace CSSPServices.Tests
 
             //Error: Type not implemented [RainExtreme_mm]
 
-
             rainExceedance = null;
             rainExceedance = GetFilledRandomRainExceedance("");
             // RainExtreme_mm has Min [0.0D] and Max [300.0D]. At Min should return true and no errors
@@ -249,7 +249,6 @@ namespace CSSPServices.Tests
             // -----------------------------------
 
             // DaysPriorToStart will automatically be initialized at 0 --> not null
-
 
             rainExceedance = null;
             rainExceedance = GetFilledRandomRainExceedance("");
@@ -316,10 +315,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, rainExceedance.ProvinceTVItemIDs);
             Assert.AreEqual(0, rainExceedanceService.GetRead().Count());
 
-
             rainExceedance = null;
             rainExceedance = GetFilledRandomRainExceedance("");
-
             // ProvinceTVItemIDs has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
             string rainExceedanceProvinceTVItemIDsMin = GetRandomString("", 250);
             rainExceedance.ProvinceTVItemIDs = rainExceedanceProvinceTVItemIDsMin;
@@ -360,10 +357,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, rainExceedance.SubsectorTVItemIDs);
             Assert.AreEqual(0, rainExceedanceService.GetRead().Count());
 
-
             rainExceedance = null;
             rainExceedance = GetFilledRandomRainExceedance("");
-
             // SubsectorTVItemIDs has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
             string rainExceedanceSubsectorTVItemIDsMin = GetRandomString("", 250);
             rainExceedance.SubsectorTVItemIDs = rainExceedanceSubsectorTVItemIDsMin;
@@ -404,10 +399,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, rainExceedance.ClimateSiteTVItemIDs);
             Assert.AreEqual(0, rainExceedanceService.GetRead().Count());
 
-
             rainExceedance = null;
             rainExceedance = GetFilledRandomRainExceedance("");
-
             // ClimateSiteTVItemIDs has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
             string rainExceedanceClimateSiteTVItemIDsMin = GetRandomString("", 250);
             rainExceedance.ClimateSiteTVItemIDs = rainExceedanceClimateSiteTVItemIDsMin;
@@ -448,10 +441,8 @@ namespace CSSPServices.Tests
             Assert.AreEqual(null, rainExceedance.EmailDistributionListIDs);
             Assert.AreEqual(0, rainExceedanceService.GetRead().Count());
 
-
             rainExceedance = null;
             rainExceedance = GetFilledRandomRainExceedance("");
-
             // EmailDistributionListIDs has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
             string rainExceedanceEmailDistributionListIDsMin = GetRandomEmail();
             rainExceedance.EmailDistributionListIDs = rainExceedanceEmailDistributionListIDsMin;
@@ -482,35 +473,17 @@ namespace CSSPServices.Tests
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", TVType = TVTypeEnum.Contact)]
-            // [Range(1, -1)]
             // rainExceedance.LastUpdateContactTVItemID   (Int32)
             // -----------------------------------
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
-
-
             rainExceedance = null;
             rainExceedance = GetFilledRandomRainExceedance("");
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            rainExceedance.LastUpdateContactTVItemID = 1;
-            Assert.AreEqual(true, rainExceedanceService.Add(rainExceedance));
-            Assert.AreEqual(0, rainExceedance.ValidationResults.Count());
-            Assert.AreEqual(1, rainExceedance.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, rainExceedanceService.Delete(rainExceedance));
-            Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            rainExceedance.LastUpdateContactTVItemID = 2;
-            Assert.AreEqual(true, rainExceedanceService.Add(rainExceedance));
-            Assert.AreEqual(0, rainExceedance.ValidationResults.Count());
-            Assert.AreEqual(2, rainExceedance.LastUpdateContactTVItemID);
-            Assert.AreEqual(true, rainExceedanceService.Delete(rainExceedance));
-            Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
-            // LastUpdateContactTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             rainExceedance.LastUpdateContactTVItemID = 0;
-            Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-            Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.RainExceedanceLastUpdateContactTVItemID, "1")).Any());
-            Assert.AreEqual(0, rainExceedance.LastUpdateContactTVItemID);
-            Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+            rainExceedanceService.Add(rainExceedance);
+            Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RainExceedanceLastUpdateContactTVItemID, rainExceedance.LastUpdateContactTVItemID.ToString()), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+
+            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+
 
             // -----------------------------------
             // Is NOT Nullable

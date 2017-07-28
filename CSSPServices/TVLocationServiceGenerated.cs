@@ -40,7 +40,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(tvLocation.Error))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationError), new[] { ModelsRes.TVLocationError });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationError), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
@@ -49,17 +49,17 @@ namespace CSSPServices
 
             if (tvLocation.TVItemID < 1)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVLocationTVItemID, "1"), new[] { ModelsRes.TVLocationTVItemID });
+                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVLocationTVItemID, "1"), new[] { "TVItemID" });
             }
 
             if (string.IsNullOrWhiteSpace(tvLocation.TVText))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationTVText), new[] { ModelsRes.TVLocationTVText });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationTVText), new[] { "TVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvLocation.TVText) && (tvLocation.TVText.Length < 1 || tvLocation.TVText.Length > 255))
             {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVLocationTVText, "1", "255"), new[] { ModelsRes.TVLocationTVText });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVLocationTVText, "1", "255"), new[] { "TVText" });
             }
 
                 //Error: Type not implemented [TVType] of type [TVTypeEnum]
@@ -68,8 +68,8 @@ namespace CSSPServices
                 //Error: Type not implemented [SubTVType] of type [TVTypeEnum]
 
                 //Error: Type not implemented [SubTVType] of type [TVTypeEnum]
-            retStr = "";
-            if (retStr != "")
+            retStr = ""; // added to stop compiling error
+            if (retStr != "") // will never be true
             {
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
