@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -124,8 +125,6 @@ namespace CSSPServices.Tests
             mwqmRunLanguageService.Add(mwqmRunLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMRun, ModelsRes.MWQMRunLanguageMWQMRunID, mwqmRunLanguage.MWQMRunID.ToString()), mwqmRunLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // MWQMRunID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -133,7 +132,11 @@ namespace CSSPServices.Tests
             // mwqmRunLanguage.Language   (LanguageEnum)
             // -----------------------------------
 
-            // Language will automatically be initialized at 0 --> not null
+            mwqmRunLanguage = null;
+            mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("");
+            mwqmRunLanguage.Language = (LanguageEnum)1000000;
+            mwqmRunLanguageService.Add(mwqmRunLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLanguageLanguage), mwqmRunLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -147,7 +150,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, mwqmRunLanguage.ValidationResults.Count());
             Assert.IsTrue(mwqmRunLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLanguageRunComment)).Any());
             Assert.AreEqual(null, mwqmRunLanguage.RunComment);
-            Assert.AreEqual(0, mwqmRunLanguageService.GetRead().Count());
+            Assert.AreEqual(count, mwqmRunLanguageService.GetRead().Count());
 
 
             // -----------------------------------
@@ -156,7 +159,11 @@ namespace CSSPServices.Tests
             // mwqmRunLanguage.TranslationStatusRunComment   (TranslationStatusEnum)
             // -----------------------------------
 
-            // TranslationStatusRunComment will automatically be initialized at 0 --> not null
+            mwqmRunLanguage = null;
+            mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("");
+            mwqmRunLanguage.TranslationStatusRunComment = (TranslationStatusEnum)1000000;
+            mwqmRunLanguageService.Add(mwqmRunLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLanguageTranslationStatusRunComment), mwqmRunLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -170,7 +177,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, mwqmRunLanguage.ValidationResults.Count());
             Assert.IsTrue(mwqmRunLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLanguageRunWeatherComment)).Any());
             Assert.AreEqual(null, mwqmRunLanguage.RunWeatherComment);
-            Assert.AreEqual(0, mwqmRunLanguageService.GetRead().Count());
+            Assert.AreEqual(count, mwqmRunLanguageService.GetRead().Count());
 
 
             // -----------------------------------
@@ -179,7 +186,11 @@ namespace CSSPServices.Tests
             // mwqmRunLanguage.TranslationStatusRunWeatherComment   (TranslationStatusEnum)
             // -----------------------------------
 
-            // TranslationStatusRunWeatherComment will automatically be initialized at 0 --> not null
+            mwqmRunLanguage = null;
+            mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("");
+            mwqmRunLanguage.TranslationStatusRunWeatherComment = (TranslationStatusEnum)1000000;
+            mwqmRunLanguageService.Add(mwqmRunLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLanguageTranslationStatusRunWeatherComment), mwqmRunLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -187,8 +198,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // mwqmRunLanguage.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -203,7 +212,11 @@ namespace CSSPServices.Tests
             mwqmRunLanguageService.Add(mwqmRunLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLanguageLastUpdateContactTVItemID, mwqmRunLanguage.LastUpdateContactTVItemID.ToString()), mwqmRunLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            mwqmRunLanguage = null;
+            mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("");
+            mwqmRunLanguage.LastUpdateContactTVItemID = 1;
+            mwqmRunLanguageService.Add(mwqmRunLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunLanguageLastUpdateContactTVItemID, "Contact"), mwqmRunLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -122,8 +123,6 @@ namespace CSSPServices.Tests
             tvFileLanguageService.Add(tvFileLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVFile, ModelsRes.TVFileLanguageTVFileID, tvFileLanguage.TVFileID.ToString()), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // TVFileID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -131,7 +130,11 @@ namespace CSSPServices.Tests
             // tvFileLanguage.Language   (LanguageEnum)
             // -----------------------------------
 
-            // Language will automatically be initialized at 0 --> not null
+            tvFileLanguage = null;
+            tvFileLanguage = GetFilledRandomTVFileLanguage("");
+            tvFileLanguage.Language = (LanguageEnum)1000000;
+            tvFileLanguageService.Add(tvFileLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageLanguage), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -146,7 +149,11 @@ namespace CSSPServices.Tests
             // tvFileLanguage.TranslationStatus   (TranslationStatusEnum)
             // -----------------------------------
 
-            // TranslationStatus will automatically be initialized at 0 --> not null
+            tvFileLanguage = null;
+            tvFileLanguage = GetFilledRandomTVFileLanguage("");
+            tvFileLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
+            tvFileLanguageService.Add(tvFileLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageTranslationStatus), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -154,8 +161,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // tvFileLanguage.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -170,7 +175,11 @@ namespace CSSPServices.Tests
             tvFileLanguageService.Add(tvFileLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileLanguageLastUpdateContactTVItemID, tvFileLanguage.LastUpdateContactTVItemID.ToString()), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            tvFileLanguage = null;
+            tvFileLanguage = GetFilledRandomTVFileLanguage("");
+            tvFileLanguage.LastUpdateContactTVItemID = 1;
+            tvFileLanguageService.Add(tvFileLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVFileLanguageLastUpdateContactTVItemID, "Contact"), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

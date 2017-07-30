@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -126,7 +127,11 @@ namespace CSSPServices.Tests
             polSourceSiteService.Add(polSourceSite);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceSitePolSourceSiteTVItemID, polSourceSite.PolSourceSiteTVItemID.ToString()), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // PolSourceSiteTVItemID will automatically be initialized at 0 --> not null
+            polSourceSite = null;
+            polSourceSite = GetFilledRandomPolSourceSite("");
+            polSourceSite.PolSourceSiteTVItemID = 1;
+            polSourceSiteService.Add(polSourceSite);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceSitePolSourceSiteTVItemID, "PolSourceSite"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -137,30 +142,9 @@ namespace CSSPServices.Tests
 
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
-            // Temp_Locator_CanDelete has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
-            string polSourceSiteTemp_Locator_CanDeleteMin = GetRandomString("", 50);
-            polSourceSite.Temp_Locator_CanDelete = polSourceSiteTemp_Locator_CanDeleteMin;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(polSourceSiteTemp_Locator_CanDeleteMin, polSourceSite.Temp_Locator_CanDelete);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-
-            // Temp_Locator_CanDelete has MinLength [empty] and MaxLength [50]. At Max - 1 should return true and no errors
-            polSourceSiteTemp_Locator_CanDeleteMin = GetRandomString("", 49);
-            polSourceSite.Temp_Locator_CanDelete = polSourceSiteTemp_Locator_CanDeleteMin;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(polSourceSiteTemp_Locator_CanDeleteMin, polSourceSite.Temp_Locator_CanDelete);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-
-            // Temp_Locator_CanDelete has MinLength [empty] and MaxLength [50]. At Max + 1 should return false with one error
-            polSourceSiteTemp_Locator_CanDeleteMin = GetRandomString("", 51);
-            polSourceSite.Temp_Locator_CanDelete = polSourceSiteTemp_Locator_CanDeleteMin;
+            polSourceSite.Temp_Locator_CanDelete = GetRandomString("", 51);
             Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
-            Assert.IsTrue(polSourceSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSiteTemp_Locator_CanDelete, "50")).Any());
-            Assert.AreEqual(polSourceSiteTemp_Locator_CanDeleteMin, polSourceSite.Temp_Locator_CanDelete);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSiteTemp_Locator_CanDelete, "50"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -171,45 +155,15 @@ namespace CSSPServices.Tests
 
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
-            // Oldsiteid has Min [0] and Max [1000]. At Min should return true and no errors
-            polSourceSite.Oldsiteid = 0;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(0, polSourceSite.Oldsiteid);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // Oldsiteid has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            polSourceSite.Oldsiteid = 1;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(1, polSourceSite.Oldsiteid);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // Oldsiteid has Min [0] and Max [1000]. At Min - 1 should return false with one error
             polSourceSite.Oldsiteid = -1;
             Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
-            Assert.IsTrue(polSourceSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteOldsiteid, "0", "1000")).Any());
-            Assert.AreEqual(-1, polSourceSite.Oldsiteid);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteOldsiteid, "0", "1000"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // Oldsiteid has Min [0] and Max [1000]. At Max should return true and no errors
-            polSourceSite.Oldsiteid = 1000;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(1000, polSourceSite.Oldsiteid);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // Oldsiteid has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            polSourceSite.Oldsiteid = 999;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(999, polSourceSite.Oldsiteid);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // Oldsiteid has Min [0] and Max [1000]. At Max + 1 should return false with one error
+            polSourceSite = null;
+            polSourceSite = GetFilledRandomPolSourceSite("");
             polSourceSite.Oldsiteid = 1001;
             Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
-            Assert.IsTrue(polSourceSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteOldsiteid, "0", "1000")).Any());
-            Assert.AreEqual(1001, polSourceSite.Oldsiteid);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteOldsiteid, "0", "1000"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -220,45 +174,15 @@ namespace CSSPServices.Tests
 
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
-            // Site has Min [0] and Max [1000]. At Min should return true and no errors
-            polSourceSite.Site = 0;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(0, polSourceSite.Site);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // Site has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            polSourceSite.Site = 1;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(1, polSourceSite.Site);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // Site has Min [0] and Max [1000]. At Min - 1 should return false with one error
             polSourceSite.Site = -1;
             Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
-            Assert.IsTrue(polSourceSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteSite, "0", "1000")).Any());
-            Assert.AreEqual(-1, polSourceSite.Site);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteSite, "0", "1000"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // Site has Min [0] and Max [1000]. At Max should return true and no errors
-            polSourceSite.Site = 1000;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(1000, polSourceSite.Site);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // Site has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            polSourceSite.Site = 999;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(999, polSourceSite.Site);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // Site has Min [0] and Max [1000]. At Max + 1 should return false with one error
+            polSourceSite = null;
+            polSourceSite = GetFilledRandomPolSourceSite("");
             polSourceSite.Site = 1001;
             Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
-            Assert.IsTrue(polSourceSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteSite, "0", "1000")).Any());
-            Assert.AreEqual(1001, polSourceSite.Site);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteSite, "0", "1000"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -269,45 +193,15 @@ namespace CSSPServices.Tests
 
             polSourceSite = null;
             polSourceSite = GetFilledRandomPolSourceSite("");
-            // SiteID has Min [0] and Max [1000]. At Min should return true and no errors
-            polSourceSite.SiteID = 0;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(0, polSourceSite.SiteID);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // SiteID has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            polSourceSite.SiteID = 1;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(1, polSourceSite.SiteID);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // SiteID has Min [0] and Max [1000]. At Min - 1 should return false with one error
             polSourceSite.SiteID = -1;
             Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
-            Assert.IsTrue(polSourceSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteSiteID, "0", "1000")).Any());
-            Assert.AreEqual(-1, polSourceSite.SiteID);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteSiteID, "0", "1000"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // SiteID has Min [0] and Max [1000]. At Max should return true and no errors
-            polSourceSite.SiteID = 1000;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(1000, polSourceSite.SiteID);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // SiteID has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            polSourceSite.SiteID = 999;
-            Assert.AreEqual(true, polSourceSiteService.Add(polSourceSite));
-            Assert.AreEqual(0, polSourceSite.ValidationResults.Count());
-            Assert.AreEqual(999, polSourceSite.SiteID);
-            Assert.AreEqual(true, polSourceSiteService.Delete(polSourceSite));
-            Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
-            // SiteID has Min [0] and Max [1000]. At Max + 1 should return false with one error
+            polSourceSite = null;
+            polSourceSite = GetFilledRandomPolSourceSite("");
             polSourceSite.SiteID = 1001;
             Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
-            Assert.IsTrue(polSourceSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteSiteID, "0", "1000")).Any());
-            Assert.AreEqual(1001, polSourceSite.SiteID);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteSiteID, "0", "1000"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -315,14 +209,18 @@ namespace CSSPServices.Tests
             // polSourceSite.IsPointSource   (Boolean)
             // -----------------------------------
 
-            // IsPointSource will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is Nullable
             // [CSSPEnumType]
             // polSourceSite.InactiveReason   (PolSourceInactiveReasonEnum)
             // -----------------------------------
+
+            polSourceSite = null;
+            polSourceSite = GetFilledRandomPolSourceSite("");
+            polSourceSite.InactiveReason = (PolSourceInactiveReasonEnum)1000000;
+            polSourceSiteService.Add(polSourceSite);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceSiteInactiveReason), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -337,14 +235,18 @@ namespace CSSPServices.Tests
             polSourceSiteService.Add(polSourceSite);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceSiteCivicAddressTVItemID, polSourceSite.CivicAddressTVItemID.ToString()), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
+            polSourceSite = null;
+            polSourceSite = GetFilledRandomPolSourceSite("");
+            polSourceSite.CivicAddressTVItemID = 1;
+            polSourceSiteService.Add(polSourceSite);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceSiteCivicAddressTVItemID, "Address"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPAfter(Year = 1980)]
             // polSourceSite.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -359,7 +261,11 @@ namespace CSSPServices.Tests
             polSourceSiteService.Add(polSourceSite);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceSiteLastUpdateContactTVItemID, polSourceSite.LastUpdateContactTVItemID.ToString()), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            polSourceSite = null;
+            polSourceSite = GetFilledRandomPolSourceSite("");
+            polSourceSite.LastUpdateContactTVItemID = 1;
+            polSourceSiteService.Add(polSourceSite);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceSiteLastUpdateContactTVItemID, "Contact"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

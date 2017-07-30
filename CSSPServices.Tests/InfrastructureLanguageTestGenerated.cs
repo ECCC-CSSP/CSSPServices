@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -122,8 +123,6 @@ namespace CSSPServices.Tests
             infrastructureLanguageService.Add(infrastructureLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Infrastructure, ModelsRes.InfrastructureLanguageInfrastructureID, infrastructureLanguage.InfrastructureID.ToString()), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // InfrastructureID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -131,7 +130,11 @@ namespace CSSPServices.Tests
             // infrastructureLanguage.Language   (LanguageEnum)
             // -----------------------------------
 
-            // Language will automatically be initialized at 0 --> not null
+            infrastructureLanguage = null;
+            infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
+            infrastructureLanguage.Language = (LanguageEnum)1000000;
+            infrastructureLanguageService.Add(infrastructureLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageLanguage), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -145,7 +148,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, infrastructureLanguage.ValidationResults.Count());
             Assert.IsTrue(infrastructureLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageComment)).Any());
             Assert.AreEqual(null, infrastructureLanguage.Comment);
-            Assert.AreEqual(0, infrastructureLanguageService.GetRead().Count());
+            Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
 
 
             // -----------------------------------
@@ -154,7 +157,11 @@ namespace CSSPServices.Tests
             // infrastructureLanguage.TranslationStatus   (TranslationStatusEnum)
             // -----------------------------------
 
-            // TranslationStatus will automatically be initialized at 0 --> not null
+            infrastructureLanguage = null;
+            infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
+            infrastructureLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
+            infrastructureLanguageService.Add(infrastructureLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageTranslationStatus), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -162,8 +169,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // infrastructureLanguage.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -178,7 +183,11 @@ namespace CSSPServices.Tests
             infrastructureLanguageService.Add(infrastructureLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureLanguageLastUpdateContactTVItemID, infrastructureLanguage.LastUpdateContactTVItemID.ToString()), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            infrastructureLanguage = null;
+            infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
+            infrastructureLanguage.LastUpdateContactTVItemID = 1;
+            infrastructureLanguageService.Add(infrastructureLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureLanguageLastUpdateContactTVItemID, "Contact"), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

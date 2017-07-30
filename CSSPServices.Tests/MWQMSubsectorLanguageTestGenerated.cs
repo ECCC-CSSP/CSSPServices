@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -122,8 +123,6 @@ namespace CSSPServices.Tests
             mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSubsector, ModelsRes.MWQMSubsectorLanguageMWQMSubsectorID, mwqmSubsectorLanguage.MWQMSubsectorID.ToString()), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // MWQMSubsectorID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -131,7 +130,11 @@ namespace CSSPServices.Tests
             // mwqmSubsectorLanguage.Language   (LanguageEnum)
             // -----------------------------------
 
-            // Language will automatically be initialized at 0 --> not null
+            mwqmSubsectorLanguage = null;
+            mwqmSubsectorLanguage = GetFilledRandomMWQMSubsectorLanguage("");
+            mwqmSubsectorLanguage.Language = (LanguageEnum)1000000;
+            mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorLanguageLanguage), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -146,34 +149,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, mwqmSubsectorLanguage.ValidationResults.Count());
             Assert.IsTrue(mwqmSubsectorLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorLanguageSubsectorDesc)).Any());
             Assert.AreEqual(null, mwqmSubsectorLanguage.SubsectorDesc);
-            Assert.AreEqual(0, mwqmSubsectorLanguageService.GetRead().Count());
+            Assert.AreEqual(count, mwqmSubsectorLanguageService.GetRead().Count());
 
             mwqmSubsectorLanguage = null;
             mwqmSubsectorLanguage = GetFilledRandomMWQMSubsectorLanguage("");
-            // SubsectorDesc has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
-            string mwqmSubsectorLanguageSubsectorDescMin = GetRandomString("", 250);
-            mwqmSubsectorLanguage.SubsectorDesc = mwqmSubsectorLanguageSubsectorDescMin;
-            Assert.AreEqual(true, mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage));
-            Assert.AreEqual(0, mwqmSubsectorLanguage.ValidationResults.Count());
-            Assert.AreEqual(mwqmSubsectorLanguageSubsectorDescMin, mwqmSubsectorLanguage.SubsectorDesc);
-            Assert.AreEqual(true, mwqmSubsectorLanguageService.Delete(mwqmSubsectorLanguage));
-            Assert.AreEqual(count, mwqmSubsectorLanguageService.GetRead().Count());
-
-            // SubsectorDesc has MinLength [empty] and MaxLength [250]. At Max - 1 should return true and no errors
-            mwqmSubsectorLanguageSubsectorDescMin = GetRandomString("", 249);
-            mwqmSubsectorLanguage.SubsectorDesc = mwqmSubsectorLanguageSubsectorDescMin;
-            Assert.AreEqual(true, mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage));
-            Assert.AreEqual(0, mwqmSubsectorLanguage.ValidationResults.Count());
-            Assert.AreEqual(mwqmSubsectorLanguageSubsectorDescMin, mwqmSubsectorLanguage.SubsectorDesc);
-            Assert.AreEqual(true, mwqmSubsectorLanguageService.Delete(mwqmSubsectorLanguage));
-            Assert.AreEqual(count, mwqmSubsectorLanguageService.GetRead().Count());
-
-            // SubsectorDesc has MinLength [empty] and MaxLength [250]. At Max + 1 should return false with one error
-            mwqmSubsectorLanguageSubsectorDescMin = GetRandomString("", 251);
-            mwqmSubsectorLanguage.SubsectorDesc = mwqmSubsectorLanguageSubsectorDescMin;
+            mwqmSubsectorLanguage.SubsectorDesc = GetRandomString("", 251);
             Assert.AreEqual(false, mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage));
-            Assert.IsTrue(mwqmSubsectorLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLanguageSubsectorDesc, "250")).Any());
-            Assert.AreEqual(mwqmSubsectorLanguageSubsectorDescMin, mwqmSubsectorLanguage.SubsectorDesc);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLanguageSubsectorDesc, "250"), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mwqmSubsectorLanguageService.GetRead().Count());
 
             // -----------------------------------
@@ -182,7 +164,11 @@ namespace CSSPServices.Tests
             // mwqmSubsectorLanguage.TranslationStatus   (TranslationStatusEnum)
             // -----------------------------------
 
-            // TranslationStatus will automatically be initialized at 0 --> not null
+            mwqmSubsectorLanguage = null;
+            mwqmSubsectorLanguage = GetFilledRandomMWQMSubsectorLanguage("");
+            mwqmSubsectorLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
+            mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorLanguageTranslationStatus), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -190,8 +176,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // mwqmSubsectorLanguage.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -206,7 +190,11 @@ namespace CSSPServices.Tests
             mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSubsectorLanguageLastUpdateContactTVItemID, mwqmSubsectorLanguage.LastUpdateContactTVItemID.ToString()), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            mwqmSubsectorLanguage = null;
+            mwqmSubsectorLanguage = GetFilledRandomMWQMSubsectorLanguage("");
+            mwqmSubsectorLanguage.LastUpdateContactTVItemID = 1;
+            mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSubsectorLanguageLastUpdateContactTVItemID, "Contact"), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

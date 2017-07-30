@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -129,8 +130,6 @@ namespace CSSPServices.Tests
             appTaskService.Add(appTask);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID, appTask.TVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // TVItemID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -144,8 +143,6 @@ namespace CSSPServices.Tests
             appTaskService.Add(appTask);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID2, appTask.TVItemID2.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // TVItemID2 will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -153,7 +150,11 @@ namespace CSSPServices.Tests
             // appTask.AppTaskCommand   (AppTaskCommandEnum)
             // -----------------------------------
 
-            // AppTaskCommand will automatically be initialized at 0 --> not null
+            appTask = null;
+            appTask = GetFilledRandomAppTask("");
+            appTask.AppTaskCommand = (AppTaskCommandEnum)1000000;
+            appTaskService.Add(appTask);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskCommand), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -162,7 +163,11 @@ namespace CSSPServices.Tests
             // appTask.AppTaskStatus   (AppTaskStatusEnum)
             // -----------------------------------
 
-            // AppTaskStatus will automatically be initialized at 0 --> not null
+            appTask = null;
+            appTask = GetFilledRandomAppTask("");
+            appTask.AppTaskStatus = (AppTaskStatusEnum)1000000;
+            appTaskService.Add(appTask);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskStatus), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -171,49 +176,17 @@ namespace CSSPServices.Tests
             // appTask.PercentCompleted   (Int32)
             // -----------------------------------
 
-            // PercentCompleted will automatically be initialized at 0 --> not null
-
             appTask = null;
             appTask = GetFilledRandomAppTask("");
-            // PercentCompleted has Min [0] and Max [100]. At Min should return true and no errors
-            appTask.PercentCompleted = 0;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(0, appTask.PercentCompleted);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // PercentCompleted has Min [0] and Max [100]. At Min + 1 should return true and no errors
-            appTask.PercentCompleted = 1;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(1, appTask.PercentCompleted);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // PercentCompleted has Min [0] and Max [100]. At Min - 1 should return false with one error
             appTask.PercentCompleted = -1;
             Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskPercentCompleted, "0", "100")).Any());
-            Assert.AreEqual(-1, appTask.PercentCompleted);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskPercentCompleted, "0", "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // PercentCompleted has Min [0] and Max [100]. At Max should return true and no errors
-            appTask.PercentCompleted = 100;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(100, appTask.PercentCompleted);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // PercentCompleted has Min [0] and Max [100]. At Max - 1 should return true and no errors
-            appTask.PercentCompleted = 99;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(99, appTask.PercentCompleted);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // PercentCompleted has Min [0] and Max [100]. At Max + 1 should return false with one error
+            appTask = null;
+            appTask = GetFilledRandomAppTask("");
             appTask.PercentCompleted = 101;
             Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskPercentCompleted, "0", "100")).Any());
-            Assert.AreEqual(101, appTask.PercentCompleted);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskPercentCompleted, "0", "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, appTaskService.GetRead().Count());
 
             // -----------------------------------
@@ -227,7 +200,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, appTask.ValidationResults.Count());
             Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskParameters)).Any());
             Assert.AreEqual(null, appTask.Parameters);
-            Assert.AreEqual(0, appTaskService.GetRead().Count());
+            Assert.AreEqual(count, appTaskService.GetRead().Count());
 
 
             // -----------------------------------
@@ -236,7 +209,11 @@ namespace CSSPServices.Tests
             // appTask.Language   (LanguageEnum)
             // -----------------------------------
 
-            // Language will automatically be initialized at 0 --> not null
+            appTask = null;
+            appTask = GetFilledRandomAppTask("");
+            appTask.Language = (LanguageEnum)1000000;
+            appTaskService.Add(appTask);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguage), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -244,8 +221,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // appTask.StartDateTime_UTC   (DateTime)
             // -----------------------------------
-
-            // StartDateTime_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -264,45 +239,15 @@ namespace CSSPServices.Tests
 
             appTask = null;
             appTask = GetFilledRandomAppTask("");
-            // EstimatedLength_second has Min [0] and Max [1000000]. At Min should return true and no errors
-            appTask.EstimatedLength_second = 0;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(0, appTask.EstimatedLength_second);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // EstimatedLength_second has Min [0] and Max [1000000]. At Min + 1 should return true and no errors
-            appTask.EstimatedLength_second = 1;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(1, appTask.EstimatedLength_second);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // EstimatedLength_second has Min [0] and Max [1000000]. At Min - 1 should return false with one error
             appTask.EstimatedLength_second = -1;
             Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000")).Any());
-            Assert.AreEqual(-1, appTask.EstimatedLength_second);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // EstimatedLength_second has Min [0] and Max [1000000]. At Max should return true and no errors
-            appTask.EstimatedLength_second = 1000000;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(1000000, appTask.EstimatedLength_second);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // EstimatedLength_second has Min [0] and Max [1000000]. At Max - 1 should return true and no errors
-            appTask.EstimatedLength_second = 999999;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(999999, appTask.EstimatedLength_second);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // EstimatedLength_second has Min [0] and Max [1000000]. At Max + 1 should return false with one error
+            appTask = null;
+            appTask = GetFilledRandomAppTask("");
             appTask.EstimatedLength_second = 1000001;
             Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000")).Any());
-            Assert.AreEqual(1000001, appTask.EstimatedLength_second);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, appTaskService.GetRead().Count());
 
             // -----------------------------------
@@ -313,45 +258,15 @@ namespace CSSPServices.Tests
 
             appTask = null;
             appTask = GetFilledRandomAppTask("");
-            // RemainingTime_second has Min [0] and Max [1000000]. At Min should return true and no errors
-            appTask.RemainingTime_second = 0;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(0, appTask.RemainingTime_second);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // RemainingTime_second has Min [0] and Max [1000000]. At Min + 1 should return true and no errors
-            appTask.RemainingTime_second = 1;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(1, appTask.RemainingTime_second);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // RemainingTime_second has Min [0] and Max [1000000]. At Min - 1 should return false with one error
             appTask.RemainingTime_second = -1;
             Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000")).Any());
-            Assert.AreEqual(-1, appTask.RemainingTime_second);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // RemainingTime_second has Min [0] and Max [1000000]. At Max should return true and no errors
-            appTask.RemainingTime_second = 1000000;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(1000000, appTask.RemainingTime_second);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // RemainingTime_second has Min [0] and Max [1000000]. At Max - 1 should return true and no errors
-            appTask.RemainingTime_second = 999999;
-            Assert.AreEqual(true, appTaskService.Add(appTask));
-            Assert.AreEqual(0, appTask.ValidationResults.Count());
-            Assert.AreEqual(999999, appTask.RemainingTime_second);
-            Assert.AreEqual(true, appTaskService.Delete(appTask));
-            Assert.AreEqual(count, appTaskService.GetRead().Count());
-            // RemainingTime_second has Min [0] and Max [1000000]. At Max + 1 should return false with one error
+            appTask = null;
+            appTask = GetFilledRandomAppTask("");
             appTask.RemainingTime_second = 1000001;
             Assert.AreEqual(false, appTaskService.Add(appTask));
-            Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000")).Any());
-            Assert.AreEqual(1000001, appTask.RemainingTime_second);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, appTaskService.GetRead().Count());
 
             // -----------------------------------
@@ -359,8 +274,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // appTask.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -375,7 +288,11 @@ namespace CSSPServices.Tests
             appTaskService.Add(appTask);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskLastUpdateContactTVItemID, appTask.LastUpdateContactTVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            appTask = null;
+            appTask = GetFilledRandomAppTask("");
+            appTask.LastUpdateContactTVItemID = 1;
+            appTaskService.Add(appTask);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskLastUpdateContactTVItemID, "Contact"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

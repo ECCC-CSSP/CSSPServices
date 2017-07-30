@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -122,8 +123,6 @@ namespace CSSPServices.Tests
             vpScenarioLanguageService.Add(vpScenarioLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPScenarioLanguageVPScenarioID, vpScenarioLanguage.VPScenarioID.ToString()), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // VPScenarioID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -131,7 +130,11 @@ namespace CSSPServices.Tests
             // vpScenarioLanguage.Language   (LanguageEnum)
             // -----------------------------------
 
-            // Language will automatically be initialized at 0 --> not null
+            vpScenarioLanguage = null;
+            vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
+            vpScenarioLanguage.Language = (LanguageEnum)1000000;
+            vpScenarioLanguageService.Add(vpScenarioLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageLanguage), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -146,34 +149,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, vpScenarioLanguage.ValidationResults.Count());
             Assert.IsTrue(vpScenarioLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageVPScenarioName)).Any());
             Assert.AreEqual(null, vpScenarioLanguage.VPScenarioName);
-            Assert.AreEqual(0, vpScenarioLanguageService.GetRead().Count());
+            Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
 
             vpScenarioLanguage = null;
             vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
-            // VPScenarioName has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
-            string vpScenarioLanguageVPScenarioNameMin = GetRandomString("", 100);
-            vpScenarioLanguage.VPScenarioName = vpScenarioLanguageVPScenarioNameMin;
-            Assert.AreEqual(true, vpScenarioLanguageService.Add(vpScenarioLanguage));
-            Assert.AreEqual(0, vpScenarioLanguage.ValidationResults.Count());
-            Assert.AreEqual(vpScenarioLanguageVPScenarioNameMin, vpScenarioLanguage.VPScenarioName);
-            Assert.AreEqual(true, vpScenarioLanguageService.Delete(vpScenarioLanguage));
-            Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
-
-            // VPScenarioName has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
-            vpScenarioLanguageVPScenarioNameMin = GetRandomString("", 99);
-            vpScenarioLanguage.VPScenarioName = vpScenarioLanguageVPScenarioNameMin;
-            Assert.AreEqual(true, vpScenarioLanguageService.Add(vpScenarioLanguage));
-            Assert.AreEqual(0, vpScenarioLanguage.ValidationResults.Count());
-            Assert.AreEqual(vpScenarioLanguageVPScenarioNameMin, vpScenarioLanguage.VPScenarioName);
-            Assert.AreEqual(true, vpScenarioLanguageService.Delete(vpScenarioLanguage));
-            Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
-
-            // VPScenarioName has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
-            vpScenarioLanguageVPScenarioNameMin = GetRandomString("", 101);
-            vpScenarioLanguage.VPScenarioName = vpScenarioLanguageVPScenarioNameMin;
+            vpScenarioLanguage.VPScenarioName = GetRandomString("", 101);
             Assert.AreEqual(false, vpScenarioLanguageService.Add(vpScenarioLanguage));
-            Assert.IsTrue(vpScenarioLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLanguageVPScenarioName, "100")).Any());
-            Assert.AreEqual(vpScenarioLanguageVPScenarioNameMin, vpScenarioLanguage.VPScenarioName);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLanguageVPScenarioName, "100"), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
 
             // -----------------------------------
@@ -182,7 +164,11 @@ namespace CSSPServices.Tests
             // vpScenarioLanguage.TranslationStatus   (TranslationStatusEnum)
             // -----------------------------------
 
-            // TranslationStatus will automatically be initialized at 0 --> not null
+            vpScenarioLanguage = null;
+            vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
+            vpScenarioLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
+            vpScenarioLanguageService.Add(vpScenarioLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageTranslationStatus), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -190,8 +176,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // vpScenarioLanguage.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -206,7 +190,11 @@ namespace CSSPServices.Tests
             vpScenarioLanguageService.Add(vpScenarioLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPScenarioLanguageLastUpdateContactTVItemID, vpScenarioLanguage.LastUpdateContactTVItemID.ToString()), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            vpScenarioLanguage = null;
+            vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
+            vpScenarioLanguage.LastUpdateContactTVItemID = 1;
+            vpScenarioLanguageService.Add(vpScenarioLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPScenarioLanguageLastUpdateContactTVItemID, "Contact"), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

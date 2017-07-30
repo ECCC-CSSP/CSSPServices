@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -121,7 +122,11 @@ namespace CSSPServices.Tests
             telService.Add(tel);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TelTelTVItemID, tel.TelTVItemID.ToString()), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // TelTVItemID will automatically be initialized at 0 --> not null
+            tel = null;
+            tel = GetFilledRandomTel("");
+            tel.TelTVItemID = 1;
+            telService.Add(tel);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TelTelTVItemID, "Tel"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -136,34 +141,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, tel.ValidationResults.Count());
             Assert.IsTrue(tel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TelTelNumber)).Any());
             Assert.AreEqual(null, tel.TelNumber);
-            Assert.AreEqual(0, telService.GetRead().Count());
+            Assert.AreEqual(count, telService.GetRead().Count());
 
             tel = null;
             tel = GetFilledRandomTel("");
-            // TelNumber has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
-            string telTelNumberMin = GetRandomString("", 50);
-            tel.TelNumber = telTelNumberMin;
-            Assert.AreEqual(true, telService.Add(tel));
-            Assert.AreEqual(0, tel.ValidationResults.Count());
-            Assert.AreEqual(telTelNumberMin, tel.TelNumber);
-            Assert.AreEqual(true, telService.Delete(tel));
-            Assert.AreEqual(count, telService.GetRead().Count());
-
-            // TelNumber has MinLength [empty] and MaxLength [50]. At Max - 1 should return true and no errors
-            telTelNumberMin = GetRandomString("", 49);
-            tel.TelNumber = telTelNumberMin;
-            Assert.AreEqual(true, telService.Add(tel));
-            Assert.AreEqual(0, tel.ValidationResults.Count());
-            Assert.AreEqual(telTelNumberMin, tel.TelNumber);
-            Assert.AreEqual(true, telService.Delete(tel));
-            Assert.AreEqual(count, telService.GetRead().Count());
-
-            // TelNumber has MinLength [empty] and MaxLength [50]. At Max + 1 should return false with one error
-            telTelNumberMin = GetRandomString("", 51);
-            tel.TelNumber = telTelNumberMin;
+            tel.TelNumber = GetRandomString("", 51);
             Assert.AreEqual(false, telService.Add(tel));
-            Assert.IsTrue(tel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelNumber, "50")).Any());
-            Assert.AreEqual(telTelNumberMin, tel.TelNumber);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelNumber, "50"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, telService.GetRead().Count());
 
             // -----------------------------------
@@ -172,7 +156,11 @@ namespace CSSPServices.Tests
             // tel.TelType   (TelTypeEnum)
             // -----------------------------------
 
-            // TelType will automatically be initialized at 0 --> not null
+            tel = null;
+            tel = GetFilledRandomTel("");
+            tel.TelType = (TelTypeEnum)1000000;
+            telService.Add(tel);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TelTelType), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -180,8 +168,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // tel.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -196,7 +182,11 @@ namespace CSSPServices.Tests
             telService.Add(tel);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TelLastUpdateContactTVItemID, tel.LastUpdateContactTVItemID.ToString()), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            tel = null;
+            tel = GetFilledRandomTel("");
+            tel.LastUpdateContactTVItemID = 1;
+            telService.Add(tel);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TelLastUpdateContactTVItemID, "Contact"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

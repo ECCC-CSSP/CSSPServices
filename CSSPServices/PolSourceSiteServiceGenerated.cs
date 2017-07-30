@@ -100,7 +100,7 @@ namespace CSSPServices
                 retStr = enums.PolSourceInactiveReasonOK(polSourceSite.InactiveReason);
                 if (polSourceSite.InactiveReason == PolSourceInactiveReasonEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.PolSourceSiteInactiveReason });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceSiteInactiveReason), new[] { "InactiveReason" });
                 }
             }
 

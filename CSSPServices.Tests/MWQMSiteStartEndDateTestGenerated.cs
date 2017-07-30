@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -121,7 +122,11 @@ namespace CSSPServices.Tests
             mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID, mwqmSiteStartEndDate.MWQMSiteTVItemID.ToString()), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
+            mwqmSiteStartEndDate = null;
+            mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
+            mwqmSiteStartEndDate.MWQMSiteTVItemID = 1;
+            mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID, "MWQMSite"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -129,8 +134,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // mwqmSiteStartEndDate.StartDate   (DateTime)
             // -----------------------------------
-
-            // StartDate will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -147,8 +150,6 @@ namespace CSSPServices.Tests
             // mwqmSiteStartEndDate.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
 
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -162,7 +163,11 @@ namespace CSSPServices.Tests
             mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, mwqmSiteStartEndDate.LastUpdateContactTVItemID.ToString()), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            mwqmSiteStartEndDate = null;
+            mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
+            mwqmSiteStartEndDate.LastUpdateContactTVItemID = 1;
+            mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, "Contact"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -134,8 +135,6 @@ namespace CSSPServices.Tests
             climateDataValueService.Add(climateDataValue);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ClimateSite, ModelsRes.ClimateDataValueClimateSiteID, climateDataValue.ClimateSiteID.ToString()), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // ClimateSiteID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -143,15 +142,11 @@ namespace CSSPServices.Tests
             // climateDataValue.DateTime_Local   (DateTime)
             // -----------------------------------
 
-            // DateTime_Local will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
             // climateDataValue.Keep   (Boolean)
             // -----------------------------------
-
-            // Keep will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -160,7 +155,11 @@ namespace CSSPServices.Tests
             // climateDataValue.StorageDataType   (StorageDataTypeEnum)
             // -----------------------------------
 
-            // StorageDataType will automatically be initialized at 0 --> not null
+            climateDataValue = null;
+            climateDataValue = GetFilledRandomClimateDataValue("");
+            climateDataValue.StorageDataType = (StorageDataTypeEnum)1000000;
+            climateDataValueService.Add(climateDataValue);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueStorageDataType), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -173,45 +172,15 @@ namespace CSSPServices.Tests
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
-            // Snow_cm has Min [0.0D] and Max [10000.0D]. At Min should return true and no errors
-            climateDataValue.Snow_cm = 0.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(0.0D, climateDataValue.Snow_cm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // Snow_cm has Min [0.0D] and Max [10000.0D]. At Min + 1 should return true and no errors
-            climateDataValue.Snow_cm = 1.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(1.0D, climateDataValue.Snow_cm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // Snow_cm has Min [0.0D] and Max [10000.0D]. At Min - 1 should return false with one error
             climateDataValue.Snow_cm = -1.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnow_cm, "0", "10000")).Any());
-            Assert.AreEqual(-1.0D, climateDataValue.Snow_cm);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnow_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // Snow_cm has Min [0.0D] and Max [10000.0D]. At Max should return true and no errors
-            climateDataValue.Snow_cm = 10000.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(10000.0D, climateDataValue.Snow_cm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // Snow_cm has Min [0.0D] and Max [10000.0D]. At Max - 1 should return true and no errors
-            climateDataValue.Snow_cm = 9999.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(9999.0D, climateDataValue.Snow_cm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // Snow_cm has Min [0.0D] and Max [10000.0D]. At Max + 1 should return false with one error
+            climateDataValue = null;
+            climateDataValue = GetFilledRandomClimateDataValue("");
             climateDataValue.Snow_cm = 10001.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnow_cm, "0", "10000")).Any());
-            Assert.AreEqual(10001.0D, climateDataValue.Snow_cm);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnow_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
             // -----------------------------------
@@ -224,45 +193,15 @@ namespace CSSPServices.Tests
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
-            // Rainfall_mm has Min [0.0D] and Max [10000.0D]. At Min should return true and no errors
-            climateDataValue.Rainfall_mm = 0.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(0.0D, climateDataValue.Rainfall_mm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // Rainfall_mm has Min [0.0D] and Max [10000.0D]. At Min + 1 should return true and no errors
-            climateDataValue.Rainfall_mm = 1.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(1.0D, climateDataValue.Rainfall_mm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // Rainfall_mm has Min [0.0D] and Max [10000.0D]. At Min - 1 should return false with one error
             climateDataValue.Rainfall_mm = -1.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfall_mm, "0", "10000")).Any());
-            Assert.AreEqual(-1.0D, climateDataValue.Rainfall_mm);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfall_mm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // Rainfall_mm has Min [0.0D] and Max [10000.0D]. At Max should return true and no errors
-            climateDataValue.Rainfall_mm = 10000.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(10000.0D, climateDataValue.Rainfall_mm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // Rainfall_mm has Min [0.0D] and Max [10000.0D]. At Max - 1 should return true and no errors
-            climateDataValue.Rainfall_mm = 9999.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(9999.0D, climateDataValue.Rainfall_mm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // Rainfall_mm has Min [0.0D] and Max [10000.0D]. At Max + 1 should return false with one error
+            climateDataValue = null;
+            climateDataValue = GetFilledRandomClimateDataValue("");
             climateDataValue.Rainfall_mm = 10001.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfall_mm, "0", "10000")).Any());
-            Assert.AreEqual(10001.0D, climateDataValue.Rainfall_mm);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfall_mm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
             // -----------------------------------
@@ -275,45 +214,15 @@ namespace CSSPServices.Tests
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
-            // RainfallEntered_mm has Min [0.0D] and Max [10000.0D]. At Min should return true and no errors
-            climateDataValue.RainfallEntered_mm = 0.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(0.0D, climateDataValue.RainfallEntered_mm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // RainfallEntered_mm has Min [0.0D] and Max [10000.0D]. At Min + 1 should return true and no errors
-            climateDataValue.RainfallEntered_mm = 1.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(1.0D, climateDataValue.RainfallEntered_mm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // RainfallEntered_mm has Min [0.0D] and Max [10000.0D]. At Min - 1 should return false with one error
             climateDataValue.RainfallEntered_mm = -1.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfallEntered_mm, "0", "10000")).Any());
-            Assert.AreEqual(-1.0D, climateDataValue.RainfallEntered_mm);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfallEntered_mm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // RainfallEntered_mm has Min [0.0D] and Max [10000.0D]. At Max should return true and no errors
-            climateDataValue.RainfallEntered_mm = 10000.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(10000.0D, climateDataValue.RainfallEntered_mm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // RainfallEntered_mm has Min [0.0D] and Max [10000.0D]. At Max - 1 should return true and no errors
-            climateDataValue.RainfallEntered_mm = 9999.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(9999.0D, climateDataValue.RainfallEntered_mm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // RainfallEntered_mm has Min [0.0D] and Max [10000.0D]. At Max + 1 should return false with one error
+            climateDataValue = null;
+            climateDataValue = GetFilledRandomClimateDataValue("");
             climateDataValue.RainfallEntered_mm = 10001.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfallEntered_mm, "0", "10000")).Any());
-            Assert.AreEqual(10001.0D, climateDataValue.RainfallEntered_mm);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfallEntered_mm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
             // -----------------------------------
@@ -326,45 +235,15 @@ namespace CSSPServices.Tests
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
-            // TotalPrecip_mm_cm has Min [0.0D] and Max [10000.0D]. At Min should return true and no errors
-            climateDataValue.TotalPrecip_mm_cm = 0.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(0.0D, climateDataValue.TotalPrecip_mm_cm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // TotalPrecip_mm_cm has Min [0.0D] and Max [10000.0D]. At Min + 1 should return true and no errors
-            climateDataValue.TotalPrecip_mm_cm = 1.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(1.0D, climateDataValue.TotalPrecip_mm_cm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // TotalPrecip_mm_cm has Min [0.0D] and Max [10000.0D]. At Min - 1 should return false with one error
             climateDataValue.TotalPrecip_mm_cm = -1.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueTotalPrecip_mm_cm, "0", "10000")).Any());
-            Assert.AreEqual(-1.0D, climateDataValue.TotalPrecip_mm_cm);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueTotalPrecip_mm_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // TotalPrecip_mm_cm has Min [0.0D] and Max [10000.0D]. At Max should return true and no errors
-            climateDataValue.TotalPrecip_mm_cm = 10000.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(10000.0D, climateDataValue.TotalPrecip_mm_cm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // TotalPrecip_mm_cm has Min [0.0D] and Max [10000.0D]. At Max - 1 should return true and no errors
-            climateDataValue.TotalPrecip_mm_cm = 9999.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(9999.0D, climateDataValue.TotalPrecip_mm_cm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // TotalPrecip_mm_cm has Min [0.0D] and Max [10000.0D]. At Max + 1 should return false with one error
+            climateDataValue = null;
+            climateDataValue = GetFilledRandomClimateDataValue("");
             climateDataValue.TotalPrecip_mm_cm = 10001.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueTotalPrecip_mm_cm, "0", "10000")).Any());
-            Assert.AreEqual(10001.0D, climateDataValue.TotalPrecip_mm_cm);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueTotalPrecip_mm_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
             // -----------------------------------
@@ -377,45 +256,15 @@ namespace CSSPServices.Tests
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
-            // MaxTemp_C has Min [-50.0D] and Max [50.0D]. At Min should return true and no errors
-            climateDataValue.MaxTemp_C = -50.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(-50.0D, climateDataValue.MaxTemp_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // MaxTemp_C has Min [-50.0D] and Max [50.0D]. At Min + 1 should return true and no errors
-            climateDataValue.MaxTemp_C = -49.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(-49.0D, climateDataValue.MaxTemp_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // MaxTemp_C has Min [-50.0D] and Max [50.0D]. At Min - 1 should return false with one error
             climateDataValue.MaxTemp_C = -51.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMaxTemp_C, "-50", "50")).Any());
-            Assert.AreEqual(-51.0D, climateDataValue.MaxTemp_C);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMaxTemp_C, "-50", "50"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // MaxTemp_C has Min [-50.0D] and Max [50.0D]. At Max should return true and no errors
-            climateDataValue.MaxTemp_C = 50.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(50.0D, climateDataValue.MaxTemp_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // MaxTemp_C has Min [-50.0D] and Max [50.0D]. At Max - 1 should return true and no errors
-            climateDataValue.MaxTemp_C = 49.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(49.0D, climateDataValue.MaxTemp_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // MaxTemp_C has Min [-50.0D] and Max [50.0D]. At Max + 1 should return false with one error
+            climateDataValue = null;
+            climateDataValue = GetFilledRandomClimateDataValue("");
             climateDataValue.MaxTemp_C = 51.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMaxTemp_C, "-50", "50")).Any());
-            Assert.AreEqual(51.0D, climateDataValue.MaxTemp_C);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMaxTemp_C, "-50", "50"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
             // -----------------------------------
@@ -428,45 +277,15 @@ namespace CSSPServices.Tests
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
-            // MinTemp_C has Min [-50.0D] and Max [50.0D]. At Min should return true and no errors
-            climateDataValue.MinTemp_C = -50.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(-50.0D, climateDataValue.MinTemp_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // MinTemp_C has Min [-50.0D] and Max [50.0D]. At Min + 1 should return true and no errors
-            climateDataValue.MinTemp_C = -49.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(-49.0D, climateDataValue.MinTemp_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // MinTemp_C has Min [-50.0D] and Max [50.0D]. At Min - 1 should return false with one error
             climateDataValue.MinTemp_C = -51.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMinTemp_C, "-50", "50")).Any());
-            Assert.AreEqual(-51.0D, climateDataValue.MinTemp_C);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMinTemp_C, "-50", "50"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // MinTemp_C has Min [-50.0D] and Max [50.0D]. At Max should return true and no errors
-            climateDataValue.MinTemp_C = 50.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(50.0D, climateDataValue.MinTemp_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // MinTemp_C has Min [-50.0D] and Max [50.0D]. At Max - 1 should return true and no errors
-            climateDataValue.MinTemp_C = 49.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(49.0D, climateDataValue.MinTemp_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // MinTemp_C has Min [-50.0D] and Max [50.0D]. At Max + 1 should return false with one error
+            climateDataValue = null;
+            climateDataValue = GetFilledRandomClimateDataValue("");
             climateDataValue.MinTemp_C = 51.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMinTemp_C, "-50", "50")).Any());
-            Assert.AreEqual(51.0D, climateDataValue.MinTemp_C);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMinTemp_C, "-50", "50"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
             // -----------------------------------
@@ -479,45 +298,15 @@ namespace CSSPServices.Tests
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
-            // HeatDegDays_C has Min [-1000.0D] and Max [100.0D]. At Min should return true and no errors
-            climateDataValue.HeatDegDays_C = -1000.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(-1000.0D, climateDataValue.HeatDegDays_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // HeatDegDays_C has Min [-1000.0D] and Max [100.0D]. At Min + 1 should return true and no errors
-            climateDataValue.HeatDegDays_C = -999.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(-999.0D, climateDataValue.HeatDegDays_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // HeatDegDays_C has Min [-1000.0D] and Max [100.0D]. At Min - 1 should return false with one error
             climateDataValue.HeatDegDays_C = -1001.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueHeatDegDays_C, "-1000", "100")).Any());
-            Assert.AreEqual(-1001.0D, climateDataValue.HeatDegDays_C);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueHeatDegDays_C, "-1000", "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // HeatDegDays_C has Min [-1000.0D] and Max [100.0D]. At Max should return true and no errors
-            climateDataValue.HeatDegDays_C = 100.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(100.0D, climateDataValue.HeatDegDays_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // HeatDegDays_C has Min [-1000.0D] and Max [100.0D]. At Max - 1 should return true and no errors
-            climateDataValue.HeatDegDays_C = 99.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(99.0D, climateDataValue.HeatDegDays_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // HeatDegDays_C has Min [-1000.0D] and Max [100.0D]. At Max + 1 should return false with one error
+            climateDataValue = null;
+            climateDataValue = GetFilledRandomClimateDataValue("");
             climateDataValue.HeatDegDays_C = 101.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueHeatDegDays_C, "-1000", "100")).Any());
-            Assert.AreEqual(101.0D, climateDataValue.HeatDegDays_C);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueHeatDegDays_C, "-1000", "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
             // -----------------------------------
@@ -530,45 +319,15 @@ namespace CSSPServices.Tests
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
-            // CoolDegDays_C has Min [-1000.0D] and Max [100.0D]. At Min should return true and no errors
-            climateDataValue.CoolDegDays_C = -1000.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(-1000.0D, climateDataValue.CoolDegDays_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // CoolDegDays_C has Min [-1000.0D] and Max [100.0D]. At Min + 1 should return true and no errors
-            climateDataValue.CoolDegDays_C = -999.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(-999.0D, climateDataValue.CoolDegDays_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // CoolDegDays_C has Min [-1000.0D] and Max [100.0D]. At Min - 1 should return false with one error
             climateDataValue.CoolDegDays_C = -1001.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueCoolDegDays_C, "-1000", "100")).Any());
-            Assert.AreEqual(-1001.0D, climateDataValue.CoolDegDays_C);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueCoolDegDays_C, "-1000", "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // CoolDegDays_C has Min [-1000.0D] and Max [100.0D]. At Max should return true and no errors
-            climateDataValue.CoolDegDays_C = 100.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(100.0D, climateDataValue.CoolDegDays_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // CoolDegDays_C has Min [-1000.0D] and Max [100.0D]. At Max - 1 should return true and no errors
-            climateDataValue.CoolDegDays_C = 99.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(99.0D, climateDataValue.CoolDegDays_C);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // CoolDegDays_C has Min [-1000.0D] and Max [100.0D]. At Max + 1 should return false with one error
+            climateDataValue = null;
+            climateDataValue = GetFilledRandomClimateDataValue("");
             climateDataValue.CoolDegDays_C = 101.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueCoolDegDays_C, "-1000", "100")).Any());
-            Assert.AreEqual(101.0D, climateDataValue.CoolDegDays_C);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueCoolDegDays_C, "-1000", "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
             // -----------------------------------
@@ -581,45 +340,15 @@ namespace CSSPServices.Tests
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
-            // SnowOnGround_cm has Min [0.0D] and Max [10000.0D]. At Min should return true and no errors
-            climateDataValue.SnowOnGround_cm = 0.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(0.0D, climateDataValue.SnowOnGround_cm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // SnowOnGround_cm has Min [0.0D] and Max [10000.0D]. At Min + 1 should return true and no errors
-            climateDataValue.SnowOnGround_cm = 1.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(1.0D, climateDataValue.SnowOnGround_cm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // SnowOnGround_cm has Min [0.0D] and Max [10000.0D]. At Min - 1 should return false with one error
             climateDataValue.SnowOnGround_cm = -1.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnowOnGround_cm, "0", "10000")).Any());
-            Assert.AreEqual(-1.0D, climateDataValue.SnowOnGround_cm);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnowOnGround_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // SnowOnGround_cm has Min [0.0D] and Max [10000.0D]. At Max should return true and no errors
-            climateDataValue.SnowOnGround_cm = 10000.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(10000.0D, climateDataValue.SnowOnGround_cm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // SnowOnGround_cm has Min [0.0D] and Max [10000.0D]. At Max - 1 should return true and no errors
-            climateDataValue.SnowOnGround_cm = 9999.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(9999.0D, climateDataValue.SnowOnGround_cm);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // SnowOnGround_cm has Min [0.0D] and Max [10000.0D]. At Max + 1 should return false with one error
+            climateDataValue = null;
+            climateDataValue = GetFilledRandomClimateDataValue("");
             climateDataValue.SnowOnGround_cm = 10001.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnowOnGround_cm, "0", "10000")).Any());
-            Assert.AreEqual(10001.0D, climateDataValue.SnowOnGround_cm);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnowOnGround_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
             // -----------------------------------
@@ -632,45 +361,15 @@ namespace CSSPServices.Tests
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
-            // DirMaxGust_0North has Min [0.0D] and Max [360.0D]. At Min should return true and no errors
-            climateDataValue.DirMaxGust_0North = 0.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(0.0D, climateDataValue.DirMaxGust_0North);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // DirMaxGust_0North has Min [0.0D] and Max [360.0D]. At Min + 1 should return true and no errors
-            climateDataValue.DirMaxGust_0North = 1.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(1.0D, climateDataValue.DirMaxGust_0North);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // DirMaxGust_0North has Min [0.0D] and Max [360.0D]. At Min - 1 should return false with one error
             climateDataValue.DirMaxGust_0North = -1.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueDirMaxGust_0North, "0", "360")).Any());
-            Assert.AreEqual(-1.0D, climateDataValue.DirMaxGust_0North);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueDirMaxGust_0North, "0", "360"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // DirMaxGust_0North has Min [0.0D] and Max [360.0D]. At Max should return true and no errors
-            climateDataValue.DirMaxGust_0North = 360.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(360.0D, climateDataValue.DirMaxGust_0North);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // DirMaxGust_0North has Min [0.0D] and Max [360.0D]. At Max - 1 should return true and no errors
-            climateDataValue.DirMaxGust_0North = 359.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(359.0D, climateDataValue.DirMaxGust_0North);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // DirMaxGust_0North has Min [0.0D] and Max [360.0D]. At Max + 1 should return false with one error
+            climateDataValue = null;
+            climateDataValue = GetFilledRandomClimateDataValue("");
             climateDataValue.DirMaxGust_0North = 361.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueDirMaxGust_0North, "0", "360")).Any());
-            Assert.AreEqual(361.0D, climateDataValue.DirMaxGust_0North);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueDirMaxGust_0North, "0", "360"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
             // -----------------------------------
@@ -683,45 +382,15 @@ namespace CSSPServices.Tests
 
             climateDataValue = null;
             climateDataValue = GetFilledRandomClimateDataValue("");
-            // SpdMaxGust_kmh has Min [0.0D] and Max [300.0D]. At Min should return true and no errors
-            climateDataValue.SpdMaxGust_kmh = 0.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(0.0D, climateDataValue.SpdMaxGust_kmh);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // SpdMaxGust_kmh has Min [0.0D] and Max [300.0D]. At Min + 1 should return true and no errors
-            climateDataValue.SpdMaxGust_kmh = 1.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(1.0D, climateDataValue.SpdMaxGust_kmh);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // SpdMaxGust_kmh has Min [0.0D] and Max [300.0D]. At Min - 1 should return false with one error
             climateDataValue.SpdMaxGust_kmh = -1.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSpdMaxGust_kmh, "0", "300")).Any());
-            Assert.AreEqual(-1.0D, climateDataValue.SpdMaxGust_kmh);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSpdMaxGust_kmh, "0", "300"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // SpdMaxGust_kmh has Min [0.0D] and Max [300.0D]. At Max should return true and no errors
-            climateDataValue.SpdMaxGust_kmh = 300.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(300.0D, climateDataValue.SpdMaxGust_kmh);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // SpdMaxGust_kmh has Min [0.0D] and Max [300.0D]. At Max - 1 should return true and no errors
-            climateDataValue.SpdMaxGust_kmh = 299.0D;
-            Assert.AreEqual(true, climateDataValueService.Add(climateDataValue));
-            Assert.AreEqual(0, climateDataValue.ValidationResults.Count());
-            Assert.AreEqual(299.0D, climateDataValue.SpdMaxGust_kmh);
-            Assert.AreEqual(true, climateDataValueService.Delete(climateDataValue));
-            Assert.AreEqual(count, climateDataValueService.GetRead().Count());
-            // SpdMaxGust_kmh has Min [0.0D] and Max [300.0D]. At Max + 1 should return false with one error
+            climateDataValue = null;
+            climateDataValue = GetFilledRandomClimateDataValue("");
             climateDataValue.SpdMaxGust_kmh = 301.0D;
             Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-            Assert.IsTrue(climateDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSpdMaxGust_kmh, "0", "300")).Any());
-            Assert.AreEqual(301.0D, climateDataValue.SpdMaxGust_kmh);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSpdMaxGust_kmh, "0", "300"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
             // -----------------------------------
@@ -736,8 +405,6 @@ namespace CSSPServices.Tests
             // climateDataValue.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
 
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -751,7 +418,11 @@ namespace CSSPServices.Tests
             climateDataValueService.Add(climateDataValue);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ClimateDataValueLastUpdateContactTVItemID, climateDataValue.LastUpdateContactTVItemID.ToString()), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            climateDataValue = null;
+            climateDataValue = GetFilledRandomClimateDataValue("");
+            climateDataValue.LastUpdateContactTVItemID = 1;
+            climateDataValueService.Add(climateDataValue);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ClimateDataValueLastUpdateContactTVItemID, "Contact"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

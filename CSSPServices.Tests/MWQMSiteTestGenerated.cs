@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -123,7 +124,11 @@ namespace CSSPServices.Tests
             mwqmSiteService.Add(mwqmSite);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteMWQMSiteTVItemID, mwqmSite.MWQMSiteTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
+            mwqmSite = null;
+            mwqmSite = GetFilledRandomMWQMSite("");
+            mwqmSite.MWQMSiteTVItemID = 1;
+            mwqmSiteService.Add(mwqmSite);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteMWQMSiteTVItemID, "MWQMSite"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -138,34 +143,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, mwqmSite.ValidationResults.Count());
             Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteNumber)).Any());
             Assert.AreEqual(null, mwqmSite.MWQMSiteNumber);
-            Assert.AreEqual(0, mwqmSiteService.GetRead().Count());
+            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
             mwqmSite = null;
             mwqmSite = GetFilledRandomMWQMSite("");
-            // MWQMSiteNumber has MinLength [empty] and MaxLength [8]. At Max should return true and no errors
-            string mwqmSiteMWQMSiteNumberMin = GetRandomString("", 8);
-            mwqmSite.MWQMSiteNumber = mwqmSiteMWQMSiteNumberMin;
-            Assert.AreEqual(true, mwqmSiteService.Add(mwqmSite));
-            Assert.AreEqual(0, mwqmSite.ValidationResults.Count());
-            Assert.AreEqual(mwqmSiteMWQMSiteNumberMin, mwqmSite.MWQMSiteNumber);
-            Assert.AreEqual(true, mwqmSiteService.Delete(mwqmSite));
-            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-
-            // MWQMSiteNumber has MinLength [empty] and MaxLength [8]. At Max - 1 should return true and no errors
-            mwqmSiteMWQMSiteNumberMin = GetRandomString("", 7);
-            mwqmSite.MWQMSiteNumber = mwqmSiteMWQMSiteNumberMin;
-            Assert.AreEqual(true, mwqmSiteService.Add(mwqmSite));
-            Assert.AreEqual(0, mwqmSite.ValidationResults.Count());
-            Assert.AreEqual(mwqmSiteMWQMSiteNumberMin, mwqmSite.MWQMSiteNumber);
-            Assert.AreEqual(true, mwqmSiteService.Delete(mwqmSite));
-            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-
-            // MWQMSiteNumber has MinLength [empty] and MaxLength [8]. At Max + 1 should return false with one error
-            mwqmSiteMWQMSiteNumberMin = GetRandomString("", 9);
-            mwqmSite.MWQMSiteNumber = mwqmSiteMWQMSiteNumberMin;
+            mwqmSite.MWQMSiteNumber = GetRandomString("", 9);
             Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-            Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteNumber, "8")).Any());
-            Assert.AreEqual(mwqmSiteMWQMSiteNumberMin, mwqmSite.MWQMSiteNumber);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteNumber, "8"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -180,34 +164,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, mwqmSite.ValidationResults.Count());
             Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteDescription)).Any());
             Assert.AreEqual(null, mwqmSite.MWQMSiteDescription);
-            Assert.AreEqual(0, mwqmSiteService.GetRead().Count());
+            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
             mwqmSite = null;
             mwqmSite = GetFilledRandomMWQMSite("");
-            // MWQMSiteDescription has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
-            string mwqmSiteMWQMSiteDescriptionMin = GetRandomString("", 200);
-            mwqmSite.MWQMSiteDescription = mwqmSiteMWQMSiteDescriptionMin;
-            Assert.AreEqual(true, mwqmSiteService.Add(mwqmSite));
-            Assert.AreEqual(0, mwqmSite.ValidationResults.Count());
-            Assert.AreEqual(mwqmSiteMWQMSiteDescriptionMin, mwqmSite.MWQMSiteDescription);
-            Assert.AreEqual(true, mwqmSiteService.Delete(mwqmSite));
-            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-
-            // MWQMSiteDescription has MinLength [empty] and MaxLength [200]. At Max - 1 should return true and no errors
-            mwqmSiteMWQMSiteDescriptionMin = GetRandomString("", 199);
-            mwqmSite.MWQMSiteDescription = mwqmSiteMWQMSiteDescriptionMin;
-            Assert.AreEqual(true, mwqmSiteService.Add(mwqmSite));
-            Assert.AreEqual(0, mwqmSite.ValidationResults.Count());
-            Assert.AreEqual(mwqmSiteMWQMSiteDescriptionMin, mwqmSite.MWQMSiteDescription);
-            Assert.AreEqual(true, mwqmSiteService.Delete(mwqmSite));
-            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-
-            // MWQMSiteDescription has MinLength [empty] and MaxLength [200]. At Max + 1 should return false with one error
-            mwqmSiteMWQMSiteDescriptionMin = GetRandomString("", 201);
-            mwqmSite.MWQMSiteDescription = mwqmSiteMWQMSiteDescriptionMin;
+            mwqmSite.MWQMSiteDescription = GetRandomString("", 201);
             Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-            Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteDescription, "200")).Any());
-            Assert.AreEqual(mwqmSiteMWQMSiteDescriptionMin, mwqmSite.MWQMSiteDescription);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteDescription, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -216,7 +179,11 @@ namespace CSSPServices.Tests
             // mwqmSite.MWQMSiteLatestClassification   (MWQMSiteLatestClassificationEnum)
             // -----------------------------------
 
-            // MWQMSiteLatestClassification will automatically be initialized at 0 --> not null
+            mwqmSite = null;
+            mwqmSite = GetFilledRandomMWQMSite("");
+            mwqmSite.MWQMSiteLatestClassification = (MWQMSiteLatestClassificationEnum)1000000;
+            mwqmSiteService.Add(mwqmSite);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteLatestClassification), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -225,49 +192,17 @@ namespace CSSPServices.Tests
             // mwqmSite.Ordinal   (Int32)
             // -----------------------------------
 
-            // Ordinal will automatically be initialized at 0 --> not null
-
             mwqmSite = null;
             mwqmSite = GetFilledRandomMWQMSite("");
-            // Ordinal has Min [0] and Max [1000]. At Min should return true and no errors
-            mwqmSite.Ordinal = 0;
-            Assert.AreEqual(true, mwqmSiteService.Add(mwqmSite));
-            Assert.AreEqual(0, mwqmSite.ValidationResults.Count());
-            Assert.AreEqual(0, mwqmSite.Ordinal);
-            Assert.AreEqual(true, mwqmSiteService.Delete(mwqmSite));
-            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-            // Ordinal has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            mwqmSite.Ordinal = 1;
-            Assert.AreEqual(true, mwqmSiteService.Add(mwqmSite));
-            Assert.AreEqual(0, mwqmSite.ValidationResults.Count());
-            Assert.AreEqual(1, mwqmSite.Ordinal);
-            Assert.AreEqual(true, mwqmSiteService.Delete(mwqmSite));
-            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-            // Ordinal has Min [0] and Max [1000]. At Min - 1 should return false with one error
             mwqmSite.Ordinal = -1;
             Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-            Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteOrdinal, "0", "1000")).Any());
-            Assert.AreEqual(-1, mwqmSite.Ordinal);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteOrdinal, "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-            // Ordinal has Min [0] and Max [1000]. At Max should return true and no errors
-            mwqmSite.Ordinal = 1000;
-            Assert.AreEqual(true, mwqmSiteService.Add(mwqmSite));
-            Assert.AreEqual(0, mwqmSite.ValidationResults.Count());
-            Assert.AreEqual(1000, mwqmSite.Ordinal);
-            Assert.AreEqual(true, mwqmSiteService.Delete(mwqmSite));
-            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-            // Ordinal has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            mwqmSite.Ordinal = 999;
-            Assert.AreEqual(true, mwqmSiteService.Add(mwqmSite));
-            Assert.AreEqual(0, mwqmSite.ValidationResults.Count());
-            Assert.AreEqual(999, mwqmSite.Ordinal);
-            Assert.AreEqual(true, mwqmSiteService.Delete(mwqmSite));
-            Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-            // Ordinal has Min [0] and Max [1000]. At Max + 1 should return false with one error
+            mwqmSite = null;
+            mwqmSite = GetFilledRandomMWQMSite("");
             mwqmSite.Ordinal = 1001;
             Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-            Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteOrdinal, "0", "1000")).Any());
-            Assert.AreEqual(1001, mwqmSite.Ordinal);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteOrdinal, "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -275,8 +210,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // mwqmSite.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -291,7 +224,11 @@ namespace CSSPServices.Tests
             mwqmSiteService.Add(mwqmSite);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteLastUpdateContactTVItemID, mwqmSite.LastUpdateContactTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            mwqmSite = null;
+            mwqmSite = GetFilledRandomMWQMSite("");
+            mwqmSite.LastUpdateContactTVItemID = 1;
+            mwqmSiteService.Add(mwqmSite);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteLastUpdateContactTVItemID, "Contact"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

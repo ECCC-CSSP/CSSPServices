@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -133,8 +134,6 @@ namespace CSSPServices.Tests
             boxModelResultService.Add(boxModelResult);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModel, ModelsRes.BoxModelResultBoxModelID, boxModelResult.BoxModelID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // BoxModelID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -142,7 +141,11 @@ namespace CSSPServices.Tests
             // boxModelResult.BoxModelResultType   (BoxModelResultTypeEnum)
             // -----------------------------------
 
-            // BoxModelResultType will automatically be initialized at 0 --> not null
+            boxModelResult = null;
+            boxModelResult = GetFilledRandomBoxModelResult("");
+            boxModelResult.BoxModelResultType = (BoxModelResultTypeEnum)1000000;
+            boxModelResultService.Add(boxModelResult);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelResultBoxModelResultType), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -155,25 +158,9 @@ namespace CSSPServices.Tests
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
-            // Volume_m3 has Min [0.0D] and Max [empty]. At Min should return true and no errors
-            boxModelResult.Volume_m3 = 0.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(0.0D, boxModelResult.Volume_m3);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // Volume_m3 has Min [0.0D] and Max [empty]. At Min + 1 should return true and no errors
-            boxModelResult.Volume_m3 = 1.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(1.0D, boxModelResult.Volume_m3);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // Volume_m3 has Min [0.0D] and Max [empty]. At Min - 1 should return false with one error
             boxModelResult.Volume_m3 = -1.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultVolume_m3, "0")).Any());
-            Assert.AreEqual(-1.0D, boxModelResult.Volume_m3);
+            Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultVolume_m3, "0"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
             // -----------------------------------
@@ -186,25 +173,9 @@ namespace CSSPServices.Tests
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
-            // Surface_m2 has Min [0.0D] and Max [empty]. At Min should return true and no errors
-            boxModelResult.Surface_m2 = 0.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(0.0D, boxModelResult.Surface_m2);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // Surface_m2 has Min [0.0D] and Max [empty]. At Min + 1 should return true and no errors
-            boxModelResult.Surface_m2 = 1.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(1.0D, boxModelResult.Surface_m2);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // Surface_m2 has Min [0.0D] and Max [empty]. At Min - 1 should return false with one error
             boxModelResult.Surface_m2 = -1.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultSurface_m2, "0")).Any());
-            Assert.AreEqual(-1.0D, boxModelResult.Surface_m2);
+            Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultSurface_m2, "0"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
             // -----------------------------------
@@ -217,45 +188,15 @@ namespace CSSPServices.Tests
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
-            // Radius_m has Min [0.0D] and Max [100000.0D]. At Min should return true and no errors
-            boxModelResult.Radius_m = 0.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(0.0D, boxModelResult.Radius_m);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // Radius_m has Min [0.0D] and Max [100000.0D]. At Min + 1 should return true and no errors
-            boxModelResult.Radius_m = 1.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(1.0D, boxModelResult.Radius_m);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // Radius_m has Min [0.0D] and Max [100000.0D]. At Min - 1 should return false with one error
             boxModelResult.Radius_m = -1.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRadius_m, "0", "100000")).Any());
-            Assert.AreEqual(-1.0D, boxModelResult.Radius_m);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRadius_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // Radius_m has Min [0.0D] and Max [100000.0D]. At Max should return true and no errors
-            boxModelResult.Radius_m = 100000.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(100000.0D, boxModelResult.Radius_m);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // Radius_m has Min [0.0D] and Max [100000.0D]. At Max - 1 should return true and no errors
-            boxModelResult.Radius_m = 99999.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(99999.0D, boxModelResult.Radius_m);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // Radius_m has Min [0.0D] and Max [100000.0D]. At Max + 1 should return false with one error
+            boxModelResult = null;
+            boxModelResult = GetFilledRandomBoxModelResult("");
             boxModelResult.Radius_m = 100001.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRadius_m, "0", "100000")).Any());
-            Assert.AreEqual(100001.0D, boxModelResult.Radius_m);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRadius_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
             // -----------------------------------
@@ -268,45 +209,15 @@ namespace CSSPServices.Tests
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
-            // LeftSideDiameterLineAngle_deg has Min [0.0D] and Max [360.0D]. At Min should return true and no errors
-            boxModelResult.LeftSideDiameterLineAngle_deg = 0.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(0.0D, boxModelResult.LeftSideDiameterLineAngle_deg);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideDiameterLineAngle_deg has Min [0.0D] and Max [360.0D]. At Min + 1 should return true and no errors
-            boxModelResult.LeftSideDiameterLineAngle_deg = 1.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(1.0D, boxModelResult.LeftSideDiameterLineAngle_deg);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideDiameterLineAngle_deg has Min [0.0D] and Max [360.0D]. At Min - 1 should return false with one error
             boxModelResult.LeftSideDiameterLineAngle_deg = -1.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360")).Any());
-            Assert.AreEqual(-1.0D, boxModelResult.LeftSideDiameterLineAngle_deg);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideDiameterLineAngle_deg has Min [0.0D] and Max [360.0D]. At Max should return true and no errors
-            boxModelResult.LeftSideDiameterLineAngle_deg = 360.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(360.0D, boxModelResult.LeftSideDiameterLineAngle_deg);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideDiameterLineAngle_deg has Min [0.0D] and Max [360.0D]. At Max - 1 should return true and no errors
-            boxModelResult.LeftSideDiameterLineAngle_deg = 359.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(359.0D, boxModelResult.LeftSideDiameterLineAngle_deg);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideDiameterLineAngle_deg has Min [0.0D] and Max [360.0D]. At Max + 1 should return false with one error
+            boxModelResult = null;
+            boxModelResult = GetFilledRandomBoxModelResult("");
             boxModelResult.LeftSideDiameterLineAngle_deg = 361.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360")).Any());
-            Assert.AreEqual(361.0D, boxModelResult.LeftSideDiameterLineAngle_deg);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
             // -----------------------------------
@@ -319,45 +230,15 @@ namespace CSSPServices.Tests
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
-            // CircleCenterLatitude has Min [-90.0D] and Max [90.0D]. At Min should return true and no errors
-            boxModelResult.CircleCenterLatitude = -90.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(-90.0D, boxModelResult.CircleCenterLatitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // CircleCenterLatitude has Min [-90.0D] and Max [90.0D]. At Min + 1 should return true and no errors
-            boxModelResult.CircleCenterLatitude = -89.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(-89.0D, boxModelResult.CircleCenterLatitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // CircleCenterLatitude has Min [-90.0D] and Max [90.0D]. At Min - 1 should return false with one error
             boxModelResult.CircleCenterLatitude = -91.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90")).Any());
-            Assert.AreEqual(-91.0D, boxModelResult.CircleCenterLatitude);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // CircleCenterLatitude has Min [-90.0D] and Max [90.0D]. At Max should return true and no errors
-            boxModelResult.CircleCenterLatitude = 90.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(90.0D, boxModelResult.CircleCenterLatitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // CircleCenterLatitude has Min [-90.0D] and Max [90.0D]. At Max - 1 should return true and no errors
-            boxModelResult.CircleCenterLatitude = 89.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(89.0D, boxModelResult.CircleCenterLatitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // CircleCenterLatitude has Min [-90.0D] and Max [90.0D]. At Max + 1 should return false with one error
+            boxModelResult = null;
+            boxModelResult = GetFilledRandomBoxModelResult("");
             boxModelResult.CircleCenterLatitude = 91.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90")).Any());
-            Assert.AreEqual(91.0D, boxModelResult.CircleCenterLatitude);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
             // -----------------------------------
@@ -370,45 +251,15 @@ namespace CSSPServices.Tests
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
-            // CircleCenterLongitude has Min [-180.0D] and Max [180.0D]. At Min should return true and no errors
-            boxModelResult.CircleCenterLongitude = -180.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(-180.0D, boxModelResult.CircleCenterLongitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // CircleCenterLongitude has Min [-180.0D] and Max [180.0D]. At Min + 1 should return true and no errors
-            boxModelResult.CircleCenterLongitude = -179.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(-179.0D, boxModelResult.CircleCenterLongitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // CircleCenterLongitude has Min [-180.0D] and Max [180.0D]. At Min - 1 should return false with one error
             boxModelResult.CircleCenterLongitude = -181.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180")).Any());
-            Assert.AreEqual(-181.0D, boxModelResult.CircleCenterLongitude);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // CircleCenterLongitude has Min [-180.0D] and Max [180.0D]. At Max should return true and no errors
-            boxModelResult.CircleCenterLongitude = 180.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(180.0D, boxModelResult.CircleCenterLongitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // CircleCenterLongitude has Min [-180.0D] and Max [180.0D]. At Max - 1 should return true and no errors
-            boxModelResult.CircleCenterLongitude = 179.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(179.0D, boxModelResult.CircleCenterLongitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // CircleCenterLongitude has Min [-180.0D] and Max [180.0D]. At Max + 1 should return false with one error
+            boxModelResult = null;
+            boxModelResult = GetFilledRandomBoxModelResult("");
             boxModelResult.CircleCenterLongitude = 181.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180")).Any());
-            Assert.AreEqual(181.0D, boxModelResult.CircleCenterLongitude);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
             // -----------------------------------
@@ -416,15 +267,11 @@ namespace CSSPServices.Tests
             // boxModelResult.FixLength   (Boolean)
             // -----------------------------------
 
-            // FixLength will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
             // boxModelResult.FixWidth   (Boolean)
             // -----------------------------------
-
-            // FixWidth will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -437,45 +284,15 @@ namespace CSSPServices.Tests
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
-            // RectLength_m has Min [0.0D] and Max [100000.0D]. At Min should return true and no errors
-            boxModelResult.RectLength_m = 0.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(0.0D, boxModelResult.RectLength_m);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // RectLength_m has Min [0.0D] and Max [100000.0D]. At Min + 1 should return true and no errors
-            boxModelResult.RectLength_m = 1.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(1.0D, boxModelResult.RectLength_m);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // RectLength_m has Min [0.0D] and Max [100000.0D]. At Min - 1 should return false with one error
             boxModelResult.RectLength_m = -1.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectLength_m, "0", "100000")).Any());
-            Assert.AreEqual(-1.0D, boxModelResult.RectLength_m);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectLength_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // RectLength_m has Min [0.0D] and Max [100000.0D]. At Max should return true and no errors
-            boxModelResult.RectLength_m = 100000.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(100000.0D, boxModelResult.RectLength_m);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // RectLength_m has Min [0.0D] and Max [100000.0D]. At Max - 1 should return true and no errors
-            boxModelResult.RectLength_m = 99999.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(99999.0D, boxModelResult.RectLength_m);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // RectLength_m has Min [0.0D] and Max [100000.0D]. At Max + 1 should return false with one error
+            boxModelResult = null;
+            boxModelResult = GetFilledRandomBoxModelResult("");
             boxModelResult.RectLength_m = 100001.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectLength_m, "0", "100000")).Any());
-            Assert.AreEqual(100001.0D, boxModelResult.RectLength_m);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectLength_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
             // -----------------------------------
@@ -488,45 +305,15 @@ namespace CSSPServices.Tests
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
-            // RectWidth_m has Min [0.0D] and Max [100000.0D]. At Min should return true and no errors
-            boxModelResult.RectWidth_m = 0.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(0.0D, boxModelResult.RectWidth_m);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // RectWidth_m has Min [0.0D] and Max [100000.0D]. At Min + 1 should return true and no errors
-            boxModelResult.RectWidth_m = 1.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(1.0D, boxModelResult.RectWidth_m);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // RectWidth_m has Min [0.0D] and Max [100000.0D]. At Min - 1 should return false with one error
             boxModelResult.RectWidth_m = -1.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectWidth_m, "0", "100000")).Any());
-            Assert.AreEqual(-1.0D, boxModelResult.RectWidth_m);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectWidth_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // RectWidth_m has Min [0.0D] and Max [100000.0D]. At Max should return true and no errors
-            boxModelResult.RectWidth_m = 100000.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(100000.0D, boxModelResult.RectWidth_m);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // RectWidth_m has Min [0.0D] and Max [100000.0D]. At Max - 1 should return true and no errors
-            boxModelResult.RectWidth_m = 99999.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(99999.0D, boxModelResult.RectWidth_m);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // RectWidth_m has Min [0.0D] and Max [100000.0D]. At Max + 1 should return false with one error
+            boxModelResult = null;
+            boxModelResult = GetFilledRandomBoxModelResult("");
             boxModelResult.RectWidth_m = 100001.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectWidth_m, "0", "100000")).Any());
-            Assert.AreEqual(100001.0D, boxModelResult.RectWidth_m);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectWidth_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
             // -----------------------------------
@@ -539,45 +326,15 @@ namespace CSSPServices.Tests
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
-            // LeftSideLineAngle_deg has Min [0.0D] and Max [360.0D]. At Min should return true and no errors
-            boxModelResult.LeftSideLineAngle_deg = 0.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(0.0D, boxModelResult.LeftSideLineAngle_deg);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineAngle_deg has Min [0.0D] and Max [360.0D]. At Min + 1 should return true and no errors
-            boxModelResult.LeftSideLineAngle_deg = 1.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(1.0D, boxModelResult.LeftSideLineAngle_deg);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineAngle_deg has Min [0.0D] and Max [360.0D]. At Min - 1 should return false with one error
             boxModelResult.LeftSideLineAngle_deg = -1.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360")).Any());
-            Assert.AreEqual(-1.0D, boxModelResult.LeftSideLineAngle_deg);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineAngle_deg has Min [0.0D] and Max [360.0D]. At Max should return true and no errors
-            boxModelResult.LeftSideLineAngle_deg = 360.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(360.0D, boxModelResult.LeftSideLineAngle_deg);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineAngle_deg has Min [0.0D] and Max [360.0D]. At Max - 1 should return true and no errors
-            boxModelResult.LeftSideLineAngle_deg = 359.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(359.0D, boxModelResult.LeftSideLineAngle_deg);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineAngle_deg has Min [0.0D] and Max [360.0D]. At Max + 1 should return false with one error
+            boxModelResult = null;
+            boxModelResult = GetFilledRandomBoxModelResult("");
             boxModelResult.LeftSideLineAngle_deg = 361.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360")).Any());
-            Assert.AreEqual(361.0D, boxModelResult.LeftSideLineAngle_deg);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
             // -----------------------------------
@@ -590,45 +347,15 @@ namespace CSSPServices.Tests
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
-            // LeftSideLineStartLatitude has Min [-90.0D] and Max [90.0D]. At Min should return true and no errors
-            boxModelResult.LeftSideLineStartLatitude = -90.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(-90.0D, boxModelResult.LeftSideLineStartLatitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineStartLatitude has Min [-90.0D] and Max [90.0D]. At Min + 1 should return true and no errors
-            boxModelResult.LeftSideLineStartLatitude = -89.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(-89.0D, boxModelResult.LeftSideLineStartLatitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineStartLatitude has Min [-90.0D] and Max [90.0D]. At Min - 1 should return false with one error
             boxModelResult.LeftSideLineStartLatitude = -91.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90")).Any());
-            Assert.AreEqual(-91.0D, boxModelResult.LeftSideLineStartLatitude);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineStartLatitude has Min [-90.0D] and Max [90.0D]. At Max should return true and no errors
-            boxModelResult.LeftSideLineStartLatitude = 90.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(90.0D, boxModelResult.LeftSideLineStartLatitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineStartLatitude has Min [-90.0D] and Max [90.0D]. At Max - 1 should return true and no errors
-            boxModelResult.LeftSideLineStartLatitude = 89.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(89.0D, boxModelResult.LeftSideLineStartLatitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineStartLatitude has Min [-90.0D] and Max [90.0D]. At Max + 1 should return false with one error
+            boxModelResult = null;
+            boxModelResult = GetFilledRandomBoxModelResult("");
             boxModelResult.LeftSideLineStartLatitude = 91.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90")).Any());
-            Assert.AreEqual(91.0D, boxModelResult.LeftSideLineStartLatitude);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
             // -----------------------------------
@@ -641,45 +368,15 @@ namespace CSSPServices.Tests
 
             boxModelResult = null;
             boxModelResult = GetFilledRandomBoxModelResult("");
-            // LeftSideLineStartLongitude has Min [-180.0D] and Max [180.0D]. At Min should return true and no errors
-            boxModelResult.LeftSideLineStartLongitude = -180.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(-180.0D, boxModelResult.LeftSideLineStartLongitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineStartLongitude has Min [-180.0D] and Max [180.0D]. At Min + 1 should return true and no errors
-            boxModelResult.LeftSideLineStartLongitude = -179.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(-179.0D, boxModelResult.LeftSideLineStartLongitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineStartLongitude has Min [-180.0D] and Max [180.0D]. At Min - 1 should return false with one error
             boxModelResult.LeftSideLineStartLongitude = -181.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180")).Any());
-            Assert.AreEqual(-181.0D, boxModelResult.LeftSideLineStartLongitude);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineStartLongitude has Min [-180.0D] and Max [180.0D]. At Max should return true and no errors
-            boxModelResult.LeftSideLineStartLongitude = 180.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(180.0D, boxModelResult.LeftSideLineStartLongitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineStartLongitude has Min [-180.0D] and Max [180.0D]. At Max - 1 should return true and no errors
-            boxModelResult.LeftSideLineStartLongitude = 179.0D;
-            Assert.AreEqual(true, boxModelResultService.Add(boxModelResult));
-            Assert.AreEqual(0, boxModelResult.ValidationResults.Count());
-            Assert.AreEqual(179.0D, boxModelResult.LeftSideLineStartLongitude);
-            Assert.AreEqual(true, boxModelResultService.Delete(boxModelResult));
-            Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-            // LeftSideLineStartLongitude has Min [-180.0D] and Max [180.0D]. At Max + 1 should return false with one error
+            boxModelResult = null;
+            boxModelResult = GetFilledRandomBoxModelResult("");
             boxModelResult.LeftSideLineStartLongitude = 181.0D;
             Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-            Assert.IsTrue(boxModelResult.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180")).Any());
-            Assert.AreEqual(181.0D, boxModelResult.LeftSideLineStartLongitude);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
             // -----------------------------------
@@ -687,8 +384,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // boxModelResult.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -703,7 +398,11 @@ namespace CSSPServices.Tests
             boxModelResultService.Add(boxModelResult);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelResultLastUpdateContactTVItemID, boxModelResult.LastUpdateContactTVItemID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            boxModelResult = null;
+            boxModelResult = GetFilledRandomBoxModelResult("");
+            boxModelResult.LastUpdateContactTVItemID = 1;
+            boxModelResultService.Add(boxModelResult);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelResultLastUpdateContactTVItemID, "Contact"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

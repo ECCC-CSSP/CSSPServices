@@ -297,7 +297,7 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                retStr = enums." + csspProp.PropType.Replace("Enum", "") + @"OK(" + TypeNameLower + @"." + prop.Name + @");");
                     sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" == " + csspProp.PropType + ".Error || !string.IsNullOrWhiteSpace(retStr))");
                     sb.AppendLine(@"                {");
-                    sb.AppendLine(@"                    yield return new ValidationResult(retStr, new[] { ModelsRes." + TypeName + @"" + prop.Name + @" });");
+                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
                     sb.AppendLine(@"                }");
                     sb.AppendLine(@"            }");
                     sb.AppendLine(@"");
@@ -565,19 +565,13 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     sb.AppendLine(@"            if (tvItem.TVType != TVTypeEnum.Root)");
                     sb.AppendLine(@"            {");
-                    //sb.AppendLine(@"                if (!((from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).Any()))");
-                    //sb.AppendLine(@"                {");
-                    //sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
-                    //sb.AppendLine(@"                }");
-
-
                     sb.AppendLine(@"                " + csspProp.ObjectExistTypeName + " " + csspProp.ObjectExistTypeName + csspProp.PropName + " = (from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).FirstOrDefault();");
                     sb.AppendLine(@"");
                     sb.AppendLine(@"                if (" + csspProp.ObjectExistTypeName + csspProp.PropName + " == null)");
                     sb.AppendLine(@"                {");
                     sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
                     sb.AppendLine(@"                }");
-                    if (csspProp.ObjectExistTypeName == "TVItem")
+                    if (csspProp.ObjectExistTypeName == "TVItem" && csspProp.TVType != TVTypeEnum.Error)
                     {
                         sb.AppendLine(@"                else");
                         sb.AppendLine(@"                {");
@@ -596,18 +590,13 @@ namespace CSSPServicesGenerateCodeHelper
                     {
                         sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" != null)");
                         sb.AppendLine(@"            {");
-                        //sb.AppendLine(@"                if (!((from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).Any()))");
-                        //sb.AppendLine(@"                {");
-                        //sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
-                        //sb.AppendLine(@"                }");
-
                         sb.AppendLine(@"                " + csspProp.ObjectExistTypeName + " " + csspProp.ObjectExistTypeName + csspProp.PropName + " = (from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).FirstOrDefault();");
                         sb.AppendLine(@"");
                         sb.AppendLine(@"                if (" + csspProp.ObjectExistTypeName + csspProp.PropName + " == null)");
                         sb.AppendLine(@"                {");
                         sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
                         sb.AppendLine(@"                }");
-                        if (csspProp.ObjectExistTypeName == "TVItem")
+                        if (csspProp.ObjectExistTypeName == "TVItem" && csspProp.TVType != TVTypeEnum.Error)
                         {
                             sb.AppendLine(@"                else");
                             sb.AppendLine(@"                {");
@@ -622,18 +611,13 @@ namespace CSSPServicesGenerateCodeHelper
                     }
                     else
                     {
-                        //sb.AppendLine(@"            if (!((from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).Any()))");
-                        //sb.AppendLine(@"            {");
-                        //sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
-                        //sb.AppendLine(@"            }");
-
                         sb.AppendLine(@"            " + csspProp.ObjectExistTypeName + " " + csspProp.ObjectExistTypeName + csspProp.PropName + " = (from c in db." + csspProp.ObjectExistTypeName + csspProp.ObjectExistPlurial + " where c." + csspProp.ObjectExistFieldID + " == " + TypeNameLower + "." + csspProp.PropName + " select c).FirstOrDefault();");
                         sb.AppendLine(@"");
                         sb.AppendLine(@"            if (" + csspProp.ObjectExistTypeName + csspProp.PropName + " == null)");
                         sb.AppendLine(@"            {");
                         sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ObjectExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
                         sb.AppendLine(@"            }");
-                        if (csspProp.ObjectExistTypeName == "TVItem")
+                        if (csspProp.ObjectExistTypeName == "TVItem" && csspProp.TVType != TVTypeEnum.Error)
                         {
                             sb.AppendLine(@"            else");
                             sb.AppendLine(@"            {");

@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -128,15 +129,11 @@ namespace CSSPServices.Tests
             emailDistributionListContactService.Add(emailDistributionListContact);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.EmailDistributionList, ModelsRes.EmailDistributionListContactEmailDistributionListID, emailDistributionListContact.EmailDistributionListID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // EmailDistributionListID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
             // emailDistributionListContact.IsCC   (Boolean)
             // -----------------------------------
-
-            // IsCC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -151,34 +148,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
             Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactAgency)).Any());
             Assert.AreEqual(null, emailDistributionListContact.Agency);
-            Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
             emailDistributionListContact = null;
             emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
-            // Agency has MinLength [empty] and MaxLength [20]. At Max should return true and no errors
-            string emailDistributionListContactAgencyMin = GetRandomString("", 20);
-            emailDistributionListContact.Agency = emailDistributionListContactAgencyMin;
-            Assert.AreEqual(true, emailDistributionListContactService.Add(emailDistributionListContact));
-            Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
-            Assert.AreEqual(emailDistributionListContactAgencyMin, emailDistributionListContact.Agency);
-            Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
-            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
-
-            // Agency has MinLength [empty] and MaxLength [20]. At Max - 1 should return true and no errors
-            emailDistributionListContactAgencyMin = GetRandomString("", 19);
-            emailDistributionListContact.Agency = emailDistributionListContactAgencyMin;
-            Assert.AreEqual(true, emailDistributionListContactService.Add(emailDistributionListContact));
-            Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
-            Assert.AreEqual(emailDistributionListContactAgencyMin, emailDistributionListContact.Agency);
-            Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
-            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
-
-            // Agency has MinLength [empty] and MaxLength [20]. At Max + 1 should return false with one error
-            emailDistributionListContactAgencyMin = GetRandomString("", 21);
-            emailDistributionListContact.Agency = emailDistributionListContactAgencyMin;
+            emailDistributionListContact.Agency = GetRandomString("", 21);
             Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-            Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactAgency, "20")).Any());
-            Assert.AreEqual(emailDistributionListContactAgencyMin, emailDistributionListContact.Agency);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactAgency, "20"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
             // -----------------------------------
@@ -193,34 +169,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
             Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactName)).Any());
             Assert.AreEqual(null, emailDistributionListContact.Name);
-            Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
             emailDistributionListContact = null;
             emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
-            // Name has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
-            string emailDistributionListContactNameMin = GetRandomString("", 100);
-            emailDistributionListContact.Name = emailDistributionListContactNameMin;
-            Assert.AreEqual(true, emailDistributionListContactService.Add(emailDistributionListContact));
-            Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
-            Assert.AreEqual(emailDistributionListContactNameMin, emailDistributionListContact.Name);
-            Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
-            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
-
-            // Name has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
-            emailDistributionListContactNameMin = GetRandomString("", 99);
-            emailDistributionListContact.Name = emailDistributionListContactNameMin;
-            Assert.AreEqual(true, emailDistributionListContactService.Add(emailDistributionListContact));
-            Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
-            Assert.AreEqual(emailDistributionListContactNameMin, emailDistributionListContact.Name);
-            Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
-            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
-
-            // Name has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
-            emailDistributionListContactNameMin = GetRandomString("", 101);
-            emailDistributionListContact.Name = emailDistributionListContactNameMin;
+            emailDistributionListContact.Name = GetRandomString("", 101);
             Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-            Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactName, "100")).Any());
-            Assert.AreEqual(emailDistributionListContactNameMin, emailDistributionListContact.Name);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactName, "100"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
             // -----------------------------------
@@ -236,26 +191,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
             Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactEmail)).Any());
             Assert.AreEqual(null, emailDistributionListContact.Email);
-            Assert.AreEqual(0, emailDistributionListContactService.GetRead().Count());
+            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
             emailDistributionListContact = null;
             emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
-            // Email has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
-            string emailDistributionListContactEmailMin = GetRandomEmail();
-            emailDistributionListContact.Email = emailDistributionListContactEmailMin;
-            Assert.AreEqual(true, emailDistributionListContactService.Add(emailDistributionListContact));
-            Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
-            Assert.AreEqual(emailDistributionListContactEmailMin, emailDistributionListContact.Email);
-            Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
-            Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
-
-            // Email has MinLength [empty] and MaxLength [200]. At Max - 1 should return true and no errors
-            emailDistributionListContactEmailMin = GetRandomEmail();
-            emailDistributionListContact.Email = emailDistributionListContactEmailMin;
-            Assert.AreEqual(true, emailDistributionListContactService.Add(emailDistributionListContact));
-            Assert.AreEqual(0, emailDistributionListContact.ValidationResults.Count());
-            Assert.AreEqual(emailDistributionListContactEmailMin, emailDistributionListContact.Email);
-            Assert.AreEqual(true, emailDistributionListContactService.Delete(emailDistributionListContact));
+            emailDistributionListContact.Email = GetRandomString("", 201);
+            Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactEmail, "200"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
             // -----------------------------------
@@ -263,15 +205,11 @@ namespace CSSPServices.Tests
             // emailDistributionListContact.CMPRainfallSeasonal   (Boolean)
             // -----------------------------------
 
-            // CMPRainfallSeasonal will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
             // emailDistributionListContact.CMPWastewater   (Boolean)
             // -----------------------------------
-
-            // CMPWastewater will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -279,15 +217,11 @@ namespace CSSPServices.Tests
             // emailDistributionListContact.EmergencyWeather   (Boolean)
             // -----------------------------------
 
-            // EmergencyWeather will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
             // emailDistributionListContact.EmergencyWastewater   (Boolean)
             // -----------------------------------
-
-            // EmergencyWastewater will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -295,16 +229,12 @@ namespace CSSPServices.Tests
             // emailDistributionListContact.ReopeningAllTypes   (Boolean)
             // -----------------------------------
 
-            // ReopeningAllTypes will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPAfter(Year = 1980)]
             // emailDistributionListContact.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -319,7 +249,11 @@ namespace CSSPServices.Tests
             emailDistributionListContactService.Add(emailDistributionListContact);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, emailDistributionListContact.LastUpdateContactTVItemID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            emailDistributionListContact = null;
+            emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
+            emailDistributionListContact.LastUpdateContactTVItemID = 1;
+            emailDistributionListContactService.Add(emailDistributionListContact);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, "Contact"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

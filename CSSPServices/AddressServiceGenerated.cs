@@ -133,7 +133,7 @@ namespace CSSPServices
                 retStr = enums.StreetTypeOK(address.StreetType);
                 if (address.StreetType == StreetTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.AddressStreetType });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AddressStreetType), new[] { "StreetType" });
                 }
             }
 

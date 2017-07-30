@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -120,8 +121,6 @@ namespace CSSPServices.Tests
             samplingPlanSubsectorService.Add(samplingPlanSubsector);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlan, ModelsRes.SamplingPlanSubsectorSamplingPlanID, samplingPlanSubsector.SamplingPlanID.ToString()), samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // SamplingPlanID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -135,7 +134,11 @@ namespace CSSPServices.Tests
             samplingPlanSubsectorService.Add(samplingPlanSubsector);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorSubsectorTVItemID, samplingPlanSubsector.SubsectorTVItemID.ToString()), samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // SubsectorTVItemID will automatically be initialized at 0 --> not null
+            samplingPlanSubsector = null;
+            samplingPlanSubsector = GetFilledRandomSamplingPlanSubsector("");
+            samplingPlanSubsector.SubsectorTVItemID = 1;
+            samplingPlanSubsectorService.Add(samplingPlanSubsector);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorSubsectorTVItemID, "Subsector"), samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -143,8 +146,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // samplingPlanSubsector.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -159,7 +160,11 @@ namespace CSSPServices.Tests
             samplingPlanSubsectorService.Add(samplingPlanSubsector);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorLastUpdateContactTVItemID, samplingPlanSubsector.LastUpdateContactTVItemID.ToString()), samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            samplingPlanSubsector = null;
+            samplingPlanSubsector = GetFilledRandomSamplingPlanSubsector("");
+            samplingPlanSubsector.LastUpdateContactTVItemID = 1;
+            samplingPlanSubsectorService.Add(samplingPlanSubsector);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorLastUpdateContactTVItemID, "Contact"), samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -123,34 +124,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, appErrLog.ValidationResults.Count());
             Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogTag)).Any());
             Assert.AreEqual(null, appErrLog.Tag);
-            Assert.AreEqual(0, appErrLogService.GetRead().Count());
+            Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
             appErrLog = null;
             appErrLog = GetFilledRandomAppErrLog("");
-            // Tag has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
-            string appErrLogTagMin = GetRandomString("", 100);
-            appErrLog.Tag = appErrLogTagMin;
-            Assert.AreEqual(true, appErrLogService.Add(appErrLog));
-            Assert.AreEqual(0, appErrLog.ValidationResults.Count());
-            Assert.AreEqual(appErrLogTagMin, appErrLog.Tag);
-            Assert.AreEqual(true, appErrLogService.Delete(appErrLog));
-            Assert.AreEqual(count, appErrLogService.GetRead().Count());
-
-            // Tag has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
-            appErrLogTagMin = GetRandomString("", 99);
-            appErrLog.Tag = appErrLogTagMin;
-            Assert.AreEqual(true, appErrLogService.Add(appErrLog));
-            Assert.AreEqual(0, appErrLog.ValidationResults.Count());
-            Assert.AreEqual(appErrLogTagMin, appErrLog.Tag);
-            Assert.AreEqual(true, appErrLogService.Delete(appErrLog));
-            Assert.AreEqual(count, appErrLogService.GetRead().Count());
-
-            // Tag has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
-            appErrLogTagMin = GetRandomString("", 101);
-            appErrLog.Tag = appErrLogTagMin;
+            appErrLog.Tag = GetRandomString("", 101);
             Assert.AreEqual(false, appErrLogService.Add(appErrLog));
-            Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogTag, "100")).Any());
-            Assert.AreEqual(appErrLogTagMin, appErrLog.Tag);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogTag, "100"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
             // -----------------------------------
@@ -159,29 +139,11 @@ namespace CSSPServices.Tests
             // appErrLog.LineNumber   (Int32)
             // -----------------------------------
 
-            // LineNumber will automatically be initialized at 0 --> not null
-
             appErrLog = null;
             appErrLog = GetFilledRandomAppErrLog("");
-            // LineNumber has Min [1] and Max [empty]. At Min should return true and no errors
-            appErrLog.LineNumber = 1;
-            Assert.AreEqual(true, appErrLogService.Add(appErrLog));
-            Assert.AreEqual(0, appErrLog.ValidationResults.Count());
-            Assert.AreEqual(1, appErrLog.LineNumber);
-            Assert.AreEqual(true, appErrLogService.Delete(appErrLog));
-            Assert.AreEqual(count, appErrLogService.GetRead().Count());
-            // LineNumber has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            appErrLog.LineNumber = 2;
-            Assert.AreEqual(true, appErrLogService.Add(appErrLog));
-            Assert.AreEqual(0, appErrLog.ValidationResults.Count());
-            Assert.AreEqual(2, appErrLog.LineNumber);
-            Assert.AreEqual(true, appErrLogService.Delete(appErrLog));
-            Assert.AreEqual(count, appErrLogService.GetRead().Count());
-            // LineNumber has Min [1] and Max [empty]. At Min - 1 should return false with one error
             appErrLog.LineNumber = 0;
             Assert.AreEqual(false, appErrLogService.Add(appErrLog));
-            Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.AppErrLogLineNumber, "1")).Any());
-            Assert.AreEqual(0, appErrLog.LineNumber);
+            Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppErrLogLineNumber, "1"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
             // -----------------------------------
@@ -195,7 +157,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, appErrLog.ValidationResults.Count());
             Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogSource)).Any());
             Assert.AreEqual(null, appErrLog.Source);
-            Assert.AreEqual(0, appErrLogService.GetRead().Count());
+            Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
 
             // -----------------------------------
@@ -209,7 +171,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, appErrLog.ValidationResults.Count());
             Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogMessage)).Any());
             Assert.AreEqual(null, appErrLog.Message);
-            Assert.AreEqual(0, appErrLogService.GetRead().Count());
+            Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
 
             // -----------------------------------
@@ -218,16 +180,12 @@ namespace CSSPServices.Tests
             // appErrLog.DateTime_UTC   (DateTime)
             // -----------------------------------
 
-            // DateTime_UTC will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPAfter(Year = 1980)]
             // appErrLog.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -242,7 +200,11 @@ namespace CSSPServices.Tests
             appErrLogService.Add(appErrLog);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppErrLogLastUpdateContactTVItemID, appErrLog.LastUpdateContactTVItemID.ToString()), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            appErrLog = null;
+            appErrLog = GetFilledRandomAppErrLog("");
+            appErrLog.LastUpdateContactTVItemID = 1;
+            appErrLogService.Add(appErrLog);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppErrLogLastUpdateContactTVItemID, "Contact"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

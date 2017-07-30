@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -132,34 +133,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, contact.ValidationResults.Count());
             Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactId)).Any());
             Assert.AreEqual(null, contact.Id);
-            Assert.AreEqual(0, contactService.GetRead().Count());
+            Assert.AreEqual(count, contactService.GetRead().Count());
 
             contact = null;
             contact = GetFilledRandomContact("");
-            // Id has MinLength [empty] and MaxLength [128]. At Max should return true and no errors
-            string contactIdMin = GetRandomString("", 128);
-            contact.Id = contactIdMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactIdMin, contact.Id);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // Id has MinLength [empty] and MaxLength [128]. At Max - 1 should return true and no errors
-            contactIdMin = GetRandomString("", 127);
-            contact.Id = contactIdMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactIdMin, contact.Id);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // Id has MinLength [empty] and MaxLength [128]. At Max + 1 should return false with one error
-            contactIdMin = GetRandomString("", 129);
-            contact.Id = contactIdMin;
+            contact.Id = GetRandomString("", 129);
             Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactId, "128")).Any());
-            Assert.AreEqual(contactIdMin, contact.Id);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactId, "128"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
             // -----------------------------------
@@ -174,7 +154,11 @@ namespace CSSPServices.Tests
             contactService.Add(contact, ContactService.AddContactType.LoggedIn);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactContactTVItemID, contact.ContactTVItemID.ToString()), contact.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // ContactTVItemID will automatically be initialized at 0 --> not null
+            contact = null;
+            contact = GetFilledRandomContact("");
+            contact.ContactTVItemID = 1;
+            contactService.Add(contact, ContactService.AddContactType.LoggedIn);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactContactTVItemID, "Contact"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -190,45 +174,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, contact.ValidationResults.Count());
             Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail)).Any());
             Assert.AreEqual(null, contact.LoginEmail);
-            Assert.AreEqual(0, contactService.GetRead().Count());
+            Assert.AreEqual(count, contactService.GetRead().Count());
 
             contact = null;
             contact = GetFilledRandomContact("");
-
-            // LoginEmail has MinLength [6] and MaxLength [255]. At Min should return true and no errors
-            string contactLoginEmailMin = GetRandomEmail();
-            contact.LoginEmail = contactLoginEmailMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactLoginEmailMin, contact.LoginEmail);
-            Assert.AreEqual(true, contactService.Delete(contact));
+            contact.LoginEmail = GetRandomString("", 5);
+            Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
+            Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginEmail, "6", "255"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // LoginEmail has MinLength [6] and MaxLength [255]. At Min + 1 should return true and no errors
-            contactLoginEmailMin = GetRandomEmail();
-            contact.LoginEmail = contactLoginEmailMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactLoginEmailMin, contact.LoginEmail);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // LoginEmail has MinLength [6] and MaxLength [255]. At Max should return true and no errors
-            contactLoginEmailMin = GetRandomEmail();
-            contact.LoginEmail = contactLoginEmailMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactLoginEmailMin, contact.LoginEmail);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // LoginEmail has MinLength [6] and MaxLength [255]. At Max - 1 should return true and no errors
-            contactLoginEmailMin = GetRandomEmail();
-            contact.LoginEmail = contactLoginEmailMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactLoginEmailMin, contact.LoginEmail);
-            Assert.AreEqual(true, contactService.Delete(contact));
+            contact = null;
+            contact = GetFilledRandomContact("");
+            contact.LoginEmail = GetRandomString("", 256);
+            Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
+            Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginEmail, "6", "255"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
             // -----------------------------------
@@ -243,34 +201,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, contact.ValidationResults.Count());
             Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactFirstName)).Any());
             Assert.AreEqual(null, contact.FirstName);
-            Assert.AreEqual(0, contactService.GetRead().Count());
+            Assert.AreEqual(count, contactService.GetRead().Count());
 
             contact = null;
             contact = GetFilledRandomContact("");
-            // FirstName has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
-            string contactFirstNameMin = GetRandomString("", 100);
-            contact.FirstName = contactFirstNameMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactFirstNameMin, contact.FirstName);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // FirstName has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
-            contactFirstNameMin = GetRandomString("", 99);
-            contact.FirstName = contactFirstNameMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactFirstNameMin, contact.FirstName);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // FirstName has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
-            contactFirstNameMin = GetRandomString("", 101);
-            contact.FirstName = contactFirstNameMin;
+            contact.FirstName = GetRandomString("", 101);
             Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactFirstName, "100")).Any());
-            Assert.AreEqual(contactFirstNameMin, contact.FirstName);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactFirstName, "100"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
             // -----------------------------------
@@ -285,34 +222,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, contact.ValidationResults.Count());
             Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLastName)).Any());
             Assert.AreEqual(null, contact.LastName);
-            Assert.AreEqual(0, contactService.GetRead().Count());
+            Assert.AreEqual(count, contactService.GetRead().Count());
 
             contact = null;
             contact = GetFilledRandomContact("");
-            // LastName has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
-            string contactLastNameMin = GetRandomString("", 100);
-            contact.LastName = contactLastNameMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactLastNameMin, contact.LastName);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // LastName has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
-            contactLastNameMin = GetRandomString("", 99);
-            contact.LastName = contactLastNameMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactLastNameMin, contact.LastName);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // LastName has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
-            contactLastNameMin = GetRandomString("", 101);
-            contact.LastName = contactLastNameMin;
+            contact.LastName = GetRandomString("", 101);
             Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLastName, "100")).Any());
-            Assert.AreEqual(contactLastNameMin, contact.LastName);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLastName, "100"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
             // -----------------------------------
@@ -323,30 +239,9 @@ namespace CSSPServices.Tests
 
             contact = null;
             contact = GetFilledRandomContact("");
-            // Initial has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
-            string contactInitialMin = GetRandomString("", 50);
-            contact.Initial = contactInitialMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactInitialMin, contact.Initial);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // Initial has MinLength [empty] and MaxLength [50]. At Max - 1 should return true and no errors
-            contactInitialMin = GetRandomString("", 49);
-            contact.Initial = contactInitialMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactInitialMin, contact.Initial);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // Initial has MinLength [empty] and MaxLength [50]. At Max + 1 should return false with one error
-            contactInitialMin = GetRandomString("", 51);
-            contact.Initial = contactInitialMin;
+            contact.Initial = GetRandomString("", 51);
             Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactInitial, "50")).Any());
-            Assert.AreEqual(contactInitialMin, contact.Initial);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactInitial, "50"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
             // -----------------------------------
@@ -361,34 +256,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, contact.ValidationResults.Count());
             Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactWebName)).Any());
             Assert.AreEqual(null, contact.WebName);
-            Assert.AreEqual(0, contactService.GetRead().Count());
+            Assert.AreEqual(count, contactService.GetRead().Count());
 
             contact = null;
             contact = GetFilledRandomContact("");
-            // WebName has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
-            string contactWebNameMin = GetRandomString("", 100);
-            contact.WebName = contactWebNameMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactWebNameMin, contact.WebName);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // WebName has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
-            contactWebNameMin = GetRandomString("", 99);
-            contact.WebName = contactWebNameMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactWebNameMin, contact.WebName);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // WebName has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
-            contactWebNameMin = GetRandomString("", 101);
-            contact.WebName = contactWebNameMin;
+            contact.WebName = GetRandomString("", 101);
             Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactWebName, "100")).Any());
-            Assert.AreEqual(contactWebNameMin, contact.WebName);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactWebName, "100"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
             // -----------------------------------
@@ -397,13 +271,17 @@ namespace CSSPServices.Tests
             // contact.ContactTitle   (ContactTitleEnum)
             // -----------------------------------
 
+            contact = null;
+            contact = GetFilledRandomContact("");
+            contact.ContactTitle = (ContactTitleEnum)1000000;
+            contactService.Add(contact, ContactService.AddContactType.LoggedIn);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactContactTitle), contact.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is NOT Nullable
             // contact.IsAdmin   (Boolean)
             // -----------------------------------
-
-            // IsAdmin will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -411,23 +289,17 @@ namespace CSSPServices.Tests
             // contact.EmailValidated   (Boolean)
             // -----------------------------------
 
-            // EmailValidated will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
             // contact.Disabled   (Boolean)
             // -----------------------------------
 
-            // Disabled will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
             // contact.IsNew   (Boolean)
             // -----------------------------------
-
-            // IsNew will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -438,30 +310,9 @@ namespace CSSPServices.Tests
 
             contact = null;
             contact = GetFilledRandomContact("");
-            // SamplingPlanner_ProvincesTVItemID has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
-            string contactSamplingPlanner_ProvincesTVItemIDMin = GetRandomString("", 200);
-            contact.SamplingPlanner_ProvincesTVItemID = contactSamplingPlanner_ProvincesTVItemIDMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactSamplingPlanner_ProvincesTVItemIDMin, contact.SamplingPlanner_ProvincesTVItemID);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // SamplingPlanner_ProvincesTVItemID has MinLength [empty] and MaxLength [200]. At Max - 1 should return true and no errors
-            contactSamplingPlanner_ProvincesTVItemIDMin = GetRandomString("", 199);
-            contact.SamplingPlanner_ProvincesTVItemID = contactSamplingPlanner_ProvincesTVItemIDMin;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(contactSamplingPlanner_ProvincesTVItemIDMin, contact.SamplingPlanner_ProvincesTVItemID);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-
-            // SamplingPlanner_ProvincesTVItemID has MinLength [empty] and MaxLength [200]. At Max + 1 should return false with one error
-            contactSamplingPlanner_ProvincesTVItemIDMin = GetRandomString("", 201);
-            contact.SamplingPlanner_ProvincesTVItemID = contactSamplingPlanner_ProvincesTVItemIDMin;
+            contact.SamplingPlanner_ProvincesTVItemID = GetRandomString("", 201);
             Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactSamplingPlanner_ProvincesTVItemID, "200")).Any());
-            Assert.AreEqual(contactSamplingPlanner_ProvincesTVItemIDMin, contact.SamplingPlanner_ProvincesTVItemID);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactSamplingPlanner_ProvincesTVItemID, "200"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
             // -----------------------------------
@@ -469,8 +320,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // contact.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -485,7 +334,11 @@ namespace CSSPServices.Tests
             contactService.Add(contact, ContactService.AddContactType.LoggedIn);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactLastUpdateContactTVItemID, contact.LastUpdateContactTVItemID.ToString()), contact.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            contact = null;
+            contact = GetFilledRandomContact("");
+            contact.LastUpdateContactTVItemID = 1;
+            contactService.Add(contact, ContactService.AddContactType.LoggedIn);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactLastUpdateContactTVItemID, "Contact"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -523,29 +376,11 @@ namespace CSSPServices.Tests
             // contact.ParentTVItemID   (Int32)
             // -----------------------------------
 
-            // ParentTVItemID will automatically be initialized at 0 --> not null
-
             contact = null;
             contact = GetFilledRandomContact("");
-            // ParentTVItemID has Min [1] and Max [empty]. At Min should return true and no errors
-            contact.ParentTVItemID = 1;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(1, contact.ParentTVItemID);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-            // ParentTVItemID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            contact.ParentTVItemID = 2;
-            Assert.AreEqual(true, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.AreEqual(0, contact.ValidationResults.Count());
-            Assert.AreEqual(2, contact.ParentTVItemID);
-            Assert.AreEqual(true, contactService.Delete(contact));
-            Assert.AreEqual(count, contactService.GetRead().Count());
-            // ParentTVItemID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             contact.ParentTVItemID = 0;
             Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
-            Assert.IsTrue(contact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactParentTVItemID, "1")).Any());
-            Assert.AreEqual(0, contact.ParentTVItemID);
+            Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactParentTVItemID, "1"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, contactService.GetRead().Count());
 
             // -----------------------------------

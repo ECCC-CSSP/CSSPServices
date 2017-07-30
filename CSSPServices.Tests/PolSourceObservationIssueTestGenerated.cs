@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -121,8 +122,6 @@ namespace CSSPServices.Tests
             polSourceObservationIssueService.Add(polSourceObservationIssue);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceObservation, ModelsRes.PolSourceObservationIssuePolSourceObservationID, polSourceObservationIssue.PolSourceObservationID.ToString()), polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // PolSourceObservationID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -136,34 +135,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, polSourceObservationIssue.ValidationResults.Count());
             Assert.IsTrue(polSourceObservationIssue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationIssueObservationInfo)).Any());
             Assert.AreEqual(null, polSourceObservationIssue.ObservationInfo);
-            Assert.AreEqual(0, polSourceObservationIssueService.GetRead().Count());
+            Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
 
             polSourceObservationIssue = null;
             polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
-            // ObservationInfo has MinLength [empty] and MaxLength [250]. At Max should return true and no errors
-            string polSourceObservationIssueObservationInfoMin = GetRandomString("", 250);
-            polSourceObservationIssue.ObservationInfo = polSourceObservationIssueObservationInfoMin;
-            Assert.AreEqual(true, polSourceObservationIssueService.Add(polSourceObservationIssue));
-            Assert.AreEqual(0, polSourceObservationIssue.ValidationResults.Count());
-            Assert.AreEqual(polSourceObservationIssueObservationInfoMin, polSourceObservationIssue.ObservationInfo);
-            Assert.AreEqual(true, polSourceObservationIssueService.Delete(polSourceObservationIssue));
-            Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
-
-            // ObservationInfo has MinLength [empty] and MaxLength [250]. At Max - 1 should return true and no errors
-            polSourceObservationIssueObservationInfoMin = GetRandomString("", 249);
-            polSourceObservationIssue.ObservationInfo = polSourceObservationIssueObservationInfoMin;
-            Assert.AreEqual(true, polSourceObservationIssueService.Add(polSourceObservationIssue));
-            Assert.AreEqual(0, polSourceObservationIssue.ValidationResults.Count());
-            Assert.AreEqual(polSourceObservationIssueObservationInfoMin, polSourceObservationIssue.ObservationInfo);
-            Assert.AreEqual(true, polSourceObservationIssueService.Delete(polSourceObservationIssue));
-            Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
-
-            // ObservationInfo has MinLength [empty] and MaxLength [250]. At Max + 1 should return false with one error
-            polSourceObservationIssueObservationInfoMin = GetRandomString("", 251);
-            polSourceObservationIssue.ObservationInfo = polSourceObservationIssueObservationInfoMin;
+            polSourceObservationIssue.ObservationInfo = GetRandomString("", 251);
             Assert.AreEqual(false, polSourceObservationIssueService.Add(polSourceObservationIssue));
-            Assert.IsTrue(polSourceObservationIssue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationIssueObservationInfo, "250")).Any());
-            Assert.AreEqual(polSourceObservationIssueObservationInfoMin, polSourceObservationIssue.ObservationInfo);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationIssueObservationInfo, "250"), polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
 
             // -----------------------------------
@@ -172,49 +150,17 @@ namespace CSSPServices.Tests
             // polSourceObservationIssue.Ordinal   (Int32)
             // -----------------------------------
 
-            // Ordinal will automatically be initialized at 0 --> not null
-
             polSourceObservationIssue = null;
             polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
-            // Ordinal has Min [0] and Max [1000]. At Min should return true and no errors
-            polSourceObservationIssue.Ordinal = 0;
-            Assert.AreEqual(true, polSourceObservationIssueService.Add(polSourceObservationIssue));
-            Assert.AreEqual(0, polSourceObservationIssue.ValidationResults.Count());
-            Assert.AreEqual(0, polSourceObservationIssue.Ordinal);
-            Assert.AreEqual(true, polSourceObservationIssueService.Delete(polSourceObservationIssue));
-            Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
-            // Ordinal has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            polSourceObservationIssue.Ordinal = 1;
-            Assert.AreEqual(true, polSourceObservationIssueService.Add(polSourceObservationIssue));
-            Assert.AreEqual(0, polSourceObservationIssue.ValidationResults.Count());
-            Assert.AreEqual(1, polSourceObservationIssue.Ordinal);
-            Assert.AreEqual(true, polSourceObservationIssueService.Delete(polSourceObservationIssue));
-            Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
-            // Ordinal has Min [0] and Max [1000]. At Min - 1 should return false with one error
             polSourceObservationIssue.Ordinal = -1;
             Assert.AreEqual(false, polSourceObservationIssueService.Add(polSourceObservationIssue));
-            Assert.IsTrue(polSourceObservationIssue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceObservationIssueOrdinal, "0", "1000")).Any());
-            Assert.AreEqual(-1, polSourceObservationIssue.Ordinal);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceObservationIssueOrdinal, "0", "1000"), polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
-            // Ordinal has Min [0] and Max [1000]. At Max should return true and no errors
-            polSourceObservationIssue.Ordinal = 1000;
-            Assert.AreEqual(true, polSourceObservationIssueService.Add(polSourceObservationIssue));
-            Assert.AreEqual(0, polSourceObservationIssue.ValidationResults.Count());
-            Assert.AreEqual(1000, polSourceObservationIssue.Ordinal);
-            Assert.AreEqual(true, polSourceObservationIssueService.Delete(polSourceObservationIssue));
-            Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
-            // Ordinal has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            polSourceObservationIssue.Ordinal = 999;
-            Assert.AreEqual(true, polSourceObservationIssueService.Add(polSourceObservationIssue));
-            Assert.AreEqual(0, polSourceObservationIssue.ValidationResults.Count());
-            Assert.AreEqual(999, polSourceObservationIssue.Ordinal);
-            Assert.AreEqual(true, polSourceObservationIssueService.Delete(polSourceObservationIssue));
-            Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
-            // Ordinal has Min [0] and Max [1000]. At Max + 1 should return false with one error
+            polSourceObservationIssue = null;
+            polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
             polSourceObservationIssue.Ordinal = 1001;
             Assert.AreEqual(false, polSourceObservationIssueService.Add(polSourceObservationIssue));
-            Assert.IsTrue(polSourceObservationIssue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceObservationIssueOrdinal, "0", "1000")).Any());
-            Assert.AreEqual(1001, polSourceObservationIssue.Ordinal);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceObservationIssueOrdinal, "0", "1000"), polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
 
             // -----------------------------------
@@ -222,8 +168,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // polSourceObservationIssue.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -238,7 +182,11 @@ namespace CSSPServices.Tests
             polSourceObservationIssueService.Add(polSourceObservationIssue);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationIssueLastUpdateContactTVItemID, polSourceObservationIssue.LastUpdateContactTVItemID.ToString()), polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            polSourceObservationIssue = null;
+            polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
+            polSourceObservationIssue.LastUpdateContactTVItemID = 1;
+            polSourceObservationIssueService.Add(polSourceObservationIssue);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationIssueLastUpdateContactTVItemID, "Contact"), polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

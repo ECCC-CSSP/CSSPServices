@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -135,7 +136,11 @@ namespace CSSPServices.Tests
             hydrometricSiteService.Add(hydrometricSite);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.HydrometricSiteHydrometricSiteTVItemID, hydrometricSite.HydrometricSiteTVItemID.ToString()), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // HydrometricSiteTVItemID will automatically be initialized at 0 --> not null
+            hydrometricSite = null;
+            hydrometricSite = GetFilledRandomHydrometricSite("");
+            hydrometricSite.HydrometricSiteTVItemID = 1;
+            hydrometricSiteService.Add(hydrometricSite);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.HydrometricSiteHydrometricSiteTVItemID, "HydrometricSite"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -146,30 +151,9 @@ namespace CSSPServices.Tests
 
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-            // FedSiteNumber has MinLength [empty] and MaxLength [7]. At Max should return true and no errors
-            string hydrometricSiteFedSiteNumberMin = GetRandomString("", 7);
-            hydrometricSite.FedSiteNumber = hydrometricSiteFedSiteNumberMin;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(hydrometricSiteFedSiteNumberMin, hydrometricSite.FedSiteNumber);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-
-            // FedSiteNumber has MinLength [empty] and MaxLength [7]. At Max - 1 should return true and no errors
-            hydrometricSiteFedSiteNumberMin = GetRandomString("", 6);
-            hydrometricSite.FedSiteNumber = hydrometricSiteFedSiteNumberMin;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(hydrometricSiteFedSiteNumberMin, hydrometricSite.FedSiteNumber);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-
-            // FedSiteNumber has MinLength [empty] and MaxLength [7]. At Max + 1 should return false with one error
-            hydrometricSiteFedSiteNumberMin = GetRandomString("", 8);
-            hydrometricSite.FedSiteNumber = hydrometricSiteFedSiteNumberMin;
+            hydrometricSite.FedSiteNumber = GetRandomString("", 8);
             Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
-            Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteFedSiteNumber, "7")).Any());
-            Assert.AreEqual(hydrometricSiteFedSiteNumberMin, hydrometricSite.FedSiteNumber);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteFedSiteNumber, "7"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -180,30 +164,9 @@ namespace CSSPServices.Tests
 
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-            // QuebecSiteNumber has MinLength [empty] and MaxLength [7]. At Max should return true and no errors
-            string hydrometricSiteQuebecSiteNumberMin = GetRandomString("", 7);
-            hydrometricSite.QuebecSiteNumber = hydrometricSiteQuebecSiteNumberMin;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(hydrometricSiteQuebecSiteNumberMin, hydrometricSite.QuebecSiteNumber);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-
-            // QuebecSiteNumber has MinLength [empty] and MaxLength [7]. At Max - 1 should return true and no errors
-            hydrometricSiteQuebecSiteNumberMin = GetRandomString("", 6);
-            hydrometricSite.QuebecSiteNumber = hydrometricSiteQuebecSiteNumberMin;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(hydrometricSiteQuebecSiteNumberMin, hydrometricSite.QuebecSiteNumber);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-
-            // QuebecSiteNumber has MinLength [empty] and MaxLength [7]. At Max + 1 should return false with one error
-            hydrometricSiteQuebecSiteNumberMin = GetRandomString("", 8);
-            hydrometricSite.QuebecSiteNumber = hydrometricSiteQuebecSiteNumberMin;
+            hydrometricSite.QuebecSiteNumber = GetRandomString("", 8);
             Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
-            Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteQuebecSiteNumber, "7")).Any());
-            Assert.AreEqual(hydrometricSiteQuebecSiteNumberMin, hydrometricSite.QuebecSiteNumber);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteQuebecSiteNumber, "7"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -218,34 +181,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, hydrometricSite.ValidationResults.Count());
             Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteHydrometricSiteName)).Any());
             Assert.AreEqual(null, hydrometricSite.HydrometricSiteName);
-            Assert.AreEqual(0, hydrometricSiteService.GetRead().Count());
+            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-            // HydrometricSiteName has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
-            string hydrometricSiteHydrometricSiteNameMin = GetRandomString("", 200);
-            hydrometricSite.HydrometricSiteName = hydrometricSiteHydrometricSiteNameMin;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(hydrometricSiteHydrometricSiteNameMin, hydrometricSite.HydrometricSiteName);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-
-            // HydrometricSiteName has MinLength [empty] and MaxLength [200]. At Max - 1 should return true and no errors
-            hydrometricSiteHydrometricSiteNameMin = GetRandomString("", 199);
-            hydrometricSite.HydrometricSiteName = hydrometricSiteHydrometricSiteNameMin;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(hydrometricSiteHydrometricSiteNameMin, hydrometricSite.HydrometricSiteName);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-
-            // HydrometricSiteName has MinLength [empty] and MaxLength [200]. At Max + 1 should return false with one error
-            hydrometricSiteHydrometricSiteNameMin = GetRandomString("", 201);
-            hydrometricSite.HydrometricSiteName = hydrometricSiteHydrometricSiteNameMin;
+            hydrometricSite.HydrometricSiteName = GetRandomString("", 201);
             Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
-            Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteHydrometricSiteName, "200")).Any());
-            Assert.AreEqual(hydrometricSiteHydrometricSiteNameMin, hydrometricSite.HydrometricSiteName);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteHydrometricSiteName, "200"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -256,30 +198,9 @@ namespace CSSPServices.Tests
 
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-            // Description has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
-            string hydrometricSiteDescriptionMin = GetRandomString("", 200);
-            hydrometricSite.Description = hydrometricSiteDescriptionMin;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(hydrometricSiteDescriptionMin, hydrometricSite.Description);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-
-            // Description has MinLength [empty] and MaxLength [200]. At Max - 1 should return true and no errors
-            hydrometricSiteDescriptionMin = GetRandomString("", 199);
-            hydrometricSite.Description = hydrometricSiteDescriptionMin;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(hydrometricSiteDescriptionMin, hydrometricSite.Description);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-
-            // Description has MinLength [empty] and MaxLength [200]. At Max + 1 should return false with one error
-            hydrometricSiteDescriptionMin = GetRandomString("", 201);
-            hydrometricSite.Description = hydrometricSiteDescriptionMin;
+            hydrometricSite.Description = GetRandomString("", 201);
             Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
-            Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteDescription, "200")).Any());
-            Assert.AreEqual(hydrometricSiteDescriptionMin, hydrometricSite.Description);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteDescription, "200"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -294,34 +215,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, hydrometricSite.ValidationResults.Count());
             Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteProvince)).Any());
             Assert.AreEqual(null, hydrometricSite.Province);
-            Assert.AreEqual(0, hydrometricSiteService.GetRead().Count());
+            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-            // Province has MinLength [empty] and MaxLength [4]. At Max should return true and no errors
-            string hydrometricSiteProvinceMin = GetRandomString("", 4);
-            hydrometricSite.Province = hydrometricSiteProvinceMin;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(hydrometricSiteProvinceMin, hydrometricSite.Province);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-
-            // Province has MinLength [empty] and MaxLength [4]. At Max - 1 should return true and no errors
-            hydrometricSiteProvinceMin = GetRandomString("", 3);
-            hydrometricSite.Province = hydrometricSiteProvinceMin;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(hydrometricSiteProvinceMin, hydrometricSite.Province);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-
-            // Province has MinLength [empty] and MaxLength [4]. At Max + 1 should return false with one error
-            hydrometricSiteProvinceMin = GetRandomString("", 5);
-            hydrometricSite.Province = hydrometricSiteProvinceMin;
+            hydrometricSite.Province = GetRandomString("", 5);
             Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
-            Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteProvince, "4")).Any());
-            Assert.AreEqual(hydrometricSiteProvinceMin, hydrometricSite.Province);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteProvince, "4"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -334,45 +234,15 @@ namespace CSSPServices.Tests
 
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-            // Elevation_m has Min [0.0D] and Max [10000.0D]. At Min should return true and no errors
-            hydrometricSite.Elevation_m = 0.0D;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(0.0D, hydrometricSite.Elevation_m);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // Elevation_m has Min [0.0D] and Max [10000.0D]. At Min + 1 should return true and no errors
-            hydrometricSite.Elevation_m = 1.0D;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(1.0D, hydrometricSite.Elevation_m);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // Elevation_m has Min [0.0D] and Max [10000.0D]. At Min - 1 should return false with one error
             hydrometricSite.Elevation_m = -1.0D;
             Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
-            Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteElevation_m, "0", "10000")).Any());
-            Assert.AreEqual(-1.0D, hydrometricSite.Elevation_m);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteElevation_m, "0", "10000"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // Elevation_m has Min [0.0D] and Max [10000.0D]. At Max should return true and no errors
-            hydrometricSite.Elevation_m = 10000.0D;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(10000.0D, hydrometricSite.Elevation_m);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // Elevation_m has Min [0.0D] and Max [10000.0D]. At Max - 1 should return true and no errors
-            hydrometricSite.Elevation_m = 9999.0D;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(9999.0D, hydrometricSite.Elevation_m);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // Elevation_m has Min [0.0D] and Max [10000.0D]. At Max + 1 should return false with one error
+            hydrometricSite = null;
+            hydrometricSite = GetFilledRandomHydrometricSite("");
             hydrometricSite.Elevation_m = 10001.0D;
             Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
-            Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteElevation_m, "0", "10000")).Any());
-            Assert.AreEqual(10001.0D, hydrometricSite.Elevation_m);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteElevation_m, "0", "10000"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -400,45 +270,15 @@ namespace CSSPServices.Tests
 
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-            // TimeOffset_hour has Min [-10.0D] and Max [0.0D]. At Min should return true and no errors
-            hydrometricSite.TimeOffset_hour = -10.0D;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(-10.0D, hydrometricSite.TimeOffset_hour);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // TimeOffset_hour has Min [-10.0D] and Max [0.0D]. At Min + 1 should return true and no errors
-            hydrometricSite.TimeOffset_hour = -9.0D;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(-9.0D, hydrometricSite.TimeOffset_hour);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // TimeOffset_hour has Min [-10.0D] and Max [0.0D]. At Min - 1 should return false with one error
             hydrometricSite.TimeOffset_hour = -11.0D;
             Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
-            Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteTimeOffset_hour, "-10", "0")).Any());
-            Assert.AreEqual(-11.0D, hydrometricSite.TimeOffset_hour);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteTimeOffset_hour, "-10", "0"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // TimeOffset_hour has Min [-10.0D] and Max [0.0D]. At Max should return true and no errors
-            hydrometricSite.TimeOffset_hour = 0.0D;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(0.0D, hydrometricSite.TimeOffset_hour);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // TimeOffset_hour has Min [-10.0D] and Max [0.0D]. At Max - 1 should return true and no errors
-            hydrometricSite.TimeOffset_hour = -1.0D;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(-1.0D, hydrometricSite.TimeOffset_hour);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // TimeOffset_hour has Min [-10.0D] and Max [0.0D]. At Max + 1 should return false with one error
+            hydrometricSite = null;
+            hydrometricSite = GetFilledRandomHydrometricSite("");
             hydrometricSite.TimeOffset_hour = 1.0D;
             Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
-            Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteTimeOffset_hour, "-10", "0")).Any());
-            Assert.AreEqual(1.0D, hydrometricSite.TimeOffset_hour);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteTimeOffset_hour, "-10", "0"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -451,45 +291,15 @@ namespace CSSPServices.Tests
 
             hydrometricSite = null;
             hydrometricSite = GetFilledRandomHydrometricSite("");
-            // DrainageArea_km2 has Min [0.0D] and Max [1000000.0D]. At Min should return true and no errors
-            hydrometricSite.DrainageArea_km2 = 0.0D;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(0.0D, hydrometricSite.DrainageArea_km2);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // DrainageArea_km2 has Min [0.0D] and Max [1000000.0D]. At Min + 1 should return true and no errors
-            hydrometricSite.DrainageArea_km2 = 1.0D;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(1.0D, hydrometricSite.DrainageArea_km2);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // DrainageArea_km2 has Min [0.0D] and Max [1000000.0D]. At Min - 1 should return false with one error
             hydrometricSite.DrainageArea_km2 = -1.0D;
             Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
-            Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteDrainageArea_km2, "0", "1000000")).Any());
-            Assert.AreEqual(-1.0D, hydrometricSite.DrainageArea_km2);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteDrainageArea_km2, "0", "1000000"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // DrainageArea_km2 has Min [0.0D] and Max [1000000.0D]. At Max should return true and no errors
-            hydrometricSite.DrainageArea_km2 = 1000000.0D;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(1000000.0D, hydrometricSite.DrainageArea_km2);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // DrainageArea_km2 has Min [0.0D] and Max [1000000.0D]. At Max - 1 should return true and no errors
-            hydrometricSite.DrainageArea_km2 = 999999.0D;
-            Assert.AreEqual(true, hydrometricSiteService.Add(hydrometricSite));
-            Assert.AreEqual(0, hydrometricSite.ValidationResults.Count());
-            Assert.AreEqual(999999.0D, hydrometricSite.DrainageArea_km2);
-            Assert.AreEqual(true, hydrometricSiteService.Delete(hydrometricSite));
-            Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
-            // DrainageArea_km2 has Min [0.0D] and Max [1000000.0D]. At Max + 1 should return false with one error
+            hydrometricSite = null;
+            hydrometricSite = GetFilledRandomHydrometricSite("");
             hydrometricSite.DrainageArea_km2 = 1000001.0D;
             Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
-            Assert.IsTrue(hydrometricSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteDrainageArea_km2, "0", "1000000")).Any());
-            Assert.AreEqual(1000001.0D, hydrometricSite.DrainageArea_km2);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteDrainageArea_km2, "0", "1000000"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
             // -----------------------------------
@@ -534,8 +344,6 @@ namespace CSSPServices.Tests
             // hydrometricSite.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
 
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -549,7 +357,11 @@ namespace CSSPServices.Tests
             hydrometricSiteService.Add(hydrometricSite);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.HydrometricSiteLastUpdateContactTVItemID, hydrometricSite.LastUpdateContactTVItemID.ToString()), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            hydrometricSite = null;
+            hydrometricSite = GetFilledRandomHydrometricSite("");
+            hydrometricSite.LastUpdateContactTVItemID = 1;
+            hydrometricSiteService.Add(hydrometricSite);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.HydrometricSiteLastUpdateContactTVItemID, "Contact"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

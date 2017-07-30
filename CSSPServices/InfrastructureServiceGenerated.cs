@@ -114,7 +114,7 @@ namespace CSSPServices
                 retStr = enums.InfrastructureTypeOK(infrastructure.InfrastructureType);
                 if (infrastructure.InfrastructureType == InfrastructureTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.InfrastructureInfrastructureType });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureInfrastructureType), new[] { "InfrastructureType" });
                 }
             }
 
@@ -123,7 +123,7 @@ namespace CSSPServices
                 retStr = enums.FacilityTypeOK(infrastructure.FacilityType);
                 if (infrastructure.FacilityType == FacilityTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.InfrastructureFacilityType });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureFacilityType), new[] { "FacilityType" });
                 }
             }
 
@@ -148,7 +148,7 @@ namespace CSSPServices
                 retStr = enums.AerationTypeOK(infrastructure.AerationType);
                 if (infrastructure.AerationType == AerationTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.InfrastructureAerationType });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureAerationType), new[] { "AerationType" });
                 }
             }
 
@@ -157,7 +157,7 @@ namespace CSSPServices
                 retStr = enums.PreliminaryTreatmentTypeOK(infrastructure.PreliminaryTreatmentType);
                 if (infrastructure.PreliminaryTreatmentType == PreliminaryTreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.InfrastructurePreliminaryTreatmentType });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructurePreliminaryTreatmentType), new[] { "PreliminaryTreatmentType" });
                 }
             }
 
@@ -166,7 +166,7 @@ namespace CSSPServices
                 retStr = enums.PrimaryTreatmentTypeOK(infrastructure.PrimaryTreatmentType);
                 if (infrastructure.PrimaryTreatmentType == PrimaryTreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.InfrastructurePrimaryTreatmentType });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructurePrimaryTreatmentType), new[] { "PrimaryTreatmentType" });
                 }
             }
 
@@ -175,7 +175,7 @@ namespace CSSPServices
                 retStr = enums.SecondaryTreatmentTypeOK(infrastructure.SecondaryTreatmentType);
                 if (infrastructure.SecondaryTreatmentType == SecondaryTreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.InfrastructureSecondaryTreatmentType });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureSecondaryTreatmentType), new[] { "SecondaryTreatmentType" });
                 }
             }
 
@@ -184,7 +184,7 @@ namespace CSSPServices
                 retStr = enums.TertiaryTreatmentTypeOK(infrastructure.TertiaryTreatmentType);
                 if (infrastructure.TertiaryTreatmentType == TertiaryTreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.InfrastructureTertiaryTreatmentType });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureTertiaryTreatmentType), new[] { "TertiaryTreatmentType" });
                 }
             }
 
@@ -193,7 +193,7 @@ namespace CSSPServices
                 retStr = enums.TreatmentTypeOK(infrastructure.TreatmentType);
                 if (infrastructure.TreatmentType == TreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.InfrastructureTreatmentType });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureTreatmentType), new[] { "TreatmentType" });
                 }
             }
 
@@ -202,7 +202,7 @@ namespace CSSPServices
                 retStr = enums.DisinfectionTypeOK(infrastructure.DisinfectionType);
                 if (infrastructure.DisinfectionType == DisinfectionTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.InfrastructureDisinfectionType });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureDisinfectionType), new[] { "DisinfectionType" });
                 }
             }
 
@@ -211,7 +211,7 @@ namespace CSSPServices
                 retStr = enums.CollectionSystemTypeOK(infrastructure.CollectionSystemType);
                 if (infrastructure.CollectionSystemType == CollectionSystemTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.InfrastructureCollectionSystemType });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureCollectionSystemType), new[] { "CollectionSystemType" });
                 }
             }
 
@@ -220,7 +220,7 @@ namespace CSSPServices
                 retStr = enums.AlarmSystemTypeOK(infrastructure.AlarmSystemType);
                 if (infrastructure.AlarmSystemType == AlarmSystemTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.InfrastructureAlarmSystemType });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureAlarmSystemType), new[] { "AlarmSystemType" });
                 }
             }
 

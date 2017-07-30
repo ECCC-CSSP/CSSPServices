@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -124,7 +125,11 @@ namespace CSSPServices.Tests
             tvItemUserAuthorizationService.Add(tvItemUserAuthorization);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationContactTVItemID, tvItemUserAuthorization.ContactTVItemID.ToString()), tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // ContactTVItemID will automatically be initialized at 0 --> not null
+            tvItemUserAuthorization = null;
+            tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
+            tvItemUserAuthorization.ContactTVItemID = 1;
+            tvItemUserAuthorizationService.Add(tvItemUserAuthorization);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationContactTVItemID, "Contact"), tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -138,8 +143,6 @@ namespace CSSPServices.Tests
             tvItemUserAuthorization.TVItemID1 = 0;
             tvItemUserAuthorizationService.Add(tvItemUserAuthorization);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID1, tvItemUserAuthorization.TVItemID1.ToString()), tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
-
-            // TVItemID1 will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -187,7 +190,11 @@ namespace CSSPServices.Tests
             // tvItemUserAuthorization.TVAuth   (TVAuthEnum)
             // -----------------------------------
 
-            // TVAuth will automatically be initialized at 0 --> not null
+            tvItemUserAuthorization = null;
+            tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
+            tvItemUserAuthorization.TVAuth = (TVAuthEnum)1000000;
+            tvItemUserAuthorizationService.Add(tvItemUserAuthorization);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationTVAuth), tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -195,8 +202,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // tvItemUserAuthorization.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -211,7 +216,11 @@ namespace CSSPServices.Tests
             tvItemUserAuthorizationService.Add(tvItemUserAuthorization);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationLastUpdateContactTVItemID, tvItemUserAuthorization.LastUpdateContactTVItemID.ToString()), tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            tvItemUserAuthorization = null;
+            tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
+            tvItemUserAuthorization.LastUpdateContactTVItemID = 1;
+            tvItemUserAuthorizationService.Add(tvItemUserAuthorization);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationLastUpdateContactTVItemID, "Contact"), tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

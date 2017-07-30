@@ -56,13 +56,6 @@ namespace CSSPServices
             {
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLanguageTVItemID, tvItemLanguage.TVItemID.ToString()), new[] { "TVItemID" });
             }
-            else
-            {
-                if (TVItemTVItemID.TVType != TVTypeEnum.Error)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemLanguageTVItemID, "Error"), new[] { "TVItemID" });
-                }
-            }
 
             retStr = enums.LanguageOK(tvItemLanguage.Language);
             if (tvItemLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))

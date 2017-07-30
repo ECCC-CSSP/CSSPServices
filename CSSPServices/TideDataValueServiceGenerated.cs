@@ -116,7 +116,7 @@ namespace CSSPServices
                 retStr = enums.TideTextOK(tideDataValue.TideStart);
                 if (tideDataValue.TideStart == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.TideDataValueTideStart });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueTideStart), new[] { "TideStart" });
                 }
             }
 
@@ -125,7 +125,7 @@ namespace CSSPServices
                 retStr = enums.TideTextOK(tideDataValue.TideEnd);
                 if (tideDataValue.TideEnd == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.TideDataValueTideEnd });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueTideEnd), new[] { "TideEnd" });
                 }
             }
 

@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -122,8 +123,6 @@ namespace CSSPServices.Tests
             mwqmSampleLanguageService.Add(mwqmSampleLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSample, ModelsRes.MWQMSampleLanguageMWQMSampleID, mwqmSampleLanguage.MWQMSampleID.ToString()), mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // MWQMSampleID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -131,7 +130,11 @@ namespace CSSPServices.Tests
             // mwqmSampleLanguage.Language   (LanguageEnum)
             // -----------------------------------
 
-            // Language will automatically be initialized at 0 --> not null
+            mwqmSampleLanguage = null;
+            mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
+            mwqmSampleLanguage.Language = (LanguageEnum)1000000;
+            mwqmSampleLanguageService.Add(mwqmSampleLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageLanguage), mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -145,7 +148,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, mwqmSampleLanguage.ValidationResults.Count());
             Assert.IsTrue(mwqmSampleLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageMWQMSampleNote)).Any());
             Assert.AreEqual(null, mwqmSampleLanguage.MWQMSampleNote);
-            Assert.AreEqual(0, mwqmSampleLanguageService.GetRead().Count());
+            Assert.AreEqual(count, mwqmSampleLanguageService.GetRead().Count());
 
 
             // -----------------------------------
@@ -154,7 +157,11 @@ namespace CSSPServices.Tests
             // mwqmSampleLanguage.TranslationStatus   (TranslationStatusEnum)
             // -----------------------------------
 
-            // TranslationStatus will automatically be initialized at 0 --> not null
+            mwqmSampleLanguage = null;
+            mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
+            mwqmSampleLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
+            mwqmSampleLanguageService.Add(mwqmSampleLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageTranslationStatus), mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -162,8 +169,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // mwqmSampleLanguage.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -178,7 +183,11 @@ namespace CSSPServices.Tests
             mwqmSampleLanguageService.Add(mwqmSampleLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSampleLanguageLastUpdateContactTVItemID, mwqmSampleLanguage.LastUpdateContactTVItemID.ToString()), mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            mwqmSampleLanguage = null;
+            mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
+            mwqmSampleLanguage.LastUpdateContactTVItemID = 1;
+            mwqmSampleLanguageService.Add(mwqmSampleLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSampleLanguageLastUpdateContactTVItemID, "Contact"), mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

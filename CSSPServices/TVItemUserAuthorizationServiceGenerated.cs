@@ -72,13 +72,6 @@ namespace CSSPServices
             {
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID1, tvItemUserAuthorization.TVItemID1.ToString()), new[] { "TVItemID1" });
             }
-            else
-            {
-                if (TVItemTVItemID1.TVType != TVTypeEnum.Error)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationTVItemID1, "Error"), new[] { "TVItemID1" });
-                }
-            }
 
             if (tvItemUserAuthorization.TVItemID2 != null)
             {
@@ -87,13 +80,6 @@ namespace CSSPServices
                 if (TVItemTVItemID2 == null)
                 {
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID2, tvItemUserAuthorization.TVItemID2.ToString()), new[] { "TVItemID2" });
-                }
-                else
-                {
-                    if (TVItemTVItemID2.TVType != TVTypeEnum.Error)
-                    {
-                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationTVItemID2, "Error"), new[] { "TVItemID2" });
-                    }
                 }
             }
 
@@ -105,13 +91,6 @@ namespace CSSPServices
                 {
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID3, tvItemUserAuthorization.TVItemID3.ToString()), new[] { "TVItemID3" });
                 }
-                else
-                {
-                    if (TVItemTVItemID3.TVType != TVTypeEnum.Error)
-                    {
-                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationTVItemID3, "Error"), new[] { "TVItemID3" });
-                    }
-                }
             }
 
             if (tvItemUserAuthorization.TVItemID4 != null)
@@ -121,13 +100,6 @@ namespace CSSPServices
                 if (TVItemTVItemID4 == null)
                 {
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID4, tvItemUserAuthorization.TVItemID4.ToString()), new[] { "TVItemID4" });
-                }
-                else
-                {
-                    if (TVItemTVItemID4.TVType != TVTypeEnum.Error)
-                    {
-                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationTVItemID4, "Error"), new[] { "TVItemID4" });
-                    }
                 }
             }
 

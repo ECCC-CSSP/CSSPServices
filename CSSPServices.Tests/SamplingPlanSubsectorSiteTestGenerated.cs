@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -121,8 +122,6 @@ namespace CSSPServices.Tests
             samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlanSubsector, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorID, samplingPlanSubsectorSite.SamplingPlanSubsectorID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // SamplingPlanSubsectorID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -136,7 +135,11 @@ namespace CSSPServices.Tests
             samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, samplingPlanSubsectorSite.MWQMSiteTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // MWQMSiteTVItemID will automatically be initialized at 0 --> not null
+            samplingPlanSubsectorSite = null;
+            samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+            samplingPlanSubsectorSite.MWQMSiteTVItemID = 1;
+            samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, "MWQMSite"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -144,16 +147,12 @@ namespace CSSPServices.Tests
             // samplingPlanSubsectorSite.IsDuplicate   (Boolean)
             // -----------------------------------
 
-            // IsDuplicate will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPAfter(Year = 1980)]
             // samplingPlanSubsectorSite.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -168,7 +167,11 @@ namespace CSSPServices.Tests
             samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, samplingPlanSubsectorSite.LastUpdateContactTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            samplingPlanSubsectorSite = null;
+            samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+            samplingPlanSubsectorSite.LastUpdateContactTVItemID = 1;
+            samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, "Contact"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

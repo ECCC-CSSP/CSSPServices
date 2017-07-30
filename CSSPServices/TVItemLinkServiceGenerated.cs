@@ -56,13 +56,6 @@ namespace CSSPServices
             {
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLinkFromTVItemID, tvItemLink.FromTVItemID.ToString()), new[] { "FromTVItemID" });
             }
-            else
-            {
-                if (TVItemFromTVItemID.TVType != TVTypeEnum.Error)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemLinkFromTVItemID, "Error"), new[] { "FromTVItemID" });
-                }
-            }
 
             //ToTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
@@ -71,13 +64,6 @@ namespace CSSPServices
             if (TVItemToTVItemID == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLinkToTVItemID, tvItemLink.ToTVItemID.ToString()), new[] { "ToTVItemID" });
-            }
-            else
-            {
-                if (TVItemToTVItemID.TVType != TVTypeEnum.Error)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemLinkToTVItemID, "Error"), new[] { "ToTVItemID" });
-                }
             }
 
             retStr = enums.TVTypeOK(tvItemLink.FromTVType);
@@ -138,13 +124,6 @@ namespace CSSPServices
                 if (TVItemParentTVItemLinkID == null)
                 {
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLinkParentTVItemLinkID, tvItemLink.ParentTVItemLinkID.ToString()), new[] { "ParentTVItemLinkID" });
-                }
-                else
-                {
-                    if (TVItemParentTVItemLinkID.TVType != TVTypeEnum.Error)
-                    {
-                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemLinkParentTVItemLinkID, "Error"), new[] { "ParentTVItemLinkID" });
-                    }
                 }
             }
 

@@ -133,7 +133,7 @@ namespace CSSPServices
                 retStr = enums.ContactTitleOK(contact.ContactTitle);
                 if (contact.ContactTitle == ContactTitleEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.ContactContactTitle });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactContactTitle), new[] { "ContactTitle" });
                 }
             }
 

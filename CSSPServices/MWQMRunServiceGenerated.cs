@@ -146,7 +146,7 @@ namespace CSSPServices
                 retStr = enums.BeaufortScaleOK(mwqmRun.SeaStateAtStart_BeaufortScale);
                 if (mwqmRun.SeaStateAtStart_BeaufortScale == BeaufortScaleEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.MWQMRunSeaStateAtStart_BeaufortScale });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunSeaStateAtStart_BeaufortScale), new[] { "SeaStateAtStart_BeaufortScale" });
                 }
             }
 
@@ -155,7 +155,7 @@ namespace CSSPServices
                 retStr = enums.BeaufortScaleOK(mwqmRun.SeaStateAtEnd_BeaufortScale);
                 if (mwqmRun.SeaStateAtEnd_BeaufortScale == BeaufortScaleEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.MWQMRunSeaStateAtEnd_BeaufortScale });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunSeaStateAtEnd_BeaufortScale), new[] { "SeaStateAtEnd_BeaufortScale" });
                 }
             }
 
@@ -193,7 +193,7 @@ namespace CSSPServices
                 retStr = enums.AnalyzeMethodOK(mwqmRun.AnalyzeMethod);
                 if (mwqmRun.AnalyzeMethod == AnalyzeMethodEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.MWQMRunAnalyzeMethod });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunAnalyzeMethod), new[] { "AnalyzeMethod" });
                 }
             }
 
@@ -202,7 +202,7 @@ namespace CSSPServices
                 retStr = enums.SampleMatrixOK(mwqmRun.SampleMatrix);
                 if (mwqmRun.SampleMatrix == SampleMatrixEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.MWQMRunSampleMatrix });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunSampleMatrix), new[] { "SampleMatrix" });
                 }
             }
 
@@ -211,7 +211,7 @@ namespace CSSPServices
                 retStr = enums.LaboratoryOK(mwqmRun.Laboratory);
                 if (mwqmRun.Laboratory == LaboratoryEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.MWQMRunLaboratory });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLaboratory), new[] { "Laboratory" });
                 }
             }
 
@@ -220,7 +220,7 @@ namespace CSSPServices
                 retStr = enums.SampleStatusOK(mwqmRun.SampleStatus);
                 if (mwqmRun.SampleStatus == SampleStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.MWQMRunSampleStatus });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunSampleStatus), new[] { "SampleStatus" });
                 }
             }
 
@@ -266,7 +266,7 @@ namespace CSSPServices
                 retStr = enums.TideTextOK(mwqmRun.Tide_Start);
                 if (mwqmRun.Tide_Start == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.MWQMRunTide_Start });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunTide_Start), new[] { "Tide_Start" });
                 }
             }
 
@@ -275,7 +275,7 @@ namespace CSSPServices
                 retStr = enums.TideTextOK(mwqmRun.Tide_End);
                 if (mwqmRun.Tide_End == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
-                    yield return new ValidationResult(retStr, new[] { ModelsRes.MWQMRunTide_End });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunTide_End), new[] { "Tide_End" });
                 }
             }
 

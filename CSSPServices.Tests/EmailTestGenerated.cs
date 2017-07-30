@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -121,7 +122,11 @@ namespace CSSPServices.Tests
             emailService.Add(email);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailEmailTVItemID, email.EmailTVItemID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // EmailTVItemID will automatically be initialized at 0 --> not null
+            email = null;
+            email = GetFilledRandomEmail("");
+            email.EmailTVItemID = 1;
+            emailService.Add(email);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailEmailTVItemID, "Email"), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -137,26 +142,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, email.ValidationResults.Count());
             Assert.IsTrue(email.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailAddress)).Any());
             Assert.AreEqual(null, email.EmailAddress);
-            Assert.AreEqual(0, emailService.GetRead().Count());
+            Assert.AreEqual(count, emailService.GetRead().Count());
 
             email = null;
             email = GetFilledRandomEmail("");
-            // EmailAddress has MinLength [empty] and MaxLength [255]. At Max should return true and no errors
-            string emailEmailAddressMin = GetRandomEmail();
-            email.EmailAddress = emailEmailAddressMin;
-            Assert.AreEqual(true, emailService.Add(email));
-            Assert.AreEqual(0, email.ValidationResults.Count());
-            Assert.AreEqual(emailEmailAddressMin, email.EmailAddress);
-            Assert.AreEqual(true, emailService.Delete(email));
-            Assert.AreEqual(count, emailService.GetRead().Count());
-
-            // EmailAddress has MinLength [empty] and MaxLength [255]. At Max - 1 should return true and no errors
-            emailEmailAddressMin = GetRandomEmail();
-            email.EmailAddress = emailEmailAddressMin;
-            Assert.AreEqual(true, emailService.Add(email));
-            Assert.AreEqual(0, email.ValidationResults.Count());
-            Assert.AreEqual(emailEmailAddressMin, email.EmailAddress);
-            Assert.AreEqual(true, emailService.Delete(email));
+            email.EmailAddress = GetRandomString("", 256);
+            Assert.AreEqual(false, emailService.Add(email));
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailAddress, "255"), email.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, emailService.GetRead().Count());
 
             // -----------------------------------
@@ -165,7 +157,11 @@ namespace CSSPServices.Tests
             // email.EmailType   (EmailTypeEnum)
             // -----------------------------------
 
-            // EmailType will automatically be initialized at 0 --> not null
+            email = null;
+            email = GetFilledRandomEmail("");
+            email.EmailType = (EmailTypeEnum)1000000;
+            emailService.Add(email);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailType), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -173,8 +169,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // email.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -189,7 +183,11 @@ namespace CSSPServices.Tests
             emailService.Add(email);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailLastUpdateContactTVItemID, email.LastUpdateContactTVItemID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            email = null;
+            email = GetFilledRandomEmail("");
+            email.LastUpdateContactTVItemID = 1;
+            emailService.Add(email);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailLastUpdateContactTVItemID, "Contact"), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

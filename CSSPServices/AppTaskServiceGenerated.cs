@@ -56,13 +56,6 @@ namespace CSSPServices
             {
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID, appTask.TVItemID.ToString()), new[] { "TVItemID" });
             }
-            else
-            {
-                if (TVItemTVItemID.TVType != TVTypeEnum.Error)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskTVItemID, "Error"), new[] { "TVItemID" });
-                }
-            }
 
             //TVItemID2 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
@@ -71,13 +64,6 @@ namespace CSSPServices
             if (TVItemTVItemID2 == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID2, appTask.TVItemID2.ToString()), new[] { "TVItemID2" });
-            }
-            else
-            {
-                if (TVItemTVItemID2.TVType != TVTypeEnum.Error)
-                {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskTVItemID2, "Error"), new[] { "TVItemID2" });
-                }
             }
 
             retStr = enums.AppTaskCommandOK(appTask.AppTaskCommand);

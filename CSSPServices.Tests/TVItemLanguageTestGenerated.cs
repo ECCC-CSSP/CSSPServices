@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -122,8 +123,6 @@ namespace CSSPServices.Tests
             tvItemLanguageService.Add(tvItemLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLanguageTVItemID, tvItemLanguage.TVItemID.ToString()), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // TVItemID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -131,7 +130,11 @@ namespace CSSPServices.Tests
             // tvItemLanguage.Language   (LanguageEnum)
             // -----------------------------------
 
-            // Language will automatically be initialized at 0 --> not null
+            tvItemLanguage = null;
+            tvItemLanguage = GetFilledRandomTVItemLanguage("");
+            tvItemLanguage.Language = (LanguageEnum)1000000;
+            tvItemLanguageService.Add(tvItemLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageLanguage), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -146,34 +149,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, tvItemLanguage.ValidationResults.Count());
             Assert.IsTrue(tvItemLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageTVText)).Any());
             Assert.AreEqual(null, tvItemLanguage.TVText);
-            Assert.AreEqual(0, tvItemLanguageService.GetRead().Count());
+            Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
 
             tvItemLanguage = null;
             tvItemLanguage = GetFilledRandomTVItemLanguage("");
-            // TVText has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
-            string tvItemLanguageTVTextMin = GetRandomString("", 200);
-            tvItemLanguage.TVText = tvItemLanguageTVTextMin;
-            Assert.AreEqual(true, tvItemLanguageService.Add(tvItemLanguage));
-            Assert.AreEqual(0, tvItemLanguage.ValidationResults.Count());
-            Assert.AreEqual(tvItemLanguageTVTextMin, tvItemLanguage.TVText);
-            Assert.AreEqual(true, tvItemLanguageService.Delete(tvItemLanguage));
-            Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
-
-            // TVText has MinLength [empty] and MaxLength [200]. At Max - 1 should return true and no errors
-            tvItemLanguageTVTextMin = GetRandomString("", 199);
-            tvItemLanguage.TVText = tvItemLanguageTVTextMin;
-            Assert.AreEqual(true, tvItemLanguageService.Add(tvItemLanguage));
-            Assert.AreEqual(0, tvItemLanguage.ValidationResults.Count());
-            Assert.AreEqual(tvItemLanguageTVTextMin, tvItemLanguage.TVText);
-            Assert.AreEqual(true, tvItemLanguageService.Delete(tvItemLanguage));
-            Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
-
-            // TVText has MinLength [empty] and MaxLength [200]. At Max + 1 should return false with one error
-            tvItemLanguageTVTextMin = GetRandomString("", 201);
-            tvItemLanguage.TVText = tvItemLanguageTVTextMin;
+            tvItemLanguage.TVText = GetRandomString("", 201);
             Assert.AreEqual(false, tvItemLanguageService.Add(tvItemLanguage));
-            Assert.IsTrue(tvItemLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLanguageTVText, "200")).Any());
-            Assert.AreEqual(tvItemLanguageTVTextMin, tvItemLanguage.TVText);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLanguageTVText, "200"), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
 
             // -----------------------------------
@@ -182,7 +164,11 @@ namespace CSSPServices.Tests
             // tvItemLanguage.TranslationStatus   (TranslationStatusEnum)
             // -----------------------------------
 
-            // TranslationStatus will automatically be initialized at 0 --> not null
+            tvItemLanguage = null;
+            tvItemLanguage = GetFilledRandomTVItemLanguage("");
+            tvItemLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
+            tvItemLanguageService.Add(tvItemLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageTranslationStatus), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -190,8 +176,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // tvItemLanguage.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -206,7 +190,11 @@ namespace CSSPServices.Tests
             tvItemLanguageService.Add(tvItemLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLanguageLastUpdateContactTVItemID, tvItemLanguage.LastUpdateContactTVItemID.ToString()), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            tvItemLanguage = null;
+            tvItemLanguage = GetFilledRandomTVItemLanguage("");
+            tvItemLanguage.LastUpdateContactTVItemID = 1;
+            tvItemLanguageService.Add(tvItemLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemLanguageLastUpdateContactTVItemID, "Contact"), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

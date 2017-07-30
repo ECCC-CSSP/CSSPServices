@@ -92,13 +92,6 @@ namespace CSSPServices
                 {
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemParentID, tvItem.ParentID.ToString()), new[] { "ParentID" });
                 }
-                else
-                {
-                    if (TVItemParentID.TVType != TVTypeEnum.Error)
-                    {
-                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemParentID, "Error"), new[] { "ParentID" });
-                    }
-                }
             }
 
             //IsActive (bool) is required but no testing needed 

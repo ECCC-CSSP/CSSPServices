@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -121,7 +122,11 @@ namespace CSSPServices.Tests
             tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVTypeUserAuthorizationContactTVItemID, tvTypeUserAuthorization.ContactTVItemID.ToString()), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // ContactTVItemID will automatically be initialized at 0 --> not null
+            tvTypeUserAuthorization = null;
+            tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+            tvTypeUserAuthorization.ContactTVItemID = 1;
+            tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVTypeUserAuthorizationContactTVItemID, "Contact"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -130,7 +135,11 @@ namespace CSSPServices.Tests
             // tvTypeUserAuthorization.TVType   (TVTypeEnum)
             // -----------------------------------
 
-            // TVType will automatically be initialized at 0 --> not null
+            tvTypeUserAuthorization = null;
+            tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+            tvTypeUserAuthorization.TVType = (TVTypeEnum)1000000;
+            tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVType), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -139,7 +148,11 @@ namespace CSSPServices.Tests
             // tvTypeUserAuthorization.TVAuth   (TVAuthEnum)
             // -----------------------------------
 
-            // TVAuth will automatically be initialized at 0 --> not null
+            tvTypeUserAuthorization = null;
+            tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+            tvTypeUserAuthorization.TVAuth = (TVAuthEnum)1000000;
+            tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVAuth), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -147,8 +160,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // tvTypeUserAuthorization.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -163,7 +174,11 @@ namespace CSSPServices.Tests
             tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVItemID, tvTypeUserAuthorization.LastUpdateContactTVItemID.ToString()), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            tvTypeUserAuthorization = null;
+            tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+            tvTypeUserAuthorization.LastUpdateContactTVItemID = 1;
+            tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVItemID, "Contact"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

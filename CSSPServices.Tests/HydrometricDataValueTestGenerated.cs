@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -124,8 +125,6 @@ namespace CSSPServices.Tests
             hydrometricDataValueService.Add(hydrometricDataValue);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricSite, ModelsRes.HydrometricDataValueHydrometricSiteID, hydrometricDataValue.HydrometricSiteID.ToString()), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // HydrometricSiteID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -133,15 +132,11 @@ namespace CSSPServices.Tests
             // hydrometricDataValue.DateTime_Local   (DateTime)
             // -----------------------------------
 
-            // DateTime_Local will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
             // hydrometricDataValue.Keep   (Boolean)
             // -----------------------------------
-
-            // Keep will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -150,7 +145,11 @@ namespace CSSPServices.Tests
             // hydrometricDataValue.StorageDataType   (StorageDataTypeEnum)
             // -----------------------------------
 
-            // StorageDataType will automatically be initialized at 0 --> not null
+            hydrometricDataValue = null;
+            hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+            hydrometricDataValue.StorageDataType = (StorageDataTypeEnum)1000000;
+            hydrometricDataValueService.Add(hydrometricDataValue);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricDataValueStorageDataType), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -163,45 +162,15 @@ namespace CSSPServices.Tests
 
             hydrometricDataValue = null;
             hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-            // Flow_m3_s has Min [0.0D] and Max [10000.0D]. At Min should return true and no errors
-            hydrometricDataValue.Flow_m3_s = 0.0D;
-            Assert.AreEqual(true, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValue.ValidationResults.Count());
-            Assert.AreEqual(0.0D, hydrometricDataValue.Flow_m3_s);
-            Assert.AreEqual(true, hydrometricDataValueService.Delete(hydrometricDataValue));
-            Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
-            // Flow_m3_s has Min [0.0D] and Max [10000.0D]. At Min + 1 should return true and no errors
-            hydrometricDataValue.Flow_m3_s = 1.0D;
-            Assert.AreEqual(true, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValue.ValidationResults.Count());
-            Assert.AreEqual(1.0D, hydrometricDataValue.Flow_m3_s);
-            Assert.AreEqual(true, hydrometricDataValueService.Delete(hydrometricDataValue));
-            Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
-            // Flow_m3_s has Min [0.0D] and Max [10000.0D]. At Min - 1 should return false with one error
             hydrometricDataValue.Flow_m3_s = -1.0D;
             Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.IsTrue(hydrometricDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricDataValueFlow_m3_s, "0", "10000")).Any());
-            Assert.AreEqual(-1.0D, hydrometricDataValue.Flow_m3_s);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricDataValueFlow_m3_s, "0", "10000"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
-            // Flow_m3_s has Min [0.0D] and Max [10000.0D]. At Max should return true and no errors
-            hydrometricDataValue.Flow_m3_s = 10000.0D;
-            Assert.AreEqual(true, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValue.ValidationResults.Count());
-            Assert.AreEqual(10000.0D, hydrometricDataValue.Flow_m3_s);
-            Assert.AreEqual(true, hydrometricDataValueService.Delete(hydrometricDataValue));
-            Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
-            // Flow_m3_s has Min [0.0D] and Max [10000.0D]. At Max - 1 should return true and no errors
-            hydrometricDataValue.Flow_m3_s = 9999.0D;
-            Assert.AreEqual(true, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.AreEqual(0, hydrometricDataValue.ValidationResults.Count());
-            Assert.AreEqual(9999.0D, hydrometricDataValue.Flow_m3_s);
-            Assert.AreEqual(true, hydrometricDataValueService.Delete(hydrometricDataValue));
-            Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
-            // Flow_m3_s has Min [0.0D] and Max [10000.0D]. At Max + 1 should return false with one error
+            hydrometricDataValue = null;
+            hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
             hydrometricDataValue.Flow_m3_s = 10001.0D;
             Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
-            Assert.IsTrue(hydrometricDataValue.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricDataValueFlow_m3_s, "0", "10000")).Any());
-            Assert.AreEqual(10001.0D, hydrometricDataValue.Flow_m3_s);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricDataValueFlow_m3_s, "0", "10000"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
 
             // -----------------------------------
@@ -216,8 +185,6 @@ namespace CSSPServices.Tests
             // hydrometricDataValue.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
 
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -231,7 +198,11 @@ namespace CSSPServices.Tests
             hydrometricDataValueService.Add(hydrometricDataValue);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.HydrometricDataValueLastUpdateContactTVItemID, hydrometricDataValue.LastUpdateContactTVItemID.ToString()), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            hydrometricDataValue = null;
+            hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+            hydrometricDataValue.LastUpdateContactTVItemID = 1;
+            hydrometricDataValueService.Add(hydrometricDataValue);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.HydrometricDataValueLastUpdateContactTVItemID, "Contact"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

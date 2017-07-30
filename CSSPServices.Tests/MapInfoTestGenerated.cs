@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -125,8 +126,6 @@ namespace CSSPServices.Tests
             mapInfoService.Add(mapInfo);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoTVItemID, mapInfo.TVItemID.ToString()), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // TVItemID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -134,7 +133,11 @@ namespace CSSPServices.Tests
             // mapInfo.TVType   (TVTypeEnum)
             // -----------------------------------
 
-            // TVType will automatically be initialized at 0 --> not null
+            mapInfo = null;
+            mapInfo = GetFilledRandomMapInfo("");
+            mapInfo.TVType = (TVTypeEnum)1000000;
+            mapInfoService.Add(mapInfo);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoTVType), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -147,45 +150,15 @@ namespace CSSPServices.Tests
 
             mapInfo = null;
             mapInfo = GetFilledRandomMapInfo("");
-            // LatMin has Min [-90.0D] and Max [90.0D]. At Min should return true and no errors
-            mapInfo.LatMin = -90.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(-90.0D, mapInfo.LatMin);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LatMin has Min [-90.0D] and Max [90.0D]. At Min + 1 should return true and no errors
-            mapInfo.LatMin = -89.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(-89.0D, mapInfo.LatMin);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LatMin has Min [-90.0D] and Max [90.0D]. At Min - 1 should return false with one error
             mapInfo.LatMin = -91.0D;
             Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-            Assert.IsTrue(mapInfo.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMin, "-90", "90")).Any());
-            Assert.AreEqual(-91.0D, mapInfo.LatMin);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMin, "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LatMin has Min [-90.0D] and Max [90.0D]. At Max should return true and no errors
-            mapInfo.LatMin = 90.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(90.0D, mapInfo.LatMin);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LatMin has Min [-90.0D] and Max [90.0D]. At Max - 1 should return true and no errors
-            mapInfo.LatMin = 89.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(89.0D, mapInfo.LatMin);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LatMin has Min [-90.0D] and Max [90.0D]. At Max + 1 should return false with one error
+            mapInfo = null;
+            mapInfo = GetFilledRandomMapInfo("");
             mapInfo.LatMin = 91.0D;
             Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-            Assert.IsTrue(mapInfo.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMin, "-90", "90")).Any());
-            Assert.AreEqual(91.0D, mapInfo.LatMin);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMin, "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mapInfoService.GetRead().Count());
 
             // -----------------------------------
@@ -198,45 +171,15 @@ namespace CSSPServices.Tests
 
             mapInfo = null;
             mapInfo = GetFilledRandomMapInfo("");
-            // LatMax has Min [-90.0D] and Max [90.0D]. At Min should return true and no errors
-            mapInfo.LatMax = -90.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(-90.0D, mapInfo.LatMax);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LatMax has Min [-90.0D] and Max [90.0D]. At Min + 1 should return true and no errors
-            mapInfo.LatMax = -89.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(-89.0D, mapInfo.LatMax);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LatMax has Min [-90.0D] and Max [90.0D]. At Min - 1 should return false with one error
             mapInfo.LatMax = -91.0D;
             Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-            Assert.IsTrue(mapInfo.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMax, "-90", "90")).Any());
-            Assert.AreEqual(-91.0D, mapInfo.LatMax);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMax, "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LatMax has Min [-90.0D] and Max [90.0D]. At Max should return true and no errors
-            mapInfo.LatMax = 90.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(90.0D, mapInfo.LatMax);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LatMax has Min [-90.0D] and Max [90.0D]. At Max - 1 should return true and no errors
-            mapInfo.LatMax = 89.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(89.0D, mapInfo.LatMax);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LatMax has Min [-90.0D] and Max [90.0D]. At Max + 1 should return false with one error
+            mapInfo = null;
+            mapInfo = GetFilledRandomMapInfo("");
             mapInfo.LatMax = 91.0D;
             Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-            Assert.IsTrue(mapInfo.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMax, "-90", "90")).Any());
-            Assert.AreEqual(91.0D, mapInfo.LatMax);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMax, "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mapInfoService.GetRead().Count());
 
             // -----------------------------------
@@ -249,45 +192,15 @@ namespace CSSPServices.Tests
 
             mapInfo = null;
             mapInfo = GetFilledRandomMapInfo("");
-            // LngMin has Min [-180.0D] and Max [180.0D]. At Min should return true and no errors
-            mapInfo.LngMin = -180.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(-180.0D, mapInfo.LngMin);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LngMin has Min [-180.0D] and Max [180.0D]. At Min + 1 should return true and no errors
-            mapInfo.LngMin = -179.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(-179.0D, mapInfo.LngMin);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LngMin has Min [-180.0D] and Max [180.0D]. At Min - 1 should return false with one error
             mapInfo.LngMin = -181.0D;
             Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-            Assert.IsTrue(mapInfo.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMin, "-180", "180")).Any());
-            Assert.AreEqual(-181.0D, mapInfo.LngMin);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMin, "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LngMin has Min [-180.0D] and Max [180.0D]. At Max should return true and no errors
-            mapInfo.LngMin = 180.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(180.0D, mapInfo.LngMin);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LngMin has Min [-180.0D] and Max [180.0D]. At Max - 1 should return true and no errors
-            mapInfo.LngMin = 179.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(179.0D, mapInfo.LngMin);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LngMin has Min [-180.0D] and Max [180.0D]. At Max + 1 should return false with one error
+            mapInfo = null;
+            mapInfo = GetFilledRandomMapInfo("");
             mapInfo.LngMin = 181.0D;
             Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-            Assert.IsTrue(mapInfo.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMin, "-180", "180")).Any());
-            Assert.AreEqual(181.0D, mapInfo.LngMin);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMin, "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mapInfoService.GetRead().Count());
 
             // -----------------------------------
@@ -300,45 +213,15 @@ namespace CSSPServices.Tests
 
             mapInfo = null;
             mapInfo = GetFilledRandomMapInfo("");
-            // LngMax has Min [-180.0D] and Max [180.0D]. At Min should return true and no errors
-            mapInfo.LngMax = -180.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(-180.0D, mapInfo.LngMax);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LngMax has Min [-180.0D] and Max [180.0D]. At Min + 1 should return true and no errors
-            mapInfo.LngMax = -179.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(-179.0D, mapInfo.LngMax);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LngMax has Min [-180.0D] and Max [180.0D]. At Min - 1 should return false with one error
             mapInfo.LngMax = -181.0D;
             Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-            Assert.IsTrue(mapInfo.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMax, "-180", "180")).Any());
-            Assert.AreEqual(-181.0D, mapInfo.LngMax);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMax, "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LngMax has Min [-180.0D] and Max [180.0D]. At Max should return true and no errors
-            mapInfo.LngMax = 180.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(180.0D, mapInfo.LngMax);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LngMax has Min [-180.0D] and Max [180.0D]. At Max - 1 should return true and no errors
-            mapInfo.LngMax = 179.0D;
-            Assert.AreEqual(true, mapInfoService.Add(mapInfo));
-            Assert.AreEqual(0, mapInfo.ValidationResults.Count());
-            Assert.AreEqual(179.0D, mapInfo.LngMax);
-            Assert.AreEqual(true, mapInfoService.Delete(mapInfo));
-            Assert.AreEqual(count, mapInfoService.GetRead().Count());
-            // LngMax has Min [-180.0D] and Max [180.0D]. At Max + 1 should return false with one error
+            mapInfo = null;
+            mapInfo = GetFilledRandomMapInfo("");
             mapInfo.LngMax = 181.0D;
             Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-            Assert.IsTrue(mapInfo.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMax, "-180", "180")).Any());
-            Assert.AreEqual(181.0D, mapInfo.LngMax);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMax, "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mapInfoService.GetRead().Count());
 
             // -----------------------------------
@@ -347,7 +230,11 @@ namespace CSSPServices.Tests
             // mapInfo.MapInfoDrawType   (MapInfoDrawTypeEnum)
             // -----------------------------------
 
-            // MapInfoDrawType will automatically be initialized at 0 --> not null
+            mapInfo = null;
+            mapInfo = GetFilledRandomMapInfo("");
+            mapInfo.MapInfoDrawType = (MapInfoDrawTypeEnum)1000000;
+            mapInfoService.Add(mapInfo);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoDrawType), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -355,8 +242,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // mapInfo.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -371,7 +256,11 @@ namespace CSSPServices.Tests
             mapInfoService.Add(mapInfo);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoLastUpdateContactTVItemID, mapInfo.LastUpdateContactTVItemID.ToString()), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            mapInfo = null;
+            mapInfo = GetFilledRandomMapInfo("");
+            mapInfo.LastUpdateContactTVItemID = 1;
+            mapInfoService.Add(mapInfo);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoLastUpdateContactTVItemID, "Contact"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

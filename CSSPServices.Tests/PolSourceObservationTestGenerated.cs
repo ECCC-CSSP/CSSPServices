@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -122,16 +123,12 @@ namespace CSSPServices.Tests
             polSourceObservationService.Add(polSourceObservation);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceSite, ModelsRes.PolSourceObservationPolSourceSiteID, polSourceObservation.PolSourceSiteID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // PolSourceSiteID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPAfter(Year = 1980)]
             // polSourceObservation.ObservationDate_Local   (DateTime)
             // -----------------------------------
-
-            // ObservationDate_Local will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -146,7 +143,11 @@ namespace CSSPServices.Tests
             polSourceObservationService.Add(polSourceObservation);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationContactTVItemID, polSourceObservation.ContactTVItemID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // ContactTVItemID will automatically be initialized at 0 --> not null
+            polSourceObservation = null;
+            polSourceObservation = GetFilledRandomPolSourceObservation("");
+            polSourceObservation.ContactTVItemID = 1;
+            polSourceObservationService.Add(polSourceObservation);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationContactTVItemID, "Contact"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -160,7 +161,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, polSourceObservation.ValidationResults.Count());
             Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationObservation_ToBeDeleted)).Any());
             Assert.AreEqual(null, polSourceObservation.Observation_ToBeDeleted);
-            Assert.AreEqual(0, polSourceObservationService.GetRead().Count());
+            Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
 
 
             // -----------------------------------
@@ -168,8 +169,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // polSourceObservation.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -184,7 +183,11 @@ namespace CSSPServices.Tests
             polSourceObservationService.Add(polSourceObservation);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, polSourceObservation.LastUpdateContactTVItemID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            polSourceObservation = null;
+            polSourceObservation = GetFilledRandomPolSourceObservation("");
+            polSourceObservation.LastUpdateContactTVItemID = 1;
+            polSourceObservationService.Add(polSourceObservation);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, "Contact"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

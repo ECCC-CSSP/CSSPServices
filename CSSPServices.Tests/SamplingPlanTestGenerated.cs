@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -132,34 +133,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
             Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanName)).Any());
             Assert.AreEqual(null, samplingPlan.SamplingPlanName);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
+            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("");
-            // SamplingPlanName has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
-            string samplingPlanSamplingPlanNameMin = GetRandomString("", 200);
-            samplingPlan.SamplingPlanName = samplingPlanSamplingPlanNameMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanSamplingPlanNameMin, samplingPlan.SamplingPlanName);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-            // SamplingPlanName has MinLength [empty] and MaxLength [200]. At Max - 1 should return true and no errors
-            samplingPlanSamplingPlanNameMin = GetRandomString("", 199);
-            samplingPlan.SamplingPlanName = samplingPlanSamplingPlanNameMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanSamplingPlanNameMin, samplingPlan.SamplingPlanName);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-            // SamplingPlanName has MinLength [empty] and MaxLength [200]. At Max + 1 should return false with one error
-            samplingPlanSamplingPlanNameMin = GetRandomString("", 201);
-            samplingPlan.SamplingPlanName = samplingPlanSamplingPlanNameMin;
+            samplingPlan.SamplingPlanName = GetRandomString("", 201);
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanName, "200")).Any());
-            Assert.AreEqual(samplingPlanSamplingPlanNameMin, samplingPlan.SamplingPlanName);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanName, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
             // -----------------------------------
@@ -174,34 +154,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
             Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanForGroupName)).Any());
             Assert.AreEqual(null, samplingPlan.ForGroupName);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
+            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("");
-            // ForGroupName has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
-            string samplingPlanForGroupNameMin = GetRandomString("", 100);
-            samplingPlan.ForGroupName = samplingPlanForGroupNameMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanForGroupNameMin, samplingPlan.ForGroupName);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-            // ForGroupName has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
-            samplingPlanForGroupNameMin = GetRandomString("", 99);
-            samplingPlan.ForGroupName = samplingPlanForGroupNameMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanForGroupNameMin, samplingPlan.ForGroupName);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-            // ForGroupName has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
-            samplingPlanForGroupNameMin = GetRandomString("", 101);
-            samplingPlan.ForGroupName = samplingPlanForGroupNameMin;
+            samplingPlan.ForGroupName = GetRandomString("", 101);
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanForGroupName, "100")).Any());
-            Assert.AreEqual(samplingPlanForGroupNameMin, samplingPlan.ForGroupName);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanForGroupName, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
             // -----------------------------------
@@ -210,7 +169,11 @@ namespace CSSPServices.Tests
             // samplingPlan.SampleType   (SampleTypeEnum)
             // -----------------------------------
 
-            // SampleType will automatically be initialized at 0 --> not null
+            samplingPlan = null;
+            samplingPlan = GetFilledRandomSamplingPlan("");
+            samplingPlan.SampleType = (SampleTypeEnum)1000000;
+            samplingPlanService.Add(samplingPlan);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSampleType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -219,7 +182,11 @@ namespace CSSPServices.Tests
             // samplingPlan.SamplingPlanType   (SamplingPlanTypeEnum)
             // -----------------------------------
 
-            // SamplingPlanType will automatically be initialized at 0 --> not null
+            samplingPlan = null;
+            samplingPlan = GetFilledRandomSamplingPlan("");
+            samplingPlan.SamplingPlanType = (SamplingPlanTypeEnum)1000000;
+            samplingPlanService.Add(samplingPlan);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -228,7 +195,11 @@ namespace CSSPServices.Tests
             // samplingPlan.LabSheetType   (LabSheetTypeEnum)
             // -----------------------------------
 
-            // LabSheetType will automatically be initialized at 0 --> not null
+            samplingPlan = null;
+            samplingPlan = GetFilledRandomSamplingPlan("");
+            samplingPlan.LabSheetType = (LabSheetTypeEnum)1000000;
+            samplingPlanService.Add(samplingPlan);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanLabSheetType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -243,7 +214,11 @@ namespace CSSPServices.Tests
             samplingPlanService.Add(samplingPlan);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanProvinceTVItemID, samplingPlan.ProvinceTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // ProvinceTVItemID will automatically be initialized at 0 --> not null
+            samplingPlan = null;
+            samplingPlan = GetFilledRandomSamplingPlan("");
+            samplingPlan.ProvinceTVItemID = 1;
+            samplingPlanService.Add(samplingPlan);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanProvinceTVItemID, "Province"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -258,7 +233,11 @@ namespace CSSPServices.Tests
             samplingPlanService.Add(samplingPlan);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanCreatorTVItemID, samplingPlan.CreatorTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // CreatorTVItemID will automatically be initialized at 0 --> not null
+            samplingPlan = null;
+            samplingPlan = GetFilledRandomSamplingPlan("");
+            samplingPlan.CreatorTVItemID = 1;
+            samplingPlanService.Add(samplingPlan);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanCreatorTVItemID, "Contact"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -267,49 +246,17 @@ namespace CSSPServices.Tests
             // samplingPlan.Year   (Int32)
             // -----------------------------------
 
-            // Year will automatically be initialized at 0 --> not null
-
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("");
-            // Year has Min [2000] and Max [2050]. At Min should return true and no errors
-            samplingPlan.Year = 2000;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(2000, samplingPlan.Year);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // Year has Min [2000] and Max [2050]. At Min + 1 should return true and no errors
-            samplingPlan.Year = 2001;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(2001, samplingPlan.Year);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // Year has Min [2000] and Max [2050]. At Min - 1 should return false with one error
             samplingPlan.Year = 1999;
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050")).Any());
-            Assert.AreEqual(1999, samplingPlan.Year);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // Year has Min [2000] and Max [2050]. At Max should return true and no errors
-            samplingPlan.Year = 2050;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(2050, samplingPlan.Year);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // Year has Min [2000] and Max [2050]. At Max - 1 should return true and no errors
-            samplingPlan.Year = 2049;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(2049, samplingPlan.Year);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // Year has Min [2000] and Max [2050]. At Max + 1 should return false with one error
+            samplingPlan = null;
+            samplingPlan = GetFilledRandomSamplingPlan("");
             samplingPlan.Year = 2051;
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050")).Any());
-            Assert.AreEqual(2051, samplingPlan.Year);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
             // -----------------------------------
@@ -324,34 +271,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
             Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanAccessCode)).Any());
             Assert.AreEqual(null, samplingPlan.AccessCode);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
+            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("");
-            // AccessCode has MinLength [empty] and MaxLength [15]. At Max should return true and no errors
-            string samplingPlanAccessCodeMin = GetRandomString("", 15);
-            samplingPlan.AccessCode = samplingPlanAccessCodeMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanAccessCodeMin, samplingPlan.AccessCode);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-            // AccessCode has MinLength [empty] and MaxLength [15]. At Max - 1 should return true and no errors
-            samplingPlanAccessCodeMin = GetRandomString("", 14);
-            samplingPlan.AccessCode = samplingPlanAccessCodeMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanAccessCodeMin, samplingPlan.AccessCode);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-            // AccessCode has MinLength [empty] and MaxLength [15]. At Max + 1 should return false with one error
-            samplingPlanAccessCodeMin = GetRandomString("", 16);
-            samplingPlan.AccessCode = samplingPlanAccessCodeMin;
+            samplingPlan.AccessCode = GetRandomString("", 16);
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanAccessCode, "15")).Any());
-            Assert.AreEqual(samplingPlanAccessCodeMin, samplingPlan.AccessCode);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanAccessCode, "15"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
             // -----------------------------------
@@ -364,45 +290,15 @@ namespace CSSPServices.Tests
 
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("");
-            // DailyDuplicatePrecisionCriteria has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
-            samplingPlan.DailyDuplicatePrecisionCriteria = 0.0D;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(0.0D, samplingPlan.DailyDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // DailyDuplicatePrecisionCriteria has Min [0.0D] and Max [100.0D]. At Min + 1 should return true and no errors
-            samplingPlan.DailyDuplicatePrecisionCriteria = 1.0D;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(1.0D, samplingPlan.DailyDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // DailyDuplicatePrecisionCriteria has Min [0.0D] and Max [100.0D]. At Min - 1 should return false with one error
             samplingPlan.DailyDuplicatePrecisionCriteria = -1.0D;
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100")).Any());
-            Assert.AreEqual(-1.0D, samplingPlan.DailyDuplicatePrecisionCriteria);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // DailyDuplicatePrecisionCriteria has Min [0.0D] and Max [100.0D]. At Max should return true and no errors
-            samplingPlan.DailyDuplicatePrecisionCriteria = 100.0D;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(100.0D, samplingPlan.DailyDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // DailyDuplicatePrecisionCriteria has Min [0.0D] and Max [100.0D]. At Max - 1 should return true and no errors
-            samplingPlan.DailyDuplicatePrecisionCriteria = 99.0D;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(99.0D, samplingPlan.DailyDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // DailyDuplicatePrecisionCriteria has Min [0.0D] and Max [100.0D]. At Max + 1 should return false with one error
+            samplingPlan = null;
+            samplingPlan = GetFilledRandomSamplingPlan("");
             samplingPlan.DailyDuplicatePrecisionCriteria = 101.0D;
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100")).Any());
-            Assert.AreEqual(101.0D, samplingPlan.DailyDuplicatePrecisionCriteria);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
             // -----------------------------------
@@ -415,53 +311,21 @@ namespace CSSPServices.Tests
 
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("");
-            // IntertechDuplicatePrecisionCriteria has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
-            samplingPlan.IntertechDuplicatePrecisionCriteria = 0.0D;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(0.0D, samplingPlan.IntertechDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // IntertechDuplicatePrecisionCriteria has Min [0.0D] and Max [100.0D]. At Min + 1 should return true and no errors
-            samplingPlan.IntertechDuplicatePrecisionCriteria = 1.0D;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(1.0D, samplingPlan.IntertechDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // IntertechDuplicatePrecisionCriteria has Min [0.0D] and Max [100.0D]. At Min - 1 should return false with one error
             samplingPlan.IntertechDuplicatePrecisionCriteria = -1.0D;
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100")).Any());
-            Assert.AreEqual(-1.0D, samplingPlan.IntertechDuplicatePrecisionCriteria);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // IntertechDuplicatePrecisionCriteria has Min [0.0D] and Max [100.0D]. At Max should return true and no errors
-            samplingPlan.IntertechDuplicatePrecisionCriteria = 100.0D;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(100.0D, samplingPlan.IntertechDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // IntertechDuplicatePrecisionCriteria has Min [0.0D] and Max [100.0D]. At Max - 1 should return true and no errors
-            samplingPlan.IntertechDuplicatePrecisionCriteria = 99.0D;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(99.0D, samplingPlan.IntertechDuplicatePrecisionCriteria);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-            // IntertechDuplicatePrecisionCriteria has Min [0.0D] and Max [100.0D]. At Max + 1 should return false with one error
+            samplingPlan = null;
+            samplingPlan = GetFilledRandomSamplingPlan("");
             samplingPlan.IntertechDuplicatePrecisionCriteria = 101.0D;
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100")).Any());
-            Assert.AreEqual(101.0D, samplingPlan.IntertechDuplicatePrecisionCriteria);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
             // -----------------------------------
             // Is NOT Nullable
             // samplingPlan.IncludeLaboratoryQAQC   (Boolean)
             // -----------------------------------
-
-            // IncludeLaboratoryQAQC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -476,34 +340,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
             Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanApprovalCode)).Any());
             Assert.AreEqual(null, samplingPlan.ApprovalCode);
-            Assert.AreEqual(0, samplingPlanService.GetRead().Count());
+            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
             samplingPlan = null;
             samplingPlan = GetFilledRandomSamplingPlan("");
-            // ApprovalCode has MinLength [empty] and MaxLength [15]. At Max should return true and no errors
-            string samplingPlanApprovalCodeMin = GetRandomString("", 15);
-            samplingPlan.ApprovalCode = samplingPlanApprovalCodeMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanApprovalCodeMin, samplingPlan.ApprovalCode);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-            // ApprovalCode has MinLength [empty] and MaxLength [15]. At Max - 1 should return true and no errors
-            samplingPlanApprovalCodeMin = GetRandomString("", 14);
-            samplingPlan.ApprovalCode = samplingPlanApprovalCodeMin;
-            Assert.AreEqual(true, samplingPlanService.Add(samplingPlan));
-            Assert.AreEqual(0, samplingPlan.ValidationResults.Count());
-            Assert.AreEqual(samplingPlanApprovalCodeMin, samplingPlan.ApprovalCode);
-            Assert.AreEqual(true, samplingPlanService.Delete(samplingPlan));
-            Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-            // ApprovalCode has MinLength [empty] and MaxLength [15]. At Max + 1 should return false with one error
-            samplingPlanApprovalCodeMin = GetRandomString("", 16);
-            samplingPlan.ApprovalCode = samplingPlanApprovalCodeMin;
+            samplingPlan.ApprovalCode = GetRandomString("", 16);
             Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-            Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanApprovalCode, "15")).Any());
-            Assert.AreEqual(samplingPlanApprovalCodeMin, samplingPlan.ApprovalCode);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanApprovalCode, "15"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
             // -----------------------------------
@@ -518,14 +361,18 @@ namespace CSSPServices.Tests
             samplingPlanService.Add(samplingPlan);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, samplingPlan.SamplingPlanFileTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
+            samplingPlan = null;
+            samplingPlan = GetFilledRandomSamplingPlan("");
+            samplingPlan.SamplingPlanFileTVItemID = 1;
+            samplingPlanService.Add(samplingPlan);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, "File"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPAfter(Year = 1980)]
             // samplingPlan.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -540,7 +387,11 @@ namespace CSSPServices.Tests
             samplingPlanService.Add(samplingPlan);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanLastUpdateContactTVItemID, samplingPlan.LastUpdateContactTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            samplingPlan = null;
+            samplingPlan = GetFilledRandomSamplingPlan("");
+            samplingPlan.LastUpdateContactTVItemID = 1;
+            samplingPlanService.Add(samplingPlan);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanLastUpdateContactTVItemID, "Contact"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

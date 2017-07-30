@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -128,7 +129,11 @@ namespace CSSPServices.Tests
             mikeBoundaryConditionService.Add(mikeBoundaryCondition);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVItemID, mikeBoundaryCondition.MikeBoundaryConditionTVItemID.ToString()), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // MikeBoundaryConditionTVItemID will automatically be initialized at 0 --> not null
+            mikeBoundaryCondition = null;
+            mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
+            mikeBoundaryCondition.MikeBoundaryConditionTVItemID = 1;
+            mikeBoundaryConditionService.Add(mikeBoundaryCondition);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVItemID, "MikeBoundaryConditionMesh"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -143,34 +148,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, mikeBoundaryCondition.ValidationResults.Count());
             Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionCode)).Any());
             Assert.AreEqual(null, mikeBoundaryCondition.MikeBoundaryConditionCode);
-            Assert.AreEqual(0, mikeBoundaryConditionService.GetRead().Count());
+            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-            // MikeBoundaryConditionCode has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
-            string mikeBoundaryConditionMikeBoundaryConditionCodeMin = GetRandomString("", 100);
-            mikeBoundaryCondition.MikeBoundaryConditionCode = mikeBoundaryConditionMikeBoundaryConditionCodeMin;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(mikeBoundaryConditionMikeBoundaryConditionCodeMin, mikeBoundaryCondition.MikeBoundaryConditionCode);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-
-            // MikeBoundaryConditionCode has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
-            mikeBoundaryConditionMikeBoundaryConditionCodeMin = GetRandomString("", 99);
-            mikeBoundaryCondition.MikeBoundaryConditionCode = mikeBoundaryConditionMikeBoundaryConditionCodeMin;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(mikeBoundaryConditionMikeBoundaryConditionCodeMin, mikeBoundaryCondition.MikeBoundaryConditionCode);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-
-            // MikeBoundaryConditionCode has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
-            mikeBoundaryConditionMikeBoundaryConditionCodeMin = GetRandomString("", 101);
-            mikeBoundaryCondition.MikeBoundaryConditionCode = mikeBoundaryConditionMikeBoundaryConditionCodeMin;
+            mikeBoundaryCondition.MikeBoundaryConditionCode = GetRandomString("", 101);
             Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionCode, "100")).Any());
-            Assert.AreEqual(mikeBoundaryConditionMikeBoundaryConditionCodeMin, mikeBoundaryCondition.MikeBoundaryConditionCode);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionCode, "100"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
             // -----------------------------------
@@ -185,34 +169,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, mikeBoundaryCondition.ValidationResults.Count());
             Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionName)).Any());
             Assert.AreEqual(null, mikeBoundaryCondition.MikeBoundaryConditionName);
-            Assert.AreEqual(0, mikeBoundaryConditionService.GetRead().Count());
+            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-            // MikeBoundaryConditionName has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
-            string mikeBoundaryConditionMikeBoundaryConditionNameMin = GetRandomString("", 100);
-            mikeBoundaryCondition.MikeBoundaryConditionName = mikeBoundaryConditionMikeBoundaryConditionNameMin;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(mikeBoundaryConditionMikeBoundaryConditionNameMin, mikeBoundaryCondition.MikeBoundaryConditionName);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-
-            // MikeBoundaryConditionName has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
-            mikeBoundaryConditionMikeBoundaryConditionNameMin = GetRandomString("", 99);
-            mikeBoundaryCondition.MikeBoundaryConditionName = mikeBoundaryConditionMikeBoundaryConditionNameMin;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(mikeBoundaryConditionMikeBoundaryConditionNameMin, mikeBoundaryCondition.MikeBoundaryConditionName);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-
-            // MikeBoundaryConditionName has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
-            mikeBoundaryConditionMikeBoundaryConditionNameMin = GetRandomString("", 101);
-            mikeBoundaryCondition.MikeBoundaryConditionName = mikeBoundaryConditionMikeBoundaryConditionNameMin;
+            mikeBoundaryCondition.MikeBoundaryConditionName = GetRandomString("", 101);
             Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionName, "100")).Any());
-            Assert.AreEqual(mikeBoundaryConditionMikeBoundaryConditionNameMin, mikeBoundaryCondition.MikeBoundaryConditionName);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionName, "100"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
             // -----------------------------------
@@ -225,45 +188,15 @@ namespace CSSPServices.Tests
 
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-            // MikeBoundaryConditionLength_m has Min [1.0D] and Max [100000.0D]. At Min should return true and no errors
-            mikeBoundaryCondition.MikeBoundaryConditionLength_m = 1.0D;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(1.0D, mikeBoundaryCondition.MikeBoundaryConditionLength_m);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-            // MikeBoundaryConditionLength_m has Min [1.0D] and Max [100000.0D]. At Min + 1 should return true and no errors
-            mikeBoundaryCondition.MikeBoundaryConditionLength_m = 2.0D;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(2.0D, mikeBoundaryCondition.MikeBoundaryConditionLength_m);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-            // MikeBoundaryConditionLength_m has Min [1.0D] and Max [100000.0D]. At Min - 1 should return false with one error
             mikeBoundaryCondition.MikeBoundaryConditionLength_m = 0.0D;
             Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLength_m, "1", "100000")).Any());
-            Assert.AreEqual(0.0D, mikeBoundaryCondition.MikeBoundaryConditionLength_m);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLength_m, "1", "100000"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-            // MikeBoundaryConditionLength_m has Min [1.0D] and Max [100000.0D]. At Max should return true and no errors
-            mikeBoundaryCondition.MikeBoundaryConditionLength_m = 100000.0D;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(100000.0D, mikeBoundaryCondition.MikeBoundaryConditionLength_m);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-            // MikeBoundaryConditionLength_m has Min [1.0D] and Max [100000.0D]. At Max - 1 should return true and no errors
-            mikeBoundaryCondition.MikeBoundaryConditionLength_m = 99999.0D;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(99999.0D, mikeBoundaryCondition.MikeBoundaryConditionLength_m);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-            // MikeBoundaryConditionLength_m has Min [1.0D] and Max [100000.0D]. At Max + 1 should return false with one error
+            mikeBoundaryCondition = null;
+            mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
             mikeBoundaryCondition.MikeBoundaryConditionLength_m = 100001.0D;
             Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLength_m, "1", "100000")).Any());
-            Assert.AreEqual(100001.0D, mikeBoundaryCondition.MikeBoundaryConditionLength_m);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLength_m, "1", "100000"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
             // -----------------------------------
@@ -278,34 +211,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, mikeBoundaryCondition.ValidationResults.Count());
             Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionFormat)).Any());
             Assert.AreEqual(null, mikeBoundaryCondition.MikeBoundaryConditionFormat);
-            Assert.AreEqual(0, mikeBoundaryConditionService.GetRead().Count());
+            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-            // MikeBoundaryConditionFormat has MinLength [empty] and MaxLength [100]. At Max should return true and no errors
-            string mikeBoundaryConditionMikeBoundaryConditionFormatMin = GetRandomString("", 100);
-            mikeBoundaryCondition.MikeBoundaryConditionFormat = mikeBoundaryConditionMikeBoundaryConditionFormatMin;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(mikeBoundaryConditionMikeBoundaryConditionFormatMin, mikeBoundaryCondition.MikeBoundaryConditionFormat);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-
-            // MikeBoundaryConditionFormat has MinLength [empty] and MaxLength [100]. At Max - 1 should return true and no errors
-            mikeBoundaryConditionMikeBoundaryConditionFormatMin = GetRandomString("", 99);
-            mikeBoundaryCondition.MikeBoundaryConditionFormat = mikeBoundaryConditionMikeBoundaryConditionFormatMin;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(mikeBoundaryConditionMikeBoundaryConditionFormatMin, mikeBoundaryCondition.MikeBoundaryConditionFormat);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-
-            // MikeBoundaryConditionFormat has MinLength [empty] and MaxLength [100]. At Max + 1 should return false with one error
-            mikeBoundaryConditionMikeBoundaryConditionFormatMin = GetRandomString("", 101);
-            mikeBoundaryCondition.MikeBoundaryConditionFormat = mikeBoundaryConditionMikeBoundaryConditionFormatMin;
+            mikeBoundaryCondition.MikeBoundaryConditionFormat = GetRandomString("", 101);
             Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionFormat, "100")).Any());
-            Assert.AreEqual(mikeBoundaryConditionMikeBoundaryConditionFormatMin, mikeBoundaryCondition.MikeBoundaryConditionFormat);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionFormat, "100"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
             // -----------------------------------
@@ -314,7 +226,11 @@ namespace CSSPServices.Tests
             // mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity   (MikeBoundaryConditionLevelOrVelocityEnum)
             // -----------------------------------
 
-            // MikeBoundaryConditionLevelOrVelocity will automatically be initialized at 0 --> not null
+            mikeBoundaryCondition = null;
+            mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
+            mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity = (MikeBoundaryConditionLevelOrVelocityEnum)1000000;
+            mikeBoundaryConditionService.Add(mikeBoundaryCondition);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLevelOrVelocity), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -323,7 +239,11 @@ namespace CSSPServices.Tests
             // mikeBoundaryCondition.WebTideDataSet   (WebTideDataSetEnum)
             // -----------------------------------
 
-            // WebTideDataSet will automatically be initialized at 0 --> not null
+            mikeBoundaryCondition = null;
+            mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
+            mikeBoundaryCondition.WebTideDataSet = (WebTideDataSetEnum)1000000;
+            mikeBoundaryConditionService.Add(mikeBoundaryCondition);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionWebTideDataSet), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -332,49 +252,17 @@ namespace CSSPServices.Tests
             // mikeBoundaryCondition.NumberOfWebTideNodes   (Int32)
             // -----------------------------------
 
-            // NumberOfWebTideNodes will automatically be initialized at 0 --> not null
-
             mikeBoundaryCondition = null;
             mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
-            // NumberOfWebTideNodes has Min [0] and Max [1000]. At Min should return true and no errors
-            mikeBoundaryCondition.NumberOfWebTideNodes = 0;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(0, mikeBoundaryCondition.NumberOfWebTideNodes);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-            // NumberOfWebTideNodes has Min [0] and Max [1000]. At Min + 1 should return true and no errors
-            mikeBoundaryCondition.NumberOfWebTideNodes = 1;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(1, mikeBoundaryCondition.NumberOfWebTideNodes);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-            // NumberOfWebTideNodes has Min [0] and Max [1000]. At Min - 1 should return false with one error
             mikeBoundaryCondition.NumberOfWebTideNodes = -1;
             Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeBoundaryConditionNumberOfWebTideNodes, "0", "1000")).Any());
-            Assert.AreEqual(-1, mikeBoundaryCondition.NumberOfWebTideNodes);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeBoundaryConditionNumberOfWebTideNodes, "0", "1000"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-            // NumberOfWebTideNodes has Min [0] and Max [1000]. At Max should return true and no errors
-            mikeBoundaryCondition.NumberOfWebTideNodes = 1000;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(1000, mikeBoundaryCondition.NumberOfWebTideNodes);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-            // NumberOfWebTideNodes has Min [0] and Max [1000]. At Max - 1 should return true and no errors
-            mikeBoundaryCondition.NumberOfWebTideNodes = 999;
-            Assert.AreEqual(true, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.AreEqual(0, mikeBoundaryCondition.ValidationResults.Count());
-            Assert.AreEqual(999, mikeBoundaryCondition.NumberOfWebTideNodes);
-            Assert.AreEqual(true, mikeBoundaryConditionService.Delete(mikeBoundaryCondition));
-            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
-            // NumberOfWebTideNodes has Min [0] and Max [1000]. At Max + 1 should return false with one error
+            mikeBoundaryCondition = null;
+            mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
             mikeBoundaryCondition.NumberOfWebTideNodes = 1001;
             Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
-            Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeBoundaryConditionNumberOfWebTideNodes, "0", "1000")).Any());
-            Assert.AreEqual(1001, mikeBoundaryCondition.NumberOfWebTideNodes);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeBoundaryConditionNumberOfWebTideNodes, "0", "1000"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
             // -----------------------------------
@@ -388,7 +276,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, mikeBoundaryCondition.ValidationResults.Count());
             Assert.IsTrue(mikeBoundaryCondition.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionWebTideDataFromStartToEndDate)).Any());
             Assert.AreEqual(null, mikeBoundaryCondition.WebTideDataFromStartToEndDate);
-            Assert.AreEqual(0, mikeBoundaryConditionService.GetRead().Count());
+            Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
 
             // -----------------------------------
@@ -397,7 +285,11 @@ namespace CSSPServices.Tests
             // mikeBoundaryCondition.TVType   (TVTypeEnum)
             // -----------------------------------
 
-            // TVType will automatically be initialized at 0 --> not null
+            mikeBoundaryCondition = null;
+            mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
+            mikeBoundaryCondition.TVType = (TVTypeEnum)1000000;
+            mikeBoundaryConditionService.Add(mikeBoundaryCondition);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionTVType), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -405,8 +297,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // mikeBoundaryCondition.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -421,7 +311,11 @@ namespace CSSPServices.Tests
             mikeBoundaryConditionService.Add(mikeBoundaryCondition);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeBoundaryConditionLastUpdateContactTVItemID, mikeBoundaryCondition.LastUpdateContactTVItemID.ToString()), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            mikeBoundaryCondition = null;
+            mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
+            mikeBoundaryCondition.LastUpdateContactTVItemID = 1;
+            mikeBoundaryConditionService.Add(mikeBoundaryCondition);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeBoundaryConditionLastUpdateContactTVItemID, "Contact"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

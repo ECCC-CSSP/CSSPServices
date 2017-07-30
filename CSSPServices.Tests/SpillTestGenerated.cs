@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -123,7 +124,11 @@ namespace CSSPServices.Tests
             spillService.Add(spill);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillMunicipalityTVItemID, spill.MunicipalityTVItemID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // MunicipalityTVItemID will automatically be initialized at 0 --> not null
+            spill = null;
+            spill = GetFilledRandomSpill("");
+            spill.MunicipalityTVItemID = 1;
+            spillService.Add(spill);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillMunicipalityTVItemID, "Municipality"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -138,14 +143,18 @@ namespace CSSPServices.Tests
             spillService.Add(spill);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillInfrastructureTVItemID, spill.InfrastructureTVItemID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
+            spill = null;
+            spill = GetFilledRandomSpill("");
+            spill.InfrastructureTVItemID = 1;
+            spillService.Add(spill);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillInfrastructureTVItemID, "Infrastructure"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+
 
             // -----------------------------------
             // Is NOT Nullable
             // [CSSPAfter(Year = 1980)]
             // spill.StartDateTime_Local   (DateTime)
             // -----------------------------------
-
-            // StartDateTime_Local will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -166,45 +175,15 @@ namespace CSSPServices.Tests
 
             spill = null;
             spill = GetFilledRandomSpill("");
-            // AverageFlow_m3_day has Min [0.0D] and Max [1000000.0D]. At Min should return true and no errors
-            spill.AverageFlow_m3_day = 0.0D;
-            Assert.AreEqual(true, spillService.Add(spill));
-            Assert.AreEqual(0, spill.ValidationResults.Count());
-            Assert.AreEqual(0.0D, spill.AverageFlow_m3_day);
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(count, spillService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0.0D] and Max [1000000.0D]. At Min + 1 should return true and no errors
-            spill.AverageFlow_m3_day = 1.0D;
-            Assert.AreEqual(true, spillService.Add(spill));
-            Assert.AreEqual(0, spill.ValidationResults.Count());
-            Assert.AreEqual(1.0D, spill.AverageFlow_m3_day);
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(count, spillService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0.0D] and Max [1000000.0D]. At Min - 1 should return false with one error
             spill.AverageFlow_m3_day = -1.0D;
             Assert.AreEqual(false, spillService.Add(spill));
-            Assert.IsTrue(spill.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SpillAverageFlow_m3_day, "0", "1000000")).Any());
-            Assert.AreEqual(-1.0D, spill.AverageFlow_m3_day);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SpillAverageFlow_m3_day, "0", "1000000"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, spillService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0.0D] and Max [1000000.0D]. At Max should return true and no errors
-            spill.AverageFlow_m3_day = 1000000.0D;
-            Assert.AreEqual(true, spillService.Add(spill));
-            Assert.AreEqual(0, spill.ValidationResults.Count());
-            Assert.AreEqual(1000000.0D, spill.AverageFlow_m3_day);
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(count, spillService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0.0D] and Max [1000000.0D]. At Max - 1 should return true and no errors
-            spill.AverageFlow_m3_day = 999999.0D;
-            Assert.AreEqual(true, spillService.Add(spill));
-            Assert.AreEqual(0, spill.ValidationResults.Count());
-            Assert.AreEqual(999999.0D, spill.AverageFlow_m3_day);
-            Assert.AreEqual(true, spillService.Delete(spill));
-            Assert.AreEqual(count, spillService.GetRead().Count());
-            // AverageFlow_m3_day has Min [0.0D] and Max [1000000.0D]. At Max + 1 should return false with one error
+            spill = null;
+            spill = GetFilledRandomSpill("");
             spill.AverageFlow_m3_day = 1000001.0D;
             Assert.AreEqual(false, spillService.Add(spill));
-            Assert.IsTrue(spill.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SpillAverageFlow_m3_day, "0", "1000000")).Any());
-            Assert.AreEqual(1000001.0D, spill.AverageFlow_m3_day);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SpillAverageFlow_m3_day, "0", "1000000"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, spillService.GetRead().Count());
 
             // -----------------------------------
@@ -212,8 +191,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // spill.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -228,7 +205,11 @@ namespace CSSPServices.Tests
             spillService.Add(spill);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillLastUpdateContactTVItemID, spill.LastUpdateContactTVItemID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            spill = null;
+            spill = GetFilledRandomSpill("");
+            spill.LastUpdateContactTVItemID = 1;
+            spillService.Add(spill);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillLastUpdateContactTVItemID, "Contact"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

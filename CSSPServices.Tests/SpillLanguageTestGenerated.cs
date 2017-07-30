@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -122,8 +123,6 @@ namespace CSSPServices.Tests
             spillLanguageService.Add(spillLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Spill, ModelsRes.SpillLanguageSpillID, spillLanguage.SpillID.ToString()), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // SpillID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -131,7 +130,11 @@ namespace CSSPServices.Tests
             // spillLanguage.Language   (LanguageEnum)
             // -----------------------------------
 
-            // Language will automatically be initialized at 0 --> not null
+            spillLanguage = null;
+            spillLanguage = GetFilledRandomSpillLanguage("");
+            spillLanguage.Language = (LanguageEnum)1000000;
+            spillLanguageService.Add(spillLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageLanguage), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -145,7 +148,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, spillLanguage.ValidationResults.Count());
             Assert.IsTrue(spillLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageSpillComment)).Any());
             Assert.AreEqual(null, spillLanguage.SpillComment);
-            Assert.AreEqual(0, spillLanguageService.GetRead().Count());
+            Assert.AreEqual(count, spillLanguageService.GetRead().Count());
 
 
             // -----------------------------------
@@ -154,7 +157,11 @@ namespace CSSPServices.Tests
             // spillLanguage.TranslationStatus   (TranslationStatusEnum)
             // -----------------------------------
 
-            // TranslationStatus will automatically be initialized at 0 --> not null
+            spillLanguage = null;
+            spillLanguage = GetFilledRandomSpillLanguage("");
+            spillLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
+            spillLanguageService.Add(spillLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageTranslationStatus), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -162,8 +169,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // spillLanguage.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -178,7 +183,11 @@ namespace CSSPServices.Tests
             spillLanguageService.Add(spillLanguage);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillLanguageLastUpdateContactTVItemID, spillLanguage.LastUpdateContactTVItemID.ToString()), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            spillLanguage = null;
+            spillLanguage = GetFilledRandomSpillLanguage("");
+            spillLanguage.LastUpdateContactTVItemID = 1;
+            spillLanguageService.Add(spillLanguage);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillLanguageLastUpdateContactTVItemID, "Contact"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -129,7 +130,11 @@ namespace CSSPServices.Tests
             boxModelService.Add(boxModel);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelInfrastructureTVItemID, boxModel.InfrastructureTVItemID.ToString()), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // InfrastructureTVItemID will automatically be initialized at 0 --> not null
+            boxModel = null;
+            boxModel = GetFilledRandomBoxModel("");
+            boxModel.InfrastructureTVItemID = 1;
+            boxModelService.Add(boxModel);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelInfrastructureTVItemID, "Infrastructure"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -142,45 +147,15 @@ namespace CSSPServices.Tests
 
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
-            // Flow_m3_day has Min [0.0D] and Max [10000.0D]. At Min should return true and no errors
-            boxModel.Flow_m3_day = 0.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(0.0D, boxModel.Flow_m3_day);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Flow_m3_day has Min [0.0D] and Max [10000.0D]. At Min + 1 should return true and no errors
-            boxModel.Flow_m3_day = 1.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(1.0D, boxModel.Flow_m3_day);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Flow_m3_day has Min [0.0D] and Max [10000.0D]. At Min - 1 should return false with one error
             boxModel.Flow_m3_day = -1.0D;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlow_m3_day, "0", "10000")).Any());
-            Assert.AreEqual(-1.0D, boxModel.Flow_m3_day);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlow_m3_day, "0", "10000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Flow_m3_day has Min [0.0D] and Max [10000.0D]. At Max should return true and no errors
-            boxModel.Flow_m3_day = 10000.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(10000.0D, boxModel.Flow_m3_day);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Flow_m3_day has Min [0.0D] and Max [10000.0D]. At Max - 1 should return true and no errors
-            boxModel.Flow_m3_day = 9999.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(9999.0D, boxModel.Flow_m3_day);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Flow_m3_day has Min [0.0D] and Max [10000.0D]. At Max + 1 should return false with one error
+            boxModel = null;
+            boxModel = GetFilledRandomBoxModel("");
             boxModel.Flow_m3_day = 10001.0D;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlow_m3_day, "0", "10000")).Any());
-            Assert.AreEqual(10001.0D, boxModel.Flow_m3_day);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlow_m3_day, "0", "10000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
             // -----------------------------------
@@ -193,45 +168,15 @@ namespace CSSPServices.Tests
 
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
-            // Depth_m has Min [0.0D] and Max [1000.0D]. At Min should return true and no errors
-            boxModel.Depth_m = 0.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(0.0D, boxModel.Depth_m);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Depth_m has Min [0.0D] and Max [1000.0D]. At Min + 1 should return true and no errors
-            boxModel.Depth_m = 1.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(1.0D, boxModel.Depth_m);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Depth_m has Min [0.0D] and Max [1000.0D]. At Min - 1 should return false with one error
             boxModel.Depth_m = -1.0D;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDepth_m, "0", "1000")).Any());
-            Assert.AreEqual(-1.0D, boxModel.Depth_m);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDepth_m, "0", "1000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Depth_m has Min [0.0D] and Max [1000.0D]. At Max should return true and no errors
-            boxModel.Depth_m = 1000.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(1000.0D, boxModel.Depth_m);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Depth_m has Min [0.0D] and Max [1000.0D]. At Max - 1 should return true and no errors
-            boxModel.Depth_m = 999.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(999.0D, boxModel.Depth_m);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Depth_m has Min [0.0D] and Max [1000.0D]. At Max + 1 should return false with one error
+            boxModel = null;
+            boxModel = GetFilledRandomBoxModel("");
             boxModel.Depth_m = 1001.0D;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDepth_m, "0", "1000")).Any());
-            Assert.AreEqual(1001.0D, boxModel.Depth_m);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDepth_m, "0", "1000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
             // -----------------------------------
@@ -244,45 +189,15 @@ namespace CSSPServices.Tests
 
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
-            // Temperature_C has Min [-15.0D] and Max [40.0D]. At Min should return true and no errors
-            boxModel.Temperature_C = -15.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(-15.0D, boxModel.Temperature_C);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Temperature_C has Min [-15.0D] and Max [40.0D]. At Min + 1 should return true and no errors
-            boxModel.Temperature_C = -14.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(-14.0D, boxModel.Temperature_C);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Temperature_C has Min [-15.0D] and Max [40.0D]. At Min - 1 should return false with one error
             boxModel.Temperature_C = -16.0D;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelTemperature_C, "-15", "40")).Any());
-            Assert.AreEqual(-16.0D, boxModel.Temperature_C);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelTemperature_C, "-15", "40"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Temperature_C has Min [-15.0D] and Max [40.0D]. At Max should return true and no errors
-            boxModel.Temperature_C = 40.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(40.0D, boxModel.Temperature_C);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Temperature_C has Min [-15.0D] and Max [40.0D]. At Max - 1 should return true and no errors
-            boxModel.Temperature_C = 39.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(39.0D, boxModel.Temperature_C);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Temperature_C has Min [-15.0D] and Max [40.0D]. At Max + 1 should return false with one error
+            boxModel = null;
+            boxModel = GetFilledRandomBoxModel("");
             boxModel.Temperature_C = 41.0D;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelTemperature_C, "-15", "40")).Any());
-            Assert.AreEqual(41.0D, boxModel.Temperature_C);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelTemperature_C, "-15", "40"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
             // -----------------------------------
@@ -291,49 +206,17 @@ namespace CSSPServices.Tests
             // boxModel.Dilution   (Int32)
             // -----------------------------------
 
-            // Dilution will automatically be initialized at 0 --> not null
-
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
-            // Dilution has Min [0] and Max [10000000]. At Min should return true and no errors
-            boxModel.Dilution = 0;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(0, boxModel.Dilution);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Dilution has Min [0] and Max [10000000]. At Min + 1 should return true and no errors
-            boxModel.Dilution = 1;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(1, boxModel.Dilution);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Dilution has Min [0] and Max [10000000]. At Min - 1 should return false with one error
             boxModel.Dilution = -1;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDilution, "0", "10000000")).Any());
-            Assert.AreEqual(-1, boxModel.Dilution);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDilution, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Dilution has Min [0] and Max [10000000]. At Max should return true and no errors
-            boxModel.Dilution = 10000000;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(10000000, boxModel.Dilution);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Dilution has Min [0] and Max [10000000]. At Max - 1 should return true and no errors
-            boxModel.Dilution = 9999999;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(9999999, boxModel.Dilution);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Dilution has Min [0] and Max [10000000]. At Max + 1 should return false with one error
+            boxModel = null;
+            boxModel = GetFilledRandomBoxModel("");
             boxModel.Dilution = 10000001;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDilution, "0", "10000000")).Any());
-            Assert.AreEqual(10000001, boxModel.Dilution);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDilution, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
             // -----------------------------------
@@ -346,45 +229,15 @@ namespace CSSPServices.Tests
 
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
-            // DecayRate_per_day has Min [0.0D] and Max [100.0D]. At Min should return true and no errors
-            boxModel.DecayRate_per_day = 0.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(0.0D, boxModel.DecayRate_per_day);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // DecayRate_per_day has Min [0.0D] and Max [100.0D]. At Min + 1 should return true and no errors
-            boxModel.DecayRate_per_day = 1.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(1.0D, boxModel.DecayRate_per_day);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // DecayRate_per_day has Min [0.0D] and Max [100.0D]. At Min - 1 should return false with one error
             boxModel.DecayRate_per_day = -1.0D;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDecayRate_per_day, "0", "100")).Any());
-            Assert.AreEqual(-1.0D, boxModel.DecayRate_per_day);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDecayRate_per_day, "0", "100"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // DecayRate_per_day has Min [0.0D] and Max [100.0D]. At Max should return true and no errors
-            boxModel.DecayRate_per_day = 100.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(100.0D, boxModel.DecayRate_per_day);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // DecayRate_per_day has Min [0.0D] and Max [100.0D]. At Max - 1 should return true and no errors
-            boxModel.DecayRate_per_day = 99.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(99.0D, boxModel.DecayRate_per_day);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // DecayRate_per_day has Min [0.0D] and Max [100.0D]. At Max + 1 should return false with one error
+            boxModel = null;
+            boxModel = GetFilledRandomBoxModel("");
             boxModel.DecayRate_per_day = 101.0D;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDecayRate_per_day, "0", "100")).Any());
-            Assert.AreEqual(101.0D, boxModel.DecayRate_per_day);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDecayRate_per_day, "0", "100"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
             // -----------------------------------
@@ -393,49 +246,17 @@ namespace CSSPServices.Tests
             // boxModel.FCUntreated_MPN_100ml   (Int32)
             // -----------------------------------
 
-            // FCUntreated_MPN_100ml will automatically be initialized at 0 --> not null
-
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
-            // FCUntreated_MPN_100ml has Min [0] and Max [10000000]. At Min should return true and no errors
-            boxModel.FCUntreated_MPN_100ml = 0;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(0, boxModel.FCUntreated_MPN_100ml);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FCUntreated_MPN_100ml has Min [0] and Max [10000000]. At Min + 1 should return true and no errors
-            boxModel.FCUntreated_MPN_100ml = 1;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(1, boxModel.FCUntreated_MPN_100ml);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FCUntreated_MPN_100ml has Min [0] and Max [10000000]. At Min - 1 should return false with one error
             boxModel.FCUntreated_MPN_100ml = -1;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCUntreated_MPN_100ml, "0", "10000000")).Any());
-            Assert.AreEqual(-1, boxModel.FCUntreated_MPN_100ml);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCUntreated_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FCUntreated_MPN_100ml has Min [0] and Max [10000000]. At Max should return true and no errors
-            boxModel.FCUntreated_MPN_100ml = 10000000;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(10000000, boxModel.FCUntreated_MPN_100ml);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FCUntreated_MPN_100ml has Min [0] and Max [10000000]. At Max - 1 should return true and no errors
-            boxModel.FCUntreated_MPN_100ml = 9999999;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(9999999, boxModel.FCUntreated_MPN_100ml);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FCUntreated_MPN_100ml has Min [0] and Max [10000000]. At Max + 1 should return false with one error
+            boxModel = null;
+            boxModel = GetFilledRandomBoxModel("");
             boxModel.FCUntreated_MPN_100ml = 10000001;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCUntreated_MPN_100ml, "0", "10000000")).Any());
-            Assert.AreEqual(10000001, boxModel.FCUntreated_MPN_100ml);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCUntreated_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
             // -----------------------------------
@@ -444,49 +265,17 @@ namespace CSSPServices.Tests
             // boxModel.FCPreDisinfection_MPN_100ml   (Int32)
             // -----------------------------------
 
-            // FCPreDisinfection_MPN_100ml will automatically be initialized at 0 --> not null
-
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
-            // FCPreDisinfection_MPN_100ml has Min [0] and Max [10000000]. At Min should return true and no errors
-            boxModel.FCPreDisinfection_MPN_100ml = 0;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(0, boxModel.FCPreDisinfection_MPN_100ml);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FCPreDisinfection_MPN_100ml has Min [0] and Max [10000000]. At Min + 1 should return true and no errors
-            boxModel.FCPreDisinfection_MPN_100ml = 1;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(1, boxModel.FCPreDisinfection_MPN_100ml);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FCPreDisinfection_MPN_100ml has Min [0] and Max [10000000]. At Min - 1 should return false with one error
             boxModel.FCPreDisinfection_MPN_100ml = -1;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCPreDisinfection_MPN_100ml, "0", "10000000")).Any());
-            Assert.AreEqual(-1, boxModel.FCPreDisinfection_MPN_100ml);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCPreDisinfection_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FCPreDisinfection_MPN_100ml has Min [0] and Max [10000000]. At Max should return true and no errors
-            boxModel.FCPreDisinfection_MPN_100ml = 10000000;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(10000000, boxModel.FCPreDisinfection_MPN_100ml);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FCPreDisinfection_MPN_100ml has Min [0] and Max [10000000]. At Max - 1 should return true and no errors
-            boxModel.FCPreDisinfection_MPN_100ml = 9999999;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(9999999, boxModel.FCPreDisinfection_MPN_100ml);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FCPreDisinfection_MPN_100ml has Min [0] and Max [10000000]. At Max + 1 should return false with one error
+            boxModel = null;
+            boxModel = GetFilledRandomBoxModel("");
             boxModel.FCPreDisinfection_MPN_100ml = 10000001;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCPreDisinfection_MPN_100ml, "0", "10000000")).Any());
-            Assert.AreEqual(10000001, boxModel.FCPreDisinfection_MPN_100ml);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCPreDisinfection_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
             // -----------------------------------
@@ -495,49 +284,17 @@ namespace CSSPServices.Tests
             // boxModel.Concentration_MPN_100ml   (Int32)
             // -----------------------------------
 
-            // Concentration_MPN_100ml will automatically be initialized at 0 --> not null
-
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
-            // Concentration_MPN_100ml has Min [0] and Max [10000000]. At Min should return true and no errors
-            boxModel.Concentration_MPN_100ml = 0;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(0, boxModel.Concentration_MPN_100ml);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Concentration_MPN_100ml has Min [0] and Max [10000000]. At Min + 1 should return true and no errors
-            boxModel.Concentration_MPN_100ml = 1;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(1, boxModel.Concentration_MPN_100ml);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Concentration_MPN_100ml has Min [0] and Max [10000000]. At Min - 1 should return false with one error
             boxModel.Concentration_MPN_100ml = -1;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelConcentration_MPN_100ml, "0", "10000000")).Any());
-            Assert.AreEqual(-1, boxModel.Concentration_MPN_100ml);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelConcentration_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Concentration_MPN_100ml has Min [0] and Max [10000000]. At Max should return true and no errors
-            boxModel.Concentration_MPN_100ml = 10000000;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(10000000, boxModel.Concentration_MPN_100ml);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Concentration_MPN_100ml has Min [0] and Max [10000000]. At Max - 1 should return true and no errors
-            boxModel.Concentration_MPN_100ml = 9999999;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(9999999, boxModel.Concentration_MPN_100ml);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // Concentration_MPN_100ml has Min [0] and Max [10000000]. At Max + 1 should return false with one error
+            boxModel = null;
+            boxModel = GetFilledRandomBoxModel("");
             boxModel.Concentration_MPN_100ml = 10000001;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelConcentration_MPN_100ml, "0", "10000000")).Any());
-            Assert.AreEqual(10000001, boxModel.Concentration_MPN_100ml);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelConcentration_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
             // -----------------------------------
@@ -550,25 +307,9 @@ namespace CSSPServices.Tests
 
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
-            // T90_hour has Min [0.0D] and Max [empty]. At Min should return true and no errors
-            boxModel.T90_hour = 0.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(0.0D, boxModel.T90_hour);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // T90_hour has Min [0.0D] and Max [empty]. At Min + 1 should return true and no errors
-            boxModel.T90_hour = 1.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(1.0D, boxModel.T90_hour);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // T90_hour has Min [0.0D] and Max [empty]. At Min - 1 should return false with one error
             boxModel.T90_hour = -1.0D;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelT90_hour, "0")).Any());
-            Assert.AreEqual(-1.0D, boxModel.T90_hour);
+            Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelT90_hour, "0"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
             // -----------------------------------
@@ -581,45 +322,15 @@ namespace CSSPServices.Tests
 
             boxModel = null;
             boxModel = GetFilledRandomBoxModel("");
-            // FlowDuration_hour has Min [0.0D] and Max [24.0D]. At Min should return true and no errors
-            boxModel.FlowDuration_hour = 0.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(0.0D, boxModel.FlowDuration_hour);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FlowDuration_hour has Min [0.0D] and Max [24.0D]. At Min + 1 should return true and no errors
-            boxModel.FlowDuration_hour = 1.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(1.0D, boxModel.FlowDuration_hour);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FlowDuration_hour has Min [0.0D] and Max [24.0D]. At Min - 1 should return false with one error
             boxModel.FlowDuration_hour = -1.0D;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlowDuration_hour, "0", "24")).Any());
-            Assert.AreEqual(-1.0D, boxModel.FlowDuration_hour);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlowDuration_hour, "0", "24"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FlowDuration_hour has Min [0.0D] and Max [24.0D]. At Max should return true and no errors
-            boxModel.FlowDuration_hour = 24.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(24.0D, boxModel.FlowDuration_hour);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FlowDuration_hour has Min [0.0D] and Max [24.0D]. At Max - 1 should return true and no errors
-            boxModel.FlowDuration_hour = 23.0D;
-            Assert.AreEqual(true, boxModelService.Add(boxModel));
-            Assert.AreEqual(0, boxModel.ValidationResults.Count());
-            Assert.AreEqual(23.0D, boxModel.FlowDuration_hour);
-            Assert.AreEqual(true, boxModelService.Delete(boxModel));
-            Assert.AreEqual(count, boxModelService.GetRead().Count());
-            // FlowDuration_hour has Min [0.0D] and Max [24.0D]. At Max + 1 should return false with one error
+            boxModel = null;
+            boxModel = GetFilledRandomBoxModel("");
             boxModel.FlowDuration_hour = 25.0D;
             Assert.AreEqual(false, boxModelService.Add(boxModel));
-            Assert.IsTrue(boxModel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlowDuration_hour, "0", "24")).Any());
-            Assert.AreEqual(25.0D, boxModel.FlowDuration_hour);
+            Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlowDuration_hour, "0", "24"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, boxModelService.GetRead().Count());
 
             // -----------------------------------
@@ -627,8 +338,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // boxModel.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -643,7 +352,11 @@ namespace CSSPServices.Tests
             boxModelService.Add(boxModel);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelLastUpdateContactTVItemID, boxModel.LastUpdateContactTVItemID.ToString()), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            boxModel = null;
+            boxModel = GetFilledRandomBoxModel("");
+            boxModel.LastUpdateContactTVItemID = 1;
+            boxModelService.Add(boxModel);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelLastUpdateContactTVItemID, "Contact"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

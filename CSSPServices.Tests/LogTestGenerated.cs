@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -122,34 +123,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, log.ValidationResults.Count());
             Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LogTableName)).Any());
             Assert.AreEqual(null, log.TableName);
-            Assert.AreEqual(0, logService.GetRead().Count());
+            Assert.AreEqual(count, logService.GetRead().Count());
 
             log = null;
             log = GetFilledRandomLog("");
-            // TableName has MinLength [empty] and MaxLength [50]. At Max should return true and no errors
-            string logTableNameMin = GetRandomString("", 50);
-            log.TableName = logTableNameMin;
-            Assert.AreEqual(true, logService.Add(log));
-            Assert.AreEqual(0, log.ValidationResults.Count());
-            Assert.AreEqual(logTableNameMin, log.TableName);
-            Assert.AreEqual(true, logService.Delete(log));
-            Assert.AreEqual(count, logService.GetRead().Count());
-
-            // TableName has MinLength [empty] and MaxLength [50]. At Max - 1 should return true and no errors
-            logTableNameMin = GetRandomString("", 49);
-            log.TableName = logTableNameMin;
-            Assert.AreEqual(true, logService.Add(log));
-            Assert.AreEqual(0, log.ValidationResults.Count());
-            Assert.AreEqual(logTableNameMin, log.TableName);
-            Assert.AreEqual(true, logService.Delete(log));
-            Assert.AreEqual(count, logService.GetRead().Count());
-
-            // TableName has MinLength [empty] and MaxLength [50]. At Max + 1 should return false with one error
-            logTableNameMin = GetRandomString("", 51);
-            log.TableName = logTableNameMin;
+            log.TableName = GetRandomString("", 51);
             Assert.AreEqual(false, logService.Add(log));
-            Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogTableName, "50")).Any());
-            Assert.AreEqual(logTableNameMin, log.TableName);
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogTableName, "50"), log.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, logService.GetRead().Count());
 
             // -----------------------------------
@@ -158,29 +138,11 @@ namespace CSSPServices.Tests
             // log.ID   (Int32)
             // -----------------------------------
 
-            // ID will automatically be initialized at 0 --> not null
-
             log = null;
             log = GetFilledRandomLog("");
-            // ID has Min [1] and Max [empty]. At Min should return true and no errors
-            log.ID = 1;
-            Assert.AreEqual(true, logService.Add(log));
-            Assert.AreEqual(0, log.ValidationResults.Count());
-            Assert.AreEqual(1, log.ID);
-            Assert.AreEqual(true, logService.Delete(log));
-            Assert.AreEqual(count, logService.GetRead().Count());
-            // ID has Min [1] and Max [empty]. At Min + 1 should return true and no errors
-            log.ID = 2;
-            Assert.AreEqual(true, logService.Add(log));
-            Assert.AreEqual(0, log.ValidationResults.Count());
-            Assert.AreEqual(2, log.ID);
-            Assert.AreEqual(true, logService.Delete(log));
-            Assert.AreEqual(count, logService.GetRead().Count());
-            // ID has Min [1] and Max [empty]. At Min - 1 should return false with one error
             log.ID = 0;
             Assert.AreEqual(false, logService.Add(log));
-            Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._MinValueIs_, ModelsRes.LogID, "1")).Any());
-            Assert.AreEqual(0, log.ID);
+            Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.LogID, "1"), log.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, logService.GetRead().Count());
 
             // -----------------------------------
@@ -189,7 +151,11 @@ namespace CSSPServices.Tests
             // log.LogCommand   (LogCommandEnum)
             // -----------------------------------
 
-            // LogCommand will automatically be initialized at 0 --> not null
+            log = null;
+            log = GetFilledRandomLog("");
+            log.LogCommand = (LogCommandEnum)1000000;
+            logService.Add(log);
+            Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LogLogCommand), log.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -203,7 +169,7 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, log.ValidationResults.Count());
             Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LogInformation)).Any());
             Assert.AreEqual(null, log.Information);
-            Assert.AreEqual(0, logService.GetRead().Count());
+            Assert.AreEqual(count, logService.GetRead().Count());
 
 
             // -----------------------------------
@@ -211,8 +177,6 @@ namespace CSSPServices.Tests
             // [CSSPAfter(Year = 1980)]
             // log.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
-
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
 
 
             // -----------------------------------
@@ -227,7 +191,11 @@ namespace CSSPServices.Tests
             logService.Add(log);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LogLastUpdateContactTVItemID, log.LastUpdateContactTVItemID.ToString()), log.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            log = null;
+            log = GetFilledRandomLog("");
+            log.LastUpdateContactTVItemID = 1;
+            logService.Add(log);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LogLastUpdateContactTVItemID, "Contact"), log.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------

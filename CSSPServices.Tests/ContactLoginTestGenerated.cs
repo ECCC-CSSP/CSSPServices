@@ -11,6 +11,7 @@ using System.Security.Principal;
 using System.Globalization;
 using CSSPServices.Resources;
 using CSSPModels.Resources;
+using CSSPEnums.Resources;
 
 namespace CSSPServices.Tests
 {
@@ -133,8 +134,6 @@ namespace CSSPServices.Tests
             contactLoginService.Add(contactLogin);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactLoginContactID, contactLogin.ContactID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // ContactID will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -149,26 +148,13 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, contactLogin.ValidationResults.Count());
             Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginLoginEmail)).Any());
             Assert.AreEqual(null, contactLogin.LoginEmail);
-            Assert.AreEqual(0, contactLoginService.GetRead().Count());
+            Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
             contactLogin = null;
             contactLogin = GetFilledRandomContactLogin("");
-            // LoginEmail has MinLength [empty] and MaxLength [200]. At Max should return true and no errors
-            string contactLoginLoginEmailMin = GetRandomEmail();
-            contactLogin.LoginEmail = contactLoginLoginEmailMin;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(contactLoginLoginEmailMin, contactLogin.LoginEmail);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-            // LoginEmail has MinLength [empty] and MaxLength [200]. At Max - 1 should return true and no errors
-            contactLoginLoginEmailMin = GetRandomEmail();
-            contactLogin.LoginEmail = contactLoginLoginEmailMin;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(contactLoginLoginEmailMin, contactLogin.LoginEmail);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
+            contactLogin.LoginEmail = GetRandomString("", 201);
+            Assert.AreEqual(false, contactLoginService.Add(contactLogin));
+            Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginLoginEmail, "200"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
             // -----------------------------------
@@ -193,8 +179,6 @@ namespace CSSPServices.Tests
             // contactLogin.LastUpdateDate_UTC   (DateTime)
             // -----------------------------------
 
-            // LastUpdateDate_UTC will automatically be initialized at 0 --> not null
-
 
             // -----------------------------------
             // Is NOT Nullable
@@ -208,7 +192,11 @@ namespace CSSPServices.Tests
             contactLoginService.Add(contactLogin);
             Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactLoginLastUpdateContactTVItemID, contactLogin.LastUpdateContactTVItemID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
-            // LastUpdateContactTVItemID will automatically be initialized at 0 --> not null
+            contactLogin = null;
+            contactLogin = GetFilledRandomContactLogin("");
+            contactLogin.LastUpdateContactTVItemID = 1;
+            contactLoginService.Add(contactLogin);
+            Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactLoginLastUpdateContactTVItemID, "Contact"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
             // -----------------------------------
@@ -231,61 +219,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, contactLogin.ValidationResults.Count());
             Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginPassword)).Any());
             Assert.AreEqual(null, contactLogin.Password);
-            Assert.AreEqual(0, contactLoginService.GetRead().Count());
+            Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
             contactLogin = null;
             contactLogin = GetFilledRandomContactLogin("");
-
-            // Password has MinLength [6] and MaxLength [100]. At Min should return true and no errors
-            string contactLoginPasswordMin = GetRandomString("", 6);
-            contactLogin.Password = contactLoginPasswordMin;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(contactLoginPasswordMin, contactLogin.Password);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-            // Password has MinLength [6] and MaxLength [100]. At Min + 1 should return true and no errors
-            contactLoginPasswordMin = GetRandomString("", 7);
-            contactLogin.Password = contactLoginPasswordMin;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(contactLoginPasswordMin, contactLogin.Password);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-            // Password has MinLength [6] and MaxLength [100]. At Min - 1 should return false with one error
-            contactLoginPasswordMin = GetRandomString("", 5);
-            contactLogin.Password = contactLoginPasswordMin;
+            contactLogin.Password = GetRandomString("", 5);
             Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-            Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginPassword, "6", "100")).Any());
-            Assert.AreEqual(contactLoginPasswordMin, contactLogin.Password);
+            Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-            // Password has MinLength [6] and MaxLength [100]. At Max should return true and no errors
-            contactLoginPasswordMin = GetRandomString("", 100);
-            contactLogin.Password = contactLoginPasswordMin;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(contactLoginPasswordMin, contactLogin.Password);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-            // Password has MinLength [6] and MaxLength [100]. At Max - 1 should return true and no errors
-            contactLoginPasswordMin = GetRandomString("", 99);
-            contactLogin.Password = contactLoginPasswordMin;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(contactLoginPasswordMin, contactLogin.Password);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-            // Password has MinLength [6] and MaxLength [100]. At Max + 1 should return false with one error
-            contactLoginPasswordMin = GetRandomString("", 101);
-            contactLogin.Password = contactLoginPasswordMin;
+            contactLogin = null;
+            contactLogin = GetFilledRandomContactLogin("");
+            contactLogin.Password = GetRandomString("", 101);
             Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-            Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginPassword, "6", "100")).Any());
-            Assert.AreEqual(contactLoginPasswordMin, contactLogin.Password);
+            Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
             // -----------------------------------
@@ -301,61 +247,19 @@ namespace CSSPServices.Tests
             Assert.AreEqual(1, contactLogin.ValidationResults.Count());
             Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginConfirmPassword)).Any());
             Assert.AreEqual(null, contactLogin.ConfirmPassword);
-            Assert.AreEqual(0, contactLoginService.GetRead().Count());
+            Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
             contactLogin = null;
             contactLogin = GetFilledRandomContactLogin("");
-
-            // ConfirmPassword has MinLength [6] and MaxLength [100]. At Min should return true and no errors
-            string contactLoginConfirmPasswordMin = GetRandomString("", 6);
-            contactLogin.ConfirmPassword = contactLoginConfirmPasswordMin;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(contactLoginConfirmPasswordMin, contactLogin.ConfirmPassword);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-            // ConfirmPassword has MinLength [6] and MaxLength [100]. At Min + 1 should return true and no errors
-            contactLoginConfirmPasswordMin = GetRandomString("", 7);
-            contactLogin.ConfirmPassword = contactLoginConfirmPasswordMin;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(contactLoginConfirmPasswordMin, contactLogin.ConfirmPassword);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-            // ConfirmPassword has MinLength [6] and MaxLength [100]. At Min - 1 should return false with one error
-            contactLoginConfirmPasswordMin = GetRandomString("", 5);
-            contactLogin.ConfirmPassword = contactLoginConfirmPasswordMin;
+            contactLogin.ConfirmPassword = GetRandomString("", 5);
             Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-            Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginConfirmPassword, "6", "100")).Any());
-            Assert.AreEqual(contactLoginConfirmPasswordMin, contactLogin.ConfirmPassword);
+            Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginConfirmPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-            // ConfirmPassword has MinLength [6] and MaxLength [100]. At Max should return true and no errors
-            contactLoginConfirmPasswordMin = GetRandomString("", 100);
-            contactLogin.ConfirmPassword = contactLoginConfirmPasswordMin;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(contactLoginConfirmPasswordMin, contactLogin.ConfirmPassword);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-            // ConfirmPassword has MinLength [6] and MaxLength [100]. At Max - 1 should return true and no errors
-            contactLoginConfirmPasswordMin = GetRandomString("", 99);
-            contactLogin.ConfirmPassword = contactLoginConfirmPasswordMin;
-            Assert.AreEqual(true, contactLoginService.Add(contactLogin));
-            Assert.AreEqual(0, contactLogin.ValidationResults.Count());
-            Assert.AreEqual(contactLoginConfirmPasswordMin, contactLogin.ConfirmPassword);
-            Assert.AreEqual(true, contactLoginService.Delete(contactLogin));
-            Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-            // ConfirmPassword has MinLength [6] and MaxLength [100]. At Max + 1 should return false with one error
-            contactLoginConfirmPasswordMin = GetRandomString("", 101);
-            contactLogin.ConfirmPassword = contactLoginConfirmPasswordMin;
+            contactLogin = null;
+            contactLogin = GetFilledRandomContactLogin("");
+            contactLogin.ConfirmPassword = GetRandomString("", 101);
             Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-            Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginConfirmPassword, "6", "100")).Any());
-            Assert.AreEqual(contactLoginConfirmPasswordMin, contactLogin.ConfirmPassword);
+            Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginConfirmPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
             Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
             // -----------------------------------
