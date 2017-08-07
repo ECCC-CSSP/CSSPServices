@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemAddressTVItemID.TVType != TVTypeEnum.Address)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Address,
+                };
+                if (!AllowableTVTypes.Contains(TVItemAddressTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressAddressTVItemID, "Address"), new[] { "AddressTVItemID" });
                 }
@@ -80,7 +84,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemCountryTVItemID.TVType != TVTypeEnum.Country)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Country,
+                };
+                if (!AllowableTVTypes.Contains(TVItemCountryTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressCountryTVItemID, "Country"), new[] { "CountryTVItemID" });
                 }
@@ -96,7 +104,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemProvinceTVItemID.TVType != TVTypeEnum.Province)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Province,
+                };
+                if (!AllowableTVTypes.Contains(TVItemProvinceTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressProvinceTVItemID, "Province"), new[] { "ProvinceTVItemID" });
                 }
@@ -112,7 +124,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemMunicipalityTVItemID.TVType != TVTypeEnum.Municipality)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Municipality,
+                };
+                if (!AllowableTVTypes.Contains(TVItemMunicipalityTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressMunicipalityTVItemID, "Municipality"), new[] { "MunicipalityTVItemID" });
                 }
@@ -169,10 +185,67 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            //ParentTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+
+            TVItem TVItemParentTVItemID = (from c in db.TVItems where c.TVItemID == address.ParentTVItemID select c).FirstOrDefault();
+
+            if (TVItemParentTVItemID == null)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressParentTVItemID, address.ParentTVItemID.ToString()), new[] { "ParentTVItemID" });
+            }
+            else
+            {
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Root,
+                    TVTypeEnum.Infrastructure,
+                    TVTypeEnum.Contact,
+                    TVTypeEnum.PolSourceSite,
+                };
+                if (!AllowableTVTypes.Contains(TVItemParentTVItemID.TVType))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressParentTVItemID, "Root,Infrastructure,Contact,PolSourceSite"), new[] { "ParentTVItemID" });
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(address.AddressTVText) && address.AddressTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressAddressTVText, "200"), new[] { "AddressTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(address.CountryTVText) && address.CountryTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressCountryTVText, "200"), new[] { "CountryTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(address.ProvinceTVText) && address.ProvinceTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressProvinceTVText, "200"), new[] { "ProvinceTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(address.MunicipalityTVText) && address.MunicipalityTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressMunicipalityTVText, "200"), new[] { "MunicipalityTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(address.AddressTypeText) && address.AddressTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressAddressTypeText, "100"), new[] { "AddressTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(address.StreetTypeText) && address.StreetTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressStreetTypeText, "100"), new[] { "StreetTypeText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -184,7 +257,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public Address GetAddressWithAddressID(int AddressID)
+        {
+            IQueryable<Address> addressQuery = (from c in GetRead()
+                                                where c.AddressID == AddressID
+                                                select c);
+
+            return FillAddress(addressQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(Address address)
         {
             address.ValidationResults = Validate(new ValidationContext(address), ActionDBTypeEnum.Create);
@@ -273,9 +357,67 @@ namespace CSSPServices
         {
             return db.Addresses;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<Address> FillAddress(IQueryable<Address> addressQuery)
+        {
+            List<Address> AddressList = (from c in addressQuery
+                                         let ParentTVItemID = (from cl in db.TVItems
+                                                              where cl.TVItemID == c.AddressTVItemID
+                                                              select cl.ParentID).FirstOrDefault()
+                                         let AddressTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.AddressTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let CountryTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.CountryTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let ProvinceTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.ProvinceTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let MunicipalityTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MunicipalityTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         select new Address
+                                         {
+                                             AddressID = c.AddressID,
+                                             AddressTVItemID = c.AddressTVItemID,
+                                             AddressType = c.AddressType,
+                                             CountryTVItemID = c.CountryTVItemID,
+                                             ProvinceTVItemID = c.ProvinceTVItemID,
+                                             MunicipalityTVItemID = c.MunicipalityTVItemID,
+                                             StreetName = c.StreetName,
+                                             StreetNumber = c.StreetNumber,
+                                             StreetType = c.StreetType,
+                                             PostalCode = c.PostalCode,
+                                             GoogleAddressText = c.GoogleAddressText,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ParentTVItemID = ParentTVItemID,
+                                             AddressTVText = AddressTVText,
+                                             CountryTVText = CountryTVText,
+                                             ProvinceTVText = ProvinceTVText,
+                                             MunicipalityTVText = MunicipalityTVText,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (Address address in AddressList)
+            {
+                address.AddressTypeText = enums.GetEnumText_AddressTypeEnum(address.AddressType);
+                address.StreetTypeText = enums.GetEnumText_StreetTypeEnum(address.StreetType);
+            }
+
+            return AddressList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(Address address)
         {
             try
@@ -304,6 +446,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

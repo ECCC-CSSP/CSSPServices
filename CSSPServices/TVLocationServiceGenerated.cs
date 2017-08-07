@@ -62,12 +62,28 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVLocationTVText, "1", "255"), new[] { "TVText" });
             }
 
-                //Error: Type not implemented [TVType] of type [TVTypeEnum]
+            retStr = enums.TVTypeOK(tvLocation.TVType);
+            if (tvLocation.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationTVType), new[] { "TVType" });
+            }
 
-                //Error: Type not implemented [TVType] of type [TVTypeEnum]
-                //Error: Type not implemented [SubTVType] of type [TVTypeEnum]
+            retStr = enums.TVTypeOK(tvLocation.SubTVType);
+            if (tvLocation.SubTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationSubTVType), new[] { "SubTVType" });
+            }
 
-                //Error: Type not implemented [SubTVType] of type [TVTypeEnum]
+            if (!string.IsNullOrWhiteSpace(tvLocation.TVTypeText) && tvLocation.TVTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVLocationTVTypeText, "100"), new[] { "TVTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvLocation.SubTVTypeText) && tvLocation.SubTVTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVLocationSubTVTypeText, "100"), new[] { "SubTVTypeText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

@@ -79,7 +79,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationContactTVItemID, "Contact"), new[] { "ContactTVItemID" });
                 }
@@ -114,7 +118,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -129,7 +137,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public PolSourceObservation GetPolSourceObservationWithPolSourceObservationID(int PolSourceObservationID)
+        {
+            IQueryable<PolSourceObservation> polSourceObservationQuery = (from c in GetRead()
+                                                where c.PolSourceObservationID == PolSourceObservationID
+                                                select c);
+
+            return FillPolSourceObservation(polSourceObservationQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(PolSourceObservation polSourceObservation)
         {
             polSourceObservation.ValidationResults = Validate(new ValidationContext(polSourceObservation), ActionDBTypeEnum.Create);
@@ -218,9 +237,29 @@ namespace CSSPServices
         {
             return db.PolSourceObservations;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<PolSourceObservation> FillPolSourceObservation(IQueryable<PolSourceObservation> polSourceObservationQuery)
+        {
+            List<PolSourceObservation> PolSourceObservationList = (from c in polSourceObservationQuery
+                                         select new PolSourceObservation
+                                         {
+                                             PolSourceObservationID = c.PolSourceObservationID,
+                                             PolSourceSiteID = c.PolSourceSiteID,
+                                             ObservationDate_Local = c.ObservationDate_Local,
+                                             ContactTVItemID = c.ContactTVItemID,
+                                             Observation_ToBeDeleted = c.Observation_ToBeDeleted,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return PolSourceObservationList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(PolSourceObservation polSourceObservation)
         {
             try
@@ -249,6 +288,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

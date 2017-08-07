@@ -56,6 +56,38 @@ namespace CSSPServices
             {
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemStatTVItemID, tvItemStat.TVItemID.ToString()), new[] { "TVItemID" });
             }
+            else
+            {
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Root,
+                    TVTypeEnum.Country,
+                    TVTypeEnum.Province,
+                    TVTypeEnum.Area,
+                    TVTypeEnum.Sector,
+                    TVTypeEnum.Subsector,
+                    TVTypeEnum.ClimateSite,
+                    TVTypeEnum.File,
+                    TVTypeEnum.HydrometricSite,
+                    TVTypeEnum.Infrastructure,
+                    TVTypeEnum.MikeBoundaryConditionMesh,
+                    TVTypeEnum.MikeBoundaryConditionWebTide,
+                    TVTypeEnum.MikeScenario,
+                    TVTypeEnum.MikeSource,
+                    TVTypeEnum.Municipality,
+                    TVTypeEnum.MWQMRun,
+                    TVTypeEnum.MWQMSite,
+                    TVTypeEnum.MWQMSiteSample,
+                    TVTypeEnum.PolSourceSite,
+                    TVTypeEnum.SamplingPlan,
+                    TVTypeEnum.Spill,
+                    TVTypeEnum.TideSite,
+                };
+                if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemStatTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "TVItemID" });
+                }
+            }
 
             retStr = enums.TVTypeOK(tvItemStat.TVType);
             if (tvItemStat.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -92,10 +124,19 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemStatLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvItemStat.TVTypeText) && tvItemStat.TVTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemStatTVTypeText, "100"), new[] { "TVTypeText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -107,7 +148,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public TVItemStat GetTVItemStatWithTVItemStatID(int TVItemStatID)
+        {
+            IQueryable<TVItemStat> tvItemStatQuery = (from c in GetRead()
+                                                where c.TVItemStatID == TVItemStatID
+                                                select c);
+
+            return FillTVItemStat(tvItemStatQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(TVItemStat tvItemStat)
         {
             tvItemStat.ValidationResults = Validate(new ValidationContext(tvItemStat), ActionDBTypeEnum.Create);
@@ -196,9 +248,35 @@ namespace CSSPServices
         {
             return db.TVItemStats;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<TVItemStat> FillTVItemStat(IQueryable<TVItemStat> tvItemStatQuery)
+        {
+            List<TVItemStat> TVItemStatList = (from c in tvItemStatQuery
+                                         select new TVItemStat
+                                         {
+                                             TVItemStatID = c.TVItemStatID,
+                                             TVItemID = c.TVItemID,
+                                             TVType = c.TVType,
+                                             ChildCount = c.ChildCount,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (TVItemStat tvItemStat in TVItemStatList)
+            {
+                tvItemStat.TVTypeText = enums.GetEnumText_TVTypeEnum(tvItemStat.TVType);
+            }
+
+            return TVItemStatList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(TVItemStat tvItemStat)
         {
             try
@@ -227,6 +305,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

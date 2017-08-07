@@ -121,7 +121,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPResultLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -136,7 +140,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public VPResult GetVPResultWithVPResultID(int VPResultID)
+        {
+            IQueryable<VPResult> vpResultQuery = (from c in GetRead()
+                                                where c.VPResultID == VPResultID
+                                                select c);
+
+            return FillVPResult(vpResultQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(VPResult vpResult)
         {
             vpResult.ValidationResults = Validate(new ValidationContext(vpResult), ActionDBTypeEnum.Create);
@@ -225,9 +240,32 @@ namespace CSSPServices
         {
             return db.VPResults;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<VPResult> FillVPResult(IQueryable<VPResult> vpResultQuery)
+        {
+            List<VPResult> VPResultList = (from c in vpResultQuery
+                                         select new VPResult
+                                         {
+                                             VPResultID = c.VPResultID,
+                                             VPScenarioID = c.VPScenarioID,
+                                             Ordinal = c.Ordinal,
+                                             Concentration_MPN_100ml = c.Concentration_MPN_100ml,
+                                             Dilution = c.Dilution,
+                                             FarFieldWidth_m = c.FarFieldWidth_m,
+                                             DispersionDistance_m = c.DispersionDistance_m,
+                                             TravelTime_hour = c.TravelTime_hour,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return VPResultList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(VPResult vpResult)
         {
             try
@@ -256,6 +294,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

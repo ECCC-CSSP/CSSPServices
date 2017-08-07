@@ -113,7 +113,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppErrLogLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -128,7 +132,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public AppErrLog GetAppErrLogWithAppErrLogID(int AppErrLogID)
+        {
+            IQueryable<AppErrLog> appErrLogQuery = (from c in GetRead()
+                                                where c.AppErrLogID == AppErrLogID
+                                                select c);
+
+            return FillAppErrLog(appErrLogQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(AppErrLog appErrLog)
         {
             appErrLog.ValidationResults = Validate(new ValidationContext(appErrLog), ActionDBTypeEnum.Create);
@@ -217,9 +232,30 @@ namespace CSSPServices
         {
             return db.AppErrLogs;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<AppErrLog> FillAppErrLog(IQueryable<AppErrLog> appErrLogQuery)
+        {
+            List<AppErrLog> AppErrLogList = (from c in appErrLogQuery
+                                         select new AppErrLog
+                                         {
+                                             AppErrLogID = c.AppErrLogID,
+                                             Tag = c.Tag,
+                                             LineNumber = c.LineNumber,
+                                             Source = c.Source,
+                                             Message = c.Message,
+                                             DateTime_UTC = c.DateTime_UTC,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return AppErrLogList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(AppErrLog appErrLog)
         {
             try
@@ -248,6 +284,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

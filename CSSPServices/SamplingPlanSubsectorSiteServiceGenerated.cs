@@ -67,7 +67,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemMWQMSiteTVItemID.TVType != TVTypeEnum.MWQMSite)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.MWQMSite,
+                };
+                if (!AllowableTVTypes.Contains(TVItemMWQMSiteTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, "MWQMSite"), new[] { "MWQMSiteTVItemID" });
                 }
@@ -97,7 +101,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -112,7 +120,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public SamplingPlanSubsectorSite GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(int SamplingPlanSubsectorSiteID)
+        {
+            IQueryable<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteQuery = (from c in GetRead()
+                                                where c.SamplingPlanSubsectorSiteID == SamplingPlanSubsectorSiteID
+                                                select c);
+
+            return FillSamplingPlanSubsectorSite(samplingPlanSubsectorSiteQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(SamplingPlanSubsectorSite samplingPlanSubsectorSite)
         {
             samplingPlanSubsectorSite.ValidationResults = Validate(new ValidationContext(samplingPlanSubsectorSite), ActionDBTypeEnum.Create);
@@ -201,9 +220,28 @@ namespace CSSPServices
         {
             return db.SamplingPlanSubsectorSites;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<SamplingPlanSubsectorSite> FillSamplingPlanSubsectorSite(IQueryable<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteQuery)
+        {
+            List<SamplingPlanSubsectorSite> SamplingPlanSubsectorSiteList = (from c in samplingPlanSubsectorSiteQuery
+                                         select new SamplingPlanSubsectorSite
+                                         {
+                                             SamplingPlanSubsectorSiteID = c.SamplingPlanSubsectorSiteID,
+                                             SamplingPlanSubsectorID = c.SamplingPlanSubsectorID,
+                                             MWQMSiteTVItemID = c.MWQMSiteTVItemID,
+                                             IsDuplicate = c.IsDuplicate,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return SamplingPlanSubsectorSiteList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(SamplingPlanSubsectorSite samplingPlanSubsectorSite)
         {
             try
@@ -232,6 +270,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

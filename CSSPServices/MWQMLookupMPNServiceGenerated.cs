@@ -98,7 +98,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMLookupMPNLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -113,7 +117,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MWQMLookupMPN GetMWQMLookupMPNWithMWQMLookupMPNID(int MWQMLookupMPNID)
+        {
+            IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery = (from c in GetRead()
+                                                where c.MWQMLookupMPNID == MWQMLookupMPNID
+                                                select c);
+
+            return FillMWQMLookupMPN(mwqmLookupMPNQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MWQMLookupMPN mwqmLookupMPN)
         {
             mwqmLookupMPN.ValidationResults = Validate(new ValidationContext(mwqmLookupMPN), ActionDBTypeEnum.Create);
@@ -202,9 +217,29 @@ namespace CSSPServices
         {
             return db.MWQMLookupMPNs;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MWQMLookupMPN> FillMWQMLookupMPN(IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery)
+        {
+            List<MWQMLookupMPN> MWQMLookupMPNList = (from c in mwqmLookupMPNQuery
+                                         select new MWQMLookupMPN
+                                         {
+                                             MWQMLookupMPNID = c.MWQMLookupMPNID,
+                                             Tubes10 = c.Tubes10,
+                                             Tubes1 = c.Tubes1,
+                                             Tubes01 = c.Tubes01,
+                                             MPN_100ml = c.MPN_100ml,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return MWQMLookupMPNList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MWQMLookupMPN mwqmLookupMPN)
         {
             try
@@ -233,6 +268,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

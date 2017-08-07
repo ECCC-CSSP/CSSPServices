@@ -102,7 +102,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ResetPasswordLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -137,7 +141,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public ResetPassword GetResetPasswordWithResetPasswordID(int ResetPasswordID)
+        {
+            IQueryable<ResetPassword> resetPasswordQuery = (from c in GetRead()
+                                                where c.ResetPasswordID == ResetPasswordID
+                                                select c);
+
+            return FillResetPassword(resetPasswordQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(ResetPassword resetPassword)
         {
             resetPassword.ValidationResults = Validate(new ValidationContext(resetPassword), ActionDBTypeEnum.Create);
@@ -226,9 +241,28 @@ namespace CSSPServices
         {
             return db.ResetPasswords;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<ResetPassword> FillResetPassword(IQueryable<ResetPassword> resetPasswordQuery)
+        {
+            List<ResetPassword> ResetPasswordList = (from c in resetPasswordQuery
+                                         select new ResetPassword
+                                         {
+                                             ResetPasswordID = c.ResetPasswordID,
+                                             Email = c.Email,
+                                             ExpireDate_Local = c.ExpireDate_Local,
+                                             Code = c.Code,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return ResetPasswordList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(ResetPassword resetPassword)
         {
             try
@@ -257,6 +291,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

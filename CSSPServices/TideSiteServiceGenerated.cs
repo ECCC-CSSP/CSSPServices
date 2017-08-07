@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemTideSiteTVItemID.TVType != TVTypeEnum.TideSite)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.TideSite,
+                };
+                if (!AllowableTVTypes.Contains(TVItemTideSiteTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TideSiteTideSiteTVItemID, "TideSite"), new[] { "TideSiteTVItemID" });
                 }
@@ -103,7 +107,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TideSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -118,7 +126,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public TideSite GetTideSiteWithTideSiteID(int TideSiteID)
+        {
+            IQueryable<TideSite> tideSiteQuery = (from c in GetRead()
+                                                where c.TideSiteID == TideSiteID
+                                                select c);
+
+            return FillTideSite(tideSiteQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(TideSite tideSite)
         {
             tideSite.ValidationResults = Validate(new ValidationContext(tideSite), ActionDBTypeEnum.Create);
@@ -207,9 +226,28 @@ namespace CSSPServices
         {
             return db.TideSites;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<TideSite> FillTideSite(IQueryable<TideSite> tideSiteQuery)
+        {
+            List<TideSite> TideSiteList = (from c in tideSiteQuery
+                                         select new TideSite
+                                         {
+                                             TideSiteID = c.TideSiteID,
+                                             TideSiteTVItemID = c.TideSiteTVItemID,
+                                             WebTideModel = c.WebTideModel,
+                                             WebTideDatum_m = c.WebTideDatum_m,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return TideSiteList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(TideSite tideSite)
         {
             try
@@ -238,6 +276,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

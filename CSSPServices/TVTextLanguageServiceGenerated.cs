@@ -45,9 +45,17 @@ namespace CSSPServices
 
             //TVText has no StringLength Attribute
 
-                //Error: Type not implemented [Language] of type [LanguageEnum]
+            retStr = enums.LanguageOK(tvTextLanguage.Language);
+            if (tvTextLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTextLanguageLanguage), new[] { "Language" });
+            }
 
-                //Error: Type not implemented [Language] of type [LanguageEnum]
+            if (!string.IsNullOrWhiteSpace(tvTextLanguage.LanguageText) && tvTextLanguage.LanguageText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTextLanguageLanguageText, "100"), new[] { "LanguageText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemClimateSiteTVItemID.TVType != TVTypeEnum.ClimateSite)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.ClimateSite,
+                };
+                if (!AllowableTVTypes.Contains(TVItemClimateSiteTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ClimateSiteClimateSiteTVItemID, "ClimateSite"), new[] { "ClimateSiteTVItemID" });
                 }
@@ -187,7 +191,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ClimateSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -202,7 +210,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public ClimateSite GetClimateSiteWithClimateSiteID(int ClimateSiteID)
+        {
+            IQueryable<ClimateSite> climateSiteQuery = (from c in GetRead()
+                                                where c.ClimateSiteID == ClimateSiteID
+                                                select c);
+
+            return FillClimateSite(climateSiteQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(ClimateSite climateSite)
         {
             climateSite.ValidationResults = Validate(new ValidationContext(climateSite), ActionDBTypeEnum.Create);
@@ -291,9 +310,46 @@ namespace CSSPServices
         {
             return db.ClimateSites;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<ClimateSite> FillClimateSite(IQueryable<ClimateSite> climateSiteQuery)
+        {
+            List<ClimateSite> ClimateSiteList = (from c in climateSiteQuery
+                                         select new ClimateSite
+                                         {
+                                             ClimateSiteID = c.ClimateSiteID,
+                                             ClimateSiteTVItemID = c.ClimateSiteTVItemID,
+                                             ECDBID = c.ECDBID,
+                                             ClimateSiteName = c.ClimateSiteName,
+                                             Province = c.Province,
+                                             Elevation_m = c.Elevation_m,
+                                             ClimateID = c.ClimateID,
+                                             WMOID = c.WMOID,
+                                             TCID = c.TCID,
+                                             IsProvincial = c.IsProvincial,
+                                             ProvSiteID = c.ProvSiteID,
+                                             TimeOffset_hour = c.TimeOffset_hour,
+                                             File_desc = c.File_desc,
+                                             HourlyStartDate_Local = c.HourlyStartDate_Local,
+                                             HourlyEndDate_Local = c.HourlyEndDate_Local,
+                                             HourlyNow = c.HourlyNow,
+                                             DailyStartDate_Local = c.DailyStartDate_Local,
+                                             DailyEndDate_Local = c.DailyEndDate_Local,
+                                             DailyNow = c.DailyNow,
+                                             MonthlyStartDate_Local = c.MonthlyStartDate_Local,
+                                             MonthlyEndDate_Local = c.MonthlyEndDate_Local,
+                                             MonthlyNow = c.MonthlyNow,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return ClimateSiteList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(ClimateSite climateSite)
         {
             try
@@ -322,6 +378,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

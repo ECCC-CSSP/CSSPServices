@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemTelTVItemID.TVType != TVTypeEnum.Tel)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Tel,
+                };
+                if (!AllowableTVTypes.Contains(TVItemTelTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TelTelTVItemID, "Tel"), new[] { "TelTVItemID" });
                 }
@@ -102,10 +106,19 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TelLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(tel.TelTypeText) && tel.TelTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelTypeText, "100"), new[] { "TelTypeText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -117,7 +130,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public Tel GetTelWithTelID(int TelID)
+        {
+            IQueryable<Tel> telQuery = (from c in GetRead()
+                                                where c.TelID == TelID
+                                                select c);
+
+            return FillTel(telQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(Tel tel)
         {
             tel.ValidationResults = Validate(new ValidationContext(tel), ActionDBTypeEnum.Create);
@@ -206,9 +230,35 @@ namespace CSSPServices
         {
             return db.Tels;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<Tel> FillTel(IQueryable<Tel> telQuery)
+        {
+            List<Tel> TelList = (from c in telQuery
+                                         select new Tel
+                                         {
+                                             TelID = c.TelID,
+                                             TelTVItemID = c.TelTVItemID,
+                                             TelNumber = c.TelNumber,
+                                             TelType = c.TelType,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (Tel tel in TelList)
+            {
+                tel.TelTypeText = enums.GetEnumText_TelTypeEnum(tel.TelType);
+            }
+
+            return TelList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(Tel tel)
         {
             try
@@ -237,6 +287,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

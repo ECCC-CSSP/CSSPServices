@@ -100,7 +100,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoPointLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -115,7 +119,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MapInfoPoint GetMapInfoPointWithMapInfoPointID(int MapInfoPointID)
+        {
+            IQueryable<MapInfoPoint> mapInfoPointQuery = (from c in GetRead()
+                                                where c.MapInfoPointID == MapInfoPointID
+                                                select c);
+
+            return FillMapInfoPoint(mapInfoPointQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MapInfoPoint mapInfoPoint)
         {
             mapInfoPoint.ValidationResults = Validate(new ValidationContext(mapInfoPoint), ActionDBTypeEnum.Create);
@@ -204,9 +219,29 @@ namespace CSSPServices
         {
             return db.MapInfoPoints;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MapInfoPoint> FillMapInfoPoint(IQueryable<MapInfoPoint> mapInfoPointQuery)
+        {
+            List<MapInfoPoint> MapInfoPointList = (from c in mapInfoPointQuery
+                                         select new MapInfoPoint
+                                         {
+                                             MapInfoPointID = c.MapInfoPointID,
+                                             MapInfoID = c.MapInfoID,
+                                             Ordinal = c.Ordinal,
+                                             Lat = c.Lat,
+                                             Lng = c.Lng,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return MapInfoPointList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MapInfoPoint mapInfoPoint)
         {
             try
@@ -235,6 +270,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

@@ -73,13 +73,26 @@ namespace CSSPServices
 
             //ProcessedBy has no StringLength Attribute
 
-                //Error: Type not implemented [SampleType] of type [SampleTypeEnum]
+            if (labSheetA1Measurement.SampleType != null)
+            {
+                retStr = enums.SampleTypeOK(labSheetA1Measurement.SampleType);
+                if (labSheetA1Measurement.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementSampleType), new[] { "SampleType" });
+                }
+            }
+
             if (string.IsNullOrWhiteSpace(labSheetA1Measurement.SiteComment))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementSiteComment), new[] { "SiteComment" });
             }
 
             //SiteComment has no StringLength Attribute
+
+            if (!string.IsNullOrWhiteSpace(labSheetA1Measurement.SampleTypeText) && labSheetA1Measurement.SampleTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetA1MeasurementSampleTypeText, "100"), new[] { "SampleTypeText" });
+            }
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

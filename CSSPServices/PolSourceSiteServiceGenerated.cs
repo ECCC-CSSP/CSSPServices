@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemPolSourceSiteTVItemID.TVType != TVTypeEnum.PolSourceSite)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.PolSourceSite,
+                };
+                if (!AllowableTVTypes.Contains(TVItemPolSourceSiteTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceSitePolSourceSiteTVItemID, "PolSourceSite"), new[] { "PolSourceSiteTVItemID" });
                 }
@@ -114,7 +118,11 @@ namespace CSSPServices
                 }
                 else
                 {
-                    if (TVItemCivicAddressTVItemID.TVType != TVTypeEnum.Address)
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.Address,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemCivicAddressTVItemID.TVType))
                     {
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceSiteCivicAddressTVItemID, "Address"), new[] { "CivicAddressTVItemID" });
                     }
@@ -143,10 +151,19 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(polSourceSite.InactiveReasonText) && polSourceSite.InactiveReasonText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSiteInactiveReasonText, "100"), new[] { "InactiveReasonText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -158,7 +175,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public PolSourceSite GetPolSourceSiteWithPolSourceSiteID(int PolSourceSiteID)
+        {
+            IQueryable<PolSourceSite> polSourceSiteQuery = (from c in GetRead()
+                                                where c.PolSourceSiteID == PolSourceSiteID
+                                                select c);
+
+            return FillPolSourceSite(polSourceSiteQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(PolSourceSite polSourceSite)
         {
             polSourceSite.ValidationResults = Validate(new ValidationContext(polSourceSite), ActionDBTypeEnum.Create);
@@ -247,9 +275,40 @@ namespace CSSPServices
         {
             return db.PolSourceSites;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<PolSourceSite> FillPolSourceSite(IQueryable<PolSourceSite> polSourceSiteQuery)
+        {
+            List<PolSourceSite> PolSourceSiteList = (from c in polSourceSiteQuery
+                                         select new PolSourceSite
+                                         {
+                                             PolSourceSiteID = c.PolSourceSiteID,
+                                             PolSourceSiteTVItemID = c.PolSourceSiteTVItemID,
+                                             Temp_Locator_CanDelete = c.Temp_Locator_CanDelete,
+                                             Oldsiteid = c.Oldsiteid,
+                                             Site = c.Site,
+                                             SiteID = c.SiteID,
+                                             IsPointSource = c.IsPointSource,
+                                             InactiveReason = c.InactiveReason,
+                                             CivicAddressTVItemID = c.CivicAddressTVItemID,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (PolSourceSite polSourceSite in PolSourceSiteList)
+            {
+                polSourceSite.InactiveReasonText = enums.GetEnumText_PolSourceInactiveReasonEnum(polSourceSite.InactiveReason);
+            }
+
+            return PolSourceSiteList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(PolSourceSite polSourceSite)
         {
             try
@@ -278,6 +337,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

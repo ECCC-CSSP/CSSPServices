@@ -146,7 +146,6 @@
     <Compile Include="ServicesRepopulateTestDB.cs" />
     <Compile Include="ServicesGenerateClassServicesTest.cs" />
     <Compile Include="ServicesGenerateCodeHelper.cs" />
-    <Compile Include="ServicesGenerateFillDBTesting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

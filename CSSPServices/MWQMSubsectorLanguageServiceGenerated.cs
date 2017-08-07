@@ -101,10 +101,24 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSubsectorLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSubsectorLanguage.LanguageText) && mwqmSubsectorLanguage.LanguageText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLanguageLanguageText, "100"), new[] { "LanguageText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSubsectorLanguage.TranslationStatusText) && mwqmSubsectorLanguage.TranslationStatusText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -116,7 +130,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MWQMSubsectorLanguage GetMWQMSubsectorLanguageWithMWQMSubsectorLanguageID(int MWQMSubsectorLanguageID)
+        {
+            IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery = (from c in GetRead()
+                                                where c.MWQMSubsectorLanguageID == MWQMSubsectorLanguageID
+                                                select c);
+
+            return FillMWQMSubsectorLanguage(mwqmSubsectorLanguageQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MWQMSubsectorLanguage mwqmSubsectorLanguage)
         {
             mwqmSubsectorLanguage.ValidationResults = Validate(new ValidationContext(mwqmSubsectorLanguage), ActionDBTypeEnum.Create);
@@ -205,9 +230,37 @@ namespace CSSPServices
         {
             return db.MWQMSubsectorLanguages;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MWQMSubsectorLanguage> FillMWQMSubsectorLanguage(IQueryable<MWQMSubsectorLanguage> mwqmSubsectorLanguageQuery)
+        {
+            List<MWQMSubsectorLanguage> MWQMSubsectorLanguageList = (from c in mwqmSubsectorLanguageQuery
+                                         select new MWQMSubsectorLanguage
+                                         {
+                                             MWQMSubsectorLanguageID = c.MWQMSubsectorLanguageID,
+                                             MWQMSubsectorID = c.MWQMSubsectorID,
+                                             Language = c.Language,
+                                             SubsectorDesc = c.SubsectorDesc,
+                                             TranslationStatus = c.TranslationStatus,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (MWQMSubsectorLanguage mwqmSubsectorLanguage in MWQMSubsectorLanguageList)
+            {
+                mwqmSubsectorLanguage.LanguageText = enums.GetEnumText_LanguageEnum(mwqmSubsectorLanguage.Language);
+                mwqmSubsectorLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(mwqmSubsectorLanguage.TranslationStatus);
+            }
+
+            return MWQMSubsectorLanguageList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MWQMSubsectorLanguage mwqmSubsectorLanguage)
         {
             try
@@ -236,6 +289,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

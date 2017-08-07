@@ -38,22 +38,19 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItem tvItem = validationContext.ObjectInstance as TVItem;
 
-            if (db.Database.GetDbConnection().ConnectionString.Contains("TestDB") || db.Database.GetDbConnection().ConnectionString.Contains("TestDB"))
-            {
-                if (tvItem.TVType == TVTypeEnum.Root)
-                {
-                    if (GetRead().Count() > 0)
-                    {
-                        yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });
-                    }
-                }
-            }
-
             if (actionDBType == ActionDBTypeEnum.Update)
             {
                 if (tvItem.TVItemID == 0)
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVItemID), new[] { "TVItemID" });
+                }
+            }
+
+            if (tvItem.TVType == TVTypeEnum.Root)
+            {
+                if (GetRead().Count() > 0)
+                {
+                    yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });
                 }
             }
 
@@ -92,6 +89,38 @@ namespace CSSPServices
                 {
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemParentID, tvItem.ParentID.ToString()), new[] { "ParentID" });
                 }
+                else
+                {
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.Root,
+                        TVTypeEnum.Country,
+                        TVTypeEnum.Province,
+                        TVTypeEnum.Area,
+                        TVTypeEnum.Sector,
+                        TVTypeEnum.Subsector,
+                        TVTypeEnum.ClimateSite,
+                        TVTypeEnum.File,
+                        TVTypeEnum.HydrometricSite,
+                        TVTypeEnum.Infrastructure,
+                        TVTypeEnum.MikeBoundaryConditionMesh,
+                        TVTypeEnum.MikeBoundaryConditionWebTide,
+                        TVTypeEnum.MikeScenario,
+                        TVTypeEnum.MikeSource,
+                        TVTypeEnum.Municipality,
+                        TVTypeEnum.MWQMRun,
+                        TVTypeEnum.MWQMSite,
+                        TVTypeEnum.MWQMSiteSample,
+                        TVTypeEnum.PolSourceSite,
+                        TVTypeEnum.SamplingPlan,
+                        TVTypeEnum.Spill,
+                        TVTypeEnum.TideSite,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemParentID.TVType))
+                    {
+                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemParentID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "ParentID" });
+                    }
+                }
             }
 
             //IsActive (bool) is required but no testing needed 
@@ -120,12 +149,28 @@ namespace CSSPServices
                 }
                 else
                 {
-                    if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.Contact,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                     {
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                     }
                 }
             }
+
+            if (!string.IsNullOrWhiteSpace(tvItem.TVTypeText) && tvItem.TVTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemTVTypeText, "100"), new[] { "TVTypeText" });
+            }
+
+            if (string.IsNullOrWhiteSpace(tvItem.TVText))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVText), new[] { "TVText" });
+            }
+
+            //TVText has no StringLength Attribute
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -136,7 +181,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public TVItem GetTVItemWithTVItemID(int TVItemID)
+        {
+            IQueryable<TVItem> tvItemQuery = (from c in GetRead()
+                                                where c.TVItemID == TVItemID
+                                                select c);
+
+            return FillTVItem(tvItemQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(TVItem tvItem)
         {
             tvItem.ValidationResults = Validate(new ValidationContext(tvItem), ActionDBTypeEnum.Create);
@@ -225,9 +281,37 @@ namespace CSSPServices
         {
             return db.TVItems;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<TVItem> FillTVItem(IQueryable<TVItem> tvItemQuery)
+        {
+            List<TVItem> TVItemList = (from c in tvItemQuery
+                                         select new TVItem
+                                         {
+                                             TVItemID = c.TVItemID,
+                                             TVLevel = c.TVLevel,
+                                             TVPath = c.TVPath,
+                                             TVType = c.TVType,
+                                             ParentID = c.ParentID,
+                                             IsActive = c.IsActive,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (TVItem tvItem in TVItemList)
+            {
+                tvItem.TVTypeText = enums.GetEnumText_TVTypeEnum(tvItem.TVType);
+            }
+
+            return TVItemList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(TVItem tvItem)
         {
             try
@@ -256,6 +340,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

@@ -30,8 +30,34 @@ namespace CSSPServices
         #region Validation
         #endregion Validation
 
-        #region Functions public
+        #region Functions public get
+        public List<TVItem> GetTop_TVItem(int Take)
+        {
+            List<TVItem> tvItemList = (from c in db.TVItems.AsNoTracking()
+                                       from cl in db.TVItemLanguages.AsNoTracking()
+                                       where c.TVItemID == cl.TVItemID
+                                       && cl.Language == LanguageRequest
+                                       orderby c.TVItemID
+                                       select new TVItem
+                                       {
+                                           TVItemID = c.TVItemID,
+                                           TVLevel = c.TVLevel,
+                                           TVPath = c.TVPath,
+                                           TVType = c.TVType,
+                                           ParentID = c.ParentID,
+                                           IsActive = c.IsActive,
+                                           LastUpdateDate_UTC = cl.LastUpdateDate_UTC,
+                                           LastUpdateContactTVItemID = cl.LastUpdateContactTVItemID,
+                                           TVText = cl.TVText,
+                                           TVTypeText = c.TVType.ToString(),
+                                           ValidationResults = null,
+                                       }).Take(Take).ToList();
 
+            return tvItemList;
+        }
+        #endregion Functions public get
+
+        #region Functions public
         public bool AddRoot(TVItem tvItem)
         {
             tvItem.TVItemID = 1; //will be autogenerate
@@ -43,16 +69,6 @@ namespace CSSPServices
             tvItem.LastUpdateDate_UTC = DateTime.UtcNow;
             tvItem.LastUpdateContactTVItemID = 1; // same as key only because it's the first TVItem in the DB
 
-            foreach (LanguageEnum Lang in LanguageListAllowable)
-            {
-                tvItem.TVItemLanguages.Add(new TVItemLanguage()
-                {
-                    Language = Lang,
-                    TVText = ServicesRes.Root,
-                    TVItemID = tvItem.TVItemID,
-                    TranslationStatus = TranslationStatusEnum.Translated,
-                });
-            }
 
             tvItem.ValidationResults = Validate(new ValidationContext(tvItem), ActionDBTypeEnum.Create);
             if (tvItem.ValidationResults.Count() > 0) return false;
@@ -60,6 +76,20 @@ namespace CSSPServices
             db.TVItems.Add(tvItem);
 
             if (!TryToSave(tvItem)) return false;
+
+            TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, db, ContactID);
+            foreach (LanguageEnum Lang in LanguageListAllowable)
+            {
+                TVItemLanguage tvItemLanguage = new TVItemLanguage()
+                {
+                    Language = Lang,
+                    TVText = ServicesRes.Root,
+                    TVItemID = tvItem.TVItemID,
+                    TranslationStatus = (Lang == LanguageRequest ? TranslationStatusEnum.Translated : TranslationStatusEnum.NotTranslated),
+                };
+
+                tvItemLanguageService.Add(tvItemLanguage);
+            }
 
             return true;
         }

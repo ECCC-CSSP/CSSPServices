@@ -70,7 +70,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemTVFileTVItemID.TVType != TVTypeEnum.File)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.File,
+                };
+                if (!AllowableTVTypes.Contains(TVItemTVFileTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.DocTemplateTVFileTVItemID, "File"), new[] { "TVFileTVItemID" });
                 }
@@ -108,10 +112,24 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.DocTemplateLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(docTemplate.LanguageText) && docTemplate.LanguageText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateLanguageText, "100"), new[] { "LanguageText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(docTemplate.TVTypeText) && docTemplate.TVTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateTVTypeText, "100"), new[] { "TVTypeText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -123,7 +141,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public DocTemplate GetDocTemplateWithDocTemplateID(int DocTemplateID)
+        {
+            IQueryable<DocTemplate> docTemplateQuery = (from c in GetRead()
+                                                where c.DocTemplateID == DocTemplateID
+                                                select c);
+
+            return FillDocTemplate(docTemplateQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(DocTemplate docTemplate)
         {
             docTemplate.ValidationResults = Validate(new ValidationContext(docTemplate), ActionDBTypeEnum.Create);
@@ -212,9 +241,37 @@ namespace CSSPServices
         {
             return db.DocTemplates;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<DocTemplate> FillDocTemplate(IQueryable<DocTemplate> docTemplateQuery)
+        {
+            List<DocTemplate> DocTemplateList = (from c in docTemplateQuery
+                                         select new DocTemplate
+                                         {
+                                             DocTemplateID = c.DocTemplateID,
+                                             Language = c.Language,
+                                             TVType = c.TVType,
+                                             TVFileTVItemID = c.TVFileTVItemID,
+                                             FileName = c.FileName,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (DocTemplate docTemplate in DocTemplateList)
+            {
+                docTemplate.LanguageText = enums.GetEnumText_LanguageEnum(docTemplate.Language);
+                docTemplate.TVTypeText = enums.GetEnumText_TVTypeEnum(docTemplate.TVType);
+            }
+
+            return DocTemplateList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(DocTemplate docTemplate)
         {
             try
@@ -243,6 +300,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

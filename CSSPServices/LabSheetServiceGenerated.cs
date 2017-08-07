@@ -112,7 +112,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemSubsectorTVItemID.TVType != TVTypeEnum.Subsector)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Subsector,
+                };
+                if (!AllowableTVTypes.Contains(TVItemSubsectorTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LabSheetSubsectorTVItemID, "Subsector"), new[] { "SubsectorTVItemID" });
                 }
@@ -128,7 +132,11 @@ namespace CSSPServices
                 }
                 else
                 {
-                    if (TVItemMWQMRunTVItemID.TVType != TVTypeEnum.MWQMRun)
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.MWQMRun,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemMWQMRunTVItemID.TVType))
                     {
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LabSheetMWQMRunTVItemID, "MWQMRun"), new[] { "MWQMRunTVItemID" });
                     }
@@ -198,7 +206,11 @@ namespace CSSPServices
                 }
                 else
                 {
-                    if (TVItemAcceptedOrRejectedByContactTVItemID.TVType != TVTypeEnum.Contact)
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.Contact,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemAcceptedOrRejectedByContactTVItemID.TVType))
                     {
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID, "Contact"), new[] { "AcceptedOrRejectedByContactTVItemID" });
                     }
@@ -237,10 +249,34 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LabSheetLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(labSheet.SamplingPlanTypeText) && labSheet.SamplingPlanTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetSamplingPlanTypeText, "100"), new[] { "SamplingPlanTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(labSheet.SampleTypeText) && labSheet.SampleTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetSampleTypeText, "100"), new[] { "SampleTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(labSheet.LabSheetTypeText) && labSheet.LabSheetTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetLabSheetTypeText, "100"), new[] { "LabSheetTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(labSheet.LabSheetStatusText) && labSheet.LabSheetStatusText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetLabSheetStatusText, "100"), new[] { "LabSheetStatusText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -252,7 +288,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public LabSheet GetLabSheetWithLabSheetID(int LabSheetID)
+        {
+            IQueryable<LabSheet> labSheetQuery = (from c in GetRead()
+                                                where c.LabSheetID == LabSheetID
+                                                select c);
+
+            return FillLabSheet(labSheetQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(LabSheet labSheet)
         {
             labSheet.ValidationResults = Validate(new ValidationContext(labSheet), ActionDBTypeEnum.Create);
@@ -341,9 +388,54 @@ namespace CSSPServices
         {
             return db.LabSheets;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<LabSheet> FillLabSheet(IQueryable<LabSheet> labSheetQuery)
+        {
+            List<LabSheet> LabSheetList = (from c in labSheetQuery
+                                         select new LabSheet
+                                         {
+                                             LabSheetID = c.LabSheetID,
+                                             OtherServerLabSheetID = c.OtherServerLabSheetID,
+                                             SamplingPlanID = c.SamplingPlanID,
+                                             SamplingPlanName = c.SamplingPlanName,
+                                             Year = c.Year,
+                                             Month = c.Month,
+                                             Day = c.Day,
+                                             RunNumber = c.RunNumber,
+                                             SubsectorTVItemID = c.SubsectorTVItemID,
+                                             MWQMRunTVItemID = c.MWQMRunTVItemID,
+                                             SamplingPlanType = c.SamplingPlanType,
+                                             SampleType = c.SampleType,
+                                             LabSheetType = c.LabSheetType,
+                                             LabSheetStatus = c.LabSheetStatus,
+                                             FileName = c.FileName,
+                                             FileLastModifiedDate_Local = c.FileLastModifiedDate_Local,
+                                             FileContent = c.FileContent,
+                                             AcceptedOrRejectedByContactTVItemID = c.AcceptedOrRejectedByContactTVItemID,
+                                             AcceptedOrRejectedDateTime = c.AcceptedOrRejectedDateTime,
+                                             RejectReason = c.RejectReason,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (LabSheet labSheet in LabSheetList)
+            {
+                labSheet.SamplingPlanTypeText = enums.GetEnumText_SamplingPlanTypeEnum(labSheet.SamplingPlanType);
+                labSheet.SampleTypeText = enums.GetEnumText_SampleTypeEnum(labSheet.SampleType);
+                labSheet.LabSheetTypeText = enums.GetEnumText_LabSheetTypeEnum(labSheet.LabSheetType);
+                labSheet.LabSheetStatusText = enums.GetEnumText_LabSheetStatusEnum(labSheet.LabSheetStatus);
+            }
+
+            return LabSheetList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(LabSheet labSheet)
         {
             try
@@ -372,6 +464,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemMikeSourceTVItemID.TVType != TVTypeEnum.MikeSource)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.MikeSource,
+                };
+                if (!AllowableTVTypes.Contains(TVItemMikeSourceTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeSourceMikeSourceTVItemID, "MikeSource"), new[] { "MikeSourceTVItemID" });
                 }
@@ -102,7 +106,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeSourceLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -117,7 +125,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MikeSource GetMikeSourceWithMikeSourceID(int MikeSourceID)
+        {
+            IQueryable<MikeSource> mikeSourceQuery = (from c in GetRead()
+                                                where c.MikeSourceID == MikeSourceID
+                                                select c);
+
+            return FillMikeSource(mikeSourceQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MikeSource mikeSource)
         {
             mikeSource.ValidationResults = Validate(new ValidationContext(mikeSource), ActionDBTypeEnum.Create);
@@ -206,9 +225,30 @@ namespace CSSPServices
         {
             return db.MikeSources;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MikeSource> FillMikeSource(IQueryable<MikeSource> mikeSourceQuery)
+        {
+            List<MikeSource> MikeSourceList = (from c in mikeSourceQuery
+                                         select new MikeSource
+                                         {
+                                             MikeSourceID = c.MikeSourceID,
+                                             MikeSourceTVItemID = c.MikeSourceTVItemID,
+                                             IsContinuous = c.IsContinuous,
+                                             Include = c.Include,
+                                             IsRiver = c.IsRiver,
+                                             SourceNumberString = c.SourceNumberString,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return MikeSourceList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MikeSource mikeSource)
         {
             try
@@ -237,6 +277,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

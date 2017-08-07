@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationContactTVItemID, "Contact"), new[] { "ContactTVItemID" });
                 }
@@ -72,6 +76,38 @@ namespace CSSPServices
             {
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID1, tvItemUserAuthorization.TVItemID1.ToString()), new[] { "TVItemID1" });
             }
+            else
+            {
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Root,
+                    TVTypeEnum.Country,
+                    TVTypeEnum.Province,
+                    TVTypeEnum.Area,
+                    TVTypeEnum.Sector,
+                    TVTypeEnum.Subsector,
+                    TVTypeEnum.ClimateSite,
+                    TVTypeEnum.File,
+                    TVTypeEnum.HydrometricSite,
+                    TVTypeEnum.Infrastructure,
+                    TVTypeEnum.MikeBoundaryConditionMesh,
+                    TVTypeEnum.MikeBoundaryConditionWebTide,
+                    TVTypeEnum.MikeScenario,
+                    TVTypeEnum.MikeSource,
+                    TVTypeEnum.Municipality,
+                    TVTypeEnum.MWQMRun,
+                    TVTypeEnum.MWQMSite,
+                    TVTypeEnum.MWQMSiteSample,
+                    TVTypeEnum.PolSourceSite,
+                    TVTypeEnum.SamplingPlan,
+                    TVTypeEnum.Spill,
+                    TVTypeEnum.TideSite,
+                };
+                if (!AllowableTVTypes.Contains(TVItemTVItemID1.TVType))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationTVItemID1, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "TVItemID1" });
+                }
+            }
 
             if (tvItemUserAuthorization.TVItemID2 != null)
             {
@@ -80,6 +116,38 @@ namespace CSSPServices
                 if (TVItemTVItemID2 == null)
                 {
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID2, tvItemUserAuthorization.TVItemID2.ToString()), new[] { "TVItemID2" });
+                }
+                else
+                {
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.Root,
+                        TVTypeEnum.Country,
+                        TVTypeEnum.Province,
+                        TVTypeEnum.Area,
+                        TVTypeEnum.Sector,
+                        TVTypeEnum.Subsector,
+                        TVTypeEnum.ClimateSite,
+                        TVTypeEnum.File,
+                        TVTypeEnum.HydrometricSite,
+                        TVTypeEnum.Infrastructure,
+                        TVTypeEnum.MikeBoundaryConditionMesh,
+                        TVTypeEnum.MikeBoundaryConditionWebTide,
+                        TVTypeEnum.MikeScenario,
+                        TVTypeEnum.MikeSource,
+                        TVTypeEnum.Municipality,
+                        TVTypeEnum.MWQMRun,
+                        TVTypeEnum.MWQMSite,
+                        TVTypeEnum.MWQMSiteSample,
+                        TVTypeEnum.PolSourceSite,
+                        TVTypeEnum.SamplingPlan,
+                        TVTypeEnum.Spill,
+                        TVTypeEnum.TideSite,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemTVItemID2.TVType))
+                    {
+                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationTVItemID2, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "TVItemID2" });
+                    }
                 }
             }
 
@@ -91,6 +159,38 @@ namespace CSSPServices
                 {
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID3, tvItemUserAuthorization.TVItemID3.ToString()), new[] { "TVItemID3" });
                 }
+                else
+                {
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.Root,
+                        TVTypeEnum.Country,
+                        TVTypeEnum.Province,
+                        TVTypeEnum.Area,
+                        TVTypeEnum.Sector,
+                        TVTypeEnum.Subsector,
+                        TVTypeEnum.ClimateSite,
+                        TVTypeEnum.File,
+                        TVTypeEnum.HydrometricSite,
+                        TVTypeEnum.Infrastructure,
+                        TVTypeEnum.MikeBoundaryConditionMesh,
+                        TVTypeEnum.MikeBoundaryConditionWebTide,
+                        TVTypeEnum.MikeScenario,
+                        TVTypeEnum.MikeSource,
+                        TVTypeEnum.Municipality,
+                        TVTypeEnum.MWQMRun,
+                        TVTypeEnum.MWQMSite,
+                        TVTypeEnum.MWQMSiteSample,
+                        TVTypeEnum.PolSourceSite,
+                        TVTypeEnum.SamplingPlan,
+                        TVTypeEnum.Spill,
+                        TVTypeEnum.TideSite,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemTVItemID3.TVType))
+                    {
+                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationTVItemID3, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "TVItemID3" });
+                    }
+                }
             }
 
             if (tvItemUserAuthorization.TVItemID4 != null)
@@ -100,6 +200,38 @@ namespace CSSPServices
                 if (TVItemTVItemID4 == null)
                 {
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID4, tvItemUserAuthorization.TVItemID4.ToString()), new[] { "TVItemID4" });
+                }
+                else
+                {
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.Root,
+                        TVTypeEnum.Country,
+                        TVTypeEnum.Province,
+                        TVTypeEnum.Area,
+                        TVTypeEnum.Sector,
+                        TVTypeEnum.Subsector,
+                        TVTypeEnum.ClimateSite,
+                        TVTypeEnum.File,
+                        TVTypeEnum.HydrometricSite,
+                        TVTypeEnum.Infrastructure,
+                        TVTypeEnum.MikeBoundaryConditionMesh,
+                        TVTypeEnum.MikeBoundaryConditionWebTide,
+                        TVTypeEnum.MikeScenario,
+                        TVTypeEnum.MikeSource,
+                        TVTypeEnum.Municipality,
+                        TVTypeEnum.MWQMRun,
+                        TVTypeEnum.MWQMSite,
+                        TVTypeEnum.MWQMSiteSample,
+                        TVTypeEnum.PolSourceSite,
+                        TVTypeEnum.SamplingPlan,
+                        TVTypeEnum.Spill,
+                        TVTypeEnum.TideSite,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemTVItemID4.TVType))
+                    {
+                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationTVItemID4, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "TVItemID4" });
+                    }
                 }
             }
 
@@ -131,10 +263,19 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.TVAuthText) && tvItemUserAuthorization.TVAuthText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemUserAuthorizationTVAuthText, "100"), new[] { "TVAuthText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -146,7 +287,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public TVItemUserAuthorization GetTVItemUserAuthorizationWithTVItemUserAuthorizationID(int TVItemUserAuthorizationID)
+        {
+            IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery = (from c in GetRead()
+                                                where c.TVItemUserAuthorizationID == TVItemUserAuthorizationID
+                                                select c);
+
+            return FillTVItemUserAuthorization(tvItemUserAuthorizationQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(TVItemUserAuthorization tvItemUserAuthorization)
         {
             tvItemUserAuthorization.ValidationResults = Validate(new ValidationContext(tvItemUserAuthorization), ActionDBTypeEnum.Create);
@@ -235,9 +387,38 @@ namespace CSSPServices
         {
             return db.TVItemUserAuthorizations;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<TVItemUserAuthorization> FillTVItemUserAuthorization(IQueryable<TVItemUserAuthorization> tvItemUserAuthorizationQuery)
+        {
+            List<TVItemUserAuthorization> TVItemUserAuthorizationList = (from c in tvItemUserAuthorizationQuery
+                                         select new TVItemUserAuthorization
+                                         {
+                                             TVItemUserAuthorizationID = c.TVItemUserAuthorizationID,
+                                             ContactTVItemID = c.ContactTVItemID,
+                                             TVItemID1 = c.TVItemID1,
+                                             TVItemID2 = c.TVItemID2,
+                                             TVItemID3 = c.TVItemID3,
+                                             TVItemID4 = c.TVItemID4,
+                                             TVAuth = c.TVAuth,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (TVItemUserAuthorization tvItemUserAuthorization in TVItemUserAuthorizationList)
+            {
+                tvItemUserAuthorization.TVAuthText = enums.GetEnumText_TVAuthEnum(tvItemUserAuthorization.TVAuth);
+            }
+
+            return TVItemUserAuthorizationList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(TVItemUserAuthorization tvItemUserAuthorization)
         {
             try
@@ -266,6 +447,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

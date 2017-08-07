@@ -98,10 +98,24 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(spillLanguage.LanguageText) && spillLanguage.LanguageText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLanguageLanguageText, "100"), new[] { "LanguageText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(spillLanguage.TranslationStatusText) && spillLanguage.TranslationStatusText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -113,7 +127,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public SpillLanguage GetSpillLanguageWithSpillLanguageID(int SpillLanguageID)
+        {
+            IQueryable<SpillLanguage> spillLanguageQuery = (from c in GetRead()
+                                                where c.SpillLanguageID == SpillLanguageID
+                                                select c);
+
+            return FillSpillLanguage(spillLanguageQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(SpillLanguage spillLanguage)
         {
             spillLanguage.ValidationResults = Validate(new ValidationContext(spillLanguage), ActionDBTypeEnum.Create);
@@ -202,9 +227,37 @@ namespace CSSPServices
         {
             return db.SpillLanguages;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<SpillLanguage> FillSpillLanguage(IQueryable<SpillLanguage> spillLanguageQuery)
+        {
+            List<SpillLanguage> SpillLanguageList = (from c in spillLanguageQuery
+                                         select new SpillLanguage
+                                         {
+                                             SpillLanguageID = c.SpillLanguageID,
+                                             SpillID = c.SpillID,
+                                             Language = c.Language,
+                                             SpillComment = c.SpillComment,
+                                             TranslationStatus = c.TranslationStatus,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (SpillLanguage spillLanguage in SpillLanguageList)
+            {
+                spillLanguage.LanguageText = enums.GetEnumText_LanguageEnum(spillLanguage.Language);
+                spillLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(spillLanguage.TranslationStatus);
+            }
+
+            return SpillLanguageList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(SpillLanguage spillLanguage)
         {
             try
@@ -233,6 +286,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

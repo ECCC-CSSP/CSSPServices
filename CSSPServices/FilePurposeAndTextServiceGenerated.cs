@@ -44,14 +44,9 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FilePurposeAndTextFilePurpose), new[] { "FilePurpose" });
             }
 
-            if (string.IsNullOrWhiteSpace(filePurposeAndText.FilePurposeText))
+            if (!string.IsNullOrWhiteSpace(filePurposeAndText.FilePurposeText) && filePurposeAndText.FilePurposeText.Length > 100)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FilePurposeAndTextFilePurposeText), new[] { "FilePurposeText" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(filePurposeAndText.FilePurposeText) && (filePurposeAndText.FilePurposeText.Length < 1 || filePurposeAndText.FilePurposeText.Length > 200))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FilePurposeAndTextFilePurposeText, "1", "200"), new[] { "FilePurposeText" });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.FilePurposeAndTextFilePurposeText, "100"), new[] { "FilePurposeText" });
             }
 
             retStr = ""; // added to stop compiling error

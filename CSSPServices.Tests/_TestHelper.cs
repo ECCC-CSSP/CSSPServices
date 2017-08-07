@@ -28,17 +28,30 @@ namespace CSSPServices.Tests
         public LanguageEnum LanguageRequest { get; set; }
         public List<CultureInfo> AllowableCulture { get; set; }
         public int ContactID = 1;
-        public LanguageEnum language { get; set; }
         public CultureInfo culture { get; set; }
         #endregion Properties
 
         #region Constructors
         public TestHelper()
         {
-            AllowableCulture = new List<CultureInfo>() { new CultureInfo("en-CA"), new CultureInfo("fr-CA")/*, new CultureInfo("es-ES")*/ };
-            language = LanguageEnum.en; // Will also need to test LanguageEnum.fr
 
-            culture = new CultureInfo(language.ToString() + "-CA");
+            AllowableCulture = new List<CultureInfo>() { new CultureInfo("en-CA"), new CultureInfo("fr-CA")/*, new CultureInfo("es-ES")*/ };
+
+            ChangeCulture(new CultureInfo("en-CA"));
+
+            dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB);
+            //dbMemoryTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryTestDB);
+            random = new Random();
+
+            //FillMemoryTestDBWithTestDBData();
+        }
+
+        #endregion Constructors
+
+        #region Functions public
+        public void ChangeCulture(CultureInfo culture)
+        {
+            LanguageRequest = (culture.TwoLetterISOLanguageName == "fr" ? LanguageEnum.fr : LanguageEnum.en);
 
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
@@ -55,16 +68,7 @@ namespace CSSPServices.Tests
             {
                 LanguageRequest = LanguageEnum.en;
             }
-            dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB);
-            //dbMemoryTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryTestDB);
-            random = new Random();
-
-            //FillMemoryTestDBWithTestDBData();
         }
-
-        #endregion Constructors
-
-        #region Functions public
         public Contact GetRandomContact()
         {
 
@@ -194,7 +198,7 @@ namespace CSSPServices.Tests
                                  orderby c
                                  select c).ToList();
 
-            int Min = valList.ToList().FirstOrDefault();
+            int Min = valList.ToList().Skip(1).FirstOrDefault();
             int Max = valList.ToList().OrderByDescending(c => c).FirstOrDefault();
 
             retValue = GetRandomInt(Min, Max);

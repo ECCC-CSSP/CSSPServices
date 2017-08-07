@@ -108,10 +108,19 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.HydrometricDataValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(hydrometricDataValue.StorageDataTypeText) && hydrometricDataValue.StorageDataTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricDataValueStorageDataTypeText, "100"), new[] { "StorageDataTypeText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -123,7 +132,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public HydrometricDataValue GetHydrometricDataValueWithHydrometricDataValueID(int HydrometricDataValueID)
+        {
+            IQueryable<HydrometricDataValue> hydrometricDataValueQuery = (from c in GetRead()
+                                                where c.HydrometricDataValueID == HydrometricDataValueID
+                                                select c);
+
+            return FillHydrometricDataValue(hydrometricDataValueQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(HydrometricDataValue hydrometricDataValue)
         {
             hydrometricDataValue.ValidationResults = Validate(new ValidationContext(hydrometricDataValue), ActionDBTypeEnum.Create);
@@ -212,9 +232,38 @@ namespace CSSPServices
         {
             return db.HydrometricDataValues;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<HydrometricDataValue> FillHydrometricDataValue(IQueryable<HydrometricDataValue> hydrometricDataValueQuery)
+        {
+            List<HydrometricDataValue> HydrometricDataValueList = (from c in hydrometricDataValueQuery
+                                         select new HydrometricDataValue
+                                         {
+                                             HydrometricDataValueID = c.HydrometricDataValueID,
+                                             HydrometricSiteID = c.HydrometricSiteID,
+                                             DateTime_Local = c.DateTime_Local,
+                                             Keep = c.Keep,
+                                             StorageDataType = c.StorageDataType,
+                                             Flow_m3_s = c.Flow_m3_s,
+                                             HourlyValues = c.HourlyValues,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (HydrometricDataValue hydrometricDataValue in HydrometricDataValueList)
+            {
+                hydrometricDataValue.StorageDataTypeText = enums.GetEnumText_StorageDataTypeEnum(hydrometricDataValue.StorageDataType);
+            }
+
+            return HydrometricDataValueList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(HydrometricDataValue hydrometricDataValue)
         {
             try
@@ -243,6 +292,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

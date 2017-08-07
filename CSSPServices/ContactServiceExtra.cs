@@ -1224,21 +1224,7 @@ namespace CSSPServices
                 tvItem.LastUpdateDate_UTC = DateTime.UtcNow;
                 tvItem.LastUpdateContactTVItemID = tvItemRoot.TVItemID;
 
-                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, db, ContactID);
-                foreach (LanguageEnum Lang in LanguageListAllowable)
-                {
-                    string TVText = CreateTVText(contact);
-                    TVItemLanguage tvItemLanguage = new TVItemLanguage()
-                    {
-                        Language = Lang,
-                        TVText = TVText,
-                        TVItemID = tvItem.TVItemID,
-                        TranslationStatus = (Lang == LanguageRequest ? TranslationStatusEnum.Translated : TranslationStatusEnum.NotTranslated),
-                    };
-
-                    tvItem.TVItemLanguages.Add(tvItemLanguage);
                 }
-            }
 
             using (TransactionScope ts = new TransactionScope())
             {
@@ -1259,6 +1245,21 @@ namespace CSSPServices
                     }
 
                     contact.ContactTVItemID = tvItem.TVItemID;
+                }
+
+                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, db, ContactID);
+                foreach (LanguageEnum Lang in LanguageListAllowable)
+                {
+                    string TVText = CreateTVText(contact);
+                    TVItemLanguage tvItemLanguage = new TVItemLanguage()
+                    {
+                        Language = Lang,
+                        TVText = TVText,
+                        TVItemID = tvItem.TVItemID,
+                        TranslationStatus = (Lang == LanguageRequest ? TranslationStatusEnum.Translated : TranslationStatusEnum.NotTranslated),
+                    };
+
+                    tvItemLanguageService.Add(tvItemLanguage);
                 }
 
                 if (!contactService.Add(contact, addContactType)) return false;

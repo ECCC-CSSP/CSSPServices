@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemSubsectorTVItemID.TVType != TVTypeEnum.Subsector)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Subsector,
+                };
+                if (!AllowableTVTypes.Contains(TVItemSubsectorTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunSubsectorTVItemID, "Subsector"), new[] { "SubsectorTVItemID" });
                 }
@@ -74,7 +78,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemMWQMRunTVItemID.TVType != TVTypeEnum.MWQMRun)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.MWQMRun,
+                };
+                if (!AllowableTVTypes.Contains(TVItemMWQMRunTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunMWQMRunTVItemID, "MWQMRun"), new[] { "MWQMRunTVItemID" });
                 }
@@ -234,7 +242,11 @@ namespace CSSPServices
                 }
                 else
                 {
-                    if (TVItemLabSampleApprovalContactTVItemID.TVType != TVTypeEnum.Contact)
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.Contact,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemLabSampleApprovalContactTVItemID.TVType))
                     {
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, "Contact"), new[] { "LabSampleApprovalContactTVItemID" });
                     }
@@ -389,10 +401,59 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRun.RunSampleTypeText) && mwqmRun.RunSampleTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunRunSampleTypeText, "100"), new[] { "RunSampleTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRun.SeaStateAtStart_BeaufortScaleText) && mwqmRun.SeaStateAtStart_BeaufortScaleText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSeaStateAtStart_BeaufortScaleText, "100"), new[] { "SeaStateAtStart_BeaufortScaleText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRun.SeaStateAtEnd_BeaufortScaleText) && mwqmRun.SeaStateAtEnd_BeaufortScaleText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSeaStateAtEnd_BeaufortScaleText, "100"), new[] { "SeaStateAtEnd_BeaufortScaleText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRun.AnalyzeMethodText) && mwqmRun.AnalyzeMethodText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunAnalyzeMethodText, "100"), new[] { "AnalyzeMethodText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRun.SampleMatrixText) && mwqmRun.SampleMatrixText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSampleMatrixText, "100"), new[] { "SampleMatrixText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRun.LaboratoryText) && mwqmRun.LaboratoryText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLaboratoryText, "100"), new[] { "LaboratoryText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRun.SampleStatusText) && mwqmRun.SampleStatusText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSampleStatusText, "100"), new[] { "SampleStatusText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRun.Tide_StartText) && mwqmRun.Tide_StartText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunTide_StartText, "100"), new[] { "Tide_StartText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRun.Tide_EndText) && mwqmRun.Tide_EndText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunTide_EndText, "100"), new[] { "Tide_EndText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -404,7 +465,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MWQMRun GetMWQMRunWithMWQMRunID(int MWQMRunID)
+        {
+            IQueryable<MWQMRun> mwqmRunQuery = (from c in GetRead()
+                                                where c.MWQMRunID == MWQMRunID
+                                                select c);
+
+            return FillMWQMRun(mwqmRunQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MWQMRun mwqmRun)
         {
             mwqmRun.ValidationResults = Validate(new ValidationContext(mwqmRun), ActionDBTypeEnum.Create);
@@ -493,9 +565,79 @@ namespace CSSPServices
         {
             return db.MWQMRuns;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MWQMRun> FillMWQMRun(IQueryable<MWQMRun> mwqmRunQuery)
+        {
+            List<MWQMRun> MWQMRunList = (from c in mwqmRunQuery
+                                         select new MWQMRun
+                                         {
+                                             MWQMRunID = c.MWQMRunID,
+                                             SubsectorTVItemID = c.SubsectorTVItemID,
+                                             MWQMRunTVItemID = c.MWQMRunTVItemID,
+                                             RunSampleType = c.RunSampleType,
+                                             DateTime_Local = c.DateTime_Local,
+                                             RunNumber = c.RunNumber,
+                                             StartDateTime_Local = c.StartDateTime_Local,
+                                             EndDateTime_Local = c.EndDateTime_Local,
+                                             LabReceivedDateTime_Local = c.LabReceivedDateTime_Local,
+                                             TemperatureControl1_C = c.TemperatureControl1_C,
+                                             TemperatureControl2_C = c.TemperatureControl2_C,
+                                             SeaStateAtStart_BeaufortScale = c.SeaStateAtStart_BeaufortScale,
+                                             SeaStateAtEnd_BeaufortScale = c.SeaStateAtEnd_BeaufortScale,
+                                             WaterLevelAtBrook_m = c.WaterLevelAtBrook_m,
+                                             WaveHightAtStart_m = c.WaveHightAtStart_m,
+                                             WaveHightAtEnd_m = c.WaveHightAtEnd_m,
+                                             SampleCrewInitials = c.SampleCrewInitials,
+                                             AnalyzeMethod = c.AnalyzeMethod,
+                                             SampleMatrix = c.SampleMatrix,
+                                             Laboratory = c.Laboratory,
+                                             SampleStatus = c.SampleStatus,
+                                             LabSampleApprovalContactTVItemID = c.LabSampleApprovalContactTVItemID,
+                                             LabAnalyzeBath1IncubationStartDateTime_Local = c.LabAnalyzeBath1IncubationStartDateTime_Local,
+                                             LabAnalyzeBath2IncubationStartDateTime_Local = c.LabAnalyzeBath2IncubationStartDateTime_Local,
+                                             LabAnalyzeBath3IncubationStartDateTime_Local = c.LabAnalyzeBath3IncubationStartDateTime_Local,
+                                             LabRunSampleApprovalDateTime_Local = c.LabRunSampleApprovalDateTime_Local,
+                                             Tide_Start = c.Tide_Start,
+                                             Tide_End = c.Tide_End,
+                                             RainDay0_mm = c.RainDay0_mm,
+                                             RainDay1_mm = c.RainDay1_mm,
+                                             RainDay2_mm = c.RainDay2_mm,
+                                             RainDay3_mm = c.RainDay3_mm,
+                                             RainDay4_mm = c.RainDay4_mm,
+                                             RainDay5_mm = c.RainDay5_mm,
+                                             RainDay6_mm = c.RainDay6_mm,
+                                             RainDay7_mm = c.RainDay7_mm,
+                                             RainDay8_mm = c.RainDay8_mm,
+                                             RainDay9_mm = c.RainDay9_mm,
+                                             RainDay10_mm = c.RainDay10_mm,
+                                             RemoveFromStat = c.RemoveFromStat,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (MWQMRun mwqmRun in MWQMRunList)
+            {
+                mwqmRun.RunSampleTypeText = enums.GetEnumText_SampleTypeEnum(mwqmRun.RunSampleType);
+                mwqmRun.SeaStateAtStart_BeaufortScaleText = enums.GetEnumText_BeaufortScaleEnum(mwqmRun.SeaStateAtStart_BeaufortScale);
+                mwqmRun.SeaStateAtEnd_BeaufortScaleText = enums.GetEnumText_BeaufortScaleEnum(mwqmRun.SeaStateAtEnd_BeaufortScale);
+                mwqmRun.AnalyzeMethodText = enums.GetEnumText_AnalyzeMethodEnum(mwqmRun.AnalyzeMethod);
+                mwqmRun.SampleMatrixText = enums.GetEnumText_SampleMatrixEnum(mwqmRun.SampleMatrix);
+                mwqmRun.LaboratoryText = enums.GetEnumText_LaboratoryEnum(mwqmRun.Laboratory);
+                mwqmRun.SampleStatusText = enums.GetEnumText_SampleStatusEnum(mwqmRun.SampleStatus);
+                mwqmRun.Tide_StartText = enums.GetEnumText_TideTextEnum(mwqmRun.Tide_Start);
+                mwqmRun.Tide_EndText = enums.GetEnumText_TideTextEnum(mwqmRun.Tide_End);
+            }
+
+            return MWQMRunList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MWQMRun mwqmRun)
         {
             try
@@ -524,6 +666,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

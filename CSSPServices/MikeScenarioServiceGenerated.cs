@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemMikeScenarioTVItemID.TVType != TVTypeEnum.MikeScenario)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.MikeScenario,
+                };
+                if (!AllowableTVTypes.Contains(TVItemMikeScenarioTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeScenarioMikeScenarioTVItemID, "MikeScenario"), new[] { "MikeScenarioTVItemID" });
                 }
@@ -74,7 +78,11 @@ namespace CSSPServices
                 }
                 else
                 {
-                    if (TVItemParentMikeScenarioID.TVType != TVTypeEnum.MikeScenario)
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.MikeScenario,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemParentMikeScenarioID.TVType))
                     {
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeScenarioParentMikeScenarioID, "MikeScenario"), new[] { "ParentMikeScenarioID" });
                     }
@@ -270,10 +278,19 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeScenarioLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(mikeScenario.ScenarioStatusText) && mikeScenario.ScenarioStatusText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeScenarioScenarioStatusText, "100"), new[] { "ScenarioStatusText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -285,7 +302,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MikeScenario GetMikeScenarioWithMikeScenarioID(int MikeScenarioID)
+        {
+            IQueryable<MikeScenario> mikeScenarioQuery = (from c in GetRead()
+                                                where c.MikeScenarioID == MikeScenarioID
+                                                select c);
+
+            return FillMikeScenario(mikeScenarioQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MikeScenario mikeScenario)
         {
             mikeScenario.ValidationResults = Validate(new ValidationContext(mikeScenario), ActionDBTypeEnum.Create);
@@ -374,9 +402,57 @@ namespace CSSPServices
         {
             return db.MikeScenarios;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MikeScenario> FillMikeScenario(IQueryable<MikeScenario> mikeScenarioQuery)
+        {
+            List<MikeScenario> MikeScenarioList = (from c in mikeScenarioQuery
+                                         select new MikeScenario
+                                         {
+                                             MikeScenarioID = c.MikeScenarioID,
+                                             MikeScenarioTVItemID = c.MikeScenarioTVItemID,
+                                             ParentMikeScenarioID = c.ParentMikeScenarioID,
+                                             ScenarioStatus = c.ScenarioStatus,
+                                             ErrorInfo = c.ErrorInfo,
+                                             MikeScenarioStartDateTime_Local = c.MikeScenarioStartDateTime_Local,
+                                             MikeScenarioEndDateTime_Local = c.MikeScenarioEndDateTime_Local,
+                                             MikeScenarioStartExecutionDateTime_Local = c.MikeScenarioStartExecutionDateTime_Local,
+                                             MikeScenarioExecutionTime_min = c.MikeScenarioExecutionTime_min,
+                                             WindSpeed_km_h = c.WindSpeed_km_h,
+                                             WindDirection_deg = c.WindDirection_deg,
+                                             DecayFactor_per_day = c.DecayFactor_per_day,
+                                             DecayIsConstant = c.DecayIsConstant,
+                                             DecayFactorAmplitude = c.DecayFactorAmplitude,
+                                             ResultFrequency_min = c.ResultFrequency_min,
+                                             AmbientTemperature_C = c.AmbientTemperature_C,
+                                             AmbientSalinity_PSU = c.AmbientSalinity_PSU,
+                                             ManningNumber = c.ManningNumber,
+                                             NumberOfElements = c.NumberOfElements,
+                                             NumberOfTimeSteps = c.NumberOfTimeSteps,
+                                             NumberOfSigmaLayers = c.NumberOfSigmaLayers,
+                                             NumberOfZLayers = c.NumberOfZLayers,
+                                             NumberOfHydroOutputParameters = c.NumberOfHydroOutputParameters,
+                                             NumberOfTransOutputParameters = c.NumberOfTransOutputParameters,
+                                             EstimatedHydroFileSize = c.EstimatedHydroFileSize,
+                                             EstimatedTransFileSize = c.EstimatedTransFileSize,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (MikeScenario mikeScenario in MikeScenarioList)
+            {
+                mikeScenario.ScenarioStatusText = enums.GetEnumText_ScenarioStatusEnum(mikeScenario.ScenarioStatus);
+            }
+
+            return MikeScenarioList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MikeScenario mikeScenario)
         {
             try
@@ -405,6 +481,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

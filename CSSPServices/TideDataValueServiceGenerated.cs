@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemTideSiteTVItemID.TVType != TVTypeEnum.TideSite)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.TideSite,
+                };
+                if (!AllowableTVTypes.Contains(TVItemTideSiteTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TideDataValueTideSiteTVItemID, "TideSite"), new[] { "TideSiteTVItemID" });
                 }
@@ -151,10 +155,34 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TideDataValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(tideDataValue.TideDataTypeText) && tideDataValue.TideDataTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueTideDataTypeText, "100"), new[] { "TideDataTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tideDataValue.StorageDataTypeText) && tideDataValue.StorageDataTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueStorageDataTypeText, "100"), new[] { "StorageDataTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tideDataValue.TideStartText) && tideDataValue.TideStartText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueTideStartText, "100"), new[] { "TideStartText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tideDataValue.TideEndText) && tideDataValue.TideEndText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueTideEndText, "100"), new[] { "TideEndText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -166,7 +194,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public TideDataValue GetTideDataValueWithTideDataValueID(int TideDataValueID)
+        {
+            IQueryable<TideDataValue> tideDataValueQuery = (from c in GetRead()
+                                                where c.TideDataValueID == TideDataValueID
+                                                select c);
+
+            return FillTideDataValue(tideDataValueQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(TideDataValue tideDataValue)
         {
             tideDataValue.ValidationResults = Validate(new ValidationContext(tideDataValue), ActionDBTypeEnum.Create);
@@ -255,9 +294,45 @@ namespace CSSPServices
         {
             return db.TideDataValues;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<TideDataValue> FillTideDataValue(IQueryable<TideDataValue> tideDataValueQuery)
+        {
+            List<TideDataValue> TideDataValueList = (from c in tideDataValueQuery
+                                         select new TideDataValue
+                                         {
+                                             TideDataValueID = c.TideDataValueID,
+                                             TideSiteTVItemID = c.TideSiteTVItemID,
+                                             DateTime_Local = c.DateTime_Local,
+                                             Keep = c.Keep,
+                                             TideDataType = c.TideDataType,
+                                             StorageDataType = c.StorageDataType,
+                                             Depth_m = c.Depth_m,
+                                             UVelocity_m_s = c.UVelocity_m_s,
+                                             VVelocity_m_s = c.VVelocity_m_s,
+                                             TideStart = c.TideStart,
+                                             TideEnd = c.TideEnd,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (TideDataValue tideDataValue in TideDataValueList)
+            {
+                tideDataValue.TideDataTypeText = enums.GetEnumText_TideDataTypeEnum(tideDataValue.TideDataType);
+                tideDataValue.StorageDataTypeText = enums.GetEnumText_StorageDataTypeEnum(tideDataValue.StorageDataType);
+                tideDataValue.TideStartText = enums.GetEnumText_TideTextEnum(tideDataValue.TideStart);
+                tideDataValue.TideEndText = enums.GetEnumText_TideTextEnum(tideDataValue.TideEnd);
+            }
+
+            return TideDataValueList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(TideDataValue tideDataValue)
         {
             try
@@ -286,6 +361,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

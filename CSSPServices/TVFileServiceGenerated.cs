@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemTVFileTVItemID.TVType != TVTypeEnum.File)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.File,
+                };
+                if (!AllowableTVTypes.Contains(TVItemTVFileTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVFileTVFileTVItemID, "File"), new[] { "TVFileTVItemID" });
                 }
@@ -156,10 +160,34 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVFileLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvFile.TemplateTVTypeText) && tvFile.TemplateTVTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileTemplateTVTypeText, "100"), new[] { "TemplateTVTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvFile.LanguageText) && tvFile.LanguageText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileLanguageText, "100"), new[] { "LanguageText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvFile.FilePurposeText) && tvFile.FilePurposeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileFilePurposeText, "100"), new[] { "FilePurposeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvFile.FileTypeText) && tvFile.FileTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileFileTypeText, "100"), new[] { "FileTypeText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -171,7 +199,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public TVFile GetTVFileWithTVFileID(int TVFileID)
+        {
+            IQueryable<TVFile> tvFileQuery = (from c in GetRead()
+                                                where c.TVFileID == TVFileID
+                                                select c);
+
+            return FillTVFile(tvFileQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(TVFile tvFile)
         {
             tvFile.ValidationResults = Validate(new ValidationContext(tvFile), ActionDBTypeEnum.Create);
@@ -260,9 +299,47 @@ namespace CSSPServices
         {
             return db.TVFiles;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<TVFile> FillTVFile(IQueryable<TVFile> tvFileQuery)
+        {
+            List<TVFile> TVFileList = (from c in tvFileQuery
+                                         select new TVFile
+                                         {
+                                             TVFileID = c.TVFileID,
+                                             TVFileTVItemID = c.TVFileTVItemID,
+                                             TemplateTVType = c.TemplateTVType,
+                                             Language = c.Language,
+                                             FilePurpose = c.FilePurpose,
+                                             FileType = c.FileType,
+                                             FileSize_kb = c.FileSize_kb,
+                                             FileInfo = c.FileInfo,
+                                             FileCreatedDate_UTC = c.FileCreatedDate_UTC,
+                                             FromWater = c.FromWater,
+                                             ClientFilePath = c.ClientFilePath,
+                                             ServerFileName = c.ServerFileName,
+                                             ServerFilePath = c.ServerFilePath,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (TVFile tvFile in TVFileList)
+            {
+                tvFile.TemplateTVTypeText = enums.GetEnumText_TVTypeEnum(tvFile.TemplateTVType);
+                tvFile.LanguageText = enums.GetEnumText_LanguageEnum(tvFile.Language);
+                tvFile.FilePurposeText = enums.GetEnumText_FilePurposeEnum(tvFile.FilePurpose);
+                tvFile.FileTypeText = enums.GetEnumText_FileTypeEnum(tvFile.FileType);
+            }
+
+            return TVFileList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(TVFile tvFile)
         {
             try
@@ -291,6 +368,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

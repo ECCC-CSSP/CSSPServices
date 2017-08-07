@@ -38,12 +38,28 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             PolSourceObsInfoChild polSourceObsInfoChild = validationContext.ObjectInstance as PolSourceObsInfoChild;
 
-                //Error: Type not implemented [PolSourceObsInfo] of type [PolSourceObsInfoEnum]
+            retStr = enums.PolSourceObsInfoOK(polSourceObsInfoChild.PolSourceObsInfo);
+            if (polSourceObsInfoChild.PolSourceObsInfo == PolSourceObsInfoEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObsInfoChildPolSourceObsInfo), new[] { "PolSourceObsInfo" });
+            }
 
-                //Error: Type not implemented [PolSourceObsInfo] of type [PolSourceObsInfoEnum]
-                //Error: Type not implemented [PolSourceObsInfoChildStart] of type [PolSourceObsInfoEnum]
+            retStr = enums.PolSourceObsInfoOK(polSourceObsInfoChild.PolSourceObsInfoChildStart);
+            if (polSourceObsInfoChild.PolSourceObsInfoChildStart == PolSourceObsInfoEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObsInfoChildPolSourceObsInfoChildStart), new[] { "PolSourceObsInfoChildStart" });
+            }
 
-                //Error: Type not implemented [PolSourceObsInfoChildStart] of type [PolSourceObsInfoEnum]
+            if (!string.IsNullOrWhiteSpace(polSourceObsInfoChild.PolSourceObsInfoText) && polSourceObsInfoChild.PolSourceObsInfoText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObsInfoChildPolSourceObsInfoText, "100"), new[] { "PolSourceObsInfoText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(polSourceObsInfoChild.PolSourceObsInfoChildStartText) && polSourceObsInfoChild.PolSourceObsInfoChildStartText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObsInfoChildPolSourceObsInfoChildStartText, "100"), new[] { "PolSourceObsInfoChildStartText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

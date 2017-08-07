@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSPServices", "CSSPServices\CSSPServices.csproj", "{9D9EE795-3104-4E2A-8BA0-FD95F1ABAFAE}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSPServicesGenerateCode", "CSSPServicesGenerateCode\CSSPServicesGenerateCode.csproj", "{21E0F335-CEFD-4E57-B38D-135526C22655}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSPServicesGenerateCodeHelper", "CSSPServicesGenerateCodeHelper\CSSPServicesGenerateCodeHelper.csproj", "{6EFF2150-3B14-471C-9014-9AE541E6CCB0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSSPServicesFillDB.Tests", "CSSPServicesFillDB.Tests\CSSPServicesFillDB.Tests.csproj", "{4432DDCA-730B-4C92-9F40-8357B4D85C05}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{6EFF2150-3B14-471C-9014-9AE541E6CCB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EFF2150-3B14-471C-9014-9AE541E6CCB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EFF2150-3B14-471C-9014-9AE541E6CCB0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4432DDCA-730B-4C92-9F40-8357B4D85C05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4432DDCA-730B-4C92-9F40-8357B4D85C05}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4432DDCA-730B-4C92-9F40-8357B4D85C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4432DDCA-730B-4C92-9F40-8357B4D85C05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

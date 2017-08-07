@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemInfrastructureTVItemID.TVType != TVTypeEnum.Infrastructure)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Infrastructure,
+                };
+                if (!AllowableTVTypes.Contains(TVItemInfrastructureTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureInfrastructureTVItemID, "Infrastructure"), new[] { "InfrastructureTVItemID" });
                 }
@@ -396,7 +400,11 @@ namespace CSSPServices
                 }
                 else
                 {
-                    if (TVItemSeeOtherTVItemID.TVType != TVTypeEnum.Infrastructure)
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.Infrastructure,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemSeeOtherTVItemID.TVType))
                     {
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureSeeOtherTVItemID, "Infrastructure"), new[] { "SeeOtherTVItemID" });
                     }
@@ -413,9 +421,13 @@ namespace CSSPServices
                 }
                 else
                 {
-                    if (TVItemCivicAddressTVItemID.TVType != TVTypeEnum.Address)
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
                     {
-                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureCivicAddressTVItemID, "Address"), new[] { "CivicAddressTVItemID" });
+                        TVTypeEnum.Infrastructure,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemCivicAddressTVItemID.TVType))
+                    {
+                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureCivicAddressTVItemID, "Infrastructure"), new[] { "CivicAddressTVItemID" });
                     }
                 }
             }
@@ -442,10 +454,69 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(infrastructure.InfrastructureTypeText) && infrastructure.InfrastructureTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureInfrastructureTypeText, "100"), new[] { "InfrastructureTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(infrastructure.FacilityTypeText) && infrastructure.FacilityTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureFacilityTypeText, "100"), new[] { "FacilityTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(infrastructure.AerationTypeText) && infrastructure.AerationTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureAerationTypeText, "100"), new[] { "AerationTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(infrastructure.PreliminaryTreatmentTypeText) && infrastructure.PreliminaryTreatmentTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructurePreliminaryTreatmentTypeText, "100"), new[] { "PreliminaryTreatmentTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(infrastructure.PrimaryTreatmentTypeText) && infrastructure.PrimaryTreatmentTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructurePrimaryTreatmentTypeText, "100"), new[] { "PrimaryTreatmentTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(infrastructure.SecondaryTreatmentTypeText) && infrastructure.SecondaryTreatmentTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureSecondaryTreatmentTypeText, "100"), new[] { "SecondaryTreatmentTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(infrastructure.TertiaryTreatmentTypeText) && infrastructure.TertiaryTreatmentTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureTertiaryTreatmentTypeText, "100"), new[] { "TertiaryTreatmentTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(infrastructure.TreatmentTypeText) && infrastructure.TreatmentTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureTreatmentTypeText, "100"), new[] { "TreatmentTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(infrastructure.DisinfectionTypeText) && infrastructure.DisinfectionTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureDisinfectionTypeText, "100"), new[] { "DisinfectionTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(infrastructure.CollectionSystemTypeText) && infrastructure.CollectionSystemTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureCollectionSystemTypeText, "100"), new[] { "CollectionSystemTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(infrastructure.AlarmSystemTypeText) && infrastructure.AlarmSystemTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureAlarmSystemTypeText, "100"), new[] { "AlarmSystemTypeText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -457,7 +528,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public Infrastructure GetInfrastructureWithInfrastructureID(int InfrastructureID)
+        {
+            IQueryable<Infrastructure> infrastructureQuery = (from c in GetRead()
+                                                where c.InfrastructureID == InfrastructureID
+                                                select c);
+
+            return FillInfrastructure(infrastructureQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(Infrastructure infrastructure)
         {
             infrastructure.ValidationResults = Validate(new ValidationContext(infrastructure), ActionDBTypeEnum.Create);
@@ -546,9 +628,87 @@ namespace CSSPServices
         {
             return db.Infrastructures;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<Infrastructure> FillInfrastructure(IQueryable<Infrastructure> infrastructureQuery)
+        {
+            List<Infrastructure> InfrastructureList = (from c in infrastructureQuery
+                                         select new Infrastructure
+                                         {
+                                             InfrastructureID = c.InfrastructureID,
+                                             InfrastructureTVItemID = c.InfrastructureTVItemID,
+                                             PrismID = c.PrismID,
+                                             TPID = c.TPID,
+                                             LSID = c.LSID,
+                                             SiteID = c.SiteID,
+                                             Site = c.Site,
+                                             InfrastructureCategory = c.InfrastructureCategory,
+                                             InfrastructureType = c.InfrastructureType,
+                                             FacilityType = c.FacilityType,
+                                             IsMechanicallyAerated = c.IsMechanicallyAerated,
+                                             NumberOfCells = c.NumberOfCells,
+                                             NumberOfAeratedCells = c.NumberOfAeratedCells,
+                                             AerationType = c.AerationType,
+                                             PreliminaryTreatmentType = c.PreliminaryTreatmentType,
+                                             PrimaryTreatmentType = c.PrimaryTreatmentType,
+                                             SecondaryTreatmentType = c.SecondaryTreatmentType,
+                                             TertiaryTreatmentType = c.TertiaryTreatmentType,
+                                             TreatmentType = c.TreatmentType,
+                                             DisinfectionType = c.DisinfectionType,
+                                             CollectionSystemType = c.CollectionSystemType,
+                                             AlarmSystemType = c.AlarmSystemType,
+                                             DesignFlow_m3_day = c.DesignFlow_m3_day,
+                                             AverageFlow_m3_day = c.AverageFlow_m3_day,
+                                             PeakFlow_m3_day = c.PeakFlow_m3_day,
+                                             PopServed = c.PopServed,
+                                             CanOverflow = c.CanOverflow,
+                                             PercFlowOfTotal = c.PercFlowOfTotal,
+                                             TimeOffset_hour = c.TimeOffset_hour,
+                                             TempCatchAllRemoveLater = c.TempCatchAllRemoveLater,
+                                             AverageDepth_m = c.AverageDepth_m,
+                                             NumberOfPorts = c.NumberOfPorts,
+                                             PortDiameter_m = c.PortDiameter_m,
+                                             PortSpacing_m = c.PortSpacing_m,
+                                             PortElevation_m = c.PortElevation_m,
+                                             VerticalAngle_deg = c.VerticalAngle_deg,
+                                             HorizontalAngle_deg = c.HorizontalAngle_deg,
+                                             DecayRate_per_day = c.DecayRate_per_day,
+                                             NearFieldVelocity_m_s = c.NearFieldVelocity_m_s,
+                                             FarFieldVelocity_m_s = c.FarFieldVelocity_m_s,
+                                             ReceivingWaterSalinity_PSU = c.ReceivingWaterSalinity_PSU,
+                                             ReceivingWaterTemperature_C = c.ReceivingWaterTemperature_C,
+                                             ReceivingWater_MPN_per_100ml = c.ReceivingWater_MPN_per_100ml,
+                                             DistanceFromShore_m = c.DistanceFromShore_m,
+                                             SeeOtherTVItemID = c.SeeOtherTVItemID,
+                                             CivicAddressTVItemID = c.CivicAddressTVItemID,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (Infrastructure infrastructure in InfrastructureList)
+            {
+                infrastructure.InfrastructureTypeText = enums.GetEnumText_InfrastructureTypeEnum(infrastructure.InfrastructureType);
+                infrastructure.FacilityTypeText = enums.GetEnumText_FacilityTypeEnum(infrastructure.FacilityType);
+                infrastructure.AerationTypeText = enums.GetEnumText_AerationTypeEnum(infrastructure.AerationType);
+                infrastructure.PreliminaryTreatmentTypeText = enums.GetEnumText_PreliminaryTreatmentTypeEnum(infrastructure.PreliminaryTreatmentType);
+                infrastructure.PrimaryTreatmentTypeText = enums.GetEnumText_PrimaryTreatmentTypeEnum(infrastructure.PrimaryTreatmentType);
+                infrastructure.SecondaryTreatmentTypeText = enums.GetEnumText_SecondaryTreatmentTypeEnum(infrastructure.SecondaryTreatmentType);
+                infrastructure.TertiaryTreatmentTypeText = enums.GetEnumText_TertiaryTreatmentTypeEnum(infrastructure.TertiaryTreatmentType);
+                infrastructure.TreatmentTypeText = enums.GetEnumText_TreatmentTypeEnum(infrastructure.TreatmentType);
+                infrastructure.DisinfectionTypeText = enums.GetEnumText_DisinfectionTypeEnum(infrastructure.DisinfectionType);
+                infrastructure.CollectionSystemTypeText = enums.GetEnumText_CollectionSystemTypeEnum(infrastructure.CollectionSystemType);
+                infrastructure.AlarmSystemTypeText = enums.GetEnumText_AlarmSystemTypeEnum(infrastructure.AlarmSystemType);
+            }
+
+            return InfrastructureList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(Infrastructure infrastructure)
         {
             try
@@ -577,6 +737,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

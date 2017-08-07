@@ -58,9 +58,14 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemMikeBoundaryConditionTVItemID.TVType != TVTypeEnum.MikeBoundaryConditionMesh)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVItemID, "MikeBoundaryConditionMesh"), new[] { "MikeBoundaryConditionTVItemID" });
+                    TVTypeEnum.MikeBoundaryConditionMesh,
+                    TVTypeEnum.MikeBoundaryConditionWebTide,
+                };
+                if (!AllowableTVTypes.Contains(TVItemMikeBoundaryConditionTVItemID.TVType))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVItemID, "MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide"), new[] { "MikeBoundaryConditionTVItemID" });
                 }
             }
 
@@ -155,10 +160,29 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeBoundaryConditionLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText) && mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLevelOrVelocityText, "100"), new[] { "MikeBoundaryConditionLevelOrVelocityText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.WebTideDataSetText) && mikeBoundaryCondition.WebTideDataSetText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionWebTideDataSetText, "100"), new[] { "WebTideDataSetText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.TVTypeText) && mikeBoundaryCondition.TVTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionTVTypeText, "100"), new[] { "TVTypeText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -170,7 +194,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MikeBoundaryCondition GetMikeBoundaryConditionWithMikeBoundaryConditionID(int MikeBoundaryConditionID)
+        {
+            IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery = (from c in GetRead()
+                                                where c.MikeBoundaryConditionID == MikeBoundaryConditionID
+                                                select c);
+
+            return FillMikeBoundaryCondition(mikeBoundaryConditionQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MikeBoundaryCondition mikeBoundaryCondition)
         {
             mikeBoundaryCondition.ValidationResults = Validate(new ValidationContext(mikeBoundaryCondition), ActionDBTypeEnum.Create);
@@ -259,9 +294,44 @@ namespace CSSPServices
         {
             return db.MikeBoundaryConditions;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MikeBoundaryCondition> FillMikeBoundaryCondition(IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery)
+        {
+            List<MikeBoundaryCondition> MikeBoundaryConditionList = (from c in mikeBoundaryConditionQuery
+                                         select new MikeBoundaryCondition
+                                         {
+                                             MikeBoundaryConditionID = c.MikeBoundaryConditionID,
+                                             MikeBoundaryConditionTVItemID = c.MikeBoundaryConditionTVItemID,
+                                             MikeBoundaryConditionCode = c.MikeBoundaryConditionCode,
+                                             MikeBoundaryConditionName = c.MikeBoundaryConditionName,
+                                             MikeBoundaryConditionLength_m = c.MikeBoundaryConditionLength_m,
+                                             MikeBoundaryConditionFormat = c.MikeBoundaryConditionFormat,
+                                             MikeBoundaryConditionLevelOrVelocity = c.MikeBoundaryConditionLevelOrVelocity,
+                                             WebTideDataSet = c.WebTideDataSet,
+                                             NumberOfWebTideNodes = c.NumberOfWebTideNodes,
+                                             WebTideDataFromStartToEndDate = c.WebTideDataFromStartToEndDate,
+                                             TVType = c.TVType,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (MikeBoundaryCondition mikeBoundaryCondition in MikeBoundaryConditionList)
+            {
+                mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText = enums.GetEnumText_MikeBoundaryConditionLevelOrVelocityEnum(mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity);
+                mikeBoundaryCondition.WebTideDataSetText = enums.GetEnumText_WebTideDataSetEnum(mikeBoundaryCondition.WebTideDataSet);
+                mikeBoundaryCondition.TVTypeText = enums.GetEnumText_TVTypeEnum(mikeBoundaryCondition.TVType);
+            }
+
+            return MikeBoundaryConditionList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MikeBoundaryCondition mikeBoundaryCondition)
         {
             try
@@ -290,6 +360,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

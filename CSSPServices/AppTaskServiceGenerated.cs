@@ -56,6 +56,39 @@ namespace CSSPServices
             {
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID, appTask.TVItemID.ToString()), new[] { "TVItemID" });
             }
+            else
+            {
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Root,
+                    TVTypeEnum.Country,
+                    TVTypeEnum.Province,
+                    TVTypeEnum.Area,
+                    TVTypeEnum.Sector,
+                    TVTypeEnum.Subsector,
+                    TVTypeEnum.ClimateSite,
+                    TVTypeEnum.File,
+                    TVTypeEnum.HydrometricSite,
+                    TVTypeEnum.Infrastructure,
+                    TVTypeEnum.MikeBoundaryConditionMesh,
+                    TVTypeEnum.MikeBoundaryConditionWebTide,
+                    TVTypeEnum.MikeScenario,
+                    TVTypeEnum.MikeSource,
+                    TVTypeEnum.Municipality,
+                    TVTypeEnum.MWQMRun,
+                    TVTypeEnum.MWQMSite,
+                    TVTypeEnum.MWQMSiteSample,
+                    TVTypeEnum.PolSourceSite,
+                    TVTypeEnum.SamplingPlan,
+                    TVTypeEnum.Spill,
+                    TVTypeEnum.TideSite,
+                    TVTypeEnum.VisualPlumesScenario,
+                };
+                if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario"), new[] { "TVItemID" });
+                }
+            }
 
             //TVItemID2 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
@@ -64,6 +97,39 @@ namespace CSSPServices
             if (TVItemTVItemID2 == null)
             {
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID2, appTask.TVItemID2.ToString()), new[] { "TVItemID2" });
+            }
+            else
+            {
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Root,
+                    TVTypeEnum.Country,
+                    TVTypeEnum.Province,
+                    TVTypeEnum.Area,
+                    TVTypeEnum.Sector,
+                    TVTypeEnum.Subsector,
+                    TVTypeEnum.ClimateSite,
+                    TVTypeEnum.File,
+                    TVTypeEnum.HydrometricSite,
+                    TVTypeEnum.Infrastructure,
+                    TVTypeEnum.MikeBoundaryConditionMesh,
+                    TVTypeEnum.MikeBoundaryConditionWebTide,
+                    TVTypeEnum.MikeScenario,
+                    TVTypeEnum.MikeSource,
+                    TVTypeEnum.Municipality,
+                    TVTypeEnum.MWQMRun,
+                    TVTypeEnum.MWQMSite,
+                    TVTypeEnum.MWQMSiteSample,
+                    TVTypeEnum.PolSourceSite,
+                    TVTypeEnum.SamplingPlan,
+                    TVTypeEnum.Spill,
+                    TVTypeEnum.TideSite,
+                    TVTypeEnum.VisualPlumesScenario,
+                };
+                if (!AllowableTVTypes.Contains(TVItemTVItemID2.TVType))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskTVItemID2, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario"), new[] { "TVItemID2" });
+                }
             }
 
             retStr = enums.AppTaskCommandOK(appTask.AppTaskCommand);
@@ -158,10 +224,29 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(appTask.AppTaskCommandText) && appTask.AppTaskCommandText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskAppTaskCommandText, "100"), new[] { "AppTaskCommandText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(appTask.AppTaskStatusText) && appTask.AppTaskStatusText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskAppTaskStatusText, "100"), new[] { "AppTaskStatusText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(appTask.LanguageText) && appTask.LanguageText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageText, "100"), new[] { "LanguageText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -173,7 +258,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public AppTask GetAppTaskWithAppTaskID(int AppTaskID)
+        {
+            IQueryable<AppTask> appTaskQuery = (from c in GetRead()
+                                                where c.AppTaskID == AppTaskID
+                                                select c);
+
+            return FillAppTask(appTaskQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(AppTask appTask)
         {
             appTask.ValidationResults = Validate(new ValidationContext(appTask), ActionDBTypeEnum.Create);
@@ -262,9 +358,45 @@ namespace CSSPServices
         {
             return db.AppTasks;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<AppTask> FillAppTask(IQueryable<AppTask> appTaskQuery)
+        {
+            List<AppTask> AppTaskList = (from c in appTaskQuery
+                                         select new AppTask
+                                         {
+                                             AppTaskID = c.AppTaskID,
+                                             TVItemID = c.TVItemID,
+                                             TVItemID2 = c.TVItemID2,
+                                             AppTaskCommand = c.AppTaskCommand,
+                                             AppTaskStatus = c.AppTaskStatus,
+                                             PercentCompleted = c.PercentCompleted,
+                                             Parameters = c.Parameters,
+                                             Language = c.Language,
+                                             StartDateTime_UTC = c.StartDateTime_UTC,
+                                             EndDateTime_UTC = c.EndDateTime_UTC,
+                                             EstimatedLength_second = c.EstimatedLength_second,
+                                             RemainingTime_second = c.RemainingTime_second,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (AppTask appTask in AppTaskList)
+            {
+                appTask.AppTaskCommandText = enums.GetEnumText_AppTaskCommandEnum(appTask.AppTaskCommand);
+                appTask.AppTaskStatusText = enums.GetEnumText_AppTaskStatusEnum(appTask.AppTaskStatus);
+                appTask.LanguageText = enums.GetEnumText_LanguageEnum(appTask.Language);
+            }
+
+            return AppTaskList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(AppTask appTask)
         {
             try
@@ -293,6 +425,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

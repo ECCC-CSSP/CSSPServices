@@ -202,9 +202,9 @@ namespace CSSPServicesGenerateCodeHelper
             #region TVItem Root
             StatusTempEvent(new StatusEventArgs("doing ... root"));
             // TVItem Root TVItemID = 1
-            TVItem tvItemRoot = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 1).FirstOrDefault();
+            TVItem tvItemRoot = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == c.ParentID && c.TVLevel == 0).FirstOrDefault();
+            int RootTVItemID = tvItemRoot.TVItemID;
             if (!AddObject("TVItem", tvItemRoot)) return false;
-            if (!AddMapInfo(tvItemRoot, 1)) return false ;
 
             // TVItemLanguage EN Root TVItemID = 1
             TVItemLanguage tvItemLanguageENRoot = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 1 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -233,6 +233,9 @@ namespace CSSPServicesGenerateCodeHelper
             TVItemLanguage tvItemLanguageFRContactCharles = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 2 && c.Language == LanguageEnum.fr).FirstOrDefault();
             tvItemLanguageFRContactCharles.TVItemID = tvItemContactCharles.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageFRContactCharles)) return false;
+
+            if (!AddMapInfo(tvItemRoot, RootTVItemID, tvItemContactCharles.TVItemID)) return false;
+
             #endregion TVItem Contact Charles
             #region Contact and ContactLogin Charles
             StatusTempEvent(new StatusEventArgs("doing ... Contact and ContactLogin Charles"));
@@ -363,7 +366,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemCanada.ParentID = tvItemRoot.TVItemID;
             if (!AddObject("TVItem", tvItemCanada)) return false;
             if (!CorrectTVPath(tvItemCanada, tvItemRoot)) return false;
-            if (!AddMapInfo(tvItemCanada, 5)) return false;
+            if (!AddMapInfo(tvItemCanada, 5, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN Canada TVItemID = 5
             TVItemLanguage tvItemLanguageENCanada = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 5 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -379,10 +382,11 @@ namespace CSSPServicesGenerateCodeHelper
             StatusTempEvent(new StatusEventArgs("doing ... New Brunswick"));
             // TVItem Province NB TVItemID = 7
             TVItem tvItemNB = dbCSSPWebToolsDBRead.TVItems.AsNoTracking().Where(c => c.TVItemID == 7).FirstOrDefault();
+            int NBTVItemID = tvItemNB.TVItemID;
             tvItemNB.ParentID = tvItemCanada.TVItemID;
             if (!AddObject("TVItem", tvItemNB)) return false;
             if (!CorrectTVPath(tvItemNB, tvItemCanada)) return false;
-            if (!AddMapInfo(tvItemNB, 7)) return false;
+            if (!AddMapInfo(tvItemNB, NBTVItemID, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN NB TVItemID = 7
             TVItemLanguage tvItemLanguageENNB = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 7 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -401,7 +405,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemNBClimateSiteBouctoucheCDA.ParentID = tvItemNB.TVItemID;
             if (!AddObject("TVItem", tvItemNBClimateSiteBouctoucheCDA)) return false;
             if (!CorrectTVPath(tvItemNBClimateSiteBouctoucheCDA, tvItemNB)) return false;
-            if (!AddMapInfo(tvItemNBClimateSiteBouctoucheCDA, 229528)) return false;
+            if (!AddMapInfo(tvItemNBClimateSiteBouctoucheCDA, 229528, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN Climate Site Bouctouche CDA NB TVItemID = 229528
             TVItemLanguage tvItemLanguageENNBClimateSiteBouctoucheCDA = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 229528 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -436,7 +440,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemNBHydrometricSiteBigTracadie.ParentID = tvItemNB.TVItemID;
             if (!AddObject("TVItem", tvItemNBHydrometricSiteBigTracadie)) return false;
             if (!CorrectTVPath(tvItemNBHydrometricSiteBigTracadie, tvItemNB)) return false;
-            if (!AddMapInfo(tvItemNBHydrometricSiteBigTracadie, 55401)) return false;
+            if (!AddMapInfo(tvItemNBHydrometricSiteBigTracadie, 55401, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN Hydrometric site Big Tracadie NB TVItemID = 55401
             TVItemLanguage tvItemLanguageENNBHydrometricSiteBigTracadie = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 55401 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -457,12 +461,16 @@ namespace CSSPServicesGenerateCodeHelper
             if (!AddObject("HydrometricSite", hydrometricSite)) return false;
 
             // NB Hydrometric site Big Tracadie where HydrometricSiteTVItemID = 55401
-            List<HydrometricDataValue> hydrometricDataValueList = dbCSSPWebToolsDBRead.HydrometricDataValues.AsNoTracking().Where(c => c.HydrometricSiteID == HydrometricSiteID).Take(5).ToList();
-            foreach (HydrometricDataValue hydrometricDataValue in hydrometricDataValueList)
-            {
-                hydrometricDataValue.HydrometricSiteID = hydrometricSite.HydrometricSiteID;
-                if (!AddObject("HydrometricDataValue", hydrometricDataValue)) return false;
-            }
+            HydrometricDataValue hydrometricDataValue = new HydrometricDataValue();
+            hydrometricDataValue.HydrometricSiteID = hydrometricSite.HydrometricSiteID;
+            hydrometricDataValue.DateTime_Local = DateTime.Now;
+            hydrometricDataValue.Keep = true;
+            hydrometricDataValue.StorageDataType = StorageDataTypeEnum.Archived;
+            hydrometricDataValue.Flow_m3_s = 23.4f;
+            hydrometricDataValue.HourlyValues = "Some hourly values text";
+            hydrometricDataValue.LastUpdateDate_UTC = DateTime.Now;
+            hydrometricDataValue.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("HydrometricDataValue", hydrometricDataValue)) return false;
             #endregion HydrometricSite Big Tracadie 01BL003 
             #region RatingCurve Big Tracadie 01BL003 
             StatusTempEvent(new StatusEventArgs("doing ... Rating Curve"));
@@ -490,7 +498,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemNB_06.ParentID = tvItemNB.TVItemID;
             if (!AddObject("TVItem", tvItemNB_06)) return false;
             if (!CorrectTVPath(tvItemNB_06, tvItemNB)) return false;
-            if (!AddMapInfo(tvItemNB_06, 629)) return false;
+            if (!AddMapInfo(tvItemNB_06, 629, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN NB-06 TVItemID = 629
             TVItemLanguage tvItemLanguageENNB_06 = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 629 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -509,7 +517,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemNB_06_020.ParentID = tvItemNB_06.TVItemID;
             if (!AddObject("TVItem", tvItemNB_06_020)) return false;
             if (!CorrectTVPath(tvItemNB_06_020, tvItemNB_06)) return false;
-            if (!AddMapInfo(tvItemNB_06_020, 633)) return false;
+            if (!AddMapInfo(tvItemNB_06_020, 633, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN NB-06_020 TVItemID = 633
             TVItemLanguage tvItemLanguageENNB_06_020 = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 633 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -528,7 +536,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemNB_06_020_001.ParentID = tvItemNB_06_020.TVItemID;
             if (!AddObject("TVItem", tvItemNB_06_020_001)) return false;
             if (!CorrectTVPath(tvItemNB_06_020_001, tvItemNB_06_020)) return false;
-            if (!AddMapInfo(tvItemNB_06_020_001, 634)) return false;
+            if (!AddMapInfo(tvItemNB_06_020_001, 634, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN NB-06_020_001 TVItemID = 634
             TVItemLanguage tvItemLanguageENNB_06_020_001 = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 634 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -565,7 +573,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemNB_06_020_002.ParentID = tvItemNB_06_020.TVItemID;
             if (!AddObject("TVItem", tvItemNB_06_020_002)) return false;
             if (!CorrectTVPath(tvItemNB_06_020_002, tvItemNB_06_020)) return false;
-            if (!AddMapInfo(tvItemNB_06_020_002, 635)) return false;
+            if (!AddMapInfo(tvItemNB_06_020_002, 635, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN NB-06_020_001 TVItemID = 635
             TVItemLanguage tvItemLanguageENNB_06_020_002 = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 635 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -602,7 +610,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemNBTideSite.ParentID = tvItemNB.TVItemID;
             if (!AddObject("TVItem", tvItemNBTideSite)) return false;
             if (!CorrectTVPath(tvItemNBTideSite, tvItemNB)) return false;
-            if (!AddMapInfo(tvItemNBTideSite, 229528)) return false;
+            if (!AddMapInfo(tvItemNBTideSite, 229528, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN Subsector NB-06-020-002 TVItemID = 1553
             TVItemLanguage tvItemLanguageENNBTideSite = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 1553 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -636,7 +644,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemBouctouche.ParentID = tvItemNB_06_020_002.TVItemID;
             if (!AddObject("TVItem", tvItemBouctouche)) return false;
             if (!CorrectTVPath(tvItemBouctouche, tvItemNB_06_020_002)) return false;
-            if (!AddMapInfo(tvItemBouctouche, 27764)) return false;
+            if (!AddMapInfo(tvItemBouctouche, 27764, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN Bouctouche TVItemID = 27764
             TVItemLanguage tvItemLanguageENBouctouche = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 27764 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -655,7 +663,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemSteMarieDeKent.ParentID = tvItemNB_06_020_002.TVItemID;
             if (!AddObject("TVItem", tvItemSteMarieDeKent)) return false;
             if (!CorrectTVPath(tvItemSteMarieDeKent, tvItemNB_06_020_002)) return false;
-            if (!AddMapInfo(tvItemSteMarieDeKent, 44855)) return false;
+            if (!AddMapInfo(tvItemSteMarieDeKent, 44855, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN Ste Marie de Kent TVItemID = 44855
             TVItemLanguage tvItemLanguageENSteMarieDeKent = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 44855 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -674,7 +682,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemBouctoucheWWTP.ParentID = tvItemBouctouche.TVItemID;
             if (!AddObject("TVItem", tvItemBouctoucheWWTP)) return false;
             if (!CorrectTVPath(tvItemBouctoucheWWTP, tvItemBouctouche)) return false;
-            if (!AddMapInfo(tvItemBouctoucheWWTP, 28689)) return false;
+            if (!AddMapInfo(tvItemBouctoucheWWTP, 28689, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN Bouctouche WWTP TVItemID = 28689
             TVItemLanguage tvItemLanguageENBouctoucheWWTP = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 28689 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -695,7 +703,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemBouctoucheWWTPTVFile.ParentID = tvItemBouctoucheWWTP.TVItemID;
             if (!AddObject("TVItem", tvItemBouctoucheWWTPTVFile)) return false;
             if (!CorrectTVPath(tvItemBouctoucheWWTPTVFile, tvItemBouctoucheWWTP)) return false;
-            if (!AddMapInfo(tvItemBouctoucheWWTPTVFile, TempTVItemID)) return false;
+            if (!AddMapInfo(tvItemBouctoucheWWTPTVFile, TempTVItemID, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN TVItem for Image for Bouctouche WWTP TVItemID = 28689
             TVItemLanguage tvItemBouctoucheWWTPTVFileImageEN = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == TempTVItemID && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -815,7 +823,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemBouctoucheLS2RueAcadie.ParentID = tvItemBouctouche.TVItemID;
             if (!AddObject("TVItem", tvItemBouctoucheLS2RueAcadie)) return false;
             if (!CorrectTVPath(tvItemBouctoucheLS2RueAcadie, tvItemBouctouche)) return false;
-            if (!AddMapInfo(tvItemBouctoucheLS2RueAcadie, 28695)) return false;
+            if (!AddMapInfo(tvItemBouctoucheLS2RueAcadie, 28695, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN Bouctouche LS 2 Rue Acadie TVItemID = 28695
             TVItemLanguage tvItemLanguageENBouctoucheLS2RueAcadie = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 28695 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -835,7 +843,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemNB_06_020_002Site0001.ParentID = tvItemNB_06_020_002.TVItemID;
             if (!AddObject("TVItem", tvItemNB_06_020_002Site0001)) return false;
             if (!CorrectTVPath(tvItemNB_06_020_002Site0001, tvItemNB_06_020_002)) return false;
-            if (!AddMapInfo(tvItemNB_06_020_002Site0001, 7460)) return false;
+            if (!AddMapInfo(tvItemNB_06_020_002Site0001, 7460, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN NB-06_020_001 TVItemID = 7460
             TVItemLanguage tvItemLanguageENNB_06_020_002Site0001 = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 7460 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -855,7 +863,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemNB_06_020_002Site0002.ParentID = tvItemNB_06_020_002.TVItemID;
             if (!AddObject("TVItem", tvItemNB_06_020_002Site0002)) return false;
             if (!CorrectTVPath(tvItemNB_06_020_002Site0002, tvItemNB_06_020_002)) return false;
-            if (!AddMapInfo(tvItemNB_06_020_002Site0002, 7462)) return false;
+            if (!AddMapInfo(tvItemNB_06_020_002Site0002, 7462, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN NB-06_020_001 TVItemID = 7462
             TVItemLanguage tvItemLanguageENNB_06_020_002Site0002 = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 7462 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -874,7 +882,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemNB_06_020_002PolSite000023.ParentID = tvItemNB_06_020_002.TVItemID;
             if (!AddObject("TVItem", tvItemNB_06_020_002PolSite000023)) return false;
             if (!CorrectTVPath(tvItemNB_06_020_002PolSite000023, tvItemNB_06_020_002)) return false;
-            if (!AddMapInfo(tvItemNB_06_020_002PolSite000023, 202466)) return false;
+            if (!AddMapInfo(tvItemNB_06_020_002PolSite000023, 202466, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN Subsector NB-06_020_002 Pol Source Site 000023 TVItemID = 202466
             TVItemLanguage tvItemLanguageENNB_06_020_002PolSite000023 = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 202466 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -914,7 +922,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemNB_06_020_002PolSite000024.ParentID = tvItemNB_06_020_002.TVItemID;
             if (!AddObject("TVItem", tvItemNB_06_020_002PolSite000024)) return false;
             if (!CorrectTVPath(tvItemNB_06_020_002PolSite000024, tvItemNB_06_020_002)) return false;
-            if (!AddMapInfo(tvItemNB_06_020_002PolSite000024, 202467)) return false;
+            if (!AddMapInfo(tvItemNB_06_020_002PolSite000024, 202467, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN NB-06_020_001 TVItemID = 202467
             TVItemLanguage tvItemLanguageENNB_06_020_00PolSite000024 = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 202467 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -933,7 +941,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemNBSamplingPlanFileTVItem.ParentID = tvItemNB.TVItemID;
             if (!AddObject("TVItem", tvItemNBSamplingPlanFileTVItem)) return false;
             if (!CorrectTVPath(tvItemNBSamplingPlanFileTVItem, tvItemNB)) return false;
-            if (!AddMapInfo(tvItemNBSamplingPlanFileTVItem, 322276)) return false;
+            if (!AddMapInfo(tvItemNBSamplingPlanFileTVItem, 322276, tvItemContactCharles.TVItemID)) return false;
 
             // NB EN TVItem Sampling Plan with SamplingPlanID = 42 and TVFileTVItemID = 322276
             TVItemLanguage tvItemLanguageENNBSamplingPlanFileTVItem = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 322276 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -984,7 +992,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemRun.ParentID = tvItemNB_06_020_002.TVItemID;
             if (!AddObject("TVItem", tvItemRun)) return false;
             if (!CorrectTVPath(tvItemRun, tvItemNB_06_020_002)) return false;
-            if (!AddMapInfo(tvItemRun, 324152)) return false;
+            if (!AddMapInfo(tvItemRun, 324152, tvItemContactCharles.TVItemID)) return false;
 
             // TVItemLanguage EN MWQMRun with MWQMRunTVItemID = 324152
             TVItemLanguage tvItemLanguageENMWQMRun = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 324152 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -1077,7 +1085,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemMikeScenario.ParentID = tvItemBouctouche.TVItemID;
             if (!AddObject("TVItem", tvItemMikeScenario)) return false;
             if (!CorrectTVPath(tvItemMikeScenario, tvItemBouctouche)) return false;
-            if (!AddMapInfo(tvItemMikeScenario, 28475)) return false;
+            if (!AddMapInfo(tvItemMikeScenario, 28475, tvItemContactCharles.TVItemID)) return false;
 
             // TVItem MikeScenario with MikeScenairoTVItemID = 28475 under Bouctouche
             TVItemLanguage tvItemLanguageENMikeScenario = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 28475 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -1100,7 +1108,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemMikeBoundaryCondition.ParentID = tvItemMikeScenario.TVItemID;
             if (!AddObject("TVItem", tvItemMikeBoundaryCondition)) return false;
             if (!CorrectTVPath(tvItemMikeBoundaryCondition, tvItemMikeScenario)) return false;
-            if (!AddMapInfo(tvItemMikeBoundaryCondition, 92456)) return false;
+            if (!AddMapInfo(tvItemMikeBoundaryCondition, 92456, tvItemContactCharles.TVItemID)) return false;
 
             // TVItem MikeBoundaryCondition with MikeBoundaryConditionTVItemID = 92456 under Bouctouche
             TVItemLanguage tvItemLanguageENMikeBoundaryCondition = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 92456 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -1122,7 +1130,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemMikeSource.ParentID = tvItemMikeScenario.TVItemID;
             if (!AddObject("TVItem", tvItemMikeSource)) return false;
             if (!CorrectTVPath(tvItemMikeSource, tvItemMikeScenario)) return false;
-            if (!AddMapInfo(tvItemMikeSource, 28476)) return false;
+            if (!AddMapInfo(tvItemMikeSource, 28476, tvItemContactCharles.TVItemID)) return false;
 
             // TVItem MikeSource with MikeSourceTVItemID = 28476 under Bouctouche
             TVItemLanguage tvItemLanguageENMikeSource = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 28476 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -1177,7 +1185,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemAddress.ParentID = tvItemRoot.TVItemID;
             if (!AddObject("TVItem", tvItemAddress)) return false;
             if (!CorrectTVPath(tvItemAddress, tvItemRoot)) return false;
-            if (!AddMapInfo(tvItemAddress, 232655)) return false;
+            if (!AddMapInfo(tvItemAddress, 232655, tvItemContactCharles.TVItemID)) return false;
 
             // TVItem Address 730 Chemin de la Pointe, Richibouctou, NB E4W, Canada TVItemID = 232655
             TVItemLanguage tvItemLanguageENAddress = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 232655 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -1205,7 +1213,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemEmail.ParentID = tvItemRoot.TVItemID;
             if (!AddObject("TVItem", tvItemEmail)) return false;
             if (!CorrectTVPath(tvItemEmail, tvItemRoot)) return false;
-            if (!AddMapInfo(tvItemEmail, 110249)) return false;
+            if (!AddMapInfo(tvItemEmail, 110249, tvItemContactCharles.TVItemID)) return false;
 
             // Email Charles.LeBlanc@ec.gc.ca TVItemID = 110249
             TVItemLanguage tvItemLanguageENEmail = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 110249 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -1229,7 +1237,7 @@ namespace CSSPServicesGenerateCodeHelper
             tvItemTel.ParentID = tvItemRoot.TVItemID;
             if (!AddObject("TVItem", tvItemTel)) return false;
             if (!CorrectTVPath(tvItemTel, tvItemRoot)) return false;
-            if (!AddMapInfo(tvItemTel, 108984)) return false;
+            if (!AddMapInfo(tvItemTel, 108984, tvItemContactCharles.TVItemID)) return false;
 
             // Tel Charles.LeBlanc@ec.gc.ca TVItemID = 108984
             TVItemLanguage tvItemLanguageENTel = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 108984 && c.Language == LanguageEnum.en).FirstOrDefault();
@@ -1348,11 +1356,152 @@ namespace CSSPServicesGenerateCodeHelper
             appTaskLanguageFR.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
             if (!AddObject("AppTaskLanguage", appTaskLanguageFR)) return false;
             #endregion AppTask and AppTaskLanguage
+            #region AppErrLog
+            StatusTempEvent(new StatusEventArgs("doing ... AppErrLog"));
+            AppErrLog appErrLog = new AppErrLog();
+            appErrLog.Tag = "SomeTag";
+            appErrLog.LineNumber = 234;
+            appErrLog.Source = "Some text for source";
+            appErrLog.Message = "Some text for message";
+            appErrLog.DateTime_UTC = DateTime.Now;
+            appErrLog.LastUpdateDate_UTC = DateTime.Now;
+            appErrLog.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("AppErrLog", appErrLog)) return false;
+            #endregion AppErrLog
+            #region ContactPreference
+            StatusTempEvent(new StatusEventArgs("doing ... ContactPreference"));
+            ContactPreference contactPreference = new ContactPreference();
+            contactPreference.ContactID = contactCharles.ContactID;
+            contactPreference.TVType = TVTypeEnum.ClimateSite;
+            contactPreference.MarkerSize = 100;
+            contactPreference.LastUpdateDate_UTC = DateTime.Now;
+            contactPreference.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("ContactPreference", contactPreference)) return false;
+            #endregion ContactPreference
+            #region ContactShortcut
+            StatusTempEvent(new StatusEventArgs("doing ... ContactShortcut"));
+            ContactShortcut contactShortcut = new ContactShortcut();
+            contactShortcut.ContactID = contactCharles.ContactID;
+            contactShortcut.ShortCutText = "Some shortcut text";
+            contactShortcut.ShortCutAddress = "http://www.ibm.com";
+            contactShortcut.LastUpdateDate_UTC = DateTime.Now;
+            contactShortcut.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("ContactShortcut", contactShortcut)) return false;
+            #endregion ContactShortcut
+            #region DocTemplate
+            StatusTempEvent(new StatusEventArgs("doing ... DocTemplate"));
+            DocTemplate docTemplate = new DocTemplate();
+            docTemplate.Language = LanguageEnum.en;
+            docTemplate.TVType = TVTypeEnum.Subsector;
+            docTemplate.TVFileTVItemID = tvFile.TVFileTVItemID;
+            docTemplate.FileName = tvItemBouctoucheWWTPTVFileImageEN.TVText;
+            docTemplate.LastUpdateDate_UTC = DateTime.Now;
+            docTemplate.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("DocTemplate", docTemplate)) return false;
+            #endregion DocTemplate
+            #region Log
+            StatusTempEvent(new StatusEventArgs("doing ... Log"));
+            Log log = new Log();
+            log.TableName = "TVItems";
+            log.ID = 20;
+            log.LogCommand = LogCommandEnum.Add;
+            log.Information = "The Information Text";
+            log.LastUpdateDate_UTC = DateTime.Now;
+            log.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("Log", log)) return false;
+            #endregion Log
+            #region MWQMLookupMPN
+            StatusTempEvent(new StatusEventArgs("doing ... MWQMLookupMPN"));
+            MWQMLookupMPN mwqmLookupMPN = new MWQMLookupMPN();
+            mwqmLookupMPN.Tubes10 = 3;
+            mwqmLookupMPN.Tubes1 = 2;
+            mwqmLookupMPN.Tubes01 = 1;
+            mwqmLookupMPN.MPN_100ml = 17;
+            mwqmLookupMPN.LastUpdateDate_UTC = DateTime.Now;
+            mwqmLookupMPN.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("MWQMLookupMPN", mwqmLookupMPN)) return false;
+            #endregion MWQMLookupMPN
+            #region RainExceedance
+            StatusTempEvent(new StatusEventArgs("doing ... RainExceedance"));
+            RainExceedance rainExceedance = new RainExceedance();
+            rainExceedance.YearRound = true;
+            rainExceedance.StartDate_Local = DateTime.Now;
+            rainExceedance.EndDate_Local = DateTime.Now;
+            rainExceedance.RainMaximum_mm = 12.5f;
+            rainExceedance.RainExtreme_mm = 14.6f;
+            rainExceedance.DaysPriorToStart = 5;
+            rainExceedance.RepeatEveryYear = true;
+            rainExceedance.ProvinceTVItemIDs = tvItemNB.TVItemID.ToString();
+            rainExceedance.SubsectorTVItemIDs = tvItemNB_06_020_002.TVItemID.ToString();
+            rainExceedance.ClimateSiteTVItemIDs = tvItemNBClimateSiteBouctoucheCDA.TVItemID.ToString();
+            rainExceedance.EmailDistributionListIDs = emailDistributionList.EmailDistributionListID.ToString();
+            rainExceedance.LastUpdateDate_UTC = DateTime.Now;
+            rainExceedance.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("RainExceedance", rainExceedance)) return false;
+            #endregion RainExceedance
+            #region ResetPassword
+            StatusTempEvent(new StatusEventArgs("doing ... ResetPassword"));
+            ResetPassword resetPassword = new ResetPassword();
+            resetPassword.Email = contactCharles.LoginEmail;
+            resetPassword.ExpireDate_Local = DateTime.Now;
+            resetPassword.Code = "12345678";
+            resetPassword.LastUpdateDate_UTC = DateTime.Now;
+            resetPassword.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("ResetPassword", resetPassword)) return false;
+            #endregion ResetPassword
+            #region TideLocation
+            StatusTempEvent(new StatusEventArgs("doing ... TideLocation"));
+            foreach (int TideLocationSID in new List<int>() { 1815, 1812, 1810 })
+            {
+                TideLocation tideLocation = dbCSSPWebToolsDBRead.TideLocations.AsNoTracking().Where(c => c.sid == TideLocationSID).FirstOrDefault();
 
+                if (tideLocation != null)
+                {
+                    tideLocation.TideLocationID = 0;
+                    if (!AddObject("TideLocation", tideLocation)) return false;
+                }
+            }
+            #endregion TideLocation
+            #region TVItemStat
+            StatusTempEvent(new StatusEventArgs("doing ... TVItemStat"));
+            TVItemStat tvItemStat = dbCSSPWebToolsDBRead.TVItemStats.AsNoTracking().Where(c => c.TVItemID == RootTVItemID && c.TVType == TVTypeEnum.Municipality).FirstOrDefault();
+
+            if (tvItemStat != null)
+            {
+                tvItemStat.TVItemStatID = 0;
+                tvItemStat.TVItemID = tvItemRoot.TVItemID;
+                tvItemStat.ChildCount = 2;
+                if (!AddObject("TVItemStat", tvItemStat)) return false;
+            }
+            #endregion TVItemStat
+            #region TVItemUserAuthorization
+            StatusTempEvent(new StatusEventArgs("doing ... TVItemUserAuthorization"));
+            TVItemUserAuthorization tvItemUserAuthorization = dbCSSPWebToolsDBRead.TVItemUserAuthorizations.AsNoTracking().FirstOrDefault();
+
+            if (tvItemUserAuthorization != null)
+            {
+                tvItemUserAuthorization.ContactTVItemID = contactCharles.ContactTVItemID;
+                tvItemUserAuthorization.TVItemID1 = tvItemBouctouche.TVItemID;
+                tvItemUserAuthorization.TVAuth = TVAuthEnum.Write;
+                if (!AddObject("TVItemUserAuthorization", tvItemUserAuthorization)) return false;
+            }
+            #endregion TVItemUserAuthorization
+            #region TVTypeUserAuthorization
+            StatusTempEvent(new StatusEventArgs("doing ... TVTypeUserAuthorization"));
+            TVTypeUserAuthorization tvTypeUserAuthorization = dbCSSPWebToolsDBRead.TVTypeUserAuthorizations.AsNoTracking().FirstOrDefault();
+
+            if (tvTypeUserAuthorization != null)
+            {
+                tvTypeUserAuthorization.ContactTVItemID = contactCharles.ContactTVItemID;
+                tvTypeUserAuthorization.TVType = TVTypeEnum.Root;
+                tvTypeUserAuthorization.TVAuth = TVAuthEnum.Admin;
+                if (!AddObject("TVTypeUserAuthorization", tvTypeUserAuthorization)) return false;
+            }
+            #endregion TVTypeUserAuthorization
 
             return true;
         }
-        private bool AddMapInfo(TVItem NewTVItem, int OldTVItemID)
+        private bool AddMapInfo(TVItem NewTVItem, int OldTVItemID, int ContactTVItemID)
         {
             List<MapInfo> mapInfoList = (from c in dbCSSPWebToolsDBRead.MapInfos.AsNoTracking()
                                          where c.TVItemID == OldTVItemID
@@ -1363,6 +1512,7 @@ namespace CSSPServicesGenerateCodeHelper
                 MapInfoID = mapInfo.MapInfoID;
 
                 mapInfo.TVItemID = NewTVItem.TVItemID;
+                mapInfo.LastUpdateContactTVItemID = ContactTVItemID;
 
                 mapInfo.MapInfoID = 0;
                 dbTestDBWrite.MapInfos.Add(mapInfo);
@@ -1384,8 +1534,11 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     mapInfoPoint.MapInfoPointID = 0;
                     mapInfoPoint.MapInfoID = mapInfo.MapInfoID;
-                    mapInfo.MapInfoPoints.Add(mapInfoPoint);
+                    mapInfoPoint.LastUpdateContactTVItemID = ContactTVItemID;
                 }
+
+                MapInfoPointService mapInfoPointService = new MapInfoPointService(LanguageEnum.en, dbTestDBWrite, 2);
+                if (!mapInfoPointService.AddRange(mapInfoPointList)) return false;
 
                 try
                 {
@@ -1408,6 +1561,13 @@ namespace CSSPServicesGenerateCodeHelper
                         ((Address)objTarget).AddressID = 0;
                         ((Address)objTarget).LastUpdateContactTVItemID = 2;
                         dbTestDBWrite.Addresses.Add((Address)objTarget);
+                    }
+                    break;
+                case "AppErrLog":
+                    {
+                        ((AppErrLog)objTarget).AppErrLogID = 0;
+                        ((AppErrLog)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.AppErrLogs.Add((AppErrLog)objTarget);
                     }
                     break;
                 case "AppTask":
@@ -1471,6 +1631,27 @@ namespace CSSPServicesGenerateCodeHelper
                         ((ContactLogin)objTarget).ContactLoginID = 0;
                         ((ContactLogin)objTarget).LastUpdateContactTVItemID = 2;
                         dbTestDBWrite.ContactLogins.Add((ContactLogin)objTarget);
+                    }
+                    break;
+                case "ContactPreference":
+                    {
+                        ((ContactPreference)objTarget).ContactPreferenceID = 0;
+                        ((ContactPreference)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.ContactPreferences.Add((ContactPreference)objTarget);
+                    }
+                    break;
+                case "ContactShortcut":
+                    {
+                        ((ContactShortcut)objTarget).ContactShortcutID = 0;
+                        ((ContactShortcut)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.ContactShortcuts.Add((ContactShortcut)objTarget);
+                    }
+                    break;
+                case "DocTemplate":
+                    {
+                        ((DocTemplate)objTarget).DocTemplateID = 0;
+                        ((DocTemplate)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.DocTemplates.Add((DocTemplate)objTarget);
                     }
                     break;
                 case "Email":
@@ -1543,11 +1724,11 @@ namespace CSSPServicesGenerateCodeHelper
                         dbTestDBWrite.LabSheetTubeMPNDetails.Add((LabSheetTubeMPNDetail)objTarget);
                     }
                     break;
-                case "MWQMRun":
+                case "Log":
                     {
-                        ((MWQMRun)objTarget).MWQMRunID = 0;
-                        ((MWQMRun)objTarget).LastUpdateContactTVItemID = 2;
-                        dbTestDBWrite.MWQMRuns.Add((MWQMRun)objTarget);
+                        ((Log)objTarget).LogID = 0;
+                        ((Log)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.Logs.Add((Log)objTarget);
                     }
                     break;
                 case "MikeBoundaryCondition":
@@ -1576,6 +1757,20 @@ namespace CSSPServicesGenerateCodeHelper
                         ((MikeSourceStartEnd)objTarget).MikeSourceStartEndID = 0;
                         ((MikeSourceStartEnd)objTarget).LastUpdateContactTVItemID = 2;
                         dbTestDBWrite.MikeSourceStartEnds.Add((MikeSourceStartEnd)objTarget);
+                    }
+                    break;
+                case "MWQMLookupMPN":
+                    {
+                        ((MWQMLookupMPN)objTarget).MWQMLookupMPNID = 0;
+                        ((MWQMLookupMPN)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.MWQMLookupMPNs.Add((MWQMLookupMPN)objTarget);
+                    }
+                    break;
+                case "MWQMRun":
+                    {
+                        ((MWQMRun)objTarget).MWQMRunID = 0;
+                        ((MWQMRun)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.MWQMRuns.Add((MWQMRun)objTarget);
                     }
                     break;
                 case "MWQMRunLanguage":
@@ -1648,6 +1843,13 @@ namespace CSSPServicesGenerateCodeHelper
                         dbTestDBWrite.PolSourceObservationIssues.Add((PolSourceObservationIssue)objTarget);
                     }
                     break;
+                case "RainExceedance":
+                    {
+                        ((RainExceedance)objTarget).RainExceedanceID = 0;
+                        ((RainExceedance)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.RainExceedances.Add((RainExceedance)objTarget);
+                    }
+                    break;
                 case "RatingCurveValue":
                     {
                         ((RatingCurveValue)objTarget).RatingCurveValueID = 0;
@@ -1660,6 +1862,13 @@ namespace CSSPServicesGenerateCodeHelper
                         ((RatingCurve)objTarget).RatingCurveID = 0;
                         ((RatingCurve)objTarget).LastUpdateContactTVItemID = 2;
                         dbTestDBWrite.RatingCurves.Add((RatingCurve)objTarget);
+                    }
+                    break;
+                case "ResetPassword":
+                    {
+                        ((ResetPassword)objTarget).ResetPasswordID = 0;
+                        ((ResetPassword)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.ResetPasswords.Add((ResetPassword)objTarget);
                     }
                     break;
                 case "SamplingPlan":
@@ -1718,6 +1927,13 @@ namespace CSSPServicesGenerateCodeHelper
                         dbTestDBWrite.TideDataValues.Add((TideDataValue)objTarget);
                     }
                     break;
+                case "TideLocation":
+                    {
+                        ((TideLocation)objTarget).TideLocationID = 0;
+                        //((TideLocation)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.TideLocations.Add((TideLocation)objTarget);
+                    }
+                    break;
                 case "TVFile":
                     {
                         ((TVFile)objTarget).TVFileID = 0;
@@ -1751,6 +1967,27 @@ namespace CSSPServicesGenerateCodeHelper
                         ((TVItemLink)objTarget).TVItemLinkID = 0;
                         ((TVItemLink)objTarget).LastUpdateContactTVItemID = 2;
                         dbTestDBWrite.TVItemLinks.Add((TVItemLink)objTarget);
+                    }
+                    break;
+                case "TVItemStat":
+                    {
+                        ((TVItemStat)objTarget).TVItemStatID = 0;
+                        ((TVItemStat)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.TVItemStats.Add((TVItemStat)objTarget);
+                    }
+                    break;
+                case "TVItemUserAuthorization":
+                    {
+                        ((TVItemUserAuthorization)objTarget).TVItemUserAuthorizationID = 0;
+                        ((TVItemUserAuthorization)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.TVItemUserAuthorizations.Add((TVItemUserAuthorization)objTarget);
+                    }
+                    break;
+                case "TVTypeUserAuthorization":
+                    {
+                        ((TVTypeUserAuthorization)objTarget).TVTypeUserAuthorizationID = 0;
+                        ((TVTypeUserAuthorization)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.TVTypeUserAuthorizations.Add((TVTypeUserAuthorization)objTarget);
                     }
                     break;
                 case "UseOfSite":

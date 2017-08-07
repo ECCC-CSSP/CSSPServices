@@ -89,7 +89,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RatingCurveLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -104,7 +108,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public RatingCurve GetRatingCurveWithRatingCurveID(int RatingCurveID)
+        {
+            IQueryable<RatingCurve> ratingCurveQuery = (from c in GetRead()
+                                                where c.RatingCurveID == RatingCurveID
+                                                select c);
+
+            return FillRatingCurve(ratingCurveQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(RatingCurve ratingCurve)
         {
             ratingCurve.ValidationResults = Validate(new ValidationContext(ratingCurve), ActionDBTypeEnum.Create);
@@ -193,9 +208,27 @@ namespace CSSPServices
         {
             return db.RatingCurves;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<RatingCurve> FillRatingCurve(IQueryable<RatingCurve> ratingCurveQuery)
+        {
+            List<RatingCurve> RatingCurveList = (from c in ratingCurveQuery
+                                         select new RatingCurve
+                                         {
+                                             RatingCurveID = c.RatingCurveID,
+                                             HydrometricSiteID = c.HydrometricSiteID,
+                                             RatingCurveNumber = c.RatingCurveNumber,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return RatingCurveList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(RatingCurve ratingCurve)
         {
             try
@@ -224,6 +257,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

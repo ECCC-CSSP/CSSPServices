@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemMWQMSiteTVItemID.TVType != TVTypeEnum.MWQMSite)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.MWQMSite,
+                };
+                if (!AllowableTVTypes.Contains(TVItemMWQMSiteTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID, "MWQMSite"), new[] { "MWQMSiteTVItemID" });
                 }
@@ -108,7 +112,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -123,7 +131,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MWQMSiteStartEndDate GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(int MWQMSiteStartEndDateID)
+        {
+            IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery = (from c in GetRead()
+                                                where c.MWQMSiteStartEndDateID == MWQMSiteStartEndDateID
+                                                select c);
+
+            return FillMWQMSiteStartEndDate(mwqmSiteStartEndDateQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MWQMSiteStartEndDate mwqmSiteStartEndDate)
         {
             mwqmSiteStartEndDate.ValidationResults = Validate(new ValidationContext(mwqmSiteStartEndDate), ActionDBTypeEnum.Create);
@@ -212,9 +231,28 @@ namespace CSSPServices
         {
             return db.MWQMSiteStartEndDates;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MWQMSiteStartEndDate> FillMWQMSiteStartEndDate(IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery)
+        {
+            List<MWQMSiteStartEndDate> MWQMSiteStartEndDateList = (from c in mwqmSiteStartEndDateQuery
+                                         select new MWQMSiteStartEndDate
+                                         {
+                                             MWQMSiteStartEndDateID = c.MWQMSiteStartEndDateID,
+                                             MWQMSiteTVItemID = c.MWQMSiteTVItemID,
+                                             StartDate = c.StartDate,
+                                             EndDate = c.EndDate,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return MWQMSiteStartEndDateList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MWQMSiteStartEndDate mwqmSiteStartEndDate)
         {
             try
@@ -243,6 +281,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

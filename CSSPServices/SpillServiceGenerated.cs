@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemMunicipalityTVItemID.TVType != TVTypeEnum.Municipality)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Municipality,
+                };
+                if (!AllowableTVTypes.Contains(TVItemMunicipalityTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillMunicipalityTVItemID, "Municipality"), new[] { "MunicipalityTVItemID" });
                 }
@@ -74,7 +78,11 @@ namespace CSSPServices
                 }
                 else
                 {
-                    if (TVItemInfrastructureTVItemID.TVType != TVTypeEnum.Infrastructure)
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.Infrastructure,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemInfrastructureTVItemID.TVType))
                     {
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillInfrastructureTVItemID, "Infrastructure"), new[] { "InfrastructureTVItemID" });
                     }
@@ -132,7 +140,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -147,7 +159,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public Spill GetSpillWithSpillID(int SpillID)
+        {
+            IQueryable<Spill> spillQuery = (from c in GetRead()
+                                                where c.SpillID == SpillID
+                                                select c);
+
+            return FillSpill(spillQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(Spill spill)
         {
             spill.ValidationResults = Validate(new ValidationContext(spill), ActionDBTypeEnum.Create);
@@ -236,9 +259,30 @@ namespace CSSPServices
         {
             return db.Spills;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<Spill> FillSpill(IQueryable<Spill> spillQuery)
+        {
+            List<Spill> SpillList = (from c in spillQuery
+                                         select new Spill
+                                         {
+                                             SpillID = c.SpillID,
+                                             MunicipalityTVItemID = c.MunicipalityTVItemID,
+                                             InfrastructureTVItemID = c.InfrastructureTVItemID,
+                                             StartDateTime_Local = c.StartDateTime_Local,
+                                             EndDateTime_Local = c.EndDateTime_Local,
+                                             AverageFlow_m3_day = c.AverageFlow_m3_day,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return SpillList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(Spill spill)
         {
             try
@@ -267,6 +311,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

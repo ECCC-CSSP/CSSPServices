@@ -99,7 +99,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactShortcutLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -114,7 +118,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public ContactShortcut GetContactShortcutWithContactShortcutID(int ContactShortcutID)
+        {
+            IQueryable<ContactShortcut> contactShortcutQuery = (from c in GetRead()
+                                                where c.ContactShortcutID == ContactShortcutID
+                                                select c);
+
+            return FillContactShortcut(contactShortcutQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(ContactShortcut contactShortcut)
         {
             contactShortcut.ValidationResults = Validate(new ValidationContext(contactShortcut), ActionDBTypeEnum.Create);
@@ -203,9 +218,28 @@ namespace CSSPServices
         {
             return db.ContactShortcuts;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<ContactShortcut> FillContactShortcut(IQueryable<ContactShortcut> contactShortcutQuery)
+        {
+            List<ContactShortcut> ContactShortcutList = (from c in contactShortcutQuery
+                                         select new ContactShortcut
+                                         {
+                                             ContactShortcutID = c.ContactShortcutID,
+                                             ContactID = c.ContactID,
+                                             ShortCutText = c.ShortCutText,
+                                             ShortCutAddress = c.ShortCutAddress,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return ContactShortcutList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(ContactShortcut contactShortcut)
         {
             try
@@ -234,6 +268,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

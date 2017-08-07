@@ -79,9 +79,17 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVItemTVAuthTVTypeStr, "1", "255"), new[] { "TVTypeStr" });
             }
 
-                //Error: Type not implemented [TVAuth] of type [TVAuthEnum]
+            retStr = enums.TVAuthOK(tvItemTVAuth.TVAuth);
+            if (tvItemTVAuth.TVAuth == TVAuthEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVAuthTVAuth), new[] { "TVAuth" });
+            }
 
-                //Error: Type not implemented [TVAuth] of type [TVAuthEnum]
+            if (!string.IsNullOrWhiteSpace(tvItemTVAuth.TVAuthText) && tvItemTVAuth.TVAuthText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemTVAuthTVAuthText, "100"), new[] { "TVAuthText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

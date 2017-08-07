@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVTypeUserAuthorizationContactTVItemID, "Contact"), new[] { "ContactTVItemID" });
                 }
@@ -98,10 +102,24 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorization.TVTypeText) && tvTypeUserAuthorization.TVTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationTVTypeText, "100"), new[] { "TVTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorization.TVAuthText) && tvTypeUserAuthorization.TVAuthText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationTVAuthText, "100"), new[] { "TVAuthText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -113,7 +131,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public TVTypeUserAuthorization GetTVTypeUserAuthorizationWithTVTypeUserAuthorizationID(int TVTypeUserAuthorizationID)
+        {
+            IQueryable<TVTypeUserAuthorization> tvTypeUserAuthorizationQuery = (from c in GetRead()
+                                                where c.TVTypeUserAuthorizationID == TVTypeUserAuthorizationID
+                                                select c);
+
+            return FillTVTypeUserAuthorization(tvTypeUserAuthorizationQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(TVTypeUserAuthorization tvTypeUserAuthorization)
         {
             tvTypeUserAuthorization.ValidationResults = Validate(new ValidationContext(tvTypeUserAuthorization), ActionDBTypeEnum.Create);
@@ -202,9 +231,36 @@ namespace CSSPServices
         {
             return db.TVTypeUserAuthorizations;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<TVTypeUserAuthorization> FillTVTypeUserAuthorization(IQueryable<TVTypeUserAuthorization> tvTypeUserAuthorizationQuery)
+        {
+            List<TVTypeUserAuthorization> TVTypeUserAuthorizationList = (from c in tvTypeUserAuthorizationQuery
+                                         select new TVTypeUserAuthorization
+                                         {
+                                             TVTypeUserAuthorizationID = c.TVTypeUserAuthorizationID,
+                                             ContactTVItemID = c.ContactTVItemID,
+                                             TVType = c.TVType,
+                                             TVAuth = c.TVAuth,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (TVTypeUserAuthorization tvTypeUserAuthorization in TVTypeUserAuthorizationList)
+            {
+                tvTypeUserAuthorization.TVTypeText = enums.GetEnumText_TVTypeEnum(tvTypeUserAuthorization.TVType);
+                tvTypeUserAuthorization.TVAuthText = enums.GetEnumText_TVAuthEnum(tvTypeUserAuthorization.TVAuth);
+            }
+
+            return TVTypeUserAuthorizationList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(TVTypeUserAuthorization tvTypeUserAuthorization)
         {
             try
@@ -233,6 +289,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

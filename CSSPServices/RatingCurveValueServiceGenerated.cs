@@ -93,7 +93,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RatingCurveValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -108,7 +112,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public RatingCurveValue GetRatingCurveValueWithRatingCurveValueID(int RatingCurveValueID)
+        {
+            IQueryable<RatingCurveValue> ratingCurveValueQuery = (from c in GetRead()
+                                                where c.RatingCurveValueID == RatingCurveValueID
+                                                select c);
+
+            return FillRatingCurveValue(ratingCurveValueQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(RatingCurveValue ratingCurveValue)
         {
             ratingCurveValue.ValidationResults = Validate(new ValidationContext(ratingCurveValue), ActionDBTypeEnum.Create);
@@ -197,9 +212,28 @@ namespace CSSPServices
         {
             return db.RatingCurveValues;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<RatingCurveValue> FillRatingCurveValue(IQueryable<RatingCurveValue> ratingCurveValueQuery)
+        {
+            List<RatingCurveValue> RatingCurveValueList = (from c in ratingCurveValueQuery
+                                         select new RatingCurveValue
+                                         {
+                                             RatingCurveValueID = c.RatingCurveValueID,
+                                             RatingCurveID = c.RatingCurveID,
+                                             StageValue_m = c.StageValue_m,
+                                             DischargeValue_m3_s = c.DischargeValue_m3_s,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return RatingCurveValueList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(RatingCurveValue ratingCurveValue)
         {
             try
@@ -228,6 +262,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

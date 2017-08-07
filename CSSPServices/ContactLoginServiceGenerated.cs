@@ -104,7 +104,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactLoginLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -139,7 +143,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public ContactLogin GetContactLoginWithContactLoginID(int ContactLoginID)
+        {
+            IQueryable<ContactLogin> contactLoginQuery = (from c in GetRead()
+                                                where c.ContactLoginID == ContactLoginID
+                                                select c);
+
+            return FillContactLogin(contactLoginQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(ContactLogin contactLogin)
         {
             contactLogin.ValidationResults = Validate(new ValidationContext(contactLogin), ActionDBTypeEnum.Create);
@@ -228,9 +243,29 @@ namespace CSSPServices
         {
             return db.ContactLogins;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<ContactLogin> FillContactLogin(IQueryable<ContactLogin> contactLoginQuery)
+        {
+            List<ContactLogin> ContactLoginList = (from c in contactLoginQuery
+                                         select new ContactLogin
+                                         {
+                                             ContactLoginID = c.ContactLoginID,
+                                             ContactID = c.ContactID,
+                                             LoginEmail = c.LoginEmail,
+                                             PasswordHash = c.PasswordHash,
+                                             PasswordSalt = c.PasswordSalt,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return ContactLoginList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(ContactLogin contactLogin)
         {
             try
@@ -259,6 +294,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

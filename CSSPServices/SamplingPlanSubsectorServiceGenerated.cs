@@ -67,7 +67,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemSubsectorTVItemID.TVType != TVTypeEnum.Subsector)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Subsector,
+                };
+                if (!AllowableTVTypes.Contains(TVItemSubsectorTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorSubsectorTVItemID, "Subsector"), new[] { "SubsectorTVItemID" });
                 }
@@ -95,7 +99,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -110,7 +118,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public SamplingPlanSubsector GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(int SamplingPlanSubsectorID)
+        {
+            IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery = (from c in GetRead()
+                                                where c.SamplingPlanSubsectorID == SamplingPlanSubsectorID
+                                                select c);
+
+            return FillSamplingPlanSubsector(samplingPlanSubsectorQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(SamplingPlanSubsector samplingPlanSubsector)
         {
             samplingPlanSubsector.ValidationResults = Validate(new ValidationContext(samplingPlanSubsector), ActionDBTypeEnum.Create);
@@ -199,9 +218,27 @@ namespace CSSPServices
         {
             return db.SamplingPlanSubsectors;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<SamplingPlanSubsector> FillSamplingPlanSubsector(IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery)
+        {
+            List<SamplingPlanSubsector> SamplingPlanSubsectorList = (from c in samplingPlanSubsectorQuery
+                                         select new SamplingPlanSubsector
+                                         {
+                                             SamplingPlanSubsectorID = c.SamplingPlanSubsectorID,
+                                             SamplingPlanID = c.SamplingPlanID,
+                                             SubsectorTVItemID = c.SubsectorTVItemID,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return SamplingPlanSubsectorList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(SamplingPlanSubsector samplingPlanSubsector)
         {
             try
@@ -230,6 +267,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

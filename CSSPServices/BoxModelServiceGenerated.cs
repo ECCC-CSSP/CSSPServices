@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemInfrastructureTVItemID.TVType != TVTypeEnum.Infrastructure)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Infrastructure,
+                };
+                if (!AllowableTVTypes.Contains(TVItemInfrastructureTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelInfrastructureTVItemID, "Infrastructure"), new[] { "InfrastructureTVItemID" });
                 }
@@ -156,7 +160,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -171,7 +179,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public BoxModel GetBoxModelWithBoxModelID(int BoxModelID)
+        {
+            IQueryable<BoxModel> boxModelQuery = (from c in GetRead()
+                                                where c.BoxModelID == BoxModelID
+                                                select c);
+
+            return FillBoxModel(boxModelQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(BoxModel boxModel)
         {
             boxModel.ValidationResults = Validate(new ValidationContext(boxModel), ActionDBTypeEnum.Create);
@@ -260,9 +279,36 @@ namespace CSSPServices
         {
             return db.BoxModels;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<BoxModel> FillBoxModel(IQueryable<BoxModel> boxModelQuery)
+        {
+            List<BoxModel> BoxModelList = (from c in boxModelQuery
+                                         select new BoxModel
+                                         {
+                                             BoxModelID = c.BoxModelID,
+                                             InfrastructureTVItemID = c.InfrastructureTVItemID,
+                                             Flow_m3_day = c.Flow_m3_day,
+                                             Depth_m = c.Depth_m,
+                                             Temperature_C = c.Temperature_C,
+                                             Dilution = c.Dilution,
+                                             DecayRate_per_day = c.DecayRate_per_day,
+                                             FCUntreated_MPN_100ml = c.FCUntreated_MPN_100ml,
+                                             FCPreDisinfection_MPN_100ml = c.FCPreDisinfection_MPN_100ml,
+                                             Concentration_MPN_100ml = c.Concentration_MPN_100ml,
+                                             T90_hour = c.T90_hour,
+                                             FlowDuration_hour = c.FlowDuration_hour,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return BoxModelList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(BoxModel boxModel)
         {
             try
@@ -291,6 +337,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

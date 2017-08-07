@@ -101,10 +101,24 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(appTaskLanguage.LanguageText) && appTaskLanguage.LanguageText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageLanguageText, "100"), new[] { "LanguageText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(appTaskLanguage.TranslationStatusText) && appTaskLanguage.TranslationStatusText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -116,7 +130,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public AppTaskLanguage GetAppTaskLanguageWithAppTaskLanguageID(int AppTaskLanguageID)
+        {
+            IQueryable<AppTaskLanguage> appTaskLanguageQuery = (from c in GetRead()
+                                                where c.AppTaskLanguageID == AppTaskLanguageID
+                                                select c);
+
+            return FillAppTaskLanguage(appTaskLanguageQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(AppTaskLanguage appTaskLanguage)
         {
             appTaskLanguage.ValidationResults = Validate(new ValidationContext(appTaskLanguage), ActionDBTypeEnum.Create);
@@ -205,9 +230,38 @@ namespace CSSPServices
         {
             return db.AppTaskLanguages;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<AppTaskLanguage> FillAppTaskLanguage(IQueryable<AppTaskLanguage> appTaskLanguageQuery)
+        {
+            List<AppTaskLanguage> AppTaskLanguageList = (from c in appTaskLanguageQuery
+                                         select new AppTaskLanguage
+                                         {
+                                             AppTaskLanguageID = c.AppTaskLanguageID,
+                                             AppTaskID = c.AppTaskID,
+                                             Language = c.Language,
+                                             StatusText = c.StatusText,
+                                             ErrorText = c.ErrorText,
+                                             TranslationStatus = c.TranslationStatus,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (AppTaskLanguage appTaskLanguage in AppTaskLanguageList)
+            {
+                appTaskLanguage.LanguageText = enums.GetEnumText_LanguageEnum(appTaskLanguage.Language);
+                appTaskLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(appTaskLanguage.TranslationStatus);
+            }
+
+            return AppTaskLanguageList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(AppTaskLanguage appTaskLanguage)
         {
             try
@@ -236,6 +290,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

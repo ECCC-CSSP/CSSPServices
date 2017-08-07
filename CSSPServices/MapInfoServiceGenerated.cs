@@ -56,6 +56,50 @@ namespace CSSPServices
             {
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoTVItemID, mapInfo.TVItemID.ToString()), new[] { "TVItemID" });
             }
+            else
+            {
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Root,
+                    TVTypeEnum.Country,
+                    TVTypeEnum.Province,
+                    TVTypeEnum.Area,
+                    TVTypeEnum.Sector,
+                    TVTypeEnum.Subsector,
+                    TVTypeEnum.ClimateSite,
+                    TVTypeEnum.File,
+                    TVTypeEnum.HydrometricSite,
+                    TVTypeEnum.Infrastructure,
+                    TVTypeEnum.MikeBoundaryConditionMesh,
+                    TVTypeEnum.MikeBoundaryConditionWebTide,
+                    TVTypeEnum.MikeScenario,
+                    TVTypeEnum.MikeSource,
+                    TVTypeEnum.Municipality,
+                    TVTypeEnum.MWQMRun,
+                    TVTypeEnum.MWQMSite,
+                    TVTypeEnum.MWQMSiteSample,
+                    TVTypeEnum.PolSourceSite,
+                    TVTypeEnum.SamplingPlan,
+                    TVTypeEnum.Spill,
+                    TVTypeEnum.TideSite,
+                    TVTypeEnum.VisualPlumesScenario,
+                    TVTypeEnum.LiftStation,
+                    TVTypeEnum.LineOverflow,
+                    TVTypeEnum.MeshNode,
+                    TVTypeEnum.MikeSourceIncluded,
+                    TVTypeEnum.MikeSourceIsRiver,
+                    TVTypeEnum.MikeSourceNotIncluded,
+                    TVTypeEnum.NoData,
+                    TVTypeEnum.NoDepuration,
+                    TVTypeEnum.Outfall,
+                    TVTypeEnum.Passed,
+                    TVTypeEnum.WebTideNode,
+                };
+                if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario,LiftStation,LineOverflow,MeshNode,MikeSourceIncluded,MikeSourceIsRiver,MikeSourceNotIncluded,NoData,NoDepuration,Outfall,Passed,WebTideNode"), new[] { "TVItemID" });
+                }
+            }
 
             retStr = enums.TVTypeOK(mapInfo.TVType);
             if (mapInfo.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
@@ -119,10 +163,24 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(mapInfo.TVTypeText) && mapInfo.TVTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoTVTypeText, "100"), new[] { "TVTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mapInfo.MapInfoDrawTypeText) && mapInfo.MapInfoDrawTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoMapInfoDrawTypeText, "100"), new[] { "MapInfoDrawTypeText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -134,7 +192,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MapInfo GetMapInfoWithMapInfoID(int MapInfoID)
+        {
+            IQueryable<MapInfo> mapInfoQuery = (from c in GetRead()
+                                                where c.MapInfoID == MapInfoID
+                                                select c);
+
+            return FillMapInfo(mapInfoQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MapInfo mapInfo)
         {
             mapInfo.ValidationResults = Validate(new ValidationContext(mapInfo), ActionDBTypeEnum.Create);
@@ -223,9 +292,40 @@ namespace CSSPServices
         {
             return db.MapInfos;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MapInfo> FillMapInfo(IQueryable<MapInfo> mapInfoQuery)
+        {
+            List<MapInfo> MapInfoList = (from c in mapInfoQuery
+                                         select new MapInfo
+                                         {
+                                             MapInfoID = c.MapInfoID,
+                                             TVItemID = c.TVItemID,
+                                             TVType = c.TVType,
+                                             LatMin = c.LatMin,
+                                             LatMax = c.LatMax,
+                                             LngMin = c.LngMin,
+                                             LngMax = c.LngMax,
+                                             MapInfoDrawType = c.MapInfoDrawType,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (MapInfo mapInfo in MapInfoList)
+            {
+                mapInfo.TVTypeText = enums.GetEnumText_TVTypeEnum(mapInfo.TVType);
+                mapInfo.MapInfoDrawTypeText = enums.GetEnumText_MapInfoDrawTypeEnum(mapInfo.MapInfoDrawType);
+            }
+
+            return MapInfoList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MapInfo mapInfo)
         {
             try
@@ -254,6 +354,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

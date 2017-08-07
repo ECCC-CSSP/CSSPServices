@@ -101,10 +101,24 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(boxModelLanguage.LanguageText) && boxModelLanguage.LanguageText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLanguageLanguageText, "100"), new[] { "LanguageText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(boxModelLanguage.TranslationStatusText) && boxModelLanguage.TranslationStatusText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -116,7 +130,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public BoxModelLanguage GetBoxModelLanguageWithBoxModelLanguageID(int BoxModelLanguageID)
+        {
+            IQueryable<BoxModelLanguage> boxModelLanguageQuery = (from c in GetRead()
+                                                where c.BoxModelLanguageID == BoxModelLanguageID
+                                                select c);
+
+            return FillBoxModelLanguage(boxModelLanguageQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(BoxModelLanguage boxModelLanguage)
         {
             boxModelLanguage.ValidationResults = Validate(new ValidationContext(boxModelLanguage), ActionDBTypeEnum.Create);
@@ -205,9 +230,37 @@ namespace CSSPServices
         {
             return db.BoxModelLanguages;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<BoxModelLanguage> FillBoxModelLanguage(IQueryable<BoxModelLanguage> boxModelLanguageQuery)
+        {
+            List<BoxModelLanguage> BoxModelLanguageList = (from c in boxModelLanguageQuery
+                                         select new BoxModelLanguage
+                                         {
+                                             BoxModelLanguageID = c.BoxModelLanguageID,
+                                             BoxModelID = c.BoxModelID,
+                                             Language = c.Language,
+                                             ScenarioName = c.ScenarioName,
+                                             TranslationStatus = c.TranslationStatus,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (BoxModelLanguage boxModelLanguage in BoxModelLanguageList)
+            {
+                boxModelLanguage.LanguageText = enums.GetEnumText_LanguageEnum(boxModelLanguage.Language);
+                boxModelLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(boxModelLanguage.TranslationStatus);
+            }
+
+            return BoxModelLanguageList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(BoxModelLanguage boxModelLanguage)
         {
             try
@@ -236,6 +289,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

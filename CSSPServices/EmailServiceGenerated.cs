@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemEmailTVItemID.TVType != TVTypeEnum.Email)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Email,
+                };
+                if (!AllowableTVTypes.Contains(TVItemEmailTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailEmailTVItemID, "Email"), new[] { "EmailTVItemID" });
                 }
@@ -111,10 +115,19 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(email.EmailTypeText) && email.EmailTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailTypeText, "100"), new[] { "EmailTypeText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -126,7 +139,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public Email GetEmailWithEmailID(int EmailID)
+        {
+            IQueryable<Email> emailQuery = (from c in GetRead()
+                                                where c.EmailID == EmailID
+                                                select c);
+
+            return FillEmail(emailQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(Email email)
         {
             email.ValidationResults = Validate(new ValidationContext(email), ActionDBTypeEnum.Create);
@@ -215,9 +239,35 @@ namespace CSSPServices
         {
             return db.Emails;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<Email> FillEmail(IQueryable<Email> emailQuery)
+        {
+            List<Email> EmailList = (from c in emailQuery
+                                         select new Email
+                                         {
+                                             EmailID = c.EmailID,
+                                             EmailTVItemID = c.EmailTVItemID,
+                                             EmailAddress = c.EmailAddress,
+                                             EmailType = c.EmailType,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (Email email in EmailList)
+            {
+                email.EmailTypeText = enums.GetEnumText_EmailTypeEnum(email.EmailType);
+            }
+
+            return EmailList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(Email email)
         {
             try
@@ -246,6 +296,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

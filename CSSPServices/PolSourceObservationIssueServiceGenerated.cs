@@ -96,7 +96,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationIssueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -111,7 +115,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public PolSourceObservationIssue GetPolSourceObservationIssueWithPolSourceObservationIssueID(int PolSourceObservationIssueID)
+        {
+            IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery = (from c in GetRead()
+                                                where c.PolSourceObservationIssueID == PolSourceObservationIssueID
+                                                select c);
+
+            return FillPolSourceObservationIssue(polSourceObservationIssueQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(PolSourceObservationIssue polSourceObservationIssue)
         {
             polSourceObservationIssue.ValidationResults = Validate(new ValidationContext(polSourceObservationIssue), ActionDBTypeEnum.Create);
@@ -200,9 +215,28 @@ namespace CSSPServices
         {
             return db.PolSourceObservationIssues;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<PolSourceObservationIssue> FillPolSourceObservationIssue(IQueryable<PolSourceObservationIssue> polSourceObservationIssueQuery)
+        {
+            List<PolSourceObservationIssue> PolSourceObservationIssueList = (from c in polSourceObservationIssueQuery
+                                         select new PolSourceObservationIssue
+                                         {
+                                             PolSourceObservationIssueID = c.PolSourceObservationIssueID,
+                                             PolSourceObservationID = c.PolSourceObservationID,
+                                             ObservationInfo = c.ObservationInfo,
+                                             Ordinal = c.Ordinal,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return PolSourceObservationIssueList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(PolSourceObservationIssue polSourceObservationIssue)
         {
             try
@@ -231,6 +265,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

@@ -156,7 +156,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPAmbientLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -171,7 +175,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public VPAmbient GetVPAmbientWithVPAmbientID(int VPAmbientID)
+        {
+            IQueryable<VPAmbient> vpAmbientQuery = (from c in GetRead()
+                                                where c.VPAmbientID == VPAmbientID
+                                                select c);
+
+            return FillVPAmbient(vpAmbientQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(VPAmbient vpAmbient)
         {
             vpAmbient.ValidationResults = Validate(new ValidationContext(vpAmbient), ActionDBTypeEnum.Create);
@@ -260,9 +275,37 @@ namespace CSSPServices
         {
             return db.VPAmbients;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<VPAmbient> FillVPAmbient(IQueryable<VPAmbient> vpAmbientQuery)
+        {
+            List<VPAmbient> VPAmbientList = (from c in vpAmbientQuery
+                                         select new VPAmbient
+                                         {
+                                             VPAmbientID = c.VPAmbientID,
+                                             VPScenarioID = c.VPScenarioID,
+                                             Row = c.Row,
+                                             MeasurementDepth_m = c.MeasurementDepth_m,
+                                             CurrentSpeed_m_s = c.CurrentSpeed_m_s,
+                                             CurrentDirection_deg = c.CurrentDirection_deg,
+                                             AmbientSalinity_PSU = c.AmbientSalinity_PSU,
+                                             AmbientTemperature_C = c.AmbientTemperature_C,
+                                             BackgroundConcentration_MPN_100ml = c.BackgroundConcentration_MPN_100ml,
+                                             PollutantDecayRate_per_day = c.PollutantDecayRate_per_day,
+                                             FarFieldCurrentSpeed_m_s = c.FarFieldCurrentSpeed_m_s,
+                                             FarFieldCurrentDirection_deg = c.FarFieldCurrentDirection_deg,
+                                             FarFieldDiffusionCoefficient = c.FarFieldDiffusionCoefficient,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return VPAmbientList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(VPAmbient vpAmbient)
         {
             try
@@ -291,6 +334,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

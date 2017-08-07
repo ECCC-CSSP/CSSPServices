@@ -60,9 +60,9 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.RainExceedanceEndDate_Local, "1980"), new[] { ModelsRes.RainExceedanceEndDate_Local });
             }
 
-            if (rainExceedance.StartDate > rainExceedance.EndDate_Local)
+            if (rainExceedance.StartDate_Local > rainExceedance.EndDate_Local)
             {
-                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.RainExceedanceEndDate_Local, ModelsRes.RainExceedanceStartDate), new[] { ModelsRes.RainExceedanceEndDate_Local });
+                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.RainExceedanceEndDate_Local, ModelsRes.RainExceedanceStartDate_Local), new[] { ModelsRes.RainExceedanceEndDate_Local });
             }
 
             if (rainExceedance.RainMaximum_mm != null)
@@ -152,7 +152,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RainExceedanceLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -167,7 +171,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public RainExceedance GetRainExceedanceWithRainExceedanceID(int RainExceedanceID)
+        {
+            IQueryable<RainExceedance> rainExceedanceQuery = (from c in GetRead()
+                                                where c.RainExceedanceID == RainExceedanceID
+                                                select c);
+
+            return FillRainExceedance(rainExceedanceQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(RainExceedance rainExceedance)
         {
             rainExceedance.ValidationResults = Validate(new ValidationContext(rainExceedance), ActionDBTypeEnum.Create);
@@ -256,9 +271,36 @@ namespace CSSPServices
         {
             return db.RainExceedances;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<RainExceedance> FillRainExceedance(IQueryable<RainExceedance> rainExceedanceQuery)
+        {
+            List<RainExceedance> RainExceedanceList = (from c in rainExceedanceQuery
+                                         select new RainExceedance
+                                         {
+                                             RainExceedanceID = c.RainExceedanceID,
+                                             YearRound = c.YearRound,
+                                             StartDate_Local = c.StartDate_Local,
+                                             EndDate_Local = c.EndDate_Local,
+                                             RainMaximum_mm = c.RainMaximum_mm,
+                                             RainExtreme_mm = c.RainExtreme_mm,
+                                             DaysPriorToStart = c.DaysPriorToStart,
+                                             RepeatEveryYear = c.RepeatEveryYear,
+                                             ProvinceTVItemIDs = c.ProvinceTVItemIDs,
+                                             SubsectorTVItemIDs = c.SubsectorTVItemIDs,
+                                             ClimateSiteTVItemIDs = c.ClimateSiteTVItemIDs,
+                                             EmailDistributionListIDs = c.EmailDistributionListIDs,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return RainExceedanceList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(RainExceedance rainExceedance)
         {
             try
@@ -287,6 +329,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

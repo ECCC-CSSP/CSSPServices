@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemMWQMSubsectorTVItemID.TVType != TVTypeEnum.Subsector)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Subsector,
+                };
+                if (!AllowableTVTypes.Contains(TVItemMWQMSubsectorTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSubsectorMWQMSubsectorTVItemID, "Subsector"), new[] { "MWQMSubsectorTVItemID" });
                 }
@@ -243,7 +247,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSubsectorLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -258,7 +266,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MWQMSubsector GetMWQMSubsectorWithMWQMSubsectorID(int MWQMSubsectorID)
+        {
+            IQueryable<MWQMSubsector> mwqmSubsectorQuery = (from c in GetRead()
+                                                where c.MWQMSubsectorID == MWQMSubsectorID
+                                                select c);
+
+            return FillMWQMSubsector(mwqmSubsectorQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MWQMSubsector mwqmSubsector)
         {
             mwqmSubsector.ValidationResults = Validate(new ValidationContext(mwqmSubsector), ActionDBTypeEnum.Create);
@@ -347,9 +366,51 @@ namespace CSSPServices
         {
             return db.MWQMSubsectors;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MWQMSubsector> FillMWQMSubsector(IQueryable<MWQMSubsector> mwqmSubsectorQuery)
+        {
+            List<MWQMSubsector> MWQMSubsectorList = (from c in mwqmSubsectorQuery
+                                         select new MWQMSubsector
+                                         {
+                                             MWQMSubsectorID = c.MWQMSubsectorID,
+                                             MWQMSubsectorTVItemID = c.MWQMSubsectorTVItemID,
+                                             SubsectorHistoricKey = c.SubsectorHistoricKey,
+                                             TideLocationSIDText = c.TideLocationSIDText,
+                                             RainDay0Limit = c.RainDay0Limit,
+                                             RainDay1Limit = c.RainDay1Limit,
+                                             RainDay2Limit = c.RainDay2Limit,
+                                             RainDay3Limit = c.RainDay3Limit,
+                                             RainDay4Limit = c.RainDay4Limit,
+                                             RainDay5Limit = c.RainDay5Limit,
+                                             RainDay6Limit = c.RainDay6Limit,
+                                             RainDay7Limit = c.RainDay7Limit,
+                                             RainDay8Limit = c.RainDay8Limit,
+                                             RainDay9Limit = c.RainDay9Limit,
+                                             RainDay10Limit = c.RainDay10Limit,
+                                             IncludeRainStartDate = c.IncludeRainStartDate,
+                                             IncludeRainEndDate = c.IncludeRainEndDate,
+                                             IncludeRainRunCount = c.IncludeRainRunCount,
+                                             IncludeRainSelectFullYear = c.IncludeRainSelectFullYear,
+                                             NoRainStartDate = c.NoRainStartDate,
+                                             NoRainEndDate = c.NoRainEndDate,
+                                             NoRainRunCount = c.NoRainRunCount,
+                                             NoRainSelectFullYear = c.NoRainSelectFullYear,
+                                             OnlyRainStartDate = c.OnlyRainStartDate,
+                                             OnlyRainEndDate = c.OnlyRainEndDate,
+                                             OnlyRainRunCount = c.OnlyRainRunCount,
+                                             OnlyRainSelectFullYear = c.OnlyRainSelectFullYear,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return MWQMSubsectorList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MWQMSubsector mwqmSubsector)
         {
             try
@@ -378,6 +439,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

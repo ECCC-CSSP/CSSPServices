@@ -101,10 +101,24 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPScenarioLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(vpScenarioLanguage.LanguageText) && vpScenarioLanguage.LanguageText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLanguageLanguageText, "100"), new[] { "LanguageText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(vpScenarioLanguage.TranslationStatusText) && vpScenarioLanguage.TranslationStatusText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -116,7 +130,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public VPScenarioLanguage GetVPScenarioLanguageWithVPScenarioLanguageID(int VPScenarioLanguageID)
+        {
+            IQueryable<VPScenarioLanguage> vpScenarioLanguageQuery = (from c in GetRead()
+                                                where c.VPScenarioLanguageID == VPScenarioLanguageID
+                                                select c);
+
+            return FillVPScenarioLanguage(vpScenarioLanguageQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(VPScenarioLanguage vpScenarioLanguage)
         {
             vpScenarioLanguage.ValidationResults = Validate(new ValidationContext(vpScenarioLanguage), ActionDBTypeEnum.Create);
@@ -205,9 +230,37 @@ namespace CSSPServices
         {
             return db.VPScenarioLanguages;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<VPScenarioLanguage> FillVPScenarioLanguage(IQueryable<VPScenarioLanguage> vpScenarioLanguageQuery)
+        {
+            List<VPScenarioLanguage> VPScenarioLanguageList = (from c in vpScenarioLanguageQuery
+                                         select new VPScenarioLanguage
+                                         {
+                                             VPScenarioLanguageID = c.VPScenarioLanguageID,
+                                             VPScenarioID = c.VPScenarioID,
+                                             Language = c.Language,
+                                             VPScenarioName = c.VPScenarioName,
+                                             TranslationStatus = c.TranslationStatus,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (VPScenarioLanguage vpScenarioLanguage in VPScenarioLanguageList)
+            {
+                vpScenarioLanguage.LanguageText = enums.GetEnumText_LanguageEnum(vpScenarioLanguage.Language);
+                vpScenarioLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(vpScenarioLanguage.TranslationStatus);
+            }
+
+            return VPScenarioLanguageList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(VPScenarioLanguage vpScenarioLanguage)
         {
             try
@@ -236,6 +289,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

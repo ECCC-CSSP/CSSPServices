@@ -96,7 +96,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemProvinceTVItemID.TVType != TVTypeEnum.Province)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Province,
+                };
+                if (!AllowableTVTypes.Contains(TVItemProvinceTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanProvinceTVItemID, "Province"), new[] { "ProvinceTVItemID" });
                 }
@@ -112,7 +116,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemCreatorTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemCreatorTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanCreatorTVItemID, "Contact"), new[] { "CreatorTVItemID" });
                 }
@@ -171,7 +179,11 @@ namespace CSSPServices
                 }
                 else
                 {
-                    if (TVItemSamplingPlanFileTVItemID.TVType != TVTypeEnum.File)
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.File,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemSamplingPlanFileTVItemID.TVType))
                     {
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, "File"), new[] { "SamplingPlanFileTVItemID" });
                     }
@@ -200,10 +212,29 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(samplingPlan.SampleTypeText) && samplingPlan.SampleTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSampleTypeText, "100"), new[] { "SampleTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(samplingPlan.SamplingPlanTypeText) && samplingPlan.SamplingPlanTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanTypeText, "100"), new[] { "SamplingPlanTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(samplingPlan.LabSheetTypeText) && samplingPlan.LabSheetTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanLabSheetTypeText, "100"), new[] { "LabSheetTypeText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -215,7 +246,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public SamplingPlan GetSamplingPlanWithSamplingPlanID(int SamplingPlanID)
+        {
+            IQueryable<SamplingPlan> samplingPlanQuery = (from c in GetRead()
+                                                where c.SamplingPlanID == SamplingPlanID
+                                                select c);
+
+            return FillSamplingPlan(samplingPlanQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(SamplingPlan samplingPlan)
         {
             samplingPlan.ValidationResults = Validate(new ValidationContext(samplingPlan), ActionDBTypeEnum.Create);
@@ -304,9 +346,48 @@ namespace CSSPServices
         {
             return db.SamplingPlans;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<SamplingPlan> FillSamplingPlan(IQueryable<SamplingPlan> samplingPlanQuery)
+        {
+            List<SamplingPlan> SamplingPlanList = (from c in samplingPlanQuery
+                                         select new SamplingPlan
+                                         {
+                                             SamplingPlanID = c.SamplingPlanID,
+                                             SamplingPlanName = c.SamplingPlanName,
+                                             ForGroupName = c.ForGroupName,
+                                             SampleType = c.SampleType,
+                                             SamplingPlanType = c.SamplingPlanType,
+                                             LabSheetType = c.LabSheetType,
+                                             ProvinceTVItemID = c.ProvinceTVItemID,
+                                             CreatorTVItemID = c.CreatorTVItemID,
+                                             Year = c.Year,
+                                             AccessCode = c.AccessCode,
+                                             DailyDuplicatePrecisionCriteria = c.DailyDuplicatePrecisionCriteria,
+                                             IntertechDuplicatePrecisionCriteria = c.IntertechDuplicatePrecisionCriteria,
+                                             IncludeLaboratoryQAQC = c.IncludeLaboratoryQAQC,
+                                             ApprovalCode = c.ApprovalCode,
+                                             SamplingPlanFileTVItemID = c.SamplingPlanFileTVItemID,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (SamplingPlan samplingPlan in SamplingPlanList)
+            {
+                samplingPlan.SampleTypeText = enums.GetEnumText_SampleTypeEnum(samplingPlan.SampleType);
+                samplingPlan.SamplingPlanTypeText = enums.GetEnumText_SamplingPlanTypeEnum(samplingPlan.SamplingPlanType);
+                samplingPlan.LabSheetTypeText = enums.GetEnumText_LabSheetTypeEnum(samplingPlan.LabSheetType);
+            }
+
+            return SamplingPlanList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(SamplingPlan samplingPlan)
         {
             try
@@ -335,6 +416,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

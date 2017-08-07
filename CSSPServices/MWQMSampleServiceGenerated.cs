@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemMWQMSiteTVItemID.TVType != TVTypeEnum.MWQMSite)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.MWQMSite,
+                };
+                if (!AllowableTVTypes.Contains(TVItemMWQMSiteTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSampleMWQMSiteTVItemID, "MWQMSite"), new[] { "MWQMSiteTVItemID" });
                 }
@@ -74,7 +78,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemMWQMRunTVItemID.TVType != TVTypeEnum.MWQMRun)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.MWQMRun,
+                };
+                if (!AllowableTVTypes.Contains(TVItemMWQMRunTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSampleMWQMRunTVItemID, "MWQMRun"), new[] { "MWQMRunTVItemID" });
                 }
@@ -198,10 +206,19 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSampleLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSample.SampleType_oldText) && mwqmSample.SampleType_oldText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleSampleType_oldText, "100"), new[] { "SampleType_oldText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -213,7 +230,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MWQMSample GetMWQMSampleWithMWQMSampleID(int MWQMSampleID)
+        {
+            IQueryable<MWQMSample> mwqmSampleQuery = (from c in GetRead()
+                                                where c.MWQMSampleID == MWQMSampleID
+                                                select c);
+
+            return FillMWQMSample(mwqmSampleQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MWQMSample mwqmSample)
         {
             mwqmSample.ValidationResults = Validate(new ValidationContext(mwqmSample), ActionDBTypeEnum.Create);
@@ -302,9 +330,46 @@ namespace CSSPServices
         {
             return db.MWQMSamples;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MWQMSample> FillMWQMSample(IQueryable<MWQMSample> mwqmSampleQuery)
+        {
+            List<MWQMSample> MWQMSampleList = (from c in mwqmSampleQuery
+                                         select new MWQMSample
+                                         {
+                                             MWQMSampleID = c.MWQMSampleID,
+                                             MWQMSiteTVItemID = c.MWQMSiteTVItemID,
+                                             MWQMRunTVItemID = c.MWQMRunTVItemID,
+                                             SampleDateTime_Local = c.SampleDateTime_Local,
+                                             Depth_m = c.Depth_m,
+                                             FecCol_MPN_100ml = c.FecCol_MPN_100ml,
+                                             Salinity_PPT = c.Salinity_PPT,
+                                             WaterTemp_C = c.WaterTemp_C,
+                                             PH = c.PH,
+                                             SampleTypesText = c.SampleTypesText,
+                                             SampleType_old = c.SampleType_old,
+                                             Tube_10 = c.Tube_10,
+                                             Tube_1_0 = c.Tube_1_0,
+                                             Tube_0_1 = c.Tube_0_1,
+                                             ProcessedBy = c.ProcessedBy,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (MWQMSample mwqmSample in MWQMSampleList)
+            {
+                mwqmSample.SampleType_oldText = enums.GetEnumText_SampleTypeEnum(mwqmSample.SampleType_old);
+            }
+
+            return MWQMSampleList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MWQMSample mwqmSample)
         {
             try
@@ -333,6 +398,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

@@ -38,10 +38,18 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             TVItemInfrastructureTypeTVItemLink tvItemInfrastructureTypeTVItemLink = validationContext.ObjectInstance as TVItemInfrastructureTypeTVItemLink;
 
-                //Error: Type not implemented [InfrastructureType] of type [InfrastructureTypeEnum]
+            retStr = enums.InfrastructureTypeOK(tvItemInfrastructureTypeTVItemLink.InfrastructureType);
+            if (tvItemInfrastructureTypeTVItemLink.InfrastructureType == InfrastructureTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemInfrastructureTypeTVItemLinkInfrastructureType), new[] { "InfrastructureType" });
+            }
 
-                //Error: Type not implemented [InfrastructureType] of type [InfrastructureTypeEnum]
             //SeeOtherTVItemID has no Range Attribute
+
+            if (!string.IsNullOrWhiteSpace(tvItemInfrastructureTypeTVItemLink.InfrastructureTypeText) && tvItemInfrastructureTypeTVItemLink.InfrastructureTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemInfrastructureTypeTVItemLinkInfrastructureTypeText, "100"), new[] { "InfrastructureTypeText" });
+            }
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true

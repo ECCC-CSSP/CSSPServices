@@ -164,7 +164,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -179,7 +183,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MikeSourceStartEnd GetMikeSourceStartEndWithMikeSourceStartEndID(int MikeSourceStartEndID)
+        {
+            IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery = (from c in GetRead()
+                                                where c.MikeSourceStartEndID == MikeSourceStartEndID
+                                                select c);
+
+            return FillMikeSourceStartEnd(mikeSourceStartEndQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MikeSourceStartEnd mikeSourceStartEnd)
         {
             mikeSourceStartEnd.ValidationResults = Validate(new ValidationContext(mikeSourceStartEnd), ActionDBTypeEnum.Create);
@@ -268,9 +283,36 @@ namespace CSSPServices
         {
             return db.MikeSourceStartEnds;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MikeSourceStartEnd> FillMikeSourceStartEnd(IQueryable<MikeSourceStartEnd> mikeSourceStartEndQuery)
+        {
+            List<MikeSourceStartEnd> MikeSourceStartEndList = (from c in mikeSourceStartEndQuery
+                                         select new MikeSourceStartEnd
+                                         {
+                                             MikeSourceStartEndID = c.MikeSourceStartEndID,
+                                             MikeSourceID = c.MikeSourceID,
+                                             StartDateAndTime_Local = c.StartDateAndTime_Local,
+                                             EndDateAndTime_Local = c.EndDateAndTime_Local,
+                                             SourceFlowStart_m3_day = c.SourceFlowStart_m3_day,
+                                             SourceFlowEnd_m3_day = c.SourceFlowEnd_m3_day,
+                                             SourcePollutionStart_MPN_100ml = c.SourcePollutionStart_MPN_100ml,
+                                             SourcePollutionEnd_MPN_100ml = c.SourcePollutionEnd_MPN_100ml,
+                                             SourceTemperatureStart_C = c.SourceTemperatureStart_C,
+                                             SourceTemperatureEnd_C = c.SourceTemperatureEnd_C,
+                                             SourceSalinityStart_PSU = c.SourceSalinityStart_PSU,
+                                             SourceSalinityEnd_PSU = c.SourceSalinityEnd_PSU,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return MikeSourceStartEndList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MikeSourceStartEnd mikeSourceStartEnd)
         {
             try
@@ -299,6 +341,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

@@ -98,10 +98,24 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSampleLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSampleLanguage.LanguageText) && mwqmSampleLanguage.LanguageText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleLanguageLanguageText, "100"), new[] { "LanguageText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSampleLanguage.TranslationStatusText) && mwqmSampleLanguage.TranslationStatusText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -113,7 +127,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MWQMSampleLanguage GetMWQMSampleLanguageWithMWQMSampleLanguageID(int MWQMSampleLanguageID)
+        {
+            IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery = (from c in GetRead()
+                                                where c.MWQMSampleLanguageID == MWQMSampleLanguageID
+                                                select c);
+
+            return FillMWQMSampleLanguage(mwqmSampleLanguageQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MWQMSampleLanguage mwqmSampleLanguage)
         {
             mwqmSampleLanguage.ValidationResults = Validate(new ValidationContext(mwqmSampleLanguage), ActionDBTypeEnum.Create);
@@ -202,9 +227,37 @@ namespace CSSPServices
         {
             return db.MWQMSampleLanguages;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MWQMSampleLanguage> FillMWQMSampleLanguage(IQueryable<MWQMSampleLanguage> mwqmSampleLanguageQuery)
+        {
+            List<MWQMSampleLanguage> MWQMSampleLanguageList = (from c in mwqmSampleLanguageQuery
+                                         select new MWQMSampleLanguage
+                                         {
+                                             MWQMSampleLanguageID = c.MWQMSampleLanguageID,
+                                             MWQMSampleID = c.MWQMSampleID,
+                                             Language = c.Language,
+                                             MWQMSampleNote = c.MWQMSampleNote,
+                                             TranslationStatus = c.TranslationStatus,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (MWQMSampleLanguage mwqmSampleLanguage in MWQMSampleLanguageList)
+            {
+                mwqmSampleLanguage.LanguageText = enums.GetEnumText_LanguageEnum(mwqmSampleLanguage.Language);
+                mwqmSampleLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(mwqmSampleLanguage.TranslationStatus);
+            }
+
+            return MWQMSampleLanguageList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MWQMSampleLanguage mwqmSampleLanguage)
         {
             try
@@ -233,6 +286,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

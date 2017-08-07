@@ -595,6 +595,21 @@ namespace CSSPServices
 
             //Log has no StringLength Attribute
 
+            if (!string.IsNullOrWhiteSpace(labSheetA1Sheet.SamplingPlanTypeText) && labSheetA1Sheet.SamplingPlanTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetA1SheetSamplingPlanTypeText, "100"), new[] { "SamplingPlanTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(labSheetA1Sheet.SampleTypeText) && labSheetA1Sheet.SampleTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetA1SheetSampleTypeText, "100"), new[] { "SampleTypeText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(labSheetA1Sheet.LabSheetTypeText) && labSheetA1Sheet.LabSheetTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetA1SheetLabSheetTypeText, "100"), new[] { "LabSheetTypeText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

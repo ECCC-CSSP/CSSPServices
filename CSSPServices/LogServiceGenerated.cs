@@ -100,10 +100,19 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LogLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(log.LogCommandText) && log.LogCommandText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogLogCommandText, "100"), new[] { "LogCommandText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -115,7 +124,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public Log GetLogWithLogID(int LogID)
+        {
+            IQueryable<Log> logQuery = (from c in GetRead()
+                                                where c.LogID == LogID
+                                                select c);
+
+            return FillLog(logQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(Log log)
         {
             log.ValidationResults = Validate(new ValidationContext(log), ActionDBTypeEnum.Create);
@@ -204,9 +224,36 @@ namespace CSSPServices
         {
             return db.Logs;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<Log> FillLog(IQueryable<Log> logQuery)
+        {
+            List<Log> LogList = (from c in logQuery
+                                         select new Log
+                                         {
+                                             LogID = c.LogID,
+                                             TableName = c.TableName,
+                                             ID = c.ID,
+                                             LogCommand = c.LogCommand,
+                                             Information = c.Information,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (Log log in LogList)
+            {
+                log.LogCommandText = enums.GetEnumText_LogCommandEnum(log.LogCommand);
+            }
+
+            return LogList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(Log log)
         {
             try
@@ -235,6 +282,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

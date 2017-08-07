@@ -93,10 +93,24 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVFileLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvFileLanguage.LanguageText) && tvFileLanguage.LanguageText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileLanguageLanguageText, "100"), new[] { "LanguageText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvFileLanguage.TranslationStatusText) && tvFileLanguage.TranslationStatusText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -108,7 +122,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public TVFileLanguage GetTVFileLanguageWithTVFileLanguageID(int TVFileLanguageID)
+        {
+            IQueryable<TVFileLanguage> tvFileLanguageQuery = (from c in GetRead()
+                                                where c.TVFileLanguageID == TVFileLanguageID
+                                                select c);
+
+            return FillTVFileLanguage(tvFileLanguageQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(TVFileLanguage tvFileLanguage)
         {
             tvFileLanguage.ValidationResults = Validate(new ValidationContext(tvFileLanguage), ActionDBTypeEnum.Create);
@@ -197,9 +222,37 @@ namespace CSSPServices
         {
             return db.TVFileLanguages;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<TVFileLanguage> FillTVFileLanguage(IQueryable<TVFileLanguage> tvFileLanguageQuery)
+        {
+            List<TVFileLanguage> TVFileLanguageList = (from c in tvFileLanguageQuery
+                                         select new TVFileLanguage
+                                         {
+                                             TVFileLanguageID = c.TVFileLanguageID,
+                                             TVFileID = c.TVFileID,
+                                             Language = c.Language,
+                                             FileDescription = c.FileDescription,
+                                             TranslationStatus = c.TranslationStatus,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (TVFileLanguage tvFileLanguage in TVFileLanguageList)
+            {
+                tvFileLanguage.LanguageText = enums.GetEnumText_LanguageEnum(tvFileLanguage.Language);
+                tvFileLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(tvFileLanguage.TranslationStatus);
+            }
+
+            return TVFileLanguageList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(TVFileLanguage tvFileLanguage)
         {
             try
@@ -228,6 +281,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

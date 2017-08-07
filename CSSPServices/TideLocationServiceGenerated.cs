@@ -105,7 +105,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public TideLocation GetTideLocationWithTideLocationID(int TideLocationID)
+        {
+            IQueryable<TideLocation> tideLocationQuery = (from c in GetRead()
+                                                where c.TideLocationID == TideLocationID
+                                                select c);
+
+            return FillTideLocation(tideLocationQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(TideLocation tideLocation)
         {
             tideLocation.ValidationResults = Validate(new ValidationContext(tideLocation), ActionDBTypeEnum.Create);
@@ -194,9 +205,29 @@ namespace CSSPServices
         {
             return db.TideLocations;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<TideLocation> FillTideLocation(IQueryable<TideLocation> tideLocationQuery)
+        {
+            List<TideLocation> TideLocationList = (from c in tideLocationQuery
+                                         select new TideLocation
+                                         {
+                                             TideLocationID = c.TideLocationID,
+                                             Zone = c.Zone,
+                                             Name = c.Name,
+                                             Prov = c.Prov,
+                                             sid = c.sid,
+                                             Lat = c.Lat,
+                                             Lng = c.Lng,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return TideLocationList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(TideLocation tideLocation)
         {
             try
@@ -225,6 +256,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

@@ -93,6 +93,11 @@ namespace CSSPServices
 
             //FixWidth (bool) is required but no testing needed 
 
+            if (!string.IsNullOrWhiteSpace(boxModelCalNumb.BoxModelResultTypeText) && boxModelCalNumb.BoxModelResultTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelCalNumbBoxModelResultTypeText, "100"), new[] { "BoxModelResultTypeText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {

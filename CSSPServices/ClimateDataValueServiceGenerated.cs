@@ -189,10 +189,19 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ClimateDataValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(climateDataValue.StorageDataTypeEnumText) && climateDataValue.StorageDataTypeEnumText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateDataValueStorageDataTypeEnumText, "100"), new[] { "StorageDataTypeEnumText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -204,7 +213,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public ClimateDataValue GetClimateDataValueWithClimateDataValueID(int ClimateDataValueID)
+        {
+            IQueryable<ClimateDataValue> climateDataValueQuery = (from c in GetRead()
+                                                where c.ClimateDataValueID == ClimateDataValueID
+                                                select c);
+
+            return FillClimateDataValue(climateDataValueQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(ClimateDataValue climateDataValue)
         {
             climateDataValue.ValidationResults = Validate(new ValidationContext(climateDataValue), ActionDBTypeEnum.Create);
@@ -293,9 +313,48 @@ namespace CSSPServices
         {
             return db.ClimateDataValues;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<ClimateDataValue> FillClimateDataValue(IQueryable<ClimateDataValue> climateDataValueQuery)
+        {
+            List<ClimateDataValue> ClimateDataValueList = (from c in climateDataValueQuery
+                                         select new ClimateDataValue
+                                         {
+                                             ClimateDataValueID = c.ClimateDataValueID,
+                                             ClimateSiteID = c.ClimateSiteID,
+                                             DateTime_Local = c.DateTime_Local,
+                                             Keep = c.Keep,
+                                             StorageDataType = c.StorageDataType,
+                                             Snow_cm = c.Snow_cm,
+                                             Rainfall_mm = c.Rainfall_mm,
+                                             RainfallEntered_mm = c.RainfallEntered_mm,
+                                             TotalPrecip_mm_cm = c.TotalPrecip_mm_cm,
+                                             MaxTemp_C = c.MaxTemp_C,
+                                             MinTemp_C = c.MinTemp_C,
+                                             HeatDegDays_C = c.HeatDegDays_C,
+                                             CoolDegDays_C = c.CoolDegDays_C,
+                                             SnowOnGround_cm = c.SnowOnGround_cm,
+                                             DirMaxGust_0North = c.DirMaxGust_0North,
+                                             SpdMaxGust_kmh = c.SpdMaxGust_kmh,
+                                             HourlyValues = c.HourlyValues,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (ClimateDataValue climateDataValue in ClimateDataValueList)
+            {
+                climateDataValue.StorageDataTypeEnumText = enums.GetEnumText_StorageDataTypeEnum(climateDataValue.StorageDataType);
+            }
+
+            return ClimateDataValueList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(ClimateDataValue climateDataValue)
         {
             try
@@ -324,6 +383,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

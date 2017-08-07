@@ -68,7 +68,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactContactTVItemID, "Contact"), new[] { "ContactTVItemID" });
                 }
@@ -172,7 +176,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -185,6 +193,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactParentTVItemID, "1"), new[] { "ParentTVItemID" });
             }
 
+            if (!string.IsNullOrWhiteSpace(contact.ContactTitleText) && contact.ContactTitleText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactContactTitleText, "100"), new[] { "ContactTitleText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -194,7 +207,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public Contact GetContactWithContactID(int ContactID)
+        {
+            IQueryable<Contact> contactQuery = (from c in GetRead()
+                                                where c.ContactID == ContactID
+                                                select c);
+
+            return FillContact(contactQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(Contact contact, AddContactType addContactType)
         {
             contact.ValidationResults = Validate(new ValidationContext(contact), ActionDBTypeEnum.Create, addContactType);
@@ -283,9 +307,45 @@ namespace CSSPServices
         {
             return db.Contacts;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<Contact> FillContact(IQueryable<Contact> contactQuery)
+        {
+            List<Contact> ContactList = (from c in contactQuery
+                                         select new Contact
+                                         {
+                                             ContactID = c.ContactID,
+                                             Id = c.Id,
+                                             ContactTVItemID = c.ContactTVItemID,
+                                             LoginEmail = c.LoginEmail,
+                                             FirstName = c.FirstName,
+                                             LastName = c.LastName,
+                                             Initial = c.Initial,
+                                             WebName = c.WebName,
+                                             ContactTitle = c.ContactTitle,
+                                             IsAdmin = c.IsAdmin,
+                                             EmailValidated = c.EmailValidated,
+                                             Disabled = c.Disabled,
+                                             IsNew = c.IsNew,
+                                             SamplingPlanner_ProvincesTVItemID = c.SamplingPlanner_ProvincesTVItemID,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (Contact contact in ContactList)
+            {
+                contact.ContactTitleText = enums.GetEnumText_ContactTitleEnum(contact.ContactTitle);
+            }
+
+            return ContactList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(Contact contact)
         {
             try
@@ -314,6 +374,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemCountryTVItemID.TVType != TVTypeEnum.Country)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Country,
+                };
+                if (!AllowableTVTypes.Contains(TVItemCountryTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListCountryTVItemID, "Country"), new[] { "CountryTVItemID" });
                 }
@@ -103,7 +107,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -118,7 +126,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public EmailDistributionList GetEmailDistributionListWithEmailDistributionListID(int EmailDistributionListID)
+        {
+            IQueryable<EmailDistributionList> emailDistributionListQuery = (from c in GetRead()
+                                                where c.EmailDistributionListID == EmailDistributionListID
+                                                select c);
+
+            return FillEmailDistributionList(emailDistributionListQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(EmailDistributionList emailDistributionList)
         {
             emailDistributionList.ValidationResults = Validate(new ValidationContext(emailDistributionList), ActionDBTypeEnum.Create);
@@ -207,9 +226,28 @@ namespace CSSPServices
         {
             return db.EmailDistributionLists;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<EmailDistributionList> FillEmailDistributionList(IQueryable<EmailDistributionList> emailDistributionListQuery)
+        {
+            List<EmailDistributionList> EmailDistributionListList = (from c in emailDistributionListQuery
+                                         select new EmailDistributionList
+                                         {
+                                             EmailDistributionListID = c.EmailDistributionListID,
+                                             CountryTVItemID = c.CountryTVItemID,
+                                             RegionName = c.RegionName,
+                                             Ordinal = c.Ordinal,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return EmailDistributionListList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(EmailDistributionList emailDistributionList)
         {
             try
@@ -238,6 +276,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

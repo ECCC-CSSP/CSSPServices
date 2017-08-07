@@ -92,10 +92,19 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactPreferenceLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(contactPreference.TVTypeText) && contactPreference.TVTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactPreferenceTVTypeText, "100"), new[] { "TVTypeText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -107,7 +116,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public ContactPreference GetContactPreferenceWithContactPreferenceID(int ContactPreferenceID)
+        {
+            IQueryable<ContactPreference> contactPreferenceQuery = (from c in GetRead()
+                                                where c.ContactPreferenceID == ContactPreferenceID
+                                                select c);
+
+            return FillContactPreference(contactPreferenceQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(ContactPreference contactPreference)
         {
             contactPreference.ValidationResults = Validate(new ValidationContext(contactPreference), ActionDBTypeEnum.Create);
@@ -196,9 +216,35 @@ namespace CSSPServices
         {
             return db.ContactPreferences;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<ContactPreference> FillContactPreference(IQueryable<ContactPreference> contactPreferenceQuery)
+        {
+            List<ContactPreference> ContactPreferenceList = (from c in contactPreferenceQuery
+                                         select new ContactPreference
+                                         {
+                                             ContactPreferenceID = c.ContactPreferenceID,
+                                             ContactID = c.ContactID,
+                                             TVType = c.TVType,
+                                             MarkerSize = c.MarkerSize,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (ContactPreference contactPreference in ContactPreferenceList)
+            {
+                contactPreference.TVTypeText = enums.GetEnumText_TVTypeEnum(contactPreference.TVType);
+            }
+
+            return ContactPreferenceList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(ContactPreference contactPreference)
         {
             try
@@ -227,6 +273,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

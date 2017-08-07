@@ -155,10 +155,10 @@
       <HintPath>..\packages\Microsoft.AspNetCore.WebUtilities.1.1.2\lib\net451\Microsoft.AspNetCore.WebUtilities.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.2.3.0\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.2.3.1\lib\netstandard1.3\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.2.3.0\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.2.3.1\lib\netstandard1.3\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.DotNet.PlatformAbstractions, Version=1.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.DotNet.PlatformAbstractions.1.1.2\lib\net451\Microsoft.DotNet.PlatformAbstractions.dll</HintPath>
@@ -445,8 +445,10 @@
     <Compile Include="PolSourceObservationServiceGenerated.cs" />
     <Compile Include="PolSourceObsInfoChildServiceGenerated.cs" />
     <Compile Include="PolSourceObsInfoEnumTextAndIDServiceGenerated.cs" />
+    <Compile Include="RainExceedanceServiceExtra.cs" />
     <Compile Include="PolSourceSiteServiceGenerated.cs" />
     <Compile Include="PolyPointServiceGenerated.cs" />
+    <Compile Include="RainExceedanceServiceGenerated.cs" />
     <Compile Include="RatingCurveServiceGenerated.cs" />
     <Compile Include="RatingCurveValueServiceGenerated.cs" />
     <Compile Include="RegisterServiceGenerated.cs" />

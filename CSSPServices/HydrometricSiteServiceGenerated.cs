@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemHydrometricSiteTVItemID.TVType != TVTypeEnum.HydrometricSite)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.HydrometricSite,
+                };
+                if (!AllowableTVTypes.Contains(TVItemHydrometricSiteTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.HydrometricSiteHydrometricSiteTVItemID, "HydrometricSite"), new[] { "HydrometricSiteTVItemID" });
                 }
@@ -160,7 +164,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.HydrometricSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -175,7 +183,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public HydrometricSite GetHydrometricSiteWithHydrometricSiteID(int HydrometricSiteID)
+        {
+            IQueryable<HydrometricSite> hydrometricSiteQuery = (from c in GetRead()
+                                                where c.HydrometricSiteID == HydrometricSiteID
+                                                select c);
+
+            return FillHydrometricSite(hydrometricSiteQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(HydrometricSite hydrometricSite)
         {
             hydrometricSite.ValidationResults = Validate(new ValidationContext(hydrometricSite), ActionDBTypeEnum.Create);
@@ -264,9 +283,42 @@ namespace CSSPServices
         {
             return db.HydrometricSites;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<HydrometricSite> FillHydrometricSite(IQueryable<HydrometricSite> hydrometricSiteQuery)
+        {
+            List<HydrometricSite> HydrometricSiteList = (from c in hydrometricSiteQuery
+                                         select new HydrometricSite
+                                         {
+                                             HydrometricSiteID = c.HydrometricSiteID,
+                                             HydrometricSiteTVItemID = c.HydrometricSiteTVItemID,
+                                             FedSiteNumber = c.FedSiteNumber,
+                                             QuebecSiteNumber = c.QuebecSiteNumber,
+                                             HydrometricSiteName = c.HydrometricSiteName,
+                                             Description = c.Description,
+                                             Province = c.Province,
+                                             Elevation_m = c.Elevation_m,
+                                             StartDate_Local = c.StartDate_Local,
+                                             EndDate_Local = c.EndDate_Local,
+                                             TimeOffset_hour = c.TimeOffset_hour,
+                                             DrainageArea_km2 = c.DrainageArea_km2,
+                                             IsNatural = c.IsNatural,
+                                             IsActive = c.IsActive,
+                                             Sediment = c.Sediment,
+                                             RHBN = c.RHBN,
+                                             RealTime = c.RealTime,
+                                             HasRatingCurve = c.HasRatingCurve,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return HydrometricSiteList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(HydrometricSite hydrometricSite)
         {
             try
@@ -295,6 +347,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

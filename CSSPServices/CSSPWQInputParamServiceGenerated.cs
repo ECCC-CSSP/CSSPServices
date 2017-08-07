@@ -38,9 +38,12 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             CSSPWQInputParam cSSPWQInputParam = validationContext.ObjectInstance as CSSPWQInputParam;
 
-                //Error: Type not implemented [CSSPWQInputType] of type [CSSPWQInputTypeEnum]
+            retStr = enums.CSSPWQInputTypeOK(cSSPWQInputParam.CSSPWQInputType);
+            if (cSSPWQInputParam.CSSPWQInputType == CSSPWQInputTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.CSSPWQInputParamCSSPWQInputType), new[] { "CSSPWQInputType" });
+            }
 
-                //Error: Type not implemented [CSSPWQInputType] of type [CSSPWQInputTypeEnum]
             if (string.IsNullOrWhiteSpace(cSSPWQInputParam.Name))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.CSSPWQInputParamName), new[] { "Name" });
@@ -56,6 +59,11 @@ namespace CSSPServices
             if (cSSPWQInputParam.TVItemID < 1)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.CSSPWQInputParamTVItemID, "1"), new[] { "TVItemID" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(cSSPWQInputParam.CSSPWQInputTypeText) && cSSPWQInputParam.CSSPWQInputTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.CSSPWQInputParamCSSPWQInputTypeText, "100"), new[] { "CSSPWQInputTypeText" });
             }
 
             retStr = ""; // added to stop compiling error

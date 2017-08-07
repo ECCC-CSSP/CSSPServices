@@ -130,7 +130,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
@@ -145,7 +149,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public EmailDistributionListContact GetEmailDistributionListContactWithEmailDistributionListContactID(int EmailDistributionListContactID)
+        {
+            IQueryable<EmailDistributionListContact> emailDistributionListContactQuery = (from c in GetRead()
+                                                where c.EmailDistributionListContactID == EmailDistributionListContactID
+                                                select c);
+
+            return FillEmailDistributionListContact(emailDistributionListContactQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(EmailDistributionListContact emailDistributionListContact)
         {
             emailDistributionListContact.ValidationResults = Validate(new ValidationContext(emailDistributionListContact), ActionDBTypeEnum.Create);
@@ -234,9 +249,35 @@ namespace CSSPServices
         {
             return db.EmailDistributionListContacts;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<EmailDistributionListContact> FillEmailDistributionListContact(IQueryable<EmailDistributionListContact> emailDistributionListContactQuery)
+        {
+            List<EmailDistributionListContact> EmailDistributionListContactList = (from c in emailDistributionListContactQuery
+                                         select new EmailDistributionListContact
+                                         {
+                                             EmailDistributionListContactID = c.EmailDistributionListContactID,
+                                             EmailDistributionListID = c.EmailDistributionListID,
+                                             IsCC = c.IsCC,
+                                             Agency = c.Agency,
+                                             Name = c.Name,
+                                             Email = c.Email,
+                                             CMPRainfallSeasonal = c.CMPRainfallSeasonal,
+                                             CMPWastewater = c.CMPWastewater,
+                                             EmergencyWeather = c.EmergencyWeather,
+                                             EmergencyWastewater = c.EmergencyWastewater,
+                                             ReopeningAllTypes = c.ReopeningAllTypes,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            return EmailDistributionListContactList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(EmailDistributionListContact emailDistributionListContact)
         {
             try
@@ -265,6 +306,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

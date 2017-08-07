@@ -58,7 +58,11 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemMWQMSiteTVItemID.TVType != TVTypeEnum.MWQMSite)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.MWQMSite,
+                };
+                if (!AllowableTVTypes.Contains(TVItemMWQMSiteTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteMWQMSiteTVItemID, "MWQMSite"), new[] { "MWQMSiteTVItemID" });
                 }
@@ -119,10 +123,19 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteLatestClassificationText) && mwqmSite.MWQMSiteLatestClassificationText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteLatestClassificationText, "100"), new[] { "MWQMSiteLatestClassificationText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -134,7 +147,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MWQMSite GetMWQMSiteWithMWQMSiteID(int MWQMSiteID)
+        {
+            IQueryable<MWQMSite> mwqmSiteQuery = (from c in GetRead()
+                                                where c.MWQMSiteID == MWQMSiteID
+                                                select c);
+
+            return FillMWQMSite(mwqmSiteQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MWQMSite mwqmSite)
         {
             mwqmSite.ValidationResults = Validate(new ValidationContext(mwqmSite), ActionDBTypeEnum.Create);
@@ -223,9 +247,37 @@ namespace CSSPServices
         {
             return db.MWQMSites;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MWQMSite> FillMWQMSite(IQueryable<MWQMSite> mwqmSiteQuery)
+        {
+            List<MWQMSite> MWQMSiteList = (from c in mwqmSiteQuery
+                                         select new MWQMSite
+                                         {
+                                             MWQMSiteID = c.MWQMSiteID,
+                                             MWQMSiteTVItemID = c.MWQMSiteTVItemID,
+                                             MWQMSiteNumber = c.MWQMSiteNumber,
+                                             MWQMSiteDescription = c.MWQMSiteDescription,
+                                             MWQMSiteLatestClassification = c.MWQMSiteLatestClassification,
+                                             Ordinal = c.Ordinal,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (MWQMSite mwqmSite in MWQMSiteList)
+            {
+                mwqmSite.MWQMSiteLatestClassificationText = enums.GetEnumText_MWQMSiteLatestClassificationEnum(mwqmSite.MWQMSiteLatestClassification);
+            }
+
+            return MWQMSiteList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MWQMSite mwqmSite)
         {
             try
@@ -254,6 +306,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

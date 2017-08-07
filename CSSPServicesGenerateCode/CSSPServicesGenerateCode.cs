@@ -59,7 +59,7 @@ namespace CSSPServicesGenerateCode
 
             servicesGenerateCodeHelper.GenerateCodeOf_ClassServiceGenerated();
         }
-        private void butGenerateClassTestGenerated_Click(object sender, EventArgs e)
+        private void butGenerateClassServiceTestGenerated_Click(object sender, EventArgs e)
         {
             richTextBoxStatus.Text = "";
             
@@ -69,19 +69,7 @@ namespace CSSPServicesGenerateCode
             // -----------------------------------------------------------------
             // -----------------------------------------------------------------
 
-            servicesGenerateCodeHelper.GenerateCodeOf_ClassTestGenerated();
-        }
-        private void ButGenerateFillDBTestingGenerated_Click(object sender, EventArgs e)
-        {
-            richTextBoxStatus.Text = "";
-            
-            // -----------------------------------------------------------------
-            // -----------------------------------------------------------------
-            // Will generate CSSPServices.Tests/FillDBAllTestGenerated.cs file
-            // -----------------------------------------------------------------
-            // -----------------------------------------------------------------
-
-            servicesGenerateCodeHelper.GenerateCodeOf__FillDBTestGenerated();
+            servicesGenerateCodeHelper.GenerateCodeOf_ClassServiceTestGenerated();
         }
         private void ServicesGenerateCodeHelper_ErrorHandler(object sender, CSSPServicesGenerateCodeHelper.ErrorEventArgs e)
         {
@@ -129,7 +117,6 @@ namespace CSSPServicesGenerateCode
         }
 
         #endregion Functions private
-
     }
 
 }

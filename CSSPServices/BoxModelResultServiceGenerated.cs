@@ -166,10 +166,19 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelResultLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(boxModelResult.BoxModelResultTypeText) && boxModelResult.BoxModelResultTypeText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelResultBoxModelResultTypeText, "100"), new[] { "BoxModelResultTypeText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -181,7 +190,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public BoxModelResult GetBoxModelResultWithBoxModelResultID(int BoxModelResultID)
+        {
+            IQueryable<BoxModelResult> boxModelResultQuery = (from c in GetRead()
+                                                where c.BoxModelResultID == BoxModelResultID
+                                                select c);
+
+            return FillBoxModelResult(boxModelResultQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(BoxModelResult boxModelResult)
         {
             boxModelResult.ValidationResults = Validate(new ValidationContext(boxModelResult), ActionDBTypeEnum.Create);
@@ -270,9 +290,47 @@ namespace CSSPServices
         {
             return db.BoxModelResults;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<BoxModelResult> FillBoxModelResult(IQueryable<BoxModelResult> boxModelResultQuery)
+        {
+            List<BoxModelResult> BoxModelResultList = (from c in boxModelResultQuery
+                                         select new BoxModelResult
+                                         {
+                                             BoxModelResultID = c.BoxModelResultID,
+                                             BoxModelID = c.BoxModelID,
+                                             BoxModelResultType = c.BoxModelResultType,
+                                             Volume_m3 = c.Volume_m3,
+                                             Surface_m2 = c.Surface_m2,
+                                             Radius_m = c.Radius_m,
+                                             LeftSideDiameterLineAngle_deg = c.LeftSideDiameterLineAngle_deg,
+                                             CircleCenterLatitude = c.CircleCenterLatitude,
+                                             CircleCenterLongitude = c.CircleCenterLongitude,
+                                             FixLength = c.FixLength,
+                                             FixWidth = c.FixWidth,
+                                             RectLength_m = c.RectLength_m,
+                                             RectWidth_m = c.RectWidth_m,
+                                             LeftSideLineAngle_deg = c.LeftSideLineAngle_deg,
+                                             LeftSideLineStartLatitude = c.LeftSideLineStartLatitude,
+                                             LeftSideLineStartLongitude = c.LeftSideLineStartLongitude,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (BoxModelResult boxModelResult in BoxModelResultList)
+            {
+                boxModelResult.BoxModelResultTypeText = enums.GetEnumText_BoxModelResultTypeEnum(boxModelResult.BoxModelResultType);
+            }
+
+            return BoxModelResultList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(BoxModelResult boxModelResult)
         {
             try
@@ -301,6 +359,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }

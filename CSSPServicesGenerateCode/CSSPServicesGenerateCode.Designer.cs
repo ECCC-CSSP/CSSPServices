@@ -48,8 +48,7 @@
             this.lblBaseDir = new System.Windows.Forms.Label();
             this.butRepopulateTesDB = new System.Windows.Forms.Button();
             this.butGenerateClassServiceGenerated = new System.Windows.Forms.Button();
-            this.ButGenerateFillDBTestingGenerated = new System.Windows.Forms.Button();
-            this.butGenerateClassTestGenerated = new System.Windows.Forms.Button();
+            this.butGenerateClassServiceTestGenerated = new System.Windows.Forms.Button();
             this.richTextBoxStatus = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -84,8 +83,7 @@
             this.splitContainer1.Panel1.Controls.Add(this.lblBaseDir);
             this.splitContainer1.Panel1.Controls.Add(this.butRepopulateTesDB);
             this.splitContainer1.Panel1.Controls.Add(this.butGenerateClassServiceGenerated);
-            this.splitContainer1.Panel1.Controls.Add(this.ButGenerateFillDBTestingGenerated);
-            this.splitContainer1.Panel1.Controls.Add(this.butGenerateClassTestGenerated);
+            this.splitContainer1.Panel1.Controls.Add(this.butGenerateClassServiceTestGenerated);
             // 
             // splitContainer1.Panel2
             // 
@@ -261,26 +259,15 @@
             this.butGenerateClassServiceGenerated.UseVisualStyleBackColor = true;
             this.butGenerateClassServiceGenerated.Click += new System.EventHandler(this.butGenerateClassServiceGenerated_Click);
             // 
-            // ButGenerateFillDBTestingGenerated
+            // butGenerateClassServiceTestGenerated
             // 
-            this.ButGenerateFillDBTestingGenerated.Enabled = false;
-            this.ButGenerateFillDBTestingGenerated.Location = new System.Drawing.Point(402, 273);
-            this.ButGenerateFillDBTestingGenerated.Name = "ButGenerateFillDBTestingGenerated";
-            this.ButGenerateFillDBTestingGenerated.Size = new System.Drawing.Size(199, 23);
-            this.ButGenerateFillDBTestingGenerated.TabIndex = 11;
-            this.ButGenerateFillDBTestingGenerated.Text = "Generate Fill DB Testing Generated";
-            this.ButGenerateFillDBTestingGenerated.UseVisualStyleBackColor = true;
-            this.ButGenerateFillDBTestingGenerated.Click += new System.EventHandler(this.ButGenerateFillDBTestingGenerated_Click);
-            // 
-            // butGenerateClassTestGenerated
-            // 
-            this.butGenerateClassTestGenerated.Location = new System.Drawing.Point(402, 233);
-            this.butGenerateClassTestGenerated.Name = "butGenerateClassTestGenerated";
-            this.butGenerateClassTestGenerated.Size = new System.Drawing.Size(199, 23);
-            this.butGenerateClassTestGenerated.TabIndex = 11;
-            this.butGenerateClassTestGenerated.Text = "Generate [Class]TestGenerated";
-            this.butGenerateClassTestGenerated.UseVisualStyleBackColor = true;
-            this.butGenerateClassTestGenerated.Click += new System.EventHandler(this.butGenerateClassTestGenerated_Click);
+            this.butGenerateClassServiceTestGenerated.Location = new System.Drawing.Point(402, 233);
+            this.butGenerateClassServiceTestGenerated.Name = "butGenerateClassServiceTestGenerated";
+            this.butGenerateClassServiceTestGenerated.Size = new System.Drawing.Size(255, 23);
+            this.butGenerateClassServiceTestGenerated.TabIndex = 11;
+            this.butGenerateClassServiceTestGenerated.Text = "Generate [Class]ServiceTestGenerated";
+            this.butGenerateClassServiceTestGenerated.UseVisualStyleBackColor = true;
+            this.butGenerateClassServiceTestGenerated.Click += new System.EventHandler(this.butGenerateClassServiceTestGenerated_Click);
             // 
             // richTextBoxStatus
             // 
@@ -324,14 +311,13 @@
         private System.Windows.Forms.Label lblFile1;
         private System.Windows.Forms.TextBox textBoxBaseDir;
         private System.Windows.Forms.Label lblBaseDir;
-        private System.Windows.Forms.Button butGenerateClassTestGenerated;
+        private System.Windows.Forms.Button butGenerateClassServiceTestGenerated;
         private System.Windows.Forms.RichTextBox richTextBoxStatus;
         private System.Windows.Forms.TextBox textBoxCSSPModelsDLL;
         private System.Windows.Forms.Label lblModelsDLL;
         private System.Windows.Forms.Button butGenerateClassServiceGenerated;
         private System.Windows.Forms.TextBox textBoxFile2ToGenerate;
         private System.Windows.Forms.Label lblFile2;
-        private System.Windows.Forms.Button ButGenerateFillDBTestingGenerated;
         private System.Windows.Forms.TextBox textBoxFile3ToGenerate;
         private System.Windows.Forms.Label lblFile3;
         private System.Windows.Forms.Button butRepopulateTesDB;

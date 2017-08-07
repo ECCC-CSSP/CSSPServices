@@ -111,10 +111,29 @@ namespace CSSPServices
             }
             else
             {
-                if (TVItemLastUpdateContactTVItemID.TVType != TVTypeEnum.Contact)
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Contact,
+                };
+                if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage.LanguageText) && mwqmRunLanguage.LanguageText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLanguageLanguageText, "100"), new[] { "LanguageText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage.TranslationStatusRunCommentText) && mwqmRunLanguage.TranslationStatusRunCommentText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLanguageTranslationStatusRunCommentText, "100"), new[] { "TranslationStatusRunCommentText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage.TranslationStatusRunWeatherCommentText) && mwqmRunLanguage.TranslationStatusRunWeatherCommentText.Length > 100)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLanguageTranslationStatusRunWeatherCommentText, "100"), new[] { "TranslationStatusRunWeatherCommentText" });
             }
 
             retStr = ""; // added to stop compiling error
@@ -126,7 +145,18 @@ namespace CSSPServices
         }
         #endregion Validation
 
-        #region Functions public
+        #region Functions public Generated Get
+        public MWQMRunLanguage GetMWQMRunLanguageWithMWQMRunLanguageID(int MWQMRunLanguageID)
+        {
+            IQueryable<MWQMRunLanguage> mwqmRunLanguageQuery = (from c in GetRead()
+                                                where c.MWQMRunLanguageID == MWQMRunLanguageID
+                                                select c);
+
+            return FillMWQMRunLanguage(mwqmRunLanguageQuery).FirstOrDefault();
+        }
+        #endregion Functions public Generated Get
+
+        #region Functions public Generated CRUD
         public bool Add(MWQMRunLanguage mwqmRunLanguage)
         {
             mwqmRunLanguage.ValidationResults = Validate(new ValidationContext(mwqmRunLanguage), ActionDBTypeEnum.Create);
@@ -215,9 +245,40 @@ namespace CSSPServices
         {
             return db.MWQMRunLanguages;
         }
-        #endregion Functions public
+        #endregion Functions public Generated CRUD
 
-        #region Functions private
+        #region Functions private Generated Fill Class
+        private List<MWQMRunLanguage> FillMWQMRunLanguage(IQueryable<MWQMRunLanguage> mwqmRunLanguageQuery)
+        {
+            List<MWQMRunLanguage> MWQMRunLanguageList = (from c in mwqmRunLanguageQuery
+                                         select new MWQMRunLanguage
+                                         {
+                                             MWQMRunLanguageID = c.MWQMRunLanguageID,
+                                             MWQMRunID = c.MWQMRunID,
+                                             Language = c.Language,
+                                             RunComment = c.RunComment,
+                                             TranslationStatusRunComment = c.TranslationStatusRunComment,
+                                             RunWeatherComment = c.RunWeatherComment,
+                                             TranslationStatusRunWeatherComment = c.TranslationStatusRunWeatherComment,
+                                             LastUpdateDate_UTC = c.LastUpdateDate_UTC,
+                                             LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ValidationResults = null,
+                                         }).ToList();
+
+            Enums enums = new Enums(LanguageRequest);
+
+            foreach (MWQMRunLanguage mwqmRunLanguage in MWQMRunLanguageList)
+            {
+                mwqmRunLanguage.LanguageText = enums.GetEnumText_LanguageEnum(mwqmRunLanguage.Language);
+                mwqmRunLanguage.TranslationStatusRunCommentText = enums.GetEnumText_TranslationStatusEnum(mwqmRunLanguage.TranslationStatusRunComment);
+                mwqmRunLanguage.TranslationStatusRunWeatherCommentText = enums.GetEnumText_TranslationStatusEnum(mwqmRunLanguage.TranslationStatusRunWeatherComment);
+            }
+
+            return MWQMRunLanguageList;
+        }
+        #endregion Functions private Generated Fill Class
+
+        #region Functions private Generated
         private bool TryToSave(MWQMRunLanguage mwqmRunLanguage)
         {
             try
@@ -246,6 +307,7 @@ namespace CSSPServices
 
             return true;
         }
-        #endregion Functions private
+        #endregion Functions private Generated
+
     }
 }
