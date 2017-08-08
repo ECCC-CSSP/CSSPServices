@@ -111,6 +111,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(vpScenarioLanguage.LastUpdateContactTVText) && vpScenarioLanguage.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLanguageLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(vpScenarioLanguage.LanguageText) && vpScenarioLanguage.LanguageText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLanguageLanguageText, "100"), new[] { "LanguageText" });
@@ -236,6 +241,10 @@ namespace CSSPServices
         private List<VPScenarioLanguage> FillVPScenarioLanguage(IQueryable<VPScenarioLanguage> vpScenarioLanguageQuery)
         {
             List<VPScenarioLanguage> VPScenarioLanguageList = (from c in vpScenarioLanguageQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new VPScenarioLanguage
                                          {
                                              VPScenarioLanguageID = c.VPScenarioLanguageID,
@@ -245,6 +254,7 @@ namespace CSSPServices
                                              TranslationStatus = c.TranslationStatus,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

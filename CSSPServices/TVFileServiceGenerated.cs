@@ -170,6 +170,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(tvFile.TVFileTVText) && tvFile.TVFileTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileTVFileTVText, "200"), new[] { "TVFileTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvFile.LastUpdateContactTVText) && tvFile.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(tvFile.TemplateTVTypeText) && tvFile.TemplateTVTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileTemplateTVTypeText, "100"), new[] { "TemplateTVTypeText" });
@@ -305,6 +315,14 @@ namespace CSSPServices
         private List<TVFile> FillTVFile(IQueryable<TVFile> tvFileQuery)
         {
             List<TVFile> TVFileList = (from c in tvFileQuery
+                                         let TVFileTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.TVFileTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new TVFile
                                          {
                                              TVFileID = c.TVFileID,
@@ -322,6 +340,8 @@ namespace CSSPServices
                                              ServerFilePath = c.ServerFilePath,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             TVFileTVText = TVFileTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

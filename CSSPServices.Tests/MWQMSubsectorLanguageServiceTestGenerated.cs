@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TranslationStatus") mwqmSubsectorLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSubsectorLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSubsectorLanguage.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") mwqmSubsectorLanguage.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") mwqmSubsectorLanguage.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusText") mwqmSubsectorLanguage.TranslationStatusText = GetRandomString("", 5);
 
@@ -203,6 +204,20 @@ namespace CSSPServices.Tests
                 mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSubsectorLanguageLastUpdateContactTVItemID, "Contact"), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmSubsectorLanguage.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mwqmSubsectorLanguage = null;
+                mwqmSubsectorLanguage = GetFilledRandomMWQMSubsectorLanguage("");
+                mwqmSubsectorLanguage.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLanguageLastUpdateContactTVText, "200"), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmSubsectorLanguageService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

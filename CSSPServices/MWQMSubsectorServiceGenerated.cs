@@ -257,6 +257,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(mwqmSubsector.SubsectorTVText) && mwqmSubsector.SubsectorTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorSubsectorTVText, "200"), new[] { "SubsectorTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSubsector.LastUpdateContactTVText) && mwqmSubsector.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -372,6 +382,14 @@ namespace CSSPServices
         private List<MWQMSubsector> FillMWQMSubsector(IQueryable<MWQMSubsector> mwqmSubsectorQuery)
         {
             List<MWQMSubsector> MWQMSubsectorList = (from c in mwqmSubsectorQuery
+                                         let SubsectorTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MWQMSubsectorTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new MWQMSubsector
                                          {
                                              MWQMSubsectorID = c.MWQMSubsectorID,
@@ -403,6 +421,8 @@ namespace CSSPServices
                                              OnlyRainSelectFullYear = c.OnlyRainSelectFullYear,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             SubsectorTVText = SubsectorTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

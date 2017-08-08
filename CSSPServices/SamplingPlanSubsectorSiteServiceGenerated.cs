@@ -111,6 +111,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(samplingPlanSubsectorSite.MWQMSiteTVText) && samplingPlanSubsectorSite.MWQMSiteTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVText, "200"), new[] { "MWQMSiteTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(samplingPlanSubsectorSite.LastUpdateContactTVText) && samplingPlanSubsectorSite.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -226,6 +236,14 @@ namespace CSSPServices
         private List<SamplingPlanSubsectorSite> FillSamplingPlanSubsectorSite(IQueryable<SamplingPlanSubsectorSite> samplingPlanSubsectorSiteQuery)
         {
             List<SamplingPlanSubsectorSite> SamplingPlanSubsectorSiteList = (from c in samplingPlanSubsectorSiteQuery
+                                         let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MWQMSiteTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new SamplingPlanSubsectorSite
                                          {
                                              SamplingPlanSubsectorSiteID = c.SamplingPlanSubsectorSiteID,
@@ -234,6 +252,8 @@ namespace CSSPServices
                                              IsDuplicate = c.IsDuplicate,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             MWQMSiteTVText = MWQMSiteTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Lng") mapInfoPoint.Lng = GetRandomDouble(-180.0D, 180.0D);
             if (OmitPropName != "LastUpdateDate_UTC") mapInfoPoint.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mapInfoPoint.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") mapInfoPoint.LastUpdateContactTVText = GetRandomString("", 5);
 
             return mapInfoPoint;
         }
@@ -209,6 +210,20 @@ namespace CSSPServices.Tests
                 mapInfoPointService.Add(mapInfoPoint);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoPointLastUpdateContactTVItemID, "Contact"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mapInfoPoint.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mapInfoPoint = null;
+                mapInfoPoint = GetFilledRandomMapInfoPoint("");
+                mapInfoPoint.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoPointLastUpdateContactTVText, "200"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

@@ -122,6 +122,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(docTemplate.LastUpdateContactTVText) && docTemplate.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(docTemplate.LanguageText) && docTemplate.LanguageText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateLanguageText, "100"), new[] { "LanguageText" });
@@ -247,6 +252,10 @@ namespace CSSPServices
         private List<DocTemplate> FillDocTemplate(IQueryable<DocTemplate> docTemplateQuery)
         {
             List<DocTemplate> DocTemplateList = (from c in docTemplateQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new DocTemplate
                                          {
                                              DocTemplateID = c.DocTemplateID,
@@ -256,6 +265,7 @@ namespace CSSPServices
                                              FileName = c.FileName,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

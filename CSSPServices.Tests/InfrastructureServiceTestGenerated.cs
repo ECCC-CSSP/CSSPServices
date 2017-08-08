@@ -87,6 +87,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "CivicAddressTVItemID") infrastructure.CivicAddressTVItemID = 16;
             if (OmitPropName != "LastUpdateDate_UTC") infrastructure.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") infrastructure.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "InfrastructureTVText") infrastructure.InfrastructureTVText = GetRandomString("", 5);
+            if (OmitPropName != "SeeOtherTVText") infrastructure.SeeOtherTVText = GetRandomString("", 5);
+            if (OmitPropName != "CivicAddressTVText") infrastructure.CivicAddressTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") infrastructure.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "InfrastructureTypeText") infrastructure.InfrastructureTypeText = GetRandomString("", 5);
             if (OmitPropName != "FacilityTypeText") infrastructure.FacilityTypeText = GetRandomString("", 5);
             if (OmitPropName != "AerationTypeText") infrastructure.AerationTypeText = GetRandomString("", 5);
@@ -973,6 +977,62 @@ namespace CSSPServices.Tests
                 infrastructureService.Add(infrastructure);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureLastUpdateContactTVItemID, "Contact"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // infrastructure.InfrastructureTVText   (String)
+                // -----------------------------------
+
+                infrastructure = null;
+                infrastructure = GetFilledRandomInfrastructure("");
+                infrastructure.InfrastructureTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, infrastructureService.Add(infrastructure));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureInfrastructureTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, infrastructureService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // infrastructure.SeeOtherTVText   (String)
+                // -----------------------------------
+
+                infrastructure = null;
+                infrastructure = GetFilledRandomInfrastructure("");
+                infrastructure.SeeOtherTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, infrastructureService.Add(infrastructure));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureSeeOtherTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, infrastructureService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // infrastructure.CivicAddressTVText   (String)
+                // -----------------------------------
+
+                infrastructure = null;
+                infrastructure = GetFilledRandomInfrastructure("");
+                infrastructure.CivicAddressTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, infrastructureService.Add(infrastructure));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureCivicAddressTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, infrastructureService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // infrastructure.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                infrastructure = null;
+                infrastructure = GetFilledRandomInfrastructure("");
+                infrastructure.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, infrastructureService.Add(infrastructure));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureLastUpdateContactTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

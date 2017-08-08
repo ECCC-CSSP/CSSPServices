@@ -50,6 +50,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "CivicAddressTVItemID") polSourceSite.CivicAddressTVItemID = 28;
             if (OmitPropName != "LastUpdateDate_UTC") polSourceSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") polSourceSite.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "PolSourceSiteTVText") polSourceSite.PolSourceSiteTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") polSourceSite.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "InactiveReasonText") polSourceSite.InactiveReasonText = GetRandomString("", 5);
 
             return polSourceSite;
@@ -273,6 +275,34 @@ namespace CSSPServices.Tests
                 polSourceSiteService.Add(polSourceSite);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceSiteLastUpdateContactTVItemID, "Contact"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // polSourceSite.PolSourceSiteTVText   (String)
+                // -----------------------------------
+
+                polSourceSite = null;
+                polSourceSite = GetFilledRandomPolSourceSite("");
+                polSourceSite.PolSourceSiteTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSitePolSourceSiteTVText, "200"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // polSourceSite.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                polSourceSite = null;
+                polSourceSite = GetFilledRandomPolSourceSite("");
+                polSourceSite.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, polSourceSiteService.Add(polSourceSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSiteLastUpdateContactTVText, "200"), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, polSourceSiteService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

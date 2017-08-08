@@ -162,6 +162,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(rainExceedance.LastUpdateContactTVText) && rainExceedance.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -277,6 +282,10 @@ namespace CSSPServices
         private List<RainExceedance> FillRainExceedance(IQueryable<RainExceedance> rainExceedanceQuery)
         {
             List<RainExceedance> RainExceedanceList = (from c in rainExceedanceQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new RainExceedance
                                          {
                                              RainExceedanceID = c.RainExceedanceID,
@@ -293,6 +302,7 @@ namespace CSSPServices
                                              EmailDistributionListIDs = c.EmailDistributionListIDs,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

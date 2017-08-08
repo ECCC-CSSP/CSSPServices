@@ -109,6 +109,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(contactShortcut.LastUpdateContactTVText) && contactShortcut.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactShortcutLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -224,6 +229,10 @@ namespace CSSPServices
         private List<ContactShortcut> FillContactShortcut(IQueryable<ContactShortcut> contactShortcutQuery)
         {
             List<ContactShortcut> ContactShortcutList = (from c in contactShortcutQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new ContactShortcut
                                          {
                                              ContactShortcutID = c.ContactShortcutID,
@@ -232,6 +241,7 @@ namespace CSSPServices
                                              ShortCutAddress = c.ShortCutAddress,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

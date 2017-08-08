@@ -109,6 +109,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(samplingPlanSubsector.SubsectorTVText) && samplingPlanSubsector.SubsectorTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSubsectorSubsectorTVText, "200"), new[] { "SubsectorTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(samplingPlanSubsector.LastUpdateContactTVText) && samplingPlanSubsector.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSubsectorLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -224,6 +234,14 @@ namespace CSSPServices
         private List<SamplingPlanSubsector> FillSamplingPlanSubsector(IQueryable<SamplingPlanSubsector> samplingPlanSubsectorQuery)
         {
             List<SamplingPlanSubsector> SamplingPlanSubsectorList = (from c in samplingPlanSubsectorQuery
+                                         let SubsectorTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.SubsectorTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new SamplingPlanSubsector
                                          {
                                              SamplingPlanSubsectorID = c.SamplingPlanSubsectorID,
@@ -231,6 +249,8 @@ namespace CSSPServices
                                              SubsectorTVItemID = c.SubsectorTVItemID,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             SubsectorTVText = SubsectorTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

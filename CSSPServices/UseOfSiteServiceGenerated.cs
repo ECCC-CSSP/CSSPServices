@@ -190,6 +190,21 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(useOfSite.SiteTVText) && useOfSite.SiteTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteSiteTVText, "200"), new[] { "SiteTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(useOfSite.SubsectorTVText) && useOfSite.SubsectorTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteSubsectorTVText, "200"), new[] { "SubsectorTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(useOfSite.LastUpdateContactTVText) && useOfSite.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(useOfSite.SiteTypeText) && useOfSite.SiteTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteSiteTypeText, "100"), new[] { "SiteTypeText" });
@@ -310,6 +325,18 @@ namespace CSSPServices
         private List<UseOfSite> FillUseOfSite(IQueryable<UseOfSite> useOfSiteQuery)
         {
             List<UseOfSite> UseOfSiteList = (from c in useOfSiteQuery
+                                         let SiteTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.SiteTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let SubsectorTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.SubsectorTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new UseOfSite
                                          {
                                              UseOfSiteID = c.UseOfSiteID,
@@ -328,6 +355,9 @@ namespace CSSPServices
                                              Param4 = c.Param4,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             SiteTVText = SiteTVText,
+                                             SubsectorTVText = SubsectorTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

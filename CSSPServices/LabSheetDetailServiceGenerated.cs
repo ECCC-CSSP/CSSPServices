@@ -59,20 +59,31 @@ namespace CSSPServices
 
             //SamplingPlanID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            LabSheet LabSheetSamplingPlanID = (from c in db.LabSheets where c.LabSheetID == labSheetDetail.SamplingPlanID select c).FirstOrDefault();
+            SamplingPlan SamplingPlanSamplingPlanID = (from c in db.SamplingPlans where c.SamplingPlanID == labSheetDetail.SamplingPlanID select c).FirstOrDefault();
 
-            if (LabSheetSamplingPlanID == null)
+            if (SamplingPlanSamplingPlanID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheet, ModelsRes.LabSheetDetailSamplingPlanID, labSheetDetail.SamplingPlanID.ToString()), new[] { "SamplingPlanID" });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlan, ModelsRes.LabSheetDetailSamplingPlanID, labSheetDetail.SamplingPlanID.ToString()), new[] { "SamplingPlanID" });
             }
 
             //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            LabSheet LabSheetSubsectorTVItemID = (from c in db.LabSheets where c.LabSheetID == labSheetDetail.SubsectorTVItemID select c).FirstOrDefault();
+            TVItem TVItemSubsectorTVItemID = (from c in db.TVItems where c.TVItemID == labSheetDetail.SubsectorTVItemID select c).FirstOrDefault();
 
-            if (LabSheetSubsectorTVItemID == null)
+            if (TVItemSubsectorTVItemID == null)
             {
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheet, ModelsRes.LabSheetDetailSubsectorTVItemID, labSheetDetail.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetDetailSubsectorTVItemID, labSheetDetail.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
+            }
+            else
+            {
+                List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                {
+                    TVTypeEnum.Subsector,
+                };
+                if (!AllowableTVTypes.Contains(TVItemSubsectorTVItemID.TVType))
+                {
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LabSheetDetailSubsectorTVItemID, "Subsector"), new[] { "SubsectorTVItemID" });
+                }
             }
 
             //Version (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -443,6 +454,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.SubsectorTVText) && labSheetDetail.SubsectorTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailSubsectorTVText, "200"), new[] { "SubsectorTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(labSheetDetail.LastUpdateContactTVText) && labSheetDetail.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -558,6 +579,14 @@ namespace CSSPServices
         private List<LabSheetDetail> FillLabSheetDetail(IQueryable<LabSheetDetail> labSheetDetailQuery)
         {
             List<LabSheetDetail> LabSheetDetailList = (from c in labSheetDetailQuery
+                                         let SubsectorTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.SubsectorTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new LabSheetDetail
                                          {
                                              LabSheetDetailID = c.LabSheetDetailID,
@@ -625,6 +654,8 @@ namespace CSSPServices
                                              IntertechReadAcceptable = c.IntertechReadAcceptable,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             SubsectorTVText = SubsectorTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

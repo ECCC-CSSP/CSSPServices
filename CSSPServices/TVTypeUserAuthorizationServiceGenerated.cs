@@ -112,6 +112,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorization.ContactTVText) && tvTypeUserAuthorization.ContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationContactTVText, "200"), new[] { "ContactTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorization.LastUpdateContactTVText) && tvTypeUserAuthorization.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(tvTypeUserAuthorization.TVTypeText) && tvTypeUserAuthorization.TVTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationTVTypeText, "100"), new[] { "TVTypeText" });
@@ -237,6 +247,14 @@ namespace CSSPServices
         private List<TVTypeUserAuthorization> FillTVTypeUserAuthorization(IQueryable<TVTypeUserAuthorization> tvTypeUserAuthorizationQuery)
         {
             List<TVTypeUserAuthorization> TVTypeUserAuthorizationList = (from c in tvTypeUserAuthorizationQuery
+                                         let ContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.ContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new TVTypeUserAuthorization
                                          {
                                              TVTypeUserAuthorizationID = c.TVTypeUserAuthorizationID,
@@ -245,6 +263,8 @@ namespace CSSPServices
                                              TVAuth = c.TVAuth,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ContactTVText = ContactTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

@@ -165,6 +165,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(tideDataValue.TideSiteTVText) && tideDataValue.TideSiteTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueTideSiteTVText, "200"), new[] { "TideSiteTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tideDataValue.LastUpdateContactTVText) && tideDataValue.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(tideDataValue.TideDataTypeText) && tideDataValue.TideDataTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueTideDataTypeText, "100"), new[] { "TideDataTypeText" });
@@ -300,6 +310,14 @@ namespace CSSPServices
         private List<TideDataValue> FillTideDataValue(IQueryable<TideDataValue> tideDataValueQuery)
         {
             List<TideDataValue> TideDataValueList = (from c in tideDataValueQuery
+                                         let TideSiteTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.TideSiteTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new TideDataValue
                                          {
                                              TideDataValueID = c.TideDataValueID,
@@ -315,6 +333,8 @@ namespace CSSPServices
                                              TideEnd = c.TideEnd,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             TideSiteTVText = TideSiteTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

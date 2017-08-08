@@ -53,6 +53,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SourceSalinityEnd_PSU") mikeSourceStartEnd.SourceSalinityEnd_PSU = GetRandomDouble(0.0D, 40.0D);
             if (OmitPropName != "LastUpdateDate_UTC") mikeSourceStartEnd.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeSourceStartEnd.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") mikeSourceStartEnd.LastUpdateContactTVText = GetRandomString("", 5);
 
             return mikeSourceStartEnd;
         }
@@ -340,6 +341,20 @@ namespace CSSPServices.Tests
                 mikeSourceStartEndService.Add(mikeSourceStartEnd);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, "Contact"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mikeSourceStartEnd.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mikeSourceStartEnd = null;
+                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                mikeSourceStartEnd.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceStartEndLastUpdateContactTVText, "200"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

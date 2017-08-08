@@ -42,7 +42,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "LabSheetID") labSheetDetail.LabSheetID = 1;
             if (OmitPropName != "SamplingPlanID") labSheetDetail.SamplingPlanID = 1;
-            if (OmitPropName != "SubsectorTVItemID") labSheetDetail.SubsectorTVItemID = 1;
+            if (OmitPropName != "SubsectorTVItemID") labSheetDetail.SubsectorTVItemID = 11;
             if (OmitPropName != "Version") labSheetDetail.Version = GetRandomInt(1, 5);
             if (OmitPropName != "RunDate") labSheetDetail.RunDate = new DateTime(2005, 3, 6);
             if (OmitPropName != "Tides") labSheetDetail.Tides = GetRandomString("", 6);
@@ -104,6 +104,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "IntertechReadAcceptable") labSheetDetail.IntertechReadAcceptable = true;
             if (OmitPropName != "LastUpdateDate_UTC") labSheetDetail.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") labSheetDetail.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "SubsectorTVText") labSheetDetail.SubsectorTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") labSheetDetail.LastUpdateContactTVText = GetRandomString("", 5);
 
             return labSheetDetail;
         }
@@ -189,7 +191,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "LabSheet", Plurial = "s", FieldID = "LabSheetID", AllowableTVtypeList = Error)]
+                // [CSSPExist(TypeName = "SamplingPlan", Plurial = "s", FieldID = "SamplingPlanID", AllowableTVtypeList = Error)]
                 // labSheetDetail.SamplingPlanID   (Int32)
                 // -----------------------------------
 
@@ -197,12 +199,12 @@ namespace CSSPServices.Tests
                 labSheetDetail = GetFilledRandomLabSheetDetail("");
                 labSheetDetail.SamplingPlanID = 0;
                 labSheetDetailService.Add(labSheetDetail);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheet, ModelsRes.LabSheetDetailSamplingPlanID, labSheetDetail.SamplingPlanID.ToString()), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlan, ModelsRes.LabSheetDetailSamplingPlanID, labSheetDetail.SamplingPlanID.ToString()), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "LabSheet", Plurial = "s", FieldID = "LabSheetID", AllowableTVtypeList = Error)]
+                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Subsector)]
                 // labSheetDetail.SubsectorTVItemID   (Int32)
                 // -----------------------------------
 
@@ -210,7 +212,13 @@ namespace CSSPServices.Tests
                 labSheetDetail = GetFilledRandomLabSheetDetail("");
                 labSheetDetail.SubsectorTVItemID = 0;
                 labSheetDetailService.Add(labSheetDetail);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheet, ModelsRes.LabSheetDetailSubsectorTVItemID, labSheetDetail.SubsectorTVItemID.ToString()), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetDetailSubsectorTVItemID, labSheetDetail.SubsectorTVItemID.ToString()), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                labSheetDetail = null;
+                labSheetDetail = GetFilledRandomLabSheetDetail("");
+                labSheetDetail.SubsectorTVItemID = 1;
+                labSheetDetailService.Add(labSheetDetail);
+                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LabSheetDetailSubsectorTVItemID, "Subsector"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -1076,6 +1084,34 @@ namespace CSSPServices.Tests
                 labSheetDetailService.Add(labSheetDetail);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LabSheetDetailLastUpdateContactTVItemID, "Contact"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // labSheetDetail.SubsectorTVText   (String)
+                // -----------------------------------
+
+                labSheetDetail = null;
+                labSheetDetail = GetFilledRandomLabSheetDetail("");
+                labSheetDetail.SubsectorTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, labSheetDetailService.Add(labSheetDetail));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailSubsectorTVText, "200"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // labSheetDetail.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                labSheetDetail = null;
+                labSheetDetail = GetFilledRandomLabSheetDetail("");
+                labSheetDetail.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, labSheetDetailService.Add(labSheetDetail));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetDetailLastUpdateContactTVText, "200"), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, labSheetDetailService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

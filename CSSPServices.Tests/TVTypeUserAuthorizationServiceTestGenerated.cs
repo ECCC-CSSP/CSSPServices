@@ -45,6 +45,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TVAuth") tvTypeUserAuthorization.TVAuth = (TVAuthEnum)GetRandomEnumType(typeof(TVAuthEnum));
             if (OmitPropName != "LastUpdateDate_UTC") tvTypeUserAuthorization.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvTypeUserAuthorization.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "ContactTVText") tvTypeUserAuthorization.ContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") tvTypeUserAuthorization.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "TVTypeText") tvTypeUserAuthorization.TVTypeText = GetRandomString("", 5);
             if (OmitPropName != "TVAuthText") tvTypeUserAuthorization.TVAuthText = GetRandomString("", 5);
 
@@ -187,6 +189,34 @@ namespace CSSPServices.Tests
                 tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVItemID, "Contact"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tvTypeUserAuthorization.ContactTVText   (String)
+                // -----------------------------------
+
+                tvTypeUserAuthorization = null;
+                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                tvTypeUserAuthorization.ContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationContactTVText, "200"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tvTypeUserAuthorization.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                tvTypeUserAuthorization = null;
+                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                tvTypeUserAuthorization.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVText, "200"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

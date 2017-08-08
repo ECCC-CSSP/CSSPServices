@@ -54,6 +54,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ServerFilePath") tvFile.ServerFilePath = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") tvFile.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvFile.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "TVFileTVText") tvFile.TVFileTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") tvFile.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "TemplateTVTypeText") tvFile.TemplateTVTypeText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") tvFile.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "FilePurposeText") tvFile.FilePurposeText = GetRandomString("", 5);
@@ -317,6 +319,34 @@ namespace CSSPServices.Tests
                 tvFileService.Add(tvFile);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVFileLastUpdateContactTVItemID, "Contact"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tvFile.TVFileTVText   (String)
+                // -----------------------------------
+
+                tvFile = null;
+                tvFile = GetFilledRandomTVFile("");
+                tvFile.TVFileTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, tvFileService.Add(tvFile));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileTVFileTVText, "200"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, tvFileService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tvFile.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                tvFile = null;
+                tvFile = GetFilledRandomTVFile("");
+                tvFile.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, tvFileService.Add(tvFile));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileLastUpdateContactTVText, "200"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

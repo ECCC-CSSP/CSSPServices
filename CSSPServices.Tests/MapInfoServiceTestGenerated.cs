@@ -49,6 +49,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MapInfoDrawType") mapInfo.MapInfoDrawType = (MapInfoDrawTypeEnum)GetRandomEnumType(typeof(MapInfoDrawTypeEnum));
             if (OmitPropName != "LastUpdateDate_UTC") mapInfo.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mapInfo.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "TVText") mapInfo.TVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") mapInfo.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "TVTypeText") mapInfo.TVTypeText = GetRandomString("", 5);
             if (OmitPropName != "MapInfoDrawTypeText") mapInfo.MapInfoDrawTypeText = GetRandomString("", 5);
 
@@ -275,6 +277,34 @@ namespace CSSPServices.Tests
                 mapInfoService.Add(mapInfo);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoLastUpdateContactTVItemID, "Contact"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mapInfo.TVText   (String)
+                // -----------------------------------
+
+                mapInfo = null;
+                mapInfo = GetFilledRandomMapInfo("");
+                mapInfo.TVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mapInfoService.Add(mapInfo));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoTVText, "200"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mapInfoService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mapInfo.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mapInfo = null;
+                mapInfo = GetFilledRandomMapInfo("");
+                mapInfo.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mapInfoService.Add(mapInfo));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoLastUpdateContactTVText, "200"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mapInfoService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

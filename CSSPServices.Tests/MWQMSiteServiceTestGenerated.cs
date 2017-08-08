@@ -47,6 +47,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Ordinal") mwqmSite.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSite.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "MWQMSiteTVText") mwqmSite.MWQMSiteTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") mwqmSite.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "MWQMSiteLatestClassificationText") mwqmSite.MWQMSiteLatestClassificationText = GetRandomString("", 5);
 
             return mwqmSite;
@@ -236,6 +238,34 @@ namespace CSSPServices.Tests
                 mwqmSiteService.Add(mwqmSite);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteLastUpdateContactTVItemID, "Contact"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmSite.MWQMSiteTVText   (String)
+                // -----------------------------------
+
+                mwqmSite = null;
+                mwqmSite = GetFilledRandomMWQMSite("");
+                mwqmSite.MWQMSiteTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteTVText, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmSite.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mwqmSite = null;
+                mwqmSite = GetFilledRandomMWQMSite("");
+                mwqmSite.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteLastUpdateContactTVText, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

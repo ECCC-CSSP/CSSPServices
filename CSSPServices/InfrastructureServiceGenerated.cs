@@ -464,6 +464,26 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(infrastructure.InfrastructureTVText) && infrastructure.InfrastructureTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureInfrastructureTVText, "200"), new[] { "InfrastructureTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(infrastructure.SeeOtherTVText) && infrastructure.SeeOtherTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureSeeOtherTVText, "200"), new[] { "SeeOtherTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(infrastructure.CivicAddressTVText) && infrastructure.CivicAddressTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureCivicAddressTVText, "200"), new[] { "CivicAddressTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(infrastructure.LastUpdateContactTVText) && infrastructure.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(infrastructure.InfrastructureTypeText) && infrastructure.InfrastructureTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureInfrastructureTypeText, "100"), new[] { "InfrastructureTypeText" });
@@ -634,6 +654,22 @@ namespace CSSPServices
         private List<Infrastructure> FillInfrastructure(IQueryable<Infrastructure> infrastructureQuery)
         {
             List<Infrastructure> InfrastructureList = (from c in infrastructureQuery
+                                         let InfrastructureTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.InfrastructureTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let SeeOtherTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.SeeOtherTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let CivicAddressTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.CivicAddressTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new Infrastructure
                                          {
                                              InfrastructureID = c.InfrastructureID,
@@ -684,6 +720,10 @@ namespace CSSPServices
                                              CivicAddressTVItemID = c.CivicAddressTVItemID,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             InfrastructureTVText = InfrastructureTVText,
+                                             SeeOtherTVText = SeeOtherTVText,
+                                             CivicAddressTVText = CivicAddressTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

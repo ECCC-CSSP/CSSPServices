@@ -55,6 +55,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SiteComment") labSheetTubeMPNDetail.SiteComment = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") labSheetTubeMPNDetail.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") labSheetTubeMPNDetail.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "MWQMSiteTVText") labSheetTubeMPNDetail.MWQMSiteTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") labSheetTubeMPNDetail.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "SampleTypeText") labSheetTubeMPNDetail.SampleTypeText = GetRandomString("", 5);
 
             return labSheetTubeMPNDetail;
@@ -366,6 +368,34 @@ namespace CSSPServices.Tests
                 labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVItemID, "Contact"), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // labSheetTubeMPNDetail.MWQMSiteTVText   (String)
+                // -----------------------------------
+
+                labSheetTubeMPNDetail = null;
+                labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
+                labSheetTubeMPNDetail.MWQMSiteTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetTubeMPNDetailMWQMSiteTVText, "200"), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // labSheetTubeMPNDetail.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                labSheetTubeMPNDetail = null;
+                labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
+                labSheetTubeMPNDetail.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVText, "200"), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, labSheetTubeMPNDetailService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

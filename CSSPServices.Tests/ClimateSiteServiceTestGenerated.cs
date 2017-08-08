@@ -63,6 +63,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MonthlyNow") climateSite.MonthlyNow = true;
             if (OmitPropName != "LastUpdateDate_UTC") climateSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") climateSite.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "ClimateSiteTVText") climateSite.ClimateSiteTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") climateSite.LastUpdateContactTVText = GetRandomString("", 5);
 
             return climateSite;
         }
@@ -417,6 +419,34 @@ namespace CSSPServices.Tests
                 climateSiteService.Add(climateSite);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ClimateSiteLastUpdateContactTVItemID, "Contact"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // climateSite.ClimateSiteTVText   (String)
+                // -----------------------------------
+
+                climateSite = null;
+                climateSite = GetFilledRandomClimateSite("");
+                climateSite.ClimateSiteTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, climateSiteService.Add(climateSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteClimateSiteTVText, "200"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, climateSiteService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // climateSite.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                climateSite = null;
+                climateSite = GetFilledRandomClimateSite("");
+                climateSite.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, climateSiteService.Add(climateSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteLastUpdateContactTVText, "200"), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, climateSiteService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

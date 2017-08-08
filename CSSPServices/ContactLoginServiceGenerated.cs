@@ -114,6 +114,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(contactLogin.LastUpdateContactTVText) && contactLogin.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (string.IsNullOrWhiteSpace(contactLogin.Password))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginPassword), new[] { "Password" });
@@ -249,6 +254,10 @@ namespace CSSPServices
         private List<ContactLogin> FillContactLogin(IQueryable<ContactLogin> contactLoginQuery)
         {
             List<ContactLogin> ContactLoginList = (from c in contactLoginQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new ContactLogin
                                          {
                                              ContactLoginID = c.ContactLoginID,
@@ -258,6 +267,7 @@ namespace CSSPServices
                                              PasswordSalt = c.PasswordSalt,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

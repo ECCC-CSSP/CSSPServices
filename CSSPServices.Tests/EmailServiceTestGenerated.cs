@@ -45,6 +45,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EmailType") email.EmailType = (EmailTypeEnum)GetRandomEnumType(typeof(EmailTypeEnum));
             if (OmitPropName != "LastUpdateDate_UTC") email.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") email.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "EmailTVText") email.EmailTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") email.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "EmailTypeText") email.EmailTypeText = GetRandomString("", 5);
 
             return email;
@@ -195,6 +197,34 @@ namespace CSSPServices.Tests
                 emailService.Add(email);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailLastUpdateContactTVItemID, "Contact"), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // email.EmailTVText   (String)
+                // -----------------------------------
+
+                email = null;
+                email = GetFilledRandomEmail("");
+                email.EmailTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, emailService.Add(email));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailTVText, "200"), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, emailService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // email.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                email = null;
+                email = GetFilledRandomEmail("");
+                email.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, emailService.Add(email));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailLastUpdateContactTVText, "200"), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, emailService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

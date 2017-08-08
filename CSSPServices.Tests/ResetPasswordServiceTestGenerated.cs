@@ -45,6 +45,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Code") resetPassword.Code = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") resetPassword.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") resetPassword.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") resetPassword.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "Password") resetPassword.Password = GetRandomString("", 11);
             if (OmitPropName != "ConfirmPassword") resetPassword.ConfirmPassword = GetRandomString("", 11);
 
@@ -191,6 +192,20 @@ namespace CSSPServices.Tests
                 resetPasswordService.Add(resetPassword);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ResetPasswordLastUpdateContactTVItemID, "Contact"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // resetPassword.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                resetPassword = null;
+                resetPassword = GetFilledRandomResetPassword("");
+                resetPassword.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordLastUpdateContactTVText, "200"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

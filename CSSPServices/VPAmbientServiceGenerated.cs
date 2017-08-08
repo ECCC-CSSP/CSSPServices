@@ -166,6 +166,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(vpAmbient.LastUpdateContactTVText) && vpAmbient.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPAmbientLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -281,6 +286,10 @@ namespace CSSPServices
         private List<VPAmbient> FillVPAmbient(IQueryable<VPAmbient> vpAmbientQuery)
         {
             List<VPAmbient> VPAmbientList = (from c in vpAmbientQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new VPAmbient
                                          {
                                              VPAmbientID = c.VPAmbientID,
@@ -298,6 +307,7 @@ namespace CSSPServices
                                              FarFieldDiffusionCoefficient = c.FarFieldDiffusionCoefficient,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

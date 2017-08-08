@@ -67,6 +67,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EstimatedTransFileSize") mikeScenario.EstimatedTransFileSize = GetRandomInt(0, 100000000);
             if (OmitPropName != "LastUpdateDate_UTC") mikeScenario.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeScenario.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "MikeScenarioTVText") mikeScenario.MikeScenarioTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") mikeScenario.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "ScenarioStatusText") mikeScenario.ScenarioStatusText = GetRandomString("", 5);
 
             return mikeScenario;
@@ -586,6 +588,34 @@ namespace CSSPServices.Tests
                 mikeScenarioService.Add(mikeScenario);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeScenarioLastUpdateContactTVItemID, "Contact"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mikeScenario.MikeScenarioTVText   (String)
+                // -----------------------------------
+
+                mikeScenario = null;
+                mikeScenario = GetFilledRandomMikeScenario("");
+                mikeScenario.MikeScenarioTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeScenarioMikeScenarioTVText, "200"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mikeScenario.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mikeScenario = null;
+                mikeScenario = GetFilledRandomMikeScenario("");
+                mikeScenario.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mikeScenarioService.Add(mikeScenario));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeScenarioLastUpdateContactTVText, "200"), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mikeScenarioService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

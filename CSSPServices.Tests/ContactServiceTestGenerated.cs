@@ -55,6 +55,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SamplingPlanner_ProvincesTVItemID") contact.SamplingPlanner_ProvincesTVItemID = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") contact.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contact.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "ContactTVText") contact.ContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") contact.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "ParentTVItemID") contact.ParentTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "ContactTitleText") contact.ContactTitleText = GetRandomString("", 5);
 
@@ -346,6 +348,34 @@ namespace CSSPServices.Tests
                 contactService.Add(contact, ContactService.AddContactType.LoggedIn);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactLastUpdateContactTVItemID, "Contact"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // contact.ContactTVText   (String)
+                // -----------------------------------
+
+                contact = null;
+                contact = GetFilledRandomContact("");
+                contact.ContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactContactTVText, "200"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, contactService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // contact.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                contact = null;
+                contact = GetFilledRandomContact("");
+                contact.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, contactService.Add(contact, ContactService.AddContactType.First));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLastUpdateContactTVText, "200"), contact.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, contactService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

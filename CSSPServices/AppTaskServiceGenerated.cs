@@ -234,6 +234,21 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(appTask.TVItemTVText) && appTask.TVItemTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskTVItemTVText, "200"), new[] { "TVItemTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(appTask.TVItem2TVText) && appTask.TVItem2TVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskTVItem2TVText, "200"), new[] { "TVItem2TVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(appTask.LastUpdateContactTVText) && appTask.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(appTask.AppTaskCommandText) && appTask.AppTaskCommandText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskAppTaskCommandText, "100"), new[] { "AppTaskCommandText" });
@@ -364,6 +379,18 @@ namespace CSSPServices
         private List<AppTask> FillAppTask(IQueryable<AppTask> appTaskQuery)
         {
             List<AppTask> AppTaskList = (from c in appTaskQuery
+                                         let TVItemTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.TVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let TVItem2TVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.TVItemID2
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new AppTask
                                          {
                                              AppTaskID = c.AppTaskID,
@@ -380,6 +407,9 @@ namespace CSSPServices
                                              RemainingTime_second = c.RemainingTime_second,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             TVItemTVText = TVItemTVText,
+                                             TVItem2TVText = TVItem2TVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

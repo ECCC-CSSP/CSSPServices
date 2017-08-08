@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "FileName") docTemplate.FileName = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") docTemplate.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") docTemplate.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") docTemplate.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") docTemplate.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "TVTypeText") docTemplate.TVTypeText = GetRandomString("", 5);
 
@@ -209,6 +210,20 @@ namespace CSSPServices.Tests
                 docTemplateService.Add(docTemplate);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.DocTemplateLastUpdateContactTVItemID, "Contact"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // docTemplate.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                docTemplate = null;
+                docTemplate = GetFilledRandomDocTemplate("");
+                docTemplate.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, docTemplateService.Add(docTemplate));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateLastUpdateContactTVText, "200"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, docTemplateService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

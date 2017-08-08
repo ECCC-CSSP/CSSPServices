@@ -47,6 +47,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SourceNumberString") mikeSource.SourceNumberString = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") mikeSource.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeSource.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "MikeSourceTVText") mikeSource.MikeSourceTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") mikeSource.LastUpdateContactTVText = GetRandomString("", 5);
 
             return mikeSource;
         }
@@ -200,6 +202,34 @@ namespace CSSPServices.Tests
                 mikeSourceService.Add(mikeSource);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeSourceLastUpdateContactTVItemID, "Contact"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mikeSource.MikeSourceTVText   (String)
+                // -----------------------------------
+
+                mikeSource = null;
+                mikeSource = GetFilledRandomMikeSource("");
+                mikeSource.MikeSourceTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceMikeSourceTVText, "200"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mikeSourceService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mikeSource.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mikeSource = null;
+                mikeSource = GetFilledRandomMikeSource("");
+                mikeSource.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceLastUpdateContactTVText, "200"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mikeSourceService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

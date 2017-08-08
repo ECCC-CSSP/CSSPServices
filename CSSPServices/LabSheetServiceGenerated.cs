@@ -259,6 +259,26 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(labSheet.SubsectorTVText) && labSheet.SubsectorTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetSubsectorTVText, "200"), new[] { "SubsectorTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(labSheet.MWQMRunTVText) && labSheet.MWQMRunTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetMWQMRunTVText, "200"), new[] { "MWQMRunTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(labSheet.AcceptedOrRejectedByContactTVText) && labSheet.AcceptedOrRejectedByContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetAcceptedOrRejectedByContactTVText, "200"), new[] { "AcceptedOrRejectedByContactTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(labSheet.LastUpdateContactTVText) && labSheet.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(labSheet.SamplingPlanTypeText) && labSheet.SamplingPlanTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetSamplingPlanTypeText, "100"), new[] { "SamplingPlanTypeText" });
@@ -394,6 +414,22 @@ namespace CSSPServices
         private List<LabSheet> FillLabSheet(IQueryable<LabSheet> labSheetQuery)
         {
             List<LabSheet> LabSheetList = (from c in labSheetQuery
+                                         let SubsectorTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.SubsectorTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let MWQMRunTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MWQMRunTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let AcceptedOrRejectedByContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.AcceptedOrRejectedByContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new LabSheet
                                          {
                                              LabSheetID = c.LabSheetID,
@@ -418,6 +454,10 @@ namespace CSSPServices
                                              RejectReason = c.RejectReason,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             SubsectorTVText = SubsectorTVText,
+                                             MWQMRunTVText = MWQMRunTVText,
+                                             AcceptedOrRejectedByContactTVText = AcceptedOrRejectedByContactTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

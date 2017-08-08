@@ -121,6 +121,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(mwqmRunLanguage.LastUpdateContactTVText) && mwqmRunLanguage.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLanguageLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(mwqmRunLanguage.LanguageText) && mwqmRunLanguage.LanguageText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLanguageLanguageText, "100"), new[] { "LanguageText" });
@@ -251,6 +256,10 @@ namespace CSSPServices
         private List<MWQMRunLanguage> FillMWQMRunLanguage(IQueryable<MWQMRunLanguage> mwqmRunLanguageQuery)
         {
             List<MWQMRunLanguage> MWQMRunLanguageList = (from c in mwqmRunLanguageQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new MWQMRunLanguage
                                          {
                                              MWQMRunLanguageID = c.MWQMRunLanguageID,
@@ -262,6 +271,7 @@ namespace CSSPServices
                                              TranslationStatusRunWeatherComment = c.TranslationStatusRunWeatherComment,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

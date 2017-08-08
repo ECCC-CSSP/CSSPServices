@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TranslationStatus") infrastructureLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") infrastructureLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") infrastructureLanguage.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") infrastructureLanguage.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") infrastructureLanguage.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusText") infrastructureLanguage.TranslationStatusText = GetRandomString("", 5);
 
@@ -196,6 +197,20 @@ namespace CSSPServices.Tests
                 infrastructureLanguageService.Add(infrastructureLanguage);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureLanguageLastUpdateContactTVItemID, "Contact"), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // infrastructureLanguage.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                infrastructureLanguage = null;
+                infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
+                infrastructureLanguage.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, infrastructureLanguageService.Add(infrastructureLanguage));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureLanguageLastUpdateContactTVText, "200"), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

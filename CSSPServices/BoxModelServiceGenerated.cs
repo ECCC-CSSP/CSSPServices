@@ -170,6 +170,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(boxModel.InfrastructureTVText) && boxModel.InfrastructureTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelInfrastructureTVText, "200"), new[] { "InfrastructureTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(boxModel.LastUpdateContactTVText) && boxModel.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -285,6 +295,14 @@ namespace CSSPServices
         private List<BoxModel> FillBoxModel(IQueryable<BoxModel> boxModelQuery)
         {
             List<BoxModel> BoxModelList = (from c in boxModelQuery
+                                         let InfrastructureTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.InfrastructureTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new BoxModel
                                          {
                                              BoxModelID = c.BoxModelID,
@@ -301,6 +319,8 @@ namespace CSSPServices
                                              FlowDuration_hour = c.FlowDuration_hour,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             InfrastructureTVText = InfrastructureTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

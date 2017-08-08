@@ -170,6 +170,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionTVText) && mikeBoundaryCondition.MikeBoundaryConditionTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVText, "200"), new[] { "MikeBoundaryConditionTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.LastUpdateContactTVText) && mikeBoundaryCondition.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText) && mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLevelOrVelocityText, "100"), new[] { "MikeBoundaryConditionLevelOrVelocityText" });
@@ -300,6 +310,14 @@ namespace CSSPServices
         private List<MikeBoundaryCondition> FillMikeBoundaryCondition(IQueryable<MikeBoundaryCondition> mikeBoundaryConditionQuery)
         {
             List<MikeBoundaryCondition> MikeBoundaryConditionList = (from c in mikeBoundaryConditionQuery
+                                         let MikeBoundaryConditionTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MikeBoundaryConditionTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new MikeBoundaryCondition
                                          {
                                              MikeBoundaryConditionID = c.MikeBoundaryConditionID,
@@ -315,6 +333,8 @@ namespace CSSPServices
                                              TVType = c.TVType,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             MikeBoundaryConditionTVText = MikeBoundaryConditionTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

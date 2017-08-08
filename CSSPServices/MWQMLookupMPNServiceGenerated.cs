@@ -108,6 +108,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(mwqmLookupMPN.LastUpdateContactTVText) && mwqmLookupMPN.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMLookupMPNLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -223,6 +228,10 @@ namespace CSSPServices
         private List<MWQMLookupMPN> FillMWQMLookupMPN(IQueryable<MWQMLookupMPN> mwqmLookupMPNQuery)
         {
             List<MWQMLookupMPN> MWQMLookupMPNList = (from c in mwqmLookupMPNQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new MWQMLookupMPN
                                          {
                                              MWQMLookupMPNID = c.MWQMLookupMPNID,
@@ -232,6 +241,7 @@ namespace CSSPServices
                                              MPN_100ml = c.MPN_100ml,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

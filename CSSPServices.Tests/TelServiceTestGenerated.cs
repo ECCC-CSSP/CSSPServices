@@ -45,6 +45,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TelType") tel.TelType = (TelTypeEnum)GetRandomEnumType(typeof(TelTypeEnum));
             if (OmitPropName != "LastUpdateDate_UTC") tel.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tel.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "TelTVText") tel.TelTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") tel.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "TelTypeText") tel.TelTypeText = GetRandomString("", 5);
 
             return tel;
@@ -194,6 +196,34 @@ namespace CSSPServices.Tests
                 telService.Add(tel);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TelLastUpdateContactTVItemID, "Contact"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tel.TelTVText   (String)
+                // -----------------------------------
+
+                tel = null;
+                tel = GetFilledRandomTel("");
+                tel.TelTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, telService.Add(tel));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelTVText, "200"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, telService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tel.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                tel = null;
+                tel = GetFilledRandomTel("");
+                tel.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, telService.Add(tel));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelLastUpdateContactTVText, "200"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, telService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

@@ -52,6 +52,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ReopeningAllTypes") emailDistributionListContact.ReopeningAllTypes = true;
             if (OmitPropName != "LastUpdateDate_UTC") emailDistributionListContact.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") emailDistributionListContact.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") emailDistributionListContact.LastUpdateContactTVText = GetRandomString("", 5);
 
             return emailDistributionListContact;
         }
@@ -260,6 +261,20 @@ namespace CSSPServices.Tests
                 emailDistributionListContactService.Add(emailDistributionListContact);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, "Contact"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // emailDistributionListContact.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                emailDistributionListContact = null;
+                emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
+                emailDistributionListContact.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactLastUpdateContactTVText, "200"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

@@ -134,6 +134,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(tvItemStat.TVText) && tvItemStat.TVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemStatTVText, "200"), new[] { "TVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvItemStat.LastUpdateContactTVText) && tvItemStat.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemStatLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(tvItemStat.TVTypeText) && tvItemStat.TVTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemStatTVTypeText, "100"), new[] { "TVTypeText" });
@@ -254,6 +264,14 @@ namespace CSSPServices
         private List<TVItemStat> FillTVItemStat(IQueryable<TVItemStat> tvItemStatQuery)
         {
             List<TVItemStat> TVItemStatList = (from c in tvItemStatQuery
+                                         let TVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.TVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new TVItemStat
                                          {
                                              TVItemStatID = c.TVItemStatID,
@@ -262,6 +280,8 @@ namespace CSSPServices
                                              ChildCount = c.ChildCount,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             TVText = TVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

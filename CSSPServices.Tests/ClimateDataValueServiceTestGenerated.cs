@@ -58,6 +58,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "HourlyValues") climateDataValue.HourlyValues = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") climateDataValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") climateDataValue.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") climateDataValue.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "StorageDataTypeEnumText") climateDataValue.StorageDataTypeEnumText = GetRandomString("", 5);
 
             return climateDataValue;
@@ -430,6 +431,20 @@ namespace CSSPServices.Tests
                 climateDataValueService.Add(climateDataValue);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ClimateDataValueLastUpdateContactTVItemID, "Contact"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // climateDataValue.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                climateDataValue = null;
+                climateDataValue = GetFilledRandomClimateDataValue("");
+                climateDataValue.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateDataValueLastUpdateContactTVText, "200"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

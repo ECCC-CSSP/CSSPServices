@@ -161,6 +161,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(polSourceSite.PolSourceSiteTVText) && polSourceSite.PolSourceSiteTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSitePolSourceSiteTVText, "200"), new[] { "PolSourceSiteTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(polSourceSite.LastUpdateContactTVText) && polSourceSite.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(polSourceSite.InactiveReasonText) && polSourceSite.InactiveReasonText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSiteInactiveReasonText, "100"), new[] { "InactiveReasonText" });
@@ -281,6 +291,14 @@ namespace CSSPServices
         private List<PolSourceSite> FillPolSourceSite(IQueryable<PolSourceSite> polSourceSiteQuery)
         {
             List<PolSourceSite> PolSourceSiteList = (from c in polSourceSiteQuery
+                                         let PolSourceSiteTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.PolSourceSiteTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new PolSourceSite
                                          {
                                              PolSourceSiteID = c.PolSourceSiteID,
@@ -294,6 +312,8 @@ namespace CSSPServices
                                              CivicAddressTVItemID = c.CivicAddressTVItemID,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             PolSourceSiteTVText = PolSourceSiteTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

@@ -123,6 +123,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(appErrLog.LastUpdateContactTVText) && appErrLog.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -238,6 +243,10 @@ namespace CSSPServices
         private List<AppErrLog> FillAppErrLog(IQueryable<AppErrLog> appErrLogQuery)
         {
             List<AppErrLog> AppErrLogList = (from c in appErrLogQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new AppErrLog
                                          {
                                              AppErrLogID = c.AppErrLogID,
@@ -248,6 +257,7 @@ namespace CSSPServices
                                              DateTime_UTC = c.DateTime_UTC,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

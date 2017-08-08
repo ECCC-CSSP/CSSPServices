@@ -216,6 +216,21 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(mwqmSample.MWQMSiteTVText) && mwqmSample.MWQMSiteTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleMWQMSiteTVText, "200"), new[] { "MWQMSiteTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSample.MWQMRunTVText) && mwqmSample.MWQMRunTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleMWQMRunTVText, "200"), new[] { "MWQMRunTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSample.LastUpdateContactTVText) && mwqmSample.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(mwqmSample.SampleType_oldText) && mwqmSample.SampleType_oldText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleSampleType_oldText, "100"), new[] { "SampleType_oldText" });
@@ -336,6 +351,18 @@ namespace CSSPServices
         private List<MWQMSample> FillMWQMSample(IQueryable<MWQMSample> mwqmSampleQuery)
         {
             List<MWQMSample> MWQMSampleList = (from c in mwqmSampleQuery
+                                         let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MWQMSiteTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let MWQMRunTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MWQMRunTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new MWQMSample
                                          {
                                              MWQMSampleID = c.MWQMSampleID,
@@ -355,6 +382,9 @@ namespace CSSPServices
                                              ProcessedBy = c.ProcessedBy,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             MWQMSiteTVText = MWQMSiteTVText,
+                                             MWQMRunTVText = MWQMRunTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

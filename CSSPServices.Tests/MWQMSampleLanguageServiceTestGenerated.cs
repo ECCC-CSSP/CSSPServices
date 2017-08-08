@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TranslationStatus") mwqmSampleLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSampleLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSampleLanguage.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") mwqmSampleLanguage.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") mwqmSampleLanguage.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusText") mwqmSampleLanguage.TranslationStatusText = GetRandomString("", 5);
 
@@ -196,6 +197,20 @@ namespace CSSPServices.Tests
                 mwqmSampleLanguageService.Add(mwqmSampleLanguage);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSampleLanguageLastUpdateContactTVItemID, "Contact"), mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmSampleLanguage.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mwqmSampleLanguage = null;
+                mwqmSampleLanguage = GetFilledRandomMWQMSampleLanguage("");
+                mwqmSampleLanguage.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmSampleLanguageService.Add(mwqmSampleLanguage));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleLanguageLastUpdateContactTVText, "200"), mwqmSampleLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmSampleLanguageService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

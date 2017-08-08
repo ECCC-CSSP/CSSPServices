@@ -118,6 +118,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(hydrometricDataValue.LastUpdateContactTVText) && hydrometricDataValue.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricDataValueLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(hydrometricDataValue.StorageDataTypeText) && hydrometricDataValue.StorageDataTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricDataValueStorageDataTypeText, "100"), new[] { "StorageDataTypeText" });
@@ -238,6 +243,10 @@ namespace CSSPServices
         private List<HydrometricDataValue> FillHydrometricDataValue(IQueryable<HydrometricDataValue> hydrometricDataValueQuery)
         {
             List<HydrometricDataValue> HydrometricDataValueList = (from c in hydrometricDataValueQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new HydrometricDataValue
                                          {
                                              HydrometricDataValueID = c.HydrometricDataValueID,
@@ -249,6 +258,7 @@ namespace CSSPServices
                                              HourlyValues = c.HourlyValues,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

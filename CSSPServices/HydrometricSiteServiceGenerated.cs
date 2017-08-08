@@ -174,6 +174,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(hydrometricSite.HydrometricTVText) && hydrometricSite.HydrometricTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteHydrometricTVText, "200"), new[] { "HydrometricTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(hydrometricSite.LastUpdateContactTVText) && hydrometricSite.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -289,6 +299,14 @@ namespace CSSPServices
         private List<HydrometricSite> FillHydrometricSite(IQueryable<HydrometricSite> hydrometricSiteQuery)
         {
             List<HydrometricSite> HydrometricSiteList = (from c in hydrometricSiteQuery
+                                         let HydrometricTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.HydrometricSiteTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new HydrometricSite
                                          {
                                              HydrometricSiteID = c.HydrometricSiteID,
@@ -311,6 +329,8 @@ namespace CSSPServices
                                              HasRatingCurve = c.HasRatingCurve,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             HydrometricTVText = HydrometricTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

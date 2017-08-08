@@ -222,6 +222,26 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(samplingPlan.ProvinceTVText) && samplingPlan.ProvinceTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanProvinceTVText, "200"), new[] { "ProvinceTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(samplingPlan.CreatorTVText) && samplingPlan.CreatorTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanCreatorTVText, "200"), new[] { "CreatorTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(samplingPlan.SamplingPlanFileTVText) && samplingPlan.SamplingPlanFileTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanFileTVText, "200"), new[] { "SamplingPlanFileTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(samplingPlan.LastUpdateContactTVText) && samplingPlan.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(samplingPlan.SampleTypeText) && samplingPlan.SampleTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSampleTypeText, "100"), new[] { "SampleTypeText" });
@@ -352,6 +372,22 @@ namespace CSSPServices
         private List<SamplingPlan> FillSamplingPlan(IQueryable<SamplingPlan> samplingPlanQuery)
         {
             List<SamplingPlan> SamplingPlanList = (from c in samplingPlanQuery
+                                         let ProvinceTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.ProvinceTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let CreatorTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.CreatorTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let SamplingPlanFileTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.SamplingPlanFileTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new SamplingPlan
                                          {
                                              SamplingPlanID = c.SamplingPlanID,
@@ -371,6 +407,10 @@ namespace CSSPServices
                                              SamplingPlanFileTVItemID = c.SamplingPlanFileTVItemID,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ProvinceTVText = ProvinceTVText,
+                                             CreatorTVText = CreatorTVText,
+                                             SamplingPlanFileTVText = SamplingPlanFileTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

@@ -185,6 +185,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail.MWQMSiteTVText) && labSheetTubeMPNDetail.MWQMSiteTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetTubeMPNDetailMWQMSiteTVText, "200"), new[] { "MWQMSiteTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail.LastUpdateContactTVText) && labSheetTubeMPNDetail.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetTubeMPNDetailLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(labSheetTubeMPNDetail.SampleTypeText) && labSheetTubeMPNDetail.SampleTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetTubeMPNDetailSampleTypeText, "100"), new[] { "SampleTypeText" });
@@ -305,6 +315,14 @@ namespace CSSPServices
         private List<LabSheetTubeMPNDetail> FillLabSheetTubeMPNDetail(IQueryable<LabSheetTubeMPNDetail> labSheetTubeMPNDetailQuery)
         {
             List<LabSheetTubeMPNDetail> LabSheetTubeMPNDetailList = (from c in labSheetTubeMPNDetailQuery
+                                         let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MWQMSiteTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new LabSheetTubeMPNDetail
                                          {
                                              LabSheetTubeMPNDetailID = c.LabSheetTubeMPNDetailID,
@@ -323,6 +341,8 @@ namespace CSSPServices
                                              SiteComment = c.SiteComment,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             MWQMSiteTVText = MWQMSiteTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

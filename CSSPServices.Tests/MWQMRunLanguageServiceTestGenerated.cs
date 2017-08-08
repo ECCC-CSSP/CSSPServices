@@ -48,6 +48,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TranslationStatusRunWeatherComment") mwqmRunLanguage.TranslationStatusRunWeatherComment = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") mwqmRunLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmRunLanguage.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") mwqmRunLanguage.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") mwqmRunLanguage.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusRunCommentText") mwqmRunLanguage.TranslationStatusRunCommentText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusRunWeatherCommentText") mwqmRunLanguage.TranslationStatusRunWeatherCommentText = GetRandomString("", 5);
@@ -226,6 +227,20 @@ namespace CSSPServices.Tests
                 mwqmRunLanguageService.Add(mwqmRunLanguage);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunLanguageLastUpdateContactTVItemID, "Contact"), mwqmRunLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmRunLanguage.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mwqmRunLanguage = null;
+                mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("");
+                mwqmRunLanguage.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmRunLanguageService.Add(mwqmRunLanguage));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLanguageLastUpdateContactTVText, "200"), mwqmRunLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmRunLanguageService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

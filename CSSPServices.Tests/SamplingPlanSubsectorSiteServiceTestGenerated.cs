@@ -45,6 +45,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "IsDuplicate") samplingPlanSubsectorSite.IsDuplicate = true;
             if (OmitPropName != "LastUpdateDate_UTC") samplingPlanSubsectorSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") samplingPlanSubsectorSite.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "MWQMSiteTVText") samplingPlanSubsectorSite.MWQMSiteTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") samplingPlanSubsectorSite.LastUpdateContactTVText = GetRandomString("", 5);
 
             return samplingPlanSubsectorSite;
         }
@@ -178,6 +180,34 @@ namespace CSSPServices.Tests
                 samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, "Contact"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // samplingPlanSubsectorSite.MWQMSiteTVText   (String)
+                // -----------------------------------
+
+                samplingPlanSubsectorSite = null;
+                samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+                samplingPlanSubsectorSite.MWQMSiteTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVText, "200"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // samplingPlanSubsectorSite.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                samplingPlanSubsectorSite = null;
+                samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+                samplingPlanSubsectorSite.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVText, "200"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

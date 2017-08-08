@@ -110,6 +110,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(mapInfoPoint.LastUpdateContactTVText) && mapInfoPoint.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoPointLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -225,6 +230,10 @@ namespace CSSPServices
         private List<MapInfoPoint> FillMapInfoPoint(IQueryable<MapInfoPoint> mapInfoPointQuery)
         {
             List<MapInfoPoint> MapInfoPointList = (from c in mapInfoPointQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new MapInfoPoint
                                          {
                                              MapInfoPointID = c.MapInfoPointID,
@@ -234,6 +243,7 @@ namespace CSSPServices
                                              Lng = c.Lng,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

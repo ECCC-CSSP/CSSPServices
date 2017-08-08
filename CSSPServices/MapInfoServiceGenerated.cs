@@ -173,6 +173,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(mapInfo.TVText) && mapInfo.TVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoTVText, "200"), new[] { "TVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mapInfo.LastUpdateContactTVText) && mapInfo.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(mapInfo.TVTypeText) && mapInfo.TVTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoTVTypeText, "100"), new[] { "TVTypeText" });
@@ -298,6 +308,14 @@ namespace CSSPServices
         private List<MapInfo> FillMapInfo(IQueryable<MapInfo> mapInfoQuery)
         {
             List<MapInfo> MapInfoList = (from c in mapInfoQuery
+                                         let TVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.TVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new MapInfo
                                          {
                                              MapInfoID = c.MapInfoID,
@@ -310,6 +328,8 @@ namespace CSSPServices
                                              MapInfoDrawType = c.MapInfoDrawType,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             TVText = TVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

@@ -160,17 +160,20 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(tvItem.TVText) && tvItem.TVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemTVText, "200"), new[] { "TVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvItem.LastUpdateContactTVText) && tvItem.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(tvItem.TVTypeText) && tvItem.TVTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemTVTypeText, "100"), new[] { "TVTypeText" });
             }
-
-            if (string.IsNullOrWhiteSpace(tvItem.TVText))
-            {
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVText), new[] { "TVText" });
-            }
-
-            //TVText has no StringLength Attribute
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
@@ -287,6 +290,14 @@ namespace CSSPServices
         private List<TVItem> FillTVItem(IQueryable<TVItem> tvItemQuery)
         {
             List<TVItem> TVItemList = (from c in tvItemQuery
+                                         let TVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.TVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new TVItem
                                          {
                                              TVItemID = c.TVItemID,
@@ -297,6 +308,8 @@ namespace CSSPServices
                                              IsActive = c.IsActive,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             TVText = TVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

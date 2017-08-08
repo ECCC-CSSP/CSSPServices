@@ -140,6 +140,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(emailDistributionListContact.LastUpdateContactTVText) && emailDistributionListContact.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -255,6 +260,10 @@ namespace CSSPServices
         private List<EmailDistributionListContact> FillEmailDistributionListContact(IQueryable<EmailDistributionListContact> emailDistributionListContactQuery)
         {
             List<EmailDistributionListContact> EmailDistributionListContactList = (from c in emailDistributionListContactQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new EmailDistributionListContact
                                          {
                                              EmailDistributionListContactID = c.EmailDistributionListContactID,
@@ -270,6 +279,7 @@ namespace CSSPServices
                                              ReopeningAllTypes = c.ReopeningAllTypes,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

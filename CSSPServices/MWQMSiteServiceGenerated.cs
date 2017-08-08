@@ -133,6 +133,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteTVText) && mwqmSite.MWQMSiteTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteTVText, "200"), new[] { "MWQMSiteTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSite.LastUpdateContactTVText) && mwqmSite.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(mwqmSite.MWQMSiteLatestClassificationText) && mwqmSite.MWQMSiteLatestClassificationText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteLatestClassificationText, "100"), new[] { "MWQMSiteLatestClassificationText" });
@@ -253,6 +263,14 @@ namespace CSSPServices
         private List<MWQMSite> FillMWQMSite(IQueryable<MWQMSite> mwqmSiteQuery)
         {
             List<MWQMSite> MWQMSiteList = (from c in mwqmSiteQuery
+                                         let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MWQMSiteTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new MWQMSite
                                          {
                                              MWQMSiteID = c.MWQMSiteID,
@@ -263,6 +281,8 @@ namespace CSSPServices
                                              Ordinal = c.Ordinal,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             MWQMSiteTVText = MWQMSiteTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

@@ -45,6 +45,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Ordinal") emailDistributionList.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "LastUpdateDate_UTC") emailDistributionList.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") emailDistributionList.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "CountryTVText") emailDistributionList.CountryTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") emailDistributionList.LastUpdateContactTVText = GetRandomString("", 5);
 
             return emailDistributionList;
         }
@@ -199,6 +201,34 @@ namespace CSSPServices.Tests
                 emailDistributionListService.Add(emailDistributionList);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListLastUpdateContactTVItemID, "Contact"), emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // emailDistributionList.CountryTVText   (String)
+                // -----------------------------------
+
+                emailDistributionList = null;
+                emailDistributionList = GetFilledRandomEmailDistributionList("");
+                emailDistributionList.CountryTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, emailDistributionListService.Add(emailDistributionList));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListCountryTVText, "200"), emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // emailDistributionList.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                emailDistributionList = null;
+                emailDistributionList = GetFilledRandomEmailDistributionList("");
+                emailDistributionList.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, emailDistributionListService.Add(emailDistributionList));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListLastUpdateContactTVText, "200"), emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, emailDistributionListService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

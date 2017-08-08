@@ -45,6 +45,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MarkerSize") contactPreference.MarkerSize = GetRandomInt(1, 1000);
             if (OmitPropName != "LastUpdateDate_UTC") contactPreference.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contactPreference.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") contactPreference.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "TVTypeText") contactPreference.TVTypeText = GetRandomString("", 5);
 
             return contactPreference;
@@ -186,6 +187,20 @@ namespace CSSPServices.Tests
                 contactPreferenceService.Add(contactPreference);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactPreferenceLastUpdateContactTVItemID, "Contact"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // contactPreference.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                contactPreference = null;
+                contactPreference = GetFilledRandomContactPreference("");
+                contactPreference.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, contactPreferenceService.Add(contactPreference));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactPreferenceLastUpdateContactTVText, "200"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

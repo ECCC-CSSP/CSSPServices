@@ -45,6 +45,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EndDate") mwqmSiteStartEndDate.EndDate = new DateTime(2005, 3, 7);
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSiteStartEndDate.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSiteStartEndDate.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "MWQMSiteTVText") mwqmSiteStartEndDate.MWQMSiteTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") mwqmSiteStartEndDate.LastUpdateContactTVText = GetRandomString("", 5);
 
             return mwqmSiteStartEndDate;
         }
@@ -174,6 +176,34 @@ namespace CSSPServices.Tests
                 mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, "Contact"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmSiteStartEndDate.MWQMSiteTVText   (String)
+                // -----------------------------------
+
+                mwqmSiteStartEndDate = null;
+                mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
+                mwqmSiteStartEndDate.MWQMSiteTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteStartEndDateMWQMSiteTVText, "200"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmSiteStartEndDate.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mwqmSiteStartEndDate = null;
+                mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
+                mwqmSiteStartEndDate.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVText, "200"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

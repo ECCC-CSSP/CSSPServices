@@ -54,6 +54,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "FarFieldDiffusionCoefficient") vpAmbient.FarFieldDiffusionCoefficient = GetRandomDouble(0.0D, 1.0D);
             if (OmitPropName != "LastUpdateDate_UTC") vpAmbient.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") vpAmbient.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") vpAmbient.LastUpdateContactTVText = GetRandomString("", 5);
 
             return vpAmbient;
         }
@@ -389,6 +390,20 @@ namespace CSSPServices.Tests
                 vpAmbientService.Add(vpAmbient);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPAmbientLastUpdateContactTVItemID, "Contact"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // vpAmbient.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                vpAmbient = null;
+                vpAmbient = GetFilledRandomVPAmbient("");
+                vpAmbient.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPAmbientLastUpdateContactTVText, "200"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

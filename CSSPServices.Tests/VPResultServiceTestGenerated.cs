@@ -49,6 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TravelTime_hour") vpResult.TravelTime_hour = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "LastUpdateDate_UTC") vpResult.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") vpResult.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") vpResult.LastUpdateContactTVText = GetRandomString("", 5);
 
             return vpResult;
         }
@@ -279,6 +280,20 @@ namespace CSSPServices.Tests
                 vpResultService.Add(vpResult);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPResultLastUpdateContactTVItemID, "Contact"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // vpResult.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                vpResult = null;
+                vpResult = GetFilledRandomVPResult("");
+                vpResult.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, vpResultService.Add(vpResult));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPResultLastUpdateContactTVText, "200"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, vpResultService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

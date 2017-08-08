@@ -116,6 +116,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(tel.TelTVText) && tel.TelTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelTVText, "200"), new[] { "TelTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tel.LastUpdateContactTVText) && tel.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(tel.TelTypeText) && tel.TelTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelTypeText, "100"), new[] { "TelTypeText" });
@@ -236,6 +246,14 @@ namespace CSSPServices
         private List<Tel> FillTel(IQueryable<Tel> telQuery)
         {
             List<Tel> TelList = (from c in telQuery
+                                         let TelTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.TelTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new Tel
                                          {
                                              TelID = c.TelID,
@@ -244,6 +262,8 @@ namespace CSSPServices
                                              TelType = c.TelType,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             TelTVText = TelTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

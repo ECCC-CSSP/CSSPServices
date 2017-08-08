@@ -102,6 +102,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(contactPreference.LastUpdateContactTVText) && contactPreference.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactPreferenceLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(contactPreference.TVTypeText) && contactPreference.TVTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactPreferenceTVTypeText, "100"), new[] { "TVTypeText" });
@@ -222,6 +227,10 @@ namespace CSSPServices
         private List<ContactPreference> FillContactPreference(IQueryable<ContactPreference> contactPreferenceQuery)
         {
             List<ContactPreference> ContactPreferenceList = (from c in contactPreferenceQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new ContactPreference
                                          {
                                              ContactPreferenceID = c.ContactPreferenceID,
@@ -230,6 +239,7 @@ namespace CSSPServices
                                              MarkerSize = c.MarkerSize,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

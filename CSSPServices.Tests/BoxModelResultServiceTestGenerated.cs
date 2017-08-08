@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LeftSideLineStartLongitude") boxModelResult.LeftSideLineStartLongitude = GetRandomDouble(-180.0D, 180.0D);
             if (OmitPropName != "LastUpdateDate_UTC") boxModelResult.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") boxModelResult.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") boxModelResult.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "BoxModelResultTypeText") boxModelResult.BoxModelResultTypeText = GetRandomString("", 5);
 
             return boxModelResult;
@@ -410,6 +411,20 @@ namespace CSSPServices.Tests
                 boxModelResultService.Add(boxModelResult);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelResultLastUpdateContactTVItemID, "Contact"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // boxModelResult.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                boxModelResult = null;
+                boxModelResult = GetFilledRandomBoxModelResult("");
+                boxModelResult.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelResultLastUpdateContactTVText, "200"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

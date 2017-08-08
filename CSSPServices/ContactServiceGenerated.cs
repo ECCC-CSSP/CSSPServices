@@ -186,6 +186,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(contact.ContactTVText) && contact.ContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactContactTVText, "200"), new[] { "ContactTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(contact.LastUpdateContactTVText) && contact.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             //ParentTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contact.ParentTVItemID < 1)
@@ -313,6 +323,14 @@ namespace CSSPServices
         private List<Contact> FillContact(IQueryable<Contact> contactQuery)
         {
             List<Contact> ContactList = (from c in contactQuery
+                                         let ContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.ContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new Contact
                                          {
                                              ContactID = c.ContactID,
@@ -331,6 +349,8 @@ namespace CSSPServices
                                              SamplingPlanner_ProvincesTVItemID = c.SamplingPlanner_ProvincesTVItemID,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ContactTVText = ContactTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

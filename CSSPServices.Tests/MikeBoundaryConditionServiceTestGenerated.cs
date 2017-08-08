@@ -52,6 +52,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TVType") mikeBoundaryCondition.TVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "LastUpdateDate_UTC") mikeBoundaryCondition.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeBoundaryCondition.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "MikeBoundaryConditionTVText") mikeBoundaryCondition.MikeBoundaryConditionTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") mikeBoundaryCondition.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "MikeBoundaryConditionLevelOrVelocityText") mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText = GetRandomString("", 5);
             if (OmitPropName != "WebTideDataSetText") mikeBoundaryCondition.WebTideDataSetText = GetRandomString("", 5);
             if (OmitPropName != "TVTypeText") mikeBoundaryCondition.TVTypeText = GetRandomString("", 5);
@@ -325,6 +327,34 @@ namespace CSSPServices.Tests
                 mikeBoundaryConditionService.Add(mikeBoundaryCondition);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeBoundaryConditionLastUpdateContactTVItemID, "Contact"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mikeBoundaryCondition.MikeBoundaryConditionTVText   (String)
+                // -----------------------------------
+
+                mikeBoundaryCondition = null;
+                mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
+                mikeBoundaryCondition.MikeBoundaryConditionTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVText, "200"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mikeBoundaryCondition.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mikeBoundaryCondition = null;
+                mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
+                mikeBoundaryCondition.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mikeBoundaryConditionService.Add(mikeBoundaryCondition));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionLastUpdateContactTVText, "200"), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mikeBoundaryConditionService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

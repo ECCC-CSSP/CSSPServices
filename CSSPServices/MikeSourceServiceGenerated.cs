@@ -116,6 +116,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(mikeSource.MikeSourceTVText) && mikeSource.MikeSourceTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceMikeSourceTVText, "200"), new[] { "MikeSourceTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mikeSource.LastUpdateContactTVText) && mikeSource.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -231,6 +241,14 @@ namespace CSSPServices
         private List<MikeSource> FillMikeSource(IQueryable<MikeSource> mikeSourceQuery)
         {
             List<MikeSource> MikeSourceList = (from c in mikeSourceQuery
+                                         let MikeSourceTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MikeSourceTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new MikeSource
                                          {
                                              MikeSourceID = c.MikeSourceID,
@@ -241,6 +259,8 @@ namespace CSSPServices
                                              SourceNumberString = c.SourceNumberString,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             MikeSourceTVText = MikeSourceTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

@@ -108,6 +108,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(spillLanguage.LastUpdateContactTVText) && spillLanguage.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLanguageLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(spillLanguage.LanguageText) && spillLanguage.LanguageText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLanguageLanguageText, "100"), new[] { "LanguageText" });
@@ -233,6 +238,10 @@ namespace CSSPServices
         private List<SpillLanguage> FillSpillLanguage(IQueryable<SpillLanguage> spillLanguageQuery)
         {
             List<SpillLanguage> SpillLanguageList = (from c in spillLanguageQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new SpillLanguage
                                          {
                                              SpillLanguageID = c.SpillLanguageID,
@@ -242,6 +251,7 @@ namespace CSSPServices
                                              TranslationStatus = c.TranslationStatus,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

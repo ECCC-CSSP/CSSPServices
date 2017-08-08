@@ -55,6 +55,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "PasswordSalt") contactLogin.PasswordSalt = passwordSalt;
             if (OmitPropName != "LastUpdateDate_UTC") contactLogin.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contactLogin.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") contactLogin.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "Password") contactLogin.Password = GetRandomString("", 11);
             if (OmitPropName != "ConfirmPassword") contactLogin.ConfirmPassword = GetRandomString("", 11);
 
@@ -203,6 +204,20 @@ namespace CSSPServices.Tests
                 contactLoginService.Add(contactLogin);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactLoginLastUpdateContactTVItemID, "Contact"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // contactLogin.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                contactLogin = null;
+                contactLogin = GetFilledRandomContactLogin("");
+                contactLogin.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, contactLoginService.Add(contactLogin));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginLastUpdateContactTVText, "200"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

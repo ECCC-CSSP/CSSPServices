@@ -131,6 +131,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(vpResult.LastUpdateContactTVText) && vpResult.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPResultLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -246,6 +251,10 @@ namespace CSSPServices
         private List<VPResult> FillVPResult(IQueryable<VPResult> vpResultQuery)
         {
             List<VPResult> VPResultList = (from c in vpResultQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new VPResult
                                          {
                                              VPResultID = c.VPResultID,
@@ -258,6 +267,7 @@ namespace CSSPServices
                                              TravelTime_hour = c.TravelTime_hour,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

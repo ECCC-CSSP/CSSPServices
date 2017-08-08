@@ -288,6 +288,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(mikeScenario.MikeScenarioTVText) && mikeScenario.MikeScenarioTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeScenarioMikeScenarioTVText, "200"), new[] { "MikeScenarioTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mikeScenario.LastUpdateContactTVText) && mikeScenario.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeScenarioLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(mikeScenario.ScenarioStatusText) && mikeScenario.ScenarioStatusText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeScenarioScenarioStatusText, "100"), new[] { "ScenarioStatusText" });
@@ -408,6 +418,14 @@ namespace CSSPServices
         private List<MikeScenario> FillMikeScenario(IQueryable<MikeScenario> mikeScenarioQuery)
         {
             List<MikeScenario> MikeScenarioList = (from c in mikeScenarioQuery
+                                         let MikeScenarioTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MikeScenarioTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new MikeScenario
                                          {
                                              MikeScenarioID = c.MikeScenarioID,
@@ -438,6 +456,8 @@ namespace CSSPServices
                                              EstimatedTransFileSize = c.EstimatedTransFileSize,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             MikeScenarioTVText = MikeScenarioTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

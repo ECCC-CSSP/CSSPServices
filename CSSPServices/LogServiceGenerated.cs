@@ -110,6 +110,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(log.LastUpdateContactTVText) && log.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(log.LogCommandText) && log.LogCommandText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogLogCommandText, "100"), new[] { "LogCommandText" });
@@ -230,6 +235,10 @@ namespace CSSPServices
         private List<Log> FillLog(IQueryable<Log> logQuery)
         {
             List<Log> LogList = (from c in logQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new Log
                                          {
                                              LogID = c.LogID,
@@ -239,6 +248,7 @@ namespace CSSPServices
                                              Information = c.Information,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

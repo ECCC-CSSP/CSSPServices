@@ -47,6 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DateTime_UTC") appErrLog.DateTime_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateDate_UTC") appErrLog.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") appErrLog.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") appErrLog.LastUpdateContactTVText = GetRandomString("", 5);
 
             return appErrLog;
         }
@@ -211,6 +212,20 @@ namespace CSSPServices.Tests
                 appErrLogService.Add(appErrLog);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppErrLogLastUpdateContactTVItemID, "Contact"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // appErrLog.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                appErrLog = null;
+                appErrLog = GetFilledRandomAppErrLog("");
+                appErrLog.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, appErrLogService.Add(appErrLog));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogLastUpdateContactTVText, "200"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

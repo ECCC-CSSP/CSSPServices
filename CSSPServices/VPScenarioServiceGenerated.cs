@@ -215,6 +215,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(vpScenario.SubsectorTVText) && vpScenario.SubsectorTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioSubsectorTVText, "200"), new[] { "SubsectorTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(vpScenario.LastUpdateContactTVText) && vpScenario.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(vpScenario.VPScenarioStatusText) && vpScenario.VPScenarioStatusText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioVPScenarioStatusText, "100"), new[] { "VPScenarioStatusText" });
@@ -335,6 +345,14 @@ namespace CSSPServices
         private List<VPScenario> FillVPScenario(IQueryable<VPScenario> vpScenarioQuery)
         {
             List<VPScenario> VPScenarioList = (from c in vpScenarioQuery
+                                         let SubsectorTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.InfrastructureTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new VPScenario
                                          {
                                              VPScenarioID = c.VPScenarioID,
@@ -359,6 +377,8 @@ namespace CSSPServices
                                              RawResults = c.RawResults,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             SubsectorTVText = SubsectorTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

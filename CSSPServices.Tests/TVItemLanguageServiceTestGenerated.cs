@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TranslationStatus") tvItemLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") tvItemLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvItemLanguage.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") tvItemLanguage.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") tvItemLanguage.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusText") tvItemLanguage.TranslationStatusText = GetRandomString("", 5);
 
@@ -209,6 +210,20 @@ namespace CSSPServices.Tests
                 tvItemLanguageService.Add(tvItemLanguage);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemLanguageLastUpdateContactTVItemID, "Contact"), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tvItemLanguage.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                tvItemLanguage = null;
+                tvItemLanguage = GetFilledRandomTVItemLanguage("");
+                tvItemLanguage.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, tvItemLanguageService.Add(tvItemLanguage));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLanguageLastUpdateContactTVText, "200"), tvItemLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, tvItemLanguageService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

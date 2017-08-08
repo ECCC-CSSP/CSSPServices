@@ -125,6 +125,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(email.EmailTVText) && email.EmailTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailTVText, "200"), new[] { "EmailTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(email.LastUpdateContactTVText) && email.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(email.EmailTypeText) && email.EmailTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailTypeText, "100"), new[] { "EmailTypeText" });
@@ -245,6 +255,14 @@ namespace CSSPServices
         private List<Email> FillEmail(IQueryable<Email> emailQuery)
         {
             List<Email> EmailList = (from c in emailQuery
+                                         let EmailTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.EmailTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new Email
                                          {
                                              EmailID = c.EmailID,
@@ -253,6 +271,8 @@ namespace CSSPServices
                                              EmailType = c.EmailType,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             EmailTVText = EmailTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

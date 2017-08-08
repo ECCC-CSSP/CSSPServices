@@ -59,6 +59,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "HasRatingCurve") hydrometricSite.HasRatingCurve = true;
             if (OmitPropName != "LastUpdateDate_UTC") hydrometricSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") hydrometricSite.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "HydrometricTVText") hydrometricSite.HydrometricTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") hydrometricSite.LastUpdateContactTVText = GetRandomString("", 5);
 
             return hydrometricSite;
         }
@@ -368,6 +370,34 @@ namespace CSSPServices.Tests
                 hydrometricSiteService.Add(hydrometricSite);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.HydrometricSiteLastUpdateContactTVItemID, "Contact"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // hydrometricSite.HydrometricTVText   (String)
+                // -----------------------------------
+
+                hydrometricSite = null;
+                hydrometricSite = GetFilledRandomHydrometricSite("");
+                hydrometricSite.HydrometricTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteHydrometricTVText, "200"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // hydrometricSite.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                hydrometricSite = null;
+                hydrometricSite = GetFilledRandomHydrometricSite("");
+                hydrometricSite.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, hydrometricSiteService.Add(hydrometricSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteLastUpdateContactTVText, "200"), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, hydrometricSiteService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

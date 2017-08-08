@@ -122,6 +122,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(mwqmSiteStartEndDate.MWQMSiteTVText) && mwqmSiteStartEndDate.MWQMSiteTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteStartEndDateMWQMSiteTVText, "200"), new[] { "MWQMSiteTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSiteStartEndDate.LastUpdateContactTVText) && mwqmSiteStartEndDate.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -237,6 +247,14 @@ namespace CSSPServices
         private List<MWQMSiteStartEndDate> FillMWQMSiteStartEndDate(IQueryable<MWQMSiteStartEndDate> mwqmSiteStartEndDateQuery)
         {
             List<MWQMSiteStartEndDate> MWQMSiteStartEndDateList = (from c in mwqmSiteStartEndDateQuery
+                                         let MWQMSiteTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MWQMSiteTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new MWQMSiteStartEndDate
                                          {
                                              MWQMSiteStartEndDateID = c.MWQMSiteStartEndDateID,
@@ -245,6 +263,8 @@ namespace CSSPServices
                                              EndDate = c.EndDate,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             MWQMSiteTVText = MWQMSiteTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

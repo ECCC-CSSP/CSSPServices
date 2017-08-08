@@ -128,6 +128,21 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(polSourceObservation.PolSourceSiteTVText) && polSourceObservation.PolSourceSiteTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationPolSourceSiteTVText, "200"), new[] { "PolSourceSiteTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(polSourceObservation.ContactTVText) && polSourceObservation.ContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationContactTVText, "200"), new[] { "ContactTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(polSourceObservation.LastUpdateContactTVText) && polSourceObservation.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -243,6 +258,18 @@ namespace CSSPServices
         private List<PolSourceObservation> FillPolSourceObservation(IQueryable<PolSourceObservation> polSourceObservationQuery)
         {
             List<PolSourceObservation> PolSourceObservationList = (from c in polSourceObservationQuery
+                                         let PolSourceSiteTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.PolSourceSiteID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let ContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.ContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new PolSourceObservation
                                          {
                                              PolSourceObservationID = c.PolSourceObservationID,
@@ -252,6 +279,9 @@ namespace CSSPServices
                                              Observation_ToBeDeleted = c.Observation_ToBeDeleted,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             PolSourceSiteTVText = PolSourceSiteTVText,
+                                             ContactTVText = ContactTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

@@ -45,6 +45,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DischargeValue_m3_s") ratingCurveValue.DischargeValue_m3_s = GetRandomDouble(0.0D, 1000000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") ratingCurveValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") ratingCurveValue.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") ratingCurveValue.LastUpdateContactTVText = GetRandomString("", 5);
 
             return ratingCurveValue;
         }
@@ -195,6 +196,20 @@ namespace CSSPServices.Tests
                 ratingCurveValueService.Add(ratingCurveValue);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RatingCurveValueLastUpdateContactTVItemID, "Contact"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // ratingCurveValue.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                ratingCurveValue = null;
+                ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                ratingCurveValue.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RatingCurveValueLastUpdateContactTVText, "200"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

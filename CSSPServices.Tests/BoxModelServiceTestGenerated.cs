@@ -53,6 +53,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "FlowDuration_hour") boxModel.FlowDuration_hour = GetRandomDouble(0.0D, 24.0D);
             if (OmitPropName != "LastUpdateDate_UTC") boxModel.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") boxModel.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "InfrastructureTVText") boxModel.InfrastructureTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") boxModel.LastUpdateContactTVText = GetRandomString("", 5);
 
             return boxModel;
         }
@@ -363,6 +365,34 @@ namespace CSSPServices.Tests
                 boxModelService.Add(boxModel);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelLastUpdateContactTVItemID, "Contact"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // boxModel.InfrastructureTVText   (String)
+                // -----------------------------------
+
+                boxModel = null;
+                boxModel = GetFilledRandomBoxModel("");
+                boxModel.InfrastructureTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, boxModelService.Add(boxModel));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelInfrastructureTVText, "200"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, boxModelService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // boxModel.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                boxModel = null;
+                boxModel = GetFilledRandomBoxModel("");
+                boxModel.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, boxModelService.Add(boxModel));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLastUpdateContactTVText, "200"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, boxModelService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

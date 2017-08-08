@@ -112,6 +112,11 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(resetPassword.LastUpdateContactTVText) && resetPassword.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (string.IsNullOrWhiteSpace(resetPassword.Password))
             {
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordPassword), new[] { "Password" });
@@ -247,6 +252,10 @@ namespace CSSPServices
         private List<ResetPassword> FillResetPassword(IQueryable<ResetPassword> resetPasswordQuery)
         {
             List<ResetPassword> ResetPasswordList = (from c in resetPasswordQuery
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new ResetPassword
                                          {
                                              ResetPasswordID = c.ResetPasswordID,
@@ -255,6 +264,7 @@ namespace CSSPServices
                                              Code = c.Code,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

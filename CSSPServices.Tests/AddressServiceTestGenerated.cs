@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "CountryTVText") address.CountryTVText = GetRandomString("", 5);
             if (OmitPropName != "ProvinceTVText") address.ProvinceTVText = GetRandomString("", 5);
             if (OmitPropName != "MunicipalityTVText") address.MunicipalityTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") address.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "AddressTypeText") address.AddressTypeText = GetRandomString("", 5);
             if (OmitPropName != "StreetTypeText") address.StreetTypeText = GetRandomString("", 5);
 
@@ -395,6 +396,20 @@ namespace CSSPServices.Tests
                 address.MunicipalityTVText = GetRandomString("", 201);
                 Assert.AreEqual(false, addressService.Add(address));
                 Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressMunicipalityTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, addressService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // address.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                address = null;
+                address = GetFilledRandomAddress("");
+                address.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, addressService.Add(address));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressLastUpdateContactTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
                 Assert.AreEqual(count, addressService.GetRead().Count());
 
                 // -----------------------------------

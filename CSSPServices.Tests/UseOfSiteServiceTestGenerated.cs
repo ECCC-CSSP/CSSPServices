@@ -55,6 +55,9 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Param4") useOfSite.Param4 = GetRandomDouble(0.0D, 100.0D);
             if (OmitPropName != "LastUpdateDate_UTC") useOfSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") useOfSite.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "SiteTVText") useOfSite.SiteTVText = GetRandomString("", 5);
+            if (OmitPropName != "SubsectorTVText") useOfSite.SubsectorTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") useOfSite.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "SiteTypeText") useOfSite.SiteTypeText = GetRandomString("", 5);
 
             return useOfSite;
@@ -376,6 +379,48 @@ namespace CSSPServices.Tests
                 useOfSiteService.Add(useOfSite);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.UseOfSiteLastUpdateContactTVItemID, "Contact"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // useOfSite.SiteTVText   (String)
+                // -----------------------------------
+
+                useOfSite = null;
+                useOfSite = GetFilledRandomUseOfSite("");
+                useOfSite.SiteTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteSiteTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // useOfSite.SubsectorTVText   (String)
+                // -----------------------------------
+
+                useOfSite = null;
+                useOfSite = GetFilledRandomUseOfSite("");
+                useOfSite.SubsectorTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteSubsectorTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // useOfSite.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                useOfSite = null;
+                useOfSite = GetFilledRandomUseOfSite("");
+                useOfSite.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteLastUpdateContactTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

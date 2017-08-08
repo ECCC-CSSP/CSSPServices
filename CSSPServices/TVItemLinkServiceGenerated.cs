@@ -183,43 +183,11 @@ namespace CSSPServices
 
             if (tvItemLink.ParentTVItemLinkID != null)
             {
-                TVItem TVItemParentTVItemLinkID = (from c in db.TVItems where c.TVItemID == tvItemLink.ParentTVItemLinkID select c).FirstOrDefault();
+                TVItemLink TVItemLinkParentTVItemLinkID = (from c in db.TVItemLinks where c.TVItemLinkID == tvItemLink.ParentTVItemLinkID select c).FirstOrDefault();
 
-                if (TVItemParentTVItemLinkID == null)
+                if (TVItemLinkParentTVItemLinkID == null)
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLinkParentTVItemLinkID, tvItemLink.ParentTVItemLinkID.ToString()), new[] { "ParentTVItemLinkID" });
-                }
-                else
-                {
-                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
-                    {
-                        TVTypeEnum.Root,
-                        TVTypeEnum.Country,
-                        TVTypeEnum.Province,
-                        TVTypeEnum.Area,
-                        TVTypeEnum.Sector,
-                        TVTypeEnum.Subsector,
-                        TVTypeEnum.ClimateSite,
-                        TVTypeEnum.File,
-                        TVTypeEnum.HydrometricSite,
-                        TVTypeEnum.Infrastructure,
-                        TVTypeEnum.MikeBoundaryConditionMesh,
-                        TVTypeEnum.MikeBoundaryConditionWebTide,
-                        TVTypeEnum.MikeScenario,
-                        TVTypeEnum.MikeSource,
-                        TVTypeEnum.Municipality,
-                        TVTypeEnum.MWQMRun,
-                        TVTypeEnum.MWQMSite,
-                        TVTypeEnum.MWQMSiteSample,
-                        TVTypeEnum.PolSourceSite,
-                        TVTypeEnum.SamplingPlan,
-                        TVTypeEnum.Spill,
-                        TVTypeEnum.TideSite,
-                    };
-                    if (!AllowableTVTypes.Contains(TVItemParentTVItemLinkID.TVType))
-                    {
-                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemLinkParentTVItemLinkID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "ParentTVItemLinkID" });
-                    }
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItemLink, ModelsRes.TVItemLinkParentTVItemLinkID, tvItemLink.ParentTVItemLinkID.ToString()), new[] { "ParentTVItemLinkID" });
                 }
             }
 
@@ -253,6 +221,21 @@ namespace CSSPServices
                 {
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemLinkLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvItemLink.FromTVText) && tvItemLink.FromTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLinkFromTVText, "200"), new[] { "FromTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvItemLink.ToTVText) && tvItemLink.ToTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLinkToTVText, "200"), new[] { "ToTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tvItemLink.LastUpdateContactTVText) && tvItemLink.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLinkLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemLink.FromTVTypeText) && tvItemLink.FromTVTypeText.Length > 100)
@@ -380,6 +363,18 @@ namespace CSSPServices
         private List<TVItemLink> FillTVItemLink(IQueryable<TVItemLink> tvItemLinkQuery)
         {
             List<TVItemLink> TVItemLinkList = (from c in tvItemLinkQuery
+                                         let FromTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.FromTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let ToTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.ToTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new TVItemLink
                                          {
                                              TVItemLinkID = c.TVItemLinkID,
@@ -395,6 +390,9 @@ namespace CSSPServices
                                              ParentTVItemLinkID = c.ParentTVItemLinkID,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             FromTVText = FromTVText,
+                                             ToTVText = ToTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

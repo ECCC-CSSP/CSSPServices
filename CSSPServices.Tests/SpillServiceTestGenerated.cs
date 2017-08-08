@@ -47,6 +47,9 @@ namespace CSSPServices.Tests
             if (OmitPropName != "AverageFlow_m3_day") spill.AverageFlow_m3_day = GetRandomDouble(0.0D, 1000000.0D);
             if (OmitPropName != "LastUpdateDate_UTC") spill.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") spill.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "MunicipalityTVText") spill.MunicipalityTVText = GetRandomString("", 5);
+            if (OmitPropName != "InfrastructureTVText") spill.InfrastructureTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") spill.LastUpdateContactTVText = GetRandomString("", 5);
 
             return spill;
         }
@@ -216,6 +219,48 @@ namespace CSSPServices.Tests
                 spillService.Add(spill);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillLastUpdateContactTVItemID, "Contact"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // spill.MunicipalityTVText   (String)
+                // -----------------------------------
+
+                spill = null;
+                spill = GetFilledRandomSpill("");
+                spill.MunicipalityTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, spillService.Add(spill));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillMunicipalityTVText, "200"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, spillService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // spill.InfrastructureTVText   (String)
+                // -----------------------------------
+
+                spill = null;
+                spill = GetFilledRandomSpill("");
+                spill.InfrastructureTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, spillService.Add(spill));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillInfrastructureTVText, "200"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, spillService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // spill.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                spill = null;
+                spill = GetFilledRandomSpill("");
+                spill.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, spillService.Add(spill));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLastUpdateContactTVText, "200"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, spillService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

@@ -61,6 +61,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "RawResults") vpScenario.RawResults = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") vpScenario.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") vpScenario.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "SubsectorTVText") vpScenario.SubsectorTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") vpScenario.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "VPScenarioStatusText") vpScenario.VPScenarioStatusText = GetRandomString("", 5);
 
             return vpScenario;
@@ -512,6 +514,34 @@ namespace CSSPServices.Tests
                 vpScenarioService.Add(vpScenario);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPScenarioLastUpdateContactTVItemID, "Contact"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // vpScenario.SubsectorTVText   (String)
+                // -----------------------------------
+
+                vpScenario = null;
+                vpScenario = GetFilledRandomVPScenario("");
+                vpScenario.SubsectorTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioSubsectorTVText, "200"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, vpScenarioService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // vpScenario.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                vpScenario = null;
+                vpScenario = GetFilledRandomVPScenario("");
+                vpScenario.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLastUpdateContactTVText, "200"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

@@ -411,6 +411,26 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(mwqmRun.SubsectorTVText) && mwqmRun.SubsectorTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSubsectorTVText, "200"), new[] { "SubsectorTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRun.MWQMRunTVText) && mwqmRun.MWQMRunTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunMWQMRunTVText, "200"), new[] { "MWQMRunTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRun.LabSampleApprovalContactTVText) && mwqmRun.LabSampleApprovalContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLabSampleApprovalContactTVText, "200"), new[] { "LabSampleApprovalContactTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmRun.LastUpdateContactTVText) && mwqmRun.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(mwqmRun.RunSampleTypeText) && mwqmRun.RunSampleTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunRunSampleTypeText, "100"), new[] { "RunSampleTypeText" });
@@ -571,6 +591,22 @@ namespace CSSPServices
         private List<MWQMRun> FillMWQMRun(IQueryable<MWQMRun> mwqmRunQuery)
         {
             List<MWQMRun> MWQMRunList = (from c in mwqmRunQuery
+                                         let SubsectorTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.SubsectorTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let MWQMRunTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MWQMRunTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LabSampleApprovalContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LabSampleApprovalContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new MWQMRun
                                          {
                                              MWQMRunID = c.MWQMRunID,
@@ -615,6 +651,10 @@ namespace CSSPServices
                                              RemoveFromStat = c.RemoveFromStat,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             SubsectorTVText = SubsectorTVText,
+                                             MWQMRunTVText = MWQMRunTVText,
+                                             LabSampleApprovalContactTVText = LabSampleApprovalContactTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

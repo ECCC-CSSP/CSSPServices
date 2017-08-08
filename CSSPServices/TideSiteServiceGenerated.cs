@@ -117,6 +117,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(tideSite.TideSiteTVText) && tideSite.TideSiteTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideSiteTideSiteTVText, "200"), new[] { "TideSiteTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(tideSite.LastUpdateContactTVText) && tideSite.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -232,6 +242,14 @@ namespace CSSPServices
         private List<TideSite> FillTideSite(IQueryable<TideSite> tideSiteQuery)
         {
             List<TideSite> TideSiteList = (from c in tideSiteQuery
+                                         let TideSiteTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.TideSiteTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new TideSite
                                          {
                                              TideSiteID = c.TideSiteID,
@@ -240,6 +258,8 @@ namespace CSSPServices
                                              WebTideDatum_m = c.WebTideDatum_m,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             TideSiteTVText = TideSiteTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

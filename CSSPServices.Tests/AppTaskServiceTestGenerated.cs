@@ -53,6 +53,9 @@ namespace CSSPServices.Tests
             if (OmitPropName != "RemainingTime_second") appTask.RemainingTime_second = GetRandomInt(0, 1000000);
             if (OmitPropName != "LastUpdateDate_UTC") appTask.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") appTask.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "TVItemTVText") appTask.TVItemTVText = GetRandomString("", 5);
+            if (OmitPropName != "TVItem2TVText") appTask.TVItem2TVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") appTask.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "AppTaskCommandText") appTask.AppTaskCommandText = GetRandomString("", 5);
             if (OmitPropName != "AppTaskStatusText") appTask.AppTaskStatusText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") appTask.LanguageText = GetRandomString("", 5);
@@ -314,6 +317,48 @@ namespace CSSPServices.Tests
                 appTaskService.Add(appTask);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskLastUpdateContactTVItemID, "Contact"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // appTask.TVItemTVText   (String)
+                // -----------------------------------
+
+                appTask = null;
+                appTask = GetFilledRandomAppTask("");
+                appTask.TVItemTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, appTaskService.Add(appTask));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskTVItemTVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, appTaskService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // appTask.TVItem2TVText   (String)
+                // -----------------------------------
+
+                appTask = null;
+                appTask = GetFilledRandomAppTask("");
+                appTask.TVItem2TVText = GetRandomString("", 201);
+                Assert.AreEqual(false, appTaskService.Add(appTask));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskTVItem2TVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, appTaskService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // appTask.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                appTask = null;
+                appTask = GetFilledRandomAppTask("");
+                appTask.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, appTaskService.Add(appTask));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLastUpdateContactTVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, appTaskService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

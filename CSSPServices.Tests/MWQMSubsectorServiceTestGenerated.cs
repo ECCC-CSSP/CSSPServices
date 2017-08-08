@@ -68,6 +68,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "OnlyRainSelectFullYear") mwqmSubsector.OnlyRainSelectFullYear = true;
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSubsector.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSubsector.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "SubsectorTVText") mwqmSubsector.SubsectorTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") mwqmSubsector.LastUpdateContactTVText = GetRandomString("", 5);
 
             return mwqmSubsector;
         }
@@ -564,6 +566,34 @@ namespace CSSPServices.Tests
                 mwqmSubsectorService.Add(mwqmSubsector);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSubsectorLastUpdateContactTVItemID, "Contact"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmSubsector.SubsectorTVText   (String)
+                // -----------------------------------
+
+                mwqmSubsector = null;
+                mwqmSubsector = GetFilledRandomMWQMSubsector("");
+                mwqmSubsector.SubsectorTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorSubsectorTVText, "200"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmSubsector.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mwqmSubsector = null;
+                mwqmSubsector = GetFilledRandomMWQMSubsector("");
+                mwqmSubsector.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLastUpdateContactTVText, "200"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

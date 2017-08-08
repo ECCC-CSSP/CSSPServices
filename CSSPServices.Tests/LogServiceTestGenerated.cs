@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Information") log.Information = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") log.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") log.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") log.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LogCommandText") log.LogCommandText = GetRandomString("", 5);
 
             return log;
@@ -203,6 +204,20 @@ namespace CSSPServices.Tests
                 logService.Add(log);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LogLastUpdateContactTVItemID, "Contact"), log.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // log.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                log = null;
+                log = GetFilledRandomLog("");
+                log.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, logService.Add(log));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogLastUpdateContactTVText, "200"), log.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, logService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

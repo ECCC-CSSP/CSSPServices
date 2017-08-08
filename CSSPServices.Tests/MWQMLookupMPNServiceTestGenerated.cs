@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MPN_100ml") mwqmLookupMPN.MPN_100ml = GetRandomInt(1, 10000);
             if (OmitPropName != "LastUpdateDate_UTC") mwqmLookupMPN.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmLookupMPN.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") mwqmLookupMPN.LastUpdateContactTVText = GetRandomString("", 5);
 
             return mwqmLookupMPN;
         }
@@ -217,6 +218,20 @@ namespace CSSPServices.Tests
                 mwqmLookupMPNService.Add(mwqmLookupMPN);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMLookupMPNLastUpdateContactTVItemID, "Contact"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmLookupMPN.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mwqmLookupMPN = null;
+                mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
+                mwqmLookupMPN.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMLookupMPNLastUpdateContactTVText, "200"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

@@ -238,6 +238,11 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressMunicipalityTVText, "200"), new[] { "MunicipalityTVText" });
             }
 
+            if (!string.IsNullOrWhiteSpace(address.LastUpdateContactTVText) && address.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             if (!string.IsNullOrWhiteSpace(address.AddressTypeText) && address.AddressTypeText.Length > 100)
             {
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressAddressTypeText, "100"), new[] { "AddressTypeText" });
@@ -382,6 +387,10 @@ namespace CSSPServices
                                                               where cl.TVItemID == c.MunicipalityTVItemID
                                                               && cl.Language == LanguageRequest
                                                               select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new Address
                                          {
                                              AddressID = c.AddressID,
@@ -402,6 +411,7 @@ namespace CSSPServices
                                              CountryTVText = CountryTVText,
                                              ProvinceTVText = ProvinceTVText,
                                              MunicipalityTVText = MunicipalityTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

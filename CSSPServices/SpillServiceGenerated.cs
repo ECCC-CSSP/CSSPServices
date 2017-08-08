@@ -150,6 +150,21 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(spill.MunicipalityTVText) && spill.MunicipalityTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillMunicipalityTVText, "200"), new[] { "MunicipalityTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(spill.InfrastructureTVText) && spill.InfrastructureTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillInfrastructureTVText, "200"), new[] { "InfrastructureTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(spill.LastUpdateContactTVText) && spill.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -265,6 +280,18 @@ namespace CSSPServices
         private List<Spill> FillSpill(IQueryable<Spill> spillQuery)
         {
             List<Spill> SpillList = (from c in spillQuery
+                                         let MunicipalityTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.MunicipalityTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let InfrastructureTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.InfrastructureTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new Spill
                                          {
                                              SpillID = c.SpillID,
@@ -275,6 +302,9 @@ namespace CSSPServices
                                              AverageFlow_m3_day = c.AverageFlow_m3_day,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             MunicipalityTVText = MunicipalityTVText,
+                                             InfrastructureTVText = InfrastructureTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

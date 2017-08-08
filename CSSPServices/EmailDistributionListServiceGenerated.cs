@@ -117,6 +117,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(emailDistributionList.CountryTVText) && emailDistributionList.CountryTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListCountryTVText, "200"), new[] { "CountryTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(emailDistributionList.LastUpdateContactTVText) && emailDistributionList.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -232,6 +242,14 @@ namespace CSSPServices
         private List<EmailDistributionList> FillEmailDistributionList(IQueryable<EmailDistributionList> emailDistributionListQuery)
         {
             List<EmailDistributionList> EmailDistributionListList = (from c in emailDistributionListQuery
+                                         let CountryTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.CountryTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new EmailDistributionList
                                          {
                                              EmailDistributionListID = c.EmailDistributionListID,
@@ -240,6 +258,8 @@ namespace CSSPServices
                                              Ordinal = c.Ordinal,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             CountryTVText = CountryTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

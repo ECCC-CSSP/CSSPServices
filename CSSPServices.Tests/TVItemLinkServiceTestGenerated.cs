@@ -49,9 +49,12 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Ordinal") tvItemLink.Ordinal = GetRandomInt(0, 100);
             if (OmitPropName != "TVLevel") tvItemLink.TVLevel = GetRandomInt(0, 100);
             if (OmitPropName != "TVPath") tvItemLink.TVPath = GetRandomString("", 5);
-            if (OmitPropName != "ParentTVItemLinkID") tvItemLink.ParentTVItemLinkID = 1;
+            // Need to implement [TVItemLink ParentTVItemLinkID TVItemLink TVItemLinkID]
             if (OmitPropName != "LastUpdateDate_UTC") tvItemLink.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvItemLink.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "FromTVText") tvItemLink.FromTVText = GetRandomString("", 5);
+            if (OmitPropName != "ToTVText") tvItemLink.ToTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") tvItemLink.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "FromTVTypeText") tvItemLink.FromTVTypeText = GetRandomString("", 5);
             if (OmitPropName != "ToTVTypeText") tvItemLink.ToTVTypeText = GetRandomString("", 5);
 
@@ -264,7 +267,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
+                // [CSSPExist(TypeName = "TVItemLink", Plurial = "s", FieldID = "TVItemLinkID", AllowableTVtypeList = Error)]
                 // tvItemLink.ParentTVItemLinkID   (Int32)
                 // -----------------------------------
 
@@ -272,13 +275,7 @@ namespace CSSPServices.Tests
                 tvItemLink = GetFilledRandomTVItemLink("");
                 tvItemLink.ParentTVItemLinkID = 0;
                 tvItemLinkService.Add(tvItemLink);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLinkParentTVItemLinkID, tvItemLink.ParentTVItemLinkID.ToString()), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                tvItemLink = null;
-                tvItemLink = GetFilledRandomTVItemLink("");
-                tvItemLink.ParentTVItemLinkID = 2;
-                tvItemLinkService.Add(tvItemLink);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemLinkParentTVItemLinkID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItemLink, ModelsRes.TVItemLinkParentTVItemLinkID, tvItemLink.ParentTVItemLinkID.ToString()), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -306,6 +303,48 @@ namespace CSSPServices.Tests
                 tvItemLinkService.Add(tvItemLink);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemLinkLastUpdateContactTVItemID, "Contact"), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tvItemLink.FromTVText   (String)
+                // -----------------------------------
+
+                tvItemLink = null;
+                tvItemLink = GetFilledRandomTVItemLink("");
+                tvItemLink.FromTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, tvItemLinkService.Add(tvItemLink));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLinkFromTVText, "200"), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, tvItemLinkService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tvItemLink.ToTVText   (String)
+                // -----------------------------------
+
+                tvItemLink = null;
+                tvItemLink = GetFilledRandomTVItemLink("");
+                tvItemLink.ToTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, tvItemLinkService.Add(tvItemLink));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLinkToTVText, "200"), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, tvItemLinkService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tvItemLink.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                tvItemLink = null;
+                tvItemLink = GetFilledRandomTVItemLink("");
+                tvItemLink.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, tvItemLinkService.Add(tvItemLink));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLinkLastUpdateContactTVText, "200"), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, tvItemLinkService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

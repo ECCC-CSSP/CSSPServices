@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TranslationStatus") spillLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") spillLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") spillLanguage.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") spillLanguage.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") spillLanguage.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusText") spillLanguage.TranslationStatusText = GetRandomString("", 5);
 
@@ -196,6 +197,20 @@ namespace CSSPServices.Tests
                 spillLanguageService.Add(spillLanguage);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillLanguageLastUpdateContactTVItemID, "Contact"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // spillLanguage.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                spillLanguage = null;
+                spillLanguage = GetFilledRandomSpillLanguage("");
+                spillLanguage.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, spillLanguageService.Add(spillLanguage));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLanguageLastUpdateContactTVText, "200"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, spillLanguageService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

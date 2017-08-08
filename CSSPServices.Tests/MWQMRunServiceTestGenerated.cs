@@ -81,6 +81,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "RemoveFromStat") mwqmRun.RemoveFromStat = true;
             if (OmitPropName != "LastUpdateDate_UTC") mwqmRun.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmRun.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "SubsectorTVText") mwqmRun.SubsectorTVText = GetRandomString("", 5);
+            if (OmitPropName != "MWQMRunTVText") mwqmRun.MWQMRunTVText = GetRandomString("", 5);
+            if (OmitPropName != "LabSampleApprovalContactTVText") mwqmRun.LabSampleApprovalContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") mwqmRun.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "RunSampleTypeText") mwqmRun.RunSampleTypeText = GetRandomString("", 5);
             if (OmitPropName != "SeaStateAtStart_BeaufortScaleText") mwqmRun.SeaStateAtStart_BeaufortScaleText = GetRandomString("", 5);
             if (OmitPropName != "SeaStateAtEnd_BeaufortScaleText") mwqmRun.SeaStateAtEnd_BeaufortScaleText = GetRandomString("", 5);
@@ -790,6 +794,62 @@ namespace CSSPServices.Tests
                 mwqmRunService.Add(mwqmRun);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunLastUpdateContactTVItemID, "Contact"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmRun.SubsectorTVText   (String)
+                // -----------------------------------
+
+                mwqmRun = null;
+                mwqmRun = GetFilledRandomMWQMRun("");
+                mwqmRun.SubsectorTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSubsectorTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmRun.MWQMRunTVText   (String)
+                // -----------------------------------
+
+                mwqmRun = null;
+                mwqmRun = GetFilledRandomMWQMRun("");
+                mwqmRun.MWQMRunTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunMWQMRunTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmRun.LabSampleApprovalContactTVText   (String)
+                // -----------------------------------
+
+                mwqmRun = null;
+                mwqmRun = GetFilledRandomMWQMRun("");
+                mwqmRun.LabSampleApprovalContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLabSampleApprovalContactTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmRunService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmRun.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mwqmRun = null;
+                mwqmRun = GetFilledRandomMWQMRun("");
+                mwqmRun.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLastUpdateContactTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

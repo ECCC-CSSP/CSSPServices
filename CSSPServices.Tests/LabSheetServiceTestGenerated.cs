@@ -61,6 +61,10 @@ namespace CSSPServices.Tests
             if (OmitPropName != "RejectReason") labSheet.RejectReason = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") labSheet.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") labSheet.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "SubsectorTVText") labSheet.SubsectorTVText = GetRandomString("", 5);
+            if (OmitPropName != "MWQMRunTVText") labSheet.MWQMRunTVText = GetRandomString("", 5);
+            if (OmitPropName != "AcceptedOrRejectedByContactTVText") labSheet.AcceptedOrRejectedByContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") labSheet.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "SamplingPlanTypeText") labSheet.SamplingPlanTypeText = GetRandomString("", 5);
             if (OmitPropName != "SampleTypeText") labSheet.SampleTypeText = GetRandomString("", 5);
             if (OmitPropName != "LabSheetTypeText") labSheet.LabSheetTypeText = GetRandomString("", 5);
@@ -452,6 +456,62 @@ namespace CSSPServices.Tests
                 labSheetService.Add(labSheet);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LabSheetLastUpdateContactTVItemID, "Contact"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // labSheet.SubsectorTVText   (String)
+                // -----------------------------------
+
+                labSheet = null;
+                labSheet = GetFilledRandomLabSheet("");
+                labSheet.SubsectorTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, labSheetService.Add(labSheet));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetSubsectorTVText, "200"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, labSheetService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // labSheet.MWQMRunTVText   (String)
+                // -----------------------------------
+
+                labSheet = null;
+                labSheet = GetFilledRandomLabSheet("");
+                labSheet.MWQMRunTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, labSheetService.Add(labSheet));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetMWQMRunTVText, "200"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, labSheetService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // labSheet.AcceptedOrRejectedByContactTVText   (String)
+                // -----------------------------------
+
+                labSheet = null;
+                labSheet = GetFilledRandomLabSheet("");
+                labSheet.AcceptedOrRejectedByContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, labSheetService.Add(labSheet));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetAcceptedOrRejectedByContactTVText, "200"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, labSheetService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // labSheet.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                labSheet = null;
+                labSheet = GetFilledRandomLabSheet("");
+                labSheet.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, labSheetService.Add(labSheet));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetLastUpdateContactTVText, "200"), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, labSheetService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

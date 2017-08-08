@@ -45,6 +45,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "WebTideDatum_m") tideSite.WebTideDatum_m = GetRandomDouble(-100.0D, 100.0D);
             if (OmitPropName != "LastUpdateDate_UTC") tideSite.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tideSite.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "TideSiteTVText") tideSite.TideSiteTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") tideSite.LastUpdateContactTVText = GetRandomString("", 5);
 
             return tideSite;
         }
@@ -201,6 +203,34 @@ namespace CSSPServices.Tests
                 tideSiteService.Add(tideSite);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TideSiteLastUpdateContactTVItemID, "Contact"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tideSite.TideSiteTVText   (String)
+                // -----------------------------------
+
+                tideSite = null;
+                tideSite = GetFilledRandomTideSite("");
+                tideSite.TideSiteTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, tideSiteService.Add(tideSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideSiteTideSiteTVText, "200"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, tideSiteService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tideSite.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                tideSite = null;
+                tideSite = GetFilledRandomTideSite("");
+                tideSite.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, tideSiteService.Add(tideSite));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideSiteLastUpdateContactTVText, "200"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, tideSiteService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

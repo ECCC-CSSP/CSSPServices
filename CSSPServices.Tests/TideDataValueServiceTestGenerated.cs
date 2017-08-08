@@ -52,6 +52,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TideEnd") tideDataValue.TideEnd = (TideTextEnum)GetRandomEnumType(typeof(TideTextEnum));
             if (OmitPropName != "LastUpdateDate_UTC") tideDataValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tideDataValue.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "TideSiteTVText") tideDataValue.TideSiteTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") tideDataValue.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "TideDataTypeText") tideDataValue.TideDataTypeText = GetRandomString("", 5);
             if (OmitPropName != "StorageDataTypeText") tideDataValue.StorageDataTypeText = GetRandomString("", 5);
             if (OmitPropName != "TideStartText") tideDataValue.TideStartText = GetRandomString("", 5);
@@ -298,6 +300,34 @@ namespace CSSPServices.Tests
                 tideDataValueService.Add(tideDataValue);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TideDataValueLastUpdateContactTVItemID, "Contact"), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tideDataValue.TideSiteTVText   (String)
+                // -----------------------------------
+
+                tideDataValue = null;
+                tideDataValue = GetFilledRandomTideDataValue("");
+                tideDataValue.TideSiteTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueTideSiteTVText, "200"), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, tideDataValueService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tideDataValue.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                tideDataValue = null;
+                tideDataValue = GetFilledRandomTideDataValue("");
+                tideDataValue.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, tideDataValueService.Add(tideDataValue));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueLastUpdateContactTVText, "200"), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, tideDataValueService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

@@ -48,6 +48,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "HourlyValues") hydrometricDataValue.HourlyValues = GetRandomString("", 20);
             if (OmitPropName != "LastUpdateDate_UTC") hydrometricDataValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") hydrometricDataValue.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") hydrometricDataValue.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "StorageDataTypeText") hydrometricDataValue.StorageDataTypeText = GetRandomString("", 5);
 
             return hydrometricDataValue;
@@ -210,6 +211,20 @@ namespace CSSPServices.Tests
                 hydrometricDataValueService.Add(hydrometricDataValue);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.HydrometricDataValueLastUpdateContactTVItemID, "Contact"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // hydrometricDataValue.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                hydrometricDataValue = null;
+                hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                hydrometricDataValue.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricDataValueLastUpdateContactTVText, "200"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

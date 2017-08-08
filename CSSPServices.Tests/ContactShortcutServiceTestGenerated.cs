@@ -45,6 +45,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ShortCutAddress") contactShortcut.ShortCutAddress = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") contactShortcut.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contactShortcut.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") contactShortcut.LastUpdateContactTVText = GetRandomString("", 5);
 
             return contactShortcut;
         }
@@ -195,6 +196,20 @@ namespace CSSPServices.Tests
                 contactShortcutService.Add(contactShortcut);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactShortcutLastUpdateContactTVItemID, "Contact"), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // contactShortcut.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                contactShortcut = null;
+                contactShortcut = GetFilledRandomContactShortcut("");
+                contactShortcut.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactShortcutLastUpdateContactTVText, "200"), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, contactShortcutService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

@@ -201,6 +201,16 @@ namespace CSSPServices
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(climateSite.ClimateSiteTVText) && climateSite.ClimateSiteTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteClimateSiteTVText, "200"), new[] { "ClimateSiteTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(climateSite.LastUpdateContactTVText) && climateSite.LastUpdateContactTVText.Length > 200)
+            {
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+            }
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
@@ -316,6 +326,14 @@ namespace CSSPServices
         private List<ClimateSite> FillClimateSite(IQueryable<ClimateSite> climateSiteQuery)
         {
             List<ClimateSite> ClimateSiteList = (from c in climateSiteQuery
+                                         let ClimateSiteTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.ClimateSiteTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
+                                         let LastUpdateContactTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.LastUpdateContactTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          select new ClimateSite
                                          {
                                              ClimateSiteID = c.ClimateSiteID,
@@ -342,6 +360,8 @@ namespace CSSPServices
                                              MonthlyNow = c.MonthlyNow,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ClimateSiteTVText = ClimateSiteTVText,
+                                             LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
 

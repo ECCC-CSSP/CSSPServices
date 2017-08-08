@@ -56,6 +56,9 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ProcessedBy") mwqmSample.ProcessedBy = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSample.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSample.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "MWQMSiteTVText") mwqmSample.MWQMSiteTVText = GetRandomString("", 5);
+            if (OmitPropName != "MWQMRunTVText") mwqmSample.MWQMRunTVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") mwqmSample.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "SampleType_oldText") mwqmSample.SampleType_oldText = GetRandomString("", 5);
 
             return mwqmSample;
@@ -404,6 +407,48 @@ namespace CSSPServices.Tests
                 mwqmSampleService.Add(mwqmSample);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSampleLastUpdateContactTVItemID, "Contact"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmSample.MWQMSiteTVText   (String)
+                // -----------------------------------
+
+                mwqmSample = null;
+                mwqmSample = GetFilledRandomMWQMSample("");
+                mwqmSample.MWQMSiteTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleMWQMSiteTVText, "200"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmSample.MWQMRunTVText   (String)
+                // -----------------------------------
+
+                mwqmSample = null;
+                mwqmSample = GetFilledRandomMWQMSample("");
+                mwqmSample.MWQMRunTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleMWQMRunTVText, "200"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // mwqmSample.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                mwqmSample = null;
+                mwqmSample = GetFilledRandomMWQMSample("");
+                mwqmSample.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleLastUpdateContactTVText, "200"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

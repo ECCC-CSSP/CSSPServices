@@ -45,6 +45,8 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ChildCount") tvItemStat.ChildCount = GetRandomInt(0, 10000000);
             if (OmitPropName != "LastUpdateDate_UTC") tvItemStat.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") tvItemStat.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "TVText") tvItemStat.TVText = GetRandomString("", 5);
+            if (OmitPropName != "LastUpdateContactTVText") tvItemStat.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "TVTypeText") tvItemStat.TVTypeText = GetRandomString("", 5);
 
             return tvItemStat;
@@ -192,6 +194,34 @@ namespace CSSPServices.Tests
                 tvItemStatService.Add(tvItemStat);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemStatLastUpdateContactTVItemID, "Contact"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tvItemStat.TVText   (String)
+                // -----------------------------------
+
+                tvItemStat = null;
+                tvItemStat = GetFilledRandomTVItemStat("");
+                tvItemStat.TVText = GetRandomString("", 201);
+                Assert.AreEqual(false, tvItemStatService.Add(tvItemStat));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemStatTVText, "200"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, tvItemStatService.GetRead().Count());
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // tvItemStat.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                tvItemStat = null;
+                tvItemStat = GetFilledRandomTVItemStat("");
+                tvItemStat.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, tvItemStatService.Add(tvItemStat));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemStatLastUpdateContactTVText, "200"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, tvItemStatService.GetRead().Count());
 
                 // -----------------------------------
                 // Is Nullable

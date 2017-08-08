@@ -53,6 +53,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EmailDistributionListIDs") rainExceedance.EmailDistributionListIDs = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") rainExceedance.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") rainExceedance.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") rainExceedance.LastUpdateContactTVText = GetRandomString("", 5);
 
             return rainExceedance;
         }
@@ -320,6 +321,20 @@ namespace CSSPServices.Tests
                 rainExceedanceService.Add(rainExceedance);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RainExceedanceLastUpdateContactTVItemID, "Contact"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // rainExceedance.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                rainExceedance = null;
+                rainExceedance = GetFilledRandomRainExceedance("");
+                rainExceedance.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceLastUpdateContactTVText, "200"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable

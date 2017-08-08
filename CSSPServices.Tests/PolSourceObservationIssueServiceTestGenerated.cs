@@ -45,6 +45,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Ordinal") polSourceObservationIssue.Ordinal = GetRandomInt(0, 1000);
             if (OmitPropName != "LastUpdateDate_UTC") polSourceObservationIssue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") polSourceObservationIssue.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "LastUpdateContactTVText") polSourceObservationIssue.LastUpdateContactTVText = GetRandomString("", 5);
 
             return polSourceObservationIssue;
         }
@@ -193,6 +194,20 @@ namespace CSSPServices.Tests
                 polSourceObservationIssueService.Add(polSourceObservationIssue);
                 Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationIssueLastUpdateContactTVItemID, "Contact"), polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                // -----------------------------------
+                // Is Nullable
+                // [NotMapped]
+                // [StringLength(200))]
+                // polSourceObservationIssue.LastUpdateContactTVText   (String)
+                // -----------------------------------
+
+                polSourceObservationIssue = null;
+                polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
+                polSourceObservationIssue.LastUpdateContactTVText = GetRandomString("", 201);
+                Assert.AreEqual(false, polSourceObservationIssueService.Add(polSourceObservationIssue));
+                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationIssueLastUpdateContactTVText, "200"), polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
+                Assert.AreEqual(count, polSourceObservationIssueService.GetRead().Count());
 
                 // -----------------------------------
                 // Is NOT Nullable
