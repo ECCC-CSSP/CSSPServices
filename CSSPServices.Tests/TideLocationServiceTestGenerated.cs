@@ -257,13 +257,17 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 TideLocationService tideLocationService = new TideLocationService(LanguageRequest, dbTestDB, ContactID);
-
-                TideLocation tideLocation = (from c in tideLocationService.GetRead()
-                                             select c).FirstOrDefault();
+                TideLocation tideLocation = (from c in tideLocationService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(tideLocation);
 
                 TideLocation tideLocationRet = tideLocationService.GetTideLocationWithTideLocationID(tideLocation.TideLocationID);
                 Assert.AreEqual(tideLocation.TideLocationID, tideLocationRet.TideLocationID);
+                Assert.AreEqual(tideLocation.Zone, tideLocationRet.Zone);
+                Assert.AreEqual(tideLocation.Name, tideLocationRet.Name);
+                Assert.AreEqual(tideLocation.Prov, tideLocationRet.Prov);
+                Assert.AreEqual(tideLocation.sid, tideLocationRet.sid);
+                Assert.AreEqual(tideLocation.Lat, tideLocationRet.Lat);
+                Assert.AreEqual(tideLocation.Lng, tideLocationRet.Lng);
             }
         }
         #endregion Tests Get With Key

@@ -147,7 +147,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = File)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = File)]
                 // docTemplate.TVFileTVItemID   (Int32)
                 // -----------------------------------
 
@@ -194,7 +194,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // docTemplate.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -213,6 +213,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // docTemplate.LastUpdateContactTVText   (String)
@@ -272,13 +273,24 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 DocTemplateService docTemplateService = new DocTemplateService(LanguageRequest, dbTestDB, ContactID);
-
-                DocTemplate docTemplate = (from c in docTemplateService.GetRead()
-                                             select c).FirstOrDefault();
+                DocTemplate docTemplate = (from c in docTemplateService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(docTemplate);
 
                 DocTemplate docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID);
                 Assert.AreEqual(docTemplate.DocTemplateID, docTemplateRet.DocTemplateID);
+                Assert.AreEqual(docTemplate.Language, docTemplateRet.Language);
+                Assert.AreEqual(docTemplate.TVType, docTemplateRet.TVType);
+                Assert.AreEqual(docTemplate.TVFileTVItemID, docTemplateRet.TVFileTVItemID);
+                Assert.AreEqual(docTemplate.FileName, docTemplateRet.FileName);
+                Assert.AreEqual(docTemplate.LastUpdateDate_UTC, docTemplateRet.LastUpdateDate_UTC);
+                Assert.AreEqual(docTemplate.LastUpdateContactTVItemID, docTemplateRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(docTemplateRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.LastUpdateContactTVText));
+                Assert.IsNotNull(docTemplateRet.LanguageText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.LanguageText));
+                Assert.IsNotNull(docTemplateRet.TVTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.TVTypeText));
             }
         }
         #endregion Tests Get With Key

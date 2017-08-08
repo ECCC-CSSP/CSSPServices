@@ -132,7 +132,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "ClimateSite", Plurial = "s", FieldID = "ClimateSiteID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "ClimateSite", ExistPlurial = "s", ExistFieldID = "ClimateSiteID", AllowableTVtypeList = Error)]
                 // climateDataValue.ClimateSiteID   (Int32)
                 // -----------------------------------
 
@@ -415,7 +415,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // climateDataValue.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -434,6 +434,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // climateDataValue.LastUpdateContactTVText   (String)
@@ -479,13 +480,34 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 ClimateDataValueService climateDataValueService = new ClimateDataValueService(LanguageRequest, dbTestDB, ContactID);
-
-                ClimateDataValue climateDataValue = (from c in climateDataValueService.GetRead()
-                                             select c).FirstOrDefault();
+                ClimateDataValue climateDataValue = (from c in climateDataValueService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(climateDataValue);
 
                 ClimateDataValue climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID);
                 Assert.AreEqual(climateDataValue.ClimateDataValueID, climateDataValueRet.ClimateDataValueID);
+                Assert.AreEqual(climateDataValue.ClimateSiteID, climateDataValueRet.ClimateSiteID);
+                Assert.AreEqual(climateDataValue.DateTime_Local, climateDataValueRet.DateTime_Local);
+                Assert.AreEqual(climateDataValue.Keep, climateDataValueRet.Keep);
+                Assert.AreEqual(climateDataValue.StorageDataType, climateDataValueRet.StorageDataType);
+                Assert.AreEqual(climateDataValue.Snow_cm, climateDataValueRet.Snow_cm);
+                Assert.AreEqual(climateDataValue.Rainfall_mm, climateDataValueRet.Rainfall_mm);
+                Assert.AreEqual(climateDataValue.RainfallEntered_mm, climateDataValueRet.RainfallEntered_mm);
+                Assert.AreEqual(climateDataValue.TotalPrecip_mm_cm, climateDataValueRet.TotalPrecip_mm_cm);
+                Assert.AreEqual(climateDataValue.MaxTemp_C, climateDataValueRet.MaxTemp_C);
+                Assert.AreEqual(climateDataValue.MinTemp_C, climateDataValueRet.MinTemp_C);
+                Assert.AreEqual(climateDataValue.HeatDegDays_C, climateDataValueRet.HeatDegDays_C);
+                Assert.AreEqual(climateDataValue.CoolDegDays_C, climateDataValueRet.CoolDegDays_C);
+                Assert.AreEqual(climateDataValue.SnowOnGround_cm, climateDataValueRet.SnowOnGround_cm);
+                Assert.AreEqual(climateDataValue.DirMaxGust_0North, climateDataValueRet.DirMaxGust_0North);
+                Assert.AreEqual(climateDataValue.SpdMaxGust_kmh, climateDataValueRet.SpdMaxGust_kmh);
+                Assert.AreEqual(climateDataValue.HourlyValues, climateDataValueRet.HourlyValues);
+                Assert.AreEqual(climateDataValue.LastUpdateDate_UTC, climateDataValueRet.LastUpdateDate_UTC);
+                Assert.AreEqual(climateDataValue.LastUpdateContactTVItemID, climateDataValueRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(climateDataValueRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.LastUpdateContactTVText));
+                Assert.IsNotNull(climateDataValueRet.StorageDataTypeEnumText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.StorageDataTypeEnumText));
             }
         }
         #endregion Tests Get With Key

@@ -176,7 +176,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // resetPassword.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -195,6 +195,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // resetPassword.LastUpdateContactTVText   (String)
@@ -282,13 +283,23 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 ResetPasswordService resetPasswordService = new ResetPasswordService(LanguageRequest, dbTestDB, ContactID);
-
-                ResetPassword resetPassword = (from c in resetPasswordService.GetRead()
-                                             select c).FirstOrDefault();
+                ResetPassword resetPassword = (from c in resetPasswordService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(resetPassword);
 
                 ResetPassword resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID);
                 Assert.AreEqual(resetPassword.ResetPasswordID, resetPasswordRet.ResetPasswordID);
+                Assert.AreEqual(resetPassword.Email, resetPasswordRet.Email);
+                Assert.AreEqual(resetPassword.ExpireDate_Local, resetPasswordRet.ExpireDate_Local);
+                Assert.AreEqual(resetPassword.Code, resetPasswordRet.Code);
+                Assert.AreEqual(resetPassword.LastUpdateDate_UTC, resetPasswordRet.LastUpdateDate_UTC);
+                Assert.AreEqual(resetPassword.LastUpdateContactTVItemID, resetPasswordRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(resetPasswordRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.LastUpdateContactTVText));
+                Assert.IsNotNull(resetPasswordRet.Password);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.Password));
+                Assert.IsNotNull(resetPasswordRet.ConfirmPassword);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.ConfirmPassword));
             }
         }
         #endregion Tests Get With Key

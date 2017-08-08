@@ -118,7 +118,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "RatingCurve", Plurial = "s", FieldID = "RatingCurveID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "RatingCurve", ExistPlurial = "s", ExistFieldID = "RatingCurveID", AllowableTVtypeList = Error)]
                 // ratingCurveValue.RatingCurveID   (Int32)
                 // -----------------------------------
 
@@ -180,7 +180,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // ratingCurveValue.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -199,6 +199,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // ratingCurveValue.LastUpdateContactTVText   (String)
@@ -230,13 +231,19 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(LanguageRequest, dbTestDB, ContactID);
-
-                RatingCurveValue ratingCurveValue = (from c in ratingCurveValueService.GetRead()
-                                             select c).FirstOrDefault();
+                RatingCurveValue ratingCurveValue = (from c in ratingCurveValueService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(ratingCurveValue);
 
                 RatingCurveValue ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
                 Assert.AreEqual(ratingCurveValue.RatingCurveValueID, ratingCurveValueRet.RatingCurveValueID);
+                Assert.AreEqual(ratingCurveValue.RatingCurveID, ratingCurveValueRet.RatingCurveID);
+                Assert.AreEqual(ratingCurveValue.StageValue_m, ratingCurveValueRet.StageValue_m);
+                Assert.AreEqual(ratingCurveValue.DischargeValue_m3_s, ratingCurveValueRet.DischargeValue_m3_s);
+                Assert.AreEqual(ratingCurveValue.LastUpdateDate_UTC, ratingCurveValueRet.LastUpdateDate_UTC);
+                Assert.AreEqual(ratingCurveValue.LastUpdateContactTVItemID, ratingCurveValueRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(ratingCurveValueRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

@@ -175,7 +175,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
                 // tvItem.ParentID   (Int32)
                 // -----------------------------------
 
@@ -207,7 +207,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // tvItem.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -226,6 +226,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvItem.TVText   (String)
@@ -240,6 +241,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvItem.LastUpdateContactTVText   (String)
@@ -285,13 +287,25 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 TVItemService tvItemService = new TVItemService(LanguageRequest, dbTestDB, ContactID);
-
-                TVItem tvItem = (from c in tvItemService.GetRead()
-                                             select c).FirstOrDefault();
+                TVItem tvItem = (from c in tvItemService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(tvItem);
 
                 TVItem tvItemRet = tvItemService.GetTVItemWithTVItemID(tvItem.TVItemID);
                 Assert.AreEqual(tvItem.TVItemID, tvItemRet.TVItemID);
+                Assert.AreEqual(tvItem.TVLevel, tvItemRet.TVLevel);
+                Assert.AreEqual(tvItem.TVPath, tvItemRet.TVPath);
+                Assert.AreEqual(tvItem.TVType, tvItemRet.TVType);
+                Assert.AreEqual(tvItem.ParentID, tvItemRet.ParentID);
+                Assert.AreEqual(tvItem.IsActive, tvItemRet.IsActive);
+                Assert.AreEqual(tvItem.LastUpdateDate_UTC, tvItemRet.LastUpdateDate_UTC);
+                Assert.AreEqual(tvItem.LastUpdateContactTVItemID, tvItemRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(tvItemRet.TVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemRet.TVText));
+                Assert.IsNotNull(tvItemRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemRet.LastUpdateContactTVText));
+                Assert.IsNotNull(tvItemRet.TVTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemRet.TVTypeText));
             }
         }
         #endregion Tests Get With Key

@@ -121,7 +121,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = MikeSource)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MikeSource)]
                 // mikeSource.MikeSourceTVItemID   (Int32)
                 // -----------------------------------
 
@@ -186,7 +186,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // mikeSource.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -205,6 +205,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MikeSourceTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mikeSource.MikeSourceTVText   (String)
@@ -219,6 +220,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mikeSource.LastUpdateContactTVText   (String)
@@ -250,13 +252,23 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 MikeSourceService mikeSourceService = new MikeSourceService(LanguageRequest, dbTestDB, ContactID);
-
-                MikeSource mikeSource = (from c in mikeSourceService.GetRead()
-                                             select c).FirstOrDefault();
+                MikeSource mikeSource = (from c in mikeSourceService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(mikeSource);
 
                 MikeSource mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID);
                 Assert.AreEqual(mikeSource.MikeSourceID, mikeSourceRet.MikeSourceID);
+                Assert.AreEqual(mikeSource.MikeSourceTVItemID, mikeSourceRet.MikeSourceTVItemID);
+                Assert.AreEqual(mikeSource.IsContinuous, mikeSourceRet.IsContinuous);
+                Assert.AreEqual(mikeSource.Include, mikeSourceRet.Include);
+                Assert.AreEqual(mikeSource.IsRiver, mikeSourceRet.IsRiver);
+                Assert.AreEqual(mikeSource.SourceNumberString, mikeSourceRet.SourceNumberString);
+                Assert.AreEqual(mikeSource.LastUpdateDate_UTC, mikeSourceRet.LastUpdateDate_UTC);
+                Assert.AreEqual(mikeSource.LastUpdateContactTVItemID, mikeSourceRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(mikeSourceRet.MikeSourceTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceTVText));
+                Assert.IsNotNull(mikeSourceRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

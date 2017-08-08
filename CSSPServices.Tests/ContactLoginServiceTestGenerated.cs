@@ -130,7 +130,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "Contact", Plurial = "s", FieldID = "ContactID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "Contact", ExistPlurial = "s", ExistFieldID = "ContactID", AllowableTVtypeList = Error)]
                 // contactLogin.ContactID   (Int32)
                 // -----------------------------------
 
@@ -188,7 +188,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // contactLogin.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -207,6 +207,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // contactLogin.LastUpdateContactTVText   (String)
@@ -294,13 +295,18 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, dbTestDB, ContactID);
-
-                ContactLogin contactLogin = (from c in contactLoginService.GetRead()
-                                             select c).FirstOrDefault();
+                ContactLogin contactLogin = (from c in contactLoginService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(contactLogin);
 
                 ContactLogin contactLoginRet = contactLoginService.GetContactLoginWithContactLoginID(contactLogin.ContactLoginID);
                 Assert.AreEqual(contactLogin.ContactLoginID, contactLoginRet.ContactLoginID);
+                Assert.AreEqual(contactLogin.ContactID, contactLoginRet.ContactID);
+                Assert.AreEqual(contactLogin.LoginEmail, contactLoginRet.LoginEmail);
+                Assert.AreEqual(contactLogin.LastUpdateDate_UTC, contactLoginRet.LastUpdateDate_UTC);
+                Assert.AreEqual(contactLogin.LastUpdateContactTVItemID, contactLoginRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(contactLoginRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

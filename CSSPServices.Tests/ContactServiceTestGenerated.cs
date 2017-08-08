@@ -152,7 +152,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // contact.ContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -332,7 +332,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // contact.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -351,6 +351,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // contact.ContactTVText   (String)
@@ -365,6 +366,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // contact.LastUpdateContactTVText   (String)
@@ -424,13 +426,34 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 ContactService contactService = new ContactService(LanguageRequest, dbTestDB, ContactID);
-
-                Contact contact = (from c in contactService.GetRead()
-                                             select c).FirstOrDefault();
+                Contact contact = (from c in contactService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(contact);
 
                 Contact contactRet = contactService.GetContactWithContactID(contact.ContactID);
                 Assert.AreEqual(contact.ContactID, contactRet.ContactID);
+                Assert.AreEqual(contact.Id, contactRet.Id);
+                Assert.AreEqual(contact.ContactTVItemID, contactRet.ContactTVItemID);
+                Assert.AreEqual(contact.LoginEmail, contactRet.LoginEmail);
+                Assert.AreEqual(contact.FirstName, contactRet.FirstName);
+                Assert.AreEqual(contact.LastName, contactRet.LastName);
+                Assert.AreEqual(contact.Initial, contactRet.Initial);
+                Assert.AreEqual(contact.WebName, contactRet.WebName);
+                Assert.AreEqual(contact.ContactTitle, contactRet.ContactTitle);
+                Assert.AreEqual(contact.IsAdmin, contactRet.IsAdmin);
+                Assert.AreEqual(contact.EmailValidated, contactRet.EmailValidated);
+                Assert.AreEqual(contact.Disabled, contactRet.Disabled);
+                Assert.AreEqual(contact.IsNew, contactRet.IsNew);
+                Assert.AreEqual(contact.SamplingPlanner_ProvincesTVItemID, contactRet.SamplingPlanner_ProvincesTVItemID);
+                Assert.AreEqual(contact.LastUpdateDate_UTC, contactRet.LastUpdateDate_UTC);
+                Assert.AreEqual(contact.LastUpdateContactTVItemID, contactRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(contactRet.ContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactTVText));
+                Assert.IsNotNull(contactRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.LastUpdateContactTVText));
+                Assert.IsNotNull(contactRet.ParentTVItemID);
+                Assert.IsNotNull(contactRet.ContactTitleText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactTitleText));
             }
         }
         #endregion Tests Get With Key

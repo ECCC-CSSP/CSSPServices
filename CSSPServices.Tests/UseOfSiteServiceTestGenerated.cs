@@ -131,7 +131,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = ClimateSite,HydrometricSite,TideSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = ClimateSite,HydrometricSite,TideSite)]
                 // useOfSite.SiteTVItemID   (Int32)
                 // -----------------------------------
 
@@ -150,7 +150,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Subsector)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Subsector)]
                 // useOfSite.SubsectorTVItemID   (Int32)
                 // -----------------------------------
 
@@ -363,7 +363,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // useOfSite.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -382,6 +382,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // useOfSite.SiteTVText   (String)
@@ -396,6 +397,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SubsectorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // useOfSite.SubsectorTVText   (String)
@@ -410,6 +412,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // useOfSite.LastUpdateContactTVText   (String)
@@ -455,13 +458,35 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 UseOfSiteService useOfSiteService = new UseOfSiteService(LanguageRequest, dbTestDB, ContactID);
-
-                UseOfSite useOfSite = (from c in useOfSiteService.GetRead()
-                                             select c).FirstOrDefault();
+                UseOfSite useOfSite = (from c in useOfSiteService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(useOfSite);
 
                 UseOfSite useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID);
                 Assert.AreEqual(useOfSite.UseOfSiteID, useOfSiteRet.UseOfSiteID);
+                Assert.AreEqual(useOfSite.SiteTVItemID, useOfSiteRet.SiteTVItemID);
+                Assert.AreEqual(useOfSite.SubsectorTVItemID, useOfSiteRet.SubsectorTVItemID);
+                Assert.AreEqual(useOfSite.SiteType, useOfSiteRet.SiteType);
+                Assert.AreEqual(useOfSite.Ordinal, useOfSiteRet.Ordinal);
+                Assert.AreEqual(useOfSite.StartYear, useOfSiteRet.StartYear);
+                Assert.AreEqual(useOfSite.EndYear, useOfSiteRet.EndYear);
+                Assert.AreEqual(useOfSite.UseWeight, useOfSiteRet.UseWeight);
+                Assert.AreEqual(useOfSite.Weight_perc, useOfSiteRet.Weight_perc);
+                Assert.AreEqual(useOfSite.UseEquation, useOfSiteRet.UseEquation);
+                Assert.AreEqual(useOfSite.Param1, useOfSiteRet.Param1);
+                Assert.AreEqual(useOfSite.Param2, useOfSiteRet.Param2);
+                Assert.AreEqual(useOfSite.Param3, useOfSiteRet.Param3);
+                Assert.AreEqual(useOfSite.Param4, useOfSiteRet.Param4);
+                Assert.AreEqual(useOfSite.LastUpdateDate_UTC, useOfSiteRet.LastUpdateDate_UTC);
+                Assert.AreEqual(useOfSite.LastUpdateContactTVItemID, useOfSiteRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(useOfSiteRet.SiteTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTVText));
+                Assert.IsNotNull(useOfSiteRet.SubsectorTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SubsectorTVText));
+                Assert.IsNotNull(useOfSiteRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.LastUpdateContactTVText));
+                Assert.IsNotNull(useOfSiteRet.SiteTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTypeText));
             }
         }
         #endregion Tests Get With Key

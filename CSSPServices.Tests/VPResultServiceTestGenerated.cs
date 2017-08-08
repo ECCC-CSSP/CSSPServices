@@ -122,7 +122,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "VPScenario", Plurial = "s", FieldID = "VPScenarioID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "VPScenario", ExistPlurial = "s", ExistFieldID = "VPScenarioID", AllowableTVtypeList = Error)]
                 // vpResult.VPScenarioID   (Int32)
                 // -----------------------------------
 
@@ -264,7 +264,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // vpResult.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -283,6 +283,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // vpResult.LastUpdateContactTVText   (String)
@@ -314,13 +315,23 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 VPResultService vpResultService = new VPResultService(LanguageRequest, dbTestDB, ContactID);
-
-                VPResult vpResult = (from c in vpResultService.GetRead()
-                                             select c).FirstOrDefault();
+                VPResult vpResult = (from c in vpResultService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(vpResult);
 
                 VPResult vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID);
                 Assert.AreEqual(vpResult.VPResultID, vpResultRet.VPResultID);
+                Assert.AreEqual(vpResult.VPScenarioID, vpResultRet.VPScenarioID);
+                Assert.AreEqual(vpResult.Ordinal, vpResultRet.Ordinal);
+                Assert.AreEqual(vpResult.Concentration_MPN_100ml, vpResultRet.Concentration_MPN_100ml);
+                Assert.AreEqual(vpResult.Dilution, vpResultRet.Dilution);
+                Assert.AreEqual(vpResult.FarFieldWidth_m, vpResultRet.FarFieldWidth_m);
+                Assert.AreEqual(vpResult.DispersionDistance_m, vpResultRet.DispersionDistance_m);
+                Assert.AreEqual(vpResult.TravelTime_hour, vpResultRet.TravelTime_hour);
+                Assert.AreEqual(vpResult.LastUpdateDate_UTC, vpResultRet.LastUpdateDate_UTC);
+                Assert.AreEqual(vpResult.LastUpdateContactTVItemID, vpResultRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(vpResultRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

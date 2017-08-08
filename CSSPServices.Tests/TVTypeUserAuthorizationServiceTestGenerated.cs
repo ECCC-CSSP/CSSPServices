@@ -121,7 +121,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // tvTypeUserAuthorization.ContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -173,7 +173,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // tvTypeUserAuthorization.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -192,6 +192,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvTypeUserAuthorization.ContactTVText   (String)
@@ -206,6 +207,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvTypeUserAuthorization.LastUpdateContactTVText   (String)
@@ -265,13 +267,25 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, dbTestDB, ContactID);
-
-                TVTypeUserAuthorization tvTypeUserAuthorization = (from c in tvTypeUserAuthorizationService.GetRead()
-                                             select c).FirstOrDefault();
+                TVTypeUserAuthorization tvTypeUserAuthorization = (from c in tvTypeUserAuthorizationService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(tvTypeUserAuthorization);
 
                 TVTypeUserAuthorization tvTypeUserAuthorizationRet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID);
                 Assert.AreEqual(tvTypeUserAuthorization.TVTypeUserAuthorizationID, tvTypeUserAuthorizationRet.TVTypeUserAuthorizationID);
+                Assert.AreEqual(tvTypeUserAuthorization.ContactTVItemID, tvTypeUserAuthorizationRet.ContactTVItemID);
+                Assert.AreEqual(tvTypeUserAuthorization.TVType, tvTypeUserAuthorizationRet.TVType);
+                Assert.AreEqual(tvTypeUserAuthorization.TVAuth, tvTypeUserAuthorizationRet.TVAuth);
+                Assert.AreEqual(tvTypeUserAuthorization.LastUpdateDate_UTC, tvTypeUserAuthorizationRet.LastUpdateDate_UTC);
+                Assert.AreEqual(tvTypeUserAuthorization.LastUpdateContactTVItemID, tvTypeUserAuthorizationRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(tvTypeUserAuthorizationRet.ContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.ContactTVText));
+                Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.LastUpdateContactTVText));
+                Assert.IsNotNull(tvTypeUserAuthorizationRet.TVTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeText));
+                Assert.IsNotNull(tvTypeUserAuthorizationRet.TVAuthText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVAuthText));
             }
         }
         #endregion Tests Get With Key

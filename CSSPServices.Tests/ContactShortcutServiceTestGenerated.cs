@@ -118,7 +118,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "Contact", Plurial = "s", FieldID = "ContactID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "Contact", ExistPlurial = "s", ExistFieldID = "ContactID", AllowableTVtypeList = Error)]
                 // contactShortcut.ContactID   (Int32)
                 // -----------------------------------
 
@@ -180,7 +180,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // contactShortcut.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -199,6 +199,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // contactShortcut.LastUpdateContactTVText   (String)
@@ -230,13 +231,19 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 ContactShortcutService contactShortcutService = new ContactShortcutService(LanguageRequest, dbTestDB, ContactID);
-
-                ContactShortcut contactShortcut = (from c in contactShortcutService.GetRead()
-                                             select c).FirstOrDefault();
+                ContactShortcut contactShortcut = (from c in contactShortcutService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(contactShortcut);
 
                 ContactShortcut contactShortcutRet = contactShortcutService.GetContactShortcutWithContactShortcutID(contactShortcut.ContactShortcutID);
                 Assert.AreEqual(contactShortcut.ContactShortcutID, contactShortcutRet.ContactShortcutID);
+                Assert.AreEqual(contactShortcut.ContactID, contactShortcutRet.ContactID);
+                Assert.AreEqual(contactShortcut.ShortCutText, contactShortcutRet.ShortCutText);
+                Assert.AreEqual(contactShortcut.ShortCutAddress, contactShortcutRet.ShortCutAddress);
+                Assert.AreEqual(contactShortcut.LastUpdateDate_UTC, contactShortcutRet.LastUpdateDate_UTC);
+                Assert.AreEqual(contactShortcut.LastUpdateContactTVItemID, contactShortcutRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(contactShortcutRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

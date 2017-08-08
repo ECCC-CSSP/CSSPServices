@@ -129,7 +129,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide)]
                 // mikeBoundaryCondition.MikeBoundaryConditionTVItemID   (Int32)
                 // -----------------------------------
 
@@ -311,7 +311,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // mikeBoundaryCondition.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -330,6 +330,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MikeBoundaryConditionTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mikeBoundaryCondition.MikeBoundaryConditionTVText   (String)
@@ -344,6 +345,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mikeBoundaryCondition.LastUpdateContactTVText   (String)
@@ -417,13 +419,34 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 MikeBoundaryConditionService mikeBoundaryConditionService = new MikeBoundaryConditionService(LanguageRequest, dbTestDB, ContactID);
-
-                MikeBoundaryCondition mikeBoundaryCondition = (from c in mikeBoundaryConditionService.GetRead()
-                                             select c).FirstOrDefault();
+                MikeBoundaryCondition mikeBoundaryCondition = (from c in mikeBoundaryConditionService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(mikeBoundaryCondition);
 
                 MikeBoundaryCondition mikeBoundaryConditionRet = mikeBoundaryConditionService.GetMikeBoundaryConditionWithMikeBoundaryConditionID(mikeBoundaryCondition.MikeBoundaryConditionID);
                 Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionID, mikeBoundaryConditionRet.MikeBoundaryConditionID);
+                Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionTVItemID, mikeBoundaryConditionRet.MikeBoundaryConditionTVItemID);
+                Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionCode, mikeBoundaryConditionRet.MikeBoundaryConditionCode);
+                Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionName, mikeBoundaryConditionRet.MikeBoundaryConditionName);
+                Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionLength_m, mikeBoundaryConditionRet.MikeBoundaryConditionLength_m);
+                Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionFormat, mikeBoundaryConditionRet.MikeBoundaryConditionFormat);
+                Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity, mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocity);
+                Assert.AreEqual(mikeBoundaryCondition.WebTideDataSet, mikeBoundaryConditionRet.WebTideDataSet);
+                Assert.AreEqual(mikeBoundaryCondition.NumberOfWebTideNodes, mikeBoundaryConditionRet.NumberOfWebTideNodes);
+                Assert.AreEqual(mikeBoundaryCondition.WebTideDataFromStartToEndDate, mikeBoundaryConditionRet.WebTideDataFromStartToEndDate);
+                Assert.AreEqual(mikeBoundaryCondition.TVType, mikeBoundaryConditionRet.TVType);
+                Assert.AreEqual(mikeBoundaryCondition.LastUpdateDate_UTC, mikeBoundaryConditionRet.LastUpdateDate_UTC);
+                Assert.AreEqual(mikeBoundaryCondition.LastUpdateContactTVItemID, mikeBoundaryConditionRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionTVText));
+                Assert.IsNotNull(mikeBoundaryConditionRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.LastUpdateContactTVText));
+                Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocityText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocityText));
+                Assert.IsNotNull(mikeBoundaryConditionRet.WebTideDataSetText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.WebTideDataSetText));
+                Assert.IsNotNull(mikeBoundaryConditionRet.TVTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.TVTypeText));
             }
         }
         #endregion Tests Get With Key

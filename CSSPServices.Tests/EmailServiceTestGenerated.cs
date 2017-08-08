@@ -120,7 +120,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Email)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Email)]
                 // email.EmailTVItemID   (Int32)
                 // -----------------------------------
 
@@ -181,7 +181,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // email.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -200,6 +200,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "EmailTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // email.EmailTVText   (String)
@@ -214,6 +215,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // email.LastUpdateContactTVText   (String)
@@ -259,13 +261,23 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 EmailService emailService = new EmailService(LanguageRequest, dbTestDB, ContactID);
-
-                Email email = (from c in emailService.GetRead()
-                                             select c).FirstOrDefault();
+                Email email = (from c in emailService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(email);
 
                 Email emailRet = emailService.GetEmailWithEmailID(email.EmailID);
                 Assert.AreEqual(email.EmailID, emailRet.EmailID);
+                Assert.AreEqual(email.EmailTVItemID, emailRet.EmailTVItemID);
+                Assert.AreEqual(email.EmailAddress, emailRet.EmailAddress);
+                Assert.AreEqual(email.EmailType, emailRet.EmailType);
+                Assert.AreEqual(email.LastUpdateDate_UTC, emailRet.LastUpdateDate_UTC);
+                Assert.AreEqual(email.LastUpdateContactTVItemID, emailRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(emailRet.EmailTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailTVText));
+                Assert.IsNotNull(emailRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.LastUpdateContactTVText));
+                Assert.IsNotNull(emailRet.EmailTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailTypeText));
             }
         }
         #endregion Tests Get With Key

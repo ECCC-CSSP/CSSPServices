@@ -133,7 +133,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = HydrometricSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = HydrometricSite)]
                 // hydrometricSite.HydrometricSiteTVItemID   (Int32)
                 // -----------------------------------
 
@@ -354,7 +354,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // hydrometricSite.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -373,6 +373,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "HydrometricSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // hydrometricSite.HydrometricTVText   (String)
@@ -387,6 +388,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // hydrometricSite.LastUpdateContactTVText   (String)
@@ -418,13 +420,35 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 HydrometricSiteService hydrometricSiteService = new HydrometricSiteService(LanguageRequest, dbTestDB, ContactID);
-
-                HydrometricSite hydrometricSite = (from c in hydrometricSiteService.GetRead()
-                                             select c).FirstOrDefault();
+                HydrometricSite hydrometricSite = (from c in hydrometricSiteService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(hydrometricSite);
 
                 HydrometricSite hydrometricSiteRet = hydrometricSiteService.GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID);
                 Assert.AreEqual(hydrometricSite.HydrometricSiteID, hydrometricSiteRet.HydrometricSiteID);
+                Assert.AreEqual(hydrometricSite.HydrometricSiteTVItemID, hydrometricSiteRet.HydrometricSiteTVItemID);
+                Assert.AreEqual(hydrometricSite.FedSiteNumber, hydrometricSiteRet.FedSiteNumber);
+                Assert.AreEqual(hydrometricSite.QuebecSiteNumber, hydrometricSiteRet.QuebecSiteNumber);
+                Assert.AreEqual(hydrometricSite.HydrometricSiteName, hydrometricSiteRet.HydrometricSiteName);
+                Assert.AreEqual(hydrometricSite.Description, hydrometricSiteRet.Description);
+                Assert.AreEqual(hydrometricSite.Province, hydrometricSiteRet.Province);
+                Assert.AreEqual(hydrometricSite.Elevation_m, hydrometricSiteRet.Elevation_m);
+                Assert.AreEqual(hydrometricSite.StartDate_Local, hydrometricSiteRet.StartDate_Local);
+                Assert.AreEqual(hydrometricSite.EndDate_Local, hydrometricSiteRet.EndDate_Local);
+                Assert.AreEqual(hydrometricSite.TimeOffset_hour, hydrometricSiteRet.TimeOffset_hour);
+                Assert.AreEqual(hydrometricSite.DrainageArea_km2, hydrometricSiteRet.DrainageArea_km2);
+                Assert.AreEqual(hydrometricSite.IsNatural, hydrometricSiteRet.IsNatural);
+                Assert.AreEqual(hydrometricSite.IsActive, hydrometricSiteRet.IsActive);
+                Assert.AreEqual(hydrometricSite.Sediment, hydrometricSiteRet.Sediment);
+                Assert.AreEqual(hydrometricSite.RHBN, hydrometricSiteRet.RHBN);
+                Assert.AreEqual(hydrometricSite.RealTime, hydrometricSiteRet.RealTime);
+                Assert.AreEqual(hydrometricSite.HasRatingCurve, hydrometricSiteRet.HasRatingCurve);
+                Assert.AreEqual(hydrometricSite.LastUpdateDate_UTC, hydrometricSiteRet.LastUpdateDate_UTC);
+                Assert.AreEqual(hydrometricSite.LastUpdateContactTVItemID, hydrometricSiteRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(hydrometricSiteRet.HydrometricTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.HydrometricTVText));
+                Assert.IsNotNull(hydrometricSiteRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

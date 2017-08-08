@@ -119,7 +119,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Country)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Country)]
                 // emailDistributionList.CountryTVItemID   (Int32)
                 // -----------------------------------
 
@@ -185,7 +185,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // emailDistributionList.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -204,6 +204,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "CountryTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // emailDistributionList.CountryTVText   (String)
@@ -218,6 +219,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // emailDistributionList.LastUpdateContactTVText   (String)
@@ -249,13 +251,21 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 EmailDistributionListService emailDistributionListService = new EmailDistributionListService(LanguageRequest, dbTestDB, ContactID);
-
-                EmailDistributionList emailDistributionList = (from c in emailDistributionListService.GetRead()
-                                             select c).FirstOrDefault();
+                EmailDistributionList emailDistributionList = (from c in emailDistributionListService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(emailDistributionList);
 
                 EmailDistributionList emailDistributionListRet = emailDistributionListService.GetEmailDistributionListWithEmailDistributionListID(emailDistributionList.EmailDistributionListID);
                 Assert.AreEqual(emailDistributionList.EmailDistributionListID, emailDistributionListRet.EmailDistributionListID);
+                Assert.AreEqual(emailDistributionList.CountryTVItemID, emailDistributionListRet.CountryTVItemID);
+                Assert.AreEqual(emailDistributionList.RegionName, emailDistributionListRet.RegionName);
+                Assert.AreEqual(emailDistributionList.Ordinal, emailDistributionListRet.Ordinal);
+                Assert.AreEqual(emailDistributionList.LastUpdateDate_UTC, emailDistributionListRet.LastUpdateDate_UTC);
+                Assert.AreEqual(emailDistributionList.LastUpdateContactTVItemID, emailDistributionListRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(emailDistributionListRet.CountryTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.CountryTVText));
+                Assert.IsNotNull(emailDistributionListRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

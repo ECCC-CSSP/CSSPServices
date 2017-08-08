@@ -122,7 +122,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "HydrometricSite", Plurial = "s", FieldID = "HydrometricSiteID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "HydrometricSite", ExistPlurial = "s", ExistFieldID = "HydrometricSiteID", AllowableTVtypeList = Error)]
                 // hydrometricDataValue.HydrometricSiteID   (Int32)
                 // -----------------------------------
 
@@ -195,7 +195,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // hydrometricDataValue.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -214,6 +214,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // hydrometricDataValue.LastUpdateContactTVText   (String)
@@ -259,13 +260,24 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(LanguageRequest, dbTestDB, ContactID);
-
-                HydrometricDataValue hydrometricDataValue = (from c in hydrometricDataValueService.GetRead()
-                                             select c).FirstOrDefault();
+                HydrometricDataValue hydrometricDataValue = (from c in hydrometricDataValueService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(hydrometricDataValue);
 
                 HydrometricDataValue hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID);
                 Assert.AreEqual(hydrometricDataValue.HydrometricDataValueID, hydrometricDataValueRet.HydrometricDataValueID);
+                Assert.AreEqual(hydrometricDataValue.HydrometricSiteID, hydrometricDataValueRet.HydrometricSiteID);
+                Assert.AreEqual(hydrometricDataValue.DateTime_Local, hydrometricDataValueRet.DateTime_Local);
+                Assert.AreEqual(hydrometricDataValue.Keep, hydrometricDataValueRet.Keep);
+                Assert.AreEqual(hydrometricDataValue.StorageDataType, hydrometricDataValueRet.StorageDataType);
+                Assert.AreEqual(hydrometricDataValue.Flow_m3_s, hydrometricDataValueRet.Flow_m3_s);
+                Assert.AreEqual(hydrometricDataValue.HourlyValues, hydrometricDataValueRet.HourlyValues);
+                Assert.AreEqual(hydrometricDataValue.LastUpdateDate_UTC, hydrometricDataValueRet.LastUpdateDate_UTC);
+                Assert.AreEqual(hydrometricDataValue.LastUpdateContactTVItemID, hydrometricDataValueRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(hydrometricDataValueRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.LastUpdateContactTVText));
+                Assert.IsNotNull(hydrometricDataValueRet.StorageDataTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.StorageDataTypeText));
             }
         }
         #endregion Tests Get With Key

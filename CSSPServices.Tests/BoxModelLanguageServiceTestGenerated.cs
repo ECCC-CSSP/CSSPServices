@@ -121,7 +121,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "BoxModel", Plurial = "s", FieldID = "BoxModelID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "BoxModel", ExistPlurial = "s", ExistFieldID = "BoxModelID", AllowableTVtypeList = Error)]
                 // boxModelLanguage.BoxModelID   (Int32)
                 // -----------------------------------
 
@@ -188,7 +188,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // boxModelLanguage.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -207,6 +207,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // boxModelLanguage.LastUpdateContactTVText   (String)
@@ -266,13 +267,24 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 BoxModelLanguageService boxModelLanguageService = new BoxModelLanguageService(LanguageRequest, dbTestDB, ContactID);
-
-                BoxModelLanguage boxModelLanguage = (from c in boxModelLanguageService.GetRead()
-                                             select c).FirstOrDefault();
+                BoxModelLanguage boxModelLanguage = (from c in boxModelLanguageService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(boxModelLanguage);
 
                 BoxModelLanguage boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
                 Assert.AreEqual(boxModelLanguage.BoxModelLanguageID, boxModelLanguageRet.BoxModelLanguageID);
+                Assert.AreEqual(boxModelLanguage.BoxModelID, boxModelLanguageRet.BoxModelID);
+                Assert.AreEqual(boxModelLanguage.Language, boxModelLanguageRet.Language);
+                Assert.AreEqual(boxModelLanguage.ScenarioName, boxModelLanguageRet.ScenarioName);
+                Assert.AreEqual(boxModelLanguage.TranslationStatus, boxModelLanguageRet.TranslationStatus);
+                Assert.AreEqual(boxModelLanguage.LastUpdateDate_UTC, boxModelLanguageRet.LastUpdateDate_UTC);
+                Assert.AreEqual(boxModelLanguage.LastUpdateContactTVItemID, boxModelLanguageRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(boxModelLanguageRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageRet.LastUpdateContactTVText));
+                Assert.IsNotNull(boxModelLanguageRet.LanguageText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageRet.LanguageText));
+                Assert.IsNotNull(boxModelLanguageRet.TranslationStatusText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageRet.TranslationStatusText));
             }
         }
         #endregion Tests Get With Key

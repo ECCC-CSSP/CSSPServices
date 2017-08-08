@@ -305,7 +305,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // rainExceedance.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -324,6 +324,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // rainExceedance.LastUpdateContactTVText   (String)
@@ -355,13 +356,27 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 RainExceedanceService rainExceedanceService = new RainExceedanceService(LanguageRequest, dbTestDB, ContactID);
-
-                RainExceedance rainExceedance = (from c in rainExceedanceService.GetRead()
-                                             select c).FirstOrDefault();
+                RainExceedance rainExceedance = (from c in rainExceedanceService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(rainExceedance);
 
                 RainExceedance rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID);
                 Assert.AreEqual(rainExceedance.RainExceedanceID, rainExceedanceRet.RainExceedanceID);
+                Assert.AreEqual(rainExceedance.YearRound, rainExceedanceRet.YearRound);
+                Assert.AreEqual(rainExceedance.StartDate_Local, rainExceedanceRet.StartDate_Local);
+                Assert.AreEqual(rainExceedance.EndDate_Local, rainExceedanceRet.EndDate_Local);
+                Assert.AreEqual(rainExceedance.RainMaximum_mm, rainExceedanceRet.RainMaximum_mm);
+                Assert.AreEqual(rainExceedance.RainExtreme_mm, rainExceedanceRet.RainExtreme_mm);
+                Assert.AreEqual(rainExceedance.DaysPriorToStart, rainExceedanceRet.DaysPriorToStart);
+                Assert.AreEqual(rainExceedance.RepeatEveryYear, rainExceedanceRet.RepeatEveryYear);
+                Assert.AreEqual(rainExceedance.ProvinceTVItemIDs, rainExceedanceRet.ProvinceTVItemIDs);
+                Assert.AreEqual(rainExceedance.SubsectorTVItemIDs, rainExceedanceRet.SubsectorTVItemIDs);
+                Assert.AreEqual(rainExceedance.ClimateSiteTVItemIDs, rainExceedanceRet.ClimateSiteTVItemIDs);
+                Assert.AreEqual(rainExceedance.EmailDistributionListIDs, rainExceedanceRet.EmailDistributionListIDs);
+                Assert.AreEqual(rainExceedance.LastUpdateDate_UTC, rainExceedanceRet.LastUpdateDate_UTC);
+                Assert.AreEqual(rainExceedance.LastUpdateContactTVItemID, rainExceedanceRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(rainExceedanceRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

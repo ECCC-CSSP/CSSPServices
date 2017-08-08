@@ -166,7 +166,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Subsector)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Subsector)]
                 // mwqmRun.SubsectorTVItemID   (Int32)
                 // -----------------------------------
 
@@ -185,7 +185,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = MWQMRun)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MWQMRun)]
                 // mwqmRun.MWQMRunTVItemID   (Int32)
                 // -----------------------------------
 
@@ -461,7 +461,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // mwqmRun.LabSampleApprovalContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -778,7 +778,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // mwqmRun.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -797,6 +797,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SubsectorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mwqmRun.SubsectorTVText   (String)
@@ -811,6 +812,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMRunTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mwqmRun.MWQMRunTVText   (String)
@@ -825,6 +827,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LabSampleApprovalContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mwqmRun.LabSampleApprovalContactTVText   (String)
@@ -839,6 +842,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mwqmRun.LastUpdateContactTVText   (String)
@@ -996,13 +1000,79 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 MWQMRunService mwqmRunService = new MWQMRunService(LanguageRequest, dbTestDB, ContactID);
-
-                MWQMRun mwqmRun = (from c in mwqmRunService.GetRead()
-                                             select c).FirstOrDefault();
+                MWQMRun mwqmRun = (from c in mwqmRunService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(mwqmRun);
 
                 MWQMRun mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID);
                 Assert.AreEqual(mwqmRun.MWQMRunID, mwqmRunRet.MWQMRunID);
+                Assert.AreEqual(mwqmRun.SubsectorTVItemID, mwqmRunRet.SubsectorTVItemID);
+                Assert.AreEqual(mwqmRun.MWQMRunTVItemID, mwqmRunRet.MWQMRunTVItemID);
+                Assert.AreEqual(mwqmRun.RunSampleType, mwqmRunRet.RunSampleType);
+                Assert.AreEqual(mwqmRun.DateTime_Local, mwqmRunRet.DateTime_Local);
+                Assert.AreEqual(mwqmRun.RunNumber, mwqmRunRet.RunNumber);
+                Assert.AreEqual(mwqmRun.StartDateTime_Local, mwqmRunRet.StartDateTime_Local);
+                Assert.AreEqual(mwqmRun.EndDateTime_Local, mwqmRunRet.EndDateTime_Local);
+                Assert.AreEqual(mwqmRun.LabReceivedDateTime_Local, mwqmRunRet.LabReceivedDateTime_Local);
+                Assert.AreEqual(mwqmRun.TemperatureControl1_C, mwqmRunRet.TemperatureControl1_C);
+                Assert.AreEqual(mwqmRun.TemperatureControl2_C, mwqmRunRet.TemperatureControl2_C);
+                Assert.AreEqual(mwqmRun.SeaStateAtStart_BeaufortScale, mwqmRunRet.SeaStateAtStart_BeaufortScale);
+                Assert.AreEqual(mwqmRun.SeaStateAtEnd_BeaufortScale, mwqmRunRet.SeaStateAtEnd_BeaufortScale);
+                Assert.AreEqual(mwqmRun.WaterLevelAtBrook_m, mwqmRunRet.WaterLevelAtBrook_m);
+                Assert.AreEqual(mwqmRun.WaveHightAtStart_m, mwqmRunRet.WaveHightAtStart_m);
+                Assert.AreEqual(mwqmRun.WaveHightAtEnd_m, mwqmRunRet.WaveHightAtEnd_m);
+                Assert.AreEqual(mwqmRun.SampleCrewInitials, mwqmRunRet.SampleCrewInitials);
+                Assert.AreEqual(mwqmRun.AnalyzeMethod, mwqmRunRet.AnalyzeMethod);
+                Assert.AreEqual(mwqmRun.SampleMatrix, mwqmRunRet.SampleMatrix);
+                Assert.AreEqual(mwqmRun.Laboratory, mwqmRunRet.Laboratory);
+                Assert.AreEqual(mwqmRun.SampleStatus, mwqmRunRet.SampleStatus);
+                Assert.AreEqual(mwqmRun.LabSampleApprovalContactTVItemID, mwqmRunRet.LabSampleApprovalContactTVItemID);
+                Assert.AreEqual(mwqmRun.LabAnalyzeBath1IncubationStartDateTime_Local, mwqmRunRet.LabAnalyzeBath1IncubationStartDateTime_Local);
+                Assert.AreEqual(mwqmRun.LabAnalyzeBath2IncubationStartDateTime_Local, mwqmRunRet.LabAnalyzeBath2IncubationStartDateTime_Local);
+                Assert.AreEqual(mwqmRun.LabAnalyzeBath3IncubationStartDateTime_Local, mwqmRunRet.LabAnalyzeBath3IncubationStartDateTime_Local);
+                Assert.AreEqual(mwqmRun.LabRunSampleApprovalDateTime_Local, mwqmRunRet.LabRunSampleApprovalDateTime_Local);
+                Assert.AreEqual(mwqmRun.Tide_Start, mwqmRunRet.Tide_Start);
+                Assert.AreEqual(mwqmRun.Tide_End, mwqmRunRet.Tide_End);
+                Assert.AreEqual(mwqmRun.RainDay0_mm, mwqmRunRet.RainDay0_mm);
+                Assert.AreEqual(mwqmRun.RainDay1_mm, mwqmRunRet.RainDay1_mm);
+                Assert.AreEqual(mwqmRun.RainDay2_mm, mwqmRunRet.RainDay2_mm);
+                Assert.AreEqual(mwqmRun.RainDay3_mm, mwqmRunRet.RainDay3_mm);
+                Assert.AreEqual(mwqmRun.RainDay4_mm, mwqmRunRet.RainDay4_mm);
+                Assert.AreEqual(mwqmRun.RainDay5_mm, mwqmRunRet.RainDay5_mm);
+                Assert.AreEqual(mwqmRun.RainDay6_mm, mwqmRunRet.RainDay6_mm);
+                Assert.AreEqual(mwqmRun.RainDay7_mm, mwqmRunRet.RainDay7_mm);
+                Assert.AreEqual(mwqmRun.RainDay8_mm, mwqmRunRet.RainDay8_mm);
+                Assert.AreEqual(mwqmRun.RainDay9_mm, mwqmRunRet.RainDay9_mm);
+                Assert.AreEqual(mwqmRun.RainDay10_mm, mwqmRunRet.RainDay10_mm);
+                Assert.AreEqual(mwqmRun.RemoveFromStat, mwqmRunRet.RemoveFromStat);
+                Assert.AreEqual(mwqmRun.LastUpdateDate_UTC, mwqmRunRet.LastUpdateDate_UTC);
+                Assert.AreEqual(mwqmRun.LastUpdateContactTVItemID, mwqmRunRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(mwqmRunRet.SubsectorTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.SubsectorTVText));
+                Assert.IsNotNull(mwqmRunRet.MWQMRunTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunTVText));
+                Assert.IsNotNull(mwqmRunRet.LabSampleApprovalContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.LabSampleApprovalContactTVText));
+                Assert.IsNotNull(mwqmRunRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.LastUpdateContactTVText));
+                Assert.IsNotNull(mwqmRunRet.RunSampleTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.RunSampleTypeText));
+                Assert.IsNotNull(mwqmRunRet.SeaStateAtStart_BeaufortScaleText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.SeaStateAtStart_BeaufortScaleText));
+                Assert.IsNotNull(mwqmRunRet.SeaStateAtEnd_BeaufortScaleText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.SeaStateAtEnd_BeaufortScaleText));
+                Assert.IsNotNull(mwqmRunRet.AnalyzeMethodText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.AnalyzeMethodText));
+                Assert.IsNotNull(mwqmRunRet.SampleMatrixText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.SampleMatrixText));
+                Assert.IsNotNull(mwqmRunRet.LaboratoryText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.LaboratoryText));
+                Assert.IsNotNull(mwqmRunRet.SampleStatusText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.SampleStatusText));
+                Assert.IsNotNull(mwqmRunRet.Tide_StartText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.Tide_StartText));
+                Assert.IsNotNull(mwqmRunRet.Tide_EndText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.Tide_EndText));
             }
         }
         #endregion Tests Get With Key

@@ -126,7 +126,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "MikeSource", Plurial = "s", FieldID = "MikeSourceID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "MikeSource", ExistPlurial = "s", ExistFieldID = "MikeSourceID", AllowableTVtypeList = Error)]
                 // mikeSourceStartEnd.MikeSourceID   (Int32)
                 // -----------------------------------
 
@@ -325,7 +325,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // mikeSourceStartEnd.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -344,6 +344,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mikeSourceStartEnd.LastUpdateContactTVText   (String)
@@ -375,13 +376,27 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(LanguageRequest, dbTestDB, ContactID);
-
-                MikeSourceStartEnd mikeSourceStartEnd = (from c in mikeSourceStartEndService.GetRead()
-                                             select c).FirstOrDefault();
+                MikeSourceStartEnd mikeSourceStartEnd = (from c in mikeSourceStartEndService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(mikeSourceStartEnd);
 
                 MikeSourceStartEnd mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID);
                 Assert.AreEqual(mikeSourceStartEnd.MikeSourceStartEndID, mikeSourceStartEndRet.MikeSourceStartEndID);
+                Assert.AreEqual(mikeSourceStartEnd.MikeSourceID, mikeSourceStartEndRet.MikeSourceID);
+                Assert.AreEqual(mikeSourceStartEnd.StartDateAndTime_Local, mikeSourceStartEndRet.StartDateAndTime_Local);
+                Assert.AreEqual(mikeSourceStartEnd.EndDateAndTime_Local, mikeSourceStartEndRet.EndDateAndTime_Local);
+                Assert.AreEqual(mikeSourceStartEnd.SourceFlowStart_m3_day, mikeSourceStartEndRet.SourceFlowStart_m3_day);
+                Assert.AreEqual(mikeSourceStartEnd.SourceFlowEnd_m3_day, mikeSourceStartEndRet.SourceFlowEnd_m3_day);
+                Assert.AreEqual(mikeSourceStartEnd.SourcePollutionStart_MPN_100ml, mikeSourceStartEndRet.SourcePollutionStart_MPN_100ml);
+                Assert.AreEqual(mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml, mikeSourceStartEndRet.SourcePollutionEnd_MPN_100ml);
+                Assert.AreEqual(mikeSourceStartEnd.SourceTemperatureStart_C, mikeSourceStartEndRet.SourceTemperatureStart_C);
+                Assert.AreEqual(mikeSourceStartEnd.SourceTemperatureEnd_C, mikeSourceStartEndRet.SourceTemperatureEnd_C);
+                Assert.AreEqual(mikeSourceStartEnd.SourceSalinityStart_PSU, mikeSourceStartEndRet.SourceSalinityStart_PSU);
+                Assert.AreEqual(mikeSourceStartEnd.SourceSalinityEnd_PSU, mikeSourceStartEndRet.SourceSalinityEnd_PSU);
+                Assert.AreEqual(mikeSourceStartEnd.LastUpdateDate_UTC, mikeSourceStartEndRet.LastUpdateDate_UTC);
+                Assert.AreEqual(mikeSourceStartEnd.LastUpdateContactTVItemID, mikeSourceStartEndRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

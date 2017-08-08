@@ -125,7 +125,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "EmailDistributionList", Plurial = "s", FieldID = "EmailDistributionListID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "EmailDistributionList", ExistPlurial = "s", ExistFieldID = "EmailDistributionListID", AllowableTVtypeList = Error)]
                 // emailDistributionListContact.EmailDistributionListID   (Int32)
                 // -----------------------------------
 
@@ -245,7 +245,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // emailDistributionListContact.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -264,6 +264,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // emailDistributionListContact.LastUpdateContactTVText   (String)
@@ -295,13 +296,26 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(LanguageRequest, dbTestDB, ContactID);
-
-                EmailDistributionListContact emailDistributionListContact = (from c in emailDistributionListContactService.GetRead()
-                                             select c).FirstOrDefault();
+                EmailDistributionListContact emailDistributionListContact = (from c in emailDistributionListContactService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(emailDistributionListContact);
 
                 EmailDistributionListContact emailDistributionListContactRet = emailDistributionListContactService.GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID);
                 Assert.AreEqual(emailDistributionListContact.EmailDistributionListContactID, emailDistributionListContactRet.EmailDistributionListContactID);
+                Assert.AreEqual(emailDistributionListContact.EmailDistributionListID, emailDistributionListContactRet.EmailDistributionListID);
+                Assert.AreEqual(emailDistributionListContact.IsCC, emailDistributionListContactRet.IsCC);
+                Assert.AreEqual(emailDistributionListContact.Agency, emailDistributionListContactRet.Agency);
+                Assert.AreEqual(emailDistributionListContact.Name, emailDistributionListContactRet.Name);
+                Assert.AreEqual(emailDistributionListContact.Email, emailDistributionListContactRet.Email);
+                Assert.AreEqual(emailDistributionListContact.CMPRainfallSeasonal, emailDistributionListContactRet.CMPRainfallSeasonal);
+                Assert.AreEqual(emailDistributionListContact.CMPWastewater, emailDistributionListContactRet.CMPWastewater);
+                Assert.AreEqual(emailDistributionListContact.EmergencyWeather, emailDistributionListContactRet.EmergencyWeather);
+                Assert.AreEqual(emailDistributionListContact.EmergencyWastewater, emailDistributionListContactRet.EmergencyWastewater);
+                Assert.AreEqual(emailDistributionListContact.ReopeningAllTypes, emailDistributionListContactRet.ReopeningAllTypes);
+                Assert.AreEqual(emailDistributionListContact.LastUpdateDate_UTC, emailDistributionListContactRet.LastUpdateDate_UTC);
+                Assert.AreEqual(emailDistributionListContact.LastUpdateContactTVItemID, emailDistributionListContactRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(emailDistributionListContactRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

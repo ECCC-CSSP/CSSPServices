@@ -124,7 +124,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "MWQMRun", Plurial = "s", FieldID = "MWQMRunID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "MWQMRun", ExistPlurial = "s", ExistFieldID = "MWQMRunID", AllowableTVtypeList = Error)]
                 // mwqmRunLanguage.MWQMRunID   (Int32)
                 // -----------------------------------
 
@@ -211,7 +211,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // mwqmRunLanguage.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -230,6 +230,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mwqmRunLanguage.LastUpdateContactTVText   (String)
@@ -303,13 +304,28 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 MWQMRunLanguageService mwqmRunLanguageService = new MWQMRunLanguageService(LanguageRequest, dbTestDB, ContactID);
-
-                MWQMRunLanguage mwqmRunLanguage = (from c in mwqmRunLanguageService.GetRead()
-                                             select c).FirstOrDefault();
+                MWQMRunLanguage mwqmRunLanguage = (from c in mwqmRunLanguageService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(mwqmRunLanguage);
 
                 MWQMRunLanguage mwqmRunLanguageRet = mwqmRunLanguageService.GetMWQMRunLanguageWithMWQMRunLanguageID(mwqmRunLanguage.MWQMRunLanguageID);
                 Assert.AreEqual(mwqmRunLanguage.MWQMRunLanguageID, mwqmRunLanguageRet.MWQMRunLanguageID);
+                Assert.AreEqual(mwqmRunLanguage.MWQMRunID, mwqmRunLanguageRet.MWQMRunID);
+                Assert.AreEqual(mwqmRunLanguage.Language, mwqmRunLanguageRet.Language);
+                Assert.AreEqual(mwqmRunLanguage.RunComment, mwqmRunLanguageRet.RunComment);
+                Assert.AreEqual(mwqmRunLanguage.TranslationStatusRunComment, mwqmRunLanguageRet.TranslationStatusRunComment);
+                Assert.AreEqual(mwqmRunLanguage.RunWeatherComment, mwqmRunLanguageRet.RunWeatherComment);
+                Assert.AreEqual(mwqmRunLanguage.TranslationStatusRunWeatherComment, mwqmRunLanguageRet.TranslationStatusRunWeatherComment);
+                Assert.AreEqual(mwqmRunLanguage.LastUpdateDate_UTC, mwqmRunLanguageRet.LastUpdateDate_UTC);
+                Assert.AreEqual(mwqmRunLanguage.LastUpdateContactTVItemID, mwqmRunLanguageRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(mwqmRunLanguageRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageRet.LastUpdateContactTVText));
+                Assert.IsNotNull(mwqmRunLanguageRet.LanguageText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageRet.LanguageText));
+                Assert.IsNotNull(mwqmRunLanguageRet.TranslationStatusRunCommentText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageRet.TranslationStatusRunCommentText));
+                Assert.IsNotNull(mwqmRunLanguageRet.TranslationStatusRunWeatherCommentText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageRet.TranslationStatusRunWeatherCommentText));
             }
         }
         #endregion Tests Get With Key

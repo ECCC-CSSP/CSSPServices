@@ -129,7 +129,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
                 // tvItemLink.FromTVItemID   (Int32)
                 // -----------------------------------
 
@@ -148,7 +148,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
                 // tvItemLink.ToTVItemID   (Int32)
                 // -----------------------------------
 
@@ -267,7 +267,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
-                // [CSSPExist(TypeName = "TVItemLink", Plurial = "s", FieldID = "TVItemLinkID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "TVItemLink", ExistPlurial = "s", ExistFieldID = "TVItemLinkID", AllowableTVtypeList = Error)]
                 // tvItemLink.ParentTVItemLinkID   (Int32)
                 // -----------------------------------
 
@@ -287,7 +287,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // tvItemLink.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -306,6 +306,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "FromTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvItemLink.FromTVText   (String)
@@ -320,6 +321,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ToTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvItemLink.ToTVText   (String)
@@ -334,6 +336,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvItemLink.LastUpdateContactTVText   (String)
@@ -393,13 +396,34 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, dbTestDB, ContactID);
-
-                TVItemLink tvItemLink = (from c in tvItemLinkService.GetRead()
-                                             select c).FirstOrDefault();
+                TVItemLink tvItemLink = (from c in tvItemLinkService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(tvItemLink);
 
                 TVItemLink tvItemLinkRet = tvItemLinkService.GetTVItemLinkWithTVItemLinkID(tvItemLink.TVItemLinkID);
                 Assert.AreEqual(tvItemLink.TVItemLinkID, tvItemLinkRet.TVItemLinkID);
+                Assert.AreEqual(tvItemLink.FromTVItemID, tvItemLinkRet.FromTVItemID);
+                Assert.AreEqual(tvItemLink.ToTVItemID, tvItemLinkRet.ToTVItemID);
+                Assert.AreEqual(tvItemLink.FromTVType, tvItemLinkRet.FromTVType);
+                Assert.AreEqual(tvItemLink.ToTVType, tvItemLinkRet.ToTVType);
+                Assert.AreEqual(tvItemLink.StartDateTime_Local, tvItemLinkRet.StartDateTime_Local);
+                Assert.AreEqual(tvItemLink.EndDateTime_Local, tvItemLinkRet.EndDateTime_Local);
+                Assert.AreEqual(tvItemLink.Ordinal, tvItemLinkRet.Ordinal);
+                Assert.AreEqual(tvItemLink.TVLevel, tvItemLinkRet.TVLevel);
+                Assert.AreEqual(tvItemLink.TVPath, tvItemLinkRet.TVPath);
+                Assert.AreEqual(tvItemLink.ParentTVItemLinkID, tvItemLinkRet.ParentTVItemLinkID);
+                Assert.AreEqual(tvItemLink.LastUpdateDate_UTC, tvItemLinkRet.LastUpdateDate_UTC);
+                Assert.AreEqual(tvItemLink.LastUpdateContactTVItemID, tvItemLinkRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(tvItemLinkRet.FromTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.FromTVText));
+                Assert.IsNotNull(tvItemLinkRet.ToTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.ToTVText));
+                Assert.IsNotNull(tvItemLinkRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.LastUpdateContactTVText));
+                Assert.IsNotNull(tvItemLinkRet.FromTVTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.FromTVTypeText));
+                Assert.IsNotNull(tvItemLinkRet.ToTVTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.ToTVTypeText));
             }
         }
         #endregion Tests Get With Key

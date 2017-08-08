@@ -136,7 +136,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Infrastructure)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Infrastructure)]
                 // vpScenario.InfrastructureTVItemID   (Int32)
                 // -----------------------------------
 
@@ -498,7 +498,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // vpScenario.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -517,6 +517,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "InfrastructureTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // vpScenario.SubsectorTVText   (String)
@@ -531,6 +532,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // vpScenario.LastUpdateContactTVText   (String)
@@ -576,13 +578,39 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 VPScenarioService vpScenarioService = new VPScenarioService(LanguageRequest, dbTestDB, ContactID);
-
-                VPScenario vpScenario = (from c in vpScenarioService.GetRead()
-                                             select c).FirstOrDefault();
+                VPScenario vpScenario = (from c in vpScenarioService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(vpScenario);
 
                 VPScenario vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID);
                 Assert.AreEqual(vpScenario.VPScenarioID, vpScenarioRet.VPScenarioID);
+                Assert.AreEqual(vpScenario.InfrastructureTVItemID, vpScenarioRet.InfrastructureTVItemID);
+                Assert.AreEqual(vpScenario.VPScenarioStatus, vpScenarioRet.VPScenarioStatus);
+                Assert.AreEqual(vpScenario.UseAsBestEstimate, vpScenarioRet.UseAsBestEstimate);
+                Assert.AreEqual(vpScenario.EffluentFlow_m3_s, vpScenarioRet.EffluentFlow_m3_s);
+                Assert.AreEqual(vpScenario.EffluentConcentration_MPN_100ml, vpScenarioRet.EffluentConcentration_MPN_100ml);
+                Assert.AreEqual(vpScenario.FroudeNumber, vpScenarioRet.FroudeNumber);
+                Assert.AreEqual(vpScenario.PortDiameter_m, vpScenarioRet.PortDiameter_m);
+                Assert.AreEqual(vpScenario.PortDepth_m, vpScenarioRet.PortDepth_m);
+                Assert.AreEqual(vpScenario.PortElevation_m, vpScenarioRet.PortElevation_m);
+                Assert.AreEqual(vpScenario.VerticalAngle_deg, vpScenarioRet.VerticalAngle_deg);
+                Assert.AreEqual(vpScenario.HorizontalAngle_deg, vpScenarioRet.HorizontalAngle_deg);
+                Assert.AreEqual(vpScenario.NumberOfPorts, vpScenarioRet.NumberOfPorts);
+                Assert.AreEqual(vpScenario.PortSpacing_m, vpScenarioRet.PortSpacing_m);
+                Assert.AreEqual(vpScenario.AcuteMixZone_m, vpScenarioRet.AcuteMixZone_m);
+                Assert.AreEqual(vpScenario.ChronicMixZone_m, vpScenarioRet.ChronicMixZone_m);
+                Assert.AreEqual(vpScenario.EffluentSalinity_PSU, vpScenarioRet.EffluentSalinity_PSU);
+                Assert.AreEqual(vpScenario.EffluentTemperature_C, vpScenarioRet.EffluentTemperature_C);
+                Assert.AreEqual(vpScenario.EffluentVelocity_m_s, vpScenarioRet.EffluentVelocity_m_s);
+                Assert.AreEqual(vpScenario.RawResults, vpScenarioRet.RawResults);
+                Assert.AreEqual(vpScenario.LastUpdateDate_UTC, vpScenarioRet.LastUpdateDate_UTC);
+                Assert.AreEqual(vpScenario.LastUpdateContactTVItemID, vpScenarioRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(vpScenarioRet.SubsectorTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.SubsectorTVText));
+                Assert.IsNotNull(vpScenarioRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.LastUpdateContactTVText));
+                Assert.IsNotNull(vpScenarioRet.VPScenarioStatusText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioStatusText));
             }
         }
         #endregion Tests Get With Key

@@ -121,7 +121,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "Spill", Plurial = "s", FieldID = "SpillID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "Spill", ExistPlurial = "s", ExistFieldID = "SpillID", AllowableTVtypeList = Error)]
                 // spillLanguage.SpillID   (Int32)
                 // -----------------------------------
 
@@ -181,7 +181,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // spillLanguage.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -200,6 +200,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // spillLanguage.LastUpdateContactTVText   (String)
@@ -259,13 +260,24 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 SpillLanguageService spillLanguageService = new SpillLanguageService(LanguageRequest, dbTestDB, ContactID);
-
-                SpillLanguage spillLanguage = (from c in spillLanguageService.GetRead()
-                                             select c).FirstOrDefault();
+                SpillLanguage spillLanguage = (from c in spillLanguageService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(spillLanguage);
 
                 SpillLanguage spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID);
                 Assert.AreEqual(spillLanguage.SpillLanguageID, spillLanguageRet.SpillLanguageID);
+                Assert.AreEqual(spillLanguage.SpillID, spillLanguageRet.SpillID);
+                Assert.AreEqual(spillLanguage.Language, spillLanguageRet.Language);
+                Assert.AreEqual(spillLanguage.SpillComment, spillLanguageRet.SpillComment);
+                Assert.AreEqual(spillLanguage.TranslationStatus, spillLanguageRet.TranslationStatus);
+                Assert.AreEqual(spillLanguage.LastUpdateDate_UTC, spillLanguageRet.LastUpdateDate_UTC);
+                Assert.AreEqual(spillLanguage.LastUpdateContactTVItemID, spillLanguageRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(spillLanguageRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.LastUpdateContactTVText));
+                Assert.IsNotNull(spillLanguageRet.LanguageText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.LanguageText));
+                Assert.IsNotNull(spillLanguageRet.TranslationStatusText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.TranslationStatusText));
             }
         }
         #endregion Tests Get With Key

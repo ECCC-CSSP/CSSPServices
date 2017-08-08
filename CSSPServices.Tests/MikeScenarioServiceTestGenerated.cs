@@ -142,7 +142,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = MikeScenario)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MikeScenario)]
                 // mikeScenario.MikeScenarioTVItemID   (Int32)
                 // -----------------------------------
 
@@ -161,7 +161,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = MikeScenario)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MikeScenario)]
                 // mikeScenario.ParentMikeScenarioID   (Int32)
                 // -----------------------------------
 
@@ -572,7 +572,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // mikeScenario.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -591,6 +591,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MikeScenarioTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mikeScenario.MikeScenarioTVText   (String)
@@ -605,6 +606,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mikeScenario.LastUpdateContactTVText   (String)
@@ -650,13 +652,45 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 MikeScenarioService mikeScenarioService = new MikeScenarioService(LanguageRequest, dbTestDB, ContactID);
-
-                MikeScenario mikeScenario = (from c in mikeScenarioService.GetRead()
-                                             select c).FirstOrDefault();
+                MikeScenario mikeScenario = (from c in mikeScenarioService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(mikeScenario);
 
                 MikeScenario mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID);
                 Assert.AreEqual(mikeScenario.MikeScenarioID, mikeScenarioRet.MikeScenarioID);
+                Assert.AreEqual(mikeScenario.MikeScenarioTVItemID, mikeScenarioRet.MikeScenarioTVItemID);
+                Assert.AreEqual(mikeScenario.ParentMikeScenarioID, mikeScenarioRet.ParentMikeScenarioID);
+                Assert.AreEqual(mikeScenario.ScenarioStatus, mikeScenarioRet.ScenarioStatus);
+                Assert.AreEqual(mikeScenario.ErrorInfo, mikeScenarioRet.ErrorInfo);
+                Assert.AreEqual(mikeScenario.MikeScenarioStartDateTime_Local, mikeScenarioRet.MikeScenarioStartDateTime_Local);
+                Assert.AreEqual(mikeScenario.MikeScenarioEndDateTime_Local, mikeScenarioRet.MikeScenarioEndDateTime_Local);
+                Assert.AreEqual(mikeScenario.MikeScenarioStartExecutionDateTime_Local, mikeScenarioRet.MikeScenarioStartExecutionDateTime_Local);
+                Assert.AreEqual(mikeScenario.MikeScenarioExecutionTime_min, mikeScenarioRet.MikeScenarioExecutionTime_min);
+                Assert.AreEqual(mikeScenario.WindSpeed_km_h, mikeScenarioRet.WindSpeed_km_h);
+                Assert.AreEqual(mikeScenario.WindDirection_deg, mikeScenarioRet.WindDirection_deg);
+                Assert.AreEqual(mikeScenario.DecayFactor_per_day, mikeScenarioRet.DecayFactor_per_day);
+                Assert.AreEqual(mikeScenario.DecayIsConstant, mikeScenarioRet.DecayIsConstant);
+                Assert.AreEqual(mikeScenario.DecayFactorAmplitude, mikeScenarioRet.DecayFactorAmplitude);
+                Assert.AreEqual(mikeScenario.ResultFrequency_min, mikeScenarioRet.ResultFrequency_min);
+                Assert.AreEqual(mikeScenario.AmbientTemperature_C, mikeScenarioRet.AmbientTemperature_C);
+                Assert.AreEqual(mikeScenario.AmbientSalinity_PSU, mikeScenarioRet.AmbientSalinity_PSU);
+                Assert.AreEqual(mikeScenario.ManningNumber, mikeScenarioRet.ManningNumber);
+                Assert.AreEqual(mikeScenario.NumberOfElements, mikeScenarioRet.NumberOfElements);
+                Assert.AreEqual(mikeScenario.NumberOfTimeSteps, mikeScenarioRet.NumberOfTimeSteps);
+                Assert.AreEqual(mikeScenario.NumberOfSigmaLayers, mikeScenarioRet.NumberOfSigmaLayers);
+                Assert.AreEqual(mikeScenario.NumberOfZLayers, mikeScenarioRet.NumberOfZLayers);
+                Assert.AreEqual(mikeScenario.NumberOfHydroOutputParameters, mikeScenarioRet.NumberOfHydroOutputParameters);
+                Assert.AreEqual(mikeScenario.NumberOfTransOutputParameters, mikeScenarioRet.NumberOfTransOutputParameters);
+                Assert.AreEqual(mikeScenario.EstimatedHydroFileSize, mikeScenarioRet.EstimatedHydroFileSize);
+                Assert.AreEqual(mikeScenario.EstimatedTransFileSize, mikeScenarioRet.EstimatedTransFileSize);
+                Assert.AreEqual(mikeScenario.LastUpdateDate_UTC, mikeScenarioRet.LastUpdateDate_UTC);
+                Assert.AreEqual(mikeScenario.LastUpdateContactTVItemID, mikeScenarioRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(mikeScenarioRet.MikeScenarioTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.MikeScenarioTVText));
+                Assert.IsNotNull(mikeScenarioRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.LastUpdateContactTVText));
+                Assert.IsNotNull(mikeScenarioRet.ScenarioStatusText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.ScenarioStatusText));
             }
         }
         #endregion Tests Get With Key

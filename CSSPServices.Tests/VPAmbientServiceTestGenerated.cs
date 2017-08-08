@@ -127,7 +127,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "VPScenario", Plurial = "s", FieldID = "VPScenarioID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "VPScenario", ExistPlurial = "s", ExistFieldID = "VPScenarioID", AllowableTVtypeList = Error)]
                 // vpAmbient.VPScenarioID   (Int32)
                 // -----------------------------------
 
@@ -374,7 +374,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // vpAmbient.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -393,6 +393,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // vpAmbient.LastUpdateContactTVText   (String)
@@ -424,13 +425,28 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 VPAmbientService vpAmbientService = new VPAmbientService(LanguageRequest, dbTestDB, ContactID);
-
-                VPAmbient vpAmbient = (from c in vpAmbientService.GetRead()
-                                             select c).FirstOrDefault();
+                VPAmbient vpAmbient = (from c in vpAmbientService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(vpAmbient);
 
                 VPAmbient vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID);
                 Assert.AreEqual(vpAmbient.VPAmbientID, vpAmbientRet.VPAmbientID);
+                Assert.AreEqual(vpAmbient.VPScenarioID, vpAmbientRet.VPScenarioID);
+                Assert.AreEqual(vpAmbient.Row, vpAmbientRet.Row);
+                Assert.AreEqual(vpAmbient.MeasurementDepth_m, vpAmbientRet.MeasurementDepth_m);
+                Assert.AreEqual(vpAmbient.CurrentSpeed_m_s, vpAmbientRet.CurrentSpeed_m_s);
+                Assert.AreEqual(vpAmbient.CurrentDirection_deg, vpAmbientRet.CurrentDirection_deg);
+                Assert.AreEqual(vpAmbient.AmbientSalinity_PSU, vpAmbientRet.AmbientSalinity_PSU);
+                Assert.AreEqual(vpAmbient.AmbientTemperature_C, vpAmbientRet.AmbientTemperature_C);
+                Assert.AreEqual(vpAmbient.BackgroundConcentration_MPN_100ml, vpAmbientRet.BackgroundConcentration_MPN_100ml);
+                Assert.AreEqual(vpAmbient.PollutantDecayRate_per_day, vpAmbientRet.PollutantDecayRate_per_day);
+                Assert.AreEqual(vpAmbient.FarFieldCurrentSpeed_m_s, vpAmbientRet.FarFieldCurrentSpeed_m_s);
+                Assert.AreEqual(vpAmbient.FarFieldCurrentDirection_deg, vpAmbientRet.FarFieldCurrentDirection_deg);
+                Assert.AreEqual(vpAmbient.FarFieldDiffusionCoefficient, vpAmbientRet.FarFieldDiffusionCoefficient);
+                Assert.AreEqual(vpAmbient.LastUpdateDate_UTC, vpAmbientRet.LastUpdateDate_UTC);
+                Assert.AreEqual(vpAmbient.LastUpdateContactTVItemID, vpAmbientRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(vpAmbientRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

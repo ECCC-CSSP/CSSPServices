@@ -131,7 +131,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario)]
                 // appTask.TVItemID   (Int32)
                 // -----------------------------------
 
@@ -150,7 +150,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario)]
                 // appTask.TVItemID2   (Int32)
                 // -----------------------------------
 
@@ -301,7 +301,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // appTask.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -320,6 +320,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // appTask.TVItemTVText   (String)
@@ -334,6 +335,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID2", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // appTask.TVItem2TVText   (String)
@@ -348,6 +350,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // appTask.LastUpdateContactTVText   (String)
@@ -421,13 +424,37 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 AppTaskService appTaskService = new AppTaskService(LanguageRequest, dbTestDB, ContactID);
-
-                AppTask appTask = (from c in appTaskService.GetRead()
-                                             select c).FirstOrDefault();
+                AppTask appTask = (from c in appTaskService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(appTask);
 
                 AppTask appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
                 Assert.AreEqual(appTask.AppTaskID, appTaskRet.AppTaskID);
+                Assert.AreEqual(appTask.TVItemID, appTaskRet.TVItemID);
+                Assert.AreEqual(appTask.TVItemID2, appTaskRet.TVItemID2);
+                Assert.AreEqual(appTask.AppTaskCommand, appTaskRet.AppTaskCommand);
+                Assert.AreEqual(appTask.AppTaskStatus, appTaskRet.AppTaskStatus);
+                Assert.AreEqual(appTask.PercentCompleted, appTaskRet.PercentCompleted);
+                Assert.AreEqual(appTask.Parameters, appTaskRet.Parameters);
+                Assert.AreEqual(appTask.Language, appTaskRet.Language);
+                Assert.AreEqual(appTask.StartDateTime_UTC, appTaskRet.StartDateTime_UTC);
+                Assert.AreEqual(appTask.EndDateTime_UTC, appTaskRet.EndDateTime_UTC);
+                Assert.AreEqual(appTask.EstimatedLength_second, appTaskRet.EstimatedLength_second);
+                Assert.AreEqual(appTask.RemainingTime_second, appTaskRet.RemainingTime_second);
+                Assert.AreEqual(appTask.LastUpdateDate_UTC, appTaskRet.LastUpdateDate_UTC);
+                Assert.AreEqual(appTask.LastUpdateContactTVItemID, appTaskRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(appTaskRet.TVItemTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.TVItemTVText));
+                Assert.IsNotNull(appTaskRet.TVItem2TVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.TVItem2TVText));
+                Assert.IsNotNull(appTaskRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.LastUpdateContactTVText));
+                Assert.IsNotNull(appTaskRet.AppTaskCommandText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskCommandText));
+                Assert.IsNotNull(appTaskRet.AppTaskStatusText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskStatusText));
+                Assert.IsNotNull(appTaskRet.LanguageText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.LanguageText));
             }
         }
         #endregion Tests Get With Key

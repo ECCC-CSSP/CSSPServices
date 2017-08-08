@@ -132,7 +132,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = File)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = File)]
                 // tvFile.TVFileTVItemID   (Int32)
                 // -----------------------------------
 
@@ -303,7 +303,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // tvFile.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -322,6 +322,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVFileTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvFile.TVFileTVText   (String)
@@ -336,6 +337,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvFile.LastUpdateContactTVText   (String)
@@ -423,13 +425,38 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 TVFileService tvFileService = new TVFileService(LanguageRequest, dbTestDB, ContactID);
-
-                TVFile tvFile = (from c in tvFileService.GetRead()
-                                             select c).FirstOrDefault();
+                TVFile tvFile = (from c in tvFileService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(tvFile);
 
                 TVFile tvFileRet = tvFileService.GetTVFileWithTVFileID(tvFile.TVFileID);
                 Assert.AreEqual(tvFile.TVFileID, tvFileRet.TVFileID);
+                Assert.AreEqual(tvFile.TVFileTVItemID, tvFileRet.TVFileTVItemID);
+                Assert.AreEqual(tvFile.TemplateTVType, tvFileRet.TemplateTVType);
+                Assert.AreEqual(tvFile.Language, tvFileRet.Language);
+                Assert.AreEqual(tvFile.FilePurpose, tvFileRet.FilePurpose);
+                Assert.AreEqual(tvFile.FileType, tvFileRet.FileType);
+                Assert.AreEqual(tvFile.FileSize_kb, tvFileRet.FileSize_kb);
+                Assert.AreEqual(tvFile.FileInfo, tvFileRet.FileInfo);
+                Assert.AreEqual(tvFile.FileCreatedDate_UTC, tvFileRet.FileCreatedDate_UTC);
+                Assert.AreEqual(tvFile.FromWater, tvFileRet.FromWater);
+                Assert.AreEqual(tvFile.ClientFilePath, tvFileRet.ClientFilePath);
+                Assert.AreEqual(tvFile.ServerFileName, tvFileRet.ServerFileName);
+                Assert.AreEqual(tvFile.ServerFilePath, tvFileRet.ServerFilePath);
+                Assert.AreEqual(tvFile.LastUpdateDate_UTC, tvFileRet.LastUpdateDate_UTC);
+                Assert.AreEqual(tvFile.LastUpdateContactTVItemID, tvFileRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(tvFileRet.TVFileTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileTVText));
+                Assert.IsNotNull(tvFileRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.LastUpdateContactTVText));
+                Assert.IsNotNull(tvFileRet.TemplateTVTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TemplateTVTypeText));
+                Assert.IsNotNull(tvFileRet.LanguageText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.LanguageText));
+                Assert.IsNotNull(tvFileRet.FilePurposeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.FilePurposeText));
+                Assert.IsNotNull(tvFileRet.FileTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.FileTypeText));
             }
         }
         #endregion Tests Get With Key

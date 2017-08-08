@@ -121,7 +121,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "MWQMSubsector", Plurial = "s", FieldID = "MWQMSubsectorID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "MWQMSubsector", ExistPlurial = "s", ExistFieldID = "MWQMSubsectorID", AllowableTVtypeList = Error)]
                 // mwqmSubsectorLanguage.MWQMSubsectorID   (Int32)
                 // -----------------------------------
 
@@ -188,7 +188,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // mwqmSubsectorLanguage.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -207,6 +207,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mwqmSubsectorLanguage.LastUpdateContactTVText   (String)
@@ -266,13 +267,24 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 MWQMSubsectorLanguageService mwqmSubsectorLanguageService = new MWQMSubsectorLanguageService(LanguageRequest, dbTestDB, ContactID);
-
-                MWQMSubsectorLanguage mwqmSubsectorLanguage = (from c in mwqmSubsectorLanguageService.GetRead()
-                                             select c).FirstOrDefault();
+                MWQMSubsectorLanguage mwqmSubsectorLanguage = (from c in mwqmSubsectorLanguageService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(mwqmSubsectorLanguage);
 
                 MWQMSubsectorLanguage mwqmSubsectorLanguageRet = mwqmSubsectorLanguageService.GetMWQMSubsectorLanguageWithMWQMSubsectorLanguageID(mwqmSubsectorLanguage.MWQMSubsectorLanguageID);
                 Assert.AreEqual(mwqmSubsectorLanguage.MWQMSubsectorLanguageID, mwqmSubsectorLanguageRet.MWQMSubsectorLanguageID);
+                Assert.AreEqual(mwqmSubsectorLanguage.MWQMSubsectorID, mwqmSubsectorLanguageRet.MWQMSubsectorID);
+                Assert.AreEqual(mwqmSubsectorLanguage.Language, mwqmSubsectorLanguageRet.Language);
+                Assert.AreEqual(mwqmSubsectorLanguage.SubsectorDesc, mwqmSubsectorLanguageRet.SubsectorDesc);
+                Assert.AreEqual(mwqmSubsectorLanguage.TranslationStatus, mwqmSubsectorLanguageRet.TranslationStatus);
+                Assert.AreEqual(mwqmSubsectorLanguage.LastUpdateDate_UTC, mwqmSubsectorLanguageRet.LastUpdateDate_UTC);
+                Assert.AreEqual(mwqmSubsectorLanguage.LastUpdateContactTVItemID, mwqmSubsectorLanguageRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(mwqmSubsectorLanguageRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LastUpdateContactTVText));
+                Assert.IsNotNull(mwqmSubsectorLanguageRet.LanguageText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LanguageText));
+                Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.TranslationStatusText));
             }
         }
         #endregion Tests Get With Key

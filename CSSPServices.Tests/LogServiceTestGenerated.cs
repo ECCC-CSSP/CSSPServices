@@ -188,7 +188,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // log.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -207,6 +207,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // log.LastUpdateContactTVText   (String)
@@ -252,13 +253,22 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 LogService logService = new LogService(LanguageRequest, dbTestDB, ContactID);
-
-                Log log = (from c in logService.GetRead()
-                                             select c).FirstOrDefault();
+                Log log = (from c in logService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(log);
 
                 Log logRet = logService.GetLogWithLogID(log.LogID);
                 Assert.AreEqual(log.LogID, logRet.LogID);
+                Assert.AreEqual(log.TableName, logRet.TableName);
+                Assert.AreEqual(log.ID, logRet.ID);
+                Assert.AreEqual(log.LogCommand, logRet.LogCommand);
+                Assert.AreEqual(log.Information, logRet.Information);
+                Assert.AreEqual(log.LastUpdateDate_UTC, logRet.LastUpdateDate_UTC);
+                Assert.AreEqual(log.LastUpdateContactTVItemID, logRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(logRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.LastUpdateContactTVText));
+                Assert.IsNotNull(logRet.LogCommandText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.LogCommandText));
             }
         }
         #endregion Tests Get With Key

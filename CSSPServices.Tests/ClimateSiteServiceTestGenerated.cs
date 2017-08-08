@@ -137,7 +137,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = ClimateSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = ClimateSite)]
                 // climateSite.ClimateSiteTVItemID   (Int32)
                 // -----------------------------------
 
@@ -403,7 +403,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // climateSite.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -422,6 +422,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ClimateSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // climateSite.ClimateSiteTVText   (String)
@@ -436,6 +437,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // climateSite.LastUpdateContactTVText   (String)
@@ -467,13 +469,39 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 ClimateSiteService climateSiteService = new ClimateSiteService(LanguageRequest, dbTestDB, ContactID);
-
-                ClimateSite climateSite = (from c in climateSiteService.GetRead()
-                                             select c).FirstOrDefault();
+                ClimateSite climateSite = (from c in climateSiteService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(climateSite);
 
                 ClimateSite climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID);
                 Assert.AreEqual(climateSite.ClimateSiteID, climateSiteRet.ClimateSiteID);
+                Assert.AreEqual(climateSite.ClimateSiteTVItemID, climateSiteRet.ClimateSiteTVItemID);
+                Assert.AreEqual(climateSite.ECDBID, climateSiteRet.ECDBID);
+                Assert.AreEqual(climateSite.ClimateSiteName, climateSiteRet.ClimateSiteName);
+                Assert.AreEqual(climateSite.Province, climateSiteRet.Province);
+                Assert.AreEqual(climateSite.Elevation_m, climateSiteRet.Elevation_m);
+                Assert.AreEqual(climateSite.ClimateID, climateSiteRet.ClimateID);
+                Assert.AreEqual(climateSite.WMOID, climateSiteRet.WMOID);
+                Assert.AreEqual(climateSite.TCID, climateSiteRet.TCID);
+                Assert.AreEqual(climateSite.IsProvincial, climateSiteRet.IsProvincial);
+                Assert.AreEqual(climateSite.ProvSiteID, climateSiteRet.ProvSiteID);
+                Assert.AreEqual(climateSite.TimeOffset_hour, climateSiteRet.TimeOffset_hour);
+                Assert.AreEqual(climateSite.File_desc, climateSiteRet.File_desc);
+                Assert.AreEqual(climateSite.HourlyStartDate_Local, climateSiteRet.HourlyStartDate_Local);
+                Assert.AreEqual(climateSite.HourlyEndDate_Local, climateSiteRet.HourlyEndDate_Local);
+                Assert.AreEqual(climateSite.HourlyNow, climateSiteRet.HourlyNow);
+                Assert.AreEqual(climateSite.DailyStartDate_Local, climateSiteRet.DailyStartDate_Local);
+                Assert.AreEqual(climateSite.DailyEndDate_Local, climateSiteRet.DailyEndDate_Local);
+                Assert.AreEqual(climateSite.DailyNow, climateSiteRet.DailyNow);
+                Assert.AreEqual(climateSite.MonthlyStartDate_Local, climateSiteRet.MonthlyStartDate_Local);
+                Assert.AreEqual(climateSite.MonthlyEndDate_Local, climateSiteRet.MonthlyEndDate_Local);
+                Assert.AreEqual(climateSite.MonthlyNow, climateSiteRet.MonthlyNow);
+                Assert.AreEqual(climateSite.LastUpdateDate_UTC, climateSiteRet.LastUpdateDate_UTC);
+                Assert.AreEqual(climateSite.LastUpdateContactTVItemID, climateSiteRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(climateSiteRet.ClimateSiteTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteTVText));
+                Assert.IsNotNull(climateSiteRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

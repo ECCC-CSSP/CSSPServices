@@ -118,7 +118,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "SamplingPlan", Plurial = "s", FieldID = "SamplingPlanID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "SamplingPlan", ExistPlurial = "s", ExistFieldID = "SamplingPlanID", AllowableTVtypeList = Error)]
                 // samplingPlanSubsector.SamplingPlanID   (Int32)
                 // -----------------------------------
 
@@ -131,7 +131,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Subsector)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Subsector)]
                 // samplingPlanSubsector.SubsectorTVItemID   (Int32)
                 // -----------------------------------
 
@@ -157,7 +157,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // samplingPlanSubsector.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -176,6 +176,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SubsectorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // samplingPlanSubsector.SubsectorTVText   (String)
@@ -190,6 +191,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // samplingPlanSubsector.LastUpdateContactTVText   (String)
@@ -221,13 +223,20 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 SamplingPlanSubsectorService samplingPlanSubsectorService = new SamplingPlanSubsectorService(LanguageRequest, dbTestDB, ContactID);
-
-                SamplingPlanSubsector samplingPlanSubsector = (from c in samplingPlanSubsectorService.GetRead()
-                                             select c).FirstOrDefault();
+                SamplingPlanSubsector samplingPlanSubsector = (from c in samplingPlanSubsectorService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(samplingPlanSubsector);
 
                 SamplingPlanSubsector samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID);
                 Assert.AreEqual(samplingPlanSubsector.SamplingPlanSubsectorID, samplingPlanSubsectorRet.SamplingPlanSubsectorID);
+                Assert.AreEqual(samplingPlanSubsector.SamplingPlanID, samplingPlanSubsectorRet.SamplingPlanID);
+                Assert.AreEqual(samplingPlanSubsector.SubsectorTVItemID, samplingPlanSubsectorRet.SubsectorTVItemID);
+                Assert.AreEqual(samplingPlanSubsector.LastUpdateDate_UTC, samplingPlanSubsectorRet.LastUpdateDate_UTC);
+                Assert.AreEqual(samplingPlanSubsector.LastUpdateContactTVItemID, samplingPlanSubsectorRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(samplingPlanSubsectorRet.SubsectorTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.SubsectorTVText));
+                Assert.IsNotNull(samplingPlanSubsectorRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

@@ -132,7 +132,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = MWQMSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MWQMSite)]
                 // mwqmSample.MWQMSiteTVItemID   (Int32)
                 // -----------------------------------
 
@@ -151,7 +151,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = MWQMRun)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MWQMRun)]
                 // mwqmSample.MWQMRunTVItemID   (Int32)
                 // -----------------------------------
 
@@ -391,7 +391,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // mwqmSample.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -410,6 +410,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mwqmSample.MWQMSiteTVText   (String)
@@ -424,6 +425,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMRunTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mwqmSample.MWQMRunTVText   (String)
@@ -438,6 +440,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mwqmSample.LastUpdateContactTVText   (String)
@@ -483,13 +486,36 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 MWQMSampleService mwqmSampleService = new MWQMSampleService(LanguageRequest, dbTestDB, ContactID);
-
-                MWQMSample mwqmSample = (from c in mwqmSampleService.GetRead()
-                                             select c).FirstOrDefault();
+                MWQMSample mwqmSample = (from c in mwqmSampleService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(mwqmSample);
 
                 MWQMSample mwqmSampleRet = mwqmSampleService.GetMWQMSampleWithMWQMSampleID(mwqmSample.MWQMSampleID);
                 Assert.AreEqual(mwqmSample.MWQMSampleID, mwqmSampleRet.MWQMSampleID);
+                Assert.AreEqual(mwqmSample.MWQMSiteTVItemID, mwqmSampleRet.MWQMSiteTVItemID);
+                Assert.AreEqual(mwqmSample.MWQMRunTVItemID, mwqmSampleRet.MWQMRunTVItemID);
+                Assert.AreEqual(mwqmSample.SampleDateTime_Local, mwqmSampleRet.SampleDateTime_Local);
+                Assert.AreEqual(mwqmSample.Depth_m, mwqmSampleRet.Depth_m);
+                Assert.AreEqual(mwqmSample.FecCol_MPN_100ml, mwqmSampleRet.FecCol_MPN_100ml);
+                Assert.AreEqual(mwqmSample.Salinity_PPT, mwqmSampleRet.Salinity_PPT);
+                Assert.AreEqual(mwqmSample.WaterTemp_C, mwqmSampleRet.WaterTemp_C);
+                Assert.AreEqual(mwqmSample.PH, mwqmSampleRet.PH);
+                Assert.AreEqual(mwqmSample.SampleTypesText, mwqmSampleRet.SampleTypesText);
+                Assert.AreEqual(mwqmSample.SampleType_old, mwqmSampleRet.SampleType_old);
+                Assert.AreEqual(mwqmSample.Tube_10, mwqmSampleRet.Tube_10);
+                Assert.AreEqual(mwqmSample.Tube_1_0, mwqmSampleRet.Tube_1_0);
+                Assert.AreEqual(mwqmSample.Tube_0_1, mwqmSampleRet.Tube_0_1);
+                Assert.AreEqual(mwqmSample.ProcessedBy, mwqmSampleRet.ProcessedBy);
+                Assert.AreEqual(mwqmSample.LastUpdateDate_UTC, mwqmSampleRet.LastUpdateDate_UTC);
+                Assert.AreEqual(mwqmSample.LastUpdateContactTVItemID, mwqmSampleRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(mwqmSampleRet.MWQMSiteTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMSiteTVText));
+                Assert.IsNotNull(mwqmSampleRet.MWQMRunTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMRunTVText));
+                Assert.IsNotNull(mwqmSampleRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.LastUpdateContactTVText));
+                Assert.IsNotNull(mwqmSampleRet.SampleType_oldText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.SampleType_oldText));
             }
         }
         #endregion Tests Get With Key

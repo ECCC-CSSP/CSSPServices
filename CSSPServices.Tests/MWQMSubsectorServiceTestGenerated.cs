@@ -142,7 +142,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Subsector)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Subsector)]
                 // mwqmSubsector.MWQMSubsectorTVItemID   (Int32)
                 // -----------------------------------
 
@@ -550,7 +550,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // mwqmSubsector.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -569,6 +569,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMSubsectorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mwqmSubsector.SubsectorTVText   (String)
@@ -583,6 +584,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mwqmSubsector.LastUpdateContactTVText   (String)
@@ -614,13 +616,44 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 MWQMSubsectorService mwqmSubsectorService = new MWQMSubsectorService(LanguageRequest, dbTestDB, ContactID);
-
-                MWQMSubsector mwqmSubsector = (from c in mwqmSubsectorService.GetRead()
-                                             select c).FirstOrDefault();
+                MWQMSubsector mwqmSubsector = (from c in mwqmSubsectorService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(mwqmSubsector);
 
                 MWQMSubsector mwqmSubsectorRet = mwqmSubsectorService.GetMWQMSubsectorWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
                 Assert.AreEqual(mwqmSubsector.MWQMSubsectorID, mwqmSubsectorRet.MWQMSubsectorID);
+                Assert.AreEqual(mwqmSubsector.MWQMSubsectorTVItemID, mwqmSubsectorRet.MWQMSubsectorTVItemID);
+                Assert.AreEqual(mwqmSubsector.SubsectorHistoricKey, mwqmSubsectorRet.SubsectorHistoricKey);
+                Assert.AreEqual(mwqmSubsector.TideLocationSIDText, mwqmSubsectorRet.TideLocationSIDText);
+                Assert.AreEqual(mwqmSubsector.RainDay0Limit, mwqmSubsectorRet.RainDay0Limit);
+                Assert.AreEqual(mwqmSubsector.RainDay1Limit, mwqmSubsectorRet.RainDay1Limit);
+                Assert.AreEqual(mwqmSubsector.RainDay2Limit, mwqmSubsectorRet.RainDay2Limit);
+                Assert.AreEqual(mwqmSubsector.RainDay3Limit, mwqmSubsectorRet.RainDay3Limit);
+                Assert.AreEqual(mwqmSubsector.RainDay4Limit, mwqmSubsectorRet.RainDay4Limit);
+                Assert.AreEqual(mwqmSubsector.RainDay5Limit, mwqmSubsectorRet.RainDay5Limit);
+                Assert.AreEqual(mwqmSubsector.RainDay6Limit, mwqmSubsectorRet.RainDay6Limit);
+                Assert.AreEqual(mwqmSubsector.RainDay7Limit, mwqmSubsectorRet.RainDay7Limit);
+                Assert.AreEqual(mwqmSubsector.RainDay8Limit, mwqmSubsectorRet.RainDay8Limit);
+                Assert.AreEqual(mwqmSubsector.RainDay9Limit, mwqmSubsectorRet.RainDay9Limit);
+                Assert.AreEqual(mwqmSubsector.RainDay10Limit, mwqmSubsectorRet.RainDay10Limit);
+                Assert.AreEqual(mwqmSubsector.IncludeRainStartDate, mwqmSubsectorRet.IncludeRainStartDate);
+                Assert.AreEqual(mwqmSubsector.IncludeRainEndDate, mwqmSubsectorRet.IncludeRainEndDate);
+                Assert.AreEqual(mwqmSubsector.IncludeRainRunCount, mwqmSubsectorRet.IncludeRainRunCount);
+                Assert.AreEqual(mwqmSubsector.IncludeRainSelectFullYear, mwqmSubsectorRet.IncludeRainSelectFullYear);
+                Assert.AreEqual(mwqmSubsector.NoRainStartDate, mwqmSubsectorRet.NoRainStartDate);
+                Assert.AreEqual(mwqmSubsector.NoRainEndDate, mwqmSubsectorRet.NoRainEndDate);
+                Assert.AreEqual(mwqmSubsector.NoRainRunCount, mwqmSubsectorRet.NoRainRunCount);
+                Assert.AreEqual(mwqmSubsector.NoRainSelectFullYear, mwqmSubsectorRet.NoRainSelectFullYear);
+                Assert.AreEqual(mwqmSubsector.OnlyRainStartDate, mwqmSubsectorRet.OnlyRainStartDate);
+                Assert.AreEqual(mwqmSubsector.OnlyRainEndDate, mwqmSubsectorRet.OnlyRainEndDate);
+                Assert.AreEqual(mwqmSubsector.OnlyRainRunCount, mwqmSubsectorRet.OnlyRainRunCount);
+                Assert.AreEqual(mwqmSubsector.OnlyRainSelectFullYear, mwqmSubsectorRet.OnlyRainSelectFullYear);
+                Assert.AreEqual(mwqmSubsector.LastUpdateDate_UTC, mwqmSubsectorRet.LastUpdateDate_UTC);
+                Assert.AreEqual(mwqmSubsector.LastUpdateContactTVItemID, mwqmSubsectorRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(mwqmSubsectorRet.SubsectorTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.SubsectorTVText));
+                Assert.IsNotNull(mwqmSubsectorRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

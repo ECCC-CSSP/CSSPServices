@@ -121,7 +121,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "Infrastructure", Plurial = "s", FieldID = "InfrastructureID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "Infrastructure", ExistPlurial = "s", ExistFieldID = "InfrastructureID", AllowableTVtypeList = Error)]
                 // infrastructureLanguage.InfrastructureID   (Int32)
                 // -----------------------------------
 
@@ -181,7 +181,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // infrastructureLanguage.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -200,6 +200,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // infrastructureLanguage.LastUpdateContactTVText   (String)
@@ -259,13 +260,24 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 InfrastructureLanguageService infrastructureLanguageService = new InfrastructureLanguageService(LanguageRequest, dbTestDB, ContactID);
-
-                InfrastructureLanguage infrastructureLanguage = (from c in infrastructureLanguageService.GetRead()
-                                             select c).FirstOrDefault();
+                InfrastructureLanguage infrastructureLanguage = (from c in infrastructureLanguageService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(infrastructureLanguage);
 
                 InfrastructureLanguage infrastructureLanguageRet = infrastructureLanguageService.GetInfrastructureLanguageWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
                 Assert.AreEqual(infrastructureLanguage.InfrastructureLanguageID, infrastructureLanguageRet.InfrastructureLanguageID);
+                Assert.AreEqual(infrastructureLanguage.InfrastructureID, infrastructureLanguageRet.InfrastructureID);
+                Assert.AreEqual(infrastructureLanguage.Language, infrastructureLanguageRet.Language);
+                Assert.AreEqual(infrastructureLanguage.Comment, infrastructureLanguageRet.Comment);
+                Assert.AreEqual(infrastructureLanguage.TranslationStatus, infrastructureLanguageRet.TranslationStatus);
+                Assert.AreEqual(infrastructureLanguage.LastUpdateDate_UTC, infrastructureLanguageRet.LastUpdateDate_UTC);
+                Assert.AreEqual(infrastructureLanguage.LastUpdateContactTVItemID, infrastructureLanguageRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(infrastructureLanguageRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageRet.LastUpdateContactTVText));
+                Assert.IsNotNull(infrastructureLanguageRet.LanguageText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageRet.LanguageText));
+                Assert.IsNotNull(infrastructureLanguageRet.TranslationStatusText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageRet.TranslationStatusText));
             }
         }
         #endregion Tests Get With Key

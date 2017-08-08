@@ -119,7 +119,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "Contact", Plurial = "s", FieldID = "ContactID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "Contact", ExistPlurial = "s", ExistFieldID = "ContactID", AllowableTVtypeList = Error)]
                 // contactPreference.ContactID   (Int32)
                 // -----------------------------------
 
@@ -171,7 +171,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // contactPreference.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -190,6 +190,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // contactPreference.LastUpdateContactTVText   (String)
@@ -235,13 +236,21 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 ContactPreferenceService contactPreferenceService = new ContactPreferenceService(LanguageRequest, dbTestDB, ContactID);
-
-                ContactPreference contactPreference = (from c in contactPreferenceService.GetRead()
-                                             select c).FirstOrDefault();
+                ContactPreference contactPreference = (from c in contactPreferenceService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(contactPreference);
 
                 ContactPreference contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID);
                 Assert.AreEqual(contactPreference.ContactPreferenceID, contactPreferenceRet.ContactPreferenceID);
+                Assert.AreEqual(contactPreference.ContactID, contactPreferenceRet.ContactID);
+                Assert.AreEqual(contactPreference.TVType, contactPreferenceRet.TVType);
+                Assert.AreEqual(contactPreference.MarkerSize, contactPreferenceRet.MarkerSize);
+                Assert.AreEqual(contactPreference.LastUpdateDate_UTC, contactPreferenceRet.LastUpdateDate_UTC);
+                Assert.AreEqual(contactPreference.LastUpdateContactTVItemID, contactPreferenceRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(contactPreferenceRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceRet.LastUpdateContactTVText));
+                Assert.IsNotNull(contactPreferenceRet.TVTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceRet.TVTypeText));
             }
         }
         #endregion Tests Get With Key

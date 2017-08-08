@@ -125,7 +125,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = PolSourceSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = PolSourceSite)]
                 // polSourceSite.PolSourceSiteTVItemID   (Int32)
                 // -----------------------------------
 
@@ -233,7 +233,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Address)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Address)]
                 // polSourceSite.CivicAddressTVItemID   (Int32)
                 // -----------------------------------
 
@@ -259,7 +259,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // polSourceSite.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -278,6 +278,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "PolSourceSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // polSourceSite.PolSourceSiteTVText   (String)
@@ -292,6 +293,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // polSourceSite.LastUpdateContactTVText   (String)
@@ -337,13 +339,28 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 PolSourceSiteService polSourceSiteService = new PolSourceSiteService(LanguageRequest, dbTestDB, ContactID);
-
-                PolSourceSite polSourceSite = (from c in polSourceSiteService.GetRead()
-                                             select c).FirstOrDefault();
+                PolSourceSite polSourceSite = (from c in polSourceSiteService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(polSourceSite);
 
                 PolSourceSite polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
                 Assert.AreEqual(polSourceSite.PolSourceSiteID, polSourceSiteRet.PolSourceSiteID);
+                Assert.AreEqual(polSourceSite.PolSourceSiteTVItemID, polSourceSiteRet.PolSourceSiteTVItemID);
+                Assert.AreEqual(polSourceSite.Temp_Locator_CanDelete, polSourceSiteRet.Temp_Locator_CanDelete);
+                Assert.AreEqual(polSourceSite.Oldsiteid, polSourceSiteRet.Oldsiteid);
+                Assert.AreEqual(polSourceSite.Site, polSourceSiteRet.Site);
+                Assert.AreEqual(polSourceSite.SiteID, polSourceSiteRet.SiteID);
+                Assert.AreEqual(polSourceSite.IsPointSource, polSourceSiteRet.IsPointSource);
+                Assert.AreEqual(polSourceSite.InactiveReason, polSourceSiteRet.InactiveReason);
+                Assert.AreEqual(polSourceSite.CivicAddressTVItemID, polSourceSiteRet.CivicAddressTVItemID);
+                Assert.AreEqual(polSourceSite.LastUpdateDate_UTC, polSourceSiteRet.LastUpdateDate_UTC);
+                Assert.AreEqual(polSourceSite.LastUpdateContactTVItemID, polSourceSiteRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(polSourceSiteRet.PolSourceSiteTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.PolSourceSiteTVText));
+                Assert.IsNotNull(polSourceSiteRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.LastUpdateContactTVText));
+                Assert.IsNotNull(polSourceSiteRet.InactiveReasonText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.InactiveReasonText));
             }
         }
         #endregion Tests Get With Key

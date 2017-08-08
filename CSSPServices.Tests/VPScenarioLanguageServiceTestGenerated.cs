@@ -121,7 +121,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "VPScenario", Plurial = "s", FieldID = "VPScenarioID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "VPScenario", ExistPlurial = "s", ExistFieldID = "VPScenarioID", AllowableTVtypeList = Error)]
                 // vpScenarioLanguage.VPScenarioID   (Int32)
                 // -----------------------------------
 
@@ -188,7 +188,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // vpScenarioLanguage.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -207,6 +207,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // vpScenarioLanguage.LastUpdateContactTVText   (String)
@@ -266,13 +267,24 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 VPScenarioLanguageService vpScenarioLanguageService = new VPScenarioLanguageService(LanguageRequest, dbTestDB, ContactID);
-
-                VPScenarioLanguage vpScenarioLanguage = (from c in vpScenarioLanguageService.GetRead()
-                                             select c).FirstOrDefault();
+                VPScenarioLanguage vpScenarioLanguage = (from c in vpScenarioLanguageService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(vpScenarioLanguage);
 
                 VPScenarioLanguage vpScenarioLanguageRet = vpScenarioLanguageService.GetVPScenarioLanguageWithVPScenarioLanguageID(vpScenarioLanguage.VPScenarioLanguageID);
                 Assert.AreEqual(vpScenarioLanguage.VPScenarioLanguageID, vpScenarioLanguageRet.VPScenarioLanguageID);
+                Assert.AreEqual(vpScenarioLanguage.VPScenarioID, vpScenarioLanguageRet.VPScenarioID);
+                Assert.AreEqual(vpScenarioLanguage.Language, vpScenarioLanguageRet.Language);
+                Assert.AreEqual(vpScenarioLanguage.VPScenarioName, vpScenarioLanguageRet.VPScenarioName);
+                Assert.AreEqual(vpScenarioLanguage.TranslationStatus, vpScenarioLanguageRet.TranslationStatus);
+                Assert.AreEqual(vpScenarioLanguage.LastUpdateDate_UTC, vpScenarioLanguageRet.LastUpdateDate_UTC);
+                Assert.AreEqual(vpScenarioLanguage.LastUpdateContactTVItemID, vpScenarioLanguageRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(vpScenarioLanguageRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.LastUpdateContactTVText));
+                Assert.IsNotNull(vpScenarioLanguageRet.LanguageText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.LanguageText));
+                Assert.IsNotNull(vpScenarioLanguageRet.TranslationStatusText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.TranslationStatusText));
             }
         }
         #endregion Tests Get With Key

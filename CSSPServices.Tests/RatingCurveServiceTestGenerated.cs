@@ -117,7 +117,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "HydrometricSite", Plurial = "s", FieldID = "HydrometricSiteID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "HydrometricSite", ExistPlurial = "s", ExistFieldID = "HydrometricSiteID", AllowableTVtypeList = Error)]
                 // ratingCurve.HydrometricSiteID   (Int32)
                 // -----------------------------------
 
@@ -158,7 +158,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // ratingCurve.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -177,6 +177,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // ratingCurve.LastUpdateContactTVText   (String)
@@ -208,13 +209,18 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 RatingCurveService ratingCurveService = new RatingCurveService(LanguageRequest, dbTestDB, ContactID);
-
-                RatingCurve ratingCurve = (from c in ratingCurveService.GetRead()
-                                             select c).FirstOrDefault();
+                RatingCurve ratingCurve = (from c in ratingCurveService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(ratingCurve);
 
                 RatingCurve ratingCurveRet = ratingCurveService.GetRatingCurveWithRatingCurveID(ratingCurve.RatingCurveID);
                 Assert.AreEqual(ratingCurve.RatingCurveID, ratingCurveRet.RatingCurveID);
+                Assert.AreEqual(ratingCurve.HydrometricSiteID, ratingCurveRet.HydrometricSiteID);
+                Assert.AreEqual(ratingCurve.RatingCurveNumber, ratingCurveRet.RatingCurveNumber);
+                Assert.AreEqual(ratingCurve.LastUpdateDate_UTC, ratingCurveRet.LastUpdateDate_UTC);
+                Assert.AreEqual(ratingCurve.LastUpdateContactTVItemID, ratingCurveRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(ratingCurveRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

@@ -216,7 +216,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Province)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Province)]
                 // samplingPlan.ProvinceTVItemID   (Int32)
                 // -----------------------------------
 
@@ -235,7 +235,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // samplingPlan.CreatorTVItemID   (Int32)
                 // -----------------------------------
 
@@ -363,7 +363,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = File)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = File)]
                 // samplingPlan.SamplingPlanFileTVItemID   (Int32)
                 // -----------------------------------
 
@@ -389,7 +389,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // samplingPlan.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -408,6 +408,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ProvinceTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // samplingPlan.ProvinceTVText   (String)
@@ -422,6 +423,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "CreatorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // samplingPlan.CreatorTVText   (String)
@@ -436,6 +438,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SamplingPlanFileTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // samplingPlan.SamplingPlanFileTVText   (String)
@@ -450,6 +453,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // samplingPlan.LastUpdateContactTVText   (String)
@@ -523,13 +527,42 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 SamplingPlanService samplingPlanService = new SamplingPlanService(LanguageRequest, dbTestDB, ContactID);
-
-                SamplingPlan samplingPlan = (from c in samplingPlanService.GetRead()
-                                             select c).FirstOrDefault();
+                SamplingPlan samplingPlan = (from c in samplingPlanService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(samplingPlan);
 
                 SamplingPlan samplingPlanRet = samplingPlanService.GetSamplingPlanWithSamplingPlanID(samplingPlan.SamplingPlanID);
                 Assert.AreEqual(samplingPlan.SamplingPlanID, samplingPlanRet.SamplingPlanID);
+                Assert.AreEqual(samplingPlan.SamplingPlanName, samplingPlanRet.SamplingPlanName);
+                Assert.AreEqual(samplingPlan.ForGroupName, samplingPlanRet.ForGroupName);
+                Assert.AreEqual(samplingPlan.SampleType, samplingPlanRet.SampleType);
+                Assert.AreEqual(samplingPlan.SamplingPlanType, samplingPlanRet.SamplingPlanType);
+                Assert.AreEqual(samplingPlan.LabSheetType, samplingPlanRet.LabSheetType);
+                Assert.AreEqual(samplingPlan.ProvinceTVItemID, samplingPlanRet.ProvinceTVItemID);
+                Assert.AreEqual(samplingPlan.CreatorTVItemID, samplingPlanRet.CreatorTVItemID);
+                Assert.AreEqual(samplingPlan.Year, samplingPlanRet.Year);
+                Assert.AreEqual(samplingPlan.AccessCode, samplingPlanRet.AccessCode);
+                Assert.AreEqual(samplingPlan.DailyDuplicatePrecisionCriteria, samplingPlanRet.DailyDuplicatePrecisionCriteria);
+                Assert.AreEqual(samplingPlan.IntertechDuplicatePrecisionCriteria, samplingPlanRet.IntertechDuplicatePrecisionCriteria);
+                Assert.AreEqual(samplingPlan.IncludeLaboratoryQAQC, samplingPlanRet.IncludeLaboratoryQAQC);
+                Assert.AreEqual(samplingPlan.ApprovalCode, samplingPlanRet.ApprovalCode);
+                Assert.AreEqual(samplingPlan.SamplingPlanFileTVItemID, samplingPlanRet.SamplingPlanFileTVItemID);
+                Assert.AreEqual(samplingPlan.LastUpdateDate_UTC, samplingPlanRet.LastUpdateDate_UTC);
+                Assert.AreEqual(samplingPlan.LastUpdateContactTVItemID, samplingPlanRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(samplingPlanRet.ProvinceTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ProvinceTVText));
+                Assert.IsNotNull(samplingPlanRet.CreatorTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.CreatorTVText));
+                Assert.IsNotNull(samplingPlanRet.SamplingPlanFileTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanFileTVText));
+                Assert.IsNotNull(samplingPlanRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.LastUpdateContactTVText));
+                Assert.IsNotNull(samplingPlanRet.SampleTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SampleTypeText));
+                Assert.IsNotNull(samplingPlanRet.SamplingPlanTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanTypeText));
+                Assert.IsNotNull(samplingPlanRet.LabSheetTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.LabSheetTypeText));
             }
         }
         #endregion Tests Get With Key

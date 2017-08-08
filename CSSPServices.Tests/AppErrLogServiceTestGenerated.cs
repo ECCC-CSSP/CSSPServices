@@ -196,7 +196,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // appErrLog.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -215,6 +215,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // appErrLog.LastUpdateContactTVText   (String)
@@ -246,13 +247,21 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 AppErrLogService appErrLogService = new AppErrLogService(LanguageRequest, dbTestDB, ContactID);
-
-                AppErrLog appErrLog = (from c in appErrLogService.GetRead()
-                                             select c).FirstOrDefault();
+                AppErrLog appErrLog = (from c in appErrLogService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(appErrLog);
 
                 AppErrLog appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID);
                 Assert.AreEqual(appErrLog.AppErrLogID, appErrLogRet.AppErrLogID);
+                Assert.AreEqual(appErrLog.Tag, appErrLogRet.Tag);
+                Assert.AreEqual(appErrLog.LineNumber, appErrLogRet.LineNumber);
+                Assert.AreEqual(appErrLog.Source, appErrLogRet.Source);
+                Assert.AreEqual(appErrLog.Message, appErrLogRet.Message);
+                Assert.AreEqual(appErrLog.DateTime_UTC, appErrLogRet.DateTime_UTC);
+                Assert.AreEqual(appErrLog.LastUpdateDate_UTC, appErrLogRet.LastUpdateDate_UTC);
+                Assert.AreEqual(appErrLog.LastUpdateContactTVItemID, appErrLogRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(appErrLogRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

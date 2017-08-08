@@ -132,7 +132,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Address)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Address)]
                 // address.AddressTVItemID   (Int32)
                 // -----------------------------------
 
@@ -164,7 +164,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Country)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Country)]
                 // address.CountryTVItemID   (Int32)
                 // -----------------------------------
 
@@ -183,7 +183,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Province)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Province)]
                 // address.ProvinceTVItemID   (Int32)
                 // -----------------------------------
 
@@ -202,7 +202,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Municipality)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Municipality)]
                 // address.MunicipalityTVItemID   (Int32)
                 // -----------------------------------
 
@@ -305,7 +305,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // address.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -324,7 +324,8 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Root,Infrastructure,Contact,PolSourceSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Infrastructure,Contact,PolSourceSite)]
+                // [CSSPFill(FillTypeName = "TVItem", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "AddressTVItemID", FillReturnField = "ParentID", FillNeedLanguage = "ParentID")]
                 // [NotMapped]
                 // address.ParentTVItemID   (Int32)
                 // -----------------------------------
@@ -344,6 +345,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "AddressTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // address.AddressTVText   (String)
@@ -358,6 +360,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "CountryTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // address.CountryTVText   (String)
@@ -372,6 +375,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ProvinceTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // address.ProvinceTVText   (String)
@@ -386,6 +390,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MunicipalityTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // address.MunicipalityTVText   (String)
@@ -400,6 +405,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // address.LastUpdateContactTVText   (String)
@@ -459,13 +465,39 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 AddressService addressService = new AddressService(LanguageRequest, dbTestDB, ContactID);
-
-                Address address = (from c in addressService.GetRead()
-                                             select c).FirstOrDefault();
+                Address address = (from c in addressService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(address);
 
                 Address addressRet = addressService.GetAddressWithAddressID(address.AddressID);
                 Assert.AreEqual(address.AddressID, addressRet.AddressID);
+                Assert.AreEqual(address.AddressTVItemID, addressRet.AddressTVItemID);
+                Assert.AreEqual(address.AddressType, addressRet.AddressType);
+                Assert.AreEqual(address.CountryTVItemID, addressRet.CountryTVItemID);
+                Assert.AreEqual(address.ProvinceTVItemID, addressRet.ProvinceTVItemID);
+                Assert.AreEqual(address.MunicipalityTVItemID, addressRet.MunicipalityTVItemID);
+                Assert.AreEqual(address.StreetName, addressRet.StreetName);
+                Assert.AreEqual(address.StreetNumber, addressRet.StreetNumber);
+                Assert.AreEqual(address.StreetType, addressRet.StreetType);
+                Assert.AreEqual(address.PostalCode, addressRet.PostalCode);
+                Assert.AreEqual(address.GoogleAddressText, addressRet.GoogleAddressText);
+                Assert.AreEqual(address.LastUpdateDate_UTC, addressRet.LastUpdateDate_UTC);
+                Assert.AreEqual(address.LastUpdateContactTVItemID, addressRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(addressRet.ParentTVItemID);
+                Assert.IsNotNull(addressRet.AddressTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressTVText));
+                Assert.IsNotNull(addressRet.CountryTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.CountryTVText));
+                Assert.IsNotNull(addressRet.ProvinceTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.ProvinceTVText));
+                Assert.IsNotNull(addressRet.MunicipalityTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.MunicipalityTVText));
+                Assert.IsNotNull(addressRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.LastUpdateContactTVText));
+                Assert.IsNotNull(addressRet.AddressTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressTypeText));
+                Assert.IsNotNull(addressRet.StreetTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.StreetTypeText));
             }
         }
         #endregion Tests Get With Key

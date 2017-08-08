@@ -121,7 +121,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVFile", Plurial = "s", FieldID = "TVFileID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "TVFile", ExistPlurial = "s", ExistFieldID = "TVFileID", AllowableTVtypeList = Error)]
                 // tvFileLanguage.TVFileID   (Int32)
                 // -----------------------------------
 
@@ -173,7 +173,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // tvFileLanguage.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -192,6 +192,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvFileLanguage.LastUpdateContactTVText   (String)
@@ -251,13 +252,24 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 TVFileLanguageService tvFileLanguageService = new TVFileLanguageService(LanguageRequest, dbTestDB, ContactID);
-
-                TVFileLanguage tvFileLanguage = (from c in tvFileLanguageService.GetRead()
-                                             select c).FirstOrDefault();
+                TVFileLanguage tvFileLanguage = (from c in tvFileLanguageService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(tvFileLanguage);
 
                 TVFileLanguage tvFileLanguageRet = tvFileLanguageService.GetTVFileLanguageWithTVFileLanguageID(tvFileLanguage.TVFileLanguageID);
                 Assert.AreEqual(tvFileLanguage.TVFileLanguageID, tvFileLanguageRet.TVFileLanguageID);
+                Assert.AreEqual(tvFileLanguage.TVFileID, tvFileLanguageRet.TVFileID);
+                Assert.AreEqual(tvFileLanguage.Language, tvFileLanguageRet.Language);
+                Assert.AreEqual(tvFileLanguage.FileDescription, tvFileLanguageRet.FileDescription);
+                Assert.AreEqual(tvFileLanguage.TranslationStatus, tvFileLanguageRet.TranslationStatus);
+                Assert.AreEqual(tvFileLanguage.LastUpdateDate_UTC, tvFileLanguageRet.LastUpdateDate_UTC);
+                Assert.AreEqual(tvFileLanguage.LastUpdateContactTVItemID, tvFileLanguageRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(tvFileLanguageRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageRet.LastUpdateContactTVText));
+                Assert.IsNotNull(tvFileLanguageRet.LanguageText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageRet.LanguageText));
+                Assert.IsNotNull(tvFileLanguageRet.TranslationStatusText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageRet.TranslationStatusText));
             }
         }
         #endregion Tests Get With Key

@@ -178,7 +178,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "LabSheet", Plurial = "s", FieldID = "LabSheetID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "LabSheet", ExistPlurial = "s", ExistFieldID = "LabSheetID", AllowableTVtypeList = Error)]
                 // labSheetDetail.LabSheetID   (Int32)
                 // -----------------------------------
 
@@ -191,7 +191,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "SamplingPlan", Plurial = "s", FieldID = "SamplingPlanID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "SamplingPlan", ExistPlurial = "s", ExistFieldID = "SamplingPlanID", AllowableTVtypeList = Error)]
                 // labSheetDetail.SamplingPlanID   (Int32)
                 // -----------------------------------
 
@@ -204,7 +204,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Subsector)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Subsector)]
                 // labSheetDetail.SubsectorTVItemID   (Int32)
                 // -----------------------------------
 
@@ -1068,7 +1068,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // labSheetDetail.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -1087,6 +1087,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SubsectorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // labSheetDetail.SubsectorTVText   (String)
@@ -1101,6 +1102,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // labSheetDetail.LastUpdateContactTVText   (String)
@@ -1132,13 +1134,80 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 LabSheetDetailService labSheetDetailService = new LabSheetDetailService(LanguageRequest, dbTestDB, ContactID);
-
-                LabSheetDetail labSheetDetail = (from c in labSheetDetailService.GetRead()
-                                             select c).FirstOrDefault();
+                LabSheetDetail labSheetDetail = (from c in labSheetDetailService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(labSheetDetail);
 
                 LabSheetDetail labSheetDetailRet = labSheetDetailService.GetLabSheetDetailWithLabSheetDetailID(labSheetDetail.LabSheetDetailID);
                 Assert.AreEqual(labSheetDetail.LabSheetDetailID, labSheetDetailRet.LabSheetDetailID);
+                Assert.AreEqual(labSheetDetail.LabSheetID, labSheetDetailRet.LabSheetID);
+                Assert.AreEqual(labSheetDetail.SamplingPlanID, labSheetDetailRet.SamplingPlanID);
+                Assert.AreEqual(labSheetDetail.SubsectorTVItemID, labSheetDetailRet.SubsectorTVItemID);
+                Assert.AreEqual(labSheetDetail.Version, labSheetDetailRet.Version);
+                Assert.AreEqual(labSheetDetail.RunDate, labSheetDetailRet.RunDate);
+                Assert.AreEqual(labSheetDetail.Tides, labSheetDetailRet.Tides);
+                Assert.AreEqual(labSheetDetail.SampleCrewInitials, labSheetDetailRet.SampleCrewInitials);
+                Assert.AreEqual(labSheetDetail.WaterBathCount, labSheetDetailRet.WaterBathCount);
+                Assert.AreEqual(labSheetDetail.IncubationBath1StartTime, labSheetDetailRet.IncubationBath1StartTime);
+                Assert.AreEqual(labSheetDetail.IncubationBath2StartTime, labSheetDetailRet.IncubationBath2StartTime);
+                Assert.AreEqual(labSheetDetail.IncubationBath3StartTime, labSheetDetailRet.IncubationBath3StartTime);
+                Assert.AreEqual(labSheetDetail.IncubationBath1EndTime, labSheetDetailRet.IncubationBath1EndTime);
+                Assert.AreEqual(labSheetDetail.IncubationBath2EndTime, labSheetDetailRet.IncubationBath2EndTime);
+                Assert.AreEqual(labSheetDetail.IncubationBath3EndTime, labSheetDetailRet.IncubationBath3EndTime);
+                Assert.AreEqual(labSheetDetail.IncubationBath1TimeCalculated_minutes, labSheetDetailRet.IncubationBath1TimeCalculated_minutes);
+                Assert.AreEqual(labSheetDetail.IncubationBath2TimeCalculated_minutes, labSheetDetailRet.IncubationBath2TimeCalculated_minutes);
+                Assert.AreEqual(labSheetDetail.IncubationBath3TimeCalculated_minutes, labSheetDetailRet.IncubationBath3TimeCalculated_minutes);
+                Assert.AreEqual(labSheetDetail.WaterBath1, labSheetDetailRet.WaterBath1);
+                Assert.AreEqual(labSheetDetail.WaterBath2, labSheetDetailRet.WaterBath2);
+                Assert.AreEqual(labSheetDetail.WaterBath3, labSheetDetailRet.WaterBath3);
+                Assert.AreEqual(labSheetDetail.TCField1, labSheetDetailRet.TCField1);
+                Assert.AreEqual(labSheetDetail.TCLab1, labSheetDetailRet.TCLab1);
+                Assert.AreEqual(labSheetDetail.TCField2, labSheetDetailRet.TCField2);
+                Assert.AreEqual(labSheetDetail.TCLab2, labSheetDetailRet.TCLab2);
+                Assert.AreEqual(labSheetDetail.TCFirst, labSheetDetailRet.TCFirst);
+                Assert.AreEqual(labSheetDetail.TCAverage, labSheetDetailRet.TCAverage);
+                Assert.AreEqual(labSheetDetail.ControlLot, labSheetDetailRet.ControlLot);
+                Assert.AreEqual(labSheetDetail.Positive35, labSheetDetailRet.Positive35);
+                Assert.AreEqual(labSheetDetail.NonTarget35, labSheetDetailRet.NonTarget35);
+                Assert.AreEqual(labSheetDetail.Negative35, labSheetDetailRet.Negative35);
+                Assert.AreEqual(labSheetDetail.Bath1Positive44_5, labSheetDetailRet.Bath1Positive44_5);
+                Assert.AreEqual(labSheetDetail.Bath2Positive44_5, labSheetDetailRet.Bath2Positive44_5);
+                Assert.AreEqual(labSheetDetail.Bath3Positive44_5, labSheetDetailRet.Bath3Positive44_5);
+                Assert.AreEqual(labSheetDetail.Bath1NonTarget44_5, labSheetDetailRet.Bath1NonTarget44_5);
+                Assert.AreEqual(labSheetDetail.Bath2NonTarget44_5, labSheetDetailRet.Bath2NonTarget44_5);
+                Assert.AreEqual(labSheetDetail.Bath3NonTarget44_5, labSheetDetailRet.Bath3NonTarget44_5);
+                Assert.AreEqual(labSheetDetail.Bath1Negative44_5, labSheetDetailRet.Bath1Negative44_5);
+                Assert.AreEqual(labSheetDetail.Bath2Negative44_5, labSheetDetailRet.Bath2Negative44_5);
+                Assert.AreEqual(labSheetDetail.Bath3Negative44_5, labSheetDetailRet.Bath3Negative44_5);
+                Assert.AreEqual(labSheetDetail.Blank35, labSheetDetailRet.Blank35);
+                Assert.AreEqual(labSheetDetail.Bath1Blank44_5, labSheetDetailRet.Bath1Blank44_5);
+                Assert.AreEqual(labSheetDetail.Bath2Blank44_5, labSheetDetailRet.Bath2Blank44_5);
+                Assert.AreEqual(labSheetDetail.Bath3Blank44_5, labSheetDetailRet.Bath3Blank44_5);
+                Assert.AreEqual(labSheetDetail.Lot35, labSheetDetailRet.Lot35);
+                Assert.AreEqual(labSheetDetail.Lot44_5, labSheetDetailRet.Lot44_5);
+                Assert.AreEqual(labSheetDetail.Weather, labSheetDetailRet.Weather);
+                Assert.AreEqual(labSheetDetail.RunComment, labSheetDetailRet.RunComment);
+                Assert.AreEqual(labSheetDetail.RunWeatherComment, labSheetDetailRet.RunWeatherComment);
+                Assert.AreEqual(labSheetDetail.SampleBottleLotNumber, labSheetDetailRet.SampleBottleLotNumber);
+                Assert.AreEqual(labSheetDetail.SalinitiesReadBy, labSheetDetailRet.SalinitiesReadBy);
+                Assert.AreEqual(labSheetDetail.SalinitiesReadDate, labSheetDetailRet.SalinitiesReadDate);
+                Assert.AreEqual(labSheetDetail.ResultsReadBy, labSheetDetailRet.ResultsReadBy);
+                Assert.AreEqual(labSheetDetail.ResultsReadDate, labSheetDetailRet.ResultsReadDate);
+                Assert.AreEqual(labSheetDetail.ResultsRecordedBy, labSheetDetailRet.ResultsRecordedBy);
+                Assert.AreEqual(labSheetDetail.ResultsRecordedDate, labSheetDetailRet.ResultsRecordedDate);
+                Assert.AreEqual(labSheetDetail.DailyDuplicateRLog, labSheetDetailRet.DailyDuplicateRLog);
+                Assert.AreEqual(labSheetDetail.DailyDuplicatePrecisionCriteria, labSheetDetailRet.DailyDuplicatePrecisionCriteria);
+                Assert.AreEqual(labSheetDetail.DailyDuplicateAcceptable, labSheetDetailRet.DailyDuplicateAcceptable);
+                Assert.AreEqual(labSheetDetail.IntertechDuplicateRLog, labSheetDetailRet.IntertechDuplicateRLog);
+                Assert.AreEqual(labSheetDetail.IntertechDuplicatePrecisionCriteria, labSheetDetailRet.IntertechDuplicatePrecisionCriteria);
+                Assert.AreEqual(labSheetDetail.IntertechDuplicateAcceptable, labSheetDetailRet.IntertechDuplicateAcceptable);
+                Assert.AreEqual(labSheetDetail.IntertechReadAcceptable, labSheetDetailRet.IntertechReadAcceptable);
+                Assert.AreEqual(labSheetDetail.LastUpdateDate_UTC, labSheetDetailRet.LastUpdateDate_UTC);
+                Assert.AreEqual(labSheetDetail.LastUpdateContactTVItemID, labSheetDetailRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(labSheetDetailRet.SubsectorTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.SubsectorTVText));
+                Assert.IsNotNull(labSheetDetailRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

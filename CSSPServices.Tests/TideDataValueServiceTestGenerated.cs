@@ -130,7 +130,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = TideSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = TideSite)]
                 // tideDataValue.TideSiteTVItemID   (Int32)
                 // -----------------------------------
 
@@ -284,7 +284,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // tideDataValue.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -303,6 +303,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TideSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tideDataValue.TideSiteTVText   (String)
@@ -317,6 +318,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tideDataValue.LastUpdateContactTVText   (String)
@@ -404,13 +406,36 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 TideDataValueService tideDataValueService = new TideDataValueService(LanguageRequest, dbTestDB, ContactID);
-
-                TideDataValue tideDataValue = (from c in tideDataValueService.GetRead()
-                                             select c).FirstOrDefault();
+                TideDataValue tideDataValue = (from c in tideDataValueService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(tideDataValue);
 
                 TideDataValue tideDataValueRet = tideDataValueService.GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID);
                 Assert.AreEqual(tideDataValue.TideDataValueID, tideDataValueRet.TideDataValueID);
+                Assert.AreEqual(tideDataValue.TideSiteTVItemID, tideDataValueRet.TideSiteTVItemID);
+                Assert.AreEqual(tideDataValue.DateTime_Local, tideDataValueRet.DateTime_Local);
+                Assert.AreEqual(tideDataValue.Keep, tideDataValueRet.Keep);
+                Assert.AreEqual(tideDataValue.TideDataType, tideDataValueRet.TideDataType);
+                Assert.AreEqual(tideDataValue.StorageDataType, tideDataValueRet.StorageDataType);
+                Assert.AreEqual(tideDataValue.Depth_m, tideDataValueRet.Depth_m);
+                Assert.AreEqual(tideDataValue.UVelocity_m_s, tideDataValueRet.UVelocity_m_s);
+                Assert.AreEqual(tideDataValue.VVelocity_m_s, tideDataValueRet.VVelocity_m_s);
+                Assert.AreEqual(tideDataValue.TideStart, tideDataValueRet.TideStart);
+                Assert.AreEqual(tideDataValue.TideEnd, tideDataValueRet.TideEnd);
+                Assert.AreEqual(tideDataValue.LastUpdateDate_UTC, tideDataValueRet.LastUpdateDate_UTC);
+                Assert.AreEqual(tideDataValue.LastUpdateContactTVItemID, tideDataValueRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(tideDataValueRet.TideSiteTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideSiteTVText));
+                Assert.IsNotNull(tideDataValueRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.LastUpdateContactTVText));
+                Assert.IsNotNull(tideDataValueRet.TideDataTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideDataTypeText));
+                Assert.IsNotNull(tideDataValueRet.StorageDataTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.StorageDataTypeText));
+                Assert.IsNotNull(tideDataValueRet.TideStartText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideStartText));
+                Assert.IsNotNull(tideDataValueRet.TideEndText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideEndText));
             }
         }
         #endregion Tests Get With Key

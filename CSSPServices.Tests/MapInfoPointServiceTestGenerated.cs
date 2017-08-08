@@ -119,7 +119,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "MapInfo", Plurial = "s", FieldID = "MapInfoID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "MapInfo", ExistPlurial = "s", ExistFieldID = "MapInfoID", AllowableTVtypeList = Error)]
                 // mapInfoPoint.MapInfoID   (Int32)
                 // -----------------------------------
 
@@ -194,7 +194,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // mapInfoPoint.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -213,6 +213,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mapInfoPoint.LastUpdateContactTVText   (String)
@@ -244,13 +245,20 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 MapInfoPointService mapInfoPointService = new MapInfoPointService(LanguageRequest, dbTestDB, ContactID);
-
-                MapInfoPoint mapInfoPoint = (from c in mapInfoPointService.GetRead()
-                                             select c).FirstOrDefault();
+                MapInfoPoint mapInfoPoint = (from c in mapInfoPointService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(mapInfoPoint);
 
                 MapInfoPoint mapInfoPointRet = mapInfoPointService.GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID);
                 Assert.AreEqual(mapInfoPoint.MapInfoPointID, mapInfoPointRet.MapInfoPointID);
+                Assert.AreEqual(mapInfoPoint.MapInfoID, mapInfoPointRet.MapInfoID);
+                Assert.AreEqual(mapInfoPoint.Ordinal, mapInfoPointRet.Ordinal);
+                Assert.AreEqual(mapInfoPoint.Lat, mapInfoPointRet.Lat);
+                Assert.AreEqual(mapInfoPoint.Lng, mapInfoPointRet.Lng);
+                Assert.AreEqual(mapInfoPoint.LastUpdateDate_UTC, mapInfoPointRet.LastUpdateDate_UTC);
+                Assert.AreEqual(mapInfoPoint.LastUpdateContactTVItemID, mapInfoPointRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(mapInfoPointRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoPointRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

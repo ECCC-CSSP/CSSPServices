@@ -127,7 +127,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Infrastructure)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Infrastructure)]
                 // boxModel.InfrastructureTVItemID   (Int32)
                 // -----------------------------------
 
@@ -349,7 +349,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // boxModel.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -368,6 +368,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "InfrastructureTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // boxModel.InfrastructureTVText   (String)
@@ -382,6 +383,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // boxModel.LastUpdateContactTVText   (String)
@@ -413,13 +415,29 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 BoxModelService boxModelService = new BoxModelService(LanguageRequest, dbTestDB, ContactID);
-
-                BoxModel boxModel = (from c in boxModelService.GetRead()
-                                             select c).FirstOrDefault();
+                BoxModel boxModel = (from c in boxModelService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(boxModel);
 
                 BoxModel boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID);
                 Assert.AreEqual(boxModel.BoxModelID, boxModelRet.BoxModelID);
+                Assert.AreEqual(boxModel.InfrastructureTVItemID, boxModelRet.InfrastructureTVItemID);
+                Assert.AreEqual(boxModel.Flow_m3_day, boxModelRet.Flow_m3_day);
+                Assert.AreEqual(boxModel.Depth_m, boxModelRet.Depth_m);
+                Assert.AreEqual(boxModel.Temperature_C, boxModelRet.Temperature_C);
+                Assert.AreEqual(boxModel.Dilution, boxModelRet.Dilution);
+                Assert.AreEqual(boxModel.DecayRate_per_day, boxModelRet.DecayRate_per_day);
+                Assert.AreEqual(boxModel.FCUntreated_MPN_100ml, boxModelRet.FCUntreated_MPN_100ml);
+                Assert.AreEqual(boxModel.FCPreDisinfection_MPN_100ml, boxModelRet.FCPreDisinfection_MPN_100ml);
+                Assert.AreEqual(boxModel.Concentration_MPN_100ml, boxModelRet.Concentration_MPN_100ml);
+                Assert.AreEqual(boxModel.T90_hour, boxModelRet.T90_hour);
+                Assert.AreEqual(boxModel.FlowDuration_hour, boxModelRet.FlowDuration_hour);
+                Assert.AreEqual(boxModel.LastUpdateDate_UTC, boxModelRet.LastUpdateDate_UTC);
+                Assert.AreEqual(boxModel.LastUpdateContactTVItemID, boxModelRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(boxModelRet.InfrastructureTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelRet.InfrastructureTVText));
+                Assert.IsNotNull(boxModelRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

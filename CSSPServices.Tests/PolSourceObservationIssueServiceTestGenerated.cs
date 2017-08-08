@@ -118,7 +118,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "PolSourceObservation", Plurial = "s", FieldID = "PolSourceObservationID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "PolSourceObservation", ExistPlurial = "s", ExistFieldID = "PolSourceObservationID", AllowableTVtypeList = Error)]
                 // polSourceObservationIssue.PolSourceObservationID   (Int32)
                 // -----------------------------------
 
@@ -178,7 +178,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // polSourceObservationIssue.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -197,6 +197,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // polSourceObservationIssue.LastUpdateContactTVText   (String)
@@ -228,13 +229,19 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 PolSourceObservationIssueService polSourceObservationIssueService = new PolSourceObservationIssueService(LanguageRequest, dbTestDB, ContactID);
-
-                PolSourceObservationIssue polSourceObservationIssue = (from c in polSourceObservationIssueService.GetRead()
-                                             select c).FirstOrDefault();
+                PolSourceObservationIssue polSourceObservationIssue = (from c in polSourceObservationIssueService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(polSourceObservationIssue);
 
                 PolSourceObservationIssue polSourceObservationIssueRet = polSourceObservationIssueService.GetPolSourceObservationIssueWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID);
                 Assert.AreEqual(polSourceObservationIssue.PolSourceObservationIssueID, polSourceObservationIssueRet.PolSourceObservationIssueID);
+                Assert.AreEqual(polSourceObservationIssue.PolSourceObservationID, polSourceObservationIssueRet.PolSourceObservationID);
+                Assert.AreEqual(polSourceObservationIssue.ObservationInfo, polSourceObservationIssueRet.ObservationInfo);
+                Assert.AreEqual(polSourceObservationIssue.Ordinal, polSourceObservationIssueRet.Ordinal);
+                Assert.AreEqual(polSourceObservationIssue.LastUpdateDate_UTC, polSourceObservationIssueRet.LastUpdateDate_UTC);
+                Assert.AreEqual(polSourceObservationIssue.LastUpdateContactTVItemID, polSourceObservationIssueRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(polSourceObservationIssueRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

@@ -122,7 +122,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Municipality)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Municipality)]
                 // spill.MunicipalityTVItemID   (Int32)
                 // -----------------------------------
 
@@ -141,7 +141,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Infrastructure)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Infrastructure)]
                 // spill.InfrastructureTVItemID   (Int32)
                 // -----------------------------------
 
@@ -203,7 +203,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // spill.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -222,6 +222,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MunicipalityTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // spill.MunicipalityTVText   (String)
@@ -236,6 +237,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "InfrastructureTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // spill.InfrastructureTVText   (String)
@@ -250,6 +252,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // spill.LastUpdateContactTVText   (String)
@@ -281,13 +284,25 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 SpillService spillService = new SpillService(LanguageRequest, dbTestDB, ContactID);
-
-                Spill spill = (from c in spillService.GetRead()
-                                             select c).FirstOrDefault();
+                Spill spill = (from c in spillService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(spill);
 
                 Spill spillRet = spillService.GetSpillWithSpillID(spill.SpillID);
                 Assert.AreEqual(spill.SpillID, spillRet.SpillID);
+                Assert.AreEqual(spill.MunicipalityTVItemID, spillRet.MunicipalityTVItemID);
+                Assert.AreEqual(spill.InfrastructureTVItemID, spillRet.InfrastructureTVItemID);
+                Assert.AreEqual(spill.StartDateTime_Local, spillRet.StartDateTime_Local);
+                Assert.AreEqual(spill.EndDateTime_Local, spillRet.EndDateTime_Local);
+                Assert.AreEqual(spill.AverageFlow_m3_day, spillRet.AverageFlow_m3_day);
+                Assert.AreEqual(spill.LastUpdateDate_UTC, spillRet.LastUpdateDate_UTC);
+                Assert.AreEqual(spill.LastUpdateContactTVItemID, spillRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(spillRet.MunicipalityTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(spillRet.MunicipalityTVText));
+                Assert.IsNotNull(spillRet.InfrastructureTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(spillRet.InfrastructureTVText));
+                Assert.IsNotNull(spillRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(spillRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

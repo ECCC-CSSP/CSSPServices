@@ -154,7 +154,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "SamplingPlan", Plurial = "s", FieldID = "SamplingPlanID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "SamplingPlan", ExistPlurial = "s", ExistFieldID = "SamplingPlanID", AllowableTVtypeList = Error)]
                 // labSheet.SamplingPlanID   (Int32)
                 // -----------------------------------
 
@@ -260,7 +260,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Subsector)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Subsector)]
                 // labSheet.SubsectorTVItemID   (Int32)
                 // -----------------------------------
 
@@ -279,7 +279,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = MWQMRun)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MWQMRun)]
                 // labSheet.MWQMRunTVItemID   (Int32)
                 // -----------------------------------
 
@@ -394,7 +394,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // labSheet.AcceptedOrRejectedByContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -440,7 +440,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // labSheet.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -459,6 +459,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SubsectorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // labSheet.SubsectorTVText   (String)
@@ -473,6 +474,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMRunTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // labSheet.MWQMRunTVText   (String)
@@ -487,6 +489,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "AcceptedOrRejectedByContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // labSheet.AcceptedOrRejectedByContactTVText   (String)
@@ -501,6 +504,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // labSheet.LastUpdateContactTVText   (String)
@@ -588,13 +592,49 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 LabSheetService labSheetService = new LabSheetService(LanguageRequest, dbTestDB, ContactID);
-
-                LabSheet labSheet = (from c in labSheetService.GetRead()
-                                             select c).FirstOrDefault();
+                LabSheet labSheet = (from c in labSheetService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(labSheet);
 
                 LabSheet labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID);
                 Assert.AreEqual(labSheet.LabSheetID, labSheetRet.LabSheetID);
+                Assert.AreEqual(labSheet.OtherServerLabSheetID, labSheetRet.OtherServerLabSheetID);
+                Assert.AreEqual(labSheet.SamplingPlanID, labSheetRet.SamplingPlanID);
+                Assert.AreEqual(labSheet.SamplingPlanName, labSheetRet.SamplingPlanName);
+                Assert.AreEqual(labSheet.Year, labSheetRet.Year);
+                Assert.AreEqual(labSheet.Month, labSheetRet.Month);
+                Assert.AreEqual(labSheet.Day, labSheetRet.Day);
+                Assert.AreEqual(labSheet.RunNumber, labSheetRet.RunNumber);
+                Assert.AreEqual(labSheet.SubsectorTVItemID, labSheetRet.SubsectorTVItemID);
+                Assert.AreEqual(labSheet.MWQMRunTVItemID, labSheetRet.MWQMRunTVItemID);
+                Assert.AreEqual(labSheet.SamplingPlanType, labSheetRet.SamplingPlanType);
+                Assert.AreEqual(labSheet.SampleType, labSheetRet.SampleType);
+                Assert.AreEqual(labSheet.LabSheetType, labSheetRet.LabSheetType);
+                Assert.AreEqual(labSheet.LabSheetStatus, labSheetRet.LabSheetStatus);
+                Assert.AreEqual(labSheet.FileName, labSheetRet.FileName);
+                Assert.AreEqual(labSheet.FileLastModifiedDate_Local, labSheetRet.FileLastModifiedDate_Local);
+                Assert.AreEqual(labSheet.FileContent, labSheetRet.FileContent);
+                Assert.AreEqual(labSheet.AcceptedOrRejectedByContactTVItemID, labSheetRet.AcceptedOrRejectedByContactTVItemID);
+                Assert.AreEqual(labSheet.AcceptedOrRejectedDateTime, labSheetRet.AcceptedOrRejectedDateTime);
+                Assert.AreEqual(labSheet.RejectReason, labSheetRet.RejectReason);
+                Assert.AreEqual(labSheet.LastUpdateDate_UTC, labSheetRet.LastUpdateDate_UTC);
+                Assert.AreEqual(labSheet.LastUpdateContactTVItemID, labSheetRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(labSheetRet.SubsectorTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.SubsectorTVText));
+                Assert.IsNotNull(labSheetRet.MWQMRunTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.MWQMRunTVText));
+                Assert.IsNotNull(labSheetRet.AcceptedOrRejectedByContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.AcceptedOrRejectedByContactTVText));
+                Assert.IsNotNull(labSheetRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.LastUpdateContactTVText));
+                Assert.IsNotNull(labSheetRet.SamplingPlanTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.SamplingPlanTypeText));
+                Assert.IsNotNull(labSheetRet.SampleTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.SampleTypeText));
+                Assert.IsNotNull(labSheetRet.LabSheetTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.LabSheetTypeText));
+                Assert.IsNotNull(labSheetRet.LabSheetStatusText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.LabSheetStatusText));
             }
         }
         #endregion Tests Get With Key

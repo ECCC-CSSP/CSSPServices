@@ -130,7 +130,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "LabSheetDetail", Plurial = "s", FieldID = "LabSheetDetailID", AllowableTVtypeList = Error)]
+                // [CSSPExist(ExistTypeName = "LabSheetDetail", ExistPlurial = "s", ExistFieldID = "LabSheetDetailID", AllowableTVtypeList = Error)]
                 // labSheetTubeMPNDetail.LabSheetDetailID   (Int32)
                 // -----------------------------------
 
@@ -162,7 +162,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = MWQMSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MWQMSite)]
                 // labSheetTubeMPNDetail.MWQMSiteTVItemID   (Int32)
                 // -----------------------------------
 
@@ -352,7 +352,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // labSheetTubeMPNDetail.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -371,6 +371,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // labSheetTubeMPNDetail.MWQMSiteTVText   (String)
@@ -385,6 +386,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // labSheetTubeMPNDetail.LastUpdateContactTVText   (String)
@@ -430,13 +432,33 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 LabSheetTubeMPNDetailService labSheetTubeMPNDetailService = new LabSheetTubeMPNDetailService(LanguageRequest, dbTestDB, ContactID);
-
-                LabSheetTubeMPNDetail labSheetTubeMPNDetail = (from c in labSheetTubeMPNDetailService.GetRead()
-                                             select c).FirstOrDefault();
+                LabSheetTubeMPNDetail labSheetTubeMPNDetail = (from c in labSheetTubeMPNDetailService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(labSheetTubeMPNDetail);
 
                 LabSheetTubeMPNDetail labSheetTubeMPNDetailRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
                 Assert.AreEqual(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailID);
+                Assert.AreEqual(labSheetTubeMPNDetail.LabSheetDetailID, labSheetTubeMPNDetailRet.LabSheetDetailID);
+                Assert.AreEqual(labSheetTubeMPNDetail.Ordinal, labSheetTubeMPNDetailRet.Ordinal);
+                Assert.AreEqual(labSheetTubeMPNDetail.MWQMSiteTVItemID, labSheetTubeMPNDetailRet.MWQMSiteTVItemID);
+                Assert.AreEqual(labSheetTubeMPNDetail.SampleDateTime, labSheetTubeMPNDetailRet.SampleDateTime);
+                Assert.AreEqual(labSheetTubeMPNDetail.MPN, labSheetTubeMPNDetailRet.MPN);
+                Assert.AreEqual(labSheetTubeMPNDetail.Tube10, labSheetTubeMPNDetailRet.Tube10);
+                Assert.AreEqual(labSheetTubeMPNDetail.Tube1_0, labSheetTubeMPNDetailRet.Tube1_0);
+                Assert.AreEqual(labSheetTubeMPNDetail.Tube0_1, labSheetTubeMPNDetailRet.Tube0_1);
+                Assert.AreEqual(labSheetTubeMPNDetail.Salinity, labSheetTubeMPNDetailRet.Salinity);
+                Assert.AreEqual(labSheetTubeMPNDetail.Temperature, labSheetTubeMPNDetailRet.Temperature);
+                Assert.AreEqual(labSheetTubeMPNDetail.ProcessedBy, labSheetTubeMPNDetailRet.ProcessedBy);
+                Assert.AreEqual(labSheetTubeMPNDetail.SampleType, labSheetTubeMPNDetailRet.SampleType);
+                Assert.AreEqual(labSheetTubeMPNDetail.SiteComment, labSheetTubeMPNDetailRet.SiteComment);
+                Assert.AreEqual(labSheetTubeMPNDetail.LastUpdateDate_UTC, labSheetTubeMPNDetailRet.LastUpdateDate_UTC);
+                Assert.AreEqual(labSheetTubeMPNDetail.LastUpdateContactTVItemID, labSheetTubeMPNDetailRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(labSheetTubeMPNDetailRet.MWQMSiteTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.MWQMSiteTVText));
+                Assert.IsNotNull(labSheetTubeMPNDetailRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.LastUpdateContactTVText));
+                Assert.IsNotNull(labSheetTubeMPNDetailRet.SampleTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.SampleTypeText));
             }
         }
         #endregion Tests Get With Key

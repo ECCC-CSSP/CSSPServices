@@ -127,7 +127,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // tvItemUserAuthorization.ContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -146,7 +146,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
                 // tvItemUserAuthorization.TVItemID1   (Int32)
                 // -----------------------------------
 
@@ -165,7 +165,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
                 // tvItemUserAuthorization.TVItemID2   (Int32)
                 // -----------------------------------
 
@@ -184,7 +184,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
                 // tvItemUserAuthorization.TVItemID3   (Int32)
                 // -----------------------------------
 
@@ -203,7 +203,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite)]
                 // tvItemUserAuthorization.TVItemID4   (Int32)
                 // -----------------------------------
 
@@ -242,7 +242,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // tvItemUserAuthorization.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -261,6 +261,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvItemUserAuthorization.ContactTVText   (String)
@@ -275,6 +276,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID1", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvItemUserAuthorization.TVText1   (String)
@@ -289,6 +291,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID2", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvItemUserAuthorization.TVText2   (String)
@@ -303,6 +306,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID3", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvItemUserAuthorization.TVText3   (String)
@@ -317,6 +321,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID4", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvItemUserAuthorization.TVText4   (String)
@@ -331,6 +336,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tvItemUserAuthorization.LastUpdateContactTVText   (String)
@@ -376,13 +382,34 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 TVItemUserAuthorizationService tvItemUserAuthorizationService = new TVItemUserAuthorizationService(LanguageRequest, dbTestDB, ContactID);
-
-                TVItemUserAuthorization tvItemUserAuthorization = (from c in tvItemUserAuthorizationService.GetRead()
-                                             select c).FirstOrDefault();
+                TVItemUserAuthorization tvItemUserAuthorization = (from c in tvItemUserAuthorizationService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(tvItemUserAuthorization);
 
                 TVItemUserAuthorization tvItemUserAuthorizationRet = tvItemUserAuthorizationService.GetTVItemUserAuthorizationWithTVItemUserAuthorizationID(tvItemUserAuthorization.TVItemUserAuthorizationID);
                 Assert.AreEqual(tvItemUserAuthorization.TVItemUserAuthorizationID, tvItemUserAuthorizationRet.TVItemUserAuthorizationID);
+                Assert.AreEqual(tvItemUserAuthorization.ContactTVItemID, tvItemUserAuthorizationRet.ContactTVItemID);
+                Assert.AreEqual(tvItemUserAuthorization.TVItemID1, tvItemUserAuthorizationRet.TVItemID1);
+                Assert.AreEqual(tvItemUserAuthorization.TVItemID2, tvItemUserAuthorizationRet.TVItemID2);
+                Assert.AreEqual(tvItemUserAuthorization.TVItemID3, tvItemUserAuthorizationRet.TVItemID3);
+                Assert.AreEqual(tvItemUserAuthorization.TVItemID4, tvItemUserAuthorizationRet.TVItemID4);
+                Assert.AreEqual(tvItemUserAuthorization.TVAuth, tvItemUserAuthorizationRet.TVAuth);
+                Assert.AreEqual(tvItemUserAuthorization.LastUpdateDate_UTC, tvItemUserAuthorizationRet.LastUpdateDate_UTC);
+                Assert.AreEqual(tvItemUserAuthorization.LastUpdateContactTVItemID, tvItemUserAuthorizationRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(tvItemUserAuthorizationRet.ContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.ContactTVText));
+                Assert.IsNotNull(tvItemUserAuthorizationRet.TVText1);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.TVText1));
+                Assert.IsNotNull(tvItemUserAuthorizationRet.TVText2);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.TVText2));
+                Assert.IsNotNull(tvItemUserAuthorizationRet.TVText3);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.TVText3));
+                Assert.IsNotNull(tvItemUserAuthorizationRet.TVText4);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.TVText4));
+                Assert.IsNotNull(tvItemUserAuthorizationRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.LastUpdateContactTVText));
+                Assert.IsNotNull(tvItemUserAuthorizationRet.TVAuthText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.TVAuthText));
             }
         }
         #endregion Tests Get With Key

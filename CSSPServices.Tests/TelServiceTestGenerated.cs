@@ -120,7 +120,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Tel)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Tel)]
                 // tel.TelTVItemID   (Int32)
                 // -----------------------------------
 
@@ -180,7 +180,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // tel.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -199,6 +199,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TelTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tel.TelTVText   (String)
@@ -213,6 +214,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tel.LastUpdateContactTVText   (String)
@@ -258,13 +260,23 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 TelService telService = new TelService(LanguageRequest, dbTestDB, ContactID);
-
-                Tel tel = (from c in telService.GetRead()
-                                             select c).FirstOrDefault();
+                Tel tel = (from c in telService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(tel);
 
                 Tel telRet = telService.GetTelWithTelID(tel.TelID);
                 Assert.AreEqual(tel.TelID, telRet.TelID);
+                Assert.AreEqual(tel.TelTVItemID, telRet.TelTVItemID);
+                Assert.AreEqual(tel.TelNumber, telRet.TelNumber);
+                Assert.AreEqual(tel.TelType, telRet.TelType);
+                Assert.AreEqual(tel.LastUpdateDate_UTC, telRet.LastUpdateDate_UTC);
+                Assert.AreEqual(tel.LastUpdateContactTVItemID, telRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(telRet.TelTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.TelTVText));
+                Assert.IsNotNull(telRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.LastUpdateContactTVText));
+                Assert.IsNotNull(telRet.TelTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.TelTypeText));
             }
         }
         #endregion Tests Get With Key

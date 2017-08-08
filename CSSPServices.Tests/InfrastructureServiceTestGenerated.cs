@@ -174,7 +174,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Infrastructure)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Infrastructure)]
                 // infrastructure.InfrastructureTVItemID   (Int32)
                 // -----------------------------------
 
@@ -916,7 +916,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Infrastructure)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Infrastructure)]
                 // infrastructure.SeeOtherTVItemID   (Int32)
                 // -----------------------------------
 
@@ -935,7 +935,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Infrastructure)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Infrastructure)]
                 // infrastructure.CivicAddressTVItemID   (Int32)
                 // -----------------------------------
 
@@ -961,7 +961,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // infrastructure.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -980,6 +980,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "InfrastructureTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // infrastructure.InfrastructureTVText   (String)
@@ -994,6 +995,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SeeOtherTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // infrastructure.SeeOtherTVText   (String)
@@ -1008,6 +1010,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "CivicAddressTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // infrastructure.CivicAddressTVText   (String)
@@ -1022,6 +1025,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // infrastructure.LastUpdateContactTVText   (String)
@@ -1207,13 +1211,89 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 InfrastructureService infrastructureService = new InfrastructureService(LanguageRequest, dbTestDB, ContactID);
-
-                Infrastructure infrastructure = (from c in infrastructureService.GetRead()
-                                             select c).FirstOrDefault();
+                Infrastructure infrastructure = (from c in infrastructureService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(infrastructure);
 
                 Infrastructure infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID);
                 Assert.AreEqual(infrastructure.InfrastructureID, infrastructureRet.InfrastructureID);
+                Assert.AreEqual(infrastructure.InfrastructureTVItemID, infrastructureRet.InfrastructureTVItemID);
+                Assert.AreEqual(infrastructure.PrismID, infrastructureRet.PrismID);
+                Assert.AreEqual(infrastructure.TPID, infrastructureRet.TPID);
+                Assert.AreEqual(infrastructure.LSID, infrastructureRet.LSID);
+                Assert.AreEqual(infrastructure.SiteID, infrastructureRet.SiteID);
+                Assert.AreEqual(infrastructure.Site, infrastructureRet.Site);
+                Assert.AreEqual(infrastructure.InfrastructureCategory, infrastructureRet.InfrastructureCategory);
+                Assert.AreEqual(infrastructure.InfrastructureType, infrastructureRet.InfrastructureType);
+                Assert.AreEqual(infrastructure.FacilityType, infrastructureRet.FacilityType);
+                Assert.AreEqual(infrastructure.IsMechanicallyAerated, infrastructureRet.IsMechanicallyAerated);
+                Assert.AreEqual(infrastructure.NumberOfCells, infrastructureRet.NumberOfCells);
+                Assert.AreEqual(infrastructure.NumberOfAeratedCells, infrastructureRet.NumberOfAeratedCells);
+                Assert.AreEqual(infrastructure.AerationType, infrastructureRet.AerationType);
+                Assert.AreEqual(infrastructure.PreliminaryTreatmentType, infrastructureRet.PreliminaryTreatmentType);
+                Assert.AreEqual(infrastructure.PrimaryTreatmentType, infrastructureRet.PrimaryTreatmentType);
+                Assert.AreEqual(infrastructure.SecondaryTreatmentType, infrastructureRet.SecondaryTreatmentType);
+                Assert.AreEqual(infrastructure.TertiaryTreatmentType, infrastructureRet.TertiaryTreatmentType);
+                Assert.AreEqual(infrastructure.TreatmentType, infrastructureRet.TreatmentType);
+                Assert.AreEqual(infrastructure.DisinfectionType, infrastructureRet.DisinfectionType);
+                Assert.AreEqual(infrastructure.CollectionSystemType, infrastructureRet.CollectionSystemType);
+                Assert.AreEqual(infrastructure.AlarmSystemType, infrastructureRet.AlarmSystemType);
+                Assert.AreEqual(infrastructure.DesignFlow_m3_day, infrastructureRet.DesignFlow_m3_day);
+                Assert.AreEqual(infrastructure.AverageFlow_m3_day, infrastructureRet.AverageFlow_m3_day);
+                Assert.AreEqual(infrastructure.PeakFlow_m3_day, infrastructureRet.PeakFlow_m3_day);
+                Assert.AreEqual(infrastructure.PopServed, infrastructureRet.PopServed);
+                Assert.AreEqual(infrastructure.CanOverflow, infrastructureRet.CanOverflow);
+                Assert.AreEqual(infrastructure.PercFlowOfTotal, infrastructureRet.PercFlowOfTotal);
+                Assert.AreEqual(infrastructure.TimeOffset_hour, infrastructureRet.TimeOffset_hour);
+                Assert.AreEqual(infrastructure.TempCatchAllRemoveLater, infrastructureRet.TempCatchAllRemoveLater);
+                Assert.AreEqual(infrastructure.AverageDepth_m, infrastructureRet.AverageDepth_m);
+                Assert.AreEqual(infrastructure.NumberOfPorts, infrastructureRet.NumberOfPorts);
+                Assert.AreEqual(infrastructure.PortDiameter_m, infrastructureRet.PortDiameter_m);
+                Assert.AreEqual(infrastructure.PortSpacing_m, infrastructureRet.PortSpacing_m);
+                Assert.AreEqual(infrastructure.PortElevation_m, infrastructureRet.PortElevation_m);
+                Assert.AreEqual(infrastructure.VerticalAngle_deg, infrastructureRet.VerticalAngle_deg);
+                Assert.AreEqual(infrastructure.HorizontalAngle_deg, infrastructureRet.HorizontalAngle_deg);
+                Assert.AreEqual(infrastructure.DecayRate_per_day, infrastructureRet.DecayRate_per_day);
+                Assert.AreEqual(infrastructure.NearFieldVelocity_m_s, infrastructureRet.NearFieldVelocity_m_s);
+                Assert.AreEqual(infrastructure.FarFieldVelocity_m_s, infrastructureRet.FarFieldVelocity_m_s);
+                Assert.AreEqual(infrastructure.ReceivingWaterSalinity_PSU, infrastructureRet.ReceivingWaterSalinity_PSU);
+                Assert.AreEqual(infrastructure.ReceivingWaterTemperature_C, infrastructureRet.ReceivingWaterTemperature_C);
+                Assert.AreEqual(infrastructure.ReceivingWater_MPN_per_100ml, infrastructureRet.ReceivingWater_MPN_per_100ml);
+                Assert.AreEqual(infrastructure.DistanceFromShore_m, infrastructureRet.DistanceFromShore_m);
+                Assert.AreEqual(infrastructure.SeeOtherTVItemID, infrastructureRet.SeeOtherTVItemID);
+                Assert.AreEqual(infrastructure.CivicAddressTVItemID, infrastructureRet.CivicAddressTVItemID);
+                Assert.AreEqual(infrastructure.LastUpdateDate_UTC, infrastructureRet.LastUpdateDate_UTC);
+                Assert.AreEqual(infrastructure.LastUpdateContactTVItemID, infrastructureRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(infrastructureRet.InfrastructureTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureTVText));
+                Assert.IsNotNull(infrastructureRet.SeeOtherTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.SeeOtherTVText));
+                Assert.IsNotNull(infrastructureRet.CivicAddressTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.CivicAddressTVText));
+                Assert.IsNotNull(infrastructureRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.LastUpdateContactTVText));
+                Assert.IsNotNull(infrastructureRet.InfrastructureTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureTypeText));
+                Assert.IsNotNull(infrastructureRet.FacilityTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.FacilityTypeText));
+                Assert.IsNotNull(infrastructureRet.AerationTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.AerationTypeText));
+                Assert.IsNotNull(infrastructureRet.PreliminaryTreatmentTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.PreliminaryTreatmentTypeText));
+                Assert.IsNotNull(infrastructureRet.PrimaryTreatmentTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.PrimaryTreatmentTypeText));
+                Assert.IsNotNull(infrastructureRet.SecondaryTreatmentTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.SecondaryTreatmentTypeText));
+                Assert.IsNotNull(infrastructureRet.TertiaryTreatmentTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.TertiaryTreatmentTypeText));
+                Assert.IsNotNull(infrastructureRet.TreatmentTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.TreatmentTypeText));
+                Assert.IsNotNull(infrastructureRet.DisinfectionTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.DisinfectionTypeText));
+                Assert.IsNotNull(infrastructureRet.CollectionSystemTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.CollectionSystemTypeText));
+                Assert.IsNotNull(infrastructureRet.AlarmSystemTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.AlarmSystemTypeText));
             }
         }
         #endregion Tests Get With Key

@@ -202,7 +202,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // mwqmLookupMPN.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -221,6 +221,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mwqmLookupMPN.LastUpdateContactTVText   (String)
@@ -252,13 +253,20 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 MWQMLookupMPNService mwqmLookupMPNService = new MWQMLookupMPNService(LanguageRequest, dbTestDB, ContactID);
-
-                MWQMLookupMPN mwqmLookupMPN = (from c in mwqmLookupMPNService.GetRead()
-                                             select c).FirstOrDefault();
+                MWQMLookupMPN mwqmLookupMPN = (from c in mwqmLookupMPNService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(mwqmLookupMPN);
 
                 MWQMLookupMPN mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID);
                 Assert.AreEqual(mwqmLookupMPN.MWQMLookupMPNID, mwqmLookupMPNRet.MWQMLookupMPNID);
+                Assert.AreEqual(mwqmLookupMPN.Tubes10, mwqmLookupMPNRet.Tubes10);
+                Assert.AreEqual(mwqmLookupMPN.Tubes1, mwqmLookupMPNRet.Tubes1);
+                Assert.AreEqual(mwqmLookupMPN.Tubes01, mwqmLookupMPNRet.Tubes01);
+                Assert.AreEqual(mwqmLookupMPN.MPN_100ml, mwqmLookupMPNRet.MPN_100ml);
+                Assert.AreEqual(mwqmLookupMPN.LastUpdateDate_UTC, mwqmLookupMPNRet.LastUpdateDate_UTC);
+                Assert.AreEqual(mwqmLookupMPN.LastUpdateContactTVItemID, mwqmLookupMPNRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(mwqmLookupMPNRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

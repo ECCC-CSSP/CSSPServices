@@ -119,7 +119,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = TideSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = TideSite)]
                 // tideSite.TideSiteTVItemID   (Int32)
                 // -----------------------------------
 
@@ -187,7 +187,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // tideSite.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -206,6 +206,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TideSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tideSite.TideSiteTVText   (String)
@@ -220,6 +221,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // tideSite.LastUpdateContactTVText   (String)
@@ -251,13 +253,21 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 TideSiteService tideSiteService = new TideSiteService(LanguageRequest, dbTestDB, ContactID);
-
-                TideSite tideSite = (from c in tideSiteService.GetRead()
-                                             select c).FirstOrDefault();
+                TideSite tideSite = (from c in tideSiteService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(tideSite);
 
                 TideSite tideSiteRet = tideSiteService.GetTideSiteWithTideSiteID(tideSite.TideSiteID);
                 Assert.AreEqual(tideSite.TideSiteID, tideSiteRet.TideSiteID);
+                Assert.AreEqual(tideSite.TideSiteTVItemID, tideSiteRet.TideSiteTVItemID);
+                Assert.AreEqual(tideSite.WebTideModel, tideSiteRet.WebTideModel);
+                Assert.AreEqual(tideSite.WebTideDatum_m, tideSiteRet.WebTideDatum_m);
+                Assert.AreEqual(tideSite.LastUpdateDate_UTC, tideSiteRet.LastUpdateDate_UTC);
+                Assert.AreEqual(tideSite.LastUpdateContactTVItemID, tideSiteRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(tideSiteRet.TideSiteTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteRet.TideSiteTVText));
+                Assert.IsNotNull(tideSiteRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

@@ -119,7 +119,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = MWQMSite)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MWQMSite)]
                 // mwqmSiteStartEndDate.MWQMSiteTVItemID   (Int32)
                 // -----------------------------------
 
@@ -160,7 +160,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // mwqmSiteStartEndDate.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -179,6 +179,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mwqmSiteStartEndDate.MWQMSiteTVText   (String)
@@ -193,6 +194,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mwqmSiteStartEndDate.LastUpdateContactTVText   (String)
@@ -224,13 +226,21 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 MWQMSiteStartEndDateService mwqmSiteStartEndDateService = new MWQMSiteStartEndDateService(LanguageRequest, dbTestDB, ContactID);
-
-                MWQMSiteStartEndDate mwqmSiteStartEndDate = (from c in mwqmSiteStartEndDateService.GetRead()
-                                             select c).FirstOrDefault();
+                MWQMSiteStartEndDate mwqmSiteStartEndDate = (from c in mwqmSiteStartEndDateService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(mwqmSiteStartEndDate);
 
                 MWQMSiteStartEndDate mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID);
                 Assert.AreEqual(mwqmSiteStartEndDate.MWQMSiteStartEndDateID, mwqmSiteStartEndDateRet.MWQMSiteStartEndDateID);
+                Assert.AreEqual(mwqmSiteStartEndDate.MWQMSiteTVItemID, mwqmSiteStartEndDateRet.MWQMSiteTVItemID);
+                Assert.AreEqual(mwqmSiteStartEndDate.StartDate, mwqmSiteStartEndDateRet.StartDate);
+                Assert.AreEqual(mwqmSiteStartEndDate.EndDate, mwqmSiteStartEndDateRet.EndDate);
+                Assert.AreEqual(mwqmSiteStartEndDate.LastUpdateDate_UTC, mwqmSiteStartEndDateRet.LastUpdateDate_UTC);
+                Assert.AreEqual(mwqmSiteStartEndDate.LastUpdateContactTVItemID, mwqmSiteStartEndDateRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(mwqmSiteStartEndDateRet.MWQMSiteTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateRet.MWQMSiteTVText));
+                Assert.IsNotNull(mwqmSiteStartEndDateRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateRet.LastUpdateContactTVText));
             }
         }
         #endregion Tests Get With Key

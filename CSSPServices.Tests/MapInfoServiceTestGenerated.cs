@@ -125,7 +125,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario,LiftStation,LineOverflow,MeshNode,MikeSourceIncluded,MikeSourceIsRiver,MikeSourceNotIncluded,NoData,NoDepuration,Outfall,Passed,WebTideNode)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario,LiftStation,LineOverflow,MeshNode,MikeSourceIncluded,MikeSourceIsRiver,MikeSourceNotIncluded,NoData,NoDepuration,Outfall,Passed,WebTideNode)]
                 // mapInfo.TVItemID   (Int32)
                 // -----------------------------------
 
@@ -261,7 +261,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is NOT Nullable
-                // [CSSPExist(TypeName = "TVItem", Plurial = "s", FieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
                 // mapInfo.LastUpdateContactTVItemID   (Int32)
                 // -----------------------------------
 
@@ -280,6 +280,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mapInfo.TVText   (String)
@@ -294,6 +295,7 @@ namespace CSSPServices.Tests
 
                 // -----------------------------------
                 // Is Nullable
+                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
                 // [NotMapped]
                 // [StringLength(200))]
                 // mapInfo.LastUpdateContactTVText   (String)
@@ -353,13 +355,29 @@ namespace CSSPServices.Tests
                 ChangeCulture(culture);
 
                 MapInfoService mapInfoService = new MapInfoService(LanguageRequest, dbTestDB, ContactID);
-
-                MapInfo mapInfo = (from c in mapInfoService.GetRead()
-                                             select c).FirstOrDefault();
+                MapInfo mapInfo = (from c in mapInfoService.GetRead() select c).FirstOrDefault();
                 Assert.IsNotNull(mapInfo);
 
                 MapInfo mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID);
                 Assert.AreEqual(mapInfo.MapInfoID, mapInfoRet.MapInfoID);
+                Assert.AreEqual(mapInfo.TVItemID, mapInfoRet.TVItemID);
+                Assert.AreEqual(mapInfo.TVType, mapInfoRet.TVType);
+                Assert.AreEqual(mapInfo.LatMin, mapInfoRet.LatMin);
+                Assert.AreEqual(mapInfo.LatMax, mapInfoRet.LatMax);
+                Assert.AreEqual(mapInfo.LngMin, mapInfoRet.LngMin);
+                Assert.AreEqual(mapInfo.LngMax, mapInfoRet.LngMax);
+                Assert.AreEqual(mapInfo.MapInfoDrawType, mapInfoRet.MapInfoDrawType);
+                Assert.AreEqual(mapInfo.LastUpdateDate_UTC, mapInfoRet.LastUpdateDate_UTC);
+                Assert.AreEqual(mapInfo.LastUpdateContactTVItemID, mapInfoRet.LastUpdateContactTVItemID);
+
+                Assert.IsNotNull(mapInfoRet.TVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.TVText));
+                Assert.IsNotNull(mapInfoRet.LastUpdateContactTVText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.LastUpdateContactTVText));
+                Assert.IsNotNull(mapInfoRet.TVTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.TVTypeText));
+                Assert.IsNotNull(mapInfoRet.MapInfoDrawTypeText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoDrawTypeText));
             }
         }
         #endregion Tests Get With Key
