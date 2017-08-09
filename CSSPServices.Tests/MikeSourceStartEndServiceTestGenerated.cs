@@ -380,20 +380,20 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(mikeSourceStartEnd);
 
                 MikeSourceStartEnd mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID);
-                Assert.AreEqual(mikeSourceStartEnd.MikeSourceStartEndID, mikeSourceStartEndRet.MikeSourceStartEndID);
-                Assert.AreEqual(mikeSourceStartEnd.MikeSourceID, mikeSourceStartEndRet.MikeSourceID);
-                Assert.AreEqual(mikeSourceStartEnd.StartDateAndTime_Local, mikeSourceStartEndRet.StartDateAndTime_Local);
-                Assert.AreEqual(mikeSourceStartEnd.EndDateAndTime_Local, mikeSourceStartEndRet.EndDateAndTime_Local);
-                Assert.AreEqual(mikeSourceStartEnd.SourceFlowStart_m3_day, mikeSourceStartEndRet.SourceFlowStart_m3_day);
-                Assert.AreEqual(mikeSourceStartEnd.SourceFlowEnd_m3_day, mikeSourceStartEndRet.SourceFlowEnd_m3_day);
-                Assert.AreEqual(mikeSourceStartEnd.SourcePollutionStart_MPN_100ml, mikeSourceStartEndRet.SourcePollutionStart_MPN_100ml);
-                Assert.AreEqual(mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml, mikeSourceStartEndRet.SourcePollutionEnd_MPN_100ml);
-                Assert.AreEqual(mikeSourceStartEnd.SourceTemperatureStart_C, mikeSourceStartEndRet.SourceTemperatureStart_C);
-                Assert.AreEqual(mikeSourceStartEnd.SourceTemperatureEnd_C, mikeSourceStartEndRet.SourceTemperatureEnd_C);
-                Assert.AreEqual(mikeSourceStartEnd.SourceSalinityStart_PSU, mikeSourceStartEndRet.SourceSalinityStart_PSU);
-                Assert.AreEqual(mikeSourceStartEnd.SourceSalinityEnd_PSU, mikeSourceStartEndRet.SourceSalinityEnd_PSU);
-                Assert.AreEqual(mikeSourceStartEnd.LastUpdateDate_UTC, mikeSourceStartEndRet.LastUpdateDate_UTC);
-                Assert.AreEqual(mikeSourceStartEnd.LastUpdateContactTVItemID, mikeSourceStartEndRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceStartEndID);
+                Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceID);
+                Assert.IsNotNull(mikeSourceStartEndRet.StartDateAndTime_Local);
+                Assert.IsNotNull(mikeSourceStartEndRet.EndDateAndTime_Local);
+                Assert.IsNotNull(mikeSourceStartEndRet.SourceFlowStart_m3_day);
+                Assert.IsNotNull(mikeSourceStartEndRet.SourceFlowEnd_m3_day);
+                Assert.IsNotNull(mikeSourceStartEndRet.SourcePollutionStart_MPN_100ml);
+                Assert.IsNotNull(mikeSourceStartEndRet.SourcePollutionEnd_MPN_100ml);
+                Assert.IsNotNull(mikeSourceStartEndRet.SourceTemperatureStart_C);
+                Assert.IsNotNull(mikeSourceStartEndRet.SourceTemperatureEnd_C);
+                Assert.IsNotNull(mikeSourceStartEndRet.SourceSalinityStart_PSU);
+                Assert.IsNotNull(mikeSourceStartEndRet.SourceSalinityEnd_PSU);
+                Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.LastUpdateContactTVText));

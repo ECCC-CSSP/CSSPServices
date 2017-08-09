@@ -261,13 +261,15 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(tideLocation);
 
                 TideLocation tideLocationRet = tideLocationService.GetTideLocationWithTideLocationID(tideLocation.TideLocationID);
-                Assert.AreEqual(tideLocation.TideLocationID, tideLocationRet.TideLocationID);
-                Assert.AreEqual(tideLocation.Zone, tideLocationRet.Zone);
-                Assert.AreEqual(tideLocation.Name, tideLocationRet.Name);
-                Assert.AreEqual(tideLocation.Prov, tideLocationRet.Prov);
-                Assert.AreEqual(tideLocation.sid, tideLocationRet.sid);
-                Assert.AreEqual(tideLocation.Lat, tideLocationRet.Lat);
-                Assert.AreEqual(tideLocation.Lng, tideLocationRet.Lng);
+                Assert.IsNotNull(tideLocationRet.TideLocationID);
+                Assert.IsNotNull(tideLocationRet.Zone);
+                Assert.IsNotNull(tideLocationRet.Name);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationRet.Name));
+                Assert.IsNotNull(tideLocationRet.Prov);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tideLocationRet.Prov));
+                Assert.IsNotNull(tideLocationRet.sid);
+                Assert.IsNotNull(tideLocationRet.Lat);
+                Assert.IsNotNull(tideLocationRet.Lng);
             }
         }
         #endregion Tests Get With Key

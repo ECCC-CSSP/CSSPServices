@@ -227,11 +227,11 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(samplingPlanSubsector);
 
                 SamplingPlanSubsector samplingPlanSubsectorRet = samplingPlanSubsectorService.GetSamplingPlanSubsectorWithSamplingPlanSubsectorID(samplingPlanSubsector.SamplingPlanSubsectorID);
-                Assert.AreEqual(samplingPlanSubsector.SamplingPlanSubsectorID, samplingPlanSubsectorRet.SamplingPlanSubsectorID);
-                Assert.AreEqual(samplingPlanSubsector.SamplingPlanID, samplingPlanSubsectorRet.SamplingPlanID);
-                Assert.AreEqual(samplingPlanSubsector.SubsectorTVItemID, samplingPlanSubsectorRet.SubsectorTVItemID);
-                Assert.AreEqual(samplingPlanSubsector.LastUpdateDate_UTC, samplingPlanSubsectorRet.LastUpdateDate_UTC);
-                Assert.AreEqual(samplingPlanSubsector.LastUpdateContactTVItemID, samplingPlanSubsectorRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(samplingPlanSubsectorRet.SamplingPlanSubsectorID);
+                Assert.IsNotNull(samplingPlanSubsectorRet.SamplingPlanID);
+                Assert.IsNotNull(samplingPlanSubsectorRet.SubsectorTVItemID);
+                Assert.IsNotNull(samplingPlanSubsectorRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(samplingPlanSubsectorRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(samplingPlanSubsectorRet.SubsectorTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.SubsectorTVText));

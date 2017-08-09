@@ -429,21 +429,34 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(tvFile);
 
                 TVFile tvFileRet = tvFileService.GetTVFileWithTVFileID(tvFile.TVFileID);
-                Assert.AreEqual(tvFile.TVFileID, tvFileRet.TVFileID);
-                Assert.AreEqual(tvFile.TVFileTVItemID, tvFileRet.TVFileTVItemID);
-                Assert.AreEqual(tvFile.TemplateTVType, tvFileRet.TemplateTVType);
-                Assert.AreEqual(tvFile.Language, tvFileRet.Language);
-                Assert.AreEqual(tvFile.FilePurpose, tvFileRet.FilePurpose);
-                Assert.AreEqual(tvFile.FileType, tvFileRet.FileType);
-                Assert.AreEqual(tvFile.FileSize_kb, tvFileRet.FileSize_kb);
-                Assert.AreEqual(tvFile.FileInfo, tvFileRet.FileInfo);
-                Assert.AreEqual(tvFile.FileCreatedDate_UTC, tvFileRet.FileCreatedDate_UTC);
-                Assert.AreEqual(tvFile.FromWater, tvFileRet.FromWater);
-                Assert.AreEqual(tvFile.ClientFilePath, tvFileRet.ClientFilePath);
-                Assert.AreEqual(tvFile.ServerFileName, tvFileRet.ServerFileName);
-                Assert.AreEqual(tvFile.ServerFilePath, tvFileRet.ServerFilePath);
-                Assert.AreEqual(tvFile.LastUpdateDate_UTC, tvFileRet.LastUpdateDate_UTC);
-                Assert.AreEqual(tvFile.LastUpdateContactTVItemID, tvFileRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(tvFileRet.TVFileID);
+                Assert.IsNotNull(tvFileRet.TVFileTVItemID);
+                Assert.IsNotNull(tvFileRet.TemplateTVType);
+                Assert.IsNotNull(tvFileRet.Language);
+                Assert.IsNotNull(tvFileRet.FilePurpose);
+                Assert.IsNotNull(tvFileRet.FileType);
+                Assert.IsNotNull(tvFileRet.FileSize_kb);
+                if (tvFileRet.FileInfo != null)
+                {
+                   Assert.IsNotNull(tvFileRet.FileInfo);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.FileInfo));
+                }
+                Assert.IsNotNull(tvFileRet.FileCreatedDate_UTC);
+                if (tvFileRet.FromWater != null)
+                {
+                   Assert.IsNotNull(tvFileRet.FromWater);
+                }
+                if (tvFileRet.ClientFilePath != null)
+                {
+                   Assert.IsNotNull(tvFileRet.ClientFilePath);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.ClientFilePath));
+                }
+                Assert.IsNotNull(tvFileRet.ServerFileName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.ServerFileName));
+                Assert.IsNotNull(tvFileRet.ServerFilePath);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.ServerFilePath));
+                Assert.IsNotNull(tvFileRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(tvFileRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(tvFileRet.TVFileTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.TVFileTVText));

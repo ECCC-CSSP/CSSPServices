@@ -213,11 +213,12 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(ratingCurve);
 
                 RatingCurve ratingCurveRet = ratingCurveService.GetRatingCurveWithRatingCurveID(ratingCurve.RatingCurveID);
-                Assert.AreEqual(ratingCurve.RatingCurveID, ratingCurveRet.RatingCurveID);
-                Assert.AreEqual(ratingCurve.HydrometricSiteID, ratingCurveRet.HydrometricSiteID);
-                Assert.AreEqual(ratingCurve.RatingCurveNumber, ratingCurveRet.RatingCurveNumber);
-                Assert.AreEqual(ratingCurve.LastUpdateDate_UTC, ratingCurveRet.LastUpdateDate_UTC);
-                Assert.AreEqual(ratingCurve.LastUpdateContactTVItemID, ratingCurveRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(ratingCurveRet.RatingCurveID);
+                Assert.IsNotNull(ratingCurveRet.HydrometricSiteID);
+                Assert.IsNotNull(ratingCurveRet.RatingCurveNumber);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveRet.RatingCurveNumber));
+                Assert.IsNotNull(ratingCurveRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(ratingCurveRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(ratingCurveRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveRet.LastUpdateContactTVText));

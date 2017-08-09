@@ -1215,61 +1215,201 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(infrastructure);
 
                 Infrastructure infrastructureRet = infrastructureService.GetInfrastructureWithInfrastructureID(infrastructure.InfrastructureID);
-                Assert.AreEqual(infrastructure.InfrastructureID, infrastructureRet.InfrastructureID);
-                Assert.AreEqual(infrastructure.InfrastructureTVItemID, infrastructureRet.InfrastructureTVItemID);
-                Assert.AreEqual(infrastructure.PrismID, infrastructureRet.PrismID);
-                Assert.AreEqual(infrastructure.TPID, infrastructureRet.TPID);
-                Assert.AreEqual(infrastructure.LSID, infrastructureRet.LSID);
-                Assert.AreEqual(infrastructure.SiteID, infrastructureRet.SiteID);
-                Assert.AreEqual(infrastructure.Site, infrastructureRet.Site);
-                Assert.AreEqual(infrastructure.InfrastructureCategory, infrastructureRet.InfrastructureCategory);
-                Assert.AreEqual(infrastructure.InfrastructureType, infrastructureRet.InfrastructureType);
-                Assert.AreEqual(infrastructure.FacilityType, infrastructureRet.FacilityType);
-                Assert.AreEqual(infrastructure.IsMechanicallyAerated, infrastructureRet.IsMechanicallyAerated);
-                Assert.AreEqual(infrastructure.NumberOfCells, infrastructureRet.NumberOfCells);
-                Assert.AreEqual(infrastructure.NumberOfAeratedCells, infrastructureRet.NumberOfAeratedCells);
-                Assert.AreEqual(infrastructure.AerationType, infrastructureRet.AerationType);
-                Assert.AreEqual(infrastructure.PreliminaryTreatmentType, infrastructureRet.PreliminaryTreatmentType);
-                Assert.AreEqual(infrastructure.PrimaryTreatmentType, infrastructureRet.PrimaryTreatmentType);
-                Assert.AreEqual(infrastructure.SecondaryTreatmentType, infrastructureRet.SecondaryTreatmentType);
-                Assert.AreEqual(infrastructure.TertiaryTreatmentType, infrastructureRet.TertiaryTreatmentType);
-                Assert.AreEqual(infrastructure.TreatmentType, infrastructureRet.TreatmentType);
-                Assert.AreEqual(infrastructure.DisinfectionType, infrastructureRet.DisinfectionType);
-                Assert.AreEqual(infrastructure.CollectionSystemType, infrastructureRet.CollectionSystemType);
-                Assert.AreEqual(infrastructure.AlarmSystemType, infrastructureRet.AlarmSystemType);
-                Assert.AreEqual(infrastructure.DesignFlow_m3_day, infrastructureRet.DesignFlow_m3_day);
-                Assert.AreEqual(infrastructure.AverageFlow_m3_day, infrastructureRet.AverageFlow_m3_day);
-                Assert.AreEqual(infrastructure.PeakFlow_m3_day, infrastructureRet.PeakFlow_m3_day);
-                Assert.AreEqual(infrastructure.PopServed, infrastructureRet.PopServed);
-                Assert.AreEqual(infrastructure.CanOverflow, infrastructureRet.CanOverflow);
-                Assert.AreEqual(infrastructure.PercFlowOfTotal, infrastructureRet.PercFlowOfTotal);
-                Assert.AreEqual(infrastructure.TimeOffset_hour, infrastructureRet.TimeOffset_hour);
-                Assert.AreEqual(infrastructure.TempCatchAllRemoveLater, infrastructureRet.TempCatchAllRemoveLater);
-                Assert.AreEqual(infrastructure.AverageDepth_m, infrastructureRet.AverageDepth_m);
-                Assert.AreEqual(infrastructure.NumberOfPorts, infrastructureRet.NumberOfPorts);
-                Assert.AreEqual(infrastructure.PortDiameter_m, infrastructureRet.PortDiameter_m);
-                Assert.AreEqual(infrastructure.PortSpacing_m, infrastructureRet.PortSpacing_m);
-                Assert.AreEqual(infrastructure.PortElevation_m, infrastructureRet.PortElevation_m);
-                Assert.AreEqual(infrastructure.VerticalAngle_deg, infrastructureRet.VerticalAngle_deg);
-                Assert.AreEqual(infrastructure.HorizontalAngle_deg, infrastructureRet.HorizontalAngle_deg);
-                Assert.AreEqual(infrastructure.DecayRate_per_day, infrastructureRet.DecayRate_per_day);
-                Assert.AreEqual(infrastructure.NearFieldVelocity_m_s, infrastructureRet.NearFieldVelocity_m_s);
-                Assert.AreEqual(infrastructure.FarFieldVelocity_m_s, infrastructureRet.FarFieldVelocity_m_s);
-                Assert.AreEqual(infrastructure.ReceivingWaterSalinity_PSU, infrastructureRet.ReceivingWaterSalinity_PSU);
-                Assert.AreEqual(infrastructure.ReceivingWaterTemperature_C, infrastructureRet.ReceivingWaterTemperature_C);
-                Assert.AreEqual(infrastructure.ReceivingWater_MPN_per_100ml, infrastructureRet.ReceivingWater_MPN_per_100ml);
-                Assert.AreEqual(infrastructure.DistanceFromShore_m, infrastructureRet.DistanceFromShore_m);
-                Assert.AreEqual(infrastructure.SeeOtherTVItemID, infrastructureRet.SeeOtherTVItemID);
-                Assert.AreEqual(infrastructure.CivicAddressTVItemID, infrastructureRet.CivicAddressTVItemID);
-                Assert.AreEqual(infrastructure.LastUpdateDate_UTC, infrastructureRet.LastUpdateDate_UTC);
-                Assert.AreEqual(infrastructure.LastUpdateContactTVItemID, infrastructureRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(infrastructureRet.InfrastructureID);
+                Assert.IsNotNull(infrastructureRet.InfrastructureTVItemID);
+                if (infrastructureRet.PrismID != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.PrismID);
+                }
+                if (infrastructureRet.TPID != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.TPID);
+                }
+                if (infrastructureRet.LSID != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.LSID);
+                }
+                if (infrastructureRet.SiteID != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.SiteID);
+                }
+                if (infrastructureRet.Site != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.Site);
+                }
+                if (infrastructureRet.InfrastructureCategory != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.InfrastructureCategory);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureCategory));
+                }
+                if (infrastructureRet.InfrastructureType != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.InfrastructureType);
+                }
+                if (infrastructureRet.FacilityType != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.FacilityType);
+                }
+                if (infrastructureRet.IsMechanicallyAerated != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.IsMechanicallyAerated);
+                }
+                if (infrastructureRet.NumberOfCells != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.NumberOfCells);
+                }
+                if (infrastructureRet.NumberOfAeratedCells != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.NumberOfAeratedCells);
+                }
+                if (infrastructureRet.AerationType != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.AerationType);
+                }
+                if (infrastructureRet.PreliminaryTreatmentType != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.PreliminaryTreatmentType);
+                }
+                if (infrastructureRet.PrimaryTreatmentType != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.PrimaryTreatmentType);
+                }
+                if (infrastructureRet.SecondaryTreatmentType != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.SecondaryTreatmentType);
+                }
+                if (infrastructureRet.TertiaryTreatmentType != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.TertiaryTreatmentType);
+                }
+                if (infrastructureRet.TreatmentType != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.TreatmentType);
+                }
+                if (infrastructureRet.DisinfectionType != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.DisinfectionType);
+                }
+                if (infrastructureRet.CollectionSystemType != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.CollectionSystemType);
+                }
+                if (infrastructureRet.AlarmSystemType != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.AlarmSystemType);
+                }
+                if (infrastructureRet.DesignFlow_m3_day != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.DesignFlow_m3_day);
+                }
+                if (infrastructureRet.AverageFlow_m3_day != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.AverageFlow_m3_day);
+                }
+                if (infrastructureRet.PeakFlow_m3_day != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.PeakFlow_m3_day);
+                }
+                if (infrastructureRet.PopServed != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.PopServed);
+                }
+                if (infrastructureRet.CanOverflow != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.CanOverflow);
+                }
+                if (infrastructureRet.PercFlowOfTotal != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.PercFlowOfTotal);
+                }
+                if (infrastructureRet.TimeOffset_hour != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.TimeOffset_hour);
+                }
+                if (infrastructureRet.TempCatchAllRemoveLater != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.TempCatchAllRemoveLater);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.TempCatchAllRemoveLater));
+                }
+                if (infrastructureRet.AverageDepth_m != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.AverageDepth_m);
+                }
+                if (infrastructureRet.NumberOfPorts != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.NumberOfPorts);
+                }
+                if (infrastructureRet.PortDiameter_m != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.PortDiameter_m);
+                }
+                if (infrastructureRet.PortSpacing_m != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.PortSpacing_m);
+                }
+                if (infrastructureRet.PortElevation_m != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.PortElevation_m);
+                }
+                if (infrastructureRet.VerticalAngle_deg != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.VerticalAngle_deg);
+                }
+                if (infrastructureRet.HorizontalAngle_deg != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.HorizontalAngle_deg);
+                }
+                if (infrastructureRet.DecayRate_per_day != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.DecayRate_per_day);
+                }
+                if (infrastructureRet.NearFieldVelocity_m_s != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.NearFieldVelocity_m_s);
+                }
+                if (infrastructureRet.FarFieldVelocity_m_s != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.FarFieldVelocity_m_s);
+                }
+                if (infrastructureRet.ReceivingWaterSalinity_PSU != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.ReceivingWaterSalinity_PSU);
+                }
+                if (infrastructureRet.ReceivingWaterTemperature_C != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.ReceivingWaterTemperature_C);
+                }
+                if (infrastructureRet.ReceivingWater_MPN_per_100ml != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.ReceivingWater_MPN_per_100ml);
+                }
+                if (infrastructureRet.DistanceFromShore_m != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.DistanceFromShore_m);
+                }
+                if (infrastructureRet.SeeOtherTVItemID != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.SeeOtherTVItemID);
+                }
+                if (infrastructureRet.CivicAddressTVItemID != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.CivicAddressTVItemID);
+                }
+                Assert.IsNotNull(infrastructureRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(infrastructureRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(infrastructureRet.InfrastructureTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.InfrastructureTVText));
-                Assert.IsNotNull(infrastructureRet.SeeOtherTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.SeeOtherTVText));
-                Assert.IsNotNull(infrastructureRet.CivicAddressTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.CivicAddressTVText));
+                if (infrastructureRet.SeeOtherTVItemID != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.SeeOtherTVText);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.SeeOtherTVText));
+                }
+                if (infrastructureRet.CivicAddressTVItemID != null)
+                {
+                   Assert.IsNotNull(infrastructureRet.CivicAddressTVText);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.CivicAddressTVText));
+                }
                 Assert.IsNotNull(infrastructureRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.LastUpdateContactTVText));
                 Assert.IsNotNull(infrastructureRet.InfrastructureTypeText);

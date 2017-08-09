@@ -234,12 +234,12 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(samplingPlanSubsectorSite);
 
                 SamplingPlanSubsectorSite samplingPlanSubsectorSiteRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID);
-                Assert.AreEqual(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID, samplingPlanSubsectorSiteRet.SamplingPlanSubsectorSiteID);
-                Assert.AreEqual(samplingPlanSubsectorSite.SamplingPlanSubsectorID, samplingPlanSubsectorSiteRet.SamplingPlanSubsectorID);
-                Assert.AreEqual(samplingPlanSubsectorSite.MWQMSiteTVItemID, samplingPlanSubsectorSiteRet.MWQMSiteTVItemID);
-                Assert.AreEqual(samplingPlanSubsectorSite.IsDuplicate, samplingPlanSubsectorSiteRet.IsDuplicate);
-                Assert.AreEqual(samplingPlanSubsectorSite.LastUpdateDate_UTC, samplingPlanSubsectorSiteRet.LastUpdateDate_UTC);
-                Assert.AreEqual(samplingPlanSubsectorSite.LastUpdateContactTVItemID, samplingPlanSubsectorSiteRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(samplingPlanSubsectorSiteRet.SamplingPlanSubsectorSiteID);
+                Assert.IsNotNull(samplingPlanSubsectorSiteRet.SamplingPlanSubsectorID);
+                Assert.IsNotNull(samplingPlanSubsectorSiteRet.MWQMSiteTVItemID);
+                Assert.IsNotNull(samplingPlanSubsectorSiteRet.IsDuplicate);
+                Assert.IsNotNull(samplingPlanSubsectorSiteRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(samplingPlanSubsectorSiteRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(samplingPlanSubsectorSiteRet.MWQMSiteTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteRet.MWQMSiteTVText));

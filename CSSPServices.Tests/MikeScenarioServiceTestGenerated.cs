@@ -656,34 +656,71 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(mikeScenario);
 
                 MikeScenario mikeScenarioRet = mikeScenarioService.GetMikeScenarioWithMikeScenarioID(mikeScenario.MikeScenarioID);
-                Assert.AreEqual(mikeScenario.MikeScenarioID, mikeScenarioRet.MikeScenarioID);
-                Assert.AreEqual(mikeScenario.MikeScenarioTVItemID, mikeScenarioRet.MikeScenarioTVItemID);
-                Assert.AreEqual(mikeScenario.ParentMikeScenarioID, mikeScenarioRet.ParentMikeScenarioID);
-                Assert.AreEqual(mikeScenario.ScenarioStatus, mikeScenarioRet.ScenarioStatus);
-                Assert.AreEqual(mikeScenario.ErrorInfo, mikeScenarioRet.ErrorInfo);
-                Assert.AreEqual(mikeScenario.MikeScenarioStartDateTime_Local, mikeScenarioRet.MikeScenarioStartDateTime_Local);
-                Assert.AreEqual(mikeScenario.MikeScenarioEndDateTime_Local, mikeScenarioRet.MikeScenarioEndDateTime_Local);
-                Assert.AreEqual(mikeScenario.MikeScenarioStartExecutionDateTime_Local, mikeScenarioRet.MikeScenarioStartExecutionDateTime_Local);
-                Assert.AreEqual(mikeScenario.MikeScenarioExecutionTime_min, mikeScenarioRet.MikeScenarioExecutionTime_min);
-                Assert.AreEqual(mikeScenario.WindSpeed_km_h, mikeScenarioRet.WindSpeed_km_h);
-                Assert.AreEqual(mikeScenario.WindDirection_deg, mikeScenarioRet.WindDirection_deg);
-                Assert.AreEqual(mikeScenario.DecayFactor_per_day, mikeScenarioRet.DecayFactor_per_day);
-                Assert.AreEqual(mikeScenario.DecayIsConstant, mikeScenarioRet.DecayIsConstant);
-                Assert.AreEqual(mikeScenario.DecayFactorAmplitude, mikeScenarioRet.DecayFactorAmplitude);
-                Assert.AreEqual(mikeScenario.ResultFrequency_min, mikeScenarioRet.ResultFrequency_min);
-                Assert.AreEqual(mikeScenario.AmbientTemperature_C, mikeScenarioRet.AmbientTemperature_C);
-                Assert.AreEqual(mikeScenario.AmbientSalinity_PSU, mikeScenarioRet.AmbientSalinity_PSU);
-                Assert.AreEqual(mikeScenario.ManningNumber, mikeScenarioRet.ManningNumber);
-                Assert.AreEqual(mikeScenario.NumberOfElements, mikeScenarioRet.NumberOfElements);
-                Assert.AreEqual(mikeScenario.NumberOfTimeSteps, mikeScenarioRet.NumberOfTimeSteps);
-                Assert.AreEqual(mikeScenario.NumberOfSigmaLayers, mikeScenarioRet.NumberOfSigmaLayers);
-                Assert.AreEqual(mikeScenario.NumberOfZLayers, mikeScenarioRet.NumberOfZLayers);
-                Assert.AreEqual(mikeScenario.NumberOfHydroOutputParameters, mikeScenarioRet.NumberOfHydroOutputParameters);
-                Assert.AreEqual(mikeScenario.NumberOfTransOutputParameters, mikeScenarioRet.NumberOfTransOutputParameters);
-                Assert.AreEqual(mikeScenario.EstimatedHydroFileSize, mikeScenarioRet.EstimatedHydroFileSize);
-                Assert.AreEqual(mikeScenario.EstimatedTransFileSize, mikeScenarioRet.EstimatedTransFileSize);
-                Assert.AreEqual(mikeScenario.LastUpdateDate_UTC, mikeScenarioRet.LastUpdateDate_UTC);
-                Assert.AreEqual(mikeScenario.LastUpdateContactTVItemID, mikeScenarioRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(mikeScenarioRet.MikeScenarioID);
+                Assert.IsNotNull(mikeScenarioRet.MikeScenarioTVItemID);
+                if (mikeScenarioRet.ParentMikeScenarioID != null)
+                {
+                   Assert.IsNotNull(mikeScenarioRet.ParentMikeScenarioID);
+                }
+                Assert.IsNotNull(mikeScenarioRet.ScenarioStatus);
+                if (mikeScenarioRet.ErrorInfo != null)
+                {
+                   Assert.IsNotNull(mikeScenarioRet.ErrorInfo);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.ErrorInfo));
+                }
+                Assert.IsNotNull(mikeScenarioRet.MikeScenarioStartDateTime_Local);
+                Assert.IsNotNull(mikeScenarioRet.MikeScenarioEndDateTime_Local);
+                if (mikeScenarioRet.MikeScenarioStartExecutionDateTime_Local != null)
+                {
+                   Assert.IsNotNull(mikeScenarioRet.MikeScenarioStartExecutionDateTime_Local);
+                }
+                if (mikeScenarioRet.MikeScenarioExecutionTime_min != null)
+                {
+                   Assert.IsNotNull(mikeScenarioRet.MikeScenarioExecutionTime_min);
+                }
+                Assert.IsNotNull(mikeScenarioRet.WindSpeed_km_h);
+                Assert.IsNotNull(mikeScenarioRet.WindDirection_deg);
+                Assert.IsNotNull(mikeScenarioRet.DecayFactor_per_day);
+                Assert.IsNotNull(mikeScenarioRet.DecayIsConstant);
+                Assert.IsNotNull(mikeScenarioRet.DecayFactorAmplitude);
+                Assert.IsNotNull(mikeScenarioRet.ResultFrequency_min);
+                Assert.IsNotNull(mikeScenarioRet.AmbientTemperature_C);
+                Assert.IsNotNull(mikeScenarioRet.AmbientSalinity_PSU);
+                Assert.IsNotNull(mikeScenarioRet.ManningNumber);
+                if (mikeScenarioRet.NumberOfElements != null)
+                {
+                   Assert.IsNotNull(mikeScenarioRet.NumberOfElements);
+                }
+                if (mikeScenarioRet.NumberOfTimeSteps != null)
+                {
+                   Assert.IsNotNull(mikeScenarioRet.NumberOfTimeSteps);
+                }
+                if (mikeScenarioRet.NumberOfSigmaLayers != null)
+                {
+                   Assert.IsNotNull(mikeScenarioRet.NumberOfSigmaLayers);
+                }
+                if (mikeScenarioRet.NumberOfZLayers != null)
+                {
+                   Assert.IsNotNull(mikeScenarioRet.NumberOfZLayers);
+                }
+                if (mikeScenarioRet.NumberOfHydroOutputParameters != null)
+                {
+                   Assert.IsNotNull(mikeScenarioRet.NumberOfHydroOutputParameters);
+                }
+                if (mikeScenarioRet.NumberOfTransOutputParameters != null)
+                {
+                   Assert.IsNotNull(mikeScenarioRet.NumberOfTransOutputParameters);
+                }
+                if (mikeScenarioRet.EstimatedHydroFileSize != null)
+                {
+                   Assert.IsNotNull(mikeScenarioRet.EstimatedHydroFileSize);
+                }
+                if (mikeScenarioRet.EstimatedTransFileSize != null)
+                {
+                   Assert.IsNotNull(mikeScenarioRet.EstimatedTransFileSize);
+                }
+                Assert.IsNotNull(mikeScenarioRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(mikeScenarioRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(mikeScenarioRet.MikeScenarioTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.MikeScenarioTVText));

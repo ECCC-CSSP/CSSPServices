@@ -359,16 +359,16 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(mapInfo);
 
                 MapInfo mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID);
-                Assert.AreEqual(mapInfo.MapInfoID, mapInfoRet.MapInfoID);
-                Assert.AreEqual(mapInfo.TVItemID, mapInfoRet.TVItemID);
-                Assert.AreEqual(mapInfo.TVType, mapInfoRet.TVType);
-                Assert.AreEqual(mapInfo.LatMin, mapInfoRet.LatMin);
-                Assert.AreEqual(mapInfo.LatMax, mapInfoRet.LatMax);
-                Assert.AreEqual(mapInfo.LngMin, mapInfoRet.LngMin);
-                Assert.AreEqual(mapInfo.LngMax, mapInfoRet.LngMax);
-                Assert.AreEqual(mapInfo.MapInfoDrawType, mapInfoRet.MapInfoDrawType);
-                Assert.AreEqual(mapInfo.LastUpdateDate_UTC, mapInfoRet.LastUpdateDate_UTC);
-                Assert.AreEqual(mapInfo.LastUpdateContactTVItemID, mapInfoRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(mapInfoRet.MapInfoID);
+                Assert.IsNotNull(mapInfoRet.TVItemID);
+                Assert.IsNotNull(mapInfoRet.TVType);
+                Assert.IsNotNull(mapInfoRet.LatMin);
+                Assert.IsNotNull(mapInfoRet.LatMax);
+                Assert.IsNotNull(mapInfoRet.LngMin);
+                Assert.IsNotNull(mapInfoRet.LngMax);
+                Assert.IsNotNull(mapInfoRet.MapInfoDrawType);
+                Assert.IsNotNull(mapInfoRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(mapInfoRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(mapInfoRet.TVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.TVText));

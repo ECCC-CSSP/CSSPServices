@@ -473,30 +473,87 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(climateSite);
 
                 ClimateSite climateSiteRet = climateSiteService.GetClimateSiteWithClimateSiteID(climateSite.ClimateSiteID);
-                Assert.AreEqual(climateSite.ClimateSiteID, climateSiteRet.ClimateSiteID);
-                Assert.AreEqual(climateSite.ClimateSiteTVItemID, climateSiteRet.ClimateSiteTVItemID);
-                Assert.AreEqual(climateSite.ECDBID, climateSiteRet.ECDBID);
-                Assert.AreEqual(climateSite.ClimateSiteName, climateSiteRet.ClimateSiteName);
-                Assert.AreEqual(climateSite.Province, climateSiteRet.Province);
-                Assert.AreEqual(climateSite.Elevation_m, climateSiteRet.Elevation_m);
-                Assert.AreEqual(climateSite.ClimateID, climateSiteRet.ClimateID);
-                Assert.AreEqual(climateSite.WMOID, climateSiteRet.WMOID);
-                Assert.AreEqual(climateSite.TCID, climateSiteRet.TCID);
-                Assert.AreEqual(climateSite.IsProvincial, climateSiteRet.IsProvincial);
-                Assert.AreEqual(climateSite.ProvSiteID, climateSiteRet.ProvSiteID);
-                Assert.AreEqual(climateSite.TimeOffset_hour, climateSiteRet.TimeOffset_hour);
-                Assert.AreEqual(climateSite.File_desc, climateSiteRet.File_desc);
-                Assert.AreEqual(climateSite.HourlyStartDate_Local, climateSiteRet.HourlyStartDate_Local);
-                Assert.AreEqual(climateSite.HourlyEndDate_Local, climateSiteRet.HourlyEndDate_Local);
-                Assert.AreEqual(climateSite.HourlyNow, climateSiteRet.HourlyNow);
-                Assert.AreEqual(climateSite.DailyStartDate_Local, climateSiteRet.DailyStartDate_Local);
-                Assert.AreEqual(climateSite.DailyEndDate_Local, climateSiteRet.DailyEndDate_Local);
-                Assert.AreEqual(climateSite.DailyNow, climateSiteRet.DailyNow);
-                Assert.AreEqual(climateSite.MonthlyStartDate_Local, climateSiteRet.MonthlyStartDate_Local);
-                Assert.AreEqual(climateSite.MonthlyEndDate_Local, climateSiteRet.MonthlyEndDate_Local);
-                Assert.AreEqual(climateSite.MonthlyNow, climateSiteRet.MonthlyNow);
-                Assert.AreEqual(climateSite.LastUpdateDate_UTC, climateSiteRet.LastUpdateDate_UTC);
-                Assert.AreEqual(climateSite.LastUpdateContactTVItemID, climateSiteRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(climateSiteRet.ClimateSiteID);
+                Assert.IsNotNull(climateSiteRet.ClimateSiteTVItemID);
+                Assert.IsNotNull(climateSiteRet.ECDBID);
+                Assert.IsNotNull(climateSiteRet.ClimateSiteName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteName));
+                Assert.IsNotNull(climateSiteRet.Province);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.Province));
+                if (climateSiteRet.Elevation_m != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.Elevation_m);
+                }
+                if (climateSiteRet.ClimateID != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.ClimateID);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateID));
+                }
+                if (climateSiteRet.WMOID != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.WMOID);
+                }
+                if (climateSiteRet.TCID != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.TCID);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.TCID));
+                }
+                if (climateSiteRet.IsProvincial != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.IsProvincial);
+                }
+                if (climateSiteRet.ProvSiteID != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.ProvSiteID);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ProvSiteID));
+                }
+                if (climateSiteRet.TimeOffset_hour != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.TimeOffset_hour);
+                }
+                if (climateSiteRet.File_desc != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.File_desc);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.File_desc));
+                }
+                if (climateSiteRet.HourlyStartDate_Local != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.HourlyStartDate_Local);
+                }
+                if (climateSiteRet.HourlyEndDate_Local != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.HourlyEndDate_Local);
+                }
+                if (climateSiteRet.HourlyNow != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.HourlyNow);
+                }
+                if (climateSiteRet.DailyStartDate_Local != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.DailyStartDate_Local);
+                }
+                if (climateSiteRet.DailyEndDate_Local != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.DailyEndDate_Local);
+                }
+                if (climateSiteRet.DailyNow != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.DailyNow);
+                }
+                if (climateSiteRet.MonthlyStartDate_Local != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.MonthlyStartDate_Local);
+                }
+                if (climateSiteRet.MonthlyEndDate_Local != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.MonthlyEndDate_Local);
+                }
+                if (climateSiteRet.MonthlyNow != null)
+                {
+                   Assert.IsNotNull(climateSiteRet.MonthlyNow);
+                }
+                Assert.IsNotNull(climateSiteRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(climateSiteRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(climateSiteRet.ClimateSiteTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteTVText));

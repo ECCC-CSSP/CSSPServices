@@ -271,13 +271,14 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(vpScenarioLanguage);
 
                 VPScenarioLanguage vpScenarioLanguageRet = vpScenarioLanguageService.GetVPScenarioLanguageWithVPScenarioLanguageID(vpScenarioLanguage.VPScenarioLanguageID);
-                Assert.AreEqual(vpScenarioLanguage.VPScenarioLanguageID, vpScenarioLanguageRet.VPScenarioLanguageID);
-                Assert.AreEqual(vpScenarioLanguage.VPScenarioID, vpScenarioLanguageRet.VPScenarioID);
-                Assert.AreEqual(vpScenarioLanguage.Language, vpScenarioLanguageRet.Language);
-                Assert.AreEqual(vpScenarioLanguage.VPScenarioName, vpScenarioLanguageRet.VPScenarioName);
-                Assert.AreEqual(vpScenarioLanguage.TranslationStatus, vpScenarioLanguageRet.TranslationStatus);
-                Assert.AreEqual(vpScenarioLanguage.LastUpdateDate_UTC, vpScenarioLanguageRet.LastUpdateDate_UTC);
-                Assert.AreEqual(vpScenarioLanguage.LastUpdateContactTVItemID, vpScenarioLanguageRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(vpScenarioLanguageRet.VPScenarioLanguageID);
+                Assert.IsNotNull(vpScenarioLanguageRet.VPScenarioID);
+                Assert.IsNotNull(vpScenarioLanguageRet.Language);
+                Assert.IsNotNull(vpScenarioLanguageRet.VPScenarioName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.VPScenarioName));
+                Assert.IsNotNull(vpScenarioLanguageRet.TranslationStatus);
+                Assert.IsNotNull(vpScenarioLanguageRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(vpScenarioLanguageRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(vpScenarioLanguageRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.LastUpdateContactTVText));

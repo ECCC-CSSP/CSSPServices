@@ -251,14 +251,17 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(appErrLog);
 
                 AppErrLog appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID);
-                Assert.AreEqual(appErrLog.AppErrLogID, appErrLogRet.AppErrLogID);
-                Assert.AreEqual(appErrLog.Tag, appErrLogRet.Tag);
-                Assert.AreEqual(appErrLog.LineNumber, appErrLogRet.LineNumber);
-                Assert.AreEqual(appErrLog.Source, appErrLogRet.Source);
-                Assert.AreEqual(appErrLog.Message, appErrLogRet.Message);
-                Assert.AreEqual(appErrLog.DateTime_UTC, appErrLogRet.DateTime_UTC);
-                Assert.AreEqual(appErrLog.LastUpdateDate_UTC, appErrLogRet.LastUpdateDate_UTC);
-                Assert.AreEqual(appErrLog.LastUpdateContactTVItemID, appErrLogRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(appErrLogRet.AppErrLogID);
+                Assert.IsNotNull(appErrLogRet.Tag);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Tag));
+                Assert.IsNotNull(appErrLogRet.LineNumber);
+                Assert.IsNotNull(appErrLogRet.Source);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Source));
+                Assert.IsNotNull(appErrLogRet.Message);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Message));
+                Assert.IsNotNull(appErrLogRet.DateTime_UTC);
+                Assert.IsNotNull(appErrLogRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(appErrLogRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(appErrLogRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.LastUpdateContactTVText));

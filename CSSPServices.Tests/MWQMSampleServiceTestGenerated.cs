@@ -490,23 +490,49 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(mwqmSample);
 
                 MWQMSample mwqmSampleRet = mwqmSampleService.GetMWQMSampleWithMWQMSampleID(mwqmSample.MWQMSampleID);
-                Assert.AreEqual(mwqmSample.MWQMSampleID, mwqmSampleRet.MWQMSampleID);
-                Assert.AreEqual(mwqmSample.MWQMSiteTVItemID, mwqmSampleRet.MWQMSiteTVItemID);
-                Assert.AreEqual(mwqmSample.MWQMRunTVItemID, mwqmSampleRet.MWQMRunTVItemID);
-                Assert.AreEqual(mwqmSample.SampleDateTime_Local, mwqmSampleRet.SampleDateTime_Local);
-                Assert.AreEqual(mwqmSample.Depth_m, mwqmSampleRet.Depth_m);
-                Assert.AreEqual(mwqmSample.FecCol_MPN_100ml, mwqmSampleRet.FecCol_MPN_100ml);
-                Assert.AreEqual(mwqmSample.Salinity_PPT, mwqmSampleRet.Salinity_PPT);
-                Assert.AreEqual(mwqmSample.WaterTemp_C, mwqmSampleRet.WaterTemp_C);
-                Assert.AreEqual(mwqmSample.PH, mwqmSampleRet.PH);
-                Assert.AreEqual(mwqmSample.SampleTypesText, mwqmSampleRet.SampleTypesText);
-                Assert.AreEqual(mwqmSample.SampleType_old, mwqmSampleRet.SampleType_old);
-                Assert.AreEqual(mwqmSample.Tube_10, mwqmSampleRet.Tube_10);
-                Assert.AreEqual(mwqmSample.Tube_1_0, mwqmSampleRet.Tube_1_0);
-                Assert.AreEqual(mwqmSample.Tube_0_1, mwqmSampleRet.Tube_0_1);
-                Assert.AreEqual(mwqmSample.ProcessedBy, mwqmSampleRet.ProcessedBy);
-                Assert.AreEqual(mwqmSample.LastUpdateDate_UTC, mwqmSampleRet.LastUpdateDate_UTC);
-                Assert.AreEqual(mwqmSample.LastUpdateContactTVItemID, mwqmSampleRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(mwqmSampleRet.MWQMSampleID);
+                Assert.IsNotNull(mwqmSampleRet.MWQMSiteTVItemID);
+                Assert.IsNotNull(mwqmSampleRet.MWQMRunTVItemID);
+                Assert.IsNotNull(mwqmSampleRet.SampleDateTime_Local);
+                if (mwqmSampleRet.Depth_m != null)
+                {
+                   Assert.IsNotNull(mwqmSampleRet.Depth_m);
+                }
+                Assert.IsNotNull(mwqmSampleRet.FecCol_MPN_100ml);
+                if (mwqmSampleRet.Salinity_PPT != null)
+                {
+                   Assert.IsNotNull(mwqmSampleRet.Salinity_PPT);
+                }
+                if (mwqmSampleRet.WaterTemp_C != null)
+                {
+                   Assert.IsNotNull(mwqmSampleRet.WaterTemp_C);
+                }
+                if (mwqmSampleRet.PH != null)
+                {
+                   Assert.IsNotNull(mwqmSampleRet.PH);
+                }
+                Assert.IsNotNull(mwqmSampleRet.SampleTypesText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.SampleTypesText));
+                Assert.IsNotNull(mwqmSampleRet.SampleType_old);
+                if (mwqmSampleRet.Tube_10 != null)
+                {
+                   Assert.IsNotNull(mwqmSampleRet.Tube_10);
+                }
+                if (mwqmSampleRet.Tube_1_0 != null)
+                {
+                   Assert.IsNotNull(mwqmSampleRet.Tube_1_0);
+                }
+                if (mwqmSampleRet.Tube_0_1 != null)
+                {
+                   Assert.IsNotNull(mwqmSampleRet.Tube_0_1);
+                }
+                if (mwqmSampleRet.ProcessedBy != null)
+                {
+                   Assert.IsNotNull(mwqmSampleRet.ProcessedBy);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.ProcessedBy));
+                }
+                Assert.IsNotNull(mwqmSampleRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(mwqmSampleRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(mwqmSampleRet.MWQMSiteTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.MWQMSiteTVText));

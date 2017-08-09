@@ -291,14 +291,15 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(tvItem);
 
                 TVItem tvItemRet = tvItemService.GetTVItemWithTVItemID(tvItem.TVItemID);
-                Assert.AreEqual(tvItem.TVItemID, tvItemRet.TVItemID);
-                Assert.AreEqual(tvItem.TVLevel, tvItemRet.TVLevel);
-                Assert.AreEqual(tvItem.TVPath, tvItemRet.TVPath);
-                Assert.AreEqual(tvItem.TVType, tvItemRet.TVType);
-                Assert.AreEqual(tvItem.ParentID, tvItemRet.ParentID);
-                Assert.AreEqual(tvItem.IsActive, tvItemRet.IsActive);
-                Assert.AreEqual(tvItem.LastUpdateDate_UTC, tvItemRet.LastUpdateDate_UTC);
-                Assert.AreEqual(tvItem.LastUpdateContactTVItemID, tvItemRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(tvItemRet.TVItemID);
+                Assert.IsNotNull(tvItemRet.TVLevel);
+                Assert.IsNotNull(tvItemRet.TVPath);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemRet.TVPath));
+                Assert.IsNotNull(tvItemRet.TVType);
+                Assert.IsNotNull(tvItemRet.ParentID);
+                Assert.IsNotNull(tvItemRet.IsActive);
+                Assert.IsNotNull(tvItemRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(tvItemRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(tvItemRet.TVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemRet.TVText));

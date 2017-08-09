@@ -319,16 +319,16 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(vpResult);
 
                 VPResult vpResultRet = vpResultService.GetVPResultWithVPResultID(vpResult.VPResultID);
-                Assert.AreEqual(vpResult.VPResultID, vpResultRet.VPResultID);
-                Assert.AreEqual(vpResult.VPScenarioID, vpResultRet.VPScenarioID);
-                Assert.AreEqual(vpResult.Ordinal, vpResultRet.Ordinal);
-                Assert.AreEqual(vpResult.Concentration_MPN_100ml, vpResultRet.Concentration_MPN_100ml);
-                Assert.AreEqual(vpResult.Dilution, vpResultRet.Dilution);
-                Assert.AreEqual(vpResult.FarFieldWidth_m, vpResultRet.FarFieldWidth_m);
-                Assert.AreEqual(vpResult.DispersionDistance_m, vpResultRet.DispersionDistance_m);
-                Assert.AreEqual(vpResult.TravelTime_hour, vpResultRet.TravelTime_hour);
-                Assert.AreEqual(vpResult.LastUpdateDate_UTC, vpResultRet.LastUpdateDate_UTC);
-                Assert.AreEqual(vpResult.LastUpdateContactTVItemID, vpResultRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(vpResultRet.VPResultID);
+                Assert.IsNotNull(vpResultRet.VPScenarioID);
+                Assert.IsNotNull(vpResultRet.Ordinal);
+                Assert.IsNotNull(vpResultRet.Concentration_MPN_100ml);
+                Assert.IsNotNull(vpResultRet.Dilution);
+                Assert.IsNotNull(vpResultRet.FarFieldWidth_m);
+                Assert.IsNotNull(vpResultRet.DispersionDistance_m);
+                Assert.IsNotNull(vpResultRet.TravelTime_hour);
+                Assert.IsNotNull(vpResultRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(vpResultRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(vpResultRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(vpResultRet.LastUpdateContactTVText));

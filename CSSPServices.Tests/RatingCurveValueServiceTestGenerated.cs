@@ -235,12 +235,12 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(ratingCurveValue);
 
                 RatingCurveValue ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
-                Assert.AreEqual(ratingCurveValue.RatingCurveValueID, ratingCurveValueRet.RatingCurveValueID);
-                Assert.AreEqual(ratingCurveValue.RatingCurveID, ratingCurveValueRet.RatingCurveID);
-                Assert.AreEqual(ratingCurveValue.StageValue_m, ratingCurveValueRet.StageValue_m);
-                Assert.AreEqual(ratingCurveValue.DischargeValue_m3_s, ratingCurveValueRet.DischargeValue_m3_s);
-                Assert.AreEqual(ratingCurveValue.LastUpdateDate_UTC, ratingCurveValueRet.LastUpdateDate_UTC);
-                Assert.AreEqual(ratingCurveValue.LastUpdateContactTVItemID, ratingCurveValueRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(ratingCurveValueRet.RatingCurveValueID);
+                Assert.IsNotNull(ratingCurveValueRet.RatingCurveID);
+                Assert.IsNotNull(ratingCurveValueRet.StageValue_m);
+                Assert.IsNotNull(ratingCurveValueRet.DischargeValue_m3_s);
+                Assert.IsNotNull(ratingCurveValueRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(ratingCurveValueRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(ratingCurveValueRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueRet.LastUpdateContactTVText));

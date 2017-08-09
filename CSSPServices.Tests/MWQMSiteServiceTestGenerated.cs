@@ -306,14 +306,16 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(mwqmSite);
 
                 MWQMSite mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID);
-                Assert.AreEqual(mwqmSite.MWQMSiteID, mwqmSiteRet.MWQMSiteID);
-                Assert.AreEqual(mwqmSite.MWQMSiteTVItemID, mwqmSiteRet.MWQMSiteTVItemID);
-                Assert.AreEqual(mwqmSite.MWQMSiteNumber, mwqmSiteRet.MWQMSiteNumber);
-                Assert.AreEqual(mwqmSite.MWQMSiteDescription, mwqmSiteRet.MWQMSiteDescription);
-                Assert.AreEqual(mwqmSite.MWQMSiteLatestClassification, mwqmSiteRet.MWQMSiteLatestClassification);
-                Assert.AreEqual(mwqmSite.Ordinal, mwqmSiteRet.Ordinal);
-                Assert.AreEqual(mwqmSite.LastUpdateDate_UTC, mwqmSiteRet.LastUpdateDate_UTC);
-                Assert.AreEqual(mwqmSite.LastUpdateContactTVItemID, mwqmSiteRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(mwqmSiteRet.MWQMSiteID);
+                Assert.IsNotNull(mwqmSiteRet.MWQMSiteTVItemID);
+                Assert.IsNotNull(mwqmSiteRet.MWQMSiteNumber);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteNumber));
+                Assert.IsNotNull(mwqmSiteRet.MWQMSiteDescription);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteDescription));
+                Assert.IsNotNull(mwqmSiteRet.MWQMSiteLatestClassification);
+                Assert.IsNotNull(mwqmSiteRet.Ordinal);
+                Assert.IsNotNull(mwqmSiteRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(mwqmSiteRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(mwqmSiteRet.MWQMSiteTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteTVText));

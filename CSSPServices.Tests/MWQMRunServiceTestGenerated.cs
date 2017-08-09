@@ -1004,55 +1004,161 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(mwqmRun);
 
                 MWQMRun mwqmRunRet = mwqmRunService.GetMWQMRunWithMWQMRunID(mwqmRun.MWQMRunID);
-                Assert.AreEqual(mwqmRun.MWQMRunID, mwqmRunRet.MWQMRunID);
-                Assert.AreEqual(mwqmRun.SubsectorTVItemID, mwqmRunRet.SubsectorTVItemID);
-                Assert.AreEqual(mwqmRun.MWQMRunTVItemID, mwqmRunRet.MWQMRunTVItemID);
-                Assert.AreEqual(mwqmRun.RunSampleType, mwqmRunRet.RunSampleType);
-                Assert.AreEqual(mwqmRun.DateTime_Local, mwqmRunRet.DateTime_Local);
-                Assert.AreEqual(mwqmRun.RunNumber, mwqmRunRet.RunNumber);
-                Assert.AreEqual(mwqmRun.StartDateTime_Local, mwqmRunRet.StartDateTime_Local);
-                Assert.AreEqual(mwqmRun.EndDateTime_Local, mwqmRunRet.EndDateTime_Local);
-                Assert.AreEqual(mwqmRun.LabReceivedDateTime_Local, mwqmRunRet.LabReceivedDateTime_Local);
-                Assert.AreEqual(mwqmRun.TemperatureControl1_C, mwqmRunRet.TemperatureControl1_C);
-                Assert.AreEqual(mwqmRun.TemperatureControl2_C, mwqmRunRet.TemperatureControl2_C);
-                Assert.AreEqual(mwqmRun.SeaStateAtStart_BeaufortScale, mwqmRunRet.SeaStateAtStart_BeaufortScale);
-                Assert.AreEqual(mwqmRun.SeaStateAtEnd_BeaufortScale, mwqmRunRet.SeaStateAtEnd_BeaufortScale);
-                Assert.AreEqual(mwqmRun.WaterLevelAtBrook_m, mwqmRunRet.WaterLevelAtBrook_m);
-                Assert.AreEqual(mwqmRun.WaveHightAtStart_m, mwqmRunRet.WaveHightAtStart_m);
-                Assert.AreEqual(mwqmRun.WaveHightAtEnd_m, mwqmRunRet.WaveHightAtEnd_m);
-                Assert.AreEqual(mwqmRun.SampleCrewInitials, mwqmRunRet.SampleCrewInitials);
-                Assert.AreEqual(mwqmRun.AnalyzeMethod, mwqmRunRet.AnalyzeMethod);
-                Assert.AreEqual(mwqmRun.SampleMatrix, mwqmRunRet.SampleMatrix);
-                Assert.AreEqual(mwqmRun.Laboratory, mwqmRunRet.Laboratory);
-                Assert.AreEqual(mwqmRun.SampleStatus, mwqmRunRet.SampleStatus);
-                Assert.AreEqual(mwqmRun.LabSampleApprovalContactTVItemID, mwqmRunRet.LabSampleApprovalContactTVItemID);
-                Assert.AreEqual(mwqmRun.LabAnalyzeBath1IncubationStartDateTime_Local, mwqmRunRet.LabAnalyzeBath1IncubationStartDateTime_Local);
-                Assert.AreEqual(mwqmRun.LabAnalyzeBath2IncubationStartDateTime_Local, mwqmRunRet.LabAnalyzeBath2IncubationStartDateTime_Local);
-                Assert.AreEqual(mwqmRun.LabAnalyzeBath3IncubationStartDateTime_Local, mwqmRunRet.LabAnalyzeBath3IncubationStartDateTime_Local);
-                Assert.AreEqual(mwqmRun.LabRunSampleApprovalDateTime_Local, mwqmRunRet.LabRunSampleApprovalDateTime_Local);
-                Assert.AreEqual(mwqmRun.Tide_Start, mwqmRunRet.Tide_Start);
-                Assert.AreEqual(mwqmRun.Tide_End, mwqmRunRet.Tide_End);
-                Assert.AreEqual(mwqmRun.RainDay0_mm, mwqmRunRet.RainDay0_mm);
-                Assert.AreEqual(mwqmRun.RainDay1_mm, mwqmRunRet.RainDay1_mm);
-                Assert.AreEqual(mwqmRun.RainDay2_mm, mwqmRunRet.RainDay2_mm);
-                Assert.AreEqual(mwqmRun.RainDay3_mm, mwqmRunRet.RainDay3_mm);
-                Assert.AreEqual(mwqmRun.RainDay4_mm, mwqmRunRet.RainDay4_mm);
-                Assert.AreEqual(mwqmRun.RainDay5_mm, mwqmRunRet.RainDay5_mm);
-                Assert.AreEqual(mwqmRun.RainDay6_mm, mwqmRunRet.RainDay6_mm);
-                Assert.AreEqual(mwqmRun.RainDay7_mm, mwqmRunRet.RainDay7_mm);
-                Assert.AreEqual(mwqmRun.RainDay8_mm, mwqmRunRet.RainDay8_mm);
-                Assert.AreEqual(mwqmRun.RainDay9_mm, mwqmRunRet.RainDay9_mm);
-                Assert.AreEqual(mwqmRun.RainDay10_mm, mwqmRunRet.RainDay10_mm);
-                Assert.AreEqual(mwqmRun.RemoveFromStat, mwqmRunRet.RemoveFromStat);
-                Assert.AreEqual(mwqmRun.LastUpdateDate_UTC, mwqmRunRet.LastUpdateDate_UTC);
-                Assert.AreEqual(mwqmRun.LastUpdateContactTVItemID, mwqmRunRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(mwqmRunRet.MWQMRunID);
+                Assert.IsNotNull(mwqmRunRet.SubsectorTVItemID);
+                Assert.IsNotNull(mwqmRunRet.MWQMRunTVItemID);
+                Assert.IsNotNull(mwqmRunRet.RunSampleType);
+                Assert.IsNotNull(mwqmRunRet.DateTime_Local);
+                Assert.IsNotNull(mwqmRunRet.RunNumber);
+                if (mwqmRunRet.StartDateTime_Local != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.StartDateTime_Local);
+                }
+                if (mwqmRunRet.EndDateTime_Local != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.EndDateTime_Local);
+                }
+                if (mwqmRunRet.LabReceivedDateTime_Local != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.LabReceivedDateTime_Local);
+                }
+                if (mwqmRunRet.TemperatureControl1_C != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.TemperatureControl1_C);
+                }
+                if (mwqmRunRet.TemperatureControl2_C != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.TemperatureControl2_C);
+                }
+                if (mwqmRunRet.SeaStateAtStart_BeaufortScale != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.SeaStateAtStart_BeaufortScale);
+                }
+                if (mwqmRunRet.SeaStateAtEnd_BeaufortScale != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.SeaStateAtEnd_BeaufortScale);
+                }
+                if (mwqmRunRet.WaterLevelAtBrook_m != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.WaterLevelAtBrook_m);
+                }
+                if (mwqmRunRet.WaveHightAtStart_m != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.WaveHightAtStart_m);
+                }
+                if (mwqmRunRet.WaveHightAtEnd_m != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.WaveHightAtEnd_m);
+                }
+                if (mwqmRunRet.SampleCrewInitials != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.SampleCrewInitials);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.SampleCrewInitials));
+                }
+                if (mwqmRunRet.AnalyzeMethod != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.AnalyzeMethod);
+                }
+                if (mwqmRunRet.SampleMatrix != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.SampleMatrix);
+                }
+                if (mwqmRunRet.Laboratory != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.Laboratory);
+                }
+                if (mwqmRunRet.SampleStatus != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.SampleStatus);
+                }
+                if (mwqmRunRet.LabSampleApprovalContactTVItemID != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.LabSampleApprovalContactTVItemID);
+                }
+                if (mwqmRunRet.LabAnalyzeBath1IncubationStartDateTime_Local != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.LabAnalyzeBath1IncubationStartDateTime_Local);
+                }
+                if (mwqmRunRet.LabAnalyzeBath2IncubationStartDateTime_Local != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.LabAnalyzeBath2IncubationStartDateTime_Local);
+                }
+                if (mwqmRunRet.LabAnalyzeBath3IncubationStartDateTime_Local != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.LabAnalyzeBath3IncubationStartDateTime_Local);
+                }
+                if (mwqmRunRet.LabRunSampleApprovalDateTime_Local != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.LabRunSampleApprovalDateTime_Local);
+                }
+                if (mwqmRunRet.Tide_Start != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.Tide_Start);
+                }
+                if (mwqmRunRet.Tide_End != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.Tide_End);
+                }
+                if (mwqmRunRet.RainDay0_mm != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.RainDay0_mm);
+                }
+                if (mwqmRunRet.RainDay1_mm != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.RainDay1_mm);
+                }
+                if (mwqmRunRet.RainDay2_mm != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.RainDay2_mm);
+                }
+                if (mwqmRunRet.RainDay3_mm != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.RainDay3_mm);
+                }
+                if (mwqmRunRet.RainDay4_mm != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.RainDay4_mm);
+                }
+                if (mwqmRunRet.RainDay5_mm != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.RainDay5_mm);
+                }
+                if (mwqmRunRet.RainDay6_mm != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.RainDay6_mm);
+                }
+                if (mwqmRunRet.RainDay7_mm != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.RainDay7_mm);
+                }
+                if (mwqmRunRet.RainDay8_mm != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.RainDay8_mm);
+                }
+                if (mwqmRunRet.RainDay9_mm != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.RainDay9_mm);
+                }
+                if (mwqmRunRet.RainDay10_mm != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.RainDay10_mm);
+                }
+                if (mwqmRunRet.RemoveFromStat != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.RemoveFromStat);
+                }
+                Assert.IsNotNull(mwqmRunRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(mwqmRunRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(mwqmRunRet.SubsectorTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.SubsectorTVText));
                 Assert.IsNotNull(mwqmRunRet.MWQMRunTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.MWQMRunTVText));
-                Assert.IsNotNull(mwqmRunRet.LabSampleApprovalContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.LabSampleApprovalContactTVText));
+                if (mwqmRunRet.LabSampleApprovalContactTVItemID != null)
+                {
+                   Assert.IsNotNull(mwqmRunRet.LabSampleApprovalContactTVText);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.LabSampleApprovalContactTVText));
+                }
                 Assert.IsNotNull(mwqmRunRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.LastUpdateContactTVText));
                 Assert.IsNotNull(mwqmRunRet.RunSampleTypeText);

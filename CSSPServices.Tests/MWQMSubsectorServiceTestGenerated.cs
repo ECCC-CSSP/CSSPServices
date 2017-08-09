@@ -620,35 +620,109 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(mwqmSubsector);
 
                 MWQMSubsector mwqmSubsectorRet = mwqmSubsectorService.GetMWQMSubsectorWithMWQMSubsectorID(mwqmSubsector.MWQMSubsectorID);
-                Assert.AreEqual(mwqmSubsector.MWQMSubsectorID, mwqmSubsectorRet.MWQMSubsectorID);
-                Assert.AreEqual(mwqmSubsector.MWQMSubsectorTVItemID, mwqmSubsectorRet.MWQMSubsectorTVItemID);
-                Assert.AreEqual(mwqmSubsector.SubsectorHistoricKey, mwqmSubsectorRet.SubsectorHistoricKey);
-                Assert.AreEqual(mwqmSubsector.TideLocationSIDText, mwqmSubsectorRet.TideLocationSIDText);
-                Assert.AreEqual(mwqmSubsector.RainDay0Limit, mwqmSubsectorRet.RainDay0Limit);
-                Assert.AreEqual(mwqmSubsector.RainDay1Limit, mwqmSubsectorRet.RainDay1Limit);
-                Assert.AreEqual(mwqmSubsector.RainDay2Limit, mwqmSubsectorRet.RainDay2Limit);
-                Assert.AreEqual(mwqmSubsector.RainDay3Limit, mwqmSubsectorRet.RainDay3Limit);
-                Assert.AreEqual(mwqmSubsector.RainDay4Limit, mwqmSubsectorRet.RainDay4Limit);
-                Assert.AreEqual(mwqmSubsector.RainDay5Limit, mwqmSubsectorRet.RainDay5Limit);
-                Assert.AreEqual(mwqmSubsector.RainDay6Limit, mwqmSubsectorRet.RainDay6Limit);
-                Assert.AreEqual(mwqmSubsector.RainDay7Limit, mwqmSubsectorRet.RainDay7Limit);
-                Assert.AreEqual(mwqmSubsector.RainDay8Limit, mwqmSubsectorRet.RainDay8Limit);
-                Assert.AreEqual(mwqmSubsector.RainDay9Limit, mwqmSubsectorRet.RainDay9Limit);
-                Assert.AreEqual(mwqmSubsector.RainDay10Limit, mwqmSubsectorRet.RainDay10Limit);
-                Assert.AreEqual(mwqmSubsector.IncludeRainStartDate, mwqmSubsectorRet.IncludeRainStartDate);
-                Assert.AreEqual(mwqmSubsector.IncludeRainEndDate, mwqmSubsectorRet.IncludeRainEndDate);
-                Assert.AreEqual(mwqmSubsector.IncludeRainRunCount, mwqmSubsectorRet.IncludeRainRunCount);
-                Assert.AreEqual(mwqmSubsector.IncludeRainSelectFullYear, mwqmSubsectorRet.IncludeRainSelectFullYear);
-                Assert.AreEqual(mwqmSubsector.NoRainStartDate, mwqmSubsectorRet.NoRainStartDate);
-                Assert.AreEqual(mwqmSubsector.NoRainEndDate, mwqmSubsectorRet.NoRainEndDate);
-                Assert.AreEqual(mwqmSubsector.NoRainRunCount, mwqmSubsectorRet.NoRainRunCount);
-                Assert.AreEqual(mwqmSubsector.NoRainSelectFullYear, mwqmSubsectorRet.NoRainSelectFullYear);
-                Assert.AreEqual(mwqmSubsector.OnlyRainStartDate, mwqmSubsectorRet.OnlyRainStartDate);
-                Assert.AreEqual(mwqmSubsector.OnlyRainEndDate, mwqmSubsectorRet.OnlyRainEndDate);
-                Assert.AreEqual(mwqmSubsector.OnlyRainRunCount, mwqmSubsectorRet.OnlyRainRunCount);
-                Assert.AreEqual(mwqmSubsector.OnlyRainSelectFullYear, mwqmSubsectorRet.OnlyRainSelectFullYear);
-                Assert.AreEqual(mwqmSubsector.LastUpdateDate_UTC, mwqmSubsectorRet.LastUpdateDate_UTC);
-                Assert.AreEqual(mwqmSubsector.LastUpdateContactTVItemID, mwqmSubsectorRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(mwqmSubsectorRet.MWQMSubsectorID);
+                Assert.IsNotNull(mwqmSubsectorRet.MWQMSubsectorTVItemID);
+                Assert.IsNotNull(mwqmSubsectorRet.SubsectorHistoricKey);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.SubsectorHistoricKey));
+                if (mwqmSubsectorRet.TideLocationSIDText != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.TideLocationSIDText);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.TideLocationSIDText));
+                }
+                if (mwqmSubsectorRet.RainDay0Limit != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.RainDay0Limit);
+                }
+                if (mwqmSubsectorRet.RainDay1Limit != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.RainDay1Limit);
+                }
+                if (mwqmSubsectorRet.RainDay2Limit != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.RainDay2Limit);
+                }
+                if (mwqmSubsectorRet.RainDay3Limit != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.RainDay3Limit);
+                }
+                if (mwqmSubsectorRet.RainDay4Limit != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.RainDay4Limit);
+                }
+                if (mwqmSubsectorRet.RainDay5Limit != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.RainDay5Limit);
+                }
+                if (mwqmSubsectorRet.RainDay6Limit != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.RainDay6Limit);
+                }
+                if (mwqmSubsectorRet.RainDay7Limit != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.RainDay7Limit);
+                }
+                if (mwqmSubsectorRet.RainDay8Limit != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.RainDay8Limit);
+                }
+                if (mwqmSubsectorRet.RainDay9Limit != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.RainDay9Limit);
+                }
+                if (mwqmSubsectorRet.RainDay10Limit != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.RainDay10Limit);
+                }
+                if (mwqmSubsectorRet.IncludeRainStartDate != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.IncludeRainStartDate);
+                }
+                if (mwqmSubsectorRet.IncludeRainEndDate != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.IncludeRainEndDate);
+                }
+                if (mwqmSubsectorRet.IncludeRainRunCount != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.IncludeRainRunCount);
+                }
+                if (mwqmSubsectorRet.IncludeRainSelectFullYear != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.IncludeRainSelectFullYear);
+                }
+                if (mwqmSubsectorRet.NoRainStartDate != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.NoRainStartDate);
+                }
+                if (mwqmSubsectorRet.NoRainEndDate != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.NoRainEndDate);
+                }
+                if (mwqmSubsectorRet.NoRainRunCount != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.NoRainRunCount);
+                }
+                if (mwqmSubsectorRet.NoRainSelectFullYear != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.NoRainSelectFullYear);
+                }
+                if (mwqmSubsectorRet.OnlyRainStartDate != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.OnlyRainStartDate);
+                }
+                if (mwqmSubsectorRet.OnlyRainEndDate != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.OnlyRainEndDate);
+                }
+                if (mwqmSubsectorRet.OnlyRainRunCount != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.OnlyRainRunCount);
+                }
+                if (mwqmSubsectorRet.OnlyRainSelectFullYear != null)
+                {
+                   Assert.IsNotNull(mwqmSubsectorRet.OnlyRainSelectFullYear);
+                }
+                Assert.IsNotNull(mwqmSubsectorRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(mwqmSubsectorRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(mwqmSubsectorRet.SubsectorTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.SubsectorTVText));

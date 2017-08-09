@@ -230,12 +230,15 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(mwqmSiteStartEndDate);
 
                 MWQMSiteStartEndDate mwqmSiteStartEndDateRet = mwqmSiteStartEndDateService.GetMWQMSiteStartEndDateWithMWQMSiteStartEndDateID(mwqmSiteStartEndDate.MWQMSiteStartEndDateID);
-                Assert.AreEqual(mwqmSiteStartEndDate.MWQMSiteStartEndDateID, mwqmSiteStartEndDateRet.MWQMSiteStartEndDateID);
-                Assert.AreEqual(mwqmSiteStartEndDate.MWQMSiteTVItemID, mwqmSiteStartEndDateRet.MWQMSiteTVItemID);
-                Assert.AreEqual(mwqmSiteStartEndDate.StartDate, mwqmSiteStartEndDateRet.StartDate);
-                Assert.AreEqual(mwqmSiteStartEndDate.EndDate, mwqmSiteStartEndDateRet.EndDate);
-                Assert.AreEqual(mwqmSiteStartEndDate.LastUpdateDate_UTC, mwqmSiteStartEndDateRet.LastUpdateDate_UTC);
-                Assert.AreEqual(mwqmSiteStartEndDate.LastUpdateContactTVItemID, mwqmSiteStartEndDateRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(mwqmSiteStartEndDateRet.MWQMSiteStartEndDateID);
+                Assert.IsNotNull(mwqmSiteStartEndDateRet.MWQMSiteTVItemID);
+                Assert.IsNotNull(mwqmSiteStartEndDateRet.StartDate);
+                if (mwqmSiteStartEndDateRet.EndDate != null)
+                {
+                   Assert.IsNotNull(mwqmSiteStartEndDateRet.EndDate);
+                }
+                Assert.IsNotNull(mwqmSiteStartEndDateRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(mwqmSiteStartEndDateRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(mwqmSiteStartEndDateRet.MWQMSiteTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateRet.MWQMSiteTVText));

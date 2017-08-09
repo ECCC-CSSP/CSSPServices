@@ -265,12 +265,13 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(email);
 
                 Email emailRet = emailService.GetEmailWithEmailID(email.EmailID);
-                Assert.AreEqual(email.EmailID, emailRet.EmailID);
-                Assert.AreEqual(email.EmailTVItemID, emailRet.EmailTVItemID);
-                Assert.AreEqual(email.EmailAddress, emailRet.EmailAddress);
-                Assert.AreEqual(email.EmailType, emailRet.EmailType);
-                Assert.AreEqual(email.LastUpdateDate_UTC, emailRet.LastUpdateDate_UTC);
-                Assert.AreEqual(email.LastUpdateContactTVItemID, emailRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(emailRet.EmailID);
+                Assert.IsNotNull(emailRet.EmailTVItemID);
+                Assert.IsNotNull(emailRet.EmailAddress);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailAddress));
+                Assert.IsNotNull(emailRet.EmailType);
+                Assert.IsNotNull(emailRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(emailRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(emailRet.EmailTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailTVText));

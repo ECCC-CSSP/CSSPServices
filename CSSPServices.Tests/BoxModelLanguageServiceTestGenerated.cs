@@ -271,13 +271,14 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(boxModelLanguage);
 
                 BoxModelLanguage boxModelLanguageRet = boxModelLanguageService.GetBoxModelLanguageWithBoxModelLanguageID(boxModelLanguage.BoxModelLanguageID);
-                Assert.AreEqual(boxModelLanguage.BoxModelLanguageID, boxModelLanguageRet.BoxModelLanguageID);
-                Assert.AreEqual(boxModelLanguage.BoxModelID, boxModelLanguageRet.BoxModelID);
-                Assert.AreEqual(boxModelLanguage.Language, boxModelLanguageRet.Language);
-                Assert.AreEqual(boxModelLanguage.ScenarioName, boxModelLanguageRet.ScenarioName);
-                Assert.AreEqual(boxModelLanguage.TranslationStatus, boxModelLanguageRet.TranslationStatus);
-                Assert.AreEqual(boxModelLanguage.LastUpdateDate_UTC, boxModelLanguageRet.LastUpdateDate_UTC);
-                Assert.AreEqual(boxModelLanguage.LastUpdateContactTVItemID, boxModelLanguageRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(boxModelLanguageRet.BoxModelLanguageID);
+                Assert.IsNotNull(boxModelLanguageRet.BoxModelID);
+                Assert.IsNotNull(boxModelLanguageRet.Language);
+                Assert.IsNotNull(boxModelLanguageRet.ScenarioName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageRet.ScenarioName));
+                Assert.IsNotNull(boxModelLanguageRet.TranslationStatus);
+                Assert.IsNotNull(boxModelLanguageRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(boxModelLanguageRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(boxModelLanguageRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageRet.LastUpdateContactTVText));

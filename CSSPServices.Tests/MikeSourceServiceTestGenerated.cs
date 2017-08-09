@@ -256,14 +256,15 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(mikeSource);
 
                 MikeSource mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID);
-                Assert.AreEqual(mikeSource.MikeSourceID, mikeSourceRet.MikeSourceID);
-                Assert.AreEqual(mikeSource.MikeSourceTVItemID, mikeSourceRet.MikeSourceTVItemID);
-                Assert.AreEqual(mikeSource.IsContinuous, mikeSourceRet.IsContinuous);
-                Assert.AreEqual(mikeSource.Include, mikeSourceRet.Include);
-                Assert.AreEqual(mikeSource.IsRiver, mikeSourceRet.IsRiver);
-                Assert.AreEqual(mikeSource.SourceNumberString, mikeSourceRet.SourceNumberString);
-                Assert.AreEqual(mikeSource.LastUpdateDate_UTC, mikeSourceRet.LastUpdateDate_UTC);
-                Assert.AreEqual(mikeSource.LastUpdateContactTVItemID, mikeSourceRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(mikeSourceRet.MikeSourceID);
+                Assert.IsNotNull(mikeSourceRet.MikeSourceTVItemID);
+                Assert.IsNotNull(mikeSourceRet.IsContinuous);
+                Assert.IsNotNull(mikeSourceRet.Include);
+                Assert.IsNotNull(mikeSourceRet.IsRiver);
+                Assert.IsNotNull(mikeSourceRet.SourceNumberString);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.SourceNumberString));
+                Assert.IsNotNull(mikeSourceRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(mikeSourceRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(mikeSourceRet.MikeSourceTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceTVText));

@@ -484,25 +484,62 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(climateDataValue);
 
                 ClimateDataValue climateDataValueRet = climateDataValueService.GetClimateDataValueWithClimateDataValueID(climateDataValue.ClimateDataValueID);
-                Assert.AreEqual(climateDataValue.ClimateDataValueID, climateDataValueRet.ClimateDataValueID);
-                Assert.AreEqual(climateDataValue.ClimateSiteID, climateDataValueRet.ClimateSiteID);
-                Assert.AreEqual(climateDataValue.DateTime_Local, climateDataValueRet.DateTime_Local);
-                Assert.AreEqual(climateDataValue.Keep, climateDataValueRet.Keep);
-                Assert.AreEqual(climateDataValue.StorageDataType, climateDataValueRet.StorageDataType);
-                Assert.AreEqual(climateDataValue.Snow_cm, climateDataValueRet.Snow_cm);
-                Assert.AreEqual(climateDataValue.Rainfall_mm, climateDataValueRet.Rainfall_mm);
-                Assert.AreEqual(climateDataValue.RainfallEntered_mm, climateDataValueRet.RainfallEntered_mm);
-                Assert.AreEqual(climateDataValue.TotalPrecip_mm_cm, climateDataValueRet.TotalPrecip_mm_cm);
-                Assert.AreEqual(climateDataValue.MaxTemp_C, climateDataValueRet.MaxTemp_C);
-                Assert.AreEqual(climateDataValue.MinTemp_C, climateDataValueRet.MinTemp_C);
-                Assert.AreEqual(climateDataValue.HeatDegDays_C, climateDataValueRet.HeatDegDays_C);
-                Assert.AreEqual(climateDataValue.CoolDegDays_C, climateDataValueRet.CoolDegDays_C);
-                Assert.AreEqual(climateDataValue.SnowOnGround_cm, climateDataValueRet.SnowOnGround_cm);
-                Assert.AreEqual(climateDataValue.DirMaxGust_0North, climateDataValueRet.DirMaxGust_0North);
-                Assert.AreEqual(climateDataValue.SpdMaxGust_kmh, climateDataValueRet.SpdMaxGust_kmh);
-                Assert.AreEqual(climateDataValue.HourlyValues, climateDataValueRet.HourlyValues);
-                Assert.AreEqual(climateDataValue.LastUpdateDate_UTC, climateDataValueRet.LastUpdateDate_UTC);
-                Assert.AreEqual(climateDataValue.LastUpdateContactTVItemID, climateDataValueRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(climateDataValueRet.ClimateDataValueID);
+                Assert.IsNotNull(climateDataValueRet.ClimateSiteID);
+                Assert.IsNotNull(climateDataValueRet.DateTime_Local);
+                Assert.IsNotNull(climateDataValueRet.Keep);
+                Assert.IsNotNull(climateDataValueRet.StorageDataType);
+                if (climateDataValueRet.Snow_cm != null)
+                {
+                   Assert.IsNotNull(climateDataValueRet.Snow_cm);
+                }
+                if (climateDataValueRet.Rainfall_mm != null)
+                {
+                   Assert.IsNotNull(climateDataValueRet.Rainfall_mm);
+                }
+                if (climateDataValueRet.RainfallEntered_mm != null)
+                {
+                   Assert.IsNotNull(climateDataValueRet.RainfallEntered_mm);
+                }
+                if (climateDataValueRet.TotalPrecip_mm_cm != null)
+                {
+                   Assert.IsNotNull(climateDataValueRet.TotalPrecip_mm_cm);
+                }
+                if (climateDataValueRet.MaxTemp_C != null)
+                {
+                   Assert.IsNotNull(climateDataValueRet.MaxTemp_C);
+                }
+                if (climateDataValueRet.MinTemp_C != null)
+                {
+                   Assert.IsNotNull(climateDataValueRet.MinTemp_C);
+                }
+                if (climateDataValueRet.HeatDegDays_C != null)
+                {
+                   Assert.IsNotNull(climateDataValueRet.HeatDegDays_C);
+                }
+                if (climateDataValueRet.CoolDegDays_C != null)
+                {
+                   Assert.IsNotNull(climateDataValueRet.CoolDegDays_C);
+                }
+                if (climateDataValueRet.SnowOnGround_cm != null)
+                {
+                   Assert.IsNotNull(climateDataValueRet.SnowOnGround_cm);
+                }
+                if (climateDataValueRet.DirMaxGust_0North != null)
+                {
+                   Assert.IsNotNull(climateDataValueRet.DirMaxGust_0North);
+                }
+                if (climateDataValueRet.SpdMaxGust_kmh != null)
+                {
+                   Assert.IsNotNull(climateDataValueRet.SpdMaxGust_kmh);
+                }
+                if (climateDataValueRet.HourlyValues != null)
+                {
+                   Assert.IsNotNull(climateDataValueRet.HourlyValues);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.HourlyValues));
+                }
+                Assert.IsNotNull(climateDataValueRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(climateDataValueRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(climateDataValueRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.LastUpdateContactTVText));

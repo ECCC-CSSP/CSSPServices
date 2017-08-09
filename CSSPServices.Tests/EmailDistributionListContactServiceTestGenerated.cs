@@ -300,19 +300,22 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(emailDistributionListContact);
 
                 EmailDistributionListContact emailDistributionListContactRet = emailDistributionListContactService.GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID);
-                Assert.AreEqual(emailDistributionListContact.EmailDistributionListContactID, emailDistributionListContactRet.EmailDistributionListContactID);
-                Assert.AreEqual(emailDistributionListContact.EmailDistributionListID, emailDistributionListContactRet.EmailDistributionListID);
-                Assert.AreEqual(emailDistributionListContact.IsCC, emailDistributionListContactRet.IsCC);
-                Assert.AreEqual(emailDistributionListContact.Agency, emailDistributionListContactRet.Agency);
-                Assert.AreEqual(emailDistributionListContact.Name, emailDistributionListContactRet.Name);
-                Assert.AreEqual(emailDistributionListContact.Email, emailDistributionListContactRet.Email);
-                Assert.AreEqual(emailDistributionListContact.CMPRainfallSeasonal, emailDistributionListContactRet.CMPRainfallSeasonal);
-                Assert.AreEqual(emailDistributionListContact.CMPWastewater, emailDistributionListContactRet.CMPWastewater);
-                Assert.AreEqual(emailDistributionListContact.EmergencyWeather, emailDistributionListContactRet.EmergencyWeather);
-                Assert.AreEqual(emailDistributionListContact.EmergencyWastewater, emailDistributionListContactRet.EmergencyWastewater);
-                Assert.AreEqual(emailDistributionListContact.ReopeningAllTypes, emailDistributionListContactRet.ReopeningAllTypes);
-                Assert.AreEqual(emailDistributionListContact.LastUpdateDate_UTC, emailDistributionListContactRet.LastUpdateDate_UTC);
-                Assert.AreEqual(emailDistributionListContact.LastUpdateContactTVItemID, emailDistributionListContactRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(emailDistributionListContactRet.EmailDistributionListContactID);
+                Assert.IsNotNull(emailDistributionListContactRet.EmailDistributionListID);
+                Assert.IsNotNull(emailDistributionListContactRet.IsCC);
+                Assert.IsNotNull(emailDistributionListContactRet.Agency);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactRet.Agency));
+                Assert.IsNotNull(emailDistributionListContactRet.Name);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactRet.Name));
+                Assert.IsNotNull(emailDistributionListContactRet.Email);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactRet.Email));
+                Assert.IsNotNull(emailDistributionListContactRet.CMPRainfallSeasonal);
+                Assert.IsNotNull(emailDistributionListContactRet.CMPWastewater);
+                Assert.IsNotNull(emailDistributionListContactRet.EmergencyWeather);
+                Assert.IsNotNull(emailDistributionListContactRet.EmergencyWastewater);
+                Assert.IsNotNull(emailDistributionListContactRet.ReopeningAllTypes);
+                Assert.IsNotNull(emailDistributionListContactRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(emailDistributionListContactRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(emailDistributionListContactRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactRet.LastUpdateContactTVText));

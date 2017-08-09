@@ -257,13 +257,15 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(log);
 
                 Log logRet = logService.GetLogWithLogID(log.LogID);
-                Assert.AreEqual(log.LogID, logRet.LogID);
-                Assert.AreEqual(log.TableName, logRet.TableName);
-                Assert.AreEqual(log.ID, logRet.ID);
-                Assert.AreEqual(log.LogCommand, logRet.LogCommand);
-                Assert.AreEqual(log.Information, logRet.Information);
-                Assert.AreEqual(log.LastUpdateDate_UTC, logRet.LastUpdateDate_UTC);
-                Assert.AreEqual(log.LastUpdateContactTVItemID, logRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(logRet.LogID);
+                Assert.IsNotNull(logRet.TableName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.TableName));
+                Assert.IsNotNull(logRet.ID);
+                Assert.IsNotNull(logRet.LogCommand);
+                Assert.IsNotNull(logRet.Information);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.Information));
+                Assert.IsNotNull(logRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(logRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(logRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.LastUpdateContactTVText));

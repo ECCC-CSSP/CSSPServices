@@ -257,12 +257,13 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(tideSite);
 
                 TideSite tideSiteRet = tideSiteService.GetTideSiteWithTideSiteID(tideSite.TideSiteID);
-                Assert.AreEqual(tideSite.TideSiteID, tideSiteRet.TideSiteID);
-                Assert.AreEqual(tideSite.TideSiteTVItemID, tideSiteRet.TideSiteTVItemID);
-                Assert.AreEqual(tideSite.WebTideModel, tideSiteRet.WebTideModel);
-                Assert.AreEqual(tideSite.WebTideDatum_m, tideSiteRet.WebTideDatum_m);
-                Assert.AreEqual(tideSite.LastUpdateDate_UTC, tideSiteRet.LastUpdateDate_UTC);
-                Assert.AreEqual(tideSite.LastUpdateContactTVItemID, tideSiteRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(tideSiteRet.TideSiteID);
+                Assert.IsNotNull(tideSiteRet.TideSiteTVItemID);
+                Assert.IsNotNull(tideSiteRet.WebTideModel);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteRet.WebTideModel));
+                Assert.IsNotNull(tideSiteRet.WebTideDatum_m);
+                Assert.IsNotNull(tideSiteRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(tideSiteRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(tideSiteRet.TideSiteTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteRet.TideSiteTVText));

@@ -264,12 +264,13 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(tel);
 
                 Tel telRet = telService.GetTelWithTelID(tel.TelID);
-                Assert.AreEqual(tel.TelID, telRet.TelID);
-                Assert.AreEqual(tel.TelTVItemID, telRet.TelTVItemID);
-                Assert.AreEqual(tel.TelNumber, telRet.TelNumber);
-                Assert.AreEqual(tel.TelType, telRet.TelType);
-                Assert.AreEqual(tel.LastUpdateDate_UTC, telRet.LastUpdateDate_UTC);
-                Assert.AreEqual(tel.LastUpdateContactTVItemID, telRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(telRet.TelID);
+                Assert.IsNotNull(telRet.TelTVItemID);
+                Assert.IsNotNull(telRet.TelNumber);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.TelNumber));
+                Assert.IsNotNull(telRet.TelType);
+                Assert.IsNotNull(telRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(telRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(telRet.TelTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.TelTVText));

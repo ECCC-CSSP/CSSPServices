@@ -424,26 +424,73 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(hydrometricSite);
 
                 HydrometricSite hydrometricSiteRet = hydrometricSiteService.GetHydrometricSiteWithHydrometricSiteID(hydrometricSite.HydrometricSiteID);
-                Assert.AreEqual(hydrometricSite.HydrometricSiteID, hydrometricSiteRet.HydrometricSiteID);
-                Assert.AreEqual(hydrometricSite.HydrometricSiteTVItemID, hydrometricSiteRet.HydrometricSiteTVItemID);
-                Assert.AreEqual(hydrometricSite.FedSiteNumber, hydrometricSiteRet.FedSiteNumber);
-                Assert.AreEqual(hydrometricSite.QuebecSiteNumber, hydrometricSiteRet.QuebecSiteNumber);
-                Assert.AreEqual(hydrometricSite.HydrometricSiteName, hydrometricSiteRet.HydrometricSiteName);
-                Assert.AreEqual(hydrometricSite.Description, hydrometricSiteRet.Description);
-                Assert.AreEqual(hydrometricSite.Province, hydrometricSiteRet.Province);
-                Assert.AreEqual(hydrometricSite.Elevation_m, hydrometricSiteRet.Elevation_m);
-                Assert.AreEqual(hydrometricSite.StartDate_Local, hydrometricSiteRet.StartDate_Local);
-                Assert.AreEqual(hydrometricSite.EndDate_Local, hydrometricSiteRet.EndDate_Local);
-                Assert.AreEqual(hydrometricSite.TimeOffset_hour, hydrometricSiteRet.TimeOffset_hour);
-                Assert.AreEqual(hydrometricSite.DrainageArea_km2, hydrometricSiteRet.DrainageArea_km2);
-                Assert.AreEqual(hydrometricSite.IsNatural, hydrometricSiteRet.IsNatural);
-                Assert.AreEqual(hydrometricSite.IsActive, hydrometricSiteRet.IsActive);
-                Assert.AreEqual(hydrometricSite.Sediment, hydrometricSiteRet.Sediment);
-                Assert.AreEqual(hydrometricSite.RHBN, hydrometricSiteRet.RHBN);
-                Assert.AreEqual(hydrometricSite.RealTime, hydrometricSiteRet.RealTime);
-                Assert.AreEqual(hydrometricSite.HasRatingCurve, hydrometricSiteRet.HasRatingCurve);
-                Assert.AreEqual(hydrometricSite.LastUpdateDate_UTC, hydrometricSiteRet.LastUpdateDate_UTC);
-                Assert.AreEqual(hydrometricSite.LastUpdateContactTVItemID, hydrometricSiteRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(hydrometricSiteRet.HydrometricSiteID);
+                Assert.IsNotNull(hydrometricSiteRet.HydrometricSiteTVItemID);
+                if (hydrometricSiteRet.FedSiteNumber != null)
+                {
+                   Assert.IsNotNull(hydrometricSiteRet.FedSiteNumber);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.FedSiteNumber));
+                }
+                if (hydrometricSiteRet.QuebecSiteNumber != null)
+                {
+                   Assert.IsNotNull(hydrometricSiteRet.QuebecSiteNumber);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.QuebecSiteNumber));
+                }
+                Assert.IsNotNull(hydrometricSiteRet.HydrometricSiteName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.HydrometricSiteName));
+                if (hydrometricSiteRet.Description != null)
+                {
+                   Assert.IsNotNull(hydrometricSiteRet.Description);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.Description));
+                }
+                Assert.IsNotNull(hydrometricSiteRet.Province);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.Province));
+                if (hydrometricSiteRet.Elevation_m != null)
+                {
+                   Assert.IsNotNull(hydrometricSiteRet.Elevation_m);
+                }
+                if (hydrometricSiteRet.StartDate_Local != null)
+                {
+                   Assert.IsNotNull(hydrometricSiteRet.StartDate_Local);
+                }
+                if (hydrometricSiteRet.EndDate_Local != null)
+                {
+                   Assert.IsNotNull(hydrometricSiteRet.EndDate_Local);
+                }
+                if (hydrometricSiteRet.TimeOffset_hour != null)
+                {
+                   Assert.IsNotNull(hydrometricSiteRet.TimeOffset_hour);
+                }
+                if (hydrometricSiteRet.DrainageArea_km2 != null)
+                {
+                   Assert.IsNotNull(hydrometricSiteRet.DrainageArea_km2);
+                }
+                if (hydrometricSiteRet.IsNatural != null)
+                {
+                   Assert.IsNotNull(hydrometricSiteRet.IsNatural);
+                }
+                if (hydrometricSiteRet.IsActive != null)
+                {
+                   Assert.IsNotNull(hydrometricSiteRet.IsActive);
+                }
+                if (hydrometricSiteRet.Sediment != null)
+                {
+                   Assert.IsNotNull(hydrometricSiteRet.Sediment);
+                }
+                if (hydrometricSiteRet.RHBN != null)
+                {
+                   Assert.IsNotNull(hydrometricSiteRet.RHBN);
+                }
+                if (hydrometricSiteRet.RealTime != null)
+                {
+                   Assert.IsNotNull(hydrometricSiteRet.RealTime);
+                }
+                if (hydrometricSiteRet.HasRatingCurve != null)
+                {
+                   Assert.IsNotNull(hydrometricSiteRet.HasRatingCurve);
+                }
+                Assert.IsNotNull(hydrometricSiteRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(hydrometricSiteRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(hydrometricSiteRet.HydrometricTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.HydrometricTVText));

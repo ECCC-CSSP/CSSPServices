@@ -596,35 +596,57 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(labSheet);
 
                 LabSheet labSheetRet = labSheetService.GetLabSheetWithLabSheetID(labSheet.LabSheetID);
-                Assert.AreEqual(labSheet.LabSheetID, labSheetRet.LabSheetID);
-                Assert.AreEqual(labSheet.OtherServerLabSheetID, labSheetRet.OtherServerLabSheetID);
-                Assert.AreEqual(labSheet.SamplingPlanID, labSheetRet.SamplingPlanID);
-                Assert.AreEqual(labSheet.SamplingPlanName, labSheetRet.SamplingPlanName);
-                Assert.AreEqual(labSheet.Year, labSheetRet.Year);
-                Assert.AreEqual(labSheet.Month, labSheetRet.Month);
-                Assert.AreEqual(labSheet.Day, labSheetRet.Day);
-                Assert.AreEqual(labSheet.RunNumber, labSheetRet.RunNumber);
-                Assert.AreEqual(labSheet.SubsectorTVItemID, labSheetRet.SubsectorTVItemID);
-                Assert.AreEqual(labSheet.MWQMRunTVItemID, labSheetRet.MWQMRunTVItemID);
-                Assert.AreEqual(labSheet.SamplingPlanType, labSheetRet.SamplingPlanType);
-                Assert.AreEqual(labSheet.SampleType, labSheetRet.SampleType);
-                Assert.AreEqual(labSheet.LabSheetType, labSheetRet.LabSheetType);
-                Assert.AreEqual(labSheet.LabSheetStatus, labSheetRet.LabSheetStatus);
-                Assert.AreEqual(labSheet.FileName, labSheetRet.FileName);
-                Assert.AreEqual(labSheet.FileLastModifiedDate_Local, labSheetRet.FileLastModifiedDate_Local);
-                Assert.AreEqual(labSheet.FileContent, labSheetRet.FileContent);
-                Assert.AreEqual(labSheet.AcceptedOrRejectedByContactTVItemID, labSheetRet.AcceptedOrRejectedByContactTVItemID);
-                Assert.AreEqual(labSheet.AcceptedOrRejectedDateTime, labSheetRet.AcceptedOrRejectedDateTime);
-                Assert.AreEqual(labSheet.RejectReason, labSheetRet.RejectReason);
-                Assert.AreEqual(labSheet.LastUpdateDate_UTC, labSheetRet.LastUpdateDate_UTC);
-                Assert.AreEqual(labSheet.LastUpdateContactTVItemID, labSheetRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(labSheetRet.LabSheetID);
+                Assert.IsNotNull(labSheetRet.OtherServerLabSheetID);
+                Assert.IsNotNull(labSheetRet.SamplingPlanID);
+                Assert.IsNotNull(labSheetRet.SamplingPlanName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.SamplingPlanName));
+                Assert.IsNotNull(labSheetRet.Year);
+                Assert.IsNotNull(labSheetRet.Month);
+                Assert.IsNotNull(labSheetRet.Day);
+                Assert.IsNotNull(labSheetRet.RunNumber);
+                Assert.IsNotNull(labSheetRet.SubsectorTVItemID);
+                if (labSheetRet.MWQMRunTVItemID != null)
+                {
+                   Assert.IsNotNull(labSheetRet.MWQMRunTVItemID);
+                }
+                Assert.IsNotNull(labSheetRet.SamplingPlanType);
+                Assert.IsNotNull(labSheetRet.SampleType);
+                Assert.IsNotNull(labSheetRet.LabSheetType);
+                Assert.IsNotNull(labSheetRet.LabSheetStatus);
+                Assert.IsNotNull(labSheetRet.FileName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.FileName));
+                Assert.IsNotNull(labSheetRet.FileLastModifiedDate_Local);
+                Assert.IsNotNull(labSheetRet.FileContent);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.FileContent));
+                if (labSheetRet.AcceptedOrRejectedByContactTVItemID != null)
+                {
+                   Assert.IsNotNull(labSheetRet.AcceptedOrRejectedByContactTVItemID);
+                }
+                if (labSheetRet.AcceptedOrRejectedDateTime != null)
+                {
+                   Assert.IsNotNull(labSheetRet.AcceptedOrRejectedDateTime);
+                }
+                if (labSheetRet.RejectReason != null)
+                {
+                   Assert.IsNotNull(labSheetRet.RejectReason);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.RejectReason));
+                }
+                Assert.IsNotNull(labSheetRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(labSheetRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(labSheetRet.SubsectorTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.SubsectorTVText));
-                Assert.IsNotNull(labSheetRet.MWQMRunTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.MWQMRunTVText));
-                Assert.IsNotNull(labSheetRet.AcceptedOrRejectedByContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.AcceptedOrRejectedByContactTVText));
+                if (labSheetRet.MWQMRunTVItemID != null)
+                {
+                   Assert.IsNotNull(labSheetRet.MWQMRunTVText);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.MWQMRunTVText));
+                }
+                if (labSheetRet.AcceptedOrRejectedByContactTVItemID != null)
+                {
+                   Assert.IsNotNull(labSheetRet.AcceptedOrRejectedByContactTVText);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.AcceptedOrRejectedByContactTVText));
+                }
                 Assert.IsNotNull(labSheetRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.LastUpdateContactTVText));
                 Assert.IsNotNull(labSheetRet.SamplingPlanTypeText);

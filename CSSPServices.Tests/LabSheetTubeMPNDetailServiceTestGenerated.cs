@@ -436,22 +436,51 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(labSheetTubeMPNDetail);
 
                 LabSheetTubeMPNDetail labSheetTubeMPNDetailRet = labSheetTubeMPNDetailService.GetLabSheetTubeMPNDetailWithLabSheetTubeMPNDetailID(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID);
-                Assert.AreEqual(labSheetTubeMPNDetail.LabSheetTubeMPNDetailID, labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailID);
-                Assert.AreEqual(labSheetTubeMPNDetail.LabSheetDetailID, labSheetTubeMPNDetailRet.LabSheetDetailID);
-                Assert.AreEqual(labSheetTubeMPNDetail.Ordinal, labSheetTubeMPNDetailRet.Ordinal);
-                Assert.AreEqual(labSheetTubeMPNDetail.MWQMSiteTVItemID, labSheetTubeMPNDetailRet.MWQMSiteTVItemID);
-                Assert.AreEqual(labSheetTubeMPNDetail.SampleDateTime, labSheetTubeMPNDetailRet.SampleDateTime);
-                Assert.AreEqual(labSheetTubeMPNDetail.MPN, labSheetTubeMPNDetailRet.MPN);
-                Assert.AreEqual(labSheetTubeMPNDetail.Tube10, labSheetTubeMPNDetailRet.Tube10);
-                Assert.AreEqual(labSheetTubeMPNDetail.Tube1_0, labSheetTubeMPNDetailRet.Tube1_0);
-                Assert.AreEqual(labSheetTubeMPNDetail.Tube0_1, labSheetTubeMPNDetailRet.Tube0_1);
-                Assert.AreEqual(labSheetTubeMPNDetail.Salinity, labSheetTubeMPNDetailRet.Salinity);
-                Assert.AreEqual(labSheetTubeMPNDetail.Temperature, labSheetTubeMPNDetailRet.Temperature);
-                Assert.AreEqual(labSheetTubeMPNDetail.ProcessedBy, labSheetTubeMPNDetailRet.ProcessedBy);
-                Assert.AreEqual(labSheetTubeMPNDetail.SampleType, labSheetTubeMPNDetailRet.SampleType);
-                Assert.AreEqual(labSheetTubeMPNDetail.SiteComment, labSheetTubeMPNDetailRet.SiteComment);
-                Assert.AreEqual(labSheetTubeMPNDetail.LastUpdateDate_UTC, labSheetTubeMPNDetailRet.LastUpdateDate_UTC);
-                Assert.AreEqual(labSheetTubeMPNDetail.LastUpdateContactTVItemID, labSheetTubeMPNDetailRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(labSheetTubeMPNDetailRet.LabSheetTubeMPNDetailID);
+                Assert.IsNotNull(labSheetTubeMPNDetailRet.LabSheetDetailID);
+                Assert.IsNotNull(labSheetTubeMPNDetailRet.Ordinal);
+                Assert.IsNotNull(labSheetTubeMPNDetailRet.MWQMSiteTVItemID);
+                if (labSheetTubeMPNDetailRet.SampleDateTime != null)
+                {
+                   Assert.IsNotNull(labSheetTubeMPNDetailRet.SampleDateTime);
+                }
+                if (labSheetTubeMPNDetailRet.MPN != null)
+                {
+                   Assert.IsNotNull(labSheetTubeMPNDetailRet.MPN);
+                }
+                if (labSheetTubeMPNDetailRet.Tube10 != null)
+                {
+                   Assert.IsNotNull(labSheetTubeMPNDetailRet.Tube10);
+                }
+                if (labSheetTubeMPNDetailRet.Tube1_0 != null)
+                {
+                   Assert.IsNotNull(labSheetTubeMPNDetailRet.Tube1_0);
+                }
+                if (labSheetTubeMPNDetailRet.Tube0_1 != null)
+                {
+                   Assert.IsNotNull(labSheetTubeMPNDetailRet.Tube0_1);
+                }
+                if (labSheetTubeMPNDetailRet.Salinity != null)
+                {
+                   Assert.IsNotNull(labSheetTubeMPNDetailRet.Salinity);
+                }
+                if (labSheetTubeMPNDetailRet.Temperature != null)
+                {
+                   Assert.IsNotNull(labSheetTubeMPNDetailRet.Temperature);
+                }
+                if (labSheetTubeMPNDetailRet.ProcessedBy != null)
+                {
+                   Assert.IsNotNull(labSheetTubeMPNDetailRet.ProcessedBy);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.ProcessedBy));
+                }
+                Assert.IsNotNull(labSheetTubeMPNDetailRet.SampleType);
+                if (labSheetTubeMPNDetailRet.SiteComment != null)
+                {
+                   Assert.IsNotNull(labSheetTubeMPNDetailRet.SiteComment);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.SiteComment));
+                }
+                Assert.IsNotNull(labSheetTubeMPNDetailRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(labSheetTubeMPNDetailRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(labSheetTubeMPNDetailRet.MWQMSiteTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.MWQMSiteTVText));

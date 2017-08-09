@@ -1138,71 +1138,270 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(labSheetDetail);
 
                 LabSheetDetail labSheetDetailRet = labSheetDetailService.GetLabSheetDetailWithLabSheetDetailID(labSheetDetail.LabSheetDetailID);
-                Assert.AreEqual(labSheetDetail.LabSheetDetailID, labSheetDetailRet.LabSheetDetailID);
-                Assert.AreEqual(labSheetDetail.LabSheetID, labSheetDetailRet.LabSheetID);
-                Assert.AreEqual(labSheetDetail.SamplingPlanID, labSheetDetailRet.SamplingPlanID);
-                Assert.AreEqual(labSheetDetail.SubsectorTVItemID, labSheetDetailRet.SubsectorTVItemID);
-                Assert.AreEqual(labSheetDetail.Version, labSheetDetailRet.Version);
-                Assert.AreEqual(labSheetDetail.RunDate, labSheetDetailRet.RunDate);
-                Assert.AreEqual(labSheetDetail.Tides, labSheetDetailRet.Tides);
-                Assert.AreEqual(labSheetDetail.SampleCrewInitials, labSheetDetailRet.SampleCrewInitials);
-                Assert.AreEqual(labSheetDetail.WaterBathCount, labSheetDetailRet.WaterBathCount);
-                Assert.AreEqual(labSheetDetail.IncubationBath1StartTime, labSheetDetailRet.IncubationBath1StartTime);
-                Assert.AreEqual(labSheetDetail.IncubationBath2StartTime, labSheetDetailRet.IncubationBath2StartTime);
-                Assert.AreEqual(labSheetDetail.IncubationBath3StartTime, labSheetDetailRet.IncubationBath3StartTime);
-                Assert.AreEqual(labSheetDetail.IncubationBath1EndTime, labSheetDetailRet.IncubationBath1EndTime);
-                Assert.AreEqual(labSheetDetail.IncubationBath2EndTime, labSheetDetailRet.IncubationBath2EndTime);
-                Assert.AreEqual(labSheetDetail.IncubationBath3EndTime, labSheetDetailRet.IncubationBath3EndTime);
-                Assert.AreEqual(labSheetDetail.IncubationBath1TimeCalculated_minutes, labSheetDetailRet.IncubationBath1TimeCalculated_minutes);
-                Assert.AreEqual(labSheetDetail.IncubationBath2TimeCalculated_minutes, labSheetDetailRet.IncubationBath2TimeCalculated_minutes);
-                Assert.AreEqual(labSheetDetail.IncubationBath3TimeCalculated_minutes, labSheetDetailRet.IncubationBath3TimeCalculated_minutes);
-                Assert.AreEqual(labSheetDetail.WaterBath1, labSheetDetailRet.WaterBath1);
-                Assert.AreEqual(labSheetDetail.WaterBath2, labSheetDetailRet.WaterBath2);
-                Assert.AreEqual(labSheetDetail.WaterBath3, labSheetDetailRet.WaterBath3);
-                Assert.AreEqual(labSheetDetail.TCField1, labSheetDetailRet.TCField1);
-                Assert.AreEqual(labSheetDetail.TCLab1, labSheetDetailRet.TCLab1);
-                Assert.AreEqual(labSheetDetail.TCField2, labSheetDetailRet.TCField2);
-                Assert.AreEqual(labSheetDetail.TCLab2, labSheetDetailRet.TCLab2);
-                Assert.AreEqual(labSheetDetail.TCFirst, labSheetDetailRet.TCFirst);
-                Assert.AreEqual(labSheetDetail.TCAverage, labSheetDetailRet.TCAverage);
-                Assert.AreEqual(labSheetDetail.ControlLot, labSheetDetailRet.ControlLot);
-                Assert.AreEqual(labSheetDetail.Positive35, labSheetDetailRet.Positive35);
-                Assert.AreEqual(labSheetDetail.NonTarget35, labSheetDetailRet.NonTarget35);
-                Assert.AreEqual(labSheetDetail.Negative35, labSheetDetailRet.Negative35);
-                Assert.AreEqual(labSheetDetail.Bath1Positive44_5, labSheetDetailRet.Bath1Positive44_5);
-                Assert.AreEqual(labSheetDetail.Bath2Positive44_5, labSheetDetailRet.Bath2Positive44_5);
-                Assert.AreEqual(labSheetDetail.Bath3Positive44_5, labSheetDetailRet.Bath3Positive44_5);
-                Assert.AreEqual(labSheetDetail.Bath1NonTarget44_5, labSheetDetailRet.Bath1NonTarget44_5);
-                Assert.AreEqual(labSheetDetail.Bath2NonTarget44_5, labSheetDetailRet.Bath2NonTarget44_5);
-                Assert.AreEqual(labSheetDetail.Bath3NonTarget44_5, labSheetDetailRet.Bath3NonTarget44_5);
-                Assert.AreEqual(labSheetDetail.Bath1Negative44_5, labSheetDetailRet.Bath1Negative44_5);
-                Assert.AreEqual(labSheetDetail.Bath2Negative44_5, labSheetDetailRet.Bath2Negative44_5);
-                Assert.AreEqual(labSheetDetail.Bath3Negative44_5, labSheetDetailRet.Bath3Negative44_5);
-                Assert.AreEqual(labSheetDetail.Blank35, labSheetDetailRet.Blank35);
-                Assert.AreEqual(labSheetDetail.Bath1Blank44_5, labSheetDetailRet.Bath1Blank44_5);
-                Assert.AreEqual(labSheetDetail.Bath2Blank44_5, labSheetDetailRet.Bath2Blank44_5);
-                Assert.AreEqual(labSheetDetail.Bath3Blank44_5, labSheetDetailRet.Bath3Blank44_5);
-                Assert.AreEqual(labSheetDetail.Lot35, labSheetDetailRet.Lot35);
-                Assert.AreEqual(labSheetDetail.Lot44_5, labSheetDetailRet.Lot44_5);
-                Assert.AreEqual(labSheetDetail.Weather, labSheetDetailRet.Weather);
-                Assert.AreEqual(labSheetDetail.RunComment, labSheetDetailRet.RunComment);
-                Assert.AreEqual(labSheetDetail.RunWeatherComment, labSheetDetailRet.RunWeatherComment);
-                Assert.AreEqual(labSheetDetail.SampleBottleLotNumber, labSheetDetailRet.SampleBottleLotNumber);
-                Assert.AreEqual(labSheetDetail.SalinitiesReadBy, labSheetDetailRet.SalinitiesReadBy);
-                Assert.AreEqual(labSheetDetail.SalinitiesReadDate, labSheetDetailRet.SalinitiesReadDate);
-                Assert.AreEqual(labSheetDetail.ResultsReadBy, labSheetDetailRet.ResultsReadBy);
-                Assert.AreEqual(labSheetDetail.ResultsReadDate, labSheetDetailRet.ResultsReadDate);
-                Assert.AreEqual(labSheetDetail.ResultsRecordedBy, labSheetDetailRet.ResultsRecordedBy);
-                Assert.AreEqual(labSheetDetail.ResultsRecordedDate, labSheetDetailRet.ResultsRecordedDate);
-                Assert.AreEqual(labSheetDetail.DailyDuplicateRLog, labSheetDetailRet.DailyDuplicateRLog);
-                Assert.AreEqual(labSheetDetail.DailyDuplicatePrecisionCriteria, labSheetDetailRet.DailyDuplicatePrecisionCriteria);
-                Assert.AreEqual(labSheetDetail.DailyDuplicateAcceptable, labSheetDetailRet.DailyDuplicateAcceptable);
-                Assert.AreEqual(labSheetDetail.IntertechDuplicateRLog, labSheetDetailRet.IntertechDuplicateRLog);
-                Assert.AreEqual(labSheetDetail.IntertechDuplicatePrecisionCriteria, labSheetDetailRet.IntertechDuplicatePrecisionCriteria);
-                Assert.AreEqual(labSheetDetail.IntertechDuplicateAcceptable, labSheetDetailRet.IntertechDuplicateAcceptable);
-                Assert.AreEqual(labSheetDetail.IntertechReadAcceptable, labSheetDetailRet.IntertechReadAcceptable);
-                Assert.AreEqual(labSheetDetail.LastUpdateDate_UTC, labSheetDetailRet.LastUpdateDate_UTC);
-                Assert.AreEqual(labSheetDetail.LastUpdateContactTVItemID, labSheetDetailRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(labSheetDetailRet.LabSheetDetailID);
+                Assert.IsNotNull(labSheetDetailRet.LabSheetID);
+                Assert.IsNotNull(labSheetDetailRet.SamplingPlanID);
+                Assert.IsNotNull(labSheetDetailRet.SubsectorTVItemID);
+                Assert.IsNotNull(labSheetDetailRet.Version);
+                Assert.IsNotNull(labSheetDetailRet.RunDate);
+                Assert.IsNotNull(labSheetDetailRet.Tides);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Tides));
+                if (labSheetDetailRet.SampleCrewInitials != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.SampleCrewInitials);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.SampleCrewInitials));
+                }
+                if (labSheetDetailRet.WaterBathCount != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.WaterBathCount);
+                }
+                if (labSheetDetailRet.IncubationBath1StartTime != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.IncubationBath1StartTime);
+                }
+                if (labSheetDetailRet.IncubationBath2StartTime != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.IncubationBath2StartTime);
+                }
+                if (labSheetDetailRet.IncubationBath3StartTime != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.IncubationBath3StartTime);
+                }
+                if (labSheetDetailRet.IncubationBath1EndTime != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.IncubationBath1EndTime);
+                }
+                if (labSheetDetailRet.IncubationBath2EndTime != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.IncubationBath2EndTime);
+                }
+                if (labSheetDetailRet.IncubationBath3EndTime != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.IncubationBath3EndTime);
+                }
+                if (labSheetDetailRet.IncubationBath1TimeCalculated_minutes != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.IncubationBath1TimeCalculated_minutes);
+                }
+                if (labSheetDetailRet.IncubationBath2TimeCalculated_minutes != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.IncubationBath2TimeCalculated_minutes);
+                }
+                if (labSheetDetailRet.IncubationBath3TimeCalculated_minutes != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.IncubationBath3TimeCalculated_minutes);
+                }
+                if (labSheetDetailRet.WaterBath1 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.WaterBath1);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.WaterBath1));
+                }
+                if (labSheetDetailRet.WaterBath2 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.WaterBath2);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.WaterBath2));
+                }
+                if (labSheetDetailRet.WaterBath3 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.WaterBath3);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.WaterBath3));
+                }
+                if (labSheetDetailRet.TCField1 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.TCField1);
+                }
+                if (labSheetDetailRet.TCLab1 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.TCLab1);
+                }
+                if (labSheetDetailRet.TCField2 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.TCField2);
+                }
+                if (labSheetDetailRet.TCLab2 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.TCLab2);
+                }
+                if (labSheetDetailRet.TCFirst != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.TCFirst);
+                }
+                if (labSheetDetailRet.TCAverage != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.TCAverage);
+                }
+                if (labSheetDetailRet.ControlLot != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.ControlLot);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.ControlLot));
+                }
+                if (labSheetDetailRet.Positive35 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Positive35);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Positive35));
+                }
+                if (labSheetDetailRet.NonTarget35 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.NonTarget35);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.NonTarget35));
+                }
+                if (labSheetDetailRet.Negative35 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Negative35);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Negative35));
+                }
+                if (labSheetDetailRet.Bath1Positive44_5 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Bath1Positive44_5);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Bath1Positive44_5));
+                }
+                if (labSheetDetailRet.Bath2Positive44_5 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Bath2Positive44_5);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Bath2Positive44_5));
+                }
+                if (labSheetDetailRet.Bath3Positive44_5 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Bath3Positive44_5);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Bath3Positive44_5));
+                }
+                if (labSheetDetailRet.Bath1NonTarget44_5 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Bath1NonTarget44_5);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Bath1NonTarget44_5));
+                }
+                if (labSheetDetailRet.Bath2NonTarget44_5 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Bath2NonTarget44_5);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Bath2NonTarget44_5));
+                }
+                if (labSheetDetailRet.Bath3NonTarget44_5 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Bath3NonTarget44_5);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Bath3NonTarget44_5));
+                }
+                if (labSheetDetailRet.Bath1Negative44_5 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Bath1Negative44_5);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Bath1Negative44_5));
+                }
+                if (labSheetDetailRet.Bath2Negative44_5 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Bath2Negative44_5);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Bath2Negative44_5));
+                }
+                if (labSheetDetailRet.Bath3Negative44_5 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Bath3Negative44_5);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Bath3Negative44_5));
+                }
+                if (labSheetDetailRet.Blank35 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Blank35);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Blank35));
+                }
+                if (labSheetDetailRet.Bath1Blank44_5 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Bath1Blank44_5);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Bath1Blank44_5));
+                }
+                if (labSheetDetailRet.Bath2Blank44_5 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Bath2Blank44_5);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Bath2Blank44_5));
+                }
+                if (labSheetDetailRet.Bath3Blank44_5 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Bath3Blank44_5);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Bath3Blank44_5));
+                }
+                if (labSheetDetailRet.Lot35 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Lot35);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Lot35));
+                }
+                if (labSheetDetailRet.Lot44_5 != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Lot44_5);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Lot44_5));
+                }
+                if (labSheetDetailRet.Weather != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.Weather);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.Weather));
+                }
+                if (labSheetDetailRet.RunComment != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.RunComment);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.RunComment));
+                }
+                if (labSheetDetailRet.RunWeatherComment != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.RunWeatherComment);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.RunWeatherComment));
+                }
+                if (labSheetDetailRet.SampleBottleLotNumber != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.SampleBottleLotNumber);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.SampleBottleLotNumber));
+                }
+                if (labSheetDetailRet.SalinitiesReadBy != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.SalinitiesReadBy);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.SalinitiesReadBy));
+                }
+                if (labSheetDetailRet.SalinitiesReadDate != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.SalinitiesReadDate);
+                }
+                if (labSheetDetailRet.ResultsReadBy != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.ResultsReadBy);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.ResultsReadBy));
+                }
+                if (labSheetDetailRet.ResultsReadDate != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.ResultsReadDate);
+                }
+                if (labSheetDetailRet.ResultsRecordedBy != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.ResultsRecordedBy);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.ResultsRecordedBy));
+                }
+                if (labSheetDetailRet.ResultsRecordedDate != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.ResultsRecordedDate);
+                }
+                if (labSheetDetailRet.DailyDuplicateRLog != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.DailyDuplicateRLog);
+                }
+                if (labSheetDetailRet.DailyDuplicatePrecisionCriteria != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.DailyDuplicatePrecisionCriteria);
+                }
+                if (labSheetDetailRet.DailyDuplicateAcceptable != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.DailyDuplicateAcceptable);
+                }
+                if (labSheetDetailRet.IntertechDuplicateRLog != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.IntertechDuplicateRLog);
+                }
+                if (labSheetDetailRet.IntertechDuplicatePrecisionCriteria != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.IntertechDuplicatePrecisionCriteria);
+                }
+                if (labSheetDetailRet.IntertechDuplicateAcceptable != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.IntertechDuplicateAcceptable);
+                }
+                if (labSheetDetailRet.IntertechReadAcceptable != null)
+                {
+                   Assert.IsNotNull(labSheetDetailRet.IntertechReadAcceptable);
+                }
+                Assert.IsNotNull(labSheetDetailRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(labSheetDetailRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(labSheetDetailRet.SubsectorTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.SubsectorTVText));

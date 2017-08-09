@@ -430,6 +430,7 @@ namespace CSSPServicesGenerateCodeHelper
             foreach (ClimateDataValue climateDataValue in climateDataValueList)
             {
                 climateDataValue.ClimateSiteID = climateSite.ClimateSiteID;
+                climateDataValue.HourlyValues = "Some value";
                 if (!AddObject("ClimateDataValue", climateDataValue)) return false;
             }
             #endregion ClimateSite Bouctouche CDA
@@ -540,12 +541,12 @@ namespace CSSPServicesGenerateCodeHelper
 
             // TVItemLanguage EN NB-06_020_001 TVItemID = 634
             TVItemLanguage tvItemLanguageENNB_06_020_001 = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 634 && c.Language == LanguageEnum.en).FirstOrDefault();
-            tvItemLanguageENNB_06_020_001.TVItemID = tvItemNB_06_020.TVItemID;
+            tvItemLanguageENNB_06_020_001.TVItemID = tvItemNB_06_020_001.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageENNB_06_020_001)) return false;
 
             // TVItemLanguage FR NB_06_020 TVItemID = 634
             TVItemLanguage tvItemLanguageFRNB_06_020_001 = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 634 && c.Language == LanguageEnum.fr).FirstOrDefault();
-            tvItemLanguageFRNB_06_020_001.TVItemID = tvItemNB_06_020.TVItemID;
+            tvItemLanguageFRNB_06_020_001.TVItemID = tvItemNB_06_020_001.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageFRNB_06_020_001)) return false;
             #endregion TVItem Subsector NB-06_020_001 
             #region MWQMSubsector NB-06_020_001 and MWQMSubsectorLanguage
@@ -577,12 +578,12 @@ namespace CSSPServicesGenerateCodeHelper
 
             // TVItemLanguage EN NB-06_020_001 TVItemID = 635
             TVItemLanguage tvItemLanguageENNB_06_020_002 = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 635 && c.Language == LanguageEnum.en).FirstOrDefault();
-            tvItemLanguageENNB_06_020_002.TVItemID = tvItemNB_06_020.TVItemID;
+            tvItemLanguageENNB_06_020_002.TVItemID = tvItemNB_06_020_002.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageENNB_06_020_002)) return false;
 
             // TVItemLanguage FR NB_06_020 TVItemID = 635
             TVItemLanguage tvItemLanguageFRNB_06_020_002 = dbCSSPWebToolsDBRead.TVItemLanguages.AsNoTracking().Where(c => c.TVItemID == 635 && c.Language == LanguageEnum.fr).FirstOrDefault();
-            tvItemLanguageFRNB_06_020_002.TVItemID = tvItemNB_06_020.TVItemID;
+            tvItemLanguageFRNB_06_020_002.TVItemID = tvItemNB_06_020_002.TVItemID;
             if (!AddObject("TVItemLanguage", tvItemLanguageFRNB_06_020_002)) return false;
             #endregion TVItem Subsector NB-06_020_001 
             #region MWQMSubsector NB-06_020_002 and MWQMSubsectorLanguage
@@ -964,6 +965,7 @@ namespace CSSPServicesGenerateCodeHelper
             int SamplingPlanID = samplingPlan.SamplingPlanID;
             samplingPlan.CreatorTVItemID = tvItemContactCharles.TVItemID;
             samplingPlan.SamplingPlanFileTVItemID = tvFile.TVFileTVItemID;
+            samplingPlan.ApprovalCode = "aaabbb";
             if (!AddObject("SamplingPlan", samplingPlan)) return false;
 
             // NB Sampling Plan with SamplingPlanID = 42 with SubsectorTVItemID = 635 (Bouctouche harbour)
@@ -1123,6 +1125,7 @@ namespace CSSPServicesGenerateCodeHelper
             // MikeBoundaryCondition with MikeBoundaryConditionTVItemID = 92456 under Bouctouche
             MikeBoundaryCondition mikeBoundaryCondition = dbCSSPWebToolsDBRead.MikeBoundaryConditions.AsNoTracking().Where(c => c.MikeBoundaryConditionTVItemID == 92456).FirstOrDefault();
             mikeBoundaryCondition.MikeBoundaryConditionTVItemID = tvItemMikeBoundaryCondition.TVItemID;
+            mikeBoundaryCondition.WebTideDataFromStartToEndDate = "some text";
             if (!AddObject("MikeBoundaryCondition", mikeBoundaryCondition)) return false;
 
             // TVItem MikeSource with MikeSourceTVItemID = 28476 under Bouctouche WWTP

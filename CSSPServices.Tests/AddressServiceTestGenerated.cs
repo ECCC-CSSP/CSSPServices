@@ -469,19 +469,38 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(address);
 
                 Address addressRet = addressService.GetAddressWithAddressID(address.AddressID);
-                Assert.AreEqual(address.AddressID, addressRet.AddressID);
-                Assert.AreEqual(address.AddressTVItemID, addressRet.AddressTVItemID);
-                Assert.AreEqual(address.AddressType, addressRet.AddressType);
-                Assert.AreEqual(address.CountryTVItemID, addressRet.CountryTVItemID);
-                Assert.AreEqual(address.ProvinceTVItemID, addressRet.ProvinceTVItemID);
-                Assert.AreEqual(address.MunicipalityTVItemID, addressRet.MunicipalityTVItemID);
-                Assert.AreEqual(address.StreetName, addressRet.StreetName);
-                Assert.AreEqual(address.StreetNumber, addressRet.StreetNumber);
-                Assert.AreEqual(address.StreetType, addressRet.StreetType);
-                Assert.AreEqual(address.PostalCode, addressRet.PostalCode);
-                Assert.AreEqual(address.GoogleAddressText, addressRet.GoogleAddressText);
-                Assert.AreEqual(address.LastUpdateDate_UTC, addressRet.LastUpdateDate_UTC);
-                Assert.AreEqual(address.LastUpdateContactTVItemID, addressRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(addressRet.AddressID);
+                Assert.IsNotNull(addressRet.AddressTVItemID);
+                Assert.IsNotNull(addressRet.AddressType);
+                Assert.IsNotNull(addressRet.CountryTVItemID);
+                Assert.IsNotNull(addressRet.ProvinceTVItemID);
+                Assert.IsNotNull(addressRet.MunicipalityTVItemID);
+                if (addressRet.StreetName != null)
+                {
+                   Assert.IsNotNull(addressRet.StreetName);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.StreetName));
+                }
+                if (addressRet.StreetNumber != null)
+                {
+                   Assert.IsNotNull(addressRet.StreetNumber);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.StreetNumber));
+                }
+                if (addressRet.StreetType != null)
+                {
+                   Assert.IsNotNull(addressRet.StreetType);
+                }
+                if (addressRet.PostalCode != null)
+                {
+                   Assert.IsNotNull(addressRet.PostalCode);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.PostalCode));
+                }
+                if (addressRet.GoogleAddressText != null)
+                {
+                   Assert.IsNotNull(addressRet.GoogleAddressText);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.GoogleAddressText));
+                }
+                Assert.IsNotNull(addressRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(addressRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(addressRet.ParentTVItemID);
                 Assert.IsNotNull(addressRet.AddressTVText);

@@ -430,22 +430,38 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(contact);
 
                 Contact contactRet = contactService.GetContactWithContactID(contact.ContactID);
-                Assert.AreEqual(contact.ContactID, contactRet.ContactID);
-                Assert.AreEqual(contact.Id, contactRet.Id);
-                Assert.AreEqual(contact.ContactTVItemID, contactRet.ContactTVItemID);
-                Assert.AreEqual(contact.LoginEmail, contactRet.LoginEmail);
-                Assert.AreEqual(contact.FirstName, contactRet.FirstName);
-                Assert.AreEqual(contact.LastName, contactRet.LastName);
-                Assert.AreEqual(contact.Initial, contactRet.Initial);
-                Assert.AreEqual(contact.WebName, contactRet.WebName);
-                Assert.AreEqual(contact.ContactTitle, contactRet.ContactTitle);
-                Assert.AreEqual(contact.IsAdmin, contactRet.IsAdmin);
-                Assert.AreEqual(contact.EmailValidated, contactRet.EmailValidated);
-                Assert.AreEqual(contact.Disabled, contactRet.Disabled);
-                Assert.AreEqual(contact.IsNew, contactRet.IsNew);
-                Assert.AreEqual(contact.SamplingPlanner_ProvincesTVItemID, contactRet.SamplingPlanner_ProvincesTVItemID);
-                Assert.AreEqual(contact.LastUpdateDate_UTC, contactRet.LastUpdateDate_UTC);
-                Assert.AreEqual(contact.LastUpdateContactTVItemID, contactRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(contactRet.ContactID);
+                Assert.IsNotNull(contactRet.Id);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.Id));
+                Assert.IsNotNull(contactRet.ContactTVItemID);
+                Assert.IsNotNull(contactRet.LoginEmail);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.LoginEmail));
+                Assert.IsNotNull(contactRet.FirstName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.FirstName));
+                Assert.IsNotNull(contactRet.LastName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.LastName));
+                if (contactRet.Initial != null)
+                {
+                   Assert.IsNotNull(contactRet.Initial);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.Initial));
+                }
+                Assert.IsNotNull(contactRet.WebName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.WebName));
+                if (contactRet.ContactTitle != null)
+                {
+                   Assert.IsNotNull(contactRet.ContactTitle);
+                }
+                Assert.IsNotNull(contactRet.IsAdmin);
+                Assert.IsNotNull(contactRet.EmailValidated);
+                Assert.IsNotNull(contactRet.Disabled);
+                Assert.IsNotNull(contactRet.IsNew);
+                if (contactRet.SamplingPlanner_ProvincesTVItemID != null)
+                {
+                   Assert.IsNotNull(contactRet.SamplingPlanner_ProvincesTVItemID);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.SamplingPlanner_ProvincesTVItemID));
+                }
+                Assert.IsNotNull(contactRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(contactRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(contactRet.ContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactTVText));

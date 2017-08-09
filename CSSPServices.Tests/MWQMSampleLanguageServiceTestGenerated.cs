@@ -264,13 +264,14 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(mwqmSampleLanguage);
 
                 MWQMSampleLanguage mwqmSampleLanguageRet = mwqmSampleLanguageService.GetMWQMSampleLanguageWithMWQMSampleLanguageID(mwqmSampleLanguage.MWQMSampleLanguageID);
-                Assert.AreEqual(mwqmSampleLanguage.MWQMSampleLanguageID, mwqmSampleLanguageRet.MWQMSampleLanguageID);
-                Assert.AreEqual(mwqmSampleLanguage.MWQMSampleID, mwqmSampleLanguageRet.MWQMSampleID);
-                Assert.AreEqual(mwqmSampleLanguage.Language, mwqmSampleLanguageRet.Language);
-                Assert.AreEqual(mwqmSampleLanguage.MWQMSampleNote, mwqmSampleLanguageRet.MWQMSampleNote);
-                Assert.AreEqual(mwqmSampleLanguage.TranslationStatus, mwqmSampleLanguageRet.TranslationStatus);
-                Assert.AreEqual(mwqmSampleLanguage.LastUpdateDate_UTC, mwqmSampleLanguageRet.LastUpdateDate_UTC);
-                Assert.AreEqual(mwqmSampleLanguage.LastUpdateContactTVItemID, mwqmSampleLanguageRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(mwqmSampleLanguageRet.MWQMSampleLanguageID);
+                Assert.IsNotNull(mwqmSampleLanguageRet.MWQMSampleID);
+                Assert.IsNotNull(mwqmSampleLanguageRet.Language);
+                Assert.IsNotNull(mwqmSampleLanguageRet.MWQMSampleNote);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageRet.MWQMSampleNote));
+                Assert.IsNotNull(mwqmSampleLanguageRet.TranslationStatus);
+                Assert.IsNotNull(mwqmSampleLanguageRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(mwqmSampleLanguageRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(mwqmSampleLanguageRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleLanguageRet.LastUpdateContactTVText));

@@ -277,13 +277,14 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(docTemplate);
 
                 DocTemplate docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID);
-                Assert.AreEqual(docTemplate.DocTemplateID, docTemplateRet.DocTemplateID);
-                Assert.AreEqual(docTemplate.Language, docTemplateRet.Language);
-                Assert.AreEqual(docTemplate.TVType, docTemplateRet.TVType);
-                Assert.AreEqual(docTemplate.TVFileTVItemID, docTemplateRet.TVFileTVItemID);
-                Assert.AreEqual(docTemplate.FileName, docTemplateRet.FileName);
-                Assert.AreEqual(docTemplate.LastUpdateDate_UTC, docTemplateRet.LastUpdateDate_UTC);
-                Assert.AreEqual(docTemplate.LastUpdateContactTVItemID, docTemplateRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(docTemplateRet.DocTemplateID);
+                Assert.IsNotNull(docTemplateRet.Language);
+                Assert.IsNotNull(docTemplateRet.TVType);
+                Assert.IsNotNull(docTemplateRet.TVFileTVItemID);
+                Assert.IsNotNull(docTemplateRet.FileName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.FileName));
+                Assert.IsNotNull(docTemplateRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(docTemplateRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(docTemplateRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.LastUpdateContactTVText));

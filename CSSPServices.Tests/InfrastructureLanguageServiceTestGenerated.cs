@@ -264,13 +264,14 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(infrastructureLanguage);
 
                 InfrastructureLanguage infrastructureLanguageRet = infrastructureLanguageService.GetInfrastructureLanguageWithInfrastructureLanguageID(infrastructureLanguage.InfrastructureLanguageID);
-                Assert.AreEqual(infrastructureLanguage.InfrastructureLanguageID, infrastructureLanguageRet.InfrastructureLanguageID);
-                Assert.AreEqual(infrastructureLanguage.InfrastructureID, infrastructureLanguageRet.InfrastructureID);
-                Assert.AreEqual(infrastructureLanguage.Language, infrastructureLanguageRet.Language);
-                Assert.AreEqual(infrastructureLanguage.Comment, infrastructureLanguageRet.Comment);
-                Assert.AreEqual(infrastructureLanguage.TranslationStatus, infrastructureLanguageRet.TranslationStatus);
-                Assert.AreEqual(infrastructureLanguage.LastUpdateDate_UTC, infrastructureLanguageRet.LastUpdateDate_UTC);
-                Assert.AreEqual(infrastructureLanguage.LastUpdateContactTVItemID, infrastructureLanguageRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(infrastructureLanguageRet.InfrastructureLanguageID);
+                Assert.IsNotNull(infrastructureLanguageRet.InfrastructureID);
+                Assert.IsNotNull(infrastructureLanguageRet.Language);
+                Assert.IsNotNull(infrastructureLanguageRet.Comment);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageRet.Comment));
+                Assert.IsNotNull(infrastructureLanguageRet.TranslationStatus);
+                Assert.IsNotNull(infrastructureLanguageRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(infrastructureLanguageRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(infrastructureLanguageRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageRet.LastUpdateContactTVText));

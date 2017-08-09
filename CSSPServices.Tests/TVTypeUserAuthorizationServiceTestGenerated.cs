@@ -271,12 +271,12 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(tvTypeUserAuthorization);
 
                 TVTypeUserAuthorization tvTypeUserAuthorizationRet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID);
-                Assert.AreEqual(tvTypeUserAuthorization.TVTypeUserAuthorizationID, tvTypeUserAuthorizationRet.TVTypeUserAuthorizationID);
-                Assert.AreEqual(tvTypeUserAuthorization.ContactTVItemID, tvTypeUserAuthorizationRet.ContactTVItemID);
-                Assert.AreEqual(tvTypeUserAuthorization.TVType, tvTypeUserAuthorizationRet.TVType);
-                Assert.AreEqual(tvTypeUserAuthorization.TVAuth, tvTypeUserAuthorizationRet.TVAuth);
-                Assert.AreEqual(tvTypeUserAuthorization.LastUpdateDate_UTC, tvTypeUserAuthorizationRet.LastUpdateDate_UTC);
-                Assert.AreEqual(tvTypeUserAuthorization.LastUpdateContactTVItemID, tvTypeUserAuthorizationRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationID);
+                Assert.IsNotNull(tvTypeUserAuthorizationRet.ContactTVItemID);
+                Assert.IsNotNull(tvTypeUserAuthorizationRet.TVType);
+                Assert.IsNotNull(tvTypeUserAuthorizationRet.TVAuth);
+                Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(tvTypeUserAuthorizationRet.ContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.ContactTVText));

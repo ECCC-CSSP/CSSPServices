@@ -419,20 +419,20 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(boxModel);
 
                 BoxModel boxModelRet = boxModelService.GetBoxModelWithBoxModelID(boxModel.BoxModelID);
-                Assert.AreEqual(boxModel.BoxModelID, boxModelRet.BoxModelID);
-                Assert.AreEqual(boxModel.InfrastructureTVItemID, boxModelRet.InfrastructureTVItemID);
-                Assert.AreEqual(boxModel.Flow_m3_day, boxModelRet.Flow_m3_day);
-                Assert.AreEqual(boxModel.Depth_m, boxModelRet.Depth_m);
-                Assert.AreEqual(boxModel.Temperature_C, boxModelRet.Temperature_C);
-                Assert.AreEqual(boxModel.Dilution, boxModelRet.Dilution);
-                Assert.AreEqual(boxModel.DecayRate_per_day, boxModelRet.DecayRate_per_day);
-                Assert.AreEqual(boxModel.FCUntreated_MPN_100ml, boxModelRet.FCUntreated_MPN_100ml);
-                Assert.AreEqual(boxModel.FCPreDisinfection_MPN_100ml, boxModelRet.FCPreDisinfection_MPN_100ml);
-                Assert.AreEqual(boxModel.Concentration_MPN_100ml, boxModelRet.Concentration_MPN_100ml);
-                Assert.AreEqual(boxModel.T90_hour, boxModelRet.T90_hour);
-                Assert.AreEqual(boxModel.FlowDuration_hour, boxModelRet.FlowDuration_hour);
-                Assert.AreEqual(boxModel.LastUpdateDate_UTC, boxModelRet.LastUpdateDate_UTC);
-                Assert.AreEqual(boxModel.LastUpdateContactTVItemID, boxModelRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(boxModelRet.BoxModelID);
+                Assert.IsNotNull(boxModelRet.InfrastructureTVItemID);
+                Assert.IsNotNull(boxModelRet.Flow_m3_day);
+                Assert.IsNotNull(boxModelRet.Depth_m);
+                Assert.IsNotNull(boxModelRet.Temperature_C);
+                Assert.IsNotNull(boxModelRet.Dilution);
+                Assert.IsNotNull(boxModelRet.DecayRate_per_day);
+                Assert.IsNotNull(boxModelRet.FCUntreated_MPN_100ml);
+                Assert.IsNotNull(boxModelRet.FCPreDisinfection_MPN_100ml);
+                Assert.IsNotNull(boxModelRet.Concentration_MPN_100ml);
+                Assert.IsNotNull(boxModelRet.T90_hour);
+                Assert.IsNotNull(boxModelRet.FlowDuration_hour);
+                Assert.IsNotNull(boxModelRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(boxModelRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(boxModelRet.InfrastructureTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelRet.InfrastructureTVText));

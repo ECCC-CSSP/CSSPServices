@@ -262,12 +262,12 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(tvItemStat);
 
                 TVItemStat tvItemStatRet = tvItemStatService.GetTVItemStatWithTVItemStatID(tvItemStat.TVItemStatID);
-                Assert.AreEqual(tvItemStat.TVItemStatID, tvItemStatRet.TVItemStatID);
-                Assert.AreEqual(tvItemStat.TVItemID, tvItemStatRet.TVItemID);
-                Assert.AreEqual(tvItemStat.TVType, tvItemStatRet.TVType);
-                Assert.AreEqual(tvItemStat.ChildCount, tvItemStatRet.ChildCount);
-                Assert.AreEqual(tvItemStat.LastUpdateDate_UTC, tvItemStatRet.LastUpdateDate_UTC);
-                Assert.AreEqual(tvItemStat.LastUpdateContactTVItemID, tvItemStatRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(tvItemStatRet.TVItemStatID);
+                Assert.IsNotNull(tvItemStatRet.TVItemID);
+                Assert.IsNotNull(tvItemStatRet.TVType);
+                Assert.IsNotNull(tvItemStatRet.ChildCount);
+                Assert.IsNotNull(tvItemStatRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(tvItemStatRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(tvItemStatRet.TVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.TVText));

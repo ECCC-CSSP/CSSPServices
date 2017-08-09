@@ -386,26 +386,44 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(tvItemUserAuthorization);
 
                 TVItemUserAuthorization tvItemUserAuthorizationRet = tvItemUserAuthorizationService.GetTVItemUserAuthorizationWithTVItemUserAuthorizationID(tvItemUserAuthorization.TVItemUserAuthorizationID);
-                Assert.AreEqual(tvItemUserAuthorization.TVItemUserAuthorizationID, tvItemUserAuthorizationRet.TVItemUserAuthorizationID);
-                Assert.AreEqual(tvItemUserAuthorization.ContactTVItemID, tvItemUserAuthorizationRet.ContactTVItemID);
-                Assert.AreEqual(tvItemUserAuthorization.TVItemID1, tvItemUserAuthorizationRet.TVItemID1);
-                Assert.AreEqual(tvItemUserAuthorization.TVItemID2, tvItemUserAuthorizationRet.TVItemID2);
-                Assert.AreEqual(tvItemUserAuthorization.TVItemID3, tvItemUserAuthorizationRet.TVItemID3);
-                Assert.AreEqual(tvItemUserAuthorization.TVItemID4, tvItemUserAuthorizationRet.TVItemID4);
-                Assert.AreEqual(tvItemUserAuthorization.TVAuth, tvItemUserAuthorizationRet.TVAuth);
-                Assert.AreEqual(tvItemUserAuthorization.LastUpdateDate_UTC, tvItemUserAuthorizationRet.LastUpdateDate_UTC);
-                Assert.AreEqual(tvItemUserAuthorization.LastUpdateContactTVItemID, tvItemUserAuthorizationRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(tvItemUserAuthorizationRet.TVItemUserAuthorizationID);
+                Assert.IsNotNull(tvItemUserAuthorizationRet.ContactTVItemID);
+                Assert.IsNotNull(tvItemUserAuthorizationRet.TVItemID1);
+                if (tvItemUserAuthorizationRet.TVItemID2 != null)
+                {
+                   Assert.IsNotNull(tvItemUserAuthorizationRet.TVItemID2);
+                }
+                if (tvItemUserAuthorizationRet.TVItemID3 != null)
+                {
+                   Assert.IsNotNull(tvItemUserAuthorizationRet.TVItemID3);
+                }
+                if (tvItemUserAuthorizationRet.TVItemID4 != null)
+                {
+                   Assert.IsNotNull(tvItemUserAuthorizationRet.TVItemID4);
+                }
+                Assert.IsNotNull(tvItemUserAuthorizationRet.TVAuth);
+                Assert.IsNotNull(tvItemUserAuthorizationRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(tvItemUserAuthorizationRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(tvItemUserAuthorizationRet.ContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.ContactTVText));
                 Assert.IsNotNull(tvItemUserAuthorizationRet.TVText1);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.TVText1));
-                Assert.IsNotNull(tvItemUserAuthorizationRet.TVText2);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.TVText2));
-                Assert.IsNotNull(tvItemUserAuthorizationRet.TVText3);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.TVText3));
-                Assert.IsNotNull(tvItemUserAuthorizationRet.TVText4);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.TVText4));
+                if (tvItemUserAuthorizationRet.TVItemID2 != null)
+                {
+                   Assert.IsNotNull(tvItemUserAuthorizationRet.TVText2);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.TVText2));
+                }
+                if (tvItemUserAuthorizationRet.TVItemID3 != null)
+                {
+                   Assert.IsNotNull(tvItemUserAuthorizationRet.TVText3);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.TVText3));
+                }
+                if (tvItemUserAuthorizationRet.TVItemID4 != null)
+                {
+                   Assert.IsNotNull(tvItemUserAuthorizationRet.TVText4);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.TVText4));
+                }
                 Assert.IsNotNull(tvItemUserAuthorizationRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.LastUpdateContactTVText));
                 Assert.IsNotNull(tvItemUserAuthorizationRet.TVAuthText);

@@ -287,19 +287,17 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(resetPassword);
 
                 ResetPassword resetPasswordRet = resetPasswordService.GetResetPasswordWithResetPasswordID(resetPassword.ResetPasswordID);
-                Assert.AreEqual(resetPassword.ResetPasswordID, resetPasswordRet.ResetPasswordID);
-                Assert.AreEqual(resetPassword.Email, resetPasswordRet.Email);
-                Assert.AreEqual(resetPassword.ExpireDate_Local, resetPasswordRet.ExpireDate_Local);
-                Assert.AreEqual(resetPassword.Code, resetPasswordRet.Code);
-                Assert.AreEqual(resetPassword.LastUpdateDate_UTC, resetPasswordRet.LastUpdateDate_UTC);
-                Assert.AreEqual(resetPassword.LastUpdateContactTVItemID, resetPasswordRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(resetPasswordRet.ResetPasswordID);
+                Assert.IsNotNull(resetPasswordRet.Email);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.Email));
+                Assert.IsNotNull(resetPasswordRet.ExpireDate_Local);
+                Assert.IsNotNull(resetPasswordRet.Code);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.Code));
+                Assert.IsNotNull(resetPasswordRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(resetPasswordRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(resetPasswordRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.LastUpdateContactTVText));
-                Assert.IsNotNull(resetPasswordRet.Password);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.Password));
-                Assert.IsNotNull(resetPasswordRet.ConfirmPassword);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(resetPasswordRet.ConfirmPassword));
             }
         }
         #endregion Tests Get With Key

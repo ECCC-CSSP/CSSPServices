@@ -428,20 +428,30 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(appTask);
 
                 AppTask appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
-                Assert.AreEqual(appTask.AppTaskID, appTaskRet.AppTaskID);
-                Assert.AreEqual(appTask.TVItemID, appTaskRet.TVItemID);
-                Assert.AreEqual(appTask.TVItemID2, appTaskRet.TVItemID2);
-                Assert.AreEqual(appTask.AppTaskCommand, appTaskRet.AppTaskCommand);
-                Assert.AreEqual(appTask.AppTaskStatus, appTaskRet.AppTaskStatus);
-                Assert.AreEqual(appTask.PercentCompleted, appTaskRet.PercentCompleted);
-                Assert.AreEqual(appTask.Parameters, appTaskRet.Parameters);
-                Assert.AreEqual(appTask.Language, appTaskRet.Language);
-                Assert.AreEqual(appTask.StartDateTime_UTC, appTaskRet.StartDateTime_UTC);
-                Assert.AreEqual(appTask.EndDateTime_UTC, appTaskRet.EndDateTime_UTC);
-                Assert.AreEqual(appTask.EstimatedLength_second, appTaskRet.EstimatedLength_second);
-                Assert.AreEqual(appTask.RemainingTime_second, appTaskRet.RemainingTime_second);
-                Assert.AreEqual(appTask.LastUpdateDate_UTC, appTaskRet.LastUpdateDate_UTC);
-                Assert.AreEqual(appTask.LastUpdateContactTVItemID, appTaskRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(appTaskRet.AppTaskID);
+                Assert.IsNotNull(appTaskRet.TVItemID);
+                Assert.IsNotNull(appTaskRet.TVItemID2);
+                Assert.IsNotNull(appTaskRet.AppTaskCommand);
+                Assert.IsNotNull(appTaskRet.AppTaskStatus);
+                Assert.IsNotNull(appTaskRet.PercentCompleted);
+                Assert.IsNotNull(appTaskRet.Parameters);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.Parameters));
+                Assert.IsNotNull(appTaskRet.Language);
+                Assert.IsNotNull(appTaskRet.StartDateTime_UTC);
+                if (appTaskRet.EndDateTime_UTC != null)
+                {
+                   Assert.IsNotNull(appTaskRet.EndDateTime_UTC);
+                }
+                if (appTaskRet.EstimatedLength_second != null)
+                {
+                   Assert.IsNotNull(appTaskRet.EstimatedLength_second);
+                }
+                if (appTaskRet.RemainingTime_second != null)
+                {
+                   Assert.IsNotNull(appTaskRet.RemainingTime_second);
+                }
+                Assert.IsNotNull(appTaskRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(appTaskRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(appTaskRet.TVItemTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.TVItemTVText));

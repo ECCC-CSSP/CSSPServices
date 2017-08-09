@@ -410,19 +410,25 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(tideDataValue);
 
                 TideDataValue tideDataValueRet = tideDataValueService.GetTideDataValueWithTideDataValueID(tideDataValue.TideDataValueID);
-                Assert.AreEqual(tideDataValue.TideDataValueID, tideDataValueRet.TideDataValueID);
-                Assert.AreEqual(tideDataValue.TideSiteTVItemID, tideDataValueRet.TideSiteTVItemID);
-                Assert.AreEqual(tideDataValue.DateTime_Local, tideDataValueRet.DateTime_Local);
-                Assert.AreEqual(tideDataValue.Keep, tideDataValueRet.Keep);
-                Assert.AreEqual(tideDataValue.TideDataType, tideDataValueRet.TideDataType);
-                Assert.AreEqual(tideDataValue.StorageDataType, tideDataValueRet.StorageDataType);
-                Assert.AreEqual(tideDataValue.Depth_m, tideDataValueRet.Depth_m);
-                Assert.AreEqual(tideDataValue.UVelocity_m_s, tideDataValueRet.UVelocity_m_s);
-                Assert.AreEqual(tideDataValue.VVelocity_m_s, tideDataValueRet.VVelocity_m_s);
-                Assert.AreEqual(tideDataValue.TideStart, tideDataValueRet.TideStart);
-                Assert.AreEqual(tideDataValue.TideEnd, tideDataValueRet.TideEnd);
-                Assert.AreEqual(tideDataValue.LastUpdateDate_UTC, tideDataValueRet.LastUpdateDate_UTC);
-                Assert.AreEqual(tideDataValue.LastUpdateContactTVItemID, tideDataValueRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(tideDataValueRet.TideDataValueID);
+                Assert.IsNotNull(tideDataValueRet.TideSiteTVItemID);
+                Assert.IsNotNull(tideDataValueRet.DateTime_Local);
+                Assert.IsNotNull(tideDataValueRet.Keep);
+                Assert.IsNotNull(tideDataValueRet.TideDataType);
+                Assert.IsNotNull(tideDataValueRet.StorageDataType);
+                Assert.IsNotNull(tideDataValueRet.Depth_m);
+                Assert.IsNotNull(tideDataValueRet.UVelocity_m_s);
+                Assert.IsNotNull(tideDataValueRet.VVelocity_m_s);
+                if (tideDataValueRet.TideStart != null)
+                {
+                   Assert.IsNotNull(tideDataValueRet.TideStart);
+                }
+                if (tideDataValueRet.TideEnd != null)
+                {
+                   Assert.IsNotNull(tideDataValueRet.TideEnd);
+                }
+                Assert.IsNotNull(tideDataValueRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(tideDataValueRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(tideDataValueRet.TideSiteTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideSiteTVText));

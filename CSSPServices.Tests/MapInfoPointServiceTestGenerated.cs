@@ -249,13 +249,13 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(mapInfoPoint);
 
                 MapInfoPoint mapInfoPointRet = mapInfoPointService.GetMapInfoPointWithMapInfoPointID(mapInfoPoint.MapInfoPointID);
-                Assert.AreEqual(mapInfoPoint.MapInfoPointID, mapInfoPointRet.MapInfoPointID);
-                Assert.AreEqual(mapInfoPoint.MapInfoID, mapInfoPointRet.MapInfoID);
-                Assert.AreEqual(mapInfoPoint.Ordinal, mapInfoPointRet.Ordinal);
-                Assert.AreEqual(mapInfoPoint.Lat, mapInfoPointRet.Lat);
-                Assert.AreEqual(mapInfoPoint.Lng, mapInfoPointRet.Lng);
-                Assert.AreEqual(mapInfoPoint.LastUpdateDate_UTC, mapInfoPointRet.LastUpdateDate_UTC);
-                Assert.AreEqual(mapInfoPoint.LastUpdateContactTVItemID, mapInfoPointRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(mapInfoPointRet.MapInfoPointID);
+                Assert.IsNotNull(mapInfoPointRet.MapInfoID);
+                Assert.IsNotNull(mapInfoPointRet.Ordinal);
+                Assert.IsNotNull(mapInfoPointRet.Lat);
+                Assert.IsNotNull(mapInfoPointRet.Lng);
+                Assert.IsNotNull(mapInfoPointRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(mapInfoPointRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(mapInfoPointRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoPointRet.LastUpdateContactTVText));

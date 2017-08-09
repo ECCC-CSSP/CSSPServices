@@ -308,15 +308,17 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(mwqmRunLanguage);
 
                 MWQMRunLanguage mwqmRunLanguageRet = mwqmRunLanguageService.GetMWQMRunLanguageWithMWQMRunLanguageID(mwqmRunLanguage.MWQMRunLanguageID);
-                Assert.AreEqual(mwqmRunLanguage.MWQMRunLanguageID, mwqmRunLanguageRet.MWQMRunLanguageID);
-                Assert.AreEqual(mwqmRunLanguage.MWQMRunID, mwqmRunLanguageRet.MWQMRunID);
-                Assert.AreEqual(mwqmRunLanguage.Language, mwqmRunLanguageRet.Language);
-                Assert.AreEqual(mwqmRunLanguage.RunComment, mwqmRunLanguageRet.RunComment);
-                Assert.AreEqual(mwqmRunLanguage.TranslationStatusRunComment, mwqmRunLanguageRet.TranslationStatusRunComment);
-                Assert.AreEqual(mwqmRunLanguage.RunWeatherComment, mwqmRunLanguageRet.RunWeatherComment);
-                Assert.AreEqual(mwqmRunLanguage.TranslationStatusRunWeatherComment, mwqmRunLanguageRet.TranslationStatusRunWeatherComment);
-                Assert.AreEqual(mwqmRunLanguage.LastUpdateDate_UTC, mwqmRunLanguageRet.LastUpdateDate_UTC);
-                Assert.AreEqual(mwqmRunLanguage.LastUpdateContactTVItemID, mwqmRunLanguageRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(mwqmRunLanguageRet.MWQMRunLanguageID);
+                Assert.IsNotNull(mwqmRunLanguageRet.MWQMRunID);
+                Assert.IsNotNull(mwqmRunLanguageRet.Language);
+                Assert.IsNotNull(mwqmRunLanguageRet.RunComment);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageRet.RunComment));
+                Assert.IsNotNull(mwqmRunLanguageRet.TranslationStatusRunComment);
+                Assert.IsNotNull(mwqmRunLanguageRet.RunWeatherComment);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageRet.RunWeatherComment));
+                Assert.IsNotNull(mwqmRunLanguageRet.TranslationStatusRunWeatherComment);
+                Assert.IsNotNull(mwqmRunLanguageRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(mwqmRunLanguageRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(mwqmRunLanguageRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageRet.LastUpdateContactTVText));

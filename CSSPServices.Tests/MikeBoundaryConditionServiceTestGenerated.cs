@@ -423,19 +423,23 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(mikeBoundaryCondition);
 
                 MikeBoundaryCondition mikeBoundaryConditionRet = mikeBoundaryConditionService.GetMikeBoundaryConditionWithMikeBoundaryConditionID(mikeBoundaryCondition.MikeBoundaryConditionID);
-                Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionID, mikeBoundaryConditionRet.MikeBoundaryConditionID);
-                Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionTVItemID, mikeBoundaryConditionRet.MikeBoundaryConditionTVItemID);
-                Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionCode, mikeBoundaryConditionRet.MikeBoundaryConditionCode);
-                Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionName, mikeBoundaryConditionRet.MikeBoundaryConditionName);
-                Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionLength_m, mikeBoundaryConditionRet.MikeBoundaryConditionLength_m);
-                Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionFormat, mikeBoundaryConditionRet.MikeBoundaryConditionFormat);
-                Assert.AreEqual(mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity, mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocity);
-                Assert.AreEqual(mikeBoundaryCondition.WebTideDataSet, mikeBoundaryConditionRet.WebTideDataSet);
-                Assert.AreEqual(mikeBoundaryCondition.NumberOfWebTideNodes, mikeBoundaryConditionRet.NumberOfWebTideNodes);
-                Assert.AreEqual(mikeBoundaryCondition.WebTideDataFromStartToEndDate, mikeBoundaryConditionRet.WebTideDataFromStartToEndDate);
-                Assert.AreEqual(mikeBoundaryCondition.TVType, mikeBoundaryConditionRet.TVType);
-                Assert.AreEqual(mikeBoundaryCondition.LastUpdateDate_UTC, mikeBoundaryConditionRet.LastUpdateDate_UTC);
-                Assert.AreEqual(mikeBoundaryCondition.LastUpdateContactTVItemID, mikeBoundaryConditionRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionID);
+                Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionTVItemID);
+                Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionCode);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionCode));
+                Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionName));
+                Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionLength_m);
+                Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionFormat);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionFormat));
+                Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionLevelOrVelocity);
+                Assert.IsNotNull(mikeBoundaryConditionRet.WebTideDataSet);
+                Assert.IsNotNull(mikeBoundaryConditionRet.NumberOfWebTideNodes);
+                Assert.IsNotNull(mikeBoundaryConditionRet.WebTideDataFromStartToEndDate);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.WebTideDataFromStartToEndDate));
+                Assert.IsNotNull(mikeBoundaryConditionRet.TVType);
+                Assert.IsNotNull(mikeBoundaryConditionRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(mikeBoundaryConditionRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(mikeBoundaryConditionRet.MikeBoundaryConditionTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.MikeBoundaryConditionTVText));

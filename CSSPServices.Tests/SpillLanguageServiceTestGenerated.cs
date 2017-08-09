@@ -264,13 +264,14 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(spillLanguage);
 
                 SpillLanguage spillLanguageRet = spillLanguageService.GetSpillLanguageWithSpillLanguageID(spillLanguage.SpillLanguageID);
-                Assert.AreEqual(spillLanguage.SpillLanguageID, spillLanguageRet.SpillLanguageID);
-                Assert.AreEqual(spillLanguage.SpillID, spillLanguageRet.SpillID);
-                Assert.AreEqual(spillLanguage.Language, spillLanguageRet.Language);
-                Assert.AreEqual(spillLanguage.SpillComment, spillLanguageRet.SpillComment);
-                Assert.AreEqual(spillLanguage.TranslationStatus, spillLanguageRet.TranslationStatus);
-                Assert.AreEqual(spillLanguage.LastUpdateDate_UTC, spillLanguageRet.LastUpdateDate_UTC);
-                Assert.AreEqual(spillLanguage.LastUpdateContactTVItemID, spillLanguageRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(spillLanguageRet.SpillLanguageID);
+                Assert.IsNotNull(spillLanguageRet.SpillID);
+                Assert.IsNotNull(spillLanguageRet.Language);
+                Assert.IsNotNull(spillLanguageRet.SpillComment);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.SpillComment));
+                Assert.IsNotNull(spillLanguageRet.TranslationStatus);
+                Assert.IsNotNull(spillLanguageRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(spillLanguageRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(spillLanguageRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.LastUpdateContactTVText));

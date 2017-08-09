@@ -264,15 +264,19 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(hydrometricDataValue);
 
                 HydrometricDataValue hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID);
-                Assert.AreEqual(hydrometricDataValue.HydrometricDataValueID, hydrometricDataValueRet.HydrometricDataValueID);
-                Assert.AreEqual(hydrometricDataValue.HydrometricSiteID, hydrometricDataValueRet.HydrometricSiteID);
-                Assert.AreEqual(hydrometricDataValue.DateTime_Local, hydrometricDataValueRet.DateTime_Local);
-                Assert.AreEqual(hydrometricDataValue.Keep, hydrometricDataValueRet.Keep);
-                Assert.AreEqual(hydrometricDataValue.StorageDataType, hydrometricDataValueRet.StorageDataType);
-                Assert.AreEqual(hydrometricDataValue.Flow_m3_s, hydrometricDataValueRet.Flow_m3_s);
-                Assert.AreEqual(hydrometricDataValue.HourlyValues, hydrometricDataValueRet.HourlyValues);
-                Assert.AreEqual(hydrometricDataValue.LastUpdateDate_UTC, hydrometricDataValueRet.LastUpdateDate_UTC);
-                Assert.AreEqual(hydrometricDataValue.LastUpdateContactTVItemID, hydrometricDataValueRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(hydrometricDataValueRet.HydrometricDataValueID);
+                Assert.IsNotNull(hydrometricDataValueRet.HydrometricSiteID);
+                Assert.IsNotNull(hydrometricDataValueRet.DateTime_Local);
+                Assert.IsNotNull(hydrometricDataValueRet.Keep);
+                Assert.IsNotNull(hydrometricDataValueRet.StorageDataType);
+                Assert.IsNotNull(hydrometricDataValueRet.Flow_m3_s);
+                if (hydrometricDataValueRet.HourlyValues != null)
+                {
+                   Assert.IsNotNull(hydrometricDataValueRet.HourlyValues);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.HourlyValues));
+                }
+                Assert.IsNotNull(hydrometricDataValueRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(hydrometricDataValueRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(hydrometricDataValueRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.LastUpdateContactTVText));

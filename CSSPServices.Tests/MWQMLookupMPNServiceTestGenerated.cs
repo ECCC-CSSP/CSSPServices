@@ -42,8 +42,8 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Tubes10") mwqmLookupMPN.Tubes10 = GetRandomInt(0, 5);
             if (OmitPropName != "Tubes1") mwqmLookupMPN.Tubes1 = GetRandomInt(0, 5);
-            if (OmitPropName != "Tubes01") mwqmLookupMPN.Tubes01 = GetRandomInt(0, 5);
-            if (OmitPropName != "MPN_100ml") mwqmLookupMPN.MPN_100ml = GetRandomInt(1, 10000);
+            if (OmitPropName != "Tubes01") mwqmLookupMPN.Tubes01 = 0;
+            if (OmitPropName != "MPN_100ml") mwqmLookupMPN.MPN_100ml = 14;
             if (OmitPropName != "LastUpdateDate_UTC") mwqmLookupMPN.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmLookupMPN.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") mwqmLookupMPN.LastUpdateContactTVText = GetRandomString("", 5);
@@ -257,13 +257,13 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(mwqmLookupMPN);
 
                 MWQMLookupMPN mwqmLookupMPNRet = mwqmLookupMPNService.GetMWQMLookupMPNWithMWQMLookupMPNID(mwqmLookupMPN.MWQMLookupMPNID);
-                Assert.AreEqual(mwqmLookupMPN.MWQMLookupMPNID, mwqmLookupMPNRet.MWQMLookupMPNID);
-                Assert.AreEqual(mwqmLookupMPN.Tubes10, mwqmLookupMPNRet.Tubes10);
-                Assert.AreEqual(mwqmLookupMPN.Tubes1, mwqmLookupMPNRet.Tubes1);
-                Assert.AreEqual(mwqmLookupMPN.Tubes01, mwqmLookupMPNRet.Tubes01);
-                Assert.AreEqual(mwqmLookupMPN.MPN_100ml, mwqmLookupMPNRet.MPN_100ml);
-                Assert.AreEqual(mwqmLookupMPN.LastUpdateDate_UTC, mwqmLookupMPNRet.LastUpdateDate_UTC);
-                Assert.AreEqual(mwqmLookupMPN.LastUpdateContactTVItemID, mwqmLookupMPNRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(mwqmLookupMPNRet.MWQMLookupMPNID);
+                Assert.IsNotNull(mwqmLookupMPNRet.Tubes10);
+                Assert.IsNotNull(mwqmLookupMPNRet.Tubes1);
+                Assert.IsNotNull(mwqmLookupMPNRet.Tubes01);
+                Assert.IsNotNull(mwqmLookupMPNRet.MPN_100ml);
+                Assert.IsNotNull(mwqmLookupMPNRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(mwqmLookupMPNRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(mwqmLookupMPNRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNRet.LastUpdateContactTVText));

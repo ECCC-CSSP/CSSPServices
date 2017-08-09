@@ -582,28 +582,32 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(vpScenario);
 
                 VPScenario vpScenarioRet = vpScenarioService.GetVPScenarioWithVPScenarioID(vpScenario.VPScenarioID);
-                Assert.AreEqual(vpScenario.VPScenarioID, vpScenarioRet.VPScenarioID);
-                Assert.AreEqual(vpScenario.InfrastructureTVItemID, vpScenarioRet.InfrastructureTVItemID);
-                Assert.AreEqual(vpScenario.VPScenarioStatus, vpScenarioRet.VPScenarioStatus);
-                Assert.AreEqual(vpScenario.UseAsBestEstimate, vpScenarioRet.UseAsBestEstimate);
-                Assert.AreEqual(vpScenario.EffluentFlow_m3_s, vpScenarioRet.EffluentFlow_m3_s);
-                Assert.AreEqual(vpScenario.EffluentConcentration_MPN_100ml, vpScenarioRet.EffluentConcentration_MPN_100ml);
-                Assert.AreEqual(vpScenario.FroudeNumber, vpScenarioRet.FroudeNumber);
-                Assert.AreEqual(vpScenario.PortDiameter_m, vpScenarioRet.PortDiameter_m);
-                Assert.AreEqual(vpScenario.PortDepth_m, vpScenarioRet.PortDepth_m);
-                Assert.AreEqual(vpScenario.PortElevation_m, vpScenarioRet.PortElevation_m);
-                Assert.AreEqual(vpScenario.VerticalAngle_deg, vpScenarioRet.VerticalAngle_deg);
-                Assert.AreEqual(vpScenario.HorizontalAngle_deg, vpScenarioRet.HorizontalAngle_deg);
-                Assert.AreEqual(vpScenario.NumberOfPorts, vpScenarioRet.NumberOfPorts);
-                Assert.AreEqual(vpScenario.PortSpacing_m, vpScenarioRet.PortSpacing_m);
-                Assert.AreEqual(vpScenario.AcuteMixZone_m, vpScenarioRet.AcuteMixZone_m);
-                Assert.AreEqual(vpScenario.ChronicMixZone_m, vpScenarioRet.ChronicMixZone_m);
-                Assert.AreEqual(vpScenario.EffluentSalinity_PSU, vpScenarioRet.EffluentSalinity_PSU);
-                Assert.AreEqual(vpScenario.EffluentTemperature_C, vpScenarioRet.EffluentTemperature_C);
-                Assert.AreEqual(vpScenario.EffluentVelocity_m_s, vpScenarioRet.EffluentVelocity_m_s);
-                Assert.AreEqual(vpScenario.RawResults, vpScenarioRet.RawResults);
-                Assert.AreEqual(vpScenario.LastUpdateDate_UTC, vpScenarioRet.LastUpdateDate_UTC);
-                Assert.AreEqual(vpScenario.LastUpdateContactTVItemID, vpScenarioRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(vpScenarioRet.VPScenarioID);
+                Assert.IsNotNull(vpScenarioRet.InfrastructureTVItemID);
+                Assert.IsNotNull(vpScenarioRet.VPScenarioStatus);
+                Assert.IsNotNull(vpScenarioRet.UseAsBestEstimate);
+                Assert.IsNotNull(vpScenarioRet.EffluentFlow_m3_s);
+                Assert.IsNotNull(vpScenarioRet.EffluentConcentration_MPN_100ml);
+                Assert.IsNotNull(vpScenarioRet.FroudeNumber);
+                Assert.IsNotNull(vpScenarioRet.PortDiameter_m);
+                Assert.IsNotNull(vpScenarioRet.PortDepth_m);
+                Assert.IsNotNull(vpScenarioRet.PortElevation_m);
+                Assert.IsNotNull(vpScenarioRet.VerticalAngle_deg);
+                Assert.IsNotNull(vpScenarioRet.HorizontalAngle_deg);
+                Assert.IsNotNull(vpScenarioRet.NumberOfPorts);
+                Assert.IsNotNull(vpScenarioRet.PortSpacing_m);
+                Assert.IsNotNull(vpScenarioRet.AcuteMixZone_m);
+                Assert.IsNotNull(vpScenarioRet.ChronicMixZone_m);
+                Assert.IsNotNull(vpScenarioRet.EffluentSalinity_PSU);
+                Assert.IsNotNull(vpScenarioRet.EffluentTemperature_C);
+                Assert.IsNotNull(vpScenarioRet.EffluentVelocity_m_s);
+                if (vpScenarioRet.RawResults != null)
+                {
+                   Assert.IsNotNull(vpScenarioRet.RawResults);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.RawResults));
+                }
+                Assert.IsNotNull(vpScenarioRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(vpScenarioRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(vpScenarioRet.SubsectorTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.SubsectorTVText));

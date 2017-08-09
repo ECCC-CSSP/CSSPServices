@@ -429,21 +429,21 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(vpAmbient);
 
                 VPAmbient vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID);
-                Assert.AreEqual(vpAmbient.VPAmbientID, vpAmbientRet.VPAmbientID);
-                Assert.AreEqual(vpAmbient.VPScenarioID, vpAmbientRet.VPScenarioID);
-                Assert.AreEqual(vpAmbient.Row, vpAmbientRet.Row);
-                Assert.AreEqual(vpAmbient.MeasurementDepth_m, vpAmbientRet.MeasurementDepth_m);
-                Assert.AreEqual(vpAmbient.CurrentSpeed_m_s, vpAmbientRet.CurrentSpeed_m_s);
-                Assert.AreEqual(vpAmbient.CurrentDirection_deg, vpAmbientRet.CurrentDirection_deg);
-                Assert.AreEqual(vpAmbient.AmbientSalinity_PSU, vpAmbientRet.AmbientSalinity_PSU);
-                Assert.AreEqual(vpAmbient.AmbientTemperature_C, vpAmbientRet.AmbientTemperature_C);
-                Assert.AreEqual(vpAmbient.BackgroundConcentration_MPN_100ml, vpAmbientRet.BackgroundConcentration_MPN_100ml);
-                Assert.AreEqual(vpAmbient.PollutantDecayRate_per_day, vpAmbientRet.PollutantDecayRate_per_day);
-                Assert.AreEqual(vpAmbient.FarFieldCurrentSpeed_m_s, vpAmbientRet.FarFieldCurrentSpeed_m_s);
-                Assert.AreEqual(vpAmbient.FarFieldCurrentDirection_deg, vpAmbientRet.FarFieldCurrentDirection_deg);
-                Assert.AreEqual(vpAmbient.FarFieldDiffusionCoefficient, vpAmbientRet.FarFieldDiffusionCoefficient);
-                Assert.AreEqual(vpAmbient.LastUpdateDate_UTC, vpAmbientRet.LastUpdateDate_UTC);
-                Assert.AreEqual(vpAmbient.LastUpdateContactTVItemID, vpAmbientRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(vpAmbientRet.VPAmbientID);
+                Assert.IsNotNull(vpAmbientRet.VPScenarioID);
+                Assert.IsNotNull(vpAmbientRet.Row);
+                Assert.IsNotNull(vpAmbientRet.MeasurementDepth_m);
+                Assert.IsNotNull(vpAmbientRet.CurrentSpeed_m_s);
+                Assert.IsNotNull(vpAmbientRet.CurrentDirection_deg);
+                Assert.IsNotNull(vpAmbientRet.AmbientSalinity_PSU);
+                Assert.IsNotNull(vpAmbientRet.AmbientTemperature_C);
+                Assert.IsNotNull(vpAmbientRet.BackgroundConcentration_MPN_100ml);
+                Assert.IsNotNull(vpAmbientRet.PollutantDecayRate_per_day);
+                Assert.IsNotNull(vpAmbientRet.FarFieldCurrentSpeed_m_s);
+                Assert.IsNotNull(vpAmbientRet.FarFieldCurrentDirection_deg);
+                Assert.IsNotNull(vpAmbientRet.FarFieldDiffusionCoefficient);
+                Assert.IsNotNull(vpAmbientRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(vpAmbientRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(vpAmbientRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientRet.LastUpdateContactTVText));

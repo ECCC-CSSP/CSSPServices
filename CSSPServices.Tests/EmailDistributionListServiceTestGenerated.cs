@@ -255,12 +255,13 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(emailDistributionList);
 
                 EmailDistributionList emailDistributionListRet = emailDistributionListService.GetEmailDistributionListWithEmailDistributionListID(emailDistributionList.EmailDistributionListID);
-                Assert.AreEqual(emailDistributionList.EmailDistributionListID, emailDistributionListRet.EmailDistributionListID);
-                Assert.AreEqual(emailDistributionList.CountryTVItemID, emailDistributionListRet.CountryTVItemID);
-                Assert.AreEqual(emailDistributionList.RegionName, emailDistributionListRet.RegionName);
-                Assert.AreEqual(emailDistributionList.Ordinal, emailDistributionListRet.Ordinal);
-                Assert.AreEqual(emailDistributionList.LastUpdateDate_UTC, emailDistributionListRet.LastUpdateDate_UTC);
-                Assert.AreEqual(emailDistributionList.LastUpdateContactTVItemID, emailDistributionListRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(emailDistributionListRet.EmailDistributionListID);
+                Assert.IsNotNull(emailDistributionListRet.CountryTVItemID);
+                Assert.IsNotNull(emailDistributionListRet.RegionName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.RegionName));
+                Assert.IsNotNull(emailDistributionListRet.Ordinal);
+                Assert.IsNotNull(emailDistributionListRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(emailDistributionListRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(emailDistributionListRet.CountryTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.CountryTVText));

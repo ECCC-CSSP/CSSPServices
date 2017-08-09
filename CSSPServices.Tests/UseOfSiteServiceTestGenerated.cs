@@ -462,22 +462,46 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(useOfSite);
 
                 UseOfSite useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID);
-                Assert.AreEqual(useOfSite.UseOfSiteID, useOfSiteRet.UseOfSiteID);
-                Assert.AreEqual(useOfSite.SiteTVItemID, useOfSiteRet.SiteTVItemID);
-                Assert.AreEqual(useOfSite.SubsectorTVItemID, useOfSiteRet.SubsectorTVItemID);
-                Assert.AreEqual(useOfSite.SiteType, useOfSiteRet.SiteType);
-                Assert.AreEqual(useOfSite.Ordinal, useOfSiteRet.Ordinal);
-                Assert.AreEqual(useOfSite.StartYear, useOfSiteRet.StartYear);
-                Assert.AreEqual(useOfSite.EndYear, useOfSiteRet.EndYear);
-                Assert.AreEqual(useOfSite.UseWeight, useOfSiteRet.UseWeight);
-                Assert.AreEqual(useOfSite.Weight_perc, useOfSiteRet.Weight_perc);
-                Assert.AreEqual(useOfSite.UseEquation, useOfSiteRet.UseEquation);
-                Assert.AreEqual(useOfSite.Param1, useOfSiteRet.Param1);
-                Assert.AreEqual(useOfSite.Param2, useOfSiteRet.Param2);
-                Assert.AreEqual(useOfSite.Param3, useOfSiteRet.Param3);
-                Assert.AreEqual(useOfSite.Param4, useOfSiteRet.Param4);
-                Assert.AreEqual(useOfSite.LastUpdateDate_UTC, useOfSiteRet.LastUpdateDate_UTC);
-                Assert.AreEqual(useOfSite.LastUpdateContactTVItemID, useOfSiteRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(useOfSiteRet.UseOfSiteID);
+                Assert.IsNotNull(useOfSiteRet.SiteTVItemID);
+                Assert.IsNotNull(useOfSiteRet.SubsectorTVItemID);
+                Assert.IsNotNull(useOfSiteRet.SiteType);
+                Assert.IsNotNull(useOfSiteRet.Ordinal);
+                Assert.IsNotNull(useOfSiteRet.StartYear);
+                if (useOfSiteRet.EndYear != null)
+                {
+                   Assert.IsNotNull(useOfSiteRet.EndYear);
+                }
+                if (useOfSiteRet.UseWeight != null)
+                {
+                   Assert.IsNotNull(useOfSiteRet.UseWeight);
+                }
+                if (useOfSiteRet.Weight_perc != null)
+                {
+                   Assert.IsNotNull(useOfSiteRet.Weight_perc);
+                }
+                if (useOfSiteRet.UseEquation != null)
+                {
+                   Assert.IsNotNull(useOfSiteRet.UseEquation);
+                }
+                if (useOfSiteRet.Param1 != null)
+                {
+                   Assert.IsNotNull(useOfSiteRet.Param1);
+                }
+                if (useOfSiteRet.Param2 != null)
+                {
+                   Assert.IsNotNull(useOfSiteRet.Param2);
+                }
+                if (useOfSiteRet.Param3 != null)
+                {
+                   Assert.IsNotNull(useOfSiteRet.Param3);
+                }
+                if (useOfSiteRet.Param4 != null)
+                {
+                   Assert.IsNotNull(useOfSiteRet.Param4);
+                }
+                Assert.IsNotNull(useOfSiteRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(useOfSiteRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(useOfSiteRet.SiteTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTVText));

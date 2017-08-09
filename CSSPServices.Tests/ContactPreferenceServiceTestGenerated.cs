@@ -240,12 +240,12 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(contactPreference);
 
                 ContactPreference contactPreferenceRet = contactPreferenceService.GetContactPreferenceWithContactPreferenceID(contactPreference.ContactPreferenceID);
-                Assert.AreEqual(contactPreference.ContactPreferenceID, contactPreferenceRet.ContactPreferenceID);
-                Assert.AreEqual(contactPreference.ContactID, contactPreferenceRet.ContactID);
-                Assert.AreEqual(contactPreference.TVType, contactPreferenceRet.TVType);
-                Assert.AreEqual(contactPreference.MarkerSize, contactPreferenceRet.MarkerSize);
-                Assert.AreEqual(contactPreference.LastUpdateDate_UTC, contactPreferenceRet.LastUpdateDate_UTC);
-                Assert.AreEqual(contactPreference.LastUpdateContactTVItemID, contactPreferenceRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(contactPreferenceRet.ContactPreferenceID);
+                Assert.IsNotNull(contactPreferenceRet.ContactID);
+                Assert.IsNotNull(contactPreferenceRet.TVType);
+                Assert.IsNotNull(contactPreferenceRet.MarkerSize);
+                Assert.IsNotNull(contactPreferenceRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(contactPreferenceRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(contactPreferenceRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceRet.LastUpdateContactTVText));

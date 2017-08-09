@@ -400,19 +400,29 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(tvItemLink);
 
                 TVItemLink tvItemLinkRet = tvItemLinkService.GetTVItemLinkWithTVItemLinkID(tvItemLink.TVItemLinkID);
-                Assert.AreEqual(tvItemLink.TVItemLinkID, tvItemLinkRet.TVItemLinkID);
-                Assert.AreEqual(tvItemLink.FromTVItemID, tvItemLinkRet.FromTVItemID);
-                Assert.AreEqual(tvItemLink.ToTVItemID, tvItemLinkRet.ToTVItemID);
-                Assert.AreEqual(tvItemLink.FromTVType, tvItemLinkRet.FromTVType);
-                Assert.AreEqual(tvItemLink.ToTVType, tvItemLinkRet.ToTVType);
-                Assert.AreEqual(tvItemLink.StartDateTime_Local, tvItemLinkRet.StartDateTime_Local);
-                Assert.AreEqual(tvItemLink.EndDateTime_Local, tvItemLinkRet.EndDateTime_Local);
-                Assert.AreEqual(tvItemLink.Ordinal, tvItemLinkRet.Ordinal);
-                Assert.AreEqual(tvItemLink.TVLevel, tvItemLinkRet.TVLevel);
-                Assert.AreEqual(tvItemLink.TVPath, tvItemLinkRet.TVPath);
-                Assert.AreEqual(tvItemLink.ParentTVItemLinkID, tvItemLinkRet.ParentTVItemLinkID);
-                Assert.AreEqual(tvItemLink.LastUpdateDate_UTC, tvItemLinkRet.LastUpdateDate_UTC);
-                Assert.AreEqual(tvItemLink.LastUpdateContactTVItemID, tvItemLinkRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(tvItemLinkRet.TVItemLinkID);
+                Assert.IsNotNull(tvItemLinkRet.FromTVItemID);
+                Assert.IsNotNull(tvItemLinkRet.ToTVItemID);
+                Assert.IsNotNull(tvItemLinkRet.FromTVType);
+                Assert.IsNotNull(tvItemLinkRet.ToTVType);
+                if (tvItemLinkRet.StartDateTime_Local != null)
+                {
+                   Assert.IsNotNull(tvItemLinkRet.StartDateTime_Local);
+                }
+                if (tvItemLinkRet.EndDateTime_Local != null)
+                {
+                   Assert.IsNotNull(tvItemLinkRet.EndDateTime_Local);
+                }
+                Assert.IsNotNull(tvItemLinkRet.Ordinal);
+                Assert.IsNotNull(tvItemLinkRet.TVLevel);
+                Assert.IsNotNull(tvItemLinkRet.TVPath);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.TVPath));
+                if (tvItemLinkRet.ParentTVItemLinkID != null)
+                {
+                   Assert.IsNotNull(tvItemLinkRet.ParentTVItemLinkID);
+                }
+                Assert.IsNotNull(tvItemLinkRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(tvItemLinkRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(tvItemLinkRet.FromTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.FromTVText));

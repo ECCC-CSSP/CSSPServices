@@ -531,30 +531,40 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(samplingPlan);
 
                 SamplingPlan samplingPlanRet = samplingPlanService.GetSamplingPlanWithSamplingPlanID(samplingPlan.SamplingPlanID);
-                Assert.AreEqual(samplingPlan.SamplingPlanID, samplingPlanRet.SamplingPlanID);
-                Assert.AreEqual(samplingPlan.SamplingPlanName, samplingPlanRet.SamplingPlanName);
-                Assert.AreEqual(samplingPlan.ForGroupName, samplingPlanRet.ForGroupName);
-                Assert.AreEqual(samplingPlan.SampleType, samplingPlanRet.SampleType);
-                Assert.AreEqual(samplingPlan.SamplingPlanType, samplingPlanRet.SamplingPlanType);
-                Assert.AreEqual(samplingPlan.LabSheetType, samplingPlanRet.LabSheetType);
-                Assert.AreEqual(samplingPlan.ProvinceTVItemID, samplingPlanRet.ProvinceTVItemID);
-                Assert.AreEqual(samplingPlan.CreatorTVItemID, samplingPlanRet.CreatorTVItemID);
-                Assert.AreEqual(samplingPlan.Year, samplingPlanRet.Year);
-                Assert.AreEqual(samplingPlan.AccessCode, samplingPlanRet.AccessCode);
-                Assert.AreEqual(samplingPlan.DailyDuplicatePrecisionCriteria, samplingPlanRet.DailyDuplicatePrecisionCriteria);
-                Assert.AreEqual(samplingPlan.IntertechDuplicatePrecisionCriteria, samplingPlanRet.IntertechDuplicatePrecisionCriteria);
-                Assert.AreEqual(samplingPlan.IncludeLaboratoryQAQC, samplingPlanRet.IncludeLaboratoryQAQC);
-                Assert.AreEqual(samplingPlan.ApprovalCode, samplingPlanRet.ApprovalCode);
-                Assert.AreEqual(samplingPlan.SamplingPlanFileTVItemID, samplingPlanRet.SamplingPlanFileTVItemID);
-                Assert.AreEqual(samplingPlan.LastUpdateDate_UTC, samplingPlanRet.LastUpdateDate_UTC);
-                Assert.AreEqual(samplingPlan.LastUpdateContactTVItemID, samplingPlanRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(samplingPlanRet.SamplingPlanID);
+                Assert.IsNotNull(samplingPlanRet.SamplingPlanName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanName));
+                Assert.IsNotNull(samplingPlanRet.ForGroupName);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ForGroupName));
+                Assert.IsNotNull(samplingPlanRet.SampleType);
+                Assert.IsNotNull(samplingPlanRet.SamplingPlanType);
+                Assert.IsNotNull(samplingPlanRet.LabSheetType);
+                Assert.IsNotNull(samplingPlanRet.ProvinceTVItemID);
+                Assert.IsNotNull(samplingPlanRet.CreatorTVItemID);
+                Assert.IsNotNull(samplingPlanRet.Year);
+                Assert.IsNotNull(samplingPlanRet.AccessCode);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.AccessCode));
+                Assert.IsNotNull(samplingPlanRet.DailyDuplicatePrecisionCriteria);
+                Assert.IsNotNull(samplingPlanRet.IntertechDuplicatePrecisionCriteria);
+                Assert.IsNotNull(samplingPlanRet.IncludeLaboratoryQAQC);
+                Assert.IsNotNull(samplingPlanRet.ApprovalCode);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ApprovalCode));
+                if (samplingPlanRet.SamplingPlanFileTVItemID != null)
+                {
+                   Assert.IsNotNull(samplingPlanRet.SamplingPlanFileTVItemID);
+                }
+                Assert.IsNotNull(samplingPlanRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(samplingPlanRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(samplingPlanRet.ProvinceTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ProvinceTVText));
                 Assert.IsNotNull(samplingPlanRet.CreatorTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.CreatorTVText));
-                Assert.IsNotNull(samplingPlanRet.SamplingPlanFileTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanFileTVText));
+                if (samplingPlanRet.SamplingPlanFileTVItemID != null)
+                {
+                   Assert.IsNotNull(samplingPlanRet.SamplingPlanFileTVText);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanFileTVText));
+                }
                 Assert.IsNotNull(samplingPlanRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.LastUpdateContactTVText));
                 Assert.IsNotNull(samplingPlanRet.SampleTypeText);

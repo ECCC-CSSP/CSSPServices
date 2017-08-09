@@ -299,11 +299,14 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(contactLogin);
 
                 ContactLogin contactLoginRet = contactLoginService.GetContactLoginWithContactLoginID(contactLogin.ContactLoginID);
-                Assert.AreEqual(contactLogin.ContactLoginID, contactLoginRet.ContactLoginID);
-                Assert.AreEqual(contactLogin.ContactID, contactLoginRet.ContactID);
-                Assert.AreEqual(contactLogin.LoginEmail, contactLoginRet.LoginEmail);
-                Assert.AreEqual(contactLogin.LastUpdateDate_UTC, contactLoginRet.LastUpdateDate_UTC);
-                Assert.AreEqual(contactLogin.LastUpdateContactTVItemID, contactLoginRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(contactLoginRet.ContactLoginID);
+                Assert.IsNotNull(contactLoginRet.ContactID);
+                Assert.IsNotNull(contactLoginRet.LoginEmail);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.LoginEmail));
+                Assert.IsNotNull(contactLoginRet.PasswordHash);
+                Assert.IsNotNull(contactLoginRet.PasswordSalt);
+                Assert.IsNotNull(contactLoginRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(contactLoginRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(contactLoginRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.LastUpdateContactTVText));

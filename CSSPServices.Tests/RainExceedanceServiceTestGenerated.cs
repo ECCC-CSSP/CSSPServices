@@ -360,20 +360,36 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(rainExceedance);
 
                 RainExceedance rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID);
-                Assert.AreEqual(rainExceedance.RainExceedanceID, rainExceedanceRet.RainExceedanceID);
-                Assert.AreEqual(rainExceedance.YearRound, rainExceedanceRet.YearRound);
-                Assert.AreEqual(rainExceedance.StartDate_Local, rainExceedanceRet.StartDate_Local);
-                Assert.AreEqual(rainExceedance.EndDate_Local, rainExceedanceRet.EndDate_Local);
-                Assert.AreEqual(rainExceedance.RainMaximum_mm, rainExceedanceRet.RainMaximum_mm);
-                Assert.AreEqual(rainExceedance.RainExtreme_mm, rainExceedanceRet.RainExtreme_mm);
-                Assert.AreEqual(rainExceedance.DaysPriorToStart, rainExceedanceRet.DaysPriorToStart);
-                Assert.AreEqual(rainExceedance.RepeatEveryYear, rainExceedanceRet.RepeatEveryYear);
-                Assert.AreEqual(rainExceedance.ProvinceTVItemIDs, rainExceedanceRet.ProvinceTVItemIDs);
-                Assert.AreEqual(rainExceedance.SubsectorTVItemIDs, rainExceedanceRet.SubsectorTVItemIDs);
-                Assert.AreEqual(rainExceedance.ClimateSiteTVItemIDs, rainExceedanceRet.ClimateSiteTVItemIDs);
-                Assert.AreEqual(rainExceedance.EmailDistributionListIDs, rainExceedanceRet.EmailDistributionListIDs);
-                Assert.AreEqual(rainExceedance.LastUpdateDate_UTC, rainExceedanceRet.LastUpdateDate_UTC);
-                Assert.AreEqual(rainExceedance.LastUpdateContactTVItemID, rainExceedanceRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(rainExceedanceRet.RainExceedanceID);
+                Assert.IsNotNull(rainExceedanceRet.YearRound);
+                if (rainExceedanceRet.StartDate_Local != null)
+                {
+                   Assert.IsNotNull(rainExceedanceRet.StartDate_Local);
+                }
+                if (rainExceedanceRet.EndDate_Local != null)
+                {
+                   Assert.IsNotNull(rainExceedanceRet.EndDate_Local);
+                }
+                if (rainExceedanceRet.RainMaximum_mm != null)
+                {
+                   Assert.IsNotNull(rainExceedanceRet.RainMaximum_mm);
+                }
+                if (rainExceedanceRet.RainExtreme_mm != null)
+                {
+                   Assert.IsNotNull(rainExceedanceRet.RainExtreme_mm);
+                }
+                Assert.IsNotNull(rainExceedanceRet.DaysPriorToStart);
+                Assert.IsNotNull(rainExceedanceRet.RepeatEveryYear);
+                Assert.IsNotNull(rainExceedanceRet.ProvinceTVItemIDs);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.ProvinceTVItemIDs));
+                Assert.IsNotNull(rainExceedanceRet.SubsectorTVItemIDs);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.SubsectorTVItemIDs));
+                Assert.IsNotNull(rainExceedanceRet.ClimateSiteTVItemIDs);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.ClimateSiteTVItemIDs));
+                Assert.IsNotNull(rainExceedanceRet.EmailDistributionListIDs);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.EmailDistributionListIDs));
+                Assert.IsNotNull(rainExceedanceRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(rainExceedanceRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(rainExceedanceRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.LastUpdateContactTVText));

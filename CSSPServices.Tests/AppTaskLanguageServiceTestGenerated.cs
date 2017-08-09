@@ -277,14 +277,22 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(appTaskLanguage);
 
                 AppTaskLanguage appTaskLanguageRet = appTaskLanguageService.GetAppTaskLanguageWithAppTaskLanguageID(appTaskLanguage.AppTaskLanguageID);
-                Assert.AreEqual(appTaskLanguage.AppTaskLanguageID, appTaskLanguageRet.AppTaskLanguageID);
-                Assert.AreEqual(appTaskLanguage.AppTaskID, appTaskLanguageRet.AppTaskID);
-                Assert.AreEqual(appTaskLanguage.Language, appTaskLanguageRet.Language);
-                Assert.AreEqual(appTaskLanguage.StatusText, appTaskLanguageRet.StatusText);
-                Assert.AreEqual(appTaskLanguage.ErrorText, appTaskLanguageRet.ErrorText);
-                Assert.AreEqual(appTaskLanguage.TranslationStatus, appTaskLanguageRet.TranslationStatus);
-                Assert.AreEqual(appTaskLanguage.LastUpdateDate_UTC, appTaskLanguageRet.LastUpdateDate_UTC);
-                Assert.AreEqual(appTaskLanguage.LastUpdateContactTVItemID, appTaskLanguageRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(appTaskLanguageRet.AppTaskLanguageID);
+                Assert.IsNotNull(appTaskLanguageRet.AppTaskID);
+                Assert.IsNotNull(appTaskLanguageRet.Language);
+                if (appTaskLanguageRet.StatusText != null)
+                {
+                   Assert.IsNotNull(appTaskLanguageRet.StatusText);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.StatusText));
+                }
+                if (appTaskLanguageRet.ErrorText != null)
+                {
+                   Assert.IsNotNull(appTaskLanguageRet.ErrorText);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.ErrorText));
+                }
+                Assert.IsNotNull(appTaskLanguageRet.TranslationStatus);
+                Assert.IsNotNull(appTaskLanguageRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(appTaskLanguageRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(appTaskLanguageRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.LastUpdateContactTVText));

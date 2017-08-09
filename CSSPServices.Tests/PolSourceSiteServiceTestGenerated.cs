@@ -343,17 +343,36 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(polSourceSite);
 
                 PolSourceSite polSourceSiteRet = polSourceSiteService.GetPolSourceSiteWithPolSourceSiteID(polSourceSite.PolSourceSiteID);
-                Assert.AreEqual(polSourceSite.PolSourceSiteID, polSourceSiteRet.PolSourceSiteID);
-                Assert.AreEqual(polSourceSite.PolSourceSiteTVItemID, polSourceSiteRet.PolSourceSiteTVItemID);
-                Assert.AreEqual(polSourceSite.Temp_Locator_CanDelete, polSourceSiteRet.Temp_Locator_CanDelete);
-                Assert.AreEqual(polSourceSite.Oldsiteid, polSourceSiteRet.Oldsiteid);
-                Assert.AreEqual(polSourceSite.Site, polSourceSiteRet.Site);
-                Assert.AreEqual(polSourceSite.SiteID, polSourceSiteRet.SiteID);
-                Assert.AreEqual(polSourceSite.IsPointSource, polSourceSiteRet.IsPointSource);
-                Assert.AreEqual(polSourceSite.InactiveReason, polSourceSiteRet.InactiveReason);
-                Assert.AreEqual(polSourceSite.CivicAddressTVItemID, polSourceSiteRet.CivicAddressTVItemID);
-                Assert.AreEqual(polSourceSite.LastUpdateDate_UTC, polSourceSiteRet.LastUpdateDate_UTC);
-                Assert.AreEqual(polSourceSite.LastUpdateContactTVItemID, polSourceSiteRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(polSourceSiteRet.PolSourceSiteID);
+                Assert.IsNotNull(polSourceSiteRet.PolSourceSiteTVItemID);
+                if (polSourceSiteRet.Temp_Locator_CanDelete != null)
+                {
+                   Assert.IsNotNull(polSourceSiteRet.Temp_Locator_CanDelete);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.Temp_Locator_CanDelete));
+                }
+                if (polSourceSiteRet.Oldsiteid != null)
+                {
+                   Assert.IsNotNull(polSourceSiteRet.Oldsiteid);
+                }
+                if (polSourceSiteRet.Site != null)
+                {
+                   Assert.IsNotNull(polSourceSiteRet.Site);
+                }
+                if (polSourceSiteRet.SiteID != null)
+                {
+                   Assert.IsNotNull(polSourceSiteRet.SiteID);
+                }
+                Assert.IsNotNull(polSourceSiteRet.IsPointSource);
+                if (polSourceSiteRet.InactiveReason != null)
+                {
+                   Assert.IsNotNull(polSourceSiteRet.InactiveReason);
+                }
+                if (polSourceSiteRet.CivicAddressTVItemID != null)
+                {
+                   Assert.IsNotNull(polSourceSiteRet.CivicAddressTVItemID);
+                }
+                Assert.IsNotNull(polSourceSiteRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(polSourceSiteRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(polSourceSiteRet.PolSourceSiteTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.PolSourceSiteTVText));

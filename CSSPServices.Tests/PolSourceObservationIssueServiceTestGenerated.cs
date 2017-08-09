@@ -233,12 +233,13 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(polSourceObservationIssue);
 
                 PolSourceObservationIssue polSourceObservationIssueRet = polSourceObservationIssueService.GetPolSourceObservationIssueWithPolSourceObservationIssueID(polSourceObservationIssue.PolSourceObservationIssueID);
-                Assert.AreEqual(polSourceObservationIssue.PolSourceObservationIssueID, polSourceObservationIssueRet.PolSourceObservationIssueID);
-                Assert.AreEqual(polSourceObservationIssue.PolSourceObservationID, polSourceObservationIssueRet.PolSourceObservationID);
-                Assert.AreEqual(polSourceObservationIssue.ObservationInfo, polSourceObservationIssueRet.ObservationInfo);
-                Assert.AreEqual(polSourceObservationIssue.Ordinal, polSourceObservationIssueRet.Ordinal);
-                Assert.AreEqual(polSourceObservationIssue.LastUpdateDate_UTC, polSourceObservationIssueRet.LastUpdateDate_UTC);
-                Assert.AreEqual(polSourceObservationIssue.LastUpdateContactTVItemID, polSourceObservationIssueRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(polSourceObservationIssueRet.PolSourceObservationIssueID);
+                Assert.IsNotNull(polSourceObservationIssueRet.PolSourceObservationID);
+                Assert.IsNotNull(polSourceObservationIssueRet.ObservationInfo);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.ObservationInfo));
+                Assert.IsNotNull(polSourceObservationIssueRet.Ordinal);
+                Assert.IsNotNull(polSourceObservationIssueRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(polSourceObservationIssueRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(polSourceObservationIssueRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.LastUpdateContactTVText));

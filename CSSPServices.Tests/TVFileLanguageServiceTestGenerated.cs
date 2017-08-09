@@ -256,13 +256,17 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(tvFileLanguage);
 
                 TVFileLanguage tvFileLanguageRet = tvFileLanguageService.GetTVFileLanguageWithTVFileLanguageID(tvFileLanguage.TVFileLanguageID);
-                Assert.AreEqual(tvFileLanguage.TVFileLanguageID, tvFileLanguageRet.TVFileLanguageID);
-                Assert.AreEqual(tvFileLanguage.TVFileID, tvFileLanguageRet.TVFileID);
-                Assert.AreEqual(tvFileLanguage.Language, tvFileLanguageRet.Language);
-                Assert.AreEqual(tvFileLanguage.FileDescription, tvFileLanguageRet.FileDescription);
-                Assert.AreEqual(tvFileLanguage.TranslationStatus, tvFileLanguageRet.TranslationStatus);
-                Assert.AreEqual(tvFileLanguage.LastUpdateDate_UTC, tvFileLanguageRet.LastUpdateDate_UTC);
-                Assert.AreEqual(tvFileLanguage.LastUpdateContactTVItemID, tvFileLanguageRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(tvFileLanguageRet.TVFileLanguageID);
+                Assert.IsNotNull(tvFileLanguageRet.TVFileID);
+                Assert.IsNotNull(tvFileLanguageRet.Language);
+                if (tvFileLanguageRet.FileDescription != null)
+                {
+                   Assert.IsNotNull(tvFileLanguageRet.FileDescription);
+                   Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageRet.FileDescription));
+                }
+                Assert.IsNotNull(tvFileLanguageRet.TranslationStatus);
+                Assert.IsNotNull(tvFileLanguageRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(tvFileLanguageRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(tvFileLanguageRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileLanguageRet.LastUpdateContactTVText));

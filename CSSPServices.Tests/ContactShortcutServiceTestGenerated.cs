@@ -235,12 +235,14 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(contactShortcut);
 
                 ContactShortcut contactShortcutRet = contactShortcutService.GetContactShortcutWithContactShortcutID(contactShortcut.ContactShortcutID);
-                Assert.AreEqual(contactShortcut.ContactShortcutID, contactShortcutRet.ContactShortcutID);
-                Assert.AreEqual(contactShortcut.ContactID, contactShortcutRet.ContactID);
-                Assert.AreEqual(contactShortcut.ShortCutText, contactShortcutRet.ShortCutText);
-                Assert.AreEqual(contactShortcut.ShortCutAddress, contactShortcutRet.ShortCutAddress);
-                Assert.AreEqual(contactShortcut.LastUpdateDate_UTC, contactShortcutRet.LastUpdateDate_UTC);
-                Assert.AreEqual(contactShortcut.LastUpdateContactTVItemID, contactShortcutRet.LastUpdateContactTVItemID);
+                Assert.IsNotNull(contactShortcutRet.ContactShortcutID);
+                Assert.IsNotNull(contactShortcutRet.ContactID);
+                Assert.IsNotNull(contactShortcutRet.ShortCutText);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutRet.ShortCutText));
+                Assert.IsNotNull(contactShortcutRet.ShortCutAddress);
+                Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutRet.ShortCutAddress));
+                Assert.IsNotNull(contactShortcutRet.LastUpdateDate_UTC);
+                Assert.IsNotNull(contactShortcutRet.LastUpdateContactTVItemID);
 
                 Assert.IsNotNull(contactShortcutRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutRet.LastUpdateContactTVText));
