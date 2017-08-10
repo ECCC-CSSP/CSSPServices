@@ -190,20 +190,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<TVItemLanguage> tvItemLanguageList)
-        {
-            foreach (TVItemLanguage tvItemLanguage in tvItemLanguageList)
-            {
-                tvItemLanguage.ValidationResults = Validate(new ValidationContext(tvItemLanguage), ActionDBTypeEnum.Create);
-                if (tvItemLanguage.ValidationResults.Count() > 0) return false;
-            }
-
-            db.TVItemLanguages.AddRange(tvItemLanguageList);
-
-            if (!TryToSaveRange(tvItemLanguageList)) return false;
-
-            return true;
-        }
         public bool Delete(TVItemLanguage tvItemLanguage)
         {
             if (!db.TVItemLanguages.Where(c => c.TVItemLanguageID == tvItemLanguage.TVItemLanguageID).Any())
@@ -218,44 +204,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<TVItemLanguage> tvItemLanguageList)
-        {
-            foreach (TVItemLanguage tvItemLanguage in tvItemLanguageList)
-            {
-                if (!db.TVItemLanguages.Where(c => c.TVItemLanguageID == tvItemLanguage.TVItemLanguageID).Any())
-                {
-                    tvItemLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVItemLanguage", "TVItemLanguageID", tvItemLanguage.TVItemLanguageID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.TVItemLanguages.RemoveRange(tvItemLanguageList);
-
-            if (!TryToSaveRange(tvItemLanguageList)) return false;
-
-            return true;
-        }
         public bool Update(TVItemLanguage tvItemLanguage)
         {
+            if (!db.TVItemLanguages.Where(c => c.TVItemLanguageID == tvItemLanguage.TVItemLanguageID).Any())
+            {
+                tvItemLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVItemLanguage", "TVItemLanguageID", tvItemLanguage.TVItemLanguageID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             tvItemLanguage.ValidationResults = Validate(new ValidationContext(tvItemLanguage), ActionDBTypeEnum.Update);
             if (tvItemLanguage.ValidationResults.Count() > 0) return false;
 
             db.TVItemLanguages.Update(tvItemLanguage);
 
             if (!TryToSave(tvItemLanguage)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<TVItemLanguage> tvItemLanguageList)
-        {
-            foreach (TVItemLanguage tvItemLanguage in tvItemLanguageList)
-            {
-                tvItemLanguage.ValidationResults = Validate(new ValidationContext(tvItemLanguage), ActionDBTypeEnum.Update);
-                if (tvItemLanguage.ValidationResults.Count() > 0) return false;
-            }
-            db.TVItemLanguages.UpdateRange(tvItemLanguageList);
-
-            if (!TryToSaveRange(tvItemLanguageList)) return false;
 
             return true;
         }
@@ -312,20 +274,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 tvItemLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<TVItemLanguage> tvItemLanguageList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                tvItemLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

@@ -203,20 +203,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<VPAmbient> vpAmbientList)
-        {
-            foreach (VPAmbient vpAmbient in vpAmbientList)
-            {
-                vpAmbient.ValidationResults = Validate(new ValidationContext(vpAmbient), ActionDBTypeEnum.Create);
-                if (vpAmbient.ValidationResults.Count() > 0) return false;
-            }
-
-            db.VPAmbients.AddRange(vpAmbientList);
-
-            if (!TryToSaveRange(vpAmbientList)) return false;
-
-            return true;
-        }
         public bool Delete(VPAmbient vpAmbient)
         {
             if (!db.VPAmbients.Where(c => c.VPAmbientID == vpAmbient.VPAmbientID).Any())
@@ -231,44 +217,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<VPAmbient> vpAmbientList)
-        {
-            foreach (VPAmbient vpAmbient in vpAmbientList)
-            {
-                if (!db.VPAmbients.Where(c => c.VPAmbientID == vpAmbient.VPAmbientID).Any())
-                {
-                    vpAmbientList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "VPAmbient", "VPAmbientID", vpAmbient.VPAmbientID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.VPAmbients.RemoveRange(vpAmbientList);
-
-            if (!TryToSaveRange(vpAmbientList)) return false;
-
-            return true;
-        }
         public bool Update(VPAmbient vpAmbient)
         {
+            if (!db.VPAmbients.Where(c => c.VPAmbientID == vpAmbient.VPAmbientID).Any())
+            {
+                vpAmbient.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "VPAmbient", "VPAmbientID", vpAmbient.VPAmbientID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             vpAmbient.ValidationResults = Validate(new ValidationContext(vpAmbient), ActionDBTypeEnum.Update);
             if (vpAmbient.ValidationResults.Count() > 0) return false;
 
             db.VPAmbients.Update(vpAmbient);
 
             if (!TryToSave(vpAmbient)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<VPAmbient> vpAmbientList)
-        {
-            foreach (VPAmbient vpAmbient in vpAmbientList)
-            {
-                vpAmbient.ValidationResults = Validate(new ValidationContext(vpAmbient), ActionDBTypeEnum.Update);
-                if (vpAmbient.ValidationResults.Count() > 0) return false;
-            }
-            db.VPAmbients.UpdateRange(vpAmbientList);
-
-            if (!TryToSaveRange(vpAmbientList)) return false;
 
             return true;
         }
@@ -325,20 +287,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 vpAmbient.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<VPAmbient> vpAmbientList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                vpAmbientList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

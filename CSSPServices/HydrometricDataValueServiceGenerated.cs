@@ -160,20 +160,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<HydrometricDataValue> hydrometricDataValueList)
-        {
-            foreach (HydrometricDataValue hydrometricDataValue in hydrometricDataValueList)
-            {
-                hydrometricDataValue.ValidationResults = Validate(new ValidationContext(hydrometricDataValue), ActionDBTypeEnum.Create);
-                if (hydrometricDataValue.ValidationResults.Count() > 0) return false;
-            }
-
-            db.HydrometricDataValues.AddRange(hydrometricDataValueList);
-
-            if (!TryToSaveRange(hydrometricDataValueList)) return false;
-
-            return true;
-        }
         public bool Delete(HydrometricDataValue hydrometricDataValue)
         {
             if (!db.HydrometricDataValues.Where(c => c.HydrometricDataValueID == hydrometricDataValue.HydrometricDataValueID).Any())
@@ -188,44 +174,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<HydrometricDataValue> hydrometricDataValueList)
-        {
-            foreach (HydrometricDataValue hydrometricDataValue in hydrometricDataValueList)
-            {
-                if (!db.HydrometricDataValues.Where(c => c.HydrometricDataValueID == hydrometricDataValue.HydrometricDataValueID).Any())
-                {
-                    hydrometricDataValueList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "HydrometricDataValue", "HydrometricDataValueID", hydrometricDataValue.HydrometricDataValueID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.HydrometricDataValues.RemoveRange(hydrometricDataValueList);
-
-            if (!TryToSaveRange(hydrometricDataValueList)) return false;
-
-            return true;
-        }
         public bool Update(HydrometricDataValue hydrometricDataValue)
         {
+            if (!db.HydrometricDataValues.Where(c => c.HydrometricDataValueID == hydrometricDataValue.HydrometricDataValueID).Any())
+            {
+                hydrometricDataValue.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "HydrometricDataValue", "HydrometricDataValueID", hydrometricDataValue.HydrometricDataValueID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             hydrometricDataValue.ValidationResults = Validate(new ValidationContext(hydrometricDataValue), ActionDBTypeEnum.Update);
             if (hydrometricDataValue.ValidationResults.Count() > 0) return false;
 
             db.HydrometricDataValues.Update(hydrometricDataValue);
 
             if (!TryToSave(hydrometricDataValue)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<HydrometricDataValue> hydrometricDataValueList)
-        {
-            foreach (HydrometricDataValue hydrometricDataValue in hydrometricDataValueList)
-            {
-                hydrometricDataValue.ValidationResults = Validate(new ValidationContext(hydrometricDataValue), ActionDBTypeEnum.Update);
-                if (hydrometricDataValue.ValidationResults.Count() > 0) return false;
-            }
-            db.HydrometricDataValues.UpdateRange(hydrometricDataValueList);
-
-            if (!TryToSaveRange(hydrometricDataValueList)) return false;
 
             return true;
         }
@@ -283,20 +245,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 hydrometricDataValue.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<HydrometricDataValue> hydrometricDataValueList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                hydrometricDataValueList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

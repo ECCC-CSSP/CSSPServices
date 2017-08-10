@@ -508,20 +508,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<MWQMRun> mwqmRunList)
-        {
-            foreach (MWQMRun mwqmRun in mwqmRunList)
-            {
-                mwqmRun.ValidationResults = Validate(new ValidationContext(mwqmRun), ActionDBTypeEnum.Create);
-                if (mwqmRun.ValidationResults.Count() > 0) return false;
-            }
-
-            db.MWQMRuns.AddRange(mwqmRunList);
-
-            if (!TryToSaveRange(mwqmRunList)) return false;
-
-            return true;
-        }
         public bool Delete(MWQMRun mwqmRun)
         {
             if (!db.MWQMRuns.Where(c => c.MWQMRunID == mwqmRun.MWQMRunID).Any())
@@ -536,44 +522,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<MWQMRun> mwqmRunList)
-        {
-            foreach (MWQMRun mwqmRun in mwqmRunList)
-            {
-                if (!db.MWQMRuns.Where(c => c.MWQMRunID == mwqmRun.MWQMRunID).Any())
-                {
-                    mwqmRunList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMRun", "MWQMRunID", mwqmRun.MWQMRunID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.MWQMRuns.RemoveRange(mwqmRunList);
-
-            if (!TryToSaveRange(mwqmRunList)) return false;
-
-            return true;
-        }
         public bool Update(MWQMRun mwqmRun)
         {
+            if (!db.MWQMRuns.Where(c => c.MWQMRunID == mwqmRun.MWQMRunID).Any())
+            {
+                mwqmRun.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMRun", "MWQMRunID", mwqmRun.MWQMRunID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             mwqmRun.ValidationResults = Validate(new ValidationContext(mwqmRun), ActionDBTypeEnum.Update);
             if (mwqmRun.ValidationResults.Count() > 0) return false;
 
             db.MWQMRuns.Update(mwqmRun);
 
             if (!TryToSave(mwqmRun)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<MWQMRun> mwqmRunList)
-        {
-            foreach (MWQMRun mwqmRun in mwqmRunList)
-            {
-                mwqmRun.ValidationResults = Validate(new ValidationContext(mwqmRun), ActionDBTypeEnum.Update);
-                if (mwqmRun.ValidationResults.Count() > 0) return false;
-            }
-            db.MWQMRuns.UpdateRange(mwqmRunList);
-
-            if (!TryToSaveRange(mwqmRunList)) return false;
 
             return true;
         }
@@ -687,20 +649,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 mwqmRun.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<MWQMRun> mwqmRunList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                mwqmRunList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

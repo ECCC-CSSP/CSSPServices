@@ -158,20 +158,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<MikeSource> mikeSourceList)
-        {
-            foreach (MikeSource mikeSource in mikeSourceList)
-            {
-                mikeSource.ValidationResults = Validate(new ValidationContext(mikeSource), ActionDBTypeEnum.Create);
-                if (mikeSource.ValidationResults.Count() > 0) return false;
-            }
-
-            db.MikeSources.AddRange(mikeSourceList);
-
-            if (!TryToSaveRange(mikeSourceList)) return false;
-
-            return true;
-        }
         public bool Delete(MikeSource mikeSource)
         {
             if (!db.MikeSources.Where(c => c.MikeSourceID == mikeSource.MikeSourceID).Any())
@@ -186,44 +172,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<MikeSource> mikeSourceList)
-        {
-            foreach (MikeSource mikeSource in mikeSourceList)
-            {
-                if (!db.MikeSources.Where(c => c.MikeSourceID == mikeSource.MikeSourceID).Any())
-                {
-                    mikeSourceList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MikeSource", "MikeSourceID", mikeSource.MikeSourceID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.MikeSources.RemoveRange(mikeSourceList);
-
-            if (!TryToSaveRange(mikeSourceList)) return false;
-
-            return true;
-        }
         public bool Update(MikeSource mikeSource)
         {
+            if (!db.MikeSources.Where(c => c.MikeSourceID == mikeSource.MikeSourceID).Any())
+            {
+                mikeSource.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MikeSource", "MikeSourceID", mikeSource.MikeSourceID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             mikeSource.ValidationResults = Validate(new ValidationContext(mikeSource), ActionDBTypeEnum.Update);
             if (mikeSource.ValidationResults.Count() > 0) return false;
 
             db.MikeSources.Update(mikeSource);
 
             if (!TryToSave(mikeSource)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<MikeSource> mikeSourceList)
-        {
-            foreach (MikeSource mikeSource in mikeSourceList)
-            {
-                mikeSource.ValidationResults = Validate(new ValidationContext(mikeSource), ActionDBTypeEnum.Update);
-                if (mikeSource.ValidationResults.Count() > 0) return false;
-            }
-            db.MikeSources.UpdateRange(mikeSourceList);
-
-            if (!TryToSaveRange(mikeSourceList)) return false;
 
             return true;
         }
@@ -278,20 +240,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 mikeSource.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<MikeSource> mikeSourceList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                mikeSourceList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

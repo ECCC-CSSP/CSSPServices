@@ -158,20 +158,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<AppTaskLanguage> appTaskLanguageList)
-        {
-            foreach (AppTaskLanguage appTaskLanguage in appTaskLanguageList)
-            {
-                appTaskLanguage.ValidationResults = Validate(new ValidationContext(appTaskLanguage), ActionDBTypeEnum.Create);
-                if (appTaskLanguage.ValidationResults.Count() > 0) return false;
-            }
-
-            db.AppTaskLanguages.AddRange(appTaskLanguageList);
-
-            if (!TryToSaveRange(appTaskLanguageList)) return false;
-
-            return true;
-        }
         public bool Delete(AppTaskLanguage appTaskLanguage)
         {
             if (!db.AppTaskLanguages.Where(c => c.AppTaskLanguageID == appTaskLanguage.AppTaskLanguageID).Any())
@@ -186,44 +172,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<AppTaskLanguage> appTaskLanguageList)
-        {
-            foreach (AppTaskLanguage appTaskLanguage in appTaskLanguageList)
-            {
-                if (!db.AppTaskLanguages.Where(c => c.AppTaskLanguageID == appTaskLanguage.AppTaskLanguageID).Any())
-                {
-                    appTaskLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "AppTaskLanguage", "AppTaskLanguageID", appTaskLanguage.AppTaskLanguageID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.AppTaskLanguages.RemoveRange(appTaskLanguageList);
-
-            if (!TryToSaveRange(appTaskLanguageList)) return false;
-
-            return true;
-        }
         public bool Update(AppTaskLanguage appTaskLanguage)
         {
+            if (!db.AppTaskLanguages.Where(c => c.AppTaskLanguageID == appTaskLanguage.AppTaskLanguageID).Any())
+            {
+                appTaskLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "AppTaskLanguage", "AppTaskLanguageID", appTaskLanguage.AppTaskLanguageID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             appTaskLanguage.ValidationResults = Validate(new ValidationContext(appTaskLanguage), ActionDBTypeEnum.Update);
             if (appTaskLanguage.ValidationResults.Count() > 0) return false;
 
             db.AppTaskLanguages.Update(appTaskLanguage);
 
             if (!TryToSave(appTaskLanguage)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<AppTaskLanguage> appTaskLanguageList)
-        {
-            foreach (AppTaskLanguage appTaskLanguage in appTaskLanguageList)
-            {
-                appTaskLanguage.ValidationResults = Validate(new ValidationContext(appTaskLanguage), ActionDBTypeEnum.Update);
-                if (appTaskLanguage.ValidationResults.Count() > 0) return false;
-            }
-            db.AppTaskLanguages.UpdateRange(appTaskLanguageList);
-
-            if (!TryToSaveRange(appTaskLanguageList)) return false;
 
             return true;
         }
@@ -281,20 +243,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 appTaskLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<AppTaskLanguage> appTaskLanguageList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                appTaskLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

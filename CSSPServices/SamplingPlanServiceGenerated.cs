@@ -289,20 +289,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<SamplingPlan> samplingPlanList)
-        {
-            foreach (SamplingPlan samplingPlan in samplingPlanList)
-            {
-                samplingPlan.ValidationResults = Validate(new ValidationContext(samplingPlan), ActionDBTypeEnum.Create);
-                if (samplingPlan.ValidationResults.Count() > 0) return false;
-            }
-
-            db.SamplingPlans.AddRange(samplingPlanList);
-
-            if (!TryToSaveRange(samplingPlanList)) return false;
-
-            return true;
-        }
         public bool Delete(SamplingPlan samplingPlan)
         {
             if (!db.SamplingPlans.Where(c => c.SamplingPlanID == samplingPlan.SamplingPlanID).Any())
@@ -317,44 +303,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<SamplingPlan> samplingPlanList)
-        {
-            foreach (SamplingPlan samplingPlan in samplingPlanList)
-            {
-                if (!db.SamplingPlans.Where(c => c.SamplingPlanID == samplingPlan.SamplingPlanID).Any())
-                {
-                    samplingPlanList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "SamplingPlan", "SamplingPlanID", samplingPlan.SamplingPlanID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.SamplingPlans.RemoveRange(samplingPlanList);
-
-            if (!TryToSaveRange(samplingPlanList)) return false;
-
-            return true;
-        }
         public bool Update(SamplingPlan samplingPlan)
         {
+            if (!db.SamplingPlans.Where(c => c.SamplingPlanID == samplingPlan.SamplingPlanID).Any())
+            {
+                samplingPlan.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "SamplingPlan", "SamplingPlanID", samplingPlan.SamplingPlanID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             samplingPlan.ValidationResults = Validate(new ValidationContext(samplingPlan), ActionDBTypeEnum.Update);
             if (samplingPlan.ValidationResults.Count() > 0) return false;
 
             db.SamplingPlans.Update(samplingPlan);
 
             if (!TryToSave(samplingPlan)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<SamplingPlan> samplingPlanList)
-        {
-            foreach (SamplingPlan samplingPlan in samplingPlanList)
-            {
-                samplingPlan.ValidationResults = Validate(new ValidationContext(samplingPlan), ActionDBTypeEnum.Update);
-                if (samplingPlan.ValidationResults.Count() > 0) return false;
-            }
-            db.SamplingPlans.UpdateRange(samplingPlanList);
-
-            if (!TryToSaveRange(samplingPlanList)) return false;
 
             return true;
         }
@@ -437,20 +399,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 samplingPlan.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<SamplingPlan> samplingPlanList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                samplingPlanList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

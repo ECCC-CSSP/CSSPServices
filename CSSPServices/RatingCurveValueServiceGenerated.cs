@@ -140,20 +140,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<RatingCurveValue> ratingCurveValueList)
-        {
-            foreach (RatingCurveValue ratingCurveValue in ratingCurveValueList)
-            {
-                ratingCurveValue.ValidationResults = Validate(new ValidationContext(ratingCurveValue), ActionDBTypeEnum.Create);
-                if (ratingCurveValue.ValidationResults.Count() > 0) return false;
-            }
-
-            db.RatingCurveValues.AddRange(ratingCurveValueList);
-
-            if (!TryToSaveRange(ratingCurveValueList)) return false;
-
-            return true;
-        }
         public bool Delete(RatingCurveValue ratingCurveValue)
         {
             if (!db.RatingCurveValues.Where(c => c.RatingCurveValueID == ratingCurveValue.RatingCurveValueID).Any())
@@ -168,44 +154,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<RatingCurveValue> ratingCurveValueList)
-        {
-            foreach (RatingCurveValue ratingCurveValue in ratingCurveValueList)
-            {
-                if (!db.RatingCurveValues.Where(c => c.RatingCurveValueID == ratingCurveValue.RatingCurveValueID).Any())
-                {
-                    ratingCurveValueList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "RatingCurveValue", "RatingCurveValueID", ratingCurveValue.RatingCurveValueID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.RatingCurveValues.RemoveRange(ratingCurveValueList);
-
-            if (!TryToSaveRange(ratingCurveValueList)) return false;
-
-            return true;
-        }
         public bool Update(RatingCurveValue ratingCurveValue)
         {
+            if (!db.RatingCurveValues.Where(c => c.RatingCurveValueID == ratingCurveValue.RatingCurveValueID).Any())
+            {
+                ratingCurveValue.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "RatingCurveValue", "RatingCurveValueID", ratingCurveValue.RatingCurveValueID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             ratingCurveValue.ValidationResults = Validate(new ValidationContext(ratingCurveValue), ActionDBTypeEnum.Update);
             if (ratingCurveValue.ValidationResults.Count() > 0) return false;
 
             db.RatingCurveValues.Update(ratingCurveValue);
 
             if (!TryToSave(ratingCurveValue)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<RatingCurveValue> ratingCurveValueList)
-        {
-            foreach (RatingCurveValue ratingCurveValue in ratingCurveValueList)
-            {
-                ratingCurveValue.ValidationResults = Validate(new ValidationContext(ratingCurveValue), ActionDBTypeEnum.Update);
-                if (ratingCurveValue.ValidationResults.Count() > 0) return false;
-            }
-            db.RatingCurveValues.UpdateRange(ratingCurveValueList);
-
-            if (!TryToSaveRange(ratingCurveValueList)) return false;
 
             return true;
         }
@@ -253,20 +215,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 ratingCurveValue.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<RatingCurveValue> ratingCurveValueList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                ratingCurveValueList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

@@ -285,20 +285,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<Address> addressList)
-        {
-            foreach (Address address in addressList)
-            {
-                address.ValidationResults = Validate(new ValidationContext(address), ActionDBTypeEnum.Create);
-                if (address.ValidationResults.Count() > 0) return false;
-            }
-
-            db.Addresses.AddRange(addressList);
-
-            if (!TryToSaveRange(addressList)) return false;
-
-            return true;
-        }
         public bool Delete(Address address)
         {
             if (!db.Addresses.Where(c => c.AddressID == address.AddressID).Any())
@@ -313,44 +299,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<Address> addressList)
-        {
-            foreach (Address address in addressList)
-            {
-                if (!db.Addresses.Where(c => c.AddressID == address.AddressID).Any())
-                {
-                    addressList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Address", "AddressID", address.AddressID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.Addresses.RemoveRange(addressList);
-
-            if (!TryToSaveRange(addressList)) return false;
-
-            return true;
-        }
         public bool Update(Address address)
         {
+            if (!db.Addresses.Where(c => c.AddressID == address.AddressID).Any())
+            {
+                address.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Address", "AddressID", address.AddressID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             address.ValidationResults = Validate(new ValidationContext(address), ActionDBTypeEnum.Update);
             if (address.ValidationResults.Count() > 0) return false;
 
             db.Addresses.Update(address);
 
             if (!TryToSave(address)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<Address> addressList)
-        {
-            foreach (Address address in addressList)
-            {
-                address.ValidationResults = Validate(new ValidationContext(address), ActionDBTypeEnum.Update);
-                if (address.ValidationResults.Count() > 0) return false;
-            }
-            db.Addresses.UpdateRange(addressList);
-
-            if (!TryToSaveRange(addressList)) return false;
 
             return true;
         }
@@ -437,20 +399,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 address.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<Address> addressList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                addressList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

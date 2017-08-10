@@ -146,20 +146,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<ContactShortcut> contactShortcutList)
-        {
-            foreach (ContactShortcut contactShortcut in contactShortcutList)
-            {
-                contactShortcut.ValidationResults = Validate(new ValidationContext(contactShortcut), ActionDBTypeEnum.Create);
-                if (contactShortcut.ValidationResults.Count() > 0) return false;
-            }
-
-            db.ContactShortcuts.AddRange(contactShortcutList);
-
-            if (!TryToSaveRange(contactShortcutList)) return false;
-
-            return true;
-        }
         public bool Delete(ContactShortcut contactShortcut)
         {
             if (!db.ContactShortcuts.Where(c => c.ContactShortcutID == contactShortcut.ContactShortcutID).Any())
@@ -174,44 +160,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<ContactShortcut> contactShortcutList)
-        {
-            foreach (ContactShortcut contactShortcut in contactShortcutList)
-            {
-                if (!db.ContactShortcuts.Where(c => c.ContactShortcutID == contactShortcut.ContactShortcutID).Any())
-                {
-                    contactShortcutList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ContactShortcut", "ContactShortcutID", contactShortcut.ContactShortcutID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.ContactShortcuts.RemoveRange(contactShortcutList);
-
-            if (!TryToSaveRange(contactShortcutList)) return false;
-
-            return true;
-        }
         public bool Update(ContactShortcut contactShortcut)
         {
+            if (!db.ContactShortcuts.Where(c => c.ContactShortcutID == contactShortcut.ContactShortcutID).Any())
+            {
+                contactShortcut.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ContactShortcut", "ContactShortcutID", contactShortcut.ContactShortcutID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             contactShortcut.ValidationResults = Validate(new ValidationContext(contactShortcut), ActionDBTypeEnum.Update);
             if (contactShortcut.ValidationResults.Count() > 0) return false;
 
             db.ContactShortcuts.Update(contactShortcut);
 
             if (!TryToSave(contactShortcut)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<ContactShortcut> contactShortcutList)
-        {
-            foreach (ContactShortcut contactShortcut in contactShortcutList)
-            {
-                contactShortcut.ValidationResults = Validate(new ValidationContext(contactShortcut), ActionDBTypeEnum.Update);
-                if (contactShortcut.ValidationResults.Count() > 0) return false;
-            }
-            db.ContactShortcuts.UpdateRange(contactShortcutList);
-
-            if (!TryToSaveRange(contactShortcutList)) return false;
 
             return true;
         }
@@ -259,20 +221,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 contactShortcut.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<ContactShortcut> contactShortcutList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                contactShortcutList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

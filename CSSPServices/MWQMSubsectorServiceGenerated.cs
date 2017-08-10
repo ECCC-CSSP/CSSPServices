@@ -299,20 +299,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<MWQMSubsector> mwqmSubsectorList)
-        {
-            foreach (MWQMSubsector mwqmSubsector in mwqmSubsectorList)
-            {
-                mwqmSubsector.ValidationResults = Validate(new ValidationContext(mwqmSubsector), ActionDBTypeEnum.Create);
-                if (mwqmSubsector.ValidationResults.Count() > 0) return false;
-            }
-
-            db.MWQMSubsectors.AddRange(mwqmSubsectorList);
-
-            if (!TryToSaveRange(mwqmSubsectorList)) return false;
-
-            return true;
-        }
         public bool Delete(MWQMSubsector mwqmSubsector)
         {
             if (!db.MWQMSubsectors.Where(c => c.MWQMSubsectorID == mwqmSubsector.MWQMSubsectorID).Any())
@@ -327,44 +313,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<MWQMSubsector> mwqmSubsectorList)
-        {
-            foreach (MWQMSubsector mwqmSubsector in mwqmSubsectorList)
-            {
-                if (!db.MWQMSubsectors.Where(c => c.MWQMSubsectorID == mwqmSubsector.MWQMSubsectorID).Any())
-                {
-                    mwqmSubsectorList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMSubsector", "MWQMSubsectorID", mwqmSubsector.MWQMSubsectorID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.MWQMSubsectors.RemoveRange(mwqmSubsectorList);
-
-            if (!TryToSaveRange(mwqmSubsectorList)) return false;
-
-            return true;
-        }
         public bool Update(MWQMSubsector mwqmSubsector)
         {
+            if (!db.MWQMSubsectors.Where(c => c.MWQMSubsectorID == mwqmSubsector.MWQMSubsectorID).Any())
+            {
+                mwqmSubsector.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMSubsector", "MWQMSubsectorID", mwqmSubsector.MWQMSubsectorID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             mwqmSubsector.ValidationResults = Validate(new ValidationContext(mwqmSubsector), ActionDBTypeEnum.Update);
             if (mwqmSubsector.ValidationResults.Count() > 0) return false;
 
             db.MWQMSubsectors.Update(mwqmSubsector);
 
             if (!TryToSave(mwqmSubsector)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<MWQMSubsector> mwqmSubsectorList)
-        {
-            foreach (MWQMSubsector mwqmSubsector in mwqmSubsectorList)
-            {
-                mwqmSubsector.ValidationResults = Validate(new ValidationContext(mwqmSubsector), ActionDBTypeEnum.Update);
-                if (mwqmSubsector.ValidationResults.Count() > 0) return false;
-            }
-            db.MWQMSubsectors.UpdateRange(mwqmSubsectorList);
-
-            if (!TryToSaveRange(mwqmSubsectorList)) return false;
 
             return true;
         }
@@ -440,20 +402,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 mwqmSubsector.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<MWQMSubsector> mwqmSubsectorList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                mwqmSubsectorList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

@@ -155,20 +155,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<SpillLanguage> spillLanguageList)
-        {
-            foreach (SpillLanguage spillLanguage in spillLanguageList)
-            {
-                spillLanguage.ValidationResults = Validate(new ValidationContext(spillLanguage), ActionDBTypeEnum.Create);
-                if (spillLanguage.ValidationResults.Count() > 0) return false;
-            }
-
-            db.SpillLanguages.AddRange(spillLanguageList);
-
-            if (!TryToSaveRange(spillLanguageList)) return false;
-
-            return true;
-        }
         public bool Delete(SpillLanguage spillLanguage)
         {
             if (!db.SpillLanguages.Where(c => c.SpillLanguageID == spillLanguage.SpillLanguageID).Any())
@@ -183,44 +169,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<SpillLanguage> spillLanguageList)
-        {
-            foreach (SpillLanguage spillLanguage in spillLanguageList)
-            {
-                if (!db.SpillLanguages.Where(c => c.SpillLanguageID == spillLanguage.SpillLanguageID).Any())
-                {
-                    spillLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "SpillLanguage", "SpillLanguageID", spillLanguage.SpillLanguageID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.SpillLanguages.RemoveRange(spillLanguageList);
-
-            if (!TryToSaveRange(spillLanguageList)) return false;
-
-            return true;
-        }
         public bool Update(SpillLanguage spillLanguage)
         {
+            if (!db.SpillLanguages.Where(c => c.SpillLanguageID == spillLanguage.SpillLanguageID).Any())
+            {
+                spillLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "SpillLanguage", "SpillLanguageID", spillLanguage.SpillLanguageID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             spillLanguage.ValidationResults = Validate(new ValidationContext(spillLanguage), ActionDBTypeEnum.Update);
             if (spillLanguage.ValidationResults.Count() > 0) return false;
 
             db.SpillLanguages.Update(spillLanguage);
 
             if (!TryToSave(spillLanguage)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<SpillLanguage> spillLanguageList)
-        {
-            foreach (SpillLanguage spillLanguage in spillLanguageList)
-            {
-                spillLanguage.ValidationResults = Validate(new ValidationContext(spillLanguage), ActionDBTypeEnum.Update);
-                if (spillLanguage.ValidationResults.Count() > 0) return false;
-            }
-            db.SpillLanguages.UpdateRange(spillLanguageList);
-
-            if (!TryToSaveRange(spillLanguageList)) return false;
 
             return true;
         }
@@ -277,20 +239,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 spillLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<SpillLanguage> spillLanguageList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                spillLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

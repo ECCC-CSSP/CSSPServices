@@ -160,20 +160,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<AppErrLog> appErrLogList)
-        {
-            foreach (AppErrLog appErrLog in appErrLogList)
-            {
-                appErrLog.ValidationResults = Validate(new ValidationContext(appErrLog), ActionDBTypeEnum.Create);
-                if (appErrLog.ValidationResults.Count() > 0) return false;
-            }
-
-            db.AppErrLogs.AddRange(appErrLogList);
-
-            if (!TryToSaveRange(appErrLogList)) return false;
-
-            return true;
-        }
         public bool Delete(AppErrLog appErrLog)
         {
             if (!db.AppErrLogs.Where(c => c.AppErrLogID == appErrLog.AppErrLogID).Any())
@@ -188,44 +174,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<AppErrLog> appErrLogList)
-        {
-            foreach (AppErrLog appErrLog in appErrLogList)
-            {
-                if (!db.AppErrLogs.Where(c => c.AppErrLogID == appErrLog.AppErrLogID).Any())
-                {
-                    appErrLogList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "AppErrLog", "AppErrLogID", appErrLog.AppErrLogID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.AppErrLogs.RemoveRange(appErrLogList);
-
-            if (!TryToSaveRange(appErrLogList)) return false;
-
-            return true;
-        }
         public bool Update(AppErrLog appErrLog)
         {
+            if (!db.AppErrLogs.Where(c => c.AppErrLogID == appErrLog.AppErrLogID).Any())
+            {
+                appErrLog.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "AppErrLog", "AppErrLogID", appErrLog.AppErrLogID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             appErrLog.ValidationResults = Validate(new ValidationContext(appErrLog), ActionDBTypeEnum.Update);
             if (appErrLog.ValidationResults.Count() > 0) return false;
 
             db.AppErrLogs.Update(appErrLog);
 
             if (!TryToSave(appErrLog)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<AppErrLog> appErrLogList)
-        {
-            foreach (AppErrLog appErrLog in appErrLogList)
-            {
-                appErrLog.ValidationResults = Validate(new ValidationContext(appErrLog), ActionDBTypeEnum.Update);
-                if (appErrLog.ValidationResults.Count() > 0) return false;
-            }
-            db.AppErrLogs.UpdateRange(appErrLogList);
-
-            if (!TryToSaveRange(appErrLogList)) return false;
 
             return true;
         }
@@ -275,20 +237,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 appErrLog.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<AppErrLog> appErrLogList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                appErrLogList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

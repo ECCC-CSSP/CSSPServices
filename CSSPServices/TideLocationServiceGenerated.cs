@@ -128,20 +128,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<TideLocation> tideLocationList)
-        {
-            foreach (TideLocation tideLocation in tideLocationList)
-            {
-                tideLocation.ValidationResults = Validate(new ValidationContext(tideLocation), ActionDBTypeEnum.Create);
-                if (tideLocation.ValidationResults.Count() > 0) return false;
-            }
-
-            db.TideLocations.AddRange(tideLocationList);
-
-            if (!TryToSaveRange(tideLocationList)) return false;
-
-            return true;
-        }
         public bool Delete(TideLocation tideLocation)
         {
             if (!db.TideLocations.Where(c => c.TideLocationID == tideLocation.TideLocationID).Any())
@@ -156,44 +142,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<TideLocation> tideLocationList)
-        {
-            foreach (TideLocation tideLocation in tideLocationList)
-            {
-                if (!db.TideLocations.Where(c => c.TideLocationID == tideLocation.TideLocationID).Any())
-                {
-                    tideLocationList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TideLocation", "TideLocationID", tideLocation.TideLocationID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.TideLocations.RemoveRange(tideLocationList);
-
-            if (!TryToSaveRange(tideLocationList)) return false;
-
-            return true;
-        }
         public bool Update(TideLocation tideLocation)
         {
+            if (!db.TideLocations.Where(c => c.TideLocationID == tideLocation.TideLocationID).Any())
+            {
+                tideLocation.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TideLocation", "TideLocationID", tideLocation.TideLocationID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             tideLocation.ValidationResults = Validate(new ValidationContext(tideLocation), ActionDBTypeEnum.Update);
             if (tideLocation.ValidationResults.Count() > 0) return false;
 
             db.TideLocations.Update(tideLocation);
 
             if (!TryToSave(tideLocation)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<TideLocation> tideLocationList)
-        {
-            foreach (TideLocation tideLocation in tideLocationList)
-            {
-                tideLocation.ValidationResults = Validate(new ValidationContext(tideLocation), ActionDBTypeEnum.Update);
-                if (tideLocation.ValidationResults.Count() > 0) return false;
-            }
-            db.TideLocations.UpdateRange(tideLocationList);
-
-            if (!TryToSaveRange(tideLocationList)) return false;
 
             return true;
         }
@@ -237,20 +199,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 tideLocation.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<TideLocation> tideLocationList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                tideLocationList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

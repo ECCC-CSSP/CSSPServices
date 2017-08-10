@@ -207,20 +207,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<TVItem> tvItemList)
-        {
-            foreach (TVItem tvItem in tvItemList)
-            {
-                tvItem.ValidationResults = Validate(new ValidationContext(tvItem), ActionDBTypeEnum.Create);
-                if (tvItem.ValidationResults.Count() > 0) return false;
-            }
-
-            db.TVItems.AddRange(tvItemList);
-
-            if (!TryToSaveRange(tvItemList)) return false;
-
-            return true;
-        }
         public bool Delete(TVItem tvItem)
         {
             if (!db.TVItems.Where(c => c.TVItemID == tvItem.TVItemID).Any())
@@ -235,44 +221,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<TVItem> tvItemList)
-        {
-            foreach (TVItem tvItem in tvItemList)
-            {
-                if (!db.TVItems.Where(c => c.TVItemID == tvItem.TVItemID).Any())
-                {
-                    tvItemList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVItem", "TVItemID", tvItem.TVItemID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.TVItems.RemoveRange(tvItemList);
-
-            if (!TryToSaveRange(tvItemList)) return false;
-
-            return true;
-        }
         public bool Update(TVItem tvItem)
         {
+            if (!db.TVItems.Where(c => c.TVItemID == tvItem.TVItemID).Any())
+            {
+                tvItem.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVItem", "TVItemID", tvItem.TVItemID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             tvItem.ValidationResults = Validate(new ValidationContext(tvItem), ActionDBTypeEnum.Update);
             if (tvItem.ValidationResults.Count() > 0) return false;
 
             db.TVItems.Update(tvItem);
 
             if (!TryToSave(tvItem)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<TVItem> tvItemList)
-        {
-            foreach (TVItem tvItem in tvItemList)
-            {
-                tvItem.ValidationResults = Validate(new ValidationContext(tvItem), ActionDBTypeEnum.Update);
-                if (tvItem.ValidationResults.Count() > 0) return false;
-            }
-            db.TVItems.UpdateRange(tvItemList);
-
-            if (!TryToSaveRange(tvItemList)) return false;
 
             return true;
         }
@@ -334,20 +296,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 tvItem.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<TVItem> tvItemList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                tvItemList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

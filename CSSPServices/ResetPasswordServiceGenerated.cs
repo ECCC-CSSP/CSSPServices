@@ -169,20 +169,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<ResetPassword> resetPasswordList)
-        {
-            foreach (ResetPassword resetPassword in resetPasswordList)
-            {
-                resetPassword.ValidationResults = Validate(new ValidationContext(resetPassword), ActionDBTypeEnum.Create);
-                if (resetPassword.ValidationResults.Count() > 0) return false;
-            }
-
-            db.ResetPasswords.AddRange(resetPasswordList);
-
-            if (!TryToSaveRange(resetPasswordList)) return false;
-
-            return true;
-        }
         public bool Delete(ResetPassword resetPassword)
         {
             if (!db.ResetPasswords.Where(c => c.ResetPasswordID == resetPassword.ResetPasswordID).Any())
@@ -197,44 +183,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<ResetPassword> resetPasswordList)
-        {
-            foreach (ResetPassword resetPassword in resetPasswordList)
-            {
-                if (!db.ResetPasswords.Where(c => c.ResetPasswordID == resetPassword.ResetPasswordID).Any())
-                {
-                    resetPasswordList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ResetPassword", "ResetPasswordID", resetPassword.ResetPasswordID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.ResetPasswords.RemoveRange(resetPasswordList);
-
-            if (!TryToSaveRange(resetPasswordList)) return false;
-
-            return true;
-        }
         public bool Update(ResetPassword resetPassword)
         {
+            if (!db.ResetPasswords.Where(c => c.ResetPasswordID == resetPassword.ResetPasswordID).Any())
+            {
+                resetPassword.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ResetPassword", "ResetPasswordID", resetPassword.ResetPasswordID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             resetPassword.ValidationResults = Validate(new ValidationContext(resetPassword), ActionDBTypeEnum.Update);
             if (resetPassword.ValidationResults.Count() > 0) return false;
 
             db.ResetPasswords.Update(resetPassword);
 
             if (!TryToSave(resetPassword)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<ResetPassword> resetPasswordList)
-        {
-            foreach (ResetPassword resetPassword in resetPasswordList)
-            {
-                resetPassword.ValidationResults = Validate(new ValidationContext(resetPassword), ActionDBTypeEnum.Update);
-                if (resetPassword.ValidationResults.Count() > 0) return false;
-            }
-            db.ResetPasswords.UpdateRange(resetPasswordList);
-
-            if (!TryToSaveRange(resetPasswordList)) return false;
 
             return true;
         }
@@ -282,20 +244,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 resetPassword.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<ResetPassword> resetPasswordList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                resetPasswordList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

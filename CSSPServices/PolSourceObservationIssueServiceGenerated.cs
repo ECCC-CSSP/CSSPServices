@@ -143,20 +143,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<PolSourceObservationIssue> polSourceObservationIssueList)
-        {
-            foreach (PolSourceObservationIssue polSourceObservationIssue in polSourceObservationIssueList)
-            {
-                polSourceObservationIssue.ValidationResults = Validate(new ValidationContext(polSourceObservationIssue), ActionDBTypeEnum.Create);
-                if (polSourceObservationIssue.ValidationResults.Count() > 0) return false;
-            }
-
-            db.PolSourceObservationIssues.AddRange(polSourceObservationIssueList);
-
-            if (!TryToSaveRange(polSourceObservationIssueList)) return false;
-
-            return true;
-        }
         public bool Delete(PolSourceObservationIssue polSourceObservationIssue)
         {
             if (!db.PolSourceObservationIssues.Where(c => c.PolSourceObservationIssueID == polSourceObservationIssue.PolSourceObservationIssueID).Any())
@@ -171,44 +157,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<PolSourceObservationIssue> polSourceObservationIssueList)
-        {
-            foreach (PolSourceObservationIssue polSourceObservationIssue in polSourceObservationIssueList)
-            {
-                if (!db.PolSourceObservationIssues.Where(c => c.PolSourceObservationIssueID == polSourceObservationIssue.PolSourceObservationIssueID).Any())
-                {
-                    polSourceObservationIssueList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "PolSourceObservationIssue", "PolSourceObservationIssueID", polSourceObservationIssue.PolSourceObservationIssueID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.PolSourceObservationIssues.RemoveRange(polSourceObservationIssueList);
-
-            if (!TryToSaveRange(polSourceObservationIssueList)) return false;
-
-            return true;
-        }
         public bool Update(PolSourceObservationIssue polSourceObservationIssue)
         {
+            if (!db.PolSourceObservationIssues.Where(c => c.PolSourceObservationIssueID == polSourceObservationIssue.PolSourceObservationIssueID).Any())
+            {
+                polSourceObservationIssue.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "PolSourceObservationIssue", "PolSourceObservationIssueID", polSourceObservationIssue.PolSourceObservationIssueID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             polSourceObservationIssue.ValidationResults = Validate(new ValidationContext(polSourceObservationIssue), ActionDBTypeEnum.Update);
             if (polSourceObservationIssue.ValidationResults.Count() > 0) return false;
 
             db.PolSourceObservationIssues.Update(polSourceObservationIssue);
 
             if (!TryToSave(polSourceObservationIssue)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<PolSourceObservationIssue> polSourceObservationIssueList)
-        {
-            foreach (PolSourceObservationIssue polSourceObservationIssue in polSourceObservationIssueList)
-            {
-                polSourceObservationIssue.ValidationResults = Validate(new ValidationContext(polSourceObservationIssue), ActionDBTypeEnum.Update);
-                if (polSourceObservationIssue.ValidationResults.Count() > 0) return false;
-            }
-            db.PolSourceObservationIssues.UpdateRange(polSourceObservationIssueList);
-
-            if (!TryToSaveRange(polSourceObservationIssueList)) return false;
 
             return true;
         }
@@ -256,20 +218,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 polSourceObservationIssue.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<PolSourceObservationIssue> polSourceObservationIssueList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                polSourceObservationIssueList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

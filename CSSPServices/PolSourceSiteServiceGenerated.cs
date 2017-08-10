@@ -208,20 +208,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<PolSourceSite> polSourceSiteList)
-        {
-            foreach (PolSourceSite polSourceSite in polSourceSiteList)
-            {
-                polSourceSite.ValidationResults = Validate(new ValidationContext(polSourceSite), ActionDBTypeEnum.Create);
-                if (polSourceSite.ValidationResults.Count() > 0) return false;
-            }
-
-            db.PolSourceSites.AddRange(polSourceSiteList);
-
-            if (!TryToSaveRange(polSourceSiteList)) return false;
-
-            return true;
-        }
         public bool Delete(PolSourceSite polSourceSite)
         {
             if (!db.PolSourceSites.Where(c => c.PolSourceSiteID == polSourceSite.PolSourceSiteID).Any())
@@ -236,44 +222,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<PolSourceSite> polSourceSiteList)
-        {
-            foreach (PolSourceSite polSourceSite in polSourceSiteList)
-            {
-                if (!db.PolSourceSites.Where(c => c.PolSourceSiteID == polSourceSite.PolSourceSiteID).Any())
-                {
-                    polSourceSiteList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "PolSourceSite", "PolSourceSiteID", polSourceSite.PolSourceSiteID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.PolSourceSites.RemoveRange(polSourceSiteList);
-
-            if (!TryToSaveRange(polSourceSiteList)) return false;
-
-            return true;
-        }
         public bool Update(PolSourceSite polSourceSite)
         {
+            if (!db.PolSourceSites.Where(c => c.PolSourceSiteID == polSourceSite.PolSourceSiteID).Any())
+            {
+                polSourceSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "PolSourceSite", "PolSourceSiteID", polSourceSite.PolSourceSiteID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             polSourceSite.ValidationResults = Validate(new ValidationContext(polSourceSite), ActionDBTypeEnum.Update);
             if (polSourceSite.ValidationResults.Count() > 0) return false;
 
             db.PolSourceSites.Update(polSourceSite);
 
             if (!TryToSave(polSourceSite)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<PolSourceSite> polSourceSiteList)
-        {
-            foreach (PolSourceSite polSourceSite in polSourceSiteList)
-            {
-                polSourceSite.ValidationResults = Validate(new ValidationContext(polSourceSite), ActionDBTypeEnum.Update);
-                if (polSourceSite.ValidationResults.Count() > 0) return false;
-            }
-            db.PolSourceSites.UpdateRange(polSourceSiteList);
-
-            if (!TryToSaveRange(polSourceSiteList)) return false;
 
             return true;
         }
@@ -338,20 +300,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 polSourceSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<PolSourceSite> polSourceSiteList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                polSourceSiteList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

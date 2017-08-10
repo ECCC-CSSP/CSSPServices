@@ -155,20 +155,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<InfrastructureLanguage> infrastructureLanguageList)
-        {
-            foreach (InfrastructureLanguage infrastructureLanguage in infrastructureLanguageList)
-            {
-                infrastructureLanguage.ValidationResults = Validate(new ValidationContext(infrastructureLanguage), ActionDBTypeEnum.Create);
-                if (infrastructureLanguage.ValidationResults.Count() > 0) return false;
-            }
-
-            db.InfrastructureLanguages.AddRange(infrastructureLanguageList);
-
-            if (!TryToSaveRange(infrastructureLanguageList)) return false;
-
-            return true;
-        }
         public bool Delete(InfrastructureLanguage infrastructureLanguage)
         {
             if (!db.InfrastructureLanguages.Where(c => c.InfrastructureLanguageID == infrastructureLanguage.InfrastructureLanguageID).Any())
@@ -183,44 +169,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<InfrastructureLanguage> infrastructureLanguageList)
-        {
-            foreach (InfrastructureLanguage infrastructureLanguage in infrastructureLanguageList)
-            {
-                if (!db.InfrastructureLanguages.Where(c => c.InfrastructureLanguageID == infrastructureLanguage.InfrastructureLanguageID).Any())
-                {
-                    infrastructureLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "InfrastructureLanguage", "InfrastructureLanguageID", infrastructureLanguage.InfrastructureLanguageID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.InfrastructureLanguages.RemoveRange(infrastructureLanguageList);
-
-            if (!TryToSaveRange(infrastructureLanguageList)) return false;
-
-            return true;
-        }
         public bool Update(InfrastructureLanguage infrastructureLanguage)
         {
+            if (!db.InfrastructureLanguages.Where(c => c.InfrastructureLanguageID == infrastructureLanguage.InfrastructureLanguageID).Any())
+            {
+                infrastructureLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "InfrastructureLanguage", "InfrastructureLanguageID", infrastructureLanguage.InfrastructureLanguageID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             infrastructureLanguage.ValidationResults = Validate(new ValidationContext(infrastructureLanguage), ActionDBTypeEnum.Update);
             if (infrastructureLanguage.ValidationResults.Count() > 0) return false;
 
             db.InfrastructureLanguages.Update(infrastructureLanguage);
 
             if (!TryToSave(infrastructureLanguage)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<InfrastructureLanguage> infrastructureLanguageList)
-        {
-            foreach (InfrastructureLanguage infrastructureLanguage in infrastructureLanguageList)
-            {
-                infrastructureLanguage.ValidationResults = Validate(new ValidationContext(infrastructureLanguage), ActionDBTypeEnum.Update);
-                if (infrastructureLanguage.ValidationResults.Count() > 0) return false;
-            }
-            db.InfrastructureLanguages.UpdateRange(infrastructureLanguageList);
-
-            if (!TryToSaveRange(infrastructureLanguageList)) return false;
 
             return true;
         }
@@ -277,20 +239,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 infrastructureLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<InfrastructureLanguage> infrastructureLanguageList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                infrastructureLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

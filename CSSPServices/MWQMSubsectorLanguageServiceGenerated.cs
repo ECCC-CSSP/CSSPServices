@@ -158,20 +158,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<MWQMSubsectorLanguage> mwqmSubsectorLanguageList)
-        {
-            foreach (MWQMSubsectorLanguage mwqmSubsectorLanguage in mwqmSubsectorLanguageList)
-            {
-                mwqmSubsectorLanguage.ValidationResults = Validate(new ValidationContext(mwqmSubsectorLanguage), ActionDBTypeEnum.Create);
-                if (mwqmSubsectorLanguage.ValidationResults.Count() > 0) return false;
-            }
-
-            db.MWQMSubsectorLanguages.AddRange(mwqmSubsectorLanguageList);
-
-            if (!TryToSaveRange(mwqmSubsectorLanguageList)) return false;
-
-            return true;
-        }
         public bool Delete(MWQMSubsectorLanguage mwqmSubsectorLanguage)
         {
             if (!db.MWQMSubsectorLanguages.Where(c => c.MWQMSubsectorLanguageID == mwqmSubsectorLanguage.MWQMSubsectorLanguageID).Any())
@@ -186,44 +172,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<MWQMSubsectorLanguage> mwqmSubsectorLanguageList)
-        {
-            foreach (MWQMSubsectorLanguage mwqmSubsectorLanguage in mwqmSubsectorLanguageList)
-            {
-                if (!db.MWQMSubsectorLanguages.Where(c => c.MWQMSubsectorLanguageID == mwqmSubsectorLanguage.MWQMSubsectorLanguageID).Any())
-                {
-                    mwqmSubsectorLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMSubsectorLanguage", "MWQMSubsectorLanguageID", mwqmSubsectorLanguage.MWQMSubsectorLanguageID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.MWQMSubsectorLanguages.RemoveRange(mwqmSubsectorLanguageList);
-
-            if (!TryToSaveRange(mwqmSubsectorLanguageList)) return false;
-
-            return true;
-        }
         public bool Update(MWQMSubsectorLanguage mwqmSubsectorLanguage)
         {
+            if (!db.MWQMSubsectorLanguages.Where(c => c.MWQMSubsectorLanguageID == mwqmSubsectorLanguage.MWQMSubsectorLanguageID).Any())
+            {
+                mwqmSubsectorLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMSubsectorLanguage", "MWQMSubsectorLanguageID", mwqmSubsectorLanguage.MWQMSubsectorLanguageID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             mwqmSubsectorLanguage.ValidationResults = Validate(new ValidationContext(mwqmSubsectorLanguage), ActionDBTypeEnum.Update);
             if (mwqmSubsectorLanguage.ValidationResults.Count() > 0) return false;
 
             db.MWQMSubsectorLanguages.Update(mwqmSubsectorLanguage);
 
             if (!TryToSave(mwqmSubsectorLanguage)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<MWQMSubsectorLanguage> mwqmSubsectorLanguageList)
-        {
-            foreach (MWQMSubsectorLanguage mwqmSubsectorLanguage in mwqmSubsectorLanguageList)
-            {
-                mwqmSubsectorLanguage.ValidationResults = Validate(new ValidationContext(mwqmSubsectorLanguage), ActionDBTypeEnum.Update);
-                if (mwqmSubsectorLanguage.ValidationResults.Count() > 0) return false;
-            }
-            db.MWQMSubsectorLanguages.UpdateRange(mwqmSubsectorLanguageList);
-
-            if (!TryToSaveRange(mwqmSubsectorLanguageList)) return false;
 
             return true;
         }
@@ -280,20 +242,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 mwqmSubsectorLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<MWQMSubsectorLanguage> mwqmSubsectorLanguageList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                mwqmSubsectorLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

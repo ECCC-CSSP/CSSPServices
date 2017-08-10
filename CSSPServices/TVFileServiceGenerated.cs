@@ -232,20 +232,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<TVFile> tvFileList)
-        {
-            foreach (TVFile tvFile in tvFileList)
-            {
-                tvFile.ValidationResults = Validate(new ValidationContext(tvFile), ActionDBTypeEnum.Create);
-                if (tvFile.ValidationResults.Count() > 0) return false;
-            }
-
-            db.TVFiles.AddRange(tvFileList);
-
-            if (!TryToSaveRange(tvFileList)) return false;
-
-            return true;
-        }
         public bool Delete(TVFile tvFile)
         {
             if (!db.TVFiles.Where(c => c.TVFileID == tvFile.TVFileID).Any())
@@ -260,44 +246,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<TVFile> tvFileList)
-        {
-            foreach (TVFile tvFile in tvFileList)
-            {
-                if (!db.TVFiles.Where(c => c.TVFileID == tvFile.TVFileID).Any())
-                {
-                    tvFileList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVFile", "TVFileID", tvFile.TVFileID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.TVFiles.RemoveRange(tvFileList);
-
-            if (!TryToSaveRange(tvFileList)) return false;
-
-            return true;
-        }
         public bool Update(TVFile tvFile)
         {
+            if (!db.TVFiles.Where(c => c.TVFileID == tvFile.TVFileID).Any())
+            {
+                tvFile.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVFile", "TVFileID", tvFile.TVFileID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             tvFile.ValidationResults = Validate(new ValidationContext(tvFile), ActionDBTypeEnum.Update);
             if (tvFile.ValidationResults.Count() > 0) return false;
 
             db.TVFiles.Update(tvFile);
 
             if (!TryToSave(tvFile)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<TVFile> tvFileList)
-        {
-            foreach (TVFile tvFile in tvFileList)
-            {
-                tvFile.ValidationResults = Validate(new ValidationContext(tvFile), ActionDBTypeEnum.Update);
-                if (tvFile.ValidationResults.Count() > 0) return false;
-            }
-            db.TVFiles.UpdateRange(tvFileList);
-
-            if (!TryToSaveRange(tvFileList)) return false;
 
             return true;
         }
@@ -369,20 +331,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 tvFile.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<TVFile> tvFileList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                tvFileList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

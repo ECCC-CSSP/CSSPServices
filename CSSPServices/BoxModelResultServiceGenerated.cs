@@ -218,20 +218,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<BoxModelResult> boxModelResultList)
-        {
-            foreach (BoxModelResult boxModelResult in boxModelResultList)
-            {
-                boxModelResult.ValidationResults = Validate(new ValidationContext(boxModelResult), ActionDBTypeEnum.Create);
-                if (boxModelResult.ValidationResults.Count() > 0) return false;
-            }
-
-            db.BoxModelResults.AddRange(boxModelResultList);
-
-            if (!TryToSaveRange(boxModelResultList)) return false;
-
-            return true;
-        }
         public bool Delete(BoxModelResult boxModelResult)
         {
             if (!db.BoxModelResults.Where(c => c.BoxModelResultID == boxModelResult.BoxModelResultID).Any())
@@ -246,44 +232,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<BoxModelResult> boxModelResultList)
-        {
-            foreach (BoxModelResult boxModelResult in boxModelResultList)
-            {
-                if (!db.BoxModelResults.Where(c => c.BoxModelResultID == boxModelResult.BoxModelResultID).Any())
-                {
-                    boxModelResultList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "BoxModelResult", "BoxModelResultID", boxModelResult.BoxModelResultID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.BoxModelResults.RemoveRange(boxModelResultList);
-
-            if (!TryToSaveRange(boxModelResultList)) return false;
-
-            return true;
-        }
         public bool Update(BoxModelResult boxModelResult)
         {
+            if (!db.BoxModelResults.Where(c => c.BoxModelResultID == boxModelResult.BoxModelResultID).Any())
+            {
+                boxModelResult.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "BoxModelResult", "BoxModelResultID", boxModelResult.BoxModelResultID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             boxModelResult.ValidationResults = Validate(new ValidationContext(boxModelResult), ActionDBTypeEnum.Update);
             if (boxModelResult.ValidationResults.Count() > 0) return false;
 
             db.BoxModelResults.Update(boxModelResult);
 
             if (!TryToSave(boxModelResult)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<BoxModelResult> boxModelResultList)
-        {
-            foreach (BoxModelResult boxModelResult in boxModelResultList)
-            {
-                boxModelResult.ValidationResults = Validate(new ValidationContext(boxModelResult), ActionDBTypeEnum.Update);
-                if (boxModelResult.ValidationResults.Count() > 0) return false;
-            }
-            db.BoxModelResults.UpdateRange(boxModelResultList);
-
-            if (!TryToSaveRange(boxModelResultList)) return false;
 
             return true;
         }
@@ -350,20 +312,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 boxModelResult.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<BoxModelResult> boxModelResultList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                boxModelResultList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

@@ -159,20 +159,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<EmailDistributionList> emailDistributionListList)
-        {
-            foreach (EmailDistributionList emailDistributionList in emailDistributionListList)
-            {
-                emailDistributionList.ValidationResults = Validate(new ValidationContext(emailDistributionList), ActionDBTypeEnum.Create);
-                if (emailDistributionList.ValidationResults.Count() > 0) return false;
-            }
-
-            db.EmailDistributionLists.AddRange(emailDistributionListList);
-
-            if (!TryToSaveRange(emailDistributionListList)) return false;
-
-            return true;
-        }
         public bool Delete(EmailDistributionList emailDistributionList)
         {
             if (!db.EmailDistributionLists.Where(c => c.EmailDistributionListID == emailDistributionList.EmailDistributionListID).Any())
@@ -187,44 +173,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<EmailDistributionList> emailDistributionListList)
-        {
-            foreach (EmailDistributionList emailDistributionList in emailDistributionListList)
-            {
-                if (!db.EmailDistributionLists.Where(c => c.EmailDistributionListID == emailDistributionList.EmailDistributionListID).Any())
-                {
-                    emailDistributionListList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "EmailDistributionList", "EmailDistributionListID", emailDistributionList.EmailDistributionListID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.EmailDistributionLists.RemoveRange(emailDistributionListList);
-
-            if (!TryToSaveRange(emailDistributionListList)) return false;
-
-            return true;
-        }
         public bool Update(EmailDistributionList emailDistributionList)
         {
+            if (!db.EmailDistributionLists.Where(c => c.EmailDistributionListID == emailDistributionList.EmailDistributionListID).Any())
+            {
+                emailDistributionList.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "EmailDistributionList", "EmailDistributionListID", emailDistributionList.EmailDistributionListID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             emailDistributionList.ValidationResults = Validate(new ValidationContext(emailDistributionList), ActionDBTypeEnum.Update);
             if (emailDistributionList.ValidationResults.Count() > 0) return false;
 
             db.EmailDistributionLists.Update(emailDistributionList);
 
             if (!TryToSave(emailDistributionList)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<EmailDistributionList> emailDistributionListList)
-        {
-            foreach (EmailDistributionList emailDistributionList in emailDistributionListList)
-            {
-                emailDistributionList.ValidationResults = Validate(new ValidationContext(emailDistributionList), ActionDBTypeEnum.Update);
-                if (emailDistributionList.ValidationResults.Count() > 0) return false;
-            }
-            db.EmailDistributionLists.UpdateRange(emailDistributionListList);
-
-            if (!TryToSaveRange(emailDistributionListList)) return false;
 
             return true;
         }
@@ -277,20 +239,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 emailDistributionList.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<EmailDistributionList> emailDistributionListList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                emailDistributionListList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

@@ -241,20 +241,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<ClimateDataValue> climateDataValueList)
-        {
-            foreach (ClimateDataValue climateDataValue in climateDataValueList)
-            {
-                climateDataValue.ValidationResults = Validate(new ValidationContext(climateDataValue), ActionDBTypeEnum.Create);
-                if (climateDataValue.ValidationResults.Count() > 0) return false;
-            }
-
-            db.ClimateDataValues.AddRange(climateDataValueList);
-
-            if (!TryToSaveRange(climateDataValueList)) return false;
-
-            return true;
-        }
         public bool Delete(ClimateDataValue climateDataValue)
         {
             if (!db.ClimateDataValues.Where(c => c.ClimateDataValueID == climateDataValue.ClimateDataValueID).Any())
@@ -269,44 +255,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<ClimateDataValue> climateDataValueList)
-        {
-            foreach (ClimateDataValue climateDataValue in climateDataValueList)
-            {
-                if (!db.ClimateDataValues.Where(c => c.ClimateDataValueID == climateDataValue.ClimateDataValueID).Any())
-                {
-                    climateDataValueList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ClimateDataValue", "ClimateDataValueID", climateDataValue.ClimateDataValueID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.ClimateDataValues.RemoveRange(climateDataValueList);
-
-            if (!TryToSaveRange(climateDataValueList)) return false;
-
-            return true;
-        }
         public bool Update(ClimateDataValue climateDataValue)
         {
+            if (!db.ClimateDataValues.Where(c => c.ClimateDataValueID == climateDataValue.ClimateDataValueID).Any())
+            {
+                climateDataValue.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ClimateDataValue", "ClimateDataValueID", climateDataValue.ClimateDataValueID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             climateDataValue.ValidationResults = Validate(new ValidationContext(climateDataValue), ActionDBTypeEnum.Update);
             if (climateDataValue.ValidationResults.Count() > 0) return false;
 
             db.ClimateDataValues.Update(climateDataValue);
 
             if (!TryToSave(climateDataValue)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<ClimateDataValue> climateDataValueList)
-        {
-            foreach (ClimateDataValue climateDataValue in climateDataValueList)
-            {
-                climateDataValue.ValidationResults = Validate(new ValidationContext(climateDataValue), ActionDBTypeEnum.Update);
-                if (climateDataValue.ValidationResults.Count() > 0) return false;
-            }
-            db.ClimateDataValues.UpdateRange(climateDataValueList);
-
-            if (!TryToSaveRange(climateDataValueList)) return false;
 
             return true;
         }
@@ -374,20 +336,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 climateDataValue.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<ClimateDataValue> climateDataValueList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                climateDataValueList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

@@ -159,20 +159,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<TideSite> tideSiteList)
-        {
-            foreach (TideSite tideSite in tideSiteList)
-            {
-                tideSite.ValidationResults = Validate(new ValidationContext(tideSite), ActionDBTypeEnum.Create);
-                if (tideSite.ValidationResults.Count() > 0) return false;
-            }
-
-            db.TideSites.AddRange(tideSiteList);
-
-            if (!TryToSaveRange(tideSiteList)) return false;
-
-            return true;
-        }
         public bool Delete(TideSite tideSite)
         {
             if (!db.TideSites.Where(c => c.TideSiteID == tideSite.TideSiteID).Any())
@@ -187,44 +173,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<TideSite> tideSiteList)
-        {
-            foreach (TideSite tideSite in tideSiteList)
-            {
-                if (!db.TideSites.Where(c => c.TideSiteID == tideSite.TideSiteID).Any())
-                {
-                    tideSiteList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TideSite", "TideSiteID", tideSite.TideSiteID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.TideSites.RemoveRange(tideSiteList);
-
-            if (!TryToSaveRange(tideSiteList)) return false;
-
-            return true;
-        }
         public bool Update(TideSite tideSite)
         {
+            if (!db.TideSites.Where(c => c.TideSiteID == tideSite.TideSiteID).Any())
+            {
+                tideSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TideSite", "TideSiteID", tideSite.TideSiteID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             tideSite.ValidationResults = Validate(new ValidationContext(tideSite), ActionDBTypeEnum.Update);
             if (tideSite.ValidationResults.Count() > 0) return false;
 
             db.TideSites.Update(tideSite);
 
             if (!TryToSave(tideSite)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<TideSite> tideSiteList)
-        {
-            foreach (TideSite tideSite in tideSiteList)
-            {
-                tideSite.ValidationResults = Validate(new ValidationContext(tideSite), ActionDBTypeEnum.Update);
-                if (tideSite.ValidationResults.Count() > 0) return false;
-            }
-            db.TideSites.UpdateRange(tideSiteList);
-
-            if (!TryToSaveRange(tideSiteList)) return false;
 
             return true;
         }
@@ -277,20 +239,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 tideSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<TideSite> tideSiteList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                tideSiteList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

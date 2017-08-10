@@ -199,20 +199,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<RainExceedance> rainExceedanceList)
-        {
-            foreach (RainExceedance rainExceedance in rainExceedanceList)
-            {
-                rainExceedance.ValidationResults = Validate(new ValidationContext(rainExceedance), ActionDBTypeEnum.Create);
-                if (rainExceedance.ValidationResults.Count() > 0) return false;
-            }
-
-            db.RainExceedances.AddRange(rainExceedanceList);
-
-            if (!TryToSaveRange(rainExceedanceList)) return false;
-
-            return true;
-        }
         public bool Delete(RainExceedance rainExceedance)
         {
             if (!db.RainExceedances.Where(c => c.RainExceedanceID == rainExceedance.RainExceedanceID).Any())
@@ -227,44 +213,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<RainExceedance> rainExceedanceList)
-        {
-            foreach (RainExceedance rainExceedance in rainExceedanceList)
-            {
-                if (!db.RainExceedances.Where(c => c.RainExceedanceID == rainExceedance.RainExceedanceID).Any())
-                {
-                    rainExceedanceList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "RainExceedance", "RainExceedanceID", rainExceedance.RainExceedanceID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.RainExceedances.RemoveRange(rainExceedanceList);
-
-            if (!TryToSaveRange(rainExceedanceList)) return false;
-
-            return true;
-        }
         public bool Update(RainExceedance rainExceedance)
         {
+            if (!db.RainExceedances.Where(c => c.RainExceedanceID == rainExceedance.RainExceedanceID).Any())
+            {
+                rainExceedance.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "RainExceedance", "RainExceedanceID", rainExceedance.RainExceedanceID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             rainExceedance.ValidationResults = Validate(new ValidationContext(rainExceedance), ActionDBTypeEnum.Update);
             if (rainExceedance.ValidationResults.Count() > 0) return false;
 
             db.RainExceedances.Update(rainExceedance);
 
             if (!TryToSave(rainExceedance)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<RainExceedance> rainExceedanceList)
-        {
-            foreach (RainExceedance rainExceedance in rainExceedanceList)
-            {
-                rainExceedance.ValidationResults = Validate(new ValidationContext(rainExceedance), ActionDBTypeEnum.Update);
-                if (rainExceedance.ValidationResults.Count() > 0) return false;
-            }
-            db.RainExceedances.UpdateRange(rainExceedanceList);
-
-            if (!TryToSaveRange(rainExceedanceList)) return false;
 
             return true;
         }
@@ -320,20 +282,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 rainExceedance.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<RainExceedance> rainExceedanceList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                rainExceedanceList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

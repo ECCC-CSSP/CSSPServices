@@ -180,20 +180,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<MWQMSite> mwqmSiteList)
-        {
-            foreach (MWQMSite mwqmSite in mwqmSiteList)
-            {
-                mwqmSite.ValidationResults = Validate(new ValidationContext(mwqmSite), ActionDBTypeEnum.Create);
-                if (mwqmSite.ValidationResults.Count() > 0) return false;
-            }
-
-            db.MWQMSites.AddRange(mwqmSiteList);
-
-            if (!TryToSaveRange(mwqmSiteList)) return false;
-
-            return true;
-        }
         public bool Delete(MWQMSite mwqmSite)
         {
             if (!db.MWQMSites.Where(c => c.MWQMSiteID == mwqmSite.MWQMSiteID).Any())
@@ -208,44 +194,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<MWQMSite> mwqmSiteList)
-        {
-            foreach (MWQMSite mwqmSite in mwqmSiteList)
-            {
-                if (!db.MWQMSites.Where(c => c.MWQMSiteID == mwqmSite.MWQMSiteID).Any())
-                {
-                    mwqmSiteList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMSite", "MWQMSiteID", mwqmSite.MWQMSiteID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.MWQMSites.RemoveRange(mwqmSiteList);
-
-            if (!TryToSaveRange(mwqmSiteList)) return false;
-
-            return true;
-        }
         public bool Update(MWQMSite mwqmSite)
         {
+            if (!db.MWQMSites.Where(c => c.MWQMSiteID == mwqmSite.MWQMSiteID).Any())
+            {
+                mwqmSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMSite", "MWQMSiteID", mwqmSite.MWQMSiteID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             mwqmSite.ValidationResults = Validate(new ValidationContext(mwqmSite), ActionDBTypeEnum.Update);
             if (mwqmSite.ValidationResults.Count() > 0) return false;
 
             db.MWQMSites.Update(mwqmSite);
 
             if (!TryToSave(mwqmSite)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<MWQMSite> mwqmSiteList)
-        {
-            foreach (MWQMSite mwqmSite in mwqmSiteList)
-            {
-                mwqmSite.ValidationResults = Validate(new ValidationContext(mwqmSite), ActionDBTypeEnum.Update);
-                if (mwqmSite.ValidationResults.Count() > 0) return false;
-            }
-            db.MWQMSites.UpdateRange(mwqmSiteList);
-
-            if (!TryToSaveRange(mwqmSiteList)) return false;
 
             return true;
         }
@@ -307,20 +269,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 mwqmSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<MWQMSite> mwqmSiteList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                mwqmSiteList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

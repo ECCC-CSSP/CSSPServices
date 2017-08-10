@@ -335,20 +335,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<MikeScenario> mikeScenarioList)
-        {
-            foreach (MikeScenario mikeScenario in mikeScenarioList)
-            {
-                mikeScenario.ValidationResults = Validate(new ValidationContext(mikeScenario), ActionDBTypeEnum.Create);
-                if (mikeScenario.ValidationResults.Count() > 0) return false;
-            }
-
-            db.MikeScenarios.AddRange(mikeScenarioList);
-
-            if (!TryToSaveRange(mikeScenarioList)) return false;
-
-            return true;
-        }
         public bool Delete(MikeScenario mikeScenario)
         {
             if (!db.MikeScenarios.Where(c => c.MikeScenarioID == mikeScenario.MikeScenarioID).Any())
@@ -363,44 +349,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<MikeScenario> mikeScenarioList)
-        {
-            foreach (MikeScenario mikeScenario in mikeScenarioList)
-            {
-                if (!db.MikeScenarios.Where(c => c.MikeScenarioID == mikeScenario.MikeScenarioID).Any())
-                {
-                    mikeScenarioList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MikeScenario", "MikeScenarioID", mikeScenario.MikeScenarioID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.MikeScenarios.RemoveRange(mikeScenarioList);
-
-            if (!TryToSaveRange(mikeScenarioList)) return false;
-
-            return true;
-        }
         public bool Update(MikeScenario mikeScenario)
         {
+            if (!db.MikeScenarios.Where(c => c.MikeScenarioID == mikeScenario.MikeScenarioID).Any())
+            {
+                mikeScenario.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MikeScenario", "MikeScenarioID", mikeScenario.MikeScenarioID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             mikeScenario.ValidationResults = Validate(new ValidationContext(mikeScenario), ActionDBTypeEnum.Update);
             if (mikeScenario.ValidationResults.Count() > 0) return false;
 
             db.MikeScenarios.Update(mikeScenario);
 
             if (!TryToSave(mikeScenario)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<MikeScenario> mikeScenarioList)
-        {
-            foreach (MikeScenario mikeScenario in mikeScenarioList)
-            {
-                mikeScenario.ValidationResults = Validate(new ValidationContext(mikeScenario), ActionDBTypeEnum.Update);
-                if (mikeScenario.ValidationResults.Count() > 0) return false;
-            }
-            db.MikeScenarios.UpdateRange(mikeScenarioList);
-
-            if (!TryToSaveRange(mikeScenarioList)) return false;
 
             return true;
         }
@@ -482,20 +444,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 mikeScenario.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<MikeScenario> mikeScenarioList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                mikeScenarioList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

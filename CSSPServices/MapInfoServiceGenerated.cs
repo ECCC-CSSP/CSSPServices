@@ -61,6 +61,7 @@ namespace CSSPServices
                 List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
                 {
                     TVTypeEnum.Root,
+                    TVTypeEnum.Address,
                     TVTypeEnum.Country,
                     TVTypeEnum.Province,
                     TVTypeEnum.Area,
@@ -97,7 +98,7 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                 {
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario,LiftStation,LineOverflow,MeshNode,MikeSourceIncluded,MikeSourceIsRiver,MikeSourceNotIncluded,NoData,NoDepuration,Outfall,Passed,WebTideNode"), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoTVItemID, "Root,Address,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario,LiftStation,LineOverflow,MeshNode,MikeSourceIncluded,MikeSourceIsRiver,MikeSourceNotIncluded,NoData,NoDepuration,Outfall,Passed,WebTideNode"), new[] { "TVItemID" });
                 }
             }
 
@@ -225,20 +226,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<MapInfo> mapInfoList)
-        {
-            foreach (MapInfo mapInfo in mapInfoList)
-            {
-                mapInfo.ValidationResults = Validate(new ValidationContext(mapInfo), ActionDBTypeEnum.Create);
-                if (mapInfo.ValidationResults.Count() > 0) return false;
-            }
-
-            db.MapInfos.AddRange(mapInfoList);
-
-            if (!TryToSaveRange(mapInfoList)) return false;
-
-            return true;
-        }
         public bool Delete(MapInfo mapInfo)
         {
             if (!db.MapInfos.Where(c => c.MapInfoID == mapInfo.MapInfoID).Any())
@@ -253,44 +240,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<MapInfo> mapInfoList)
-        {
-            foreach (MapInfo mapInfo in mapInfoList)
-            {
-                if (!db.MapInfos.Where(c => c.MapInfoID == mapInfo.MapInfoID).Any())
-                {
-                    mapInfoList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MapInfo", "MapInfoID", mapInfo.MapInfoID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.MapInfos.RemoveRange(mapInfoList);
-
-            if (!TryToSaveRange(mapInfoList)) return false;
-
-            return true;
-        }
         public bool Update(MapInfo mapInfo)
         {
+            if (!db.MapInfos.Where(c => c.MapInfoID == mapInfo.MapInfoID).Any())
+            {
+                mapInfo.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MapInfo", "MapInfoID", mapInfo.MapInfoID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             mapInfo.ValidationResults = Validate(new ValidationContext(mapInfo), ActionDBTypeEnum.Update);
             if (mapInfo.ValidationResults.Count() > 0) return false;
 
             db.MapInfos.Update(mapInfo);
 
             if (!TryToSave(mapInfo)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<MapInfo> mapInfoList)
-        {
-            foreach (MapInfo mapInfo in mapInfoList)
-            {
-                mapInfo.ValidationResults = Validate(new ValidationContext(mapInfo), ActionDBTypeEnum.Update);
-                if (mapInfo.ValidationResults.Count() > 0) return false;
-            }
-            db.MapInfos.UpdateRange(mapInfoList);
-
-            if (!TryToSaveRange(mapInfoList)) return false;
 
             return true;
         }
@@ -355,20 +318,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 mapInfo.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<MapInfo> mapInfoList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                mapInfoList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

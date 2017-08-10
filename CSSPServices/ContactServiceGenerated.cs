@@ -240,20 +240,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<Contact> contactList)
-        {
-            foreach (Contact contact in contactList)
-            {
-                contact.ValidationResults = Validate(new ValidationContext(contact), ActionDBTypeEnum.Create, ContactService.AddContactType.LoggedIn);
-                if (contact.ValidationResults.Count() > 0) return false;
-            }
-
-            db.Contacts.AddRange(contactList);
-
-            if (!TryToSaveRange(contactList)) return false;
-
-            return true;
-        }
         public bool Delete(Contact contact)
         {
             if (!db.Contacts.Where(c => c.ContactID == contact.ContactID).Any())
@@ -268,44 +254,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<Contact> contactList)
-        {
-            foreach (Contact contact in contactList)
-            {
-                if (!db.Contacts.Where(c => c.ContactID == contact.ContactID).Any())
-                {
-                    contactList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Contact", "ContactID", contact.ContactID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.Contacts.RemoveRange(contactList);
-
-            if (!TryToSaveRange(contactList)) return false;
-
-            return true;
-        }
         public bool Update(Contact contact)
         {
+            if (!db.Contacts.Where(c => c.ContactID == contact.ContactID).Any())
+            {
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Contact", "ContactID", contact.ContactID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             contact.ValidationResults = Validate(new ValidationContext(contact), ActionDBTypeEnum.Update, ContactService.AddContactType.LoggedIn);
             if (contact.ValidationResults.Count() > 0) return false;
 
             db.Contacts.Update(contact);
 
             if (!TryToSave(contact)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<Contact> contactList)
-        {
-            foreach (Contact contact in contactList)
-            {
-                contact.ValidationResults = Validate(new ValidationContext(contact), ActionDBTypeEnum.Update, ContactService.AddContactType.LoggedIn);
-                if (contact.ValidationResults.Count() > 0) return false;
-            }
-            db.Contacts.UpdateRange(contactList);
-
-            if (!TryToSaveRange(contactList)) return false;
 
             return true;
         }
@@ -375,20 +337,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<Contact> contactList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                contactList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

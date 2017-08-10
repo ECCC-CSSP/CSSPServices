@@ -181,20 +181,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<TVItemStat> tvItemStatList)
-        {
-            foreach (TVItemStat tvItemStat in tvItemStatList)
-            {
-                tvItemStat.ValidationResults = Validate(new ValidationContext(tvItemStat), ActionDBTypeEnum.Create);
-                if (tvItemStat.ValidationResults.Count() > 0) return false;
-            }
-
-            db.TVItemStats.AddRange(tvItemStatList);
-
-            if (!TryToSaveRange(tvItemStatList)) return false;
-
-            return true;
-        }
         public bool Delete(TVItemStat tvItemStat)
         {
             if (!db.TVItemStats.Where(c => c.TVItemStatID == tvItemStat.TVItemStatID).Any())
@@ -209,44 +195,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<TVItemStat> tvItemStatList)
-        {
-            foreach (TVItemStat tvItemStat in tvItemStatList)
-            {
-                if (!db.TVItemStats.Where(c => c.TVItemStatID == tvItemStat.TVItemStatID).Any())
-                {
-                    tvItemStatList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVItemStat", "TVItemStatID", tvItemStat.TVItemStatID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.TVItemStats.RemoveRange(tvItemStatList);
-
-            if (!TryToSaveRange(tvItemStatList)) return false;
-
-            return true;
-        }
         public bool Update(TVItemStat tvItemStat)
         {
+            if (!db.TVItemStats.Where(c => c.TVItemStatID == tvItemStat.TVItemStatID).Any())
+            {
+                tvItemStat.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVItemStat", "TVItemStatID", tvItemStat.TVItemStatID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             tvItemStat.ValidationResults = Validate(new ValidationContext(tvItemStat), ActionDBTypeEnum.Update);
             if (tvItemStat.ValidationResults.Count() > 0) return false;
 
             db.TVItemStats.Update(tvItemStat);
 
             if (!TryToSave(tvItemStat)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<TVItemStat> tvItemStatList)
-        {
-            foreach (TVItemStat tvItemStat in tvItemStatList)
-            {
-                tvItemStat.ValidationResults = Validate(new ValidationContext(tvItemStat), ActionDBTypeEnum.Update);
-                if (tvItemStat.ValidationResults.Count() > 0) return false;
-            }
-            db.TVItemStats.UpdateRange(tvItemStatList);
-
-            if (!TryToSaveRange(tvItemStatList)) return false;
 
             return true;
         }
@@ -306,20 +268,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 tvItemStat.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<TVItemStat> tvItemStatList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                tvItemStatList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

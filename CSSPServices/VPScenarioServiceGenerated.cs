@@ -262,20 +262,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<VPScenario> vpScenarioList)
-        {
-            foreach (VPScenario vpScenario in vpScenarioList)
-            {
-                vpScenario.ValidationResults = Validate(new ValidationContext(vpScenario), ActionDBTypeEnum.Create);
-                if (vpScenario.ValidationResults.Count() > 0) return false;
-            }
-
-            db.VPScenarios.AddRange(vpScenarioList);
-
-            if (!TryToSaveRange(vpScenarioList)) return false;
-
-            return true;
-        }
         public bool Delete(VPScenario vpScenario)
         {
             if (!db.VPScenarios.Where(c => c.VPScenarioID == vpScenario.VPScenarioID).Any())
@@ -290,44 +276,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<VPScenario> vpScenarioList)
-        {
-            foreach (VPScenario vpScenario in vpScenarioList)
-            {
-                if (!db.VPScenarios.Where(c => c.VPScenarioID == vpScenario.VPScenarioID).Any())
-                {
-                    vpScenarioList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "VPScenario", "VPScenarioID", vpScenario.VPScenarioID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.VPScenarios.RemoveRange(vpScenarioList);
-
-            if (!TryToSaveRange(vpScenarioList)) return false;
-
-            return true;
-        }
         public bool Update(VPScenario vpScenario)
         {
+            if (!db.VPScenarios.Where(c => c.VPScenarioID == vpScenario.VPScenarioID).Any())
+            {
+                vpScenario.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "VPScenario", "VPScenarioID", vpScenario.VPScenarioID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             vpScenario.ValidationResults = Validate(new ValidationContext(vpScenario), ActionDBTypeEnum.Update);
             if (vpScenario.ValidationResults.Count() > 0) return false;
 
             db.VPScenarios.Update(vpScenario);
 
             if (!TryToSave(vpScenario)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<VPScenario> vpScenarioList)
-        {
-            foreach (VPScenario vpScenario in vpScenarioList)
-            {
-                vpScenario.ValidationResults = Validate(new ValidationContext(vpScenario), ActionDBTypeEnum.Update);
-                if (vpScenario.ValidationResults.Count() > 0) return false;
-            }
-            db.VPScenarios.UpdateRange(vpScenarioList);
-
-            if (!TryToSaveRange(vpScenarioList)) return false;
 
             return true;
         }
@@ -403,20 +365,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 vpScenario.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<VPScenario> vpScenarioList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                vpScenarioList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

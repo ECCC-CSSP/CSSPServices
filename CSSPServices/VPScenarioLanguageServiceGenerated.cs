@@ -158,20 +158,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<VPScenarioLanguage> vpScenarioLanguageList)
-        {
-            foreach (VPScenarioLanguage vpScenarioLanguage in vpScenarioLanguageList)
-            {
-                vpScenarioLanguage.ValidationResults = Validate(new ValidationContext(vpScenarioLanguage), ActionDBTypeEnum.Create);
-                if (vpScenarioLanguage.ValidationResults.Count() > 0) return false;
-            }
-
-            db.VPScenarioLanguages.AddRange(vpScenarioLanguageList);
-
-            if (!TryToSaveRange(vpScenarioLanguageList)) return false;
-
-            return true;
-        }
         public bool Delete(VPScenarioLanguage vpScenarioLanguage)
         {
             if (!db.VPScenarioLanguages.Where(c => c.VPScenarioLanguageID == vpScenarioLanguage.VPScenarioLanguageID).Any())
@@ -186,44 +172,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<VPScenarioLanguage> vpScenarioLanguageList)
-        {
-            foreach (VPScenarioLanguage vpScenarioLanguage in vpScenarioLanguageList)
-            {
-                if (!db.VPScenarioLanguages.Where(c => c.VPScenarioLanguageID == vpScenarioLanguage.VPScenarioLanguageID).Any())
-                {
-                    vpScenarioLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "VPScenarioLanguage", "VPScenarioLanguageID", vpScenarioLanguage.VPScenarioLanguageID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.VPScenarioLanguages.RemoveRange(vpScenarioLanguageList);
-
-            if (!TryToSaveRange(vpScenarioLanguageList)) return false;
-
-            return true;
-        }
         public bool Update(VPScenarioLanguage vpScenarioLanguage)
         {
+            if (!db.VPScenarioLanguages.Where(c => c.VPScenarioLanguageID == vpScenarioLanguage.VPScenarioLanguageID).Any())
+            {
+                vpScenarioLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "VPScenarioLanguage", "VPScenarioLanguageID", vpScenarioLanguage.VPScenarioLanguageID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             vpScenarioLanguage.ValidationResults = Validate(new ValidationContext(vpScenarioLanguage), ActionDBTypeEnum.Update);
             if (vpScenarioLanguage.ValidationResults.Count() > 0) return false;
 
             db.VPScenarioLanguages.Update(vpScenarioLanguage);
 
             if (!TryToSave(vpScenarioLanguage)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<VPScenarioLanguage> vpScenarioLanguageList)
-        {
-            foreach (VPScenarioLanguage vpScenarioLanguage in vpScenarioLanguageList)
-            {
-                vpScenarioLanguage.ValidationResults = Validate(new ValidationContext(vpScenarioLanguage), ActionDBTypeEnum.Update);
-                if (vpScenarioLanguage.ValidationResults.Count() > 0) return false;
-            }
-            db.VPScenarioLanguages.UpdateRange(vpScenarioLanguageList);
-
-            if (!TryToSaveRange(vpScenarioLanguageList)) return false;
 
             return true;
         }
@@ -280,20 +242,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 vpScenarioLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<VPScenarioLanguage> vpScenarioLanguageList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                vpScenarioLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

@@ -164,20 +164,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<TVTypeUserAuthorization> tvTypeUserAuthorizationList)
-        {
-            foreach (TVTypeUserAuthorization tvTypeUserAuthorization in tvTypeUserAuthorizationList)
-            {
-                tvTypeUserAuthorization.ValidationResults = Validate(new ValidationContext(tvTypeUserAuthorization), ActionDBTypeEnum.Create);
-                if (tvTypeUserAuthorization.ValidationResults.Count() > 0) return false;
-            }
-
-            db.TVTypeUserAuthorizations.AddRange(tvTypeUserAuthorizationList);
-
-            if (!TryToSaveRange(tvTypeUserAuthorizationList)) return false;
-
-            return true;
-        }
         public bool Delete(TVTypeUserAuthorization tvTypeUserAuthorization)
         {
             if (!db.TVTypeUserAuthorizations.Where(c => c.TVTypeUserAuthorizationID == tvTypeUserAuthorization.TVTypeUserAuthorizationID).Any())
@@ -192,44 +178,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<TVTypeUserAuthorization> tvTypeUserAuthorizationList)
-        {
-            foreach (TVTypeUserAuthorization tvTypeUserAuthorization in tvTypeUserAuthorizationList)
-            {
-                if (!db.TVTypeUserAuthorizations.Where(c => c.TVTypeUserAuthorizationID == tvTypeUserAuthorization.TVTypeUserAuthorizationID).Any())
-                {
-                    tvTypeUserAuthorizationList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVTypeUserAuthorization", "TVTypeUserAuthorizationID", tvTypeUserAuthorization.TVTypeUserAuthorizationID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.TVTypeUserAuthorizations.RemoveRange(tvTypeUserAuthorizationList);
-
-            if (!TryToSaveRange(tvTypeUserAuthorizationList)) return false;
-
-            return true;
-        }
         public bool Update(TVTypeUserAuthorization tvTypeUserAuthorization)
         {
+            if (!db.TVTypeUserAuthorizations.Where(c => c.TVTypeUserAuthorizationID == tvTypeUserAuthorization.TVTypeUserAuthorizationID).Any())
+            {
+                tvTypeUserAuthorization.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVTypeUserAuthorization", "TVTypeUserAuthorizationID", tvTypeUserAuthorization.TVTypeUserAuthorizationID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             tvTypeUserAuthorization.ValidationResults = Validate(new ValidationContext(tvTypeUserAuthorization), ActionDBTypeEnum.Update);
             if (tvTypeUserAuthorization.ValidationResults.Count() > 0) return false;
 
             db.TVTypeUserAuthorizations.Update(tvTypeUserAuthorization);
 
             if (!TryToSave(tvTypeUserAuthorization)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<TVTypeUserAuthorization> tvTypeUserAuthorizationList)
-        {
-            foreach (TVTypeUserAuthorization tvTypeUserAuthorization in tvTypeUserAuthorizationList)
-            {
-                tvTypeUserAuthorization.ValidationResults = Validate(new ValidationContext(tvTypeUserAuthorization), ActionDBTypeEnum.Update);
-                if (tvTypeUserAuthorization.ValidationResults.Count() > 0) return false;
-            }
-            db.TVTypeUserAuthorizations.UpdateRange(tvTypeUserAuthorizationList);
-
-            if (!TryToSaveRange(tvTypeUserAuthorizationList)) return false;
 
             return true;
         }
@@ -290,20 +252,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 tvTypeUserAuthorization.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<TVTypeUserAuthorization> tvTypeUserAuthorizationList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                tvTypeUserAuthorizationList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

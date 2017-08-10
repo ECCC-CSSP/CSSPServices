@@ -145,20 +145,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<MWQMLookupMPN> mwqmLookupMPNList)
-        {
-            foreach (MWQMLookupMPN mwqmLookupMPN in mwqmLookupMPNList)
-            {
-                mwqmLookupMPN.ValidationResults = Validate(new ValidationContext(mwqmLookupMPN), ActionDBTypeEnum.Create);
-                if (mwqmLookupMPN.ValidationResults.Count() > 0) return false;
-            }
-
-            db.MWQMLookupMPNs.AddRange(mwqmLookupMPNList);
-
-            if (!TryToSaveRange(mwqmLookupMPNList)) return false;
-
-            return true;
-        }
         public bool Delete(MWQMLookupMPN mwqmLookupMPN)
         {
             if (!db.MWQMLookupMPNs.Where(c => c.MWQMLookupMPNID == mwqmLookupMPN.MWQMLookupMPNID).Any())
@@ -173,44 +159,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<MWQMLookupMPN> mwqmLookupMPNList)
-        {
-            foreach (MWQMLookupMPN mwqmLookupMPN in mwqmLookupMPNList)
-            {
-                if (!db.MWQMLookupMPNs.Where(c => c.MWQMLookupMPNID == mwqmLookupMPN.MWQMLookupMPNID).Any())
-                {
-                    mwqmLookupMPNList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMLookupMPN", "MWQMLookupMPNID", mwqmLookupMPN.MWQMLookupMPNID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.MWQMLookupMPNs.RemoveRange(mwqmLookupMPNList);
-
-            if (!TryToSaveRange(mwqmLookupMPNList)) return false;
-
-            return true;
-        }
         public bool Update(MWQMLookupMPN mwqmLookupMPN)
         {
+            if (!db.MWQMLookupMPNs.Where(c => c.MWQMLookupMPNID == mwqmLookupMPN.MWQMLookupMPNID).Any())
+            {
+                mwqmLookupMPN.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMLookupMPN", "MWQMLookupMPNID", mwqmLookupMPN.MWQMLookupMPNID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             mwqmLookupMPN.ValidationResults = Validate(new ValidationContext(mwqmLookupMPN), ActionDBTypeEnum.Update);
             if (mwqmLookupMPN.ValidationResults.Count() > 0) return false;
 
             db.MWQMLookupMPNs.Update(mwqmLookupMPN);
 
             if (!TryToSave(mwqmLookupMPN)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<MWQMLookupMPN> mwqmLookupMPNList)
-        {
-            foreach (MWQMLookupMPN mwqmLookupMPN in mwqmLookupMPNList)
-            {
-                mwqmLookupMPN.ValidationResults = Validate(new ValidationContext(mwqmLookupMPN), ActionDBTypeEnum.Update);
-                if (mwqmLookupMPN.ValidationResults.Count() > 0) return false;
-            }
-            db.MWQMLookupMPNs.UpdateRange(mwqmLookupMPNList);
-
-            if (!TryToSaveRange(mwqmLookupMPNList)) return false;
 
             return true;
         }
@@ -259,20 +221,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 mwqmLookupMPN.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<MWQMLookupMPN> mwqmLookupMPNList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                mwqmLookupMPNList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

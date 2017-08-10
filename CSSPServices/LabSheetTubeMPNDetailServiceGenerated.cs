@@ -232,20 +232,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList)
-        {
-            foreach (LabSheetTubeMPNDetail labSheetTubeMPNDetail in labSheetTubeMPNDetailList)
-            {
-                labSheetTubeMPNDetail.ValidationResults = Validate(new ValidationContext(labSheetTubeMPNDetail), ActionDBTypeEnum.Create);
-                if (labSheetTubeMPNDetail.ValidationResults.Count() > 0) return false;
-            }
-
-            db.LabSheetTubeMPNDetails.AddRange(labSheetTubeMPNDetailList);
-
-            if (!TryToSaveRange(labSheetTubeMPNDetailList)) return false;
-
-            return true;
-        }
         public bool Delete(LabSheetTubeMPNDetail labSheetTubeMPNDetail)
         {
             if (!db.LabSheetTubeMPNDetails.Where(c => c.LabSheetTubeMPNDetailID == labSheetTubeMPNDetail.LabSheetTubeMPNDetailID).Any())
@@ -260,44 +246,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList)
-        {
-            foreach (LabSheetTubeMPNDetail labSheetTubeMPNDetail in labSheetTubeMPNDetailList)
-            {
-                if (!db.LabSheetTubeMPNDetails.Where(c => c.LabSheetTubeMPNDetailID == labSheetTubeMPNDetail.LabSheetTubeMPNDetailID).Any())
-                {
-                    labSheetTubeMPNDetailList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "LabSheetTubeMPNDetail", "LabSheetTubeMPNDetailID", labSheetTubeMPNDetail.LabSheetTubeMPNDetailID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.LabSheetTubeMPNDetails.RemoveRange(labSheetTubeMPNDetailList);
-
-            if (!TryToSaveRange(labSheetTubeMPNDetailList)) return false;
-
-            return true;
-        }
         public bool Update(LabSheetTubeMPNDetail labSheetTubeMPNDetail)
         {
+            if (!db.LabSheetTubeMPNDetails.Where(c => c.LabSheetTubeMPNDetailID == labSheetTubeMPNDetail.LabSheetTubeMPNDetailID).Any())
+            {
+                labSheetTubeMPNDetail.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "LabSheetTubeMPNDetail", "LabSheetTubeMPNDetailID", labSheetTubeMPNDetail.LabSheetTubeMPNDetailID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             labSheetTubeMPNDetail.ValidationResults = Validate(new ValidationContext(labSheetTubeMPNDetail), ActionDBTypeEnum.Update);
             if (labSheetTubeMPNDetail.ValidationResults.Count() > 0) return false;
 
             db.LabSheetTubeMPNDetails.Update(labSheetTubeMPNDetail);
 
             if (!TryToSave(labSheetTubeMPNDetail)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList)
-        {
-            foreach (LabSheetTubeMPNDetail labSheetTubeMPNDetail in labSheetTubeMPNDetailList)
-            {
-                labSheetTubeMPNDetail.ValidationResults = Validate(new ValidationContext(labSheetTubeMPNDetail), ActionDBTypeEnum.Update);
-                if (labSheetTubeMPNDetail.ValidationResults.Count() > 0) return false;
-            }
-            db.LabSheetTubeMPNDetails.UpdateRange(labSheetTubeMPNDetailList);
-
-            if (!TryToSaveRange(labSheetTubeMPNDetailList)) return false;
 
             return true;
         }
@@ -367,20 +329,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 labSheetTubeMPNDetail.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<LabSheetTubeMPNDetail> labSheetTubeMPNDetailList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                labSheetTubeMPNDetailList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

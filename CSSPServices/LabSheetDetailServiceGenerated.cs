@@ -496,20 +496,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<LabSheetDetail> labSheetDetailList)
-        {
-            foreach (LabSheetDetail labSheetDetail in labSheetDetailList)
-            {
-                labSheetDetail.ValidationResults = Validate(new ValidationContext(labSheetDetail), ActionDBTypeEnum.Create);
-                if (labSheetDetail.ValidationResults.Count() > 0) return false;
-            }
-
-            db.LabSheetDetails.AddRange(labSheetDetailList);
-
-            if (!TryToSaveRange(labSheetDetailList)) return false;
-
-            return true;
-        }
         public bool Delete(LabSheetDetail labSheetDetail)
         {
             if (!db.LabSheetDetails.Where(c => c.LabSheetDetailID == labSheetDetail.LabSheetDetailID).Any())
@@ -524,44 +510,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<LabSheetDetail> labSheetDetailList)
-        {
-            foreach (LabSheetDetail labSheetDetail in labSheetDetailList)
-            {
-                if (!db.LabSheetDetails.Where(c => c.LabSheetDetailID == labSheetDetail.LabSheetDetailID).Any())
-                {
-                    labSheetDetailList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "LabSheetDetail", "LabSheetDetailID", labSheetDetail.LabSheetDetailID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.LabSheetDetails.RemoveRange(labSheetDetailList);
-
-            if (!TryToSaveRange(labSheetDetailList)) return false;
-
-            return true;
-        }
         public bool Update(LabSheetDetail labSheetDetail)
         {
+            if (!db.LabSheetDetails.Where(c => c.LabSheetDetailID == labSheetDetail.LabSheetDetailID).Any())
+            {
+                labSheetDetail.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "LabSheetDetail", "LabSheetDetailID", labSheetDetail.LabSheetDetailID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             labSheetDetail.ValidationResults = Validate(new ValidationContext(labSheetDetail), ActionDBTypeEnum.Update);
             if (labSheetDetail.ValidationResults.Count() > 0) return false;
 
             db.LabSheetDetails.Update(labSheetDetail);
 
             if (!TryToSave(labSheetDetail)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<LabSheetDetail> labSheetDetailList)
-        {
-            foreach (LabSheetDetail labSheetDetail in labSheetDetailList)
-            {
-                labSheetDetail.ValidationResults = Validate(new ValidationContext(labSheetDetail), ActionDBTypeEnum.Update);
-                if (labSheetDetail.ValidationResults.Count() > 0) return false;
-            }
-            db.LabSheetDetails.UpdateRange(labSheetDetailList);
-
-            if (!TryToSaveRange(labSheetDetailList)) return false;
 
             return true;
         }
@@ -673,20 +635,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 labSheetDetail.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<LabSheetDetail> labSheetDetailList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                labSheetDetailList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

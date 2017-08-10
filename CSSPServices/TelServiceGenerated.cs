@@ -163,20 +163,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<Tel> telList)
-        {
-            foreach (Tel tel in telList)
-            {
-                tel.ValidationResults = Validate(new ValidationContext(tel), ActionDBTypeEnum.Create);
-                if (tel.ValidationResults.Count() > 0) return false;
-            }
-
-            db.Tels.AddRange(telList);
-
-            if (!TryToSaveRange(telList)) return false;
-
-            return true;
-        }
         public bool Delete(Tel tel)
         {
             if (!db.Tels.Where(c => c.TelID == tel.TelID).Any())
@@ -191,44 +177,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<Tel> telList)
-        {
-            foreach (Tel tel in telList)
-            {
-                if (!db.Tels.Where(c => c.TelID == tel.TelID).Any())
-                {
-                    telList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Tel", "TelID", tel.TelID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.Tels.RemoveRange(telList);
-
-            if (!TryToSaveRange(telList)) return false;
-
-            return true;
-        }
         public bool Update(Tel tel)
         {
+            if (!db.Tels.Where(c => c.TelID == tel.TelID).Any())
+            {
+                tel.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Tel", "TelID", tel.TelID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             tel.ValidationResults = Validate(new ValidationContext(tel), ActionDBTypeEnum.Update);
             if (tel.ValidationResults.Count() > 0) return false;
 
             db.Tels.Update(tel);
 
             if (!TryToSave(tel)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<Tel> telList)
-        {
-            foreach (Tel tel in telList)
-            {
-                tel.ValidationResults = Validate(new ValidationContext(tel), ActionDBTypeEnum.Update);
-                if (tel.ValidationResults.Count() > 0) return false;
-            }
-            db.Tels.UpdateRange(telList);
-
-            if (!TryToSaveRange(telList)) return false;
 
             return true;
         }
@@ -288,20 +250,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 tel.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<Tel> telList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                telList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

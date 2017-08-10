@@ -177,20 +177,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<EmailDistributionListContact> emailDistributionListContactList)
-        {
-            foreach (EmailDistributionListContact emailDistributionListContact in emailDistributionListContactList)
-            {
-                emailDistributionListContact.ValidationResults = Validate(new ValidationContext(emailDistributionListContact), ActionDBTypeEnum.Create);
-                if (emailDistributionListContact.ValidationResults.Count() > 0) return false;
-            }
-
-            db.EmailDistributionListContacts.AddRange(emailDistributionListContactList);
-
-            if (!TryToSaveRange(emailDistributionListContactList)) return false;
-
-            return true;
-        }
         public bool Delete(EmailDistributionListContact emailDistributionListContact)
         {
             if (!db.EmailDistributionListContacts.Where(c => c.EmailDistributionListContactID == emailDistributionListContact.EmailDistributionListContactID).Any())
@@ -205,44 +191,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<EmailDistributionListContact> emailDistributionListContactList)
-        {
-            foreach (EmailDistributionListContact emailDistributionListContact in emailDistributionListContactList)
-            {
-                if (!db.EmailDistributionListContacts.Where(c => c.EmailDistributionListContactID == emailDistributionListContact.EmailDistributionListContactID).Any())
-                {
-                    emailDistributionListContactList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "EmailDistributionListContact", "EmailDistributionListContactID", emailDistributionListContact.EmailDistributionListContactID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.EmailDistributionListContacts.RemoveRange(emailDistributionListContactList);
-
-            if (!TryToSaveRange(emailDistributionListContactList)) return false;
-
-            return true;
-        }
         public bool Update(EmailDistributionListContact emailDistributionListContact)
         {
+            if (!db.EmailDistributionListContacts.Where(c => c.EmailDistributionListContactID == emailDistributionListContact.EmailDistributionListContactID).Any())
+            {
+                emailDistributionListContact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "EmailDistributionListContact", "EmailDistributionListContactID", emailDistributionListContact.EmailDistributionListContactID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             emailDistributionListContact.ValidationResults = Validate(new ValidationContext(emailDistributionListContact), ActionDBTypeEnum.Update);
             if (emailDistributionListContact.ValidationResults.Count() > 0) return false;
 
             db.EmailDistributionListContacts.Update(emailDistributionListContact);
 
             if (!TryToSave(emailDistributionListContact)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<EmailDistributionListContact> emailDistributionListContactList)
-        {
-            foreach (EmailDistributionListContact emailDistributionListContact in emailDistributionListContactList)
-            {
-                emailDistributionListContact.ValidationResults = Validate(new ValidationContext(emailDistributionListContact), ActionDBTypeEnum.Update);
-                if (emailDistributionListContact.ValidationResults.Count() > 0) return false;
-            }
-            db.EmailDistributionListContacts.UpdateRange(emailDistributionListContactList);
-
-            if (!TryToSaveRange(emailDistributionListContactList)) return false;
 
             return true;
         }
@@ -297,20 +259,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 emailDistributionListContact.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<EmailDistributionListContact> emailDistributionListContactList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                emailDistributionListContactList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

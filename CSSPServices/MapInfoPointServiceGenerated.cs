@@ -147,20 +147,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<MapInfoPoint> mapInfoPointList)
-        {
-            foreach (MapInfoPoint mapInfoPoint in mapInfoPointList)
-            {
-                mapInfoPoint.ValidationResults = Validate(new ValidationContext(mapInfoPoint), ActionDBTypeEnum.Create);
-                if (mapInfoPoint.ValidationResults.Count() > 0) return false;
-            }
-
-            db.MapInfoPoints.AddRange(mapInfoPointList);
-
-            if (!TryToSaveRange(mapInfoPointList)) return false;
-
-            return true;
-        }
         public bool Delete(MapInfoPoint mapInfoPoint)
         {
             if (!db.MapInfoPoints.Where(c => c.MapInfoPointID == mapInfoPoint.MapInfoPointID).Any())
@@ -175,44 +161,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<MapInfoPoint> mapInfoPointList)
-        {
-            foreach (MapInfoPoint mapInfoPoint in mapInfoPointList)
-            {
-                if (!db.MapInfoPoints.Where(c => c.MapInfoPointID == mapInfoPoint.MapInfoPointID).Any())
-                {
-                    mapInfoPointList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MapInfoPoint", "MapInfoPointID", mapInfoPoint.MapInfoPointID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.MapInfoPoints.RemoveRange(mapInfoPointList);
-
-            if (!TryToSaveRange(mapInfoPointList)) return false;
-
-            return true;
-        }
         public bool Update(MapInfoPoint mapInfoPoint)
         {
+            if (!db.MapInfoPoints.Where(c => c.MapInfoPointID == mapInfoPoint.MapInfoPointID).Any())
+            {
+                mapInfoPoint.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MapInfoPoint", "MapInfoPointID", mapInfoPoint.MapInfoPointID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             mapInfoPoint.ValidationResults = Validate(new ValidationContext(mapInfoPoint), ActionDBTypeEnum.Update);
             if (mapInfoPoint.ValidationResults.Count() > 0) return false;
 
             db.MapInfoPoints.Update(mapInfoPoint);
 
             if (!TryToSave(mapInfoPoint)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<MapInfoPoint> mapInfoPointList)
-        {
-            foreach (MapInfoPoint mapInfoPoint in mapInfoPointList)
-            {
-                mapInfoPoint.ValidationResults = Validate(new ValidationContext(mapInfoPoint), ActionDBTypeEnum.Update);
-                if (mapInfoPoint.ValidationResults.Count() > 0) return false;
-            }
-            db.MapInfoPoints.UpdateRange(mapInfoPointList);
-
-            if (!TryToSaveRange(mapInfoPointList)) return false;
 
             return true;
         }
@@ -261,20 +223,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 mapInfoPoint.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<MapInfoPoint> mapInfoPointList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                mapInfoPointList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

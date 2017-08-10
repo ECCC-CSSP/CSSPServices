@@ -164,20 +164,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<MWQMSiteStartEndDate> mwqmSiteStartEndDateList)
-        {
-            foreach (MWQMSiteStartEndDate mwqmSiteStartEndDate in mwqmSiteStartEndDateList)
-            {
-                mwqmSiteStartEndDate.ValidationResults = Validate(new ValidationContext(mwqmSiteStartEndDate), ActionDBTypeEnum.Create);
-                if (mwqmSiteStartEndDate.ValidationResults.Count() > 0) return false;
-            }
-
-            db.MWQMSiteStartEndDates.AddRange(mwqmSiteStartEndDateList);
-
-            if (!TryToSaveRange(mwqmSiteStartEndDateList)) return false;
-
-            return true;
-        }
         public bool Delete(MWQMSiteStartEndDate mwqmSiteStartEndDate)
         {
             if (!db.MWQMSiteStartEndDates.Where(c => c.MWQMSiteStartEndDateID == mwqmSiteStartEndDate.MWQMSiteStartEndDateID).Any())
@@ -192,44 +178,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<MWQMSiteStartEndDate> mwqmSiteStartEndDateList)
-        {
-            foreach (MWQMSiteStartEndDate mwqmSiteStartEndDate in mwqmSiteStartEndDateList)
-            {
-                if (!db.MWQMSiteStartEndDates.Where(c => c.MWQMSiteStartEndDateID == mwqmSiteStartEndDate.MWQMSiteStartEndDateID).Any())
-                {
-                    mwqmSiteStartEndDateList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMSiteStartEndDate", "MWQMSiteStartEndDateID", mwqmSiteStartEndDate.MWQMSiteStartEndDateID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.MWQMSiteStartEndDates.RemoveRange(mwqmSiteStartEndDateList);
-
-            if (!TryToSaveRange(mwqmSiteStartEndDateList)) return false;
-
-            return true;
-        }
         public bool Update(MWQMSiteStartEndDate mwqmSiteStartEndDate)
         {
+            if (!db.MWQMSiteStartEndDates.Where(c => c.MWQMSiteStartEndDateID == mwqmSiteStartEndDate.MWQMSiteStartEndDateID).Any())
+            {
+                mwqmSiteStartEndDate.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMSiteStartEndDate", "MWQMSiteStartEndDateID", mwqmSiteStartEndDate.MWQMSiteStartEndDateID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             mwqmSiteStartEndDate.ValidationResults = Validate(new ValidationContext(mwqmSiteStartEndDate), ActionDBTypeEnum.Update);
             if (mwqmSiteStartEndDate.ValidationResults.Count() > 0) return false;
 
             db.MWQMSiteStartEndDates.Update(mwqmSiteStartEndDate);
 
             if (!TryToSave(mwqmSiteStartEndDate)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<MWQMSiteStartEndDate> mwqmSiteStartEndDateList)
-        {
-            foreach (MWQMSiteStartEndDate mwqmSiteStartEndDate in mwqmSiteStartEndDateList)
-            {
-                mwqmSiteStartEndDate.ValidationResults = Validate(new ValidationContext(mwqmSiteStartEndDate), ActionDBTypeEnum.Update);
-                if (mwqmSiteStartEndDate.ValidationResults.Count() > 0) return false;
-            }
-            db.MWQMSiteStartEndDates.UpdateRange(mwqmSiteStartEndDateList);
-
-            if (!TryToSaveRange(mwqmSiteStartEndDateList)) return false;
 
             return true;
         }
@@ -282,20 +244,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 mwqmSiteStartEndDate.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<MWQMSiteStartEndDate> mwqmSiteStartEndDateList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                mwqmSiteStartEndDateList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

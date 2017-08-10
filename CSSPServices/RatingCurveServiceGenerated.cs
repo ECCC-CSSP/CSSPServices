@@ -136,20 +136,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<RatingCurve> ratingCurveList)
-        {
-            foreach (RatingCurve ratingCurve in ratingCurveList)
-            {
-                ratingCurve.ValidationResults = Validate(new ValidationContext(ratingCurve), ActionDBTypeEnum.Create);
-                if (ratingCurve.ValidationResults.Count() > 0) return false;
-            }
-
-            db.RatingCurves.AddRange(ratingCurveList);
-
-            if (!TryToSaveRange(ratingCurveList)) return false;
-
-            return true;
-        }
         public bool Delete(RatingCurve ratingCurve)
         {
             if (!db.RatingCurves.Where(c => c.RatingCurveID == ratingCurve.RatingCurveID).Any())
@@ -164,44 +150,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<RatingCurve> ratingCurveList)
-        {
-            foreach (RatingCurve ratingCurve in ratingCurveList)
-            {
-                if (!db.RatingCurves.Where(c => c.RatingCurveID == ratingCurve.RatingCurveID).Any())
-                {
-                    ratingCurveList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "RatingCurve", "RatingCurveID", ratingCurve.RatingCurveID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.RatingCurves.RemoveRange(ratingCurveList);
-
-            if (!TryToSaveRange(ratingCurveList)) return false;
-
-            return true;
-        }
         public bool Update(RatingCurve ratingCurve)
         {
+            if (!db.RatingCurves.Where(c => c.RatingCurveID == ratingCurve.RatingCurveID).Any())
+            {
+                ratingCurve.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "RatingCurve", "RatingCurveID", ratingCurve.RatingCurveID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             ratingCurve.ValidationResults = Validate(new ValidationContext(ratingCurve), ActionDBTypeEnum.Update);
             if (ratingCurve.ValidationResults.Count() > 0) return false;
 
             db.RatingCurves.Update(ratingCurve);
 
             if (!TryToSave(ratingCurve)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<RatingCurve> ratingCurveList)
-        {
-            foreach (RatingCurve ratingCurve in ratingCurveList)
-            {
-                ratingCurve.ValidationResults = Validate(new ValidationContext(ratingCurve), ActionDBTypeEnum.Update);
-                if (ratingCurve.ValidationResults.Count() > 0) return false;
-            }
-            db.RatingCurves.UpdateRange(ratingCurveList);
-
-            if (!TryToSaveRange(ratingCurveList)) return false;
 
             return true;
         }
@@ -248,20 +210,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 ratingCurve.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<RatingCurve> ratingCurveList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                ratingCurveList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

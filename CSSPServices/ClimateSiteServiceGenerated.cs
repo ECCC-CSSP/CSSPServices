@@ -243,20 +243,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<ClimateSite> climateSiteList)
-        {
-            foreach (ClimateSite climateSite in climateSiteList)
-            {
-                climateSite.ValidationResults = Validate(new ValidationContext(climateSite), ActionDBTypeEnum.Create);
-                if (climateSite.ValidationResults.Count() > 0) return false;
-            }
-
-            db.ClimateSites.AddRange(climateSiteList);
-
-            if (!TryToSaveRange(climateSiteList)) return false;
-
-            return true;
-        }
         public bool Delete(ClimateSite climateSite)
         {
             if (!db.ClimateSites.Where(c => c.ClimateSiteID == climateSite.ClimateSiteID).Any())
@@ -271,44 +257,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<ClimateSite> climateSiteList)
-        {
-            foreach (ClimateSite climateSite in climateSiteList)
-            {
-                if (!db.ClimateSites.Where(c => c.ClimateSiteID == climateSite.ClimateSiteID).Any())
-                {
-                    climateSiteList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ClimateSite", "ClimateSiteID", climateSite.ClimateSiteID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.ClimateSites.RemoveRange(climateSiteList);
-
-            if (!TryToSaveRange(climateSiteList)) return false;
-
-            return true;
-        }
         public bool Update(ClimateSite climateSite)
         {
+            if (!db.ClimateSites.Where(c => c.ClimateSiteID == climateSite.ClimateSiteID).Any())
+            {
+                climateSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ClimateSite", "ClimateSiteID", climateSite.ClimateSiteID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             climateSite.ValidationResults = Validate(new ValidationContext(climateSite), ActionDBTypeEnum.Update);
             if (climateSite.ValidationResults.Count() > 0) return false;
 
             db.ClimateSites.Update(climateSite);
 
             if (!TryToSave(climateSite)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<ClimateSite> climateSiteList)
-        {
-            foreach (ClimateSite climateSite in climateSiteList)
-            {
-                climateSite.ValidationResults = Validate(new ValidationContext(climateSite), ActionDBTypeEnum.Update);
-                if (climateSite.ValidationResults.Count() > 0) return false;
-            }
-            db.ClimateSites.UpdateRange(climateSiteList);
-
-            if (!TryToSaveRange(climateSiteList)) return false;
 
             return true;
         }
@@ -379,20 +341,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 climateSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<ClimateSite> climateSiteList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                climateSiteList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

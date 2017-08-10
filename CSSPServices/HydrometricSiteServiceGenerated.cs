@@ -216,20 +216,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<HydrometricSite> hydrometricSiteList)
-        {
-            foreach (HydrometricSite hydrometricSite in hydrometricSiteList)
-            {
-                hydrometricSite.ValidationResults = Validate(new ValidationContext(hydrometricSite), ActionDBTypeEnum.Create);
-                if (hydrometricSite.ValidationResults.Count() > 0) return false;
-            }
-
-            db.HydrometricSites.AddRange(hydrometricSiteList);
-
-            if (!TryToSaveRange(hydrometricSiteList)) return false;
-
-            return true;
-        }
         public bool Delete(HydrometricSite hydrometricSite)
         {
             if (!db.HydrometricSites.Where(c => c.HydrometricSiteID == hydrometricSite.HydrometricSiteID).Any())
@@ -244,44 +230,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<HydrometricSite> hydrometricSiteList)
-        {
-            foreach (HydrometricSite hydrometricSite in hydrometricSiteList)
-            {
-                if (!db.HydrometricSites.Where(c => c.HydrometricSiteID == hydrometricSite.HydrometricSiteID).Any())
-                {
-                    hydrometricSiteList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "HydrometricSite", "HydrometricSiteID", hydrometricSite.HydrometricSiteID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.HydrometricSites.RemoveRange(hydrometricSiteList);
-
-            if (!TryToSaveRange(hydrometricSiteList)) return false;
-
-            return true;
-        }
         public bool Update(HydrometricSite hydrometricSite)
         {
+            if (!db.HydrometricSites.Where(c => c.HydrometricSiteID == hydrometricSite.HydrometricSiteID).Any())
+            {
+                hydrometricSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "HydrometricSite", "HydrometricSiteID", hydrometricSite.HydrometricSiteID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             hydrometricSite.ValidationResults = Validate(new ValidationContext(hydrometricSite), ActionDBTypeEnum.Update);
             if (hydrometricSite.ValidationResults.Count() > 0) return false;
 
             db.HydrometricSites.Update(hydrometricSite);
 
             if (!TryToSave(hydrometricSite)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<HydrometricSite> hydrometricSiteList)
-        {
-            foreach (HydrometricSite hydrometricSite in hydrometricSiteList)
-            {
-                hydrometricSite.ValidationResults = Validate(new ValidationContext(hydrometricSite), ActionDBTypeEnum.Update);
-                if (hydrometricSite.ValidationResults.Count() > 0) return false;
-            }
-            db.HydrometricSites.UpdateRange(hydrometricSiteList);
-
-            if (!TryToSaveRange(hydrometricSiteList)) return false;
 
             return true;
         }
@@ -348,20 +310,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 hydrometricSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<HydrometricSite> hydrometricSiteList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                hydrometricSiteList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

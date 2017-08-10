@@ -571,20 +571,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<Infrastructure> infrastructureList)
-        {
-            foreach (Infrastructure infrastructure in infrastructureList)
-            {
-                infrastructure.ValidationResults = Validate(new ValidationContext(infrastructure), ActionDBTypeEnum.Create);
-                if (infrastructure.ValidationResults.Count() > 0) return false;
-            }
-
-            db.Infrastructures.AddRange(infrastructureList);
-
-            if (!TryToSaveRange(infrastructureList)) return false;
-
-            return true;
-        }
         public bool Delete(Infrastructure infrastructure)
         {
             if (!db.Infrastructures.Where(c => c.InfrastructureID == infrastructure.InfrastructureID).Any())
@@ -599,44 +585,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<Infrastructure> infrastructureList)
-        {
-            foreach (Infrastructure infrastructure in infrastructureList)
-            {
-                if (!db.Infrastructures.Where(c => c.InfrastructureID == infrastructure.InfrastructureID).Any())
-                {
-                    infrastructureList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Infrastructure", "InfrastructureID", infrastructure.InfrastructureID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.Infrastructures.RemoveRange(infrastructureList);
-
-            if (!TryToSaveRange(infrastructureList)) return false;
-
-            return true;
-        }
         public bool Update(Infrastructure infrastructure)
         {
+            if (!db.Infrastructures.Where(c => c.InfrastructureID == infrastructure.InfrastructureID).Any())
+            {
+                infrastructure.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Infrastructure", "InfrastructureID", infrastructure.InfrastructureID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             infrastructure.ValidationResults = Validate(new ValidationContext(infrastructure), ActionDBTypeEnum.Update);
             if (infrastructure.ValidationResults.Count() > 0) return false;
 
             db.Infrastructures.Update(infrastructure);
 
             if (!TryToSave(infrastructure)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<Infrastructure> infrastructureList)
-        {
-            foreach (Infrastructure infrastructure in infrastructureList)
-            {
-                infrastructure.ValidationResults = Validate(new ValidationContext(infrastructure), ActionDBTypeEnum.Update);
-                if (infrastructure.ValidationResults.Count() > 0) return false;
-            }
-            db.Infrastructures.UpdateRange(infrastructureList);
-
-            if (!TryToSaveRange(infrastructureList)) return false;
 
             return true;
         }
@@ -758,20 +720,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 infrastructure.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<Infrastructure> infrastructureList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                infrastructureList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

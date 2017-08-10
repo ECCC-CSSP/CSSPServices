@@ -242,20 +242,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<UseOfSite> useOfSiteList)
-        {
-            foreach (UseOfSite useOfSite in useOfSiteList)
-            {
-                useOfSite.ValidationResults = Validate(new ValidationContext(useOfSite), ActionDBTypeEnum.Create);
-                if (useOfSite.ValidationResults.Count() > 0) return false;
-            }
-
-            db.UseOfSites.AddRange(useOfSiteList);
-
-            if (!TryToSaveRange(useOfSiteList)) return false;
-
-            return true;
-        }
         public bool Delete(UseOfSite useOfSite)
         {
             if (!db.UseOfSites.Where(c => c.UseOfSiteID == useOfSite.UseOfSiteID).Any())
@@ -270,44 +256,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<UseOfSite> useOfSiteList)
-        {
-            foreach (UseOfSite useOfSite in useOfSiteList)
-            {
-                if (!db.UseOfSites.Where(c => c.UseOfSiteID == useOfSite.UseOfSiteID).Any())
-                {
-                    useOfSiteList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "UseOfSite", "UseOfSiteID", useOfSite.UseOfSiteID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.UseOfSites.RemoveRange(useOfSiteList);
-
-            if (!TryToSaveRange(useOfSiteList)) return false;
-
-            return true;
-        }
         public bool Update(UseOfSite useOfSite)
         {
+            if (!db.UseOfSites.Where(c => c.UseOfSiteID == useOfSite.UseOfSiteID).Any())
+            {
+                useOfSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "UseOfSite", "UseOfSiteID", useOfSite.UseOfSiteID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             useOfSite.ValidationResults = Validate(new ValidationContext(useOfSite), ActionDBTypeEnum.Update);
             if (useOfSite.ValidationResults.Count() > 0) return false;
 
             db.UseOfSites.Update(useOfSite);
 
             if (!TryToSave(useOfSite)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<UseOfSite> useOfSiteList)
-        {
-            foreach (UseOfSite useOfSite in useOfSiteList)
-            {
-                useOfSite.ValidationResults = Validate(new ValidationContext(useOfSite), ActionDBTypeEnum.Update);
-                if (useOfSite.ValidationResults.Count() > 0) return false;
-            }
-            db.UseOfSites.UpdateRange(useOfSiteList);
-
-            if (!TryToSaveRange(useOfSiteList)) return false;
 
             return true;
         }
@@ -382,20 +344,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 useOfSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<UseOfSite> useOfSiteList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                useOfSiteList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

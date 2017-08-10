@@ -152,20 +152,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<Log> logList)
-        {
-            foreach (Log log in logList)
-            {
-                log.ValidationResults = Validate(new ValidationContext(log), ActionDBTypeEnum.Create);
-                if (log.ValidationResults.Count() > 0) return false;
-            }
-
-            db.Logs.AddRange(logList);
-
-            if (!TryToSaveRange(logList)) return false;
-
-            return true;
-        }
         public bool Delete(Log log)
         {
             if (!db.Logs.Where(c => c.LogID == log.LogID).Any())
@@ -180,44 +166,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<Log> logList)
-        {
-            foreach (Log log in logList)
-            {
-                if (!db.Logs.Where(c => c.LogID == log.LogID).Any())
-                {
-                    logList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Log", "LogID", log.LogID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.Logs.RemoveRange(logList);
-
-            if (!TryToSaveRange(logList)) return false;
-
-            return true;
-        }
         public bool Update(Log log)
         {
+            if (!db.Logs.Where(c => c.LogID == log.LogID).Any())
+            {
+                log.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Log", "LogID", log.LogID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             log.ValidationResults = Validate(new ValidationContext(log), ActionDBTypeEnum.Update);
             if (log.ValidationResults.Count() > 0) return false;
 
             db.Logs.Update(log);
 
             if (!TryToSave(log)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<Log> logList)
-        {
-            foreach (Log log in logList)
-            {
-                log.ValidationResults = Validate(new ValidationContext(log), ActionDBTypeEnum.Update);
-                if (log.ValidationResults.Count() > 0) return false;
-            }
-            db.Logs.UpdateRange(logList);
-
-            if (!TryToSaveRange(logList)) return false;
 
             return true;
         }
@@ -273,20 +235,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 log.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<Log> logList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                logList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

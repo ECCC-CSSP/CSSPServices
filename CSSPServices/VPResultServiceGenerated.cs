@@ -168,20 +168,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<VPResult> vpResultList)
-        {
-            foreach (VPResult vpResult in vpResultList)
-            {
-                vpResult.ValidationResults = Validate(new ValidationContext(vpResult), ActionDBTypeEnum.Create);
-                if (vpResult.ValidationResults.Count() > 0) return false;
-            }
-
-            db.VPResults.AddRange(vpResultList);
-
-            if (!TryToSaveRange(vpResultList)) return false;
-
-            return true;
-        }
         public bool Delete(VPResult vpResult)
         {
             if (!db.VPResults.Where(c => c.VPResultID == vpResult.VPResultID).Any())
@@ -196,44 +182,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<VPResult> vpResultList)
-        {
-            foreach (VPResult vpResult in vpResultList)
-            {
-                if (!db.VPResults.Where(c => c.VPResultID == vpResult.VPResultID).Any())
-                {
-                    vpResultList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "VPResult", "VPResultID", vpResult.VPResultID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.VPResults.RemoveRange(vpResultList);
-
-            if (!TryToSaveRange(vpResultList)) return false;
-
-            return true;
-        }
         public bool Update(VPResult vpResult)
         {
+            if (!db.VPResults.Where(c => c.VPResultID == vpResult.VPResultID).Any())
+            {
+                vpResult.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "VPResult", "VPResultID", vpResult.VPResultID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             vpResult.ValidationResults = Validate(new ValidationContext(vpResult), ActionDBTypeEnum.Update);
             if (vpResult.ValidationResults.Count() > 0) return false;
 
             db.VPResults.Update(vpResult);
 
             if (!TryToSave(vpResult)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<VPResult> vpResultList)
-        {
-            foreach (VPResult vpResult in vpResultList)
-            {
-                vpResult.ValidationResults = Validate(new ValidationContext(vpResult), ActionDBTypeEnum.Update);
-                if (vpResult.ValidationResults.Count() > 0) return false;
-            }
-            db.VPResults.UpdateRange(vpResultList);
-
-            if (!TryToSaveRange(vpResultList)) return false;
 
             return true;
         }
@@ -285,20 +247,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 vpResult.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<VPResult> vpResultList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                vpResultList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

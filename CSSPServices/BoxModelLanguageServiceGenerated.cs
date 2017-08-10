@@ -158,20 +158,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<BoxModelLanguage> boxModelLanguageList)
-        {
-            foreach (BoxModelLanguage boxModelLanguage in boxModelLanguageList)
-            {
-                boxModelLanguage.ValidationResults = Validate(new ValidationContext(boxModelLanguage), ActionDBTypeEnum.Create);
-                if (boxModelLanguage.ValidationResults.Count() > 0) return false;
-            }
-
-            db.BoxModelLanguages.AddRange(boxModelLanguageList);
-
-            if (!TryToSaveRange(boxModelLanguageList)) return false;
-
-            return true;
-        }
         public bool Delete(BoxModelLanguage boxModelLanguage)
         {
             if (!db.BoxModelLanguages.Where(c => c.BoxModelLanguageID == boxModelLanguage.BoxModelLanguageID).Any())
@@ -186,44 +172,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<BoxModelLanguage> boxModelLanguageList)
-        {
-            foreach (BoxModelLanguage boxModelLanguage in boxModelLanguageList)
-            {
-                if (!db.BoxModelLanguages.Where(c => c.BoxModelLanguageID == boxModelLanguage.BoxModelLanguageID).Any())
-                {
-                    boxModelLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "BoxModelLanguage", "BoxModelLanguageID", boxModelLanguage.BoxModelLanguageID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.BoxModelLanguages.RemoveRange(boxModelLanguageList);
-
-            if (!TryToSaveRange(boxModelLanguageList)) return false;
-
-            return true;
-        }
         public bool Update(BoxModelLanguage boxModelLanguage)
         {
+            if (!db.BoxModelLanguages.Where(c => c.BoxModelLanguageID == boxModelLanguage.BoxModelLanguageID).Any())
+            {
+                boxModelLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "BoxModelLanguage", "BoxModelLanguageID", boxModelLanguage.BoxModelLanguageID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             boxModelLanguage.ValidationResults = Validate(new ValidationContext(boxModelLanguage), ActionDBTypeEnum.Update);
             if (boxModelLanguage.ValidationResults.Count() > 0) return false;
 
             db.BoxModelLanguages.Update(boxModelLanguage);
 
             if (!TryToSave(boxModelLanguage)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<BoxModelLanguage> boxModelLanguageList)
-        {
-            foreach (BoxModelLanguage boxModelLanguage in boxModelLanguageList)
-            {
-                boxModelLanguage.ValidationResults = Validate(new ValidationContext(boxModelLanguage), ActionDBTypeEnum.Update);
-                if (boxModelLanguage.ValidationResults.Count() > 0) return false;
-            }
-            db.BoxModelLanguages.UpdateRange(boxModelLanguageList);
-
-            if (!TryToSaveRange(boxModelLanguageList)) return false;
 
             return true;
         }
@@ -280,20 +242,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 boxModelLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<BoxModelLanguage> boxModelLanguageList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                boxModelLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

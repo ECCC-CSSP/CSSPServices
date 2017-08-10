@@ -1518,14 +1518,11 @@ namespace CSSPServicesGenerateCodeHelper
                 mapInfo.LastUpdateContactTVItemID = ContactTVItemID;
 
                 mapInfo.MapInfoID = 0;
-                dbTestDBWrite.MapInfos.Add(mapInfo);
-                try
+                MapInfoService mapInfoService = new MapInfoService(LanguageEnum.en, dbTestDBWrite, 2);
+                mapInfoService.Add(mapInfo);
+                if (mapInfo.ValidationResults.Count() > 0)
                 {
-                    dbTestDBWrite.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
+                    ErrorEvent(new ErrorEventArgs(mapInfo.ValidationResults.First().ErrorMessage));
                     return false;
                 }
 
@@ -1533,24 +1530,19 @@ namespace CSSPServicesGenerateCodeHelper
                                                        where c.MapInfoID == MapInfoID
                                                        select c).ToList();
 
+                MapInfoPointService mapInfoPointService = new MapInfoPointService(LanguageEnum.en, dbTestDBWrite, 2);
                 foreach (MapInfoPoint mapInfoPoint in mapInfoPointList)
                 {
                     mapInfoPoint.MapInfoPointID = 0;
                     mapInfoPoint.MapInfoID = mapInfo.MapInfoID;
                     mapInfoPoint.LastUpdateContactTVItemID = ContactTVItemID;
-                }
 
-                MapInfoPointService mapInfoPointService = new MapInfoPointService(LanguageEnum.en, dbTestDBWrite, 2);
-                if (!mapInfoPointService.AddRange(mapInfoPointList)) return false;
-
-                try
-                {
-                    dbTestDBWrite.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    ErrorEvent(new ErrorEventArgs(ex.Message + (ex.InnerException != null ? " Inner: [" + ex.InnerException.Message + "]" : "")));
-                    return false;
+                    mapInfoPointService.Add(mapInfoPoint);
+                    if (mapInfoPoint.ValidationResults.Count() > 0)
+                    {
+                        ErrorEvent(new ErrorEventArgs(mapInfoPoint.ValidationResults.First().ErrorMessage));
+                        return false;
+                    }
                 }
             }
             return true;

@@ -197,20 +197,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<Spill> spillList)
-        {
-            foreach (Spill spill in spillList)
-            {
-                spill.ValidationResults = Validate(new ValidationContext(spill), ActionDBTypeEnum.Create);
-                if (spill.ValidationResults.Count() > 0) return false;
-            }
-
-            db.Spills.AddRange(spillList);
-
-            if (!TryToSaveRange(spillList)) return false;
-
-            return true;
-        }
         public bool Delete(Spill spill)
         {
             if (!db.Spills.Where(c => c.SpillID == spill.SpillID).Any())
@@ -225,44 +211,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<Spill> spillList)
-        {
-            foreach (Spill spill in spillList)
-            {
-                if (!db.Spills.Where(c => c.SpillID == spill.SpillID).Any())
-                {
-                    spillList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Spill", "SpillID", spill.SpillID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.Spills.RemoveRange(spillList);
-
-            if (!TryToSaveRange(spillList)) return false;
-
-            return true;
-        }
         public bool Update(Spill spill)
         {
+            if (!db.Spills.Where(c => c.SpillID == spill.SpillID).Any())
+            {
+                spill.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Spill", "SpillID", spill.SpillID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             spill.ValidationResults = Validate(new ValidationContext(spill), ActionDBTypeEnum.Update);
             if (spill.ValidationResults.Count() > 0) return false;
 
             db.Spills.Update(spill);
 
             if (!TryToSave(spill)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<Spill> spillList)
-        {
-            foreach (Spill spill in spillList)
-            {
-                spill.ValidationResults = Validate(new ValidationContext(spill), ActionDBTypeEnum.Update);
-                if (spill.ValidationResults.Count() > 0) return false;
-            }
-            db.Spills.UpdateRange(spillList);
-
-            if (!TryToSaveRange(spillList)) return false;
 
             return true;
         }
@@ -322,20 +284,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 spill.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<Spill> spillList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                spillList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

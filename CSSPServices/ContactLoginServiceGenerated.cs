@@ -171,20 +171,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<ContactLogin> contactLoginList)
-        {
-            foreach (ContactLogin contactLogin in contactLoginList)
-            {
-                contactLogin.ValidationResults = Validate(new ValidationContext(contactLogin), ActionDBTypeEnum.Create);
-                if (contactLogin.ValidationResults.Count() > 0) return false;
-            }
-
-            db.ContactLogins.AddRange(contactLoginList);
-
-            if (!TryToSaveRange(contactLoginList)) return false;
-
-            return true;
-        }
         public bool Delete(ContactLogin contactLogin)
         {
             if (!db.ContactLogins.Where(c => c.ContactLoginID == contactLogin.ContactLoginID).Any())
@@ -199,44 +185,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<ContactLogin> contactLoginList)
-        {
-            foreach (ContactLogin contactLogin in contactLoginList)
-            {
-                if (!db.ContactLogins.Where(c => c.ContactLoginID == contactLogin.ContactLoginID).Any())
-                {
-                    contactLoginList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ContactLogin", "ContactLoginID", contactLogin.ContactLoginID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.ContactLogins.RemoveRange(contactLoginList);
-
-            if (!TryToSaveRange(contactLoginList)) return false;
-
-            return true;
-        }
         public bool Update(ContactLogin contactLogin)
         {
+            if (!db.ContactLogins.Where(c => c.ContactLoginID == contactLogin.ContactLoginID).Any())
+            {
+                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ContactLogin", "ContactLoginID", contactLogin.ContactLoginID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             contactLogin.ValidationResults = Validate(new ValidationContext(contactLogin), ActionDBTypeEnum.Update);
             if (contactLogin.ValidationResults.Count() > 0) return false;
 
             db.ContactLogins.Update(contactLogin);
 
             if (!TryToSave(contactLogin)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<ContactLogin> contactLoginList)
-        {
-            foreach (ContactLogin contactLogin in contactLoginList)
-            {
-                contactLogin.ValidationResults = Validate(new ValidationContext(contactLogin), ActionDBTypeEnum.Update);
-                if (contactLogin.ValidationResults.Count() > 0) return false;
-            }
-            db.ContactLogins.UpdateRange(contactLoginList);
-
-            if (!TryToSaveRange(contactLoginList)) return false;
 
             return true;
         }
@@ -285,20 +247,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<ContactLogin> contactLoginList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                contactLoginList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

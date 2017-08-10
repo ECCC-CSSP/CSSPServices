@@ -172,20 +172,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<Email> emailList)
-        {
-            foreach (Email email in emailList)
-            {
-                email.ValidationResults = Validate(new ValidationContext(email), ActionDBTypeEnum.Create);
-                if (email.ValidationResults.Count() > 0) return false;
-            }
-
-            db.Emails.AddRange(emailList);
-
-            if (!TryToSaveRange(emailList)) return false;
-
-            return true;
-        }
         public bool Delete(Email email)
         {
             if (!db.Emails.Where(c => c.EmailID == email.EmailID).Any())
@@ -200,44 +186,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<Email> emailList)
-        {
-            foreach (Email email in emailList)
-            {
-                if (!db.Emails.Where(c => c.EmailID == email.EmailID).Any())
-                {
-                    emailList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Email", "EmailID", email.EmailID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.Emails.RemoveRange(emailList);
-
-            if (!TryToSaveRange(emailList)) return false;
-
-            return true;
-        }
         public bool Update(Email email)
         {
+            if (!db.Emails.Where(c => c.EmailID == email.EmailID).Any())
+            {
+                email.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Email", "EmailID", email.EmailID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             email.ValidationResults = Validate(new ValidationContext(email), ActionDBTypeEnum.Update);
             if (email.ValidationResults.Count() > 0) return false;
 
             db.Emails.Update(email);
 
             if (!TryToSave(email)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<Email> emailList)
-        {
-            foreach (Email email in emailList)
-            {
-                email.ValidationResults = Validate(new ValidationContext(email), ActionDBTypeEnum.Update);
-                if (email.ValidationResults.Count() > 0) return false;
-            }
-            db.Emails.UpdateRange(emailList);
-
-            if (!TryToSaveRange(emailList)) return false;
 
             return true;
         }
@@ -297,20 +259,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 email.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<Email> emailList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                emailList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

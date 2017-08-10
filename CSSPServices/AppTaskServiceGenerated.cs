@@ -296,20 +296,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<AppTask> appTaskList)
-        {
-            foreach (AppTask appTask in appTaskList)
-            {
-                appTask.ValidationResults = Validate(new ValidationContext(appTask), ActionDBTypeEnum.Create);
-                if (appTask.ValidationResults.Count() > 0) return false;
-            }
-
-            db.AppTasks.AddRange(appTaskList);
-
-            if (!TryToSaveRange(appTaskList)) return false;
-
-            return true;
-        }
         public bool Delete(AppTask appTask)
         {
             if (!db.AppTasks.Where(c => c.AppTaskID == appTask.AppTaskID).Any())
@@ -324,44 +310,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<AppTask> appTaskList)
-        {
-            foreach (AppTask appTask in appTaskList)
-            {
-                if (!db.AppTasks.Where(c => c.AppTaskID == appTask.AppTaskID).Any())
-                {
-                    appTaskList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "AppTask", "AppTaskID", appTask.AppTaskID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.AppTasks.RemoveRange(appTaskList);
-
-            if (!TryToSaveRange(appTaskList)) return false;
-
-            return true;
-        }
         public bool Update(AppTask appTask)
         {
+            if (!db.AppTasks.Where(c => c.AppTaskID == appTask.AppTaskID).Any())
+            {
+                appTask.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "AppTask", "AppTaskID", appTask.AppTaskID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             appTask.ValidationResults = Validate(new ValidationContext(appTask), ActionDBTypeEnum.Update);
             if (appTask.ValidationResults.Count() > 0) return false;
 
             db.AppTasks.Update(appTask);
 
             if (!TryToSave(appTask)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<AppTask> appTaskList)
-        {
-            foreach (AppTask appTask in appTaskList)
-            {
-                appTask.ValidationResults = Validate(new ValidationContext(appTask), ActionDBTypeEnum.Update);
-                if (appTask.ValidationResults.Count() > 0) return false;
-            }
-            db.AppTasks.UpdateRange(appTaskList);
-
-            if (!TryToSaveRange(appTaskList)) return false;
 
             return true;
         }
@@ -436,20 +398,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 appTask.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<AppTask> appTaskList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                appTaskList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

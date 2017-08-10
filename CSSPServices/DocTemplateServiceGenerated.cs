@@ -169,20 +169,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<DocTemplate> docTemplateList)
-        {
-            foreach (DocTemplate docTemplate in docTemplateList)
-            {
-                docTemplate.ValidationResults = Validate(new ValidationContext(docTemplate), ActionDBTypeEnum.Create);
-                if (docTemplate.ValidationResults.Count() > 0) return false;
-            }
-
-            db.DocTemplates.AddRange(docTemplateList);
-
-            if (!TryToSaveRange(docTemplateList)) return false;
-
-            return true;
-        }
         public bool Delete(DocTemplate docTemplate)
         {
             if (!db.DocTemplates.Where(c => c.DocTemplateID == docTemplate.DocTemplateID).Any())
@@ -197,44 +183,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<DocTemplate> docTemplateList)
-        {
-            foreach (DocTemplate docTemplate in docTemplateList)
-            {
-                if (!db.DocTemplates.Where(c => c.DocTemplateID == docTemplate.DocTemplateID).Any())
-                {
-                    docTemplateList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "DocTemplate", "DocTemplateID", docTemplate.DocTemplateID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.DocTemplates.RemoveRange(docTemplateList);
-
-            if (!TryToSaveRange(docTemplateList)) return false;
-
-            return true;
-        }
         public bool Update(DocTemplate docTemplate)
         {
+            if (!db.DocTemplates.Where(c => c.DocTemplateID == docTemplate.DocTemplateID).Any())
+            {
+                docTemplate.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "DocTemplate", "DocTemplateID", docTemplate.DocTemplateID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             docTemplate.ValidationResults = Validate(new ValidationContext(docTemplate), ActionDBTypeEnum.Update);
             if (docTemplate.ValidationResults.Count() > 0) return false;
 
             db.DocTemplates.Update(docTemplate);
 
             if (!TryToSave(docTemplate)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<DocTemplate> docTemplateList)
-        {
-            foreach (DocTemplate docTemplate in docTemplateList)
-            {
-                docTemplate.ValidationResults = Validate(new ValidationContext(docTemplate), ActionDBTypeEnum.Update);
-                if (docTemplate.ValidationResults.Count() > 0) return false;
-            }
-            db.DocTemplates.UpdateRange(docTemplateList);
-
-            if (!TryToSaveRange(docTemplateList)) return false;
 
             return true;
         }
@@ -291,20 +253,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 docTemplate.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<DocTemplate> docTemplateList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                docTemplateList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

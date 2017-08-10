@@ -227,20 +227,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<MikeBoundaryCondition> mikeBoundaryConditionList)
-        {
-            foreach (MikeBoundaryCondition mikeBoundaryCondition in mikeBoundaryConditionList)
-            {
-                mikeBoundaryCondition.ValidationResults = Validate(new ValidationContext(mikeBoundaryCondition), ActionDBTypeEnum.Create);
-                if (mikeBoundaryCondition.ValidationResults.Count() > 0) return false;
-            }
-
-            db.MikeBoundaryConditions.AddRange(mikeBoundaryConditionList);
-
-            if (!TryToSaveRange(mikeBoundaryConditionList)) return false;
-
-            return true;
-        }
         public bool Delete(MikeBoundaryCondition mikeBoundaryCondition)
         {
             if (!db.MikeBoundaryConditions.Where(c => c.MikeBoundaryConditionID == mikeBoundaryCondition.MikeBoundaryConditionID).Any())
@@ -255,44 +241,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<MikeBoundaryCondition> mikeBoundaryConditionList)
-        {
-            foreach (MikeBoundaryCondition mikeBoundaryCondition in mikeBoundaryConditionList)
-            {
-                if (!db.MikeBoundaryConditions.Where(c => c.MikeBoundaryConditionID == mikeBoundaryCondition.MikeBoundaryConditionID).Any())
-                {
-                    mikeBoundaryConditionList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MikeBoundaryCondition", "MikeBoundaryConditionID", mikeBoundaryCondition.MikeBoundaryConditionID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.MikeBoundaryConditions.RemoveRange(mikeBoundaryConditionList);
-
-            if (!TryToSaveRange(mikeBoundaryConditionList)) return false;
-
-            return true;
-        }
         public bool Update(MikeBoundaryCondition mikeBoundaryCondition)
         {
+            if (!db.MikeBoundaryConditions.Where(c => c.MikeBoundaryConditionID == mikeBoundaryCondition.MikeBoundaryConditionID).Any())
+            {
+                mikeBoundaryCondition.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MikeBoundaryCondition", "MikeBoundaryConditionID", mikeBoundaryCondition.MikeBoundaryConditionID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             mikeBoundaryCondition.ValidationResults = Validate(new ValidationContext(mikeBoundaryCondition), ActionDBTypeEnum.Update);
             if (mikeBoundaryCondition.ValidationResults.Count() > 0) return false;
 
             db.MikeBoundaryConditions.Update(mikeBoundaryCondition);
 
             if (!TryToSave(mikeBoundaryCondition)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<MikeBoundaryCondition> mikeBoundaryConditionList)
-        {
-            foreach (MikeBoundaryCondition mikeBoundaryCondition in mikeBoundaryConditionList)
-            {
-                mikeBoundaryCondition.ValidationResults = Validate(new ValidationContext(mikeBoundaryCondition), ActionDBTypeEnum.Update);
-                if (mikeBoundaryCondition.ValidationResults.Count() > 0) return false;
-            }
-            db.MikeBoundaryConditions.UpdateRange(mikeBoundaryConditionList);
-
-            if (!TryToSaveRange(mikeBoundaryConditionList)) return false;
 
             return true;
         }
@@ -361,20 +323,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 mikeBoundaryCondition.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<MikeBoundaryCondition> mikeBoundaryConditionList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                mikeBoundaryConditionList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

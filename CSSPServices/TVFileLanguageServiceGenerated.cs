@@ -150,20 +150,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<TVFileLanguage> tvFileLanguageList)
-        {
-            foreach (TVFileLanguage tvFileLanguage in tvFileLanguageList)
-            {
-                tvFileLanguage.ValidationResults = Validate(new ValidationContext(tvFileLanguage), ActionDBTypeEnum.Create);
-                if (tvFileLanguage.ValidationResults.Count() > 0) return false;
-            }
-
-            db.TVFileLanguages.AddRange(tvFileLanguageList);
-
-            if (!TryToSaveRange(tvFileLanguageList)) return false;
-
-            return true;
-        }
         public bool Delete(TVFileLanguage tvFileLanguage)
         {
             if (!db.TVFileLanguages.Where(c => c.TVFileLanguageID == tvFileLanguage.TVFileLanguageID).Any())
@@ -178,44 +164,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<TVFileLanguage> tvFileLanguageList)
-        {
-            foreach (TVFileLanguage tvFileLanguage in tvFileLanguageList)
-            {
-                if (!db.TVFileLanguages.Where(c => c.TVFileLanguageID == tvFileLanguage.TVFileLanguageID).Any())
-                {
-                    tvFileLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVFileLanguage", "TVFileLanguageID", tvFileLanguage.TVFileLanguageID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.TVFileLanguages.RemoveRange(tvFileLanguageList);
-
-            if (!TryToSaveRange(tvFileLanguageList)) return false;
-
-            return true;
-        }
         public bool Update(TVFileLanguage tvFileLanguage)
         {
+            if (!db.TVFileLanguages.Where(c => c.TVFileLanguageID == tvFileLanguage.TVFileLanguageID).Any())
+            {
+                tvFileLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVFileLanguage", "TVFileLanguageID", tvFileLanguage.TVFileLanguageID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             tvFileLanguage.ValidationResults = Validate(new ValidationContext(tvFileLanguage), ActionDBTypeEnum.Update);
             if (tvFileLanguage.ValidationResults.Count() > 0) return false;
 
             db.TVFileLanguages.Update(tvFileLanguage);
 
             if (!TryToSave(tvFileLanguage)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<TVFileLanguage> tvFileLanguageList)
-        {
-            foreach (TVFileLanguage tvFileLanguage in tvFileLanguageList)
-            {
-                tvFileLanguage.ValidationResults = Validate(new ValidationContext(tvFileLanguage), ActionDBTypeEnum.Update);
-                if (tvFileLanguage.ValidationResults.Count() > 0) return false;
-            }
-            db.TVFileLanguages.UpdateRange(tvFileLanguageList);
-
-            if (!TryToSaveRange(tvFileLanguageList)) return false;
 
             return true;
         }
@@ -272,20 +234,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 tvFileLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<TVFileLanguage> tvFileLanguageList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                tvFileLanguageList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

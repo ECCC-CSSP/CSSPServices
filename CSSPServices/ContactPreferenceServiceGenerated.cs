@@ -144,20 +144,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<ContactPreference> contactPreferenceList)
-        {
-            foreach (ContactPreference contactPreference in contactPreferenceList)
-            {
-                contactPreference.ValidationResults = Validate(new ValidationContext(contactPreference), ActionDBTypeEnum.Create);
-                if (contactPreference.ValidationResults.Count() > 0) return false;
-            }
-
-            db.ContactPreferences.AddRange(contactPreferenceList);
-
-            if (!TryToSaveRange(contactPreferenceList)) return false;
-
-            return true;
-        }
         public bool Delete(ContactPreference contactPreference)
         {
             if (!db.ContactPreferences.Where(c => c.ContactPreferenceID == contactPreference.ContactPreferenceID).Any())
@@ -172,44 +158,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<ContactPreference> contactPreferenceList)
-        {
-            foreach (ContactPreference contactPreference in contactPreferenceList)
-            {
-                if (!db.ContactPreferences.Where(c => c.ContactPreferenceID == contactPreference.ContactPreferenceID).Any())
-                {
-                    contactPreferenceList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ContactPreference", "ContactPreferenceID", contactPreference.ContactPreferenceID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.ContactPreferences.RemoveRange(contactPreferenceList);
-
-            if (!TryToSaveRange(contactPreferenceList)) return false;
-
-            return true;
-        }
         public bool Update(ContactPreference contactPreference)
         {
+            if (!db.ContactPreferences.Where(c => c.ContactPreferenceID == contactPreference.ContactPreferenceID).Any())
+            {
+                contactPreference.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ContactPreference", "ContactPreferenceID", contactPreference.ContactPreferenceID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             contactPreference.ValidationResults = Validate(new ValidationContext(contactPreference), ActionDBTypeEnum.Update);
             if (contactPreference.ValidationResults.Count() > 0) return false;
 
             db.ContactPreferences.Update(contactPreference);
 
             if (!TryToSave(contactPreference)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<ContactPreference> contactPreferenceList)
-        {
-            foreach (ContactPreference contactPreference in contactPreferenceList)
-            {
-                contactPreference.ValidationResults = Validate(new ValidationContext(contactPreference), ActionDBTypeEnum.Update);
-                if (contactPreference.ValidationResults.Count() > 0) return false;
-            }
-            db.ContactPreferences.UpdateRange(contactPreferenceList);
-
-            if (!TryToSaveRange(contactPreferenceList)) return false;
 
             return true;
         }
@@ -264,20 +226,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 contactPreference.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<ContactPreference> contactPreferenceList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                contactPreferenceList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 

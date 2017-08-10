@@ -165,20 +165,6 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"");
             sb.AppendLine(@"            return true;");
             sb.AppendLine(@"        }");
-            sb.AppendLine(@"        private bool TryToSaveRange(List<" + TypeName + @"> " + TypeNameLower + @"List)");
-            sb.AppendLine(@"        {");
-            sb.AppendLine(@"            try");
-            sb.AppendLine(@"            {");
-            sb.AppendLine(@"                db.SaveChanges();");
-            sb.AppendLine(@"            }");
-            sb.AppendLine(@"            catch (DbUpdateException ex)");
-            sb.AppendLine(@"            {");
-            sb.AppendLine(@"                " + TypeNameLower + @"List[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? "" Inner: "" + ex.InnerException.Message : """")) }.AsEnumerable();");
-            sb.AppendLine(@"                return false;");
-            sb.AppendLine(@"            }");
-            sb.AppendLine(@"");
-            sb.AppendLine(@"            return true;");
-            sb.AppendLine(@"        }");
             sb.AppendLine(@"        #endregion Functions private Generated");
             sb.AppendLine(@"");
         }
@@ -218,53 +204,13 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"");
             sb.AppendLine(@"            return true;");
             sb.AppendLine(@"        }");
-            sb.AppendLine(@"        public bool AddRange(List<" + TypeName + @"> " + TypeNameLower + @"List)");
-            sb.AppendLine(@"        {");
-            sb.AppendLine(@"            foreach (" + TypeName + @" " + TypeNameLower + @" in " + TypeNameLower + @"List)");
-            sb.AppendLine(@"            {");
-            if (TypeName == "Contact")
-            {
-                sb.AppendLine(@"                " + TypeNameLower + @".ValidationResults = Validate(new ValidationContext(" + TypeNameLower + @"), ActionDBTypeEnum.Create, ContactService.AddContactType.LoggedIn);");
-            }
-            else
-            {
-                sb.AppendLine(@"                " + TypeNameLower + @".ValidationResults = Validate(new ValidationContext(" + TypeNameLower + @"), ActionDBTypeEnum.Create);");
-            }
-            sb.AppendLine(@"                if (" + TypeNameLower + @".ValidationResults.Count() > 0) return false;");
-            sb.AppendLine(@"            }");
-            sb.AppendLine(@"");
-            sb.AppendLine(@"            db." + TypeName + Plurial + @".AddRange(" + TypeNameLower + @"List);");
-            sb.AppendLine(@"");
-            sb.AppendLine(@"            if (!TryToSaveRange(" + TypeNameLower + @"List)) return false;");
-            sb.AppendLine(@"");
-            sb.AppendLine(@"            return true;");
-            sb.AppendLine(@"        }");
             sb.AppendLine(@"        public bool Delete(" + TypeName + @" " + TypeNameLower + @")");
             sb.AppendLine(@"        {");
-            if (TypeName == "AspNetRole" || TypeName == "AspNetUserClaim" || TypeName == "AspNetUser")
-            {
-                sb.AppendLine(@"            if (!db." + TypeName + Plurial + @".Where(c => c.Id == " + TypeNameLower + @".Id).Any())");
-                sb.AppendLine(@"            {");
-                sb.AppendLine(@"                " + TypeNameLower + @".ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, """ + TypeName + @""", ""Id"", " + TypeNameLower + @".Id.ToString())) }.AsEnumerable();");
-                sb.AppendLine(@"                return false;");
-                sb.AppendLine(@"            }");
-            }
-            else if (TypeName == "AspNetUserLogin" || TypeName == "AspNetUserRole")
-            {
-                sb.AppendLine(@"            if (!db." + TypeName + Plurial + @".Where(c => c.UserId == " + TypeNameLower + @".UserId).Any())");
-                sb.AppendLine(@"            {");
-                sb.AppendLine(@"                " + TypeNameLower + @".ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, """ + TypeName + @""", ""UserId"", " + TypeNameLower + @".UserId.ToString())) }.AsEnumerable();");
-                sb.AppendLine(@"                return false;");
-                sb.AppendLine(@"            }");
-            }
-            else
-            {
-                sb.AppendLine(@"            if (!db." + TypeName + Plurial + @".Where(c => c." + TypeName + @"ID == " + TypeNameLower + @"." + TypeName + @"ID).Any())");
-                sb.AppendLine(@"            {");
-                sb.AppendLine(@"                " + TypeNameLower + @".ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, """ + TypeName + @""", """ + TypeName + @"ID"", " + TypeNameLower + @"." + TypeName + @"ID.ToString())) }.AsEnumerable();");
-                sb.AppendLine(@"                return false;");
-                sb.AppendLine(@"            }");
-            }
+            sb.AppendLine(@"            if (!db." + TypeName + Plurial + @".Where(c => c." + TypeName + @"ID == " + TypeNameLower + @"." + TypeName + @"ID).Any())");
+            sb.AppendLine(@"            {");
+            sb.AppendLine(@"                " + TypeNameLower + @".ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, """ + TypeName + @""", """ + TypeName + @"ID"", " + TypeNameLower + @"." + TypeName + @"ID.ToString())) }.AsEnumerable();");
+            sb.AppendLine(@"                return false;");
+            sb.AppendLine(@"            }");
             sb.AppendLine(@"");
             sb.AppendLine(@"            db." + TypeName + Plurial + @".Remove(" + TypeNameLower + @");");
             sb.AppendLine(@"");
@@ -272,44 +218,14 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"");
             sb.AppendLine(@"            return true;");
             sb.AppendLine(@"        }");
-            sb.AppendLine(@"        public bool DeleteRange(List<" + TypeName + @"> " + TypeNameLower + @"List)");
-            sb.AppendLine(@"        {");
-            sb.AppendLine(@"            foreach (" + TypeName + @" " + TypeNameLower + @" in " + TypeNameLower + @"List)");
-            sb.AppendLine(@"            {");
-            if (TypeName == "AspNetRole" || TypeName == "AspNetUserClaim" || TypeName == "AspNetUser")
-            {
-                sb.AppendLine(@"                if (!db." + TypeName + Plurial + @".Where(c => c.Id == " + TypeNameLower + @".Id).Any())");
-                sb.AppendLine(@"                {");
-                sb.AppendLine(@"                    " + TypeNameLower + @"List[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, """ + TypeName + @""", ""Id"", " + TypeNameLower + @".Id.ToString())) }.AsEnumerable();");
-                sb.AppendLine(@"                    return false;");
-                sb.AppendLine(@"                }");
-            }
-            else if (TypeName == "AspNetUserLogin" || TypeName == "AspNetUserRole")
-            {
-                sb.AppendLine(@"                if (!db." + TypeName + Plurial + @".Where(c => c.UserId == " + TypeNameLower + @".UserId).Any())");
-                sb.AppendLine(@"                {");
-                sb.AppendLine(@"                    " + TypeNameLower + @"List[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, """ + TypeName + @""", ""UserId"", " + TypeNameLower + @".UserId.ToString())) }.AsEnumerable();");
-                sb.AppendLine(@"                    return false;");
-                sb.AppendLine(@"                }");
-            }
-            else
-            {
-                sb.AppendLine(@"                if (!db." + TypeName + Plurial + @".Where(c => c." + TypeName + @"ID == " + TypeNameLower + @"." + TypeName + @"ID).Any())");
-                sb.AppendLine(@"                {");
-                sb.AppendLine(@"                    " + TypeNameLower + @"List[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, """ + TypeName + @""", """ + TypeName + @"ID"", " + TypeNameLower + @"." + TypeName + @"ID.ToString())) }.AsEnumerable();");
-                sb.AppendLine(@"                    return false;");
-                sb.AppendLine(@"                }");
-            }
-            sb.AppendLine(@"            }");
-            sb.AppendLine(@"");
-            sb.AppendLine(@"            db." + TypeName + Plurial + @".RemoveRange(" + TypeNameLower + @"List);");
-            sb.AppendLine(@"");
-            sb.AppendLine(@"            if (!TryToSaveRange(" + TypeNameLower + @"List)) return false;");
-            sb.AppendLine(@"");
-            sb.AppendLine(@"            return true;");
-            sb.AppendLine(@"        }");
             sb.AppendLine(@"        public bool Update(" + TypeName + @" " + TypeNameLower + @")");
             sb.AppendLine(@"        {");
+            sb.AppendLine(@"            if (!db." + TypeName + Plurial + @".Where(c => c." + TypeName + @"ID == " + TypeNameLower + @"." + TypeName + @"ID).Any())");
+            sb.AppendLine(@"            {");
+            sb.AppendLine(@"                " + TypeNameLower + @".ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, """ + TypeName + @""", """ + TypeName + @"ID"", " + TypeNameLower + @"." + TypeName + @"ID.ToString())) }.AsEnumerable();");
+            sb.AppendLine(@"                return false;");
+            sb.AppendLine(@"            }");
+            sb.AppendLine(@"");
             if (TypeName == "Contact")
             {
                 sb.AppendLine(@"            " + TypeNameLower + @".ValidationResults = Validate(new ValidationContext(" + TypeNameLower + @"), ActionDBTypeEnum.Update, ContactService.AddContactType.LoggedIn);");
@@ -323,26 +239,6 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"            db." + TypeName + Plurial + @".Update(" + TypeNameLower + @");");
             sb.AppendLine(@"");
             sb.AppendLine(@"            if (!TryToSave(" + TypeNameLower + @")) return false;");
-            sb.AppendLine(@"");
-            sb.AppendLine(@"            return true;");
-            sb.AppendLine(@"        }");
-            sb.AppendLine(@"        public bool UpdateRange(List<" + TypeName + @"> " + TypeNameLower + @"List)");
-            sb.AppendLine(@"        {");
-            sb.AppendLine(@"            foreach (" + TypeName + @" " + TypeNameLower + @" in " + TypeNameLower + @"List)");
-            sb.AppendLine(@"            {");
-            if (TypeName == "Contact")
-            {
-                sb.AppendLine(@"                " + TypeNameLower + @".ValidationResults = Validate(new ValidationContext(" + TypeNameLower + @"), ActionDBTypeEnum.Update, ContactService.AddContactType.LoggedIn);");
-            }
-            else
-            {
-                sb.AppendLine(@"                " + TypeNameLower + @".ValidationResults = Validate(new ValidationContext(" + TypeNameLower + @"), ActionDBTypeEnum.Update);");
-            }
-            sb.AppendLine(@"                if (" + TypeNameLower + @".ValidationResults.Count() > 0) return false;");
-            sb.AppendLine(@"            }");
-            sb.AppendLine(@"            db." + TypeName + Plurial + @".UpdateRange(" + TypeNameLower + @"List);");
-            sb.AppendLine(@"");
-            sb.AppendLine(@"            if (!TryToSaveRange(" + TypeNameLower + @"List)) return false;");
             sb.AppendLine(@"");
             sb.AppendLine(@"            return true;");
             sb.AppendLine(@"        }");
@@ -404,15 +300,6 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Year + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
                     sb.AppendLine(@"            }");
                     sb.AppendLine(@"");
-                }
-                else
-                {
-                    // already taken care of in the CreateValidation_NotNullable function
-                    //sb.AppendLine(@"            if (" + TypeNameLower + "." + csspProp.PropName + ".Year < " + csspProp.Year + ")");
-                    //sb.AppendLine(@"            {");
-                    //sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Year + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
-                    //sb.AppendLine(@"            }");
-                    //sb.AppendLine(@"");
                 }
             }
         }

@@ -211,20 +211,6 @@ namespace CSSPServices
 
             return true;
         }
-        public bool AddRange(List<MikeSourceStartEnd> mikeSourceStartEndList)
-        {
-            foreach (MikeSourceStartEnd mikeSourceStartEnd in mikeSourceStartEndList)
-            {
-                mikeSourceStartEnd.ValidationResults = Validate(new ValidationContext(mikeSourceStartEnd), ActionDBTypeEnum.Create);
-                if (mikeSourceStartEnd.ValidationResults.Count() > 0) return false;
-            }
-
-            db.MikeSourceStartEnds.AddRange(mikeSourceStartEndList);
-
-            if (!TryToSaveRange(mikeSourceStartEndList)) return false;
-
-            return true;
-        }
         public bool Delete(MikeSourceStartEnd mikeSourceStartEnd)
         {
             if (!db.MikeSourceStartEnds.Where(c => c.MikeSourceStartEndID == mikeSourceStartEnd.MikeSourceStartEndID).Any())
@@ -239,44 +225,20 @@ namespace CSSPServices
 
             return true;
         }
-        public bool DeleteRange(List<MikeSourceStartEnd> mikeSourceStartEndList)
-        {
-            foreach (MikeSourceStartEnd mikeSourceStartEnd in mikeSourceStartEndList)
-            {
-                if (!db.MikeSourceStartEnds.Where(c => c.MikeSourceStartEndID == mikeSourceStartEnd.MikeSourceStartEndID).Any())
-                {
-                    mikeSourceStartEndList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MikeSourceStartEnd", "MikeSourceStartEndID", mikeSourceStartEnd.MikeSourceStartEndID.ToString())) }.AsEnumerable();
-                    return false;
-                }
-            }
-
-            db.MikeSourceStartEnds.RemoveRange(mikeSourceStartEndList);
-
-            if (!TryToSaveRange(mikeSourceStartEndList)) return false;
-
-            return true;
-        }
         public bool Update(MikeSourceStartEnd mikeSourceStartEnd)
         {
+            if (!db.MikeSourceStartEnds.Where(c => c.MikeSourceStartEndID == mikeSourceStartEnd.MikeSourceStartEndID).Any())
+            {
+                mikeSourceStartEnd.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MikeSourceStartEnd", "MikeSourceStartEndID", mikeSourceStartEnd.MikeSourceStartEndID.ToString())) }.AsEnumerable();
+                return false;
+            }
+
             mikeSourceStartEnd.ValidationResults = Validate(new ValidationContext(mikeSourceStartEnd), ActionDBTypeEnum.Update);
             if (mikeSourceStartEnd.ValidationResults.Count() > 0) return false;
 
             db.MikeSourceStartEnds.Update(mikeSourceStartEnd);
 
             if (!TryToSave(mikeSourceStartEnd)) return false;
-
-            return true;
-        }
-        public bool UpdateRange(List<MikeSourceStartEnd> mikeSourceStartEndList)
-        {
-            foreach (MikeSourceStartEnd mikeSourceStartEnd in mikeSourceStartEndList)
-            {
-                mikeSourceStartEnd.ValidationResults = Validate(new ValidationContext(mikeSourceStartEnd), ActionDBTypeEnum.Update);
-                if (mikeSourceStartEnd.ValidationResults.Count() > 0) return false;
-            }
-            db.MikeSourceStartEnds.UpdateRange(mikeSourceStartEndList);
-
-            if (!TryToSaveRange(mikeSourceStartEndList)) return false;
 
             return true;
         }
@@ -332,20 +294,6 @@ namespace CSSPServices
             catch (DbUpdateException ex)
             {
                 mikeSourceStartEnd.ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
-                return false;
-            }
-
-            return true;
-        }
-        private bool TryToSaveRange(List<MikeSourceStartEnd> mikeSourceStartEndList)
-        {
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                mikeSourceStartEndList[0].ValidationResults = new List<ValidationResult>() { new ValidationResult(ex.Message + (ex.InnerException != null ? " Inner: " + ex.InnerException.Message : "")) }.AsEnumerable();
                 return false;
             }
 
