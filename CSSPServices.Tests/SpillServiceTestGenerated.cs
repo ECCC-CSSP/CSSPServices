@@ -50,6 +50,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MunicipalityTVText") spill.MunicipalityTVText = GetRandomString("", 5);
             if (OmitPropName != "InfrastructureTVText") spill.InfrastructureTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") spill.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") spill.HasErrors = true;
 
             return spill;
         }
@@ -81,20 +82,22 @@ namespace CSSPServices.Tests
 
                 count = spillService.GetRead().Count();
 
+                Assert.AreEqual(spillService.GetRead().Count(), spillService.GetEdit().Count());
+
                 spillService.Add(spill);
-                if (spill.ValidationResults.Count() > 0)
+                if (spill.HasErrors)
                 {
                     Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, spillService.GetRead().Where(c => c == spill).Any());
                 spillService.Update(spill);
-                if (spill.ValidationResults.Count() > 0)
+                if (spill.HasErrors)
                 {
                     Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, spillService.GetRead().Count());
                 spillService.Delete(spill);
-                if (spill.ValidationResults.Count() > 0)
+                if (spill.HasErrors)
                 {
                     Assert.AreEqual("", spill.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -118,6 +121,12 @@ namespace CSSPServices.Tests
                 spill.SpillID = 0;
                 spillService.Update(spill);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SpillSpillID), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                spill = null;
+                spill = GetFilledRandomSpill("");
+                spill.SpillID = 10000000;
+                spillService.Update(spill);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Spill, ModelsRes.SpillSpillID, spill.SpillID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -268,6 +277,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // spill.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // spill.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -312,6 +328,7 @@ namespace CSSPServices.Tests
                 }
                 Assert.IsNotNull(spillRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(spillRet.LastUpdateContactTVText));
+                Assert.IsNotNull(spillRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

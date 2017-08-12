@@ -102,6 +102,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "DisinfectionTypeText") infrastructure.DisinfectionTypeText = GetRandomString("", 5);
             if (OmitPropName != "CollectionSystemTypeText") infrastructure.CollectionSystemTypeText = GetRandomString("", 5);
             if (OmitPropName != "AlarmSystemTypeText") infrastructure.AlarmSystemTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") infrastructure.HasErrors = true;
 
             return infrastructure;
         }
@@ -133,20 +134,22 @@ namespace CSSPServices.Tests
 
                 count = infrastructureService.GetRead().Count();
 
+                Assert.AreEqual(infrastructureService.GetRead().Count(), infrastructureService.GetEdit().Count());
+
                 infrastructureService.Add(infrastructure);
-                if (infrastructure.ValidationResults.Count() > 0)
+                if (infrastructure.HasErrors)
                 {
                     Assert.AreEqual("", infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, infrastructureService.GetRead().Where(c => c == infrastructure).Any());
                 infrastructureService.Update(infrastructure);
-                if (infrastructure.ValidationResults.Count() > 0)
+                if (infrastructure.HasErrors)
                 {
                     Assert.AreEqual("", infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, infrastructureService.GetRead().Count());
                 infrastructureService.Delete(infrastructure);
-                if (infrastructure.ValidationResults.Count() > 0)
+                if (infrastructure.HasErrors)
                 {
                     Assert.AreEqual("", infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -170,6 +173,12 @@ namespace CSSPServices.Tests
                 infrastructure.InfrastructureID = 0;
                 infrastructureService.Update(infrastructure);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureInfrastructureID), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                infrastructure = null;
+                infrastructure = GetFilledRandomInfrastructure("");
+                infrastructure.InfrastructureID = 10000000;
+                infrastructureService.Update(infrastructure);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Infrastructure, ModelsRes.InfrastructureInfrastructureID, infrastructure.InfrastructureID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -1195,6 +1204,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // infrastructure.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // infrastructure.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -1434,6 +1450,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.CollectionSystemTypeText));
                 Assert.IsNotNull(infrastructureRet.AlarmSystemTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureRet.AlarmSystemTypeText));
+                Assert.IsNotNull(infrastructureRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

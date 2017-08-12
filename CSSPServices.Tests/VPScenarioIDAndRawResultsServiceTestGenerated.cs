@@ -42,6 +42,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "VPScenarioID") vpScenarioIDAndRawResults.VPScenarioID = GetRandomInt(1, 11);
             if (OmitPropName != "RawResults") vpScenarioIDAndRawResults.RawResults = GetRandomString("", 20);
+            if (OmitPropName != "HasErrors") vpScenarioIDAndRawResults.HasErrors = true;
 
             return vpScenarioIDAndRawResults;
         }

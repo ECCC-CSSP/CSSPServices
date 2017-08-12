@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             Log log = validationContext.ObjectInstance as Log;
+            log.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (log.LogID == 0)
                 {
+                    log.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LogLogID), new[] { "LogID" });
+                }
+
+                if (!GetRead().Where(c => c.LogID == log.LogID).Any())
+                {
+                    log.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Log, ModelsRes.LogLogID, log.LogID.ToString()), new[] { "LogID" });
                 }
             }
 
@@ -50,11 +58,13 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(log.TableName))
             {
+                log.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LogTableName), new[] { "TableName" });
             }
 
             if (!string.IsNullOrWhiteSpace(log.TableName) && log.TableName.Length > 50)
             {
+                log.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogTableName, "50"), new[] { "TableName" });
             }
 
@@ -62,17 +72,20 @@ namespace CSSPServices
 
             if (log.ID < 1)
             {
+                log.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LogID, "1"), new[] { "ID" });
             }
 
             retStr = enums.LogCommandOK(log.LogCommand);
             if (log.LogCommand == LogCommandEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                log.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LogLogCommand), new[] { "LogCommand" });
             }
 
             if (string.IsNullOrWhiteSpace(log.Information))
             {
+                log.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LogInformation), new[] { "Information" });
             }
 
@@ -80,12 +93,14 @@ namespace CSSPServices
 
             if (log.LastUpdateDate_UTC.Year == 1)
             {
+                log.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LogLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (log.LastUpdateDate_UTC.Year < 1980)
                 {
+                log.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LogLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -96,6 +111,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                log.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LogLastUpdateContactTVItemID, log.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -106,23 +122,29 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    log.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LogLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(log.LastUpdateContactTVText) && log.LastUpdateContactTVText.Length > 200)
             {
+                log.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(log.LogCommandText) && log.LogCommandText.Length > 100)
             {
+                log.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogLogCommandText, "100"), new[] { "LogCommandText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                log.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -154,11 +176,8 @@ namespace CSSPServices
         }
         public bool Delete(Log log)
         {
-            if (!db.Logs.Where(c => c.LogID == log.LogID).Any())
-            {
-                log.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Log", "LogID", log.LogID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            log.ValidationResults = Validate(new ValidationContext(log), ActionDBTypeEnum.Delete);
+            if (log.ValidationResults.Count() > 0) return false;
 
             db.Logs.Remove(log);
 
@@ -168,12 +187,6 @@ namespace CSSPServices
         }
         public bool Update(Log log)
         {
-            if (!db.Logs.Where(c => c.LogID == log.LogID).Any())
-            {
-                log.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Log", "LogID", log.LogID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             log.ValidationResults = Validate(new ValidationContext(log), ActionDBTypeEnum.Update);
             if (log.ValidationResults.Count() > 0) return false;
 

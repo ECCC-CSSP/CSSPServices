@@ -37,9 +37,11 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             LabSheetA1Measurement labSheetA1Measurement = validationContext.ObjectInstance as LabSheetA1Measurement;
+            labSheetA1Measurement.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(labSheetA1Measurement.Site))
             {
+                labSheetA1Measurement.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementSite), new[] { "Site" });
             }
 
@@ -49,6 +51,7 @@ namespace CSSPServices
 
             if (labSheetA1Measurement.TVItemID < 1)
             {
+                labSheetA1Measurement.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetA1MeasurementTVItemID, "1"), new[] { "TVItemID" });
             }
 
@@ -68,6 +71,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Measurement.ProcessedBy))
             {
+                labSheetA1Measurement.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementProcessedBy), new[] { "ProcessedBy" });
             }
 
@@ -78,12 +82,14 @@ namespace CSSPServices
                 retStr = enums.SampleTypeOK(labSheetA1Measurement.SampleType);
                 if (labSheetA1Measurement.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
+                    labSheetA1Measurement.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementSampleType), new[] { "SampleType" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(labSheetA1Measurement.SiteComment))
             {
+                labSheetA1Measurement.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementSiteComment), new[] { "SiteComment" });
             }
 
@@ -91,12 +97,16 @@ namespace CSSPServices
 
             if (!string.IsNullOrWhiteSpace(labSheetA1Measurement.SampleTypeText) && labSheetA1Measurement.SampleTypeText.Length > 100)
             {
+                labSheetA1Measurement.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetA1MeasurementSampleTypeText, "100"), new[] { "SampleTypeText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                labSheetA1Measurement.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

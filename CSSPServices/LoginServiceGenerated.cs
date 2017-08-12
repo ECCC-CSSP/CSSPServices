@@ -37,40 +37,50 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             Login login = validationContext.ObjectInstance as Login;
+            login.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(login.LoginEmail))
             {
+                login.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LoginLoginEmail), new[] { "LoginEmail" });
             }
 
             if (!string.IsNullOrWhiteSpace(login.LoginEmail) && (login.LoginEmail.Length < 6 || login.LoginEmail.Length > 200))
             {
+                login.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LoginLoginEmail, "6", "200"), new[] { "LoginEmail" });
             }
 
             if (string.IsNullOrWhiteSpace(login.Password))
             {
+                login.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LoginPassword), new[] { "Password" });
             }
 
             if (!string.IsNullOrWhiteSpace(login.Password) && (login.Password.Length < 6 || login.Password.Length > 100))
             {
+                login.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LoginPassword, "6", "100"), new[] { "Password" });
             }
 
             if (string.IsNullOrWhiteSpace(login.ConfirmPassword))
             {
+                login.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LoginConfirmPassword), new[] { "ConfirmPassword" });
             }
 
             if (!string.IsNullOrWhiteSpace(login.ConfirmPassword) && (login.ConfirmPassword.Length < 6 || login.ConfirmPassword.Length > 100))
             {
+                login.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LoginConfirmPassword, "6", "100"), new[] { "ConfirmPassword" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                login.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             MWQMSiteStartEndDate mwqmSiteStartEndDate = validationContext.ObjectInstance as MWQMSiteStartEndDate;
+            mwqmSiteStartEndDate.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (mwqmSiteStartEndDate.MWQMSiteStartEndDateID == 0)
                 {
+                    mwqmSiteStartEndDate.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteStartEndDateMWQMSiteStartEndDateID), new[] { "MWQMSiteStartEndDateID" });
+                }
+
+                if (!GetRead().Where(c => c.MWQMSiteStartEndDateID == mwqmSiteStartEndDate.MWQMSiteStartEndDateID).Any())
+                {
+                    mwqmSiteStartEndDate.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSiteStartEndDate, ModelsRes.MWQMSiteStartEndDateMWQMSiteStartEndDateID, mwqmSiteStartEndDate.MWQMSiteStartEndDateID.ToString()), new[] { "MWQMSiteStartEndDateID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (TVItemMWQMSiteTVItemID == null)
             {
+                mwqmSiteStartEndDate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID, mwqmSiteStartEndDate.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
             }
             else
@@ -64,40 +73,47 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemMWQMSiteTVItemID.TVType))
                 {
+                    mwqmSiteStartEndDate.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID, "MWQMSite"), new[] { "MWQMSiteTVItemID" });
                 }
             }
 
             if (mwqmSiteStartEndDate.StartDate.Year == 1)
             {
+                mwqmSiteStartEndDate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteStartEndDateStartDate), new[] { "StartDate" });
             }
             else
             {
                 if (mwqmSiteStartEndDate.StartDate.Year < 1980)
                 {
+                mwqmSiteStartEndDate.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSiteStartEndDateStartDate, "1980"), new[] { "StartDate" });
                 }
             }
 
             if (mwqmSiteStartEndDate.EndDate != null && ((DateTime)mwqmSiteStartEndDate.EndDate).Year < 1980)
             {
+                mwqmSiteStartEndDate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSiteStartEndDateEndDate, "1980"), new[] { ModelsRes.MWQMSiteStartEndDateEndDate });
             }
 
             if (mwqmSiteStartEndDate.StartDate > mwqmSiteStartEndDate.EndDate)
             {
+                mwqmSiteStartEndDate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.MWQMSiteStartEndDateEndDate, ModelsRes.MWQMSiteStartEndDateStartDate), new[] { ModelsRes.MWQMSiteStartEndDateEndDate });
             }
 
             if (mwqmSiteStartEndDate.LastUpdateDate_UTC.Year == 1)
             {
+                mwqmSiteStartEndDate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteStartEndDateLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mwqmSiteStartEndDate.LastUpdateDate_UTC.Year < 1980)
                 {
+                mwqmSiteStartEndDate.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSiteStartEndDateLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -108,6 +124,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                mwqmSiteStartEndDate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, mwqmSiteStartEndDate.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -118,23 +135,29 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    mwqmSiteStartEndDate.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSiteStartEndDate.MWQMSiteTVText) && mwqmSiteStartEndDate.MWQMSiteTVText.Length > 200)
             {
+                mwqmSiteStartEndDate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteStartEndDateMWQMSiteTVText, "200"), new[] { "MWQMSiteTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSiteStartEndDate.LastUpdateContactTVText) && mwqmSiteStartEndDate.LastUpdateContactTVText.Length > 200)
             {
+                mwqmSiteStartEndDate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                mwqmSiteStartEndDate.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -166,11 +189,8 @@ namespace CSSPServices
         }
         public bool Delete(MWQMSiteStartEndDate mwqmSiteStartEndDate)
         {
-            if (!db.MWQMSiteStartEndDates.Where(c => c.MWQMSiteStartEndDateID == mwqmSiteStartEndDate.MWQMSiteStartEndDateID).Any())
-            {
-                mwqmSiteStartEndDate.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMSiteStartEndDate", "MWQMSiteStartEndDateID", mwqmSiteStartEndDate.MWQMSiteStartEndDateID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            mwqmSiteStartEndDate.ValidationResults = Validate(new ValidationContext(mwqmSiteStartEndDate), ActionDBTypeEnum.Delete);
+            if (mwqmSiteStartEndDate.ValidationResults.Count() > 0) return false;
 
             db.MWQMSiteStartEndDates.Remove(mwqmSiteStartEndDate);
 
@@ -180,12 +200,6 @@ namespace CSSPServices
         }
         public bool Update(MWQMSiteStartEndDate mwqmSiteStartEndDate)
         {
-            if (!db.MWQMSiteStartEndDates.Where(c => c.MWQMSiteStartEndDateID == mwqmSiteStartEndDate.MWQMSiteStartEndDateID).Any())
-            {
-                mwqmSiteStartEndDate.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMSiteStartEndDate", "MWQMSiteStartEndDateID", mwqmSiteStartEndDate.MWQMSiteStartEndDateID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             mwqmSiteStartEndDate.ValidationResults = Validate(new ValidationContext(mwqmSiteStartEndDate), ActionDBTypeEnum.Update);
             if (mwqmSiteStartEndDate.ValidationResults.Count() > 0) return false;
 

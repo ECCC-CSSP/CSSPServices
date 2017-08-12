@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             BoxModelLanguage boxModelLanguage = validationContext.ObjectInstance as BoxModelLanguage;
+            boxModelLanguage.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (boxModelLanguage.BoxModelLanguageID == 0)
                 {
+                    boxModelLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLanguageBoxModelLanguageID), new[] { "BoxModelLanguageID" });
+                }
+
+                if (!GetRead().Where(c => c.BoxModelLanguageID == boxModelLanguage.BoxModelLanguageID).Any())
+                {
+                    boxModelLanguage.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModelLanguage, ModelsRes.BoxModelLanguageBoxModelLanguageID, boxModelLanguage.BoxModelLanguageID.ToString()), new[] { "BoxModelLanguageID" });
                 }
             }
 
@@ -54,39 +62,46 @@ namespace CSSPServices
 
             if (BoxModelBoxModelID == null)
             {
+                boxModelLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModel, ModelsRes.BoxModelLanguageBoxModelID, boxModelLanguage.BoxModelID.ToString()), new[] { "BoxModelID" });
             }
 
             retStr = enums.LanguageOK(boxModelLanguage.Language);
             if (boxModelLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                boxModelLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLanguageLanguage), new[] { "Language" });
             }
 
             if (string.IsNullOrWhiteSpace(boxModelLanguage.ScenarioName))
             {
+                boxModelLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLanguageScenarioName), new[] { "ScenarioName" });
             }
 
             if (!string.IsNullOrWhiteSpace(boxModelLanguage.ScenarioName) && boxModelLanguage.ScenarioName.Length > 250)
             {
+                boxModelLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLanguageScenarioName, "250"), new[] { "ScenarioName" });
             }
 
             retStr = enums.TranslationStatusOK(boxModelLanguage.TranslationStatus);
             if (boxModelLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                boxModelLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLanguageTranslationStatus), new[] { "TranslationStatus" });
             }
 
             if (boxModelLanguage.LastUpdateDate_UTC.Year == 1)
             {
+                boxModelLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLanguageLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (boxModelLanguage.LastUpdateDate_UTC.Year < 1980)
                 {
+                boxModelLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.BoxModelLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -97,6 +112,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                boxModelLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelLanguageLastUpdateContactTVItemID, boxModelLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -107,28 +123,35 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    boxModelLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(boxModelLanguage.LastUpdateContactTVText) && boxModelLanguage.LastUpdateContactTVText.Length > 200)
             {
+                boxModelLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLanguageLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(boxModelLanguage.LanguageText) && boxModelLanguage.LanguageText.Length > 100)
             {
+                boxModelLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLanguageLanguageText, "100"), new[] { "LanguageText" });
             }
 
             if (!string.IsNullOrWhiteSpace(boxModelLanguage.TranslationStatusText) && boxModelLanguage.TranslationStatusText.Length > 100)
             {
+                boxModelLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                boxModelLanguage.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -160,11 +183,8 @@ namespace CSSPServices
         }
         public bool Delete(BoxModelLanguage boxModelLanguage)
         {
-            if (!db.BoxModelLanguages.Where(c => c.BoxModelLanguageID == boxModelLanguage.BoxModelLanguageID).Any())
-            {
-                boxModelLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "BoxModelLanguage", "BoxModelLanguageID", boxModelLanguage.BoxModelLanguageID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            boxModelLanguage.ValidationResults = Validate(new ValidationContext(boxModelLanguage), ActionDBTypeEnum.Delete);
+            if (boxModelLanguage.ValidationResults.Count() > 0) return false;
 
             db.BoxModelLanguages.Remove(boxModelLanguage);
 
@@ -174,12 +194,6 @@ namespace CSSPServices
         }
         public bool Update(BoxModelLanguage boxModelLanguage)
         {
-            if (!db.BoxModelLanguages.Where(c => c.BoxModelLanguageID == boxModelLanguage.BoxModelLanguageID).Any())
-            {
-                boxModelLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "BoxModelLanguage", "BoxModelLanguageID", boxModelLanguage.BoxModelLanguageID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             boxModelLanguage.ValidationResults = Validate(new ValidationContext(boxModelLanguage), ActionDBTypeEnum.Update);
             if (boxModelLanguage.ValidationResults.Count() > 0) return false;
 

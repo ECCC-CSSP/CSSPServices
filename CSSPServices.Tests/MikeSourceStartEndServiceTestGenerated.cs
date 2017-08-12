@@ -54,6 +54,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateDate_UTC") mikeSourceStartEnd.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mikeSourceStartEnd.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") mikeSourceStartEnd.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") mikeSourceStartEnd.HasErrors = true;
 
             return mikeSourceStartEnd;
         }
@@ -85,20 +86,22 @@ namespace CSSPServices.Tests
 
                 count = mikeSourceStartEndService.GetRead().Count();
 
+                Assert.AreEqual(mikeSourceStartEndService.GetRead().Count(), mikeSourceStartEndService.GetEdit().Count());
+
                 mikeSourceStartEndService.Add(mikeSourceStartEnd);
-                if (mikeSourceStartEnd.ValidationResults.Count() > 0)
+                if (mikeSourceStartEnd.HasErrors)
                 {
                     Assert.AreEqual("", mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, mikeSourceStartEndService.GetRead().Where(c => c == mikeSourceStartEnd).Any());
                 mikeSourceStartEndService.Update(mikeSourceStartEnd);
-                if (mikeSourceStartEnd.ValidationResults.Count() > 0)
+                if (mikeSourceStartEnd.HasErrors)
                 {
                     Assert.AreEqual("", mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, mikeSourceStartEndService.GetRead().Count());
                 mikeSourceStartEndService.Delete(mikeSourceStartEnd);
-                if (mikeSourceStartEnd.ValidationResults.Count() > 0)
+                if (mikeSourceStartEnd.HasErrors)
                 {
                     Assert.AreEqual("", mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -122,6 +125,12 @@ namespace CSSPServices.Tests
                 mikeSourceStartEnd.MikeSourceStartEndID = 0;
                 mikeSourceStartEndService.Update(mikeSourceStartEnd);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndMikeSourceStartEndID), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                mikeSourceStartEnd = null;
+                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                mikeSourceStartEnd.MikeSourceStartEndID = 10000000;
+                mikeSourceStartEndService.Update(mikeSourceStartEnd);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeSourceStartEnd, ModelsRes.MikeSourceStartEndMikeSourceStartEndID, mikeSourceStartEnd.MikeSourceStartEndID.ToString()), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -360,6 +369,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // mikeSourceStartEnd.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // mikeSourceStartEnd.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -397,6 +413,7 @@ namespace CSSPServices.Tests
 
                 Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.LastUpdateContactTVText));
+                Assert.IsNotNull(mikeSourceStartEndRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

@@ -49,6 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVText") tvTypeUserAuthorization.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "TVTypeText") tvTypeUserAuthorization.TVTypeText = GetRandomString("", 5);
             if (OmitPropName != "TVAuthText") tvTypeUserAuthorization.TVAuthText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") tvTypeUserAuthorization.HasErrors = true;
 
             return tvTypeUserAuthorization;
         }
@@ -80,20 +81,22 @@ namespace CSSPServices.Tests
 
                 count = tvTypeUserAuthorizationService.GetRead().Count();
 
+                Assert.AreEqual(tvTypeUserAuthorizationService.GetRead().Count(), tvTypeUserAuthorizationService.GetEdit().Count());
+
                 tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
-                if (tvTypeUserAuthorization.ValidationResults.Count() > 0)
+                if (tvTypeUserAuthorization.HasErrors)
                 {
                     Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, tvTypeUserAuthorizationService.GetRead().Where(c => c == tvTypeUserAuthorization).Any());
                 tvTypeUserAuthorizationService.Update(tvTypeUserAuthorization);
-                if (tvTypeUserAuthorization.ValidationResults.Count() > 0)
+                if (tvTypeUserAuthorization.HasErrors)
                 {
                     Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, tvTypeUserAuthorizationService.GetRead().Count());
                 tvTypeUserAuthorizationService.Delete(tvTypeUserAuthorization);
-                if (tvTypeUserAuthorization.ValidationResults.Count() > 0)
+                if (tvTypeUserAuthorization.HasErrors)
                 {
                     Assert.AreEqual("", tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -117,6 +120,12 @@ namespace CSSPServices.Tests
                 tvTypeUserAuthorization.TVTypeUserAuthorizationID = 0;
                 tvTypeUserAuthorizationService.Update(tvTypeUserAuthorization);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVTypeUserAuthorizationID), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                tvTypeUserAuthorization = null;
+                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                tvTypeUserAuthorization.TVTypeUserAuthorizationID = 10000000;
+                tvTypeUserAuthorizationService.Update(tvTypeUserAuthorization);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVTypeUserAuthorization, ModelsRes.TVTypeUserAuthorizationTVTypeUserAuthorizationID, tvTypeUserAuthorization.TVTypeUserAuthorizationID.ToString()), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -251,6 +260,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // tvTypeUserAuthorization.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // tvTypeUserAuthorization.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -286,6 +302,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeText));
                 Assert.IsNotNull(tvTypeUserAuthorizationRet.TVAuthText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVAuthText));
+                Assert.IsNotNull(tvTypeUserAuthorizationRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

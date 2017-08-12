@@ -47,6 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVItemID") emailDistributionList.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "CountryTVText") emailDistributionList.CountryTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") emailDistributionList.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") emailDistributionList.HasErrors = true;
 
             return emailDistributionList;
         }
@@ -78,20 +79,22 @@ namespace CSSPServices.Tests
 
                 count = emailDistributionListService.GetRead().Count();
 
+                Assert.AreEqual(emailDistributionListService.GetRead().Count(), emailDistributionListService.GetEdit().Count());
+
                 emailDistributionListService.Add(emailDistributionList);
-                if (emailDistributionList.ValidationResults.Count() > 0)
+                if (emailDistributionList.HasErrors)
                 {
                     Assert.AreEqual("", emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, emailDistributionListService.GetRead().Where(c => c == emailDistributionList).Any());
                 emailDistributionListService.Update(emailDistributionList);
-                if (emailDistributionList.ValidationResults.Count() > 0)
+                if (emailDistributionList.HasErrors)
                 {
                     Assert.AreEqual("", emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, emailDistributionListService.GetRead().Count());
                 emailDistributionListService.Delete(emailDistributionList);
-                if (emailDistributionList.ValidationResults.Count() > 0)
+                if (emailDistributionList.HasErrors)
                 {
                     Assert.AreEqual("", emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -115,6 +118,12 @@ namespace CSSPServices.Tests
                 emailDistributionList.EmailDistributionListID = 0;
                 emailDistributionListService.Update(emailDistributionList);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListEmailDistributionListID), emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                emailDistributionList = null;
+                emailDistributionList = GetFilledRandomEmailDistributionList("");
+                emailDistributionList.EmailDistributionListID = 10000000;
+                emailDistributionListService.Update(emailDistributionList);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.EmailDistributionList, ModelsRes.EmailDistributionListEmailDistributionListID, emailDistributionList.EmailDistributionListID.ToString()), emailDistributionList.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -235,6 +244,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // emailDistributionList.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // emailDistributionList.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -267,6 +283,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.CountryTVText));
                 Assert.IsNotNull(emailDistributionListRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListRet.LastUpdateContactTVText));
+                Assert.IsNotNull(emailDistributionListRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

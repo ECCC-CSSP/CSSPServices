@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             TVItemLanguage tvItemLanguage = validationContext.ObjectInstance as TVItemLanguage;
+            tvItemLanguage.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (tvItemLanguage.TVItemLanguageID == 0)
                 {
+                    tvItemLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageTVItemLanguageID), new[] { "TVItemLanguageID" });
+                }
+
+                if (!GetRead().Where(c => c.TVItemLanguageID == tvItemLanguage.TVItemLanguageID).Any())
+                {
+                    tvItemLanguage.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItemLanguage, ModelsRes.TVItemLanguageTVItemLanguageID, tvItemLanguage.TVItemLanguageID.ToString()), new[] { "TVItemLanguageID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (TVItemTVItemID == null)
             {
+                tvItemLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLanguageTVItemID, tvItemLanguage.TVItemID.ToString()), new[] { "TVItemID" });
             }
             else
@@ -85,6 +94,7 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                 {
+                    tvItemLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemLanguageTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "TVItemID" });
                 }
             }
@@ -92,33 +102,39 @@ namespace CSSPServices
             retStr = enums.LanguageOK(tvItemLanguage.Language);
             if (tvItemLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                tvItemLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageLanguage), new[] { "Language" });
             }
 
             if (string.IsNullOrWhiteSpace(tvItemLanguage.TVText))
             {
+                tvItemLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageTVText), new[] { "TVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemLanguage.TVText) && tvItemLanguage.TVText.Length > 200)
             {
+                tvItemLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLanguageTVText, "200"), new[] { "TVText" });
             }
 
             retStr = enums.TranslationStatusOK(tvItemLanguage.TranslationStatus);
             if (tvItemLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                tvItemLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageTranslationStatus), new[] { "TranslationStatus" });
             }
 
             if (tvItemLanguage.LastUpdateDate_UTC.Year == 1)
             {
+                tvItemLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLanguageLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tvItemLanguage.LastUpdateDate_UTC.Year < 1980)
                 {
+                tvItemLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -129,6 +145,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                tvItemLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLanguageLastUpdateContactTVItemID, tvItemLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -139,28 +156,35 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    tvItemLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemLanguage.LastUpdateContactTVText) && tvItemLanguage.LastUpdateContactTVText.Length > 200)
             {
+                tvItemLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLanguageLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemLanguage.LanguageText) && tvItemLanguage.LanguageText.Length > 100)
             {
+                tvItemLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLanguageLanguageText, "100"), new[] { "LanguageText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemLanguage.TranslationStatusText) && tvItemLanguage.TranslationStatusText.Length > 100)
             {
+                tvItemLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                tvItemLanguage.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -192,11 +216,8 @@ namespace CSSPServices
         }
         public bool Delete(TVItemLanguage tvItemLanguage)
         {
-            if (!db.TVItemLanguages.Where(c => c.TVItemLanguageID == tvItemLanguage.TVItemLanguageID).Any())
-            {
-                tvItemLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVItemLanguage", "TVItemLanguageID", tvItemLanguage.TVItemLanguageID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            tvItemLanguage.ValidationResults = Validate(new ValidationContext(tvItemLanguage), ActionDBTypeEnum.Delete);
+            if (tvItemLanguage.ValidationResults.Count() > 0) return false;
 
             db.TVItemLanguages.Remove(tvItemLanguage);
 
@@ -206,12 +227,6 @@ namespace CSSPServices
         }
         public bool Update(TVItemLanguage tvItemLanguage)
         {
-            if (!db.TVItemLanguages.Where(c => c.TVItemLanguageID == tvItemLanguage.TVItemLanguageID).Any())
-            {
-                tvItemLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVItemLanguage", "TVItemLanguageID", tvItemLanguage.TVItemLanguageID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             tvItemLanguage.ValidationResults = Validate(new ValidationContext(tvItemLanguage), ActionDBTypeEnum.Update);
             if (tvItemLanguage.ValidationResults.Count() > 0) return false;
 

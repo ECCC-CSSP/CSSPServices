@@ -60,6 +60,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVText") address.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "AddressTypeText") address.AddressTypeText = GetRandomString("", 5);
             if (OmitPropName != "StreetTypeText") address.StreetTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") address.HasErrors = true;
 
             return address;
         }
@@ -91,20 +92,22 @@ namespace CSSPServices.Tests
 
                 count = addressService.GetRead().Count();
 
+                Assert.AreEqual(addressService.GetRead().Count(), addressService.GetEdit().Count());
+
                 addressService.Add(address);
-                if (address.ValidationResults.Count() > 0)
+                if (address.HasErrors)
                 {
                     Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, addressService.GetRead().Where(c => c == address).Any());
                 addressService.Update(address);
-                if (address.ValidationResults.Count() > 0)
+                if (address.HasErrors)
                 {
                     Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, addressService.GetRead().Count());
                 addressService.Delete(address);
-                if (address.ValidationResults.Count() > 0)
+                if (address.HasErrors)
                 {
                     Assert.AreEqual("", address.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -128,6 +131,12 @@ namespace CSSPServices.Tests
                 address.AddressID = 0;
                 addressService.Update(address);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AddressAddressID), address.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                address = null;
+                address = GetFilledRandomAddress("");
+                address.AddressID = 10000000;
+                addressService.Update(address);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Address, ModelsRes.AddressAddressID, address.AddressID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -449,6 +458,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // address.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // address.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -517,6 +533,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.AddressTypeText));
                 Assert.IsNotNull(addressRet.StreetTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(addressRet.StreetTypeText));
+                Assert.IsNotNull(addressRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

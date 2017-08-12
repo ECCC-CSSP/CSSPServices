@@ -37,11 +37,13 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             CSSPMPNTable cSSPMPNTable = validationContext.ObjectInstance as CSSPMPNTable;
+            cSSPMPNTable.HasErrors = false;
 
             //Tube10 (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (cSSPMPNTable.Tube10 < 0 || cSSPMPNTable.Tube10 > 5)
             {
+                cSSPMPNTable.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CSSPMPNTableTube10, "0", "5"), new[] { "Tube10" });
             }
 
@@ -49,6 +51,7 @@ namespace CSSPServices
 
             if (cSSPMPNTable.Tube1_0 < 0 || cSSPMPNTable.Tube1_0 > 5)
             {
+                cSSPMPNTable.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CSSPMPNTableTube1_0, "0", "5"), new[] { "Tube1_0" });
             }
 
@@ -56,6 +59,7 @@ namespace CSSPServices
 
             if (cSSPMPNTable.Tube0_1 < 0 || cSSPMPNTable.Tube0_1 > 5)
             {
+                cSSPMPNTable.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CSSPMPNTableTube0_1, "0", "5"), new[] { "Tube0_1" });
             }
 
@@ -63,12 +67,16 @@ namespace CSSPServices
 
             if (cSSPMPNTable.MPN < 0 || cSSPMPNTable.MPN > 100000000)
             {
+                cSSPMPNTable.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CSSPMPNTableMPN, "0", "100000000"), new[] { "MPN" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                cSSPMPNTable.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

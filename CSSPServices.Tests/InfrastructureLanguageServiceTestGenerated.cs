@@ -49,6 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVText") infrastructureLanguage.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") infrastructureLanguage.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusText") infrastructureLanguage.TranslationStatusText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") infrastructureLanguage.HasErrors = true;
 
             return infrastructureLanguage;
         }
@@ -80,20 +81,22 @@ namespace CSSPServices.Tests
 
                 count = infrastructureLanguageService.GetRead().Count();
 
+                Assert.AreEqual(infrastructureLanguageService.GetRead().Count(), infrastructureLanguageService.GetEdit().Count());
+
                 infrastructureLanguageService.Add(infrastructureLanguage);
-                if (infrastructureLanguage.ValidationResults.Count() > 0)
+                if (infrastructureLanguage.HasErrors)
                 {
                     Assert.AreEqual("", infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, infrastructureLanguageService.GetRead().Where(c => c == infrastructureLanguage).Any());
                 infrastructureLanguageService.Update(infrastructureLanguage);
-                if (infrastructureLanguage.ValidationResults.Count() > 0)
+                if (infrastructureLanguage.HasErrors)
                 {
                     Assert.AreEqual("", infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, infrastructureLanguageService.GetRead().Count());
                 infrastructureLanguageService.Delete(infrastructureLanguage);
-                if (infrastructureLanguage.ValidationResults.Count() > 0)
+                if (infrastructureLanguage.HasErrors)
                 {
                     Assert.AreEqual("", infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -117,6 +120,12 @@ namespace CSSPServices.Tests
                 infrastructureLanguage.InfrastructureLanguageID = 0;
                 infrastructureLanguageService.Update(infrastructureLanguage);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageInfrastructureLanguageID), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                infrastructureLanguage = null;
+                infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
+                infrastructureLanguage.InfrastructureLanguageID = 10000000;
+                infrastructureLanguageService.Update(infrastructureLanguage);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.InfrastructureLanguage, ModelsRes.InfrastructureLanguageInfrastructureLanguageID, infrastructureLanguage.InfrastructureLanguageID.ToString()), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -244,6 +253,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // infrastructureLanguage.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // infrastructureLanguage.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -279,6 +295,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageRet.LanguageText));
                 Assert.IsNotNull(infrastructureLanguageRet.TranslationStatusText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(infrastructureLanguageRet.TranslationStatusText));
+                Assert.IsNotNull(infrastructureLanguageRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             AppErrLog appErrLog = validationContext.ObjectInstance as AppErrLog;
+            appErrLog.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (appErrLog.AppErrLogID == 0)
                 {
+                    appErrLog.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogAppErrLogID), new[] { "AppErrLogID" });
+                }
+
+                if (!GetRead().Where(c => c.AppErrLogID == appErrLog.AppErrLogID).Any())
+                {
+                    appErrLog.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppErrLog, ModelsRes.AppErrLogAppErrLogID, appErrLog.AppErrLogID.ToString()), new[] { "AppErrLogID" });
                 }
             }
 
@@ -50,11 +58,13 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(appErrLog.Tag))
             {
+                appErrLog.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogTag), new[] { "Tag" });
             }
 
             if (!string.IsNullOrWhiteSpace(appErrLog.Tag) && appErrLog.Tag.Length > 100)
             {
+                appErrLog.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogTag, "100"), new[] { "Tag" });
             }
 
@@ -62,11 +72,13 @@ namespace CSSPServices
 
             if (appErrLog.LineNumber < 1)
             {
+                appErrLog.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppErrLogLineNumber, "1"), new[] { "LineNumber" });
             }
 
             if (string.IsNullOrWhiteSpace(appErrLog.Source))
             {
+                appErrLog.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogSource), new[] { "Source" });
             }
 
@@ -74,6 +86,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(appErrLog.Message))
             {
+                appErrLog.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogMessage), new[] { "Message" });
             }
 
@@ -81,24 +94,28 @@ namespace CSSPServices
 
             if (appErrLog.DateTime_UTC.Year == 1)
             {
+                appErrLog.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogDateTime_UTC), new[] { "DateTime_UTC" });
             }
             else
             {
                 if (appErrLog.DateTime_UTC.Year < 1980)
                 {
+                appErrLog.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppErrLogDateTime_UTC, "1980"), new[] { "DateTime_UTC" });
                 }
             }
 
             if (appErrLog.LastUpdateDate_UTC.Year == 1)
             {
+                appErrLog.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (appErrLog.LastUpdateDate_UTC.Year < 1980)
                 {
+                appErrLog.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppErrLogLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -109,6 +126,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                appErrLog.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppErrLogLastUpdateContactTVItemID, appErrLog.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -119,18 +137,23 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    appErrLog.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppErrLogLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(appErrLog.LastUpdateContactTVText) && appErrLog.LastUpdateContactTVText.Length > 200)
             {
+                appErrLog.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                appErrLog.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -162,11 +185,8 @@ namespace CSSPServices
         }
         public bool Delete(AppErrLog appErrLog)
         {
-            if (!db.AppErrLogs.Where(c => c.AppErrLogID == appErrLog.AppErrLogID).Any())
-            {
-                appErrLog.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "AppErrLog", "AppErrLogID", appErrLog.AppErrLogID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            appErrLog.ValidationResults = Validate(new ValidationContext(appErrLog), ActionDBTypeEnum.Delete);
+            if (appErrLog.ValidationResults.Count() > 0) return false;
 
             db.AppErrLogs.Remove(appErrLog);
 
@@ -176,12 +196,6 @@ namespace CSSPServices
         }
         public bool Update(AppErrLog appErrLog)
         {
-            if (!db.AppErrLogs.Where(c => c.AppErrLogID == appErrLog.AppErrLogID).Any())
-            {
-                appErrLog.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "AppErrLog", "AppErrLogID", appErrLog.AppErrLogID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             appErrLog.ValidationResults = Validate(new ValidationContext(appErrLog), ActionDBTypeEnum.Update);
             if (appErrLog.ValidationResults.Count() > 0) return false;
 

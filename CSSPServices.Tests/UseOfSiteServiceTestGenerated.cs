@@ -59,6 +59,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SubsectorTVText") useOfSite.SubsectorTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") useOfSite.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "SiteTypeText") useOfSite.SiteTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") useOfSite.HasErrors = true;
 
             return useOfSite;
         }
@@ -90,20 +91,22 @@ namespace CSSPServices.Tests
 
                 count = useOfSiteService.GetRead().Count();
 
+                Assert.AreEqual(useOfSiteService.GetRead().Count(), useOfSiteService.GetEdit().Count());
+
                 useOfSiteService.Add(useOfSite);
-                if (useOfSite.ValidationResults.Count() > 0)
+                if (useOfSite.HasErrors)
                 {
                     Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, useOfSiteService.GetRead().Where(c => c == useOfSite).Any());
                 useOfSiteService.Update(useOfSite);
-                if (useOfSite.ValidationResults.Count() > 0)
+                if (useOfSite.HasErrors)
                 {
                     Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, useOfSiteService.GetRead().Count());
                 useOfSiteService.Delete(useOfSite);
-                if (useOfSite.ValidationResults.Count() > 0)
+                if (useOfSite.HasErrors)
                 {
                     Assert.AreEqual("", useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -127,6 +130,12 @@ namespace CSSPServices.Tests
                 useOfSite.UseOfSiteID = 0;
                 useOfSiteService.Update(useOfSite);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteUseOfSiteID), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                useOfSite = null;
+                useOfSite = GetFilledRandomUseOfSite("");
+                useOfSite.UseOfSiteID = 10000000;
+                useOfSiteService.Update(useOfSite);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.UseOfSite, ModelsRes.UseOfSiteUseOfSiteID, useOfSite.UseOfSiteID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -442,6 +451,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // useOfSite.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // useOfSite.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -511,6 +527,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.LastUpdateContactTVText));
                 Assert.IsNotNull(useOfSiteRet.SiteTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTypeText));
+                Assert.IsNotNull(useOfSiteRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

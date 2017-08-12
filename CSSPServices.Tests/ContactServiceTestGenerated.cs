@@ -59,6 +59,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVText") contact.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "ParentTVItemID") contact.ParentTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "ContactTitleText") contact.ContactTitleText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") contact.HasErrors = true;
 
             return contact;
         }
@@ -90,20 +91,22 @@ namespace CSSPServices.Tests
 
                 count = contactService.GetRead().Count();
 
+                Assert.AreEqual(contactService.GetRead().Count(), contactService.GetEdit().Count());
+
                 contactService.Add(contact, ContactService.AddContactType.LoggedIn);
-                if (contact.ValidationResults.Count() > 0)
+                if (contact.HasErrors)
                 {
                     Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, contactService.GetRead().Where(c => c == contact).Any());
                 contactService.Update(contact);
-                if (contact.ValidationResults.Count() > 0)
+                if (contact.HasErrors)
                 {
                     Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, contactService.GetRead().Count());
                 contactService.Delete(contact);
-                if (contact.ValidationResults.Count() > 0)
+                if (contact.HasErrors)
                 {
                     Assert.AreEqual("", contact.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -127,6 +130,12 @@ namespace CSSPServices.Tests
                 contact.ContactID = 0;
                 contactService.Update(contact);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactContactID), contact.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                contact = null;
+                contact = GetFilledRandomContact("");
+                contact.ContactID = 10000000;
+                contactService.Update(contact);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactContactID, contact.ContactID.ToString()), contact.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -410,6 +419,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // contact.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // contact.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -470,6 +486,7 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(contactRet.ParentTVItemID);
                 Assert.IsNotNull(contactRet.ContactTitleText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(contactRet.ContactTitleText));
+                Assert.IsNotNull(contactRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             ContactShortcut contactShortcut = validationContext.ObjectInstance as ContactShortcut;
+            contactShortcut.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (contactShortcut.ContactShortcutID == 0)
                 {
+                    contactShortcut.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutContactShortcutID), new[] { "ContactShortcutID" });
+                }
+
+                if (!GetRead().Where(c => c.ContactShortcutID == contactShortcut.ContactShortcutID).Any())
+                {
+                    contactShortcut.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ContactShortcut, ModelsRes.ContactShortcutContactShortcutID, contactShortcut.ContactShortcutID.ToString()), new[] { "ContactShortcutID" });
                 }
             }
 
@@ -54,37 +62,44 @@ namespace CSSPServices
 
             if (ContactContactID == null)
             {
+                contactShortcut.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactShortcutContactID, contactShortcut.ContactID.ToString()), new[] { "ContactID" });
             }
 
             if (string.IsNullOrWhiteSpace(contactShortcut.ShortCutText))
             {
+                contactShortcut.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutShortCutText), new[] { "ShortCutText" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactShortcut.ShortCutText) && contactShortcut.ShortCutText.Length > 100)
             {
+                contactShortcut.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactShortcutShortCutText, "100"), new[] { "ShortCutText" });
             }
 
             if (string.IsNullOrWhiteSpace(contactShortcut.ShortCutAddress))
             {
+                contactShortcut.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutShortCutAddress), new[] { "ShortCutAddress" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactShortcut.ShortCutAddress) && contactShortcut.ShortCutAddress.Length > 200)
             {
+                contactShortcut.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactShortcutShortCutAddress, "200"), new[] { "ShortCutAddress" });
             }
 
             if (contactShortcut.LastUpdateDate_UTC.Year == 1)
             {
+                contactShortcut.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (contactShortcut.LastUpdateDate_UTC.Year < 1980)
                 {
+                contactShortcut.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ContactShortcutLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -95,6 +110,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                contactShortcut.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactShortcutLastUpdateContactTVItemID, contactShortcut.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -105,18 +121,23 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    contactShortcut.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactShortcutLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(contactShortcut.LastUpdateContactTVText) && contactShortcut.LastUpdateContactTVText.Length > 200)
             {
+                contactShortcut.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactShortcutLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                contactShortcut.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -148,11 +169,8 @@ namespace CSSPServices
         }
         public bool Delete(ContactShortcut contactShortcut)
         {
-            if (!db.ContactShortcuts.Where(c => c.ContactShortcutID == contactShortcut.ContactShortcutID).Any())
-            {
-                contactShortcut.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ContactShortcut", "ContactShortcutID", contactShortcut.ContactShortcutID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            contactShortcut.ValidationResults = Validate(new ValidationContext(contactShortcut), ActionDBTypeEnum.Delete);
+            if (contactShortcut.ValidationResults.Count() > 0) return false;
 
             db.ContactShortcuts.Remove(contactShortcut);
 
@@ -162,12 +180,6 @@ namespace CSSPServices
         }
         public bool Update(ContactShortcut contactShortcut)
         {
-            if (!db.ContactShortcuts.Where(c => c.ContactShortcutID == contactShortcut.ContactShortcutID).Any())
-            {
-                contactShortcut.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ContactShortcut", "ContactShortcutID", contactShortcut.ContactShortcutID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             contactShortcut.ValidationResults = Validate(new ValidationContext(contactShortcut), ActionDBTypeEnum.Update);
             if (contactShortcut.ValidationResults.Count() > 0) return false;
 

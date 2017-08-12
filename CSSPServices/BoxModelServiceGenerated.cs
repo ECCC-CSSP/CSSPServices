@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             BoxModel boxModel = validationContext.ObjectInstance as BoxModel;
+            boxModel.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (boxModel.BoxModelID == 0)
                 {
+                    boxModel.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelBoxModelID), new[] { "BoxModelID" });
+                }
+
+                if (!GetRead().Where(c => c.BoxModelID == boxModel.BoxModelID).Any())
+                {
+                    boxModel.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModel, ModelsRes.BoxModelBoxModelID, boxModel.BoxModelID.ToString()), new[] { "BoxModelID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (TVItemInfrastructureTVItemID == null)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelInfrastructureTVItemID, boxModel.InfrastructureTVItemID.ToString()), new[] { "InfrastructureTVItemID" });
             }
             else
@@ -64,6 +73,7 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemInfrastructureTVItemID.TVType))
                 {
+                    boxModel.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelInfrastructureTVItemID, "Infrastructure"), new[] { "InfrastructureTVItemID" });
                 }
             }
@@ -72,6 +82,7 @@ namespace CSSPServices
 
             if (boxModel.Flow_m3_day < 0 || boxModel.Flow_m3_day > 10000)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlow_m3_day, "0", "10000"), new[] { "Flow_m3_day" });
             }
 
@@ -79,6 +90,7 @@ namespace CSSPServices
 
             if (boxModel.Depth_m < 0 || boxModel.Depth_m > 1000)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDepth_m, "0", "1000"), new[] { "Depth_m" });
             }
 
@@ -86,6 +98,7 @@ namespace CSSPServices
 
             if (boxModel.Temperature_C < -15 || boxModel.Temperature_C > 40)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelTemperature_C, "-15", "40"), new[] { "Temperature_C" });
             }
 
@@ -93,6 +106,7 @@ namespace CSSPServices
 
             if (boxModel.Dilution < 0 || boxModel.Dilution > 10000000)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDilution, "0", "10000000"), new[] { "Dilution" });
             }
 
@@ -100,6 +114,7 @@ namespace CSSPServices
 
             if (boxModel.DecayRate_per_day < 0 || boxModel.DecayRate_per_day > 100)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDecayRate_per_day, "0", "100"), new[] { "DecayRate_per_day" });
             }
 
@@ -107,6 +122,7 @@ namespace CSSPServices
 
             if (boxModel.FCUntreated_MPN_100ml < 0 || boxModel.FCUntreated_MPN_100ml > 10000000)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCUntreated_MPN_100ml, "0", "10000000"), new[] { "FCUntreated_MPN_100ml" });
             }
 
@@ -114,6 +130,7 @@ namespace CSSPServices
 
             if (boxModel.FCPreDisinfection_MPN_100ml < 0 || boxModel.FCPreDisinfection_MPN_100ml > 10000000)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCPreDisinfection_MPN_100ml, "0", "10000000"), new[] { "FCPreDisinfection_MPN_100ml" });
             }
 
@@ -121,6 +138,7 @@ namespace CSSPServices
 
             if (boxModel.Concentration_MPN_100ml < 0 || boxModel.Concentration_MPN_100ml > 10000000)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelConcentration_MPN_100ml, "0", "10000000"), new[] { "Concentration_MPN_100ml" });
             }
 
@@ -128,6 +146,7 @@ namespace CSSPServices
 
             if (boxModel.T90_hour < 0)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelT90_hour, "0"), new[] { "T90_hour" });
             }
 
@@ -135,17 +154,20 @@ namespace CSSPServices
 
             if (boxModel.FlowDuration_hour < 0 || boxModel.FlowDuration_hour > 24)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlowDuration_hour, "0", "24"), new[] { "FlowDuration_hour" });
             }
 
             if (boxModel.LastUpdateDate_UTC.Year == 1)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (boxModel.LastUpdateDate_UTC.Year < 1980)
                 {
+                boxModel.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.BoxModelLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -156,6 +178,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelLastUpdateContactTVItemID, boxModel.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -166,23 +189,29 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    boxModel.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(boxModel.InfrastructureTVText) && boxModel.InfrastructureTVText.Length > 200)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelInfrastructureTVText, "200"), new[] { "InfrastructureTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(boxModel.LastUpdateContactTVText) && boxModel.LastUpdateContactTVText.Length > 200)
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                boxModel.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -214,11 +243,8 @@ namespace CSSPServices
         }
         public bool Delete(BoxModel boxModel)
         {
-            if (!db.BoxModels.Where(c => c.BoxModelID == boxModel.BoxModelID).Any())
-            {
-                boxModel.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "BoxModel", "BoxModelID", boxModel.BoxModelID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            boxModel.ValidationResults = Validate(new ValidationContext(boxModel), ActionDBTypeEnum.Delete);
+            if (boxModel.ValidationResults.Count() > 0) return false;
 
             db.BoxModels.Remove(boxModel);
 
@@ -228,12 +254,6 @@ namespace CSSPServices
         }
         public bool Update(BoxModel boxModel)
         {
-            if (!db.BoxModels.Where(c => c.BoxModelID == boxModel.BoxModelID).Any())
-            {
-                boxModel.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "BoxModel", "BoxModelID", boxModel.BoxModelID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             boxModel.ValidationResults = Validate(new ValidationContext(boxModel), ActionDBTypeEnum.Update);
             if (boxModel.ValidationResults.Count() > 0) return false;
 

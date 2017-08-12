@@ -37,9 +37,11 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             InputSummary inputSummary = validationContext.ObjectInstance as InputSummary;
+            inputSummary.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(inputSummary.Error))
             {
+                inputSummary.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InputSummaryError), new[] { "Error" });
             }
 
@@ -47,14 +49,18 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(inputSummary.Summary))
             {
+                inputSummary.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InputSummarySummary), new[] { "Summary" });
             }
 
             //Summary has no StringLength Attribute
 
+            //HasErrors (bool) is required but no testing needed 
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                inputSummary.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

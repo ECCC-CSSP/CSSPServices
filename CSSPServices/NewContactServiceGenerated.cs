@@ -37,39 +37,47 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             NewContact newContact = validationContext.ObjectInstance as NewContact;
+            newContact.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(newContact.LoginEmail))
             {
+                newContact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.NewContactLoginEmail), new[] { "LoginEmail" });
             }
 
             if (!string.IsNullOrWhiteSpace(newContact.LoginEmail) && (newContact.LoginEmail.Length < 1 || newContact.LoginEmail.Length > 200))
             {
+                newContact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.NewContactLoginEmail, "1", "200"), new[] { "LoginEmail" });
             }
 
             if (string.IsNullOrWhiteSpace(newContact.FirstName))
             {
+                newContact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.NewContactFirstName), new[] { "FirstName" });
             }
 
             if (!string.IsNullOrWhiteSpace(newContact.FirstName) && (newContact.FirstName.Length < 1 || newContact.FirstName.Length > 200))
             {
+                newContact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.NewContactFirstName, "1", "200"), new[] { "FirstName" });
             }
 
             if (string.IsNullOrWhiteSpace(newContact.LastName))
             {
+                newContact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.NewContactLastName), new[] { "LastName" });
             }
 
             if (!string.IsNullOrWhiteSpace(newContact.LastName) && (newContact.LastName.Length < 1 || newContact.LastName.Length > 200))
             {
+                newContact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.NewContactLastName, "1", "200"), new[] { "LastName" });
             }
 
             if (!string.IsNullOrWhiteSpace(newContact.Initial) && newContact.Initial.Length > 50)
             {
+                newContact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.NewContactInitial, "50"), new[] { "Initial" });
             }
 
@@ -78,18 +86,23 @@ namespace CSSPServices
                 retStr = enums.ContactTitleOK(newContact.ContactTitle);
                 if (newContact.ContactTitle == ContactTitleEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
+                    newContact.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.NewContactContactTitle), new[] { "ContactTitle" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(newContact.ContactTitleText) && newContact.ContactTitleText.Length > 100)
             {
+                newContact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.NewContactContactTitleText, "100"), new[] { "ContactTitleText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                newContact.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

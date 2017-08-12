@@ -37,10 +37,14 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             TVItemSubsectorAndMWQMSite tvItemSubsectorAndMWQMSite = validationContext.ObjectInstance as TVItemSubsectorAndMWQMSite;
+            tvItemSubsectorAndMWQMSite.HasErrors = false;
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                tvItemSubsectorAndMWQMSite.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

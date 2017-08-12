@@ -43,6 +43,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "InfrastructureType") tvItemInfrastructureTypeTVItemLink.InfrastructureType = (InfrastructureTypeEnum)GetRandomEnumType(typeof(InfrastructureTypeEnum));
             // should implement a Range for the property SeeOtherTVItemID and type TVItemInfrastructureTypeTVItemLink
             if (OmitPropName != "InfrastructureTypeText") tvItemInfrastructureTypeTVItemLink.InfrastructureTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") tvItemInfrastructureTypeTVItemLink.HasErrors = true;
 
             return tvItemInfrastructureTypeTVItemLink;
         }

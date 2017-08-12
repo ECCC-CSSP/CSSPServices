@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             MWQMSample mwqmSample = validationContext.ObjectInstance as MWQMSample;
+            mwqmSample.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (mwqmSample.MWQMSampleID == 0)
                 {
+                    mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleMWQMSampleID), new[] { "MWQMSampleID" });
+                }
+
+                if (!GetRead().Where(c => c.MWQMSampleID == mwqmSample.MWQMSampleID).Any())
+                {
+                    mwqmSample.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSample, ModelsRes.MWQMSampleMWQMSampleID, mwqmSample.MWQMSampleID.ToString()), new[] { "MWQMSampleID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (TVItemMWQMSiteTVItemID == null)
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSampleMWQMSiteTVItemID, mwqmSample.MWQMSiteTVItemID.ToString()), new[] { "MWQMSiteTVItemID" });
             }
             else
@@ -64,6 +73,7 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemMWQMSiteTVItemID.TVType))
                 {
+                    mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSampleMWQMSiteTVItemID, "MWQMSite"), new[] { "MWQMSiteTVItemID" });
                 }
             }
@@ -74,6 +84,7 @@ namespace CSSPServices
 
             if (TVItemMWQMRunTVItemID == null)
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSampleMWQMRunTVItemID, mwqmSample.MWQMRunTVItemID.ToString()), new[] { "MWQMRunTVItemID" });
             }
             else
@@ -84,18 +95,21 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemMWQMRunTVItemID.TVType))
                 {
+                    mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSampleMWQMRunTVItemID, "MWQMRun"), new[] { "MWQMRunTVItemID" });
                 }
             }
 
             if (mwqmSample.SampleDateTime_Local.Year == 1)
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleSampleDateTime_Local), new[] { "SampleDateTime_Local" });
             }
             else
             {
                 if (mwqmSample.SampleDateTime_Local.Year < 1980)
                 {
+                    mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSampleSampleDateTime_Local, "1980"), new[] { "SampleDateTime_Local" });
                 }
             }
@@ -104,6 +118,7 @@ namespace CSSPServices
             {
                 if (mwqmSample.Depth_m < 0 || mwqmSample.Depth_m > 1000)
                 {
+                    mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleDepth_m, "0", "1000"), new[] { "Depth_m" });
                 }
             }
@@ -112,6 +127,7 @@ namespace CSSPServices
 
             if (mwqmSample.FecCol_MPN_100ml < 0 || mwqmSample.FecCol_MPN_100ml > 10000000)
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleFecCol_MPN_100ml, "0", "10000000"), new[] { "FecCol_MPN_100ml" });
             }
 
@@ -119,6 +135,7 @@ namespace CSSPServices
             {
                 if (mwqmSample.Salinity_PPT < 0 || mwqmSample.Salinity_PPT > 40)
                 {
+                    mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleSalinity_PPT, "0", "40"), new[] { "Salinity_PPT" });
                 }
             }
@@ -127,6 +144,7 @@ namespace CSSPServices
             {
                 if (mwqmSample.WaterTemp_C < -10 || mwqmSample.WaterTemp_C > 40)
                 {
+                    mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleWaterTemp_C, "-10", "40"), new[] { "WaterTemp_C" });
                 }
             }
@@ -135,23 +153,27 @@ namespace CSSPServices
             {
                 if (mwqmSample.PH < 0 || mwqmSample.PH > 14)
                 {
+                    mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSamplePH, "0", "14"), new[] { "PH" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(mwqmSample.SampleTypesText))
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleSampleTypesText), new[] { "SampleTypesText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSample.SampleTypesText) && mwqmSample.SampleTypesText.Length > 50)
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleSampleTypesText, "50"), new[] { "SampleTypesText" });
             }
 
             retStr = enums.SampleTypeOK(mwqmSample.SampleType_old);
             if (mwqmSample.SampleType_old == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleSampleType_old), new[] { "SampleType_old" });
             }
 
@@ -159,6 +181,7 @@ namespace CSSPServices
             {
                 if (mwqmSample.Tube_10 < 0 || mwqmSample.Tube_10 > 5)
                 {
+                    mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleTube_10, "0", "5"), new[] { "Tube_10" });
                 }
             }
@@ -167,6 +190,7 @@ namespace CSSPServices
             {
                 if (mwqmSample.Tube_1_0 < 0 || mwqmSample.Tube_1_0 > 5)
                 {
+                    mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleTube_1_0, "0", "5"), new[] { "Tube_1_0" });
                 }
             }
@@ -175,23 +199,27 @@ namespace CSSPServices
             {
                 if (mwqmSample.Tube_0_1 < 0 || mwqmSample.Tube_0_1 > 5)
                 {
+                    mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleTube_0_1, "0", "5"), new[] { "Tube_0_1" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSample.ProcessedBy) && mwqmSample.ProcessedBy.Length > 10)
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleProcessedBy, "10"), new[] { "ProcessedBy" });
             }
 
             if (mwqmSample.LastUpdateDate_UTC.Year == 1)
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mwqmSample.LastUpdateDate_UTC.Year < 1980)
                 {
+                mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSampleLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -202,6 +230,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSampleLastUpdateContactTVItemID, mwqmSample.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -212,33 +241,41 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSampleLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSample.MWQMSiteTVText) && mwqmSample.MWQMSiteTVText.Length > 200)
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleMWQMSiteTVText, "200"), new[] { "MWQMSiteTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSample.MWQMRunTVText) && mwqmSample.MWQMRunTVText.Length > 200)
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleMWQMRunTVText, "200"), new[] { "MWQMRunTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSample.LastUpdateContactTVText) && mwqmSample.LastUpdateContactTVText.Length > 200)
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSample.SampleType_oldText) && mwqmSample.SampleType_oldText.Length > 100)
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleSampleType_oldText, "100"), new[] { "SampleType_oldText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                mwqmSample.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -270,11 +307,8 @@ namespace CSSPServices
         }
         public bool Delete(MWQMSample mwqmSample)
         {
-            if (!db.MWQMSamples.Where(c => c.MWQMSampleID == mwqmSample.MWQMSampleID).Any())
-            {
-                mwqmSample.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMSample", "MWQMSampleID", mwqmSample.MWQMSampleID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            mwqmSample.ValidationResults = Validate(new ValidationContext(mwqmSample), ActionDBTypeEnum.Delete);
+            if (mwqmSample.ValidationResults.Count() > 0) return false;
 
             db.MWQMSamples.Remove(mwqmSample);
 
@@ -284,12 +318,6 @@ namespace CSSPServices
         }
         public bool Update(MWQMSample mwqmSample)
         {
-            if (!db.MWQMSamples.Where(c => c.MWQMSampleID == mwqmSample.MWQMSampleID).Any())
-            {
-                mwqmSample.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMSample", "MWQMSampleID", mwqmSample.MWQMSampleID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             mwqmSample.ValidationResults = Validate(new ValidationContext(mwqmSample), ActionDBTypeEnum.Update);
             if (mwqmSample.ValidationResults.Count() > 0) return false;
 

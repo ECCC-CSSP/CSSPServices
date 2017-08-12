@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             MikeBoundaryCondition mikeBoundaryCondition = validationContext.ObjectInstance as MikeBoundaryCondition;
+            mikeBoundaryCondition.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (mikeBoundaryCondition.MikeBoundaryConditionID == 0)
                 {
+                    mikeBoundaryCondition.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionID), new[] { "MikeBoundaryConditionID" });
+                }
+
+                if (!GetRead().Where(c => c.MikeBoundaryConditionID == mikeBoundaryCondition.MikeBoundaryConditionID).Any())
+                {
+                    mikeBoundaryCondition.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeBoundaryCondition, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionID, mikeBoundaryCondition.MikeBoundaryConditionID.ToString()), new[] { "MikeBoundaryConditionID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (TVItemMikeBoundaryConditionTVItemID == null)
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVItemID, mikeBoundaryCondition.MikeBoundaryConditionTVItemID.ToString()), new[] { "MikeBoundaryConditionTVItemID" });
             }
             else
@@ -65,27 +74,32 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemMikeBoundaryConditionTVItemID.TVType))
                 {
+                    mikeBoundaryCondition.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVItemID, "MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide"), new[] { "MikeBoundaryConditionTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionCode))
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionCode), new[] { "MikeBoundaryConditionCode" });
             }
 
             if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionCode) && mikeBoundaryCondition.MikeBoundaryConditionCode.Length > 100)
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionCode, "100"), new[] { "MikeBoundaryConditionCode" });
             }
 
             if (string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionName))
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionName), new[] { "MikeBoundaryConditionName" });
             }
 
             if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionName) && mikeBoundaryCondition.MikeBoundaryConditionName.Length > 100)
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionName, "100"), new[] { "MikeBoundaryConditionName" });
             }
 
@@ -93,28 +107,33 @@ namespace CSSPServices
 
             if (mikeBoundaryCondition.MikeBoundaryConditionLength_m < 1 || mikeBoundaryCondition.MikeBoundaryConditionLength_m > 100000)
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLength_m, "1", "100000"), new[] { "MikeBoundaryConditionLength_m" });
             }
 
             if (string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionFormat))
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionFormat), new[] { "MikeBoundaryConditionFormat" });
             }
 
             if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionFormat) && mikeBoundaryCondition.MikeBoundaryConditionFormat.Length > 100)
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionFormat, "100"), new[] { "MikeBoundaryConditionFormat" });
             }
 
             retStr = enums.MikeBoundaryConditionLevelOrVelocityOK(mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity);
             if (mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity == MikeBoundaryConditionLevelOrVelocityEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLevelOrVelocity), new[] { "MikeBoundaryConditionLevelOrVelocity" });
             }
 
             retStr = enums.WebTideDataSetOK(mikeBoundaryCondition.WebTideDataSet);
             if (mikeBoundaryCondition.WebTideDataSet == WebTideDataSetEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionWebTideDataSet), new[] { "WebTideDataSet" });
             }
 
@@ -122,11 +141,13 @@ namespace CSSPServices
 
             if (mikeBoundaryCondition.NumberOfWebTideNodes < 0 || mikeBoundaryCondition.NumberOfWebTideNodes > 1000)
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeBoundaryConditionNumberOfWebTideNodes, "0", "1000"), new[] { "NumberOfWebTideNodes" });
             }
 
             if (string.IsNullOrWhiteSpace(mikeBoundaryCondition.WebTideDataFromStartToEndDate))
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionWebTideDataFromStartToEndDate), new[] { "WebTideDataFromStartToEndDate" });
             }
 
@@ -135,17 +156,20 @@ namespace CSSPServices
             retStr = enums.TVTypeOK(mikeBoundaryCondition.TVType);
             if (mikeBoundaryCondition.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionTVType), new[] { "TVType" });
             }
 
             if (mikeBoundaryCondition.LastUpdateDate_UTC.Year == 1)
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mikeBoundaryCondition.LastUpdateDate_UTC.Year < 1980)
                 {
+                mikeBoundaryCondition.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeBoundaryConditionLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -156,6 +180,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeBoundaryConditionLastUpdateContactTVItemID, mikeBoundaryCondition.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -166,38 +191,47 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    mikeBoundaryCondition.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeBoundaryConditionLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionTVText) && mikeBoundaryCondition.MikeBoundaryConditionTVText.Length > 200)
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionTVText, "200"), new[] { "MikeBoundaryConditionTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.LastUpdateContactTVText) && mikeBoundaryCondition.LastUpdateContactTVText.Length > 200)
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText) && mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText.Length > 100)
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLevelOrVelocityText, "100"), new[] { "MikeBoundaryConditionLevelOrVelocityText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.WebTideDataSetText) && mikeBoundaryCondition.WebTideDataSetText.Length > 100)
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionWebTideDataSetText, "100"), new[] { "WebTideDataSetText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mikeBoundaryCondition.TVTypeText) && mikeBoundaryCondition.TVTypeText.Length > 100)
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionTVTypeText, "100"), new[] { "TVTypeText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -229,11 +263,8 @@ namespace CSSPServices
         }
         public bool Delete(MikeBoundaryCondition mikeBoundaryCondition)
         {
-            if (!db.MikeBoundaryConditions.Where(c => c.MikeBoundaryConditionID == mikeBoundaryCondition.MikeBoundaryConditionID).Any())
-            {
-                mikeBoundaryCondition.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MikeBoundaryCondition", "MikeBoundaryConditionID", mikeBoundaryCondition.MikeBoundaryConditionID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            mikeBoundaryCondition.ValidationResults = Validate(new ValidationContext(mikeBoundaryCondition), ActionDBTypeEnum.Delete);
+            if (mikeBoundaryCondition.ValidationResults.Count() > 0) return false;
 
             db.MikeBoundaryConditions.Remove(mikeBoundaryCondition);
 
@@ -243,12 +274,6 @@ namespace CSSPServices
         }
         public bool Update(MikeBoundaryCondition mikeBoundaryCondition)
         {
-            if (!db.MikeBoundaryConditions.Where(c => c.MikeBoundaryConditionID == mikeBoundaryCondition.MikeBoundaryConditionID).Any())
-            {
-                mikeBoundaryCondition.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MikeBoundaryCondition", "MikeBoundaryConditionID", mikeBoundaryCondition.MikeBoundaryConditionID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             mikeBoundaryCondition.ValidationResults = Validate(new ValidationContext(mikeBoundaryCondition), ActionDBTypeEnum.Update);
             if (mikeBoundaryCondition.ValidationResults.Count() > 0) return false;
 

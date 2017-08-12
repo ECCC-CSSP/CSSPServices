@@ -53,6 +53,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SampleType") labSheetA1Measurement.SampleType = (SampleTypeEnum)GetRandomEnumType(typeof(SampleTypeEnum));
             if (OmitPropName != "SiteComment") labSheetA1Measurement.SiteComment = GetRandomString("", 20);
             if (OmitPropName != "SampleTypeText") labSheetA1Measurement.SampleTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") labSheetA1Measurement.HasErrors = true;
 
             return labSheetA1Measurement;
         }

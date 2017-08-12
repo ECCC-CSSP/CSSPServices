@@ -53,6 +53,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "PolSourceSiteTVText") polSourceSite.PolSourceSiteTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") polSourceSite.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "InactiveReasonText") polSourceSite.InactiveReasonText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") polSourceSite.HasErrors = true;
 
             return polSourceSite;
         }
@@ -84,20 +85,22 @@ namespace CSSPServices.Tests
 
                 count = polSourceSiteService.GetRead().Count();
 
+                Assert.AreEqual(polSourceSiteService.GetRead().Count(), polSourceSiteService.GetEdit().Count());
+
                 polSourceSiteService.Add(polSourceSite);
-                if (polSourceSite.ValidationResults.Count() > 0)
+                if (polSourceSite.HasErrors)
                 {
                     Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, polSourceSiteService.GetRead().Where(c => c == polSourceSite).Any());
                 polSourceSiteService.Update(polSourceSite);
-                if (polSourceSite.ValidationResults.Count() > 0)
+                if (polSourceSite.HasErrors)
                 {
                     Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, polSourceSiteService.GetRead().Count());
                 polSourceSiteService.Delete(polSourceSite);
-                if (polSourceSite.ValidationResults.Count() > 0)
+                if (polSourceSite.HasErrors)
                 {
                     Assert.AreEqual("", polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -121,6 +124,12 @@ namespace CSSPServices.Tests
                 polSourceSite.PolSourceSiteID = 0;
                 polSourceSiteService.Update(polSourceSite);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceSitePolSourceSiteID), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                polSourceSite = null;
+                polSourceSite = GetFilledRandomPolSourceSite("");
+                polSourceSite.PolSourceSiteID = 10000000;
+                polSourceSiteService.Update(polSourceSite);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceSite, ModelsRes.PolSourceSitePolSourceSiteID, polSourceSite.PolSourceSiteID.ToString()), polSourceSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -323,6 +332,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // polSourceSite.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // polSourceSite.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -380,6 +396,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.LastUpdateContactTVText));
                 Assert.IsNotNull(polSourceSiteRet.InactiveReasonText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceSiteRet.InactiveReasonText));
+                Assert.IsNotNull(polSourceSiteRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

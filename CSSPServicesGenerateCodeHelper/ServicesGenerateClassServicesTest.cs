@@ -36,6 +36,12 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"                " + TypeNameLower + @"Service.Update(" + TypeNameLower + @");");
             sb.AppendLine(@"                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + csspProp.PropName + "), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
             sb.AppendLine(@"");
+            sb.AppendLine(@"                " + TypeNameLower + @" = null;");
+            sb.AppendLine(@"                " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
+            sb.AppendLine(@"                " + TypeNameLower + "." + csspProp.PropName + " = 10000000;");
+            sb.AppendLine(@"                " + TypeNameLower + @"Service.Update(" + TypeNameLower + @");");
+            sb.AppendLine(@"                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + TypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+            sb.AppendLine(@"");
         }
         private void CreateClass_CSSPEnumType_Testing(CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
         {
@@ -140,6 +146,8 @@ namespace CSSPServicesGenerateCodeHelper
         {
             sb.AppendLine(@"                count = " + TypeNameLower + @"Service.GetRead().Count();");
             sb.AppendLine(@"");
+            sb.AppendLine(@"                Assert.AreEqual(" + TypeNameLower + @"Service.GetRead().Count(), " + TypeNameLower + @"Service.GetEdit().Count());");
+            sb.AppendLine(@"");
             if (TypeName == "Contact")
             {
                 sb.AppendLine(@"                " + TypeNameLower + @"Service.Add(" + TypeNameLower + @", ContactService.AddContactType.LoggedIn);");
@@ -148,19 +156,19 @@ namespace CSSPServicesGenerateCodeHelper
             {
                 sb.AppendLine(@"                " + TypeNameLower + @"Service.Add(" + TypeNameLower + @");");
             }
-            sb.AppendLine(@"                if (" + TypeNameLower + @".ValidationResults.Count() > 0)");
+            sb.AppendLine(@"                if (" + TypeNameLower + @".HasErrors)");
             sb.AppendLine(@"                {");
             sb.AppendLine(@"                    Assert.AreEqual("""", " + TypeNameLower + @".ValidationResults.FirstOrDefault().ErrorMessage);");
             sb.AppendLine(@"                }");
             sb.AppendLine(@"                Assert.AreEqual(true, " + TypeNameLower + @"Service.GetRead().Where(c => c == " + TypeNameLower + @").Any());");
             sb.AppendLine(@"                " + TypeNameLower + @"Service.Update(" + TypeNameLower + @");");
-            sb.AppendLine(@"                if (" + TypeNameLower + @".ValidationResults.Count() > 0)");
+            sb.AppendLine(@"                if (" + TypeNameLower + @".HasErrors)");
             sb.AppendLine(@"                {");
             sb.AppendLine(@"                    Assert.AreEqual("""", " + TypeNameLower + @".ValidationResults.FirstOrDefault().ErrorMessage);");
             sb.AppendLine(@"                }");
             sb.AppendLine(@"                Assert.AreEqual(count + 1, " + TypeNameLower + @"Service.GetRead().Count());");
             sb.AppendLine(@"                " + TypeNameLower + @"Service.Delete(" + TypeNameLower + @");");
-            sb.AppendLine(@"                if (" + TypeNameLower + @".ValidationResults.Count() > 0)");
+            sb.AppendLine(@"                if (" + TypeNameLower + @".HasErrors)");
             sb.AppendLine(@"                {");
             sb.AppendLine(@"                    Assert.AreEqual("""", " + TypeNameLower + @".ValidationResults.FirstOrDefault().ErrorMessage);");
             sb.AppendLine(@"                }");

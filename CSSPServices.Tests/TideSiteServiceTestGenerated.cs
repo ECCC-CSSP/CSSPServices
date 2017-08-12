@@ -47,6 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVItemID") tideSite.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "TideSiteTVText") tideSite.TideSiteTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") tideSite.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") tideSite.HasErrors = true;
 
             return tideSite;
         }
@@ -78,20 +79,22 @@ namespace CSSPServices.Tests
 
                 count = tideSiteService.GetRead().Count();
 
+                Assert.AreEqual(tideSiteService.GetRead().Count(), tideSiteService.GetEdit().Count());
+
                 tideSiteService.Add(tideSite);
-                if (tideSite.ValidationResults.Count() > 0)
+                if (tideSite.HasErrors)
                 {
                     Assert.AreEqual("", tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, tideSiteService.GetRead().Where(c => c == tideSite).Any());
                 tideSiteService.Update(tideSite);
-                if (tideSite.ValidationResults.Count() > 0)
+                if (tideSite.HasErrors)
                 {
                     Assert.AreEqual("", tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, tideSiteService.GetRead().Count());
                 tideSiteService.Delete(tideSite);
-                if (tideSite.ValidationResults.Count() > 0)
+                if (tideSite.HasErrors)
                 {
                     Assert.AreEqual("", tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -115,6 +118,12 @@ namespace CSSPServices.Tests
                 tideSite.TideSiteID = 0;
                 tideSiteService.Update(tideSite);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TideSiteTideSiteID), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                tideSite = null;
+                tideSite = GetFilledRandomTideSite("");
+                tideSite.TideSiteID = 10000000;
+                tideSiteService.Update(tideSite);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TideSite, ModelsRes.TideSiteTideSiteID, tideSite.TideSiteID.ToString()), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -237,6 +246,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // tideSite.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // tideSite.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -269,6 +285,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteRet.TideSiteTVText));
                 Assert.IsNotNull(tideSiteRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tideSiteRet.LastUpdateContactTVText));
+                Assert.IsNotNull(tideSiteRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

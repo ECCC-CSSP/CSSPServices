@@ -44,6 +44,7 @@ namespace CSSPServices.Tests
             // should implement a Range for the property Year and type SubsectorMWQMSampleYear
             if (OmitPropName != "EarliestDate") subsectorMWQMSampleYear.EarliestDate = new DateTime(2005, 3, 6);
             if (OmitPropName != "LatestDate") subsectorMWQMSampleYear.LatestDate = new DateTime(2005, 3, 6);
+            if (OmitPropName != "HasErrors") subsectorMWQMSampleYear.HasErrors = true;
 
             return subsectorMWQMSampleYear;
         }

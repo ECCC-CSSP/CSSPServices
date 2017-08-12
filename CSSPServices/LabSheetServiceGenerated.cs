@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             LabSheet labSheet = validationContext.ObjectInstance as LabSheet;
+            labSheet.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (labSheet.LabSheetID == 0)
                 {
+                    labSheet.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetLabSheetID), new[] { "LabSheetID" });
+                }
+
+                if (!GetRead().Where(c => c.LabSheetID == labSheet.LabSheetID).Any())
+                {
+                    labSheet.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheet, ModelsRes.LabSheetLabSheetID, labSheet.LabSheetID.ToString()), new[] { "LabSheetID" });
                 }
             }
 
@@ -52,6 +60,7 @@ namespace CSSPServices
 
             if (labSheet.OtherServerLabSheetID < 1)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetOtherServerLabSheetID, "1"), new[] { "OtherServerLabSheetID" });
             }
 
@@ -61,16 +70,19 @@ namespace CSSPServices
 
             if (SamplingPlanSamplingPlanID == null)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlan, ModelsRes.LabSheetSamplingPlanID, labSheet.SamplingPlanID.ToString()), new[] { "SamplingPlanID" });
             }
 
             if (string.IsNullOrWhiteSpace(labSheet.SamplingPlanName))
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetSamplingPlanName), new[] { "SamplingPlanName" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheet.SamplingPlanName) && (labSheet.SamplingPlanName.Length < 1 || labSheet.SamplingPlanName.Length > 250))
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetSamplingPlanName, "1", "250"), new[] { "SamplingPlanName" });
             }
 
@@ -78,6 +90,7 @@ namespace CSSPServices
 
             if (labSheet.Year < 1980)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetYear, "1980"), new[] { "Year" });
             }
 
@@ -85,6 +98,7 @@ namespace CSSPServices
 
             if (labSheet.Month < 1 || labSheet.Month > 12)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetMonth, "1", "12"), new[] { "Month" });
             }
 
@@ -92,6 +106,7 @@ namespace CSSPServices
 
             if (labSheet.Day < 1 || labSheet.Day > 31)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetDay, "1", "31"), new[] { "Day" });
             }
 
@@ -99,6 +114,7 @@ namespace CSSPServices
 
             if (labSheet.RunNumber < 1 || labSheet.RunNumber > 100)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetRunNumber, "1", "100"), new[] { "RunNumber" });
             }
 
@@ -108,6 +124,7 @@ namespace CSSPServices
 
             if (TVItemSubsectorTVItemID == null)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetSubsectorTVItemID, labSheet.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
             }
             else
@@ -118,6 +135,7 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemSubsectorTVItemID.TVType))
                 {
+                    labSheet.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LabSheetSubsectorTVItemID, "Subsector"), new[] { "SubsectorTVItemID" });
                 }
             }
@@ -128,6 +146,7 @@ namespace CSSPServices
 
                 if (TVItemMWQMRunTVItemID == null)
                 {
+                    labSheet.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetMWQMRunTVItemID, labSheet.MWQMRunTVItemID.ToString()), new[] { "MWQMRunTVItemID" });
                 }
                 else
@@ -138,6 +157,7 @@ namespace CSSPServices
                     };
                     if (!AllowableTVTypes.Contains(TVItemMWQMRunTVItemID.TVType))
                     {
+                        labSheet.HasErrors = true;
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LabSheetMWQMRunTVItemID, "MWQMRun"), new[] { "MWQMRunTVItemID" });
                     }
                 }
@@ -146,51 +166,60 @@ namespace CSSPServices
             retStr = enums.SamplingPlanTypeOK(labSheet.SamplingPlanType);
             if (labSheet.SamplingPlanType == SamplingPlanTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetSamplingPlanType), new[] { "SamplingPlanType" });
             }
 
             retStr = enums.SampleTypeOK(labSheet.SampleType);
             if (labSheet.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetSampleType), new[] { "SampleType" });
             }
 
             retStr = enums.LabSheetTypeOK(labSheet.LabSheetType);
             if (labSheet.LabSheetType == LabSheetTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetLabSheetType), new[] { "LabSheetType" });
             }
 
             retStr = enums.LabSheetStatusOK(labSheet.LabSheetStatus);
             if (labSheet.LabSheetStatus == LabSheetStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetLabSheetStatus), new[] { "LabSheetStatus" });
             }
 
             if (string.IsNullOrWhiteSpace(labSheet.FileName))
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetFileName), new[] { "FileName" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheet.FileName) && (labSheet.FileName.Length < 1 || labSheet.FileName.Length > 250))
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LabSheetFileName, "1", "250"), new[] { "FileName" });
             }
 
             if (labSheet.FileLastModifiedDate_Local.Year == 1)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetFileLastModifiedDate_Local), new[] { "FileLastModifiedDate_Local" });
             }
             else
             {
                 if (labSheet.FileLastModifiedDate_Local.Year < 1980)
                 {
+                labSheet.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetFileLastModifiedDate_Local, "1980"), new[] { "FileLastModifiedDate_Local" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(labSheet.FileContent))
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetFileContent), new[] { "FileContent" });
             }
 
@@ -202,6 +231,7 @@ namespace CSSPServices
 
                 if (TVItemAcceptedOrRejectedByContactTVItemID == null)
                 {
+                    labSheet.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID, labSheet.AcceptedOrRejectedByContactTVItemID.ToString()), new[] { "AcceptedOrRejectedByContactTVItemID" });
                 }
                 else
@@ -212,6 +242,7 @@ namespace CSSPServices
                     };
                     if (!AllowableTVTypes.Contains(TVItemAcceptedOrRejectedByContactTVItemID.TVType))
                     {
+                        labSheet.HasErrors = true;
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LabSheetAcceptedOrRejectedByContactTVItemID, "Contact"), new[] { "AcceptedOrRejectedByContactTVItemID" });
                     }
                 }
@@ -219,22 +250,26 @@ namespace CSSPServices
 
             if (labSheet.AcceptedOrRejectedDateTime != null && ((DateTime)labSheet.AcceptedOrRejectedDateTime).Year < 1980)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetAcceptedOrRejectedDateTime, "1980"), new[] { ModelsRes.LabSheetAcceptedOrRejectedDateTime });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheet.RejectReason) && labSheet.RejectReason.Length > 250)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetRejectReason, "250"), new[] { "RejectReason" });
             }
 
             if (labSheet.LastUpdateDate_UTC.Year == 1)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (labSheet.LastUpdateDate_UTC.Year < 1980)
                 {
+                labSheet.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LabSheetLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -245,6 +280,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LabSheetLastUpdateContactTVItemID, labSheet.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -255,53 +291,65 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    labSheet.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LabSheetLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(labSheet.SubsectorTVText) && labSheet.SubsectorTVText.Length > 200)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetSubsectorTVText, "200"), new[] { "SubsectorTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheet.MWQMRunTVText) && labSheet.MWQMRunTVText.Length > 200)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetMWQMRunTVText, "200"), new[] { "MWQMRunTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheet.AcceptedOrRejectedByContactTVText) && labSheet.AcceptedOrRejectedByContactTVText.Length > 200)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetAcceptedOrRejectedByContactTVText, "200"), new[] { "AcceptedOrRejectedByContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheet.LastUpdateContactTVText) && labSheet.LastUpdateContactTVText.Length > 200)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheet.SamplingPlanTypeText) && labSheet.SamplingPlanTypeText.Length > 100)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetSamplingPlanTypeText, "100"), new[] { "SamplingPlanTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheet.SampleTypeText) && labSheet.SampleTypeText.Length > 100)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetSampleTypeText, "100"), new[] { "SampleTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheet.LabSheetTypeText) && labSheet.LabSheetTypeText.Length > 100)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetLabSheetTypeText, "100"), new[] { "LabSheetTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheet.LabSheetStatusText) && labSheet.LabSheetStatusText.Length > 100)
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetLabSheetStatusText, "100"), new[] { "LabSheetStatusText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                labSheet.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -333,11 +381,8 @@ namespace CSSPServices
         }
         public bool Delete(LabSheet labSheet)
         {
-            if (!db.LabSheets.Where(c => c.LabSheetID == labSheet.LabSheetID).Any())
-            {
-                labSheet.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "LabSheet", "LabSheetID", labSheet.LabSheetID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            labSheet.ValidationResults = Validate(new ValidationContext(labSheet), ActionDBTypeEnum.Delete);
+            if (labSheet.ValidationResults.Count() > 0) return false;
 
             db.LabSheets.Remove(labSheet);
 
@@ -347,12 +392,6 @@ namespace CSSPServices
         }
         public bool Update(LabSheet labSheet)
         {
-            if (!db.LabSheets.Where(c => c.LabSheetID == labSheet.LabSheetID).Any())
-            {
-                labSheet.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "LabSheet", "LabSheetID", labSheet.LabSheetID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             labSheet.ValidationResults = Validate(new ValidationContext(labSheet), ActionDBTypeEnum.Update);
             if (labSheet.ValidationResults.Count() > 0) return false;
 

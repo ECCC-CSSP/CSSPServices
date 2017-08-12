@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             HydrometricSite hydrometricSite = validationContext.ObjectInstance as HydrometricSite;
+            hydrometricSite.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (hydrometricSite.HydrometricSiteID == 0)
                 {
+                    hydrometricSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteHydrometricSiteID), new[] { "HydrometricSiteID" });
+                }
+
+                if (!GetRead().Where(c => c.HydrometricSiteID == hydrometricSite.HydrometricSiteID).Any())
+                {
+                    hydrometricSite.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricSite, ModelsRes.HydrometricSiteHydrometricSiteID, hydrometricSite.HydrometricSiteID.ToString()), new[] { "HydrometricSiteID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (TVItemHydrometricSiteTVItemID == null)
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.HydrometricSiteHydrometricSiteTVItemID, hydrometricSite.HydrometricSiteTVItemID.ToString()), new[] { "HydrometricSiteTVItemID" });
             }
             else
@@ -64,42 +73,50 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemHydrometricSiteTVItemID.TVType))
                 {
+                    hydrometricSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.HydrometricSiteHydrometricSiteTVItemID, "HydrometricSite"), new[] { "HydrometricSiteTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(hydrometricSite.FedSiteNumber) && hydrometricSite.FedSiteNumber.Length > 7)
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteFedSiteNumber, "7"), new[] { "FedSiteNumber" });
             }
 
             if (!string.IsNullOrWhiteSpace(hydrometricSite.QuebecSiteNumber) && hydrometricSite.QuebecSiteNumber.Length > 7)
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteQuebecSiteNumber, "7"), new[] { "QuebecSiteNumber" });
             }
 
             if (string.IsNullOrWhiteSpace(hydrometricSite.HydrometricSiteName))
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteHydrometricSiteName), new[] { "HydrometricSiteName" });
             }
 
             if (!string.IsNullOrWhiteSpace(hydrometricSite.HydrometricSiteName) && hydrometricSite.HydrometricSiteName.Length > 200)
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteHydrometricSiteName, "200"), new[] { "HydrometricSiteName" });
             }
 
             if (!string.IsNullOrWhiteSpace(hydrometricSite.Description) && hydrometricSite.Description.Length > 200)
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteDescription, "200"), new[] { "Description" });
             }
 
             if (string.IsNullOrWhiteSpace(hydrometricSite.Province))
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteProvince), new[] { "Province" });
             }
 
             if (!string.IsNullOrWhiteSpace(hydrometricSite.Province) && hydrometricSite.Province.Length > 4)
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteProvince, "4"), new[] { "Province" });
             }
 
@@ -107,22 +124,26 @@ namespace CSSPServices
             {
                 if (hydrometricSite.Elevation_m < 0 || hydrometricSite.Elevation_m > 10000)
                 {
+                    hydrometricSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteElevation_m, "0", "10000"), new[] { "Elevation_m" });
                 }
             }
 
             if (hydrometricSite.StartDate_Local != null && ((DateTime)hydrometricSite.StartDate_Local).Year < 1980)
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.HydrometricSiteStartDate_Local, "1980"), new[] { ModelsRes.HydrometricSiteStartDate_Local });
             }
 
             if (hydrometricSite.EndDate_Local != null && ((DateTime)hydrometricSite.EndDate_Local).Year < 1980)
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.HydrometricSiteEndDate_Local, "1980"), new[] { ModelsRes.HydrometricSiteEndDate_Local });
             }
 
             if (hydrometricSite.StartDate_Local > hydrometricSite.EndDate_Local)
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.HydrometricSiteEndDate_Local, ModelsRes.HydrometricSiteStartDate_Local), new[] { ModelsRes.HydrometricSiteEndDate_Local });
             }
 
@@ -130,6 +151,7 @@ namespace CSSPServices
             {
                 if (hydrometricSite.TimeOffset_hour < -10 || hydrometricSite.TimeOffset_hour > 0)
                 {
+                    hydrometricSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteTimeOffset_hour, "-10", "0"), new[] { "TimeOffset_hour" });
                 }
             }
@@ -138,18 +160,21 @@ namespace CSSPServices
             {
                 if (hydrometricSite.DrainageArea_km2 < 0 || hydrometricSite.DrainageArea_km2 > 1000000)
                 {
+                    hydrometricSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricSiteDrainageArea_km2, "0", "1000000"), new[] { "DrainageArea_km2" });
                 }
             }
 
             if (hydrometricSite.LastUpdateDate_UTC.Year == 1)
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (hydrometricSite.LastUpdateDate_UTC.Year < 1980)
                 {
+                hydrometricSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.HydrometricSiteLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -160,6 +185,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.HydrometricSiteLastUpdateContactTVItemID, hydrometricSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -170,23 +196,29 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    hydrometricSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.HydrometricSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(hydrometricSite.HydrometricTVText) && hydrometricSite.HydrometricTVText.Length > 200)
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteHydrometricTVText, "200"), new[] { "HydrometricTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(hydrometricSite.LastUpdateContactTVText) && hydrometricSite.LastUpdateContactTVText.Length > 200)
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                hydrometricSite.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -218,11 +250,8 @@ namespace CSSPServices
         }
         public bool Delete(HydrometricSite hydrometricSite)
         {
-            if (!db.HydrometricSites.Where(c => c.HydrometricSiteID == hydrometricSite.HydrometricSiteID).Any())
-            {
-                hydrometricSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "HydrometricSite", "HydrometricSiteID", hydrometricSite.HydrometricSiteID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            hydrometricSite.ValidationResults = Validate(new ValidationContext(hydrometricSite), ActionDBTypeEnum.Delete);
+            if (hydrometricSite.ValidationResults.Count() > 0) return false;
 
             db.HydrometricSites.Remove(hydrometricSite);
 
@@ -232,12 +261,6 @@ namespace CSSPServices
         }
         public bool Update(HydrometricSite hydrometricSite)
         {
-            if (!db.HydrometricSites.Where(c => c.HydrometricSiteID == hydrometricSite.HydrometricSiteID).Any())
-            {
-                hydrometricSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "HydrometricSite", "HydrometricSiteID", hydrometricSite.HydrometricSiteID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             hydrometricSite.ValidationResults = Validate(new ValidationContext(hydrometricSite), ActionDBTypeEnum.Update);
             if (hydrometricSite.ValidationResults.Count() > 0) return false;
 

@@ -37,11 +37,13 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             ElementLayer elementLayer = validationContext.ObjectInstance as ElementLayer;
+            elementLayer.HasErrors = false;
 
             //Layer (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (elementLayer.Layer < 1 || elementLayer.Layer > 1000)
             {
+                elementLayer.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ElementLayerLayer, "1", "1000"), new[] { "Layer" });
             }
 
@@ -53,9 +55,12 @@ namespace CSSPServices
 
             //ZMax has no Range Attribute
 
+            //HasErrors (bool) is required but no testing needed 
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                elementLayer.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

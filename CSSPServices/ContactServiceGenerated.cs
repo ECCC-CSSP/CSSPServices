@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             Contact contact = validationContext.ObjectInstance as Contact;
+            contact.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (contact.ContactID == 0)
                 {
+                    contact.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactContactID), new[] { "ContactID" });
+                }
+
+                if (!GetRead().Where(c => c.ContactID == contact.ContactID).Any())
+                {
+                    contact.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactContactID, contact.ContactID.ToString()), new[] { "ContactID" });
                 }
             }
 
@@ -50,11 +58,13 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(contact.Id))
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactId), new[] { "Id" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.Id) && contact.Id.Length > 128)
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactId, "128"), new[] { "Id" });
             }
 
@@ -64,6 +74,7 @@ namespace CSSPServices
 
             if (TVItemContactTVItemID == null)
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactContactTVItemID, contact.ContactTVItemID.ToString()), new[] { "ContactTVItemID" });
             }
             else
@@ -74,17 +85,20 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemContactTVItemID.TVType))
                 {
+                    contact.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactContactTVItemID, "Contact"), new[] { "ContactTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(contact.LoginEmail))
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail), new[] { "LoginEmail" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.LoginEmail) && (contact.LoginEmail.Length < 6 || contact.LoginEmail.Length > 255))
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginEmail, "6", "255"), new[] { "LoginEmail" });
             }
 
@@ -93,42 +107,50 @@ namespace CSSPServices
                 Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
                 if (!regex.IsMatch(contact.LoginEmail))
                 {
+                    contact.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.ContactLoginEmail), new[] { "LoginEmail" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(contact.FirstName))
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactFirstName), new[] { "FirstName" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.FirstName) && contact.FirstName.Length > 100)
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactFirstName, "100"), new[] { "FirstName" });
             }
 
             if (string.IsNullOrWhiteSpace(contact.LastName))
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLastName), new[] { "LastName" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.LastName) && contact.LastName.Length > 100)
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLastName, "100"), new[] { "LastName" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.Initial) && contact.Initial.Length > 50)
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactInitial, "50"), new[] { "Initial" });
             }
 
             if (string.IsNullOrWhiteSpace(contact.WebName))
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactWebName), new[] { "WebName" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.WebName) && contact.WebName.Length > 100)
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactWebName, "100"), new[] { "WebName" });
             }
 
@@ -137,6 +159,7 @@ namespace CSSPServices
                 retStr = enums.ContactTitleOK(contact.ContactTitle);
                 if (contact.ContactTitle == ContactTitleEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
+                    contact.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactContactTitle), new[] { "ContactTitle" });
                 }
             }
@@ -151,17 +174,20 @@ namespace CSSPServices
 
             if (!string.IsNullOrWhiteSpace(contact.SamplingPlanner_ProvincesTVItemID) && contact.SamplingPlanner_ProvincesTVItemID.Length > 200)
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactSamplingPlanner_ProvincesTVItemID, "200"), new[] { "SamplingPlanner_ProvincesTVItemID" });
             }
 
             if (contact.LastUpdateDate_UTC.Year == 1)
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (contact.LastUpdateDate_UTC.Year < 1980)
                 {
+                contact.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ContactLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -172,6 +198,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactLastUpdateContactTVItemID, contact.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -182,17 +209,20 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    contact.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(contact.ContactTVText) && contact.ContactTVText.Length > 200)
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactContactTVText, "200"), new[] { "ContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.LastUpdateContactTVText) && contact.LastUpdateContactTVText.Length > 200)
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
@@ -200,17 +230,22 @@ namespace CSSPServices
 
             if (contact.ParentTVItemID < 1)
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactParentTVItemID, "1"), new[] { "ParentTVItemID" });
             }
 
             if (!string.IsNullOrWhiteSpace(contact.ContactTitleText) && contact.ContactTitleText.Length > 100)
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactContactTitleText, "100"), new[] { "ContactTitleText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                contact.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -242,11 +277,8 @@ namespace CSSPServices
         }
         public bool Delete(Contact contact)
         {
-            if (!db.Contacts.Where(c => c.ContactID == contact.ContactID).Any())
-            {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Contact", "ContactID", contact.ContactID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            contact.ValidationResults = Validate(new ValidationContext(contact), ActionDBTypeEnum.Update, ContactService.AddContactType.LoggedIn);
+            if (contact.ValidationResults.Count() > 0) return false;
 
             db.Contacts.Remove(contact);
 
@@ -256,12 +288,6 @@ namespace CSSPServices
         }
         public bool Update(Contact contact)
         {
-            if (!db.Contacts.Where(c => c.ContactID == contact.ContactID).Any())
-            {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Contact", "ContactID", contact.ContactID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             contact.ValidationResults = Validate(new ValidationContext(contact), ActionDBTypeEnum.Update, ContactService.AddContactType.LoggedIn);
             if (contact.ValidationResults.Count() > 0) return false;
 

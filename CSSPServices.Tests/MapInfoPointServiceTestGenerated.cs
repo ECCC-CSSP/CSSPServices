@@ -47,6 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateDate_UTC") mapInfoPoint.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mapInfoPoint.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") mapInfoPoint.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") mapInfoPoint.HasErrors = true;
 
             return mapInfoPoint;
         }
@@ -78,20 +79,22 @@ namespace CSSPServices.Tests
 
                 count = mapInfoPointService.GetRead().Count();
 
+                Assert.AreEqual(mapInfoPointService.GetRead().Count(), mapInfoPointService.GetEdit().Count());
+
                 mapInfoPointService.Add(mapInfoPoint);
-                if (mapInfoPoint.ValidationResults.Count() > 0)
+                if (mapInfoPoint.HasErrors)
                 {
                     Assert.AreEqual("", mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, mapInfoPointService.GetRead().Where(c => c == mapInfoPoint).Any());
                 mapInfoPointService.Update(mapInfoPoint);
-                if (mapInfoPoint.ValidationResults.Count() > 0)
+                if (mapInfoPoint.HasErrors)
                 {
                     Assert.AreEqual("", mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, mapInfoPointService.GetRead().Count());
                 mapInfoPointService.Delete(mapInfoPoint);
-                if (mapInfoPoint.ValidationResults.Count() > 0)
+                if (mapInfoPoint.HasErrors)
                 {
                     Assert.AreEqual("", mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -115,6 +118,12 @@ namespace CSSPServices.Tests
                 mapInfoPoint.MapInfoPointID = 0;
                 mapInfoPointService.Update(mapInfoPoint);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoPointMapInfoPointID), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                mapInfoPoint = null;
+                mapInfoPoint = GetFilledRandomMapInfoPoint("");
+                mapInfoPoint.MapInfoPointID = 10000000;
+                mapInfoPointService.Update(mapInfoPoint);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MapInfoPoint, ModelsRes.MapInfoPointMapInfoPointID, mapInfoPoint.MapInfoPointID.ToString()), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -229,6 +238,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // mapInfoPoint.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // mapInfoPoint.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -259,6 +275,7 @@ namespace CSSPServices.Tests
 
                 Assert.IsNotNull(mapInfoPointRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoPointRet.LastUpdateContactTVText));
+                Assert.IsNotNull(mapInfoPointRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

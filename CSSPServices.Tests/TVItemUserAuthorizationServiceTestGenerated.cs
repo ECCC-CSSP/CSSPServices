@@ -55,6 +55,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TVText4") tvItemUserAuthorization.TVText4 = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") tvItemUserAuthorization.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "TVAuthText") tvItemUserAuthorization.TVAuthText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") tvItemUserAuthorization.HasErrors = true;
 
             return tvItemUserAuthorization;
         }
@@ -86,20 +87,22 @@ namespace CSSPServices.Tests
 
                 count = tvItemUserAuthorizationService.GetRead().Count();
 
+                Assert.AreEqual(tvItemUserAuthorizationService.GetRead().Count(), tvItemUserAuthorizationService.GetEdit().Count());
+
                 tvItemUserAuthorizationService.Add(tvItemUserAuthorization);
-                if (tvItemUserAuthorization.ValidationResults.Count() > 0)
+                if (tvItemUserAuthorization.HasErrors)
                 {
                     Assert.AreEqual("", tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, tvItemUserAuthorizationService.GetRead().Where(c => c == tvItemUserAuthorization).Any());
                 tvItemUserAuthorizationService.Update(tvItemUserAuthorization);
-                if (tvItemUserAuthorization.ValidationResults.Count() > 0)
+                if (tvItemUserAuthorization.HasErrors)
                 {
                     Assert.AreEqual("", tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, tvItemUserAuthorizationService.GetRead().Count());
                 tvItemUserAuthorizationService.Delete(tvItemUserAuthorization);
-                if (tvItemUserAuthorization.ValidationResults.Count() > 0)
+                if (tvItemUserAuthorization.HasErrors)
                 {
                     Assert.AreEqual("", tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -123,6 +126,12 @@ namespace CSSPServices.Tests
                 tvItemUserAuthorization.TVItemUserAuthorizationID = 0;
                 tvItemUserAuthorizationService.Update(tvItemUserAuthorization);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationTVItemUserAuthorizationID), tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                tvItemUserAuthorization = null;
+                tvItemUserAuthorization = GetFilledRandomTVItemUserAuthorization("");
+                tvItemUserAuthorization.TVItemUserAuthorizationID = 10000000;
+                tvItemUserAuthorizationService.Update(tvItemUserAuthorization);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItemUserAuthorization, ModelsRes.TVItemUserAuthorizationTVItemUserAuthorizationID, tvItemUserAuthorization.TVItemUserAuthorizationID.ToString()), tvItemUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -366,6 +375,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // tvItemUserAuthorization.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // tvItemUserAuthorization.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -428,6 +444,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.LastUpdateContactTVText));
                 Assert.IsNotNull(tvItemUserAuthorizationRet.TVAuthText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemUserAuthorizationRet.TVAuthText));
+                Assert.IsNotNull(tvItemUserAuthorizationRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

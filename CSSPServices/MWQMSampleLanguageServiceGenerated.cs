@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             MWQMSampleLanguage mwqmSampleLanguage = validationContext.ObjectInstance as MWQMSampleLanguage;
+            mwqmSampleLanguage.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (mwqmSampleLanguage.MWQMSampleLanguageID == 0)
                 {
+                    mwqmSampleLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageMWQMSampleLanguageID), new[] { "MWQMSampleLanguageID" });
+                }
+
+                if (!GetRead().Where(c => c.MWQMSampleLanguageID == mwqmSampleLanguage.MWQMSampleLanguageID).Any())
+                {
+                    mwqmSampleLanguage.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSampleLanguage, ModelsRes.MWQMSampleLanguageMWQMSampleLanguageID, mwqmSampleLanguage.MWQMSampleLanguageID.ToString()), new[] { "MWQMSampleLanguageID" });
                 }
             }
 
@@ -54,17 +62,20 @@ namespace CSSPServices
 
             if (MWQMSampleMWQMSampleID == null)
             {
+                mwqmSampleLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSample, ModelsRes.MWQMSampleLanguageMWQMSampleID, mwqmSampleLanguage.MWQMSampleID.ToString()), new[] { "MWQMSampleID" });
             }
 
             retStr = enums.LanguageOK(mwqmSampleLanguage.Language);
             if (mwqmSampleLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                mwqmSampleLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageLanguage), new[] { "Language" });
             }
 
             if (string.IsNullOrWhiteSpace(mwqmSampleLanguage.MWQMSampleNote))
             {
+                mwqmSampleLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageMWQMSampleNote), new[] { "MWQMSampleNote" });
             }
 
@@ -73,17 +84,20 @@ namespace CSSPServices
             retStr = enums.TranslationStatusOK(mwqmSampleLanguage.TranslationStatus);
             if (mwqmSampleLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                mwqmSampleLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageTranslationStatus), new[] { "TranslationStatus" });
             }
 
             if (mwqmSampleLanguage.LastUpdateDate_UTC.Year == 1)
             {
+                mwqmSampleLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleLanguageLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mwqmSampleLanguage.LastUpdateDate_UTC.Year < 1980)
                 {
+                mwqmSampleLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSampleLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -94,6 +108,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                mwqmSampleLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSampleLanguageLastUpdateContactTVItemID, mwqmSampleLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -104,28 +119,35 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    mwqmSampleLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSampleLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSampleLanguage.LastUpdateContactTVText) && mwqmSampleLanguage.LastUpdateContactTVText.Length > 200)
             {
+                mwqmSampleLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleLanguageLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSampleLanguage.LanguageText) && mwqmSampleLanguage.LanguageText.Length > 100)
             {
+                mwqmSampleLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleLanguageLanguageText, "100"), new[] { "LanguageText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSampleLanguage.TranslationStatusText) && mwqmSampleLanguage.TranslationStatusText.Length > 100)
             {
+                mwqmSampleLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                mwqmSampleLanguage.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -157,11 +179,8 @@ namespace CSSPServices
         }
         public bool Delete(MWQMSampleLanguage mwqmSampleLanguage)
         {
-            if (!db.MWQMSampleLanguages.Where(c => c.MWQMSampleLanguageID == mwqmSampleLanguage.MWQMSampleLanguageID).Any())
-            {
-                mwqmSampleLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMSampleLanguage", "MWQMSampleLanguageID", mwqmSampleLanguage.MWQMSampleLanguageID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            mwqmSampleLanguage.ValidationResults = Validate(new ValidationContext(mwqmSampleLanguage), ActionDBTypeEnum.Delete);
+            if (mwqmSampleLanguage.ValidationResults.Count() > 0) return false;
 
             db.MWQMSampleLanguages.Remove(mwqmSampleLanguage);
 
@@ -171,12 +190,6 @@ namespace CSSPServices
         }
         public bool Update(MWQMSampleLanguage mwqmSampleLanguage)
         {
-            if (!db.MWQMSampleLanguages.Where(c => c.MWQMSampleLanguageID == mwqmSampleLanguage.MWQMSampleLanguageID).Any())
-            {
-                mwqmSampleLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MWQMSampleLanguage", "MWQMSampleLanguageID", mwqmSampleLanguage.MWQMSampleLanguageID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             mwqmSampleLanguage.ValidationResults = Validate(new ValidationContext(mwqmSampleLanguage), ActionDBTypeEnum.Update);
             if (mwqmSampleLanguage.ValidationResults.Count() > 0) return false;
 

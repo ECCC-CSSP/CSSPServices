@@ -37,11 +37,13 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             VPResValues vpResValues = validationContext.ObjectInstance as VPResValues;
+            vpResValues.HasErrors = false;
 
             //Conc (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpResValues.Conc < 0)
             {
+                vpResValues.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPResValuesConc, "0"), new[] { "Conc" });
             }
 
@@ -65,9 +67,12 @@ namespace CSSPServices
 
             //Decay has no Range Attribute
 
+            //HasErrors (bool) is required but no testing needed 
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                vpResValues.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

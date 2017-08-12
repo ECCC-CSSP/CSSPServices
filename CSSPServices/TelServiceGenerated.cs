@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             Tel tel = validationContext.ObjectInstance as Tel;
+            tel.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (tel.TelID == 0)
                 {
+                    tel.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TelTelID), new[] { "TelID" });
+                }
+
+                if (!GetRead().Where(c => c.TelID == tel.TelID).Any())
+                {
+                    tel.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Tel, ModelsRes.TelTelID, tel.TelID.ToString()), new[] { "TelID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (TVItemTelTVItemID == null)
             {
+                tel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TelTelTVItemID, tel.TelTVItemID.ToString()), new[] { "TelTVItemID" });
             }
             else
@@ -64,34 +73,40 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemTelTVItemID.TVType))
                 {
+                    tel.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TelTelTVItemID, "Tel"), new[] { "TelTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(tel.TelNumber))
             {
+                tel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TelTelNumber), new[] { "TelNumber" });
             }
 
             if (!string.IsNullOrWhiteSpace(tel.TelNumber) && tel.TelNumber.Length > 50)
             {
+                tel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelNumber, "50"), new[] { "TelNumber" });
             }
 
             retStr = enums.TelTypeOK(tel.TelType);
             if (tel.TelType == TelTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                tel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TelTelType), new[] { "TelType" });
             }
 
             if (tel.LastUpdateDate_UTC.Year == 1)
             {
+                tel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TelLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tel.LastUpdateDate_UTC.Year < 1980)
                 {
+                tel.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TelLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -102,6 +117,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                tel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TelLastUpdateContactTVItemID, tel.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -112,28 +128,35 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    tel.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TelLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(tel.TelTVText) && tel.TelTVText.Length > 200)
             {
+                tel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelTVText, "200"), new[] { "TelTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tel.LastUpdateContactTVText) && tel.LastUpdateContactTVText.Length > 200)
             {
+                tel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tel.TelTypeText) && tel.TelTypeText.Length > 100)
             {
+                tel.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelTypeText, "100"), new[] { "TelTypeText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                tel.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -165,11 +188,8 @@ namespace CSSPServices
         }
         public bool Delete(Tel tel)
         {
-            if (!db.Tels.Where(c => c.TelID == tel.TelID).Any())
-            {
-                tel.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Tel", "TelID", tel.TelID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            tel.ValidationResults = Validate(new ValidationContext(tel), ActionDBTypeEnum.Delete);
+            if (tel.ValidationResults.Count() > 0) return false;
 
             db.Tels.Remove(tel);
 
@@ -179,12 +199,6 @@ namespace CSSPServices
         }
         public bool Update(Tel tel)
         {
-            if (!db.Tels.Where(c => c.TelID == tel.TelID).Any())
-            {
-                tel.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Tel", "TelID", tel.TelID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             tel.ValidationResults = Validate(new ValidationContext(tel), ActionDBTypeEnum.Update);
             if (tel.ValidationResults.Count() > 0) return false;
 

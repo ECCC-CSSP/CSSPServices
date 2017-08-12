@@ -44,6 +44,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "PolSourceObsInfoChildStart") polSourceObsInfoChild.PolSourceObsInfoChildStart = (PolSourceObsInfoEnum)GetRandomEnumType(typeof(PolSourceObsInfoEnum));
             if (OmitPropName != "PolSourceObsInfoText") polSourceObsInfoChild.PolSourceObsInfoText = GetRandomString("", 5);
             if (OmitPropName != "PolSourceObsInfoChildStartText") polSourceObsInfoChild.PolSourceObsInfoChildStartText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") polSourceObsInfoChild.HasErrors = true;
 
             return polSourceObsInfoChild;
         }

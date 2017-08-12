@@ -47,6 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SubTVType") tvLocation.SubTVType = (TVTypeEnum)GetRandomEnumType(typeof(TVTypeEnum));
             if (OmitPropName != "TVTypeText") tvLocation.TVTypeText = GetRandomString("", 5);
             if (OmitPropName != "SubTVTypeText") tvLocation.SubTVTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") tvLocation.HasErrors = true;
 
             return tvLocation;
         }

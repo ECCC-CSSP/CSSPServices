@@ -37,11 +37,13 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             Node node = validationContext.ObjectInstance as Node;
+            node.HasErrors = false;
 
             //ID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (node.ID < 1 || node.ID > 1000000)
             {
+                node.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.NodeID, "1", "1000000"), new[] { "ID" });
             }
 
@@ -65,9 +67,12 @@ namespace CSSPServices
 
             //Value has no Range Attribute
 
+            //HasErrors (bool) is required but no testing needed 
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                node.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

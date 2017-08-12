@@ -48,6 +48,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateDate_UTC") appErrLog.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") appErrLog.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") appErrLog.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") appErrLog.HasErrors = true;
 
             return appErrLog;
         }
@@ -79,20 +80,22 @@ namespace CSSPServices.Tests
 
                 count = appErrLogService.GetRead().Count();
 
+                Assert.AreEqual(appErrLogService.GetRead().Count(), appErrLogService.GetEdit().Count());
+
                 appErrLogService.Add(appErrLog);
-                if (appErrLog.ValidationResults.Count() > 0)
+                if (appErrLog.HasErrors)
                 {
                     Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, appErrLogService.GetRead().Where(c => c == appErrLog).Any());
                 appErrLogService.Update(appErrLog);
-                if (appErrLog.ValidationResults.Count() > 0)
+                if (appErrLog.HasErrors)
                 {
                     Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, appErrLogService.GetRead().Count());
                 appErrLogService.Delete(appErrLog);
-                if (appErrLog.ValidationResults.Count() > 0)
+                if (appErrLog.HasErrors)
                 {
                     Assert.AreEqual("", appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -116,6 +119,12 @@ namespace CSSPServices.Tests
                 appErrLog.AppErrLogID = 0;
                 appErrLogService.Update(appErrLog);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogAppErrLogID), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                appErrLog = null;
+                appErrLog = GetFilledRandomAppErrLog("");
+                appErrLog.AppErrLogID = 10000000;
+                appErrLogService.Update(appErrLog);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppErrLog, ModelsRes.AppErrLogAppErrLogID, appErrLog.AppErrLogID.ToString()), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -231,6 +240,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // appErrLog.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // appErrLog.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -265,6 +281,7 @@ namespace CSSPServices.Tests
 
                 Assert.IsNotNull(appErrLogRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.LastUpdateContactTVText));
+                Assert.IsNotNull(appErrLogRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

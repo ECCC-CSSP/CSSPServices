@@ -47,6 +47,7 @@ namespace CSSPServices.Tests
             // should implement a Range for the property XNode0 and type Element
             // should implement a Range for the property YNode0 and type Element
             // should implement a Range for the property ZNode0 and type Element
+            if (OmitPropName != "HasErrors") element.HasErrors = true;
 
             return element;
         }

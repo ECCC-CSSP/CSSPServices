@@ -60,6 +60,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LanguageText") tvFile.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "FilePurposeText") tvFile.FilePurposeText = GetRandomString("", 5);
             if (OmitPropName != "FileTypeText") tvFile.FileTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") tvFile.HasErrors = true;
 
             return tvFile;
         }
@@ -91,20 +92,22 @@ namespace CSSPServices.Tests
 
                 count = tvFileService.GetRead().Count();
 
+                Assert.AreEqual(tvFileService.GetRead().Count(), tvFileService.GetEdit().Count());
+
                 tvFileService.Add(tvFile);
-                if (tvFile.ValidationResults.Count() > 0)
+                if (tvFile.HasErrors)
                 {
                     Assert.AreEqual("", tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, tvFileService.GetRead().Where(c => c == tvFile).Any());
                 tvFileService.Update(tvFile);
-                if (tvFile.ValidationResults.Count() > 0)
+                if (tvFile.HasErrors)
                 {
                     Assert.AreEqual("", tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, tvFileService.GetRead().Count());
                 tvFileService.Delete(tvFile);
-                if (tvFile.ValidationResults.Count() > 0)
+                if (tvFile.HasErrors)
                 {
                     Assert.AreEqual("", tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -128,6 +131,12 @@ namespace CSSPServices.Tests
                 tvFile.TVFileID = 0;
                 tvFileService.Update(tvFile);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTVFileID), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                tvFile = null;
+                tvFile = GetFilledRandomTVFile("");
+                tvFile.TVFileID = 10000000;
+                tvFileService.Update(tvFile);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVFile, ModelsRes.TVFileTVFileID, tvFile.TVFileID.ToString()), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -409,6 +418,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // tvFile.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // tvFile.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -470,6 +486,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.FilePurposeText));
                 Assert.IsNotNull(tvFileRet.FileTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvFileRet.FileTypeText));
+                Assert.IsNotNull(tvFileRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

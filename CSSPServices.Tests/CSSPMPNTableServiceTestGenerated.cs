@@ -44,6 +44,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Tube1_0") cSSPMPNTable.Tube1_0 = GetRandomInt(0, 5);
             if (OmitPropName != "Tube0_1") cSSPMPNTable.Tube0_1 = GetRandomInt(0, 5);
             if (OmitPropName != "MPN") cSSPMPNTable.MPN = GetRandomInt(0, 100000000);
+            if (OmitPropName != "HasErrors") cSSPMPNTable.HasErrors = true;
 
             return cSSPMPNTable;
         }

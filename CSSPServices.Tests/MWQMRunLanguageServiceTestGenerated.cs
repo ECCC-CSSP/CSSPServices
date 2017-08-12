@@ -52,6 +52,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LanguageText") mwqmRunLanguage.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusRunCommentText") mwqmRunLanguage.TranslationStatusRunCommentText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusRunWeatherCommentText") mwqmRunLanguage.TranslationStatusRunWeatherCommentText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") mwqmRunLanguage.HasErrors = true;
 
             return mwqmRunLanguage;
         }
@@ -83,20 +84,22 @@ namespace CSSPServices.Tests
 
                 count = mwqmRunLanguageService.GetRead().Count();
 
+                Assert.AreEqual(mwqmRunLanguageService.GetRead().Count(), mwqmRunLanguageService.GetEdit().Count());
+
                 mwqmRunLanguageService.Add(mwqmRunLanguage);
-                if (mwqmRunLanguage.ValidationResults.Count() > 0)
+                if (mwqmRunLanguage.HasErrors)
                 {
                     Assert.AreEqual("", mwqmRunLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, mwqmRunLanguageService.GetRead().Where(c => c == mwqmRunLanguage).Any());
                 mwqmRunLanguageService.Update(mwqmRunLanguage);
-                if (mwqmRunLanguage.ValidationResults.Count() > 0)
+                if (mwqmRunLanguage.HasErrors)
                 {
                     Assert.AreEqual("", mwqmRunLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, mwqmRunLanguageService.GetRead().Count());
                 mwqmRunLanguageService.Delete(mwqmRunLanguage);
-                if (mwqmRunLanguage.ValidationResults.Count() > 0)
+                if (mwqmRunLanguage.HasErrors)
                 {
                     Assert.AreEqual("", mwqmRunLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -120,6 +123,12 @@ namespace CSSPServices.Tests
                 mwqmRunLanguage.MWQMRunLanguageID = 0;
                 mwqmRunLanguageService.Update(mwqmRunLanguage);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLanguageMWQMRunLanguageID), mwqmRunLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                mwqmRunLanguage = null;
+                mwqmRunLanguage = GetFilledRandomMWQMRunLanguage("");
+                mwqmRunLanguage.MWQMRunLanguageID = 10000000;
+                mwqmRunLanguageService.Update(mwqmRunLanguage);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMRunLanguage, ModelsRes.MWQMRunLanguageMWQMRunLanguageID, mwqmRunLanguage.MWQMRunLanguageID.ToString()), mwqmRunLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -288,6 +297,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // mwqmRunLanguage.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // mwqmRunLanguage.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -328,6 +344,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageRet.TranslationStatusRunCommentText));
                 Assert.IsNotNull(mwqmRunLanguageRet.TranslationStatusRunWeatherCommentText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunLanguageRet.TranslationStatusRunWeatherCommentText));
+                Assert.IsNotNull(mwqmRunLanguageRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

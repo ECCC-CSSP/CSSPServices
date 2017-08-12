@@ -43,6 +43,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TVText") tvTextLanguage.TVText = GetRandomString("", 20);
             if (OmitPropName != "Language") tvTextLanguage.Language = LanguageRequest;
             if (OmitPropName != "LanguageText") tvTextLanguage.LanguageText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") tvTextLanguage.HasErrors = true;
 
             return tvTextLanguage;
         }

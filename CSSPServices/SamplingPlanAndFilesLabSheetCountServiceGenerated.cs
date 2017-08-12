@@ -37,11 +37,13 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             SamplingPlanAndFilesLabSheetCount samplingPlanAndFilesLabSheetCount = validationContext.ObjectInstance as SamplingPlanAndFilesLabSheetCount;
+            samplingPlanAndFilesLabSheetCount.HasErrors = false;
 
             //LabSheetHistoryCount (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (samplingPlanAndFilesLabSheetCount.LabSheetHistoryCount < 0)
             {
+                samplingPlanAndFilesLabSheetCount.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetHistoryCount, "0"), new[] { "LabSheetHistoryCount" });
             }
 
@@ -49,12 +51,16 @@ namespace CSSPServices
 
             if (samplingPlanAndFilesLabSheetCount.LabSheetTransferredCount < 0)
             {
+                samplingPlanAndFilesLabSheetCount.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetTransferredCount, "0"), new[] { "LabSheetTransferredCount" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                samplingPlanAndFilesLabSheetCount.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

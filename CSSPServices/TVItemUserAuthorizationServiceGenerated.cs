@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             TVItemUserAuthorization tvItemUserAuthorization = validationContext.ObjectInstance as TVItemUserAuthorization;
+            tvItemUserAuthorization.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (tvItemUserAuthorization.TVItemUserAuthorizationID == 0)
                 {
+                    tvItemUserAuthorization.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationTVItemUserAuthorizationID), new[] { "TVItemUserAuthorizationID" });
+                }
+
+                if (!GetRead().Where(c => c.TVItemUserAuthorizationID == tvItemUserAuthorization.TVItemUserAuthorizationID).Any())
+                {
+                    tvItemUserAuthorization.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItemUserAuthorization, ModelsRes.TVItemUserAuthorizationTVItemUserAuthorizationID, tvItemUserAuthorization.TVItemUserAuthorizationID.ToString()), new[] { "TVItemUserAuthorizationID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (TVItemContactTVItemID == null)
             {
+                tvItemUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationContactTVItemID, tvItemUserAuthorization.ContactTVItemID.ToString()), new[] { "ContactTVItemID" });
             }
             else
@@ -64,6 +73,7 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemContactTVItemID.TVType))
                 {
+                    tvItemUserAuthorization.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationContactTVItemID, "Contact"), new[] { "ContactTVItemID" });
                 }
             }
@@ -74,6 +84,7 @@ namespace CSSPServices
 
             if (TVItemTVItemID1 == null)
             {
+                tvItemUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID1, tvItemUserAuthorization.TVItemID1.ToString()), new[] { "TVItemID1" });
             }
             else
@@ -105,6 +116,7 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemTVItemID1.TVType))
                 {
+                    tvItemUserAuthorization.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationTVItemID1, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "TVItemID1" });
                 }
             }
@@ -115,6 +127,7 @@ namespace CSSPServices
 
                 if (TVItemTVItemID2 == null)
                 {
+                    tvItemUserAuthorization.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID2, tvItemUserAuthorization.TVItemID2.ToString()), new[] { "TVItemID2" });
                 }
                 else
@@ -146,6 +159,7 @@ namespace CSSPServices
                     };
                     if (!AllowableTVTypes.Contains(TVItemTVItemID2.TVType))
                     {
+                        tvItemUserAuthorization.HasErrors = true;
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationTVItemID2, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "TVItemID2" });
                     }
                 }
@@ -157,6 +171,7 @@ namespace CSSPServices
 
                 if (TVItemTVItemID3 == null)
                 {
+                    tvItemUserAuthorization.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID3, tvItemUserAuthorization.TVItemID3.ToString()), new[] { "TVItemID3" });
                 }
                 else
@@ -188,6 +203,7 @@ namespace CSSPServices
                     };
                     if (!AllowableTVTypes.Contains(TVItemTVItemID3.TVType))
                     {
+                        tvItemUserAuthorization.HasErrors = true;
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationTVItemID3, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "TVItemID3" });
                     }
                 }
@@ -199,6 +215,7 @@ namespace CSSPServices
 
                 if (TVItemTVItemID4 == null)
                 {
+                    tvItemUserAuthorization.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationTVItemID4, tvItemUserAuthorization.TVItemID4.ToString()), new[] { "TVItemID4" });
                 }
                 else
@@ -230,6 +247,7 @@ namespace CSSPServices
                     };
                     if (!AllowableTVTypes.Contains(TVItemTVItemID4.TVType))
                     {
+                        tvItemUserAuthorization.HasErrors = true;
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationTVItemID4, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "TVItemID4" });
                     }
                 }
@@ -238,17 +256,20 @@ namespace CSSPServices
             retStr = enums.TVAuthOK(tvItemUserAuthorization.TVAuth);
             if (tvItemUserAuthorization.TVAuth == TVAuthEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                tvItemUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationTVAuth), new[] { "TVAuth" });
             }
 
             if (tvItemUserAuthorization.LastUpdateDate_UTC.Year == 1)
             {
+                tvItemUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tvItemUserAuthorization.LastUpdateDate_UTC.Year < 1980)
                 {
+                tvItemUserAuthorization.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemUserAuthorizationLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -259,6 +280,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                tvItemUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemUserAuthorizationLastUpdateContactTVItemID, tvItemUserAuthorization.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -269,48 +291,59 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    tvItemUserAuthorization.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemUserAuthorizationLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.ContactTVText) && tvItemUserAuthorization.ContactTVText.Length > 200)
             {
+                tvItemUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemUserAuthorizationContactTVText, "200"), new[] { "ContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.TVText1) && tvItemUserAuthorization.TVText1.Length > 200)
             {
+                tvItemUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemUserAuthorizationTVText1, "200"), new[] { "TVText1" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.TVText2) && tvItemUserAuthorization.TVText2.Length > 200)
             {
+                tvItemUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemUserAuthorizationTVText2, "200"), new[] { "TVText2" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.TVText3) && tvItemUserAuthorization.TVText3.Length > 200)
             {
+                tvItemUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemUserAuthorizationTVText3, "200"), new[] { "TVText3" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.TVText4) && tvItemUserAuthorization.TVText4.Length > 200)
             {
+                tvItemUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemUserAuthorizationTVText4, "200"), new[] { "TVText4" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.LastUpdateContactTVText) && tvItemUserAuthorization.LastUpdateContactTVText.Length > 200)
             {
+                tvItemUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemUserAuthorizationLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItemUserAuthorization.TVAuthText) && tvItemUserAuthorization.TVAuthText.Length > 100)
             {
+                tvItemUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemUserAuthorizationTVAuthText, "100"), new[] { "TVAuthText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                tvItemUserAuthorization.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -342,11 +375,8 @@ namespace CSSPServices
         }
         public bool Delete(TVItemUserAuthorization tvItemUserAuthorization)
         {
-            if (!db.TVItemUserAuthorizations.Where(c => c.TVItemUserAuthorizationID == tvItemUserAuthorization.TVItemUserAuthorizationID).Any())
-            {
-                tvItemUserAuthorization.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVItemUserAuthorization", "TVItemUserAuthorizationID", tvItemUserAuthorization.TVItemUserAuthorizationID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            tvItemUserAuthorization.ValidationResults = Validate(new ValidationContext(tvItemUserAuthorization), ActionDBTypeEnum.Delete);
+            if (tvItemUserAuthorization.ValidationResults.Count() > 0) return false;
 
             db.TVItemUserAuthorizations.Remove(tvItemUserAuthorization);
 
@@ -356,12 +386,6 @@ namespace CSSPServices
         }
         public bool Update(TVItemUserAuthorization tvItemUserAuthorization)
         {
-            if (!db.TVItemUserAuthorizations.Where(c => c.TVItemUserAuthorizationID == tvItemUserAuthorization.TVItemUserAuthorizationID).Any())
-            {
-                tvItemUserAuthorization.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVItemUserAuthorization", "TVItemUserAuthorizationID", tvItemUserAuthorization.TVItemUserAuthorizationID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             tvItemUserAuthorization.ValidationResults = Validate(new ValidationContext(tvItemUserAuthorization), ActionDBTypeEnum.Update);
             if (tvItemUserAuthorization.ValidationResults.Count() > 0) return false;
 

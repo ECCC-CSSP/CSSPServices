@@ -37,14 +37,17 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             Search search = validationContext.ObjectInstance as Search;
+            search.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(search.value))
             {
+                search.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.Searchvalue), new[] { "value" });
             }
 
             if (!string.IsNullOrWhiteSpace(search.value) && (search.value.Length < 1 || search.value.Length > 255))
             {
+                search.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.Searchvalue, "1", "255"), new[] { "value" });
             }
 
@@ -52,12 +55,16 @@ namespace CSSPServices
 
             if (search.id < 1)
             {
+                search.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.Searchid, "1"), new[] { "id" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                search.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

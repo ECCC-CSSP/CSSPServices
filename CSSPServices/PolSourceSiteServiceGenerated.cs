@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             PolSourceSite polSourceSite = validationContext.ObjectInstance as PolSourceSite;
+            polSourceSite.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (polSourceSite.PolSourceSiteID == 0)
                 {
+                    polSourceSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceSitePolSourceSiteID), new[] { "PolSourceSiteID" });
+                }
+
+                if (!GetRead().Where(c => c.PolSourceSiteID == polSourceSite.PolSourceSiteID).Any())
+                {
+                    polSourceSite.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceSite, ModelsRes.PolSourceSitePolSourceSiteID, polSourceSite.PolSourceSiteID.ToString()), new[] { "PolSourceSiteID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (TVItemPolSourceSiteTVItemID == null)
             {
+                polSourceSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceSitePolSourceSiteTVItemID, polSourceSite.PolSourceSiteTVItemID.ToString()), new[] { "PolSourceSiteTVItemID" });
             }
             else
@@ -64,12 +73,14 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemPolSourceSiteTVItemID.TVType))
                 {
+                    polSourceSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceSitePolSourceSiteTVItemID, "PolSourceSite"), new[] { "PolSourceSiteTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(polSourceSite.Temp_Locator_CanDelete) && polSourceSite.Temp_Locator_CanDelete.Length > 50)
             {
+                polSourceSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSiteTemp_Locator_CanDelete, "50"), new[] { "Temp_Locator_CanDelete" });
             }
 
@@ -77,6 +88,7 @@ namespace CSSPServices
             {
                 if (polSourceSite.Oldsiteid < 0 || polSourceSite.Oldsiteid > 1000)
                 {
+                    polSourceSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteOldsiteid, "0", "1000"), new[] { "Oldsiteid" });
                 }
             }
@@ -85,6 +97,7 @@ namespace CSSPServices
             {
                 if (polSourceSite.Site < 0 || polSourceSite.Site > 1000)
                 {
+                    polSourceSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteSite, "0", "1000"), new[] { "Site" });
                 }
             }
@@ -93,6 +106,7 @@ namespace CSSPServices
             {
                 if (polSourceSite.SiteID < 0 || polSourceSite.SiteID > 1000)
                 {
+                    polSourceSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.PolSourceSiteSiteID, "0", "1000"), new[] { "SiteID" });
                 }
             }
@@ -104,6 +118,7 @@ namespace CSSPServices
                 retStr = enums.PolSourceInactiveReasonOK(polSourceSite.InactiveReason);
                 if (polSourceSite.InactiveReason == PolSourceInactiveReasonEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
+                    polSourceSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceSiteInactiveReason), new[] { "InactiveReason" });
                 }
             }
@@ -114,6 +129,7 @@ namespace CSSPServices
 
                 if (TVItemCivicAddressTVItemID == null)
                 {
+                    polSourceSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceSiteCivicAddressTVItemID, polSourceSite.CivicAddressTVItemID.ToString()), new[] { "CivicAddressTVItemID" });
                 }
                 else
@@ -124,6 +140,7 @@ namespace CSSPServices
                     };
                     if (!AllowableTVTypes.Contains(TVItemCivicAddressTVItemID.TVType))
                     {
+                        polSourceSite.HasErrors = true;
                         yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceSiteCivicAddressTVItemID, "Address"), new[] { "CivicAddressTVItemID" });
                     }
                 }
@@ -131,12 +148,14 @@ namespace CSSPServices
 
             if (polSourceSite.LastUpdateDate_UTC.Year == 1)
             {
+                polSourceSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceSiteLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (polSourceSite.LastUpdateDate_UTC.Year < 1980)
                 {
+                polSourceSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.PolSourceSiteLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -147,6 +166,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                polSourceSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceSiteLastUpdateContactTVItemID, polSourceSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -157,28 +177,35 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    polSourceSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(polSourceSite.PolSourceSiteTVText) && polSourceSite.PolSourceSiteTVText.Length > 200)
             {
+                polSourceSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSitePolSourceSiteTVText, "200"), new[] { "PolSourceSiteTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(polSourceSite.LastUpdateContactTVText) && polSourceSite.LastUpdateContactTVText.Length > 200)
             {
+                polSourceSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(polSourceSite.InactiveReasonText) && polSourceSite.InactiveReasonText.Length > 100)
             {
+                polSourceSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceSiteInactiveReasonText, "100"), new[] { "InactiveReasonText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                polSourceSite.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -210,11 +237,8 @@ namespace CSSPServices
         }
         public bool Delete(PolSourceSite polSourceSite)
         {
-            if (!db.PolSourceSites.Where(c => c.PolSourceSiteID == polSourceSite.PolSourceSiteID).Any())
-            {
-                polSourceSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "PolSourceSite", "PolSourceSiteID", polSourceSite.PolSourceSiteID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            polSourceSite.ValidationResults = Validate(new ValidationContext(polSourceSite), ActionDBTypeEnum.Delete);
+            if (polSourceSite.ValidationResults.Count() > 0) return false;
 
             db.PolSourceSites.Remove(polSourceSite);
 
@@ -224,12 +248,6 @@ namespace CSSPServices
         }
         public bool Update(PolSourceSite polSourceSite)
         {
-            if (!db.PolSourceSites.Where(c => c.PolSourceSiteID == polSourceSite.PolSourceSiteID).Any())
-            {
-                polSourceSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "PolSourceSite", "PolSourceSiteID", polSourceSite.PolSourceSiteID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             polSourceSite.ValidationResults = Validate(new ValidationContext(polSourceSite), ActionDBTypeEnum.Update);
             if (polSourceSite.ValidationResults.Count() > 0) return false;
 

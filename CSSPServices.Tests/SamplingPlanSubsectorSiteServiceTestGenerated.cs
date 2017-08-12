@@ -47,6 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVItemID") samplingPlanSubsectorSite.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "MWQMSiteTVText") samplingPlanSubsectorSite.MWQMSiteTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") samplingPlanSubsectorSite.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") samplingPlanSubsectorSite.HasErrors = true;
 
             return samplingPlanSubsectorSite;
         }
@@ -78,20 +79,22 @@ namespace CSSPServices.Tests
 
                 count = samplingPlanSubsectorSiteService.GetRead().Count();
 
+                Assert.AreEqual(samplingPlanSubsectorSiteService.GetRead().Count(), samplingPlanSubsectorSiteService.GetEdit().Count());
+
                 samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                if (samplingPlanSubsectorSite.ValidationResults.Count() > 0)
+                if (samplingPlanSubsectorSite.HasErrors)
                 {
                     Assert.AreEqual("", samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, samplingPlanSubsectorSiteService.GetRead().Where(c => c == samplingPlanSubsectorSite).Any());
                 samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
-                if (samplingPlanSubsectorSite.ValidationResults.Count() > 0)
+                if (samplingPlanSubsectorSite.HasErrors)
                 {
                     Assert.AreEqual("", samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, samplingPlanSubsectorSiteService.GetRead().Count());
                 samplingPlanSubsectorSiteService.Delete(samplingPlanSubsectorSite);
-                if (samplingPlanSubsectorSite.ValidationResults.Count() > 0)
+                if (samplingPlanSubsectorSite.HasErrors)
                 {
                     Assert.AreEqual("", samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -115,6 +118,12 @@ namespace CSSPServices.Tests
                 samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID = 0;
                 samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                samplingPlanSubsectorSite = null;
+                samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+                samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID = 10000000;
+                samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlanSubsectorSite, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID, samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -214,6 +223,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // samplingPlanSubsectorSite.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // samplingPlanSubsectorSite.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -245,6 +261,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteRet.MWQMSiteTVText));
                 Assert.IsNotNull(samplingPlanSubsectorSiteRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteRet.LastUpdateContactTVText));
+                Assert.IsNotNull(samplingPlanSubsectorSiteRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

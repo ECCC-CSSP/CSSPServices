@@ -64,6 +64,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SubsectorTVText") vpScenario.SubsectorTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") vpScenario.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "VPScenarioStatusText") vpScenario.VPScenarioStatusText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") vpScenario.HasErrors = true;
 
             return vpScenario;
         }
@@ -95,20 +96,22 @@ namespace CSSPServices.Tests
 
                 count = vpScenarioService.GetRead().Count();
 
+                Assert.AreEqual(vpScenarioService.GetRead().Count(), vpScenarioService.GetEdit().Count());
+
                 vpScenarioService.Add(vpScenario);
-                if (vpScenario.ValidationResults.Count() > 0)
+                if (vpScenario.HasErrors)
                 {
                     Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, vpScenarioService.GetRead().Where(c => c == vpScenario).Any());
                 vpScenarioService.Update(vpScenario);
-                if (vpScenario.ValidationResults.Count() > 0)
+                if (vpScenario.HasErrors)
                 {
                     Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, vpScenarioService.GetRead().Count());
                 vpScenarioService.Delete(vpScenario);
-                if (vpScenario.ValidationResults.Count() > 0)
+                if (vpScenario.HasErrors)
                 {
                     Assert.AreEqual("", vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -132,6 +135,12 @@ namespace CSSPServices.Tests
                 vpScenario.VPScenarioID = 0;
                 vpScenarioService.Update(vpScenario);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioVPScenarioID), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                vpScenario = null;
+                vpScenario = GetFilledRandomVPScenario("");
+                vpScenario.VPScenarioID = 10000000;
+                vpScenarioService.Update(vpScenario);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPScenarioVPScenarioID, vpScenario.VPScenarioID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -562,6 +571,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // vpScenario.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // vpScenario.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -615,6 +631,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.LastUpdateContactTVText));
                 Assert.IsNotNull(vpScenarioRet.VPScenarioStatusText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioRet.VPScenarioStatusText));
+                Assert.IsNotNull(vpScenarioRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

@@ -59,6 +59,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "AppTaskCommandText") appTask.AppTaskCommandText = GetRandomString("", 5);
             if (OmitPropName != "AppTaskStatusText") appTask.AppTaskStatusText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") appTask.LanguageText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") appTask.HasErrors = true;
 
             return appTask;
         }
@@ -90,20 +91,22 @@ namespace CSSPServices.Tests
 
                 count = appTaskService.GetRead().Count();
 
+                Assert.AreEqual(appTaskService.GetRead().Count(), appTaskService.GetEdit().Count());
+
                 appTaskService.Add(appTask);
-                if (appTask.ValidationResults.Count() > 0)
+                if (appTask.HasErrors)
                 {
                     Assert.AreEqual("", appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, appTaskService.GetRead().Where(c => c == appTask).Any());
                 appTaskService.Update(appTask);
-                if (appTask.ValidationResults.Count() > 0)
+                if (appTask.HasErrors)
                 {
                     Assert.AreEqual("", appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, appTaskService.GetRead().Count());
                 appTaskService.Delete(appTask);
-                if (appTask.ValidationResults.Count() > 0)
+                if (appTask.HasErrors)
                 {
                     Assert.AreEqual("", appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -127,6 +130,12 @@ namespace CSSPServices.Tests
                 appTask.AppTaskID = 0;
                 appTaskService.Update(appTask);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskID), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                appTask = null;
+                appTask = GetFilledRandomAppTask("");
+                appTask.AppTaskID = 10000000;
+                appTaskService.Update(appTask);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppTask, ModelsRes.AppTaskAppTaskID, appTask.AppTaskID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -408,6 +417,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // appTask.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // appTask.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -465,6 +481,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskStatusText));
                 Assert.IsNotNull(appTaskRet.LanguageText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.LanguageText));
+                Assert.IsNotNull(appTaskRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

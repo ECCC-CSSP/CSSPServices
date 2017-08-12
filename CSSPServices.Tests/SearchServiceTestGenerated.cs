@@ -42,6 +42,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "value") search.value = GetRandomString("", 6);
             if (OmitPropName != "id") search.id = GetRandomInt(1, 11);
+            if (OmitPropName != "HasErrors") search.HasErrors = true;
 
             return search;
         }

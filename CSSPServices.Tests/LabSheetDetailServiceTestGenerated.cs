@@ -106,6 +106,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVItemID") labSheetDetail.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "SubsectorTVText") labSheetDetail.SubsectorTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") labSheetDetail.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") labSheetDetail.HasErrors = true;
 
             return labSheetDetail;
         }
@@ -137,20 +138,22 @@ namespace CSSPServices.Tests
 
                 count = labSheetDetailService.GetRead().Count();
 
+                Assert.AreEqual(labSheetDetailService.GetRead().Count(), labSheetDetailService.GetEdit().Count());
+
                 labSheetDetailService.Add(labSheetDetail);
-                if (labSheetDetail.ValidationResults.Count() > 0)
+                if (labSheetDetail.HasErrors)
                 {
                     Assert.AreEqual("", labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, labSheetDetailService.GetRead().Where(c => c == labSheetDetail).Any());
                 labSheetDetailService.Update(labSheetDetail);
-                if (labSheetDetail.ValidationResults.Count() > 0)
+                if (labSheetDetail.HasErrors)
                 {
                     Assert.AreEqual("", labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, labSheetDetailService.GetRead().Count());
                 labSheetDetailService.Delete(labSheetDetail);
-                if (labSheetDetail.ValidationResults.Count() > 0)
+                if (labSheetDetail.HasErrors)
                 {
                     Assert.AreEqual("", labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -174,6 +177,12 @@ namespace CSSPServices.Tests
                 labSheetDetail.LabSheetDetailID = 0;
                 labSheetDetailService.Update(labSheetDetail);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetDetailLabSheetDetailID), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                labSheetDetail = null;
+                labSheetDetail = GetFilledRandomLabSheetDetail("");
+                labSheetDetail.LabSheetDetailID = 10000000;
+                labSheetDetailService.Update(labSheetDetail);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheetDetail, ModelsRes.LabSheetDetailLabSheetDetailID, labSheetDetail.LabSheetDetailID.ToString()), labSheetDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -1118,6 +1127,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // labSheetDetail.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // labSheetDetail.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -1407,6 +1423,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.SubsectorTVText));
                 Assert.IsNotNull(labSheetDetailRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetDetailRet.LastUpdateContactTVText));
+                Assert.IsNotNull(labSheetDetailRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

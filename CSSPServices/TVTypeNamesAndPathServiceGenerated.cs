@@ -37,14 +37,17 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             TVTypeNamesAndPath tvTypeNamesAndPath = validationContext.ObjectInstance as TVTypeNamesAndPath;
+            tvTypeNamesAndPath.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(tvTypeNamesAndPath.TVTypeName))
             {
+                tvTypeNamesAndPath.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeNamesAndPathTVTypeName), new[] { "TVTypeName" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvTypeNamesAndPath.TVTypeName) && (tvTypeNamesAndPath.TVTypeName.Length < 1 || tvTypeNamesAndPath.TVTypeName.Length > 255))
             {
+                tvTypeNamesAndPath.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVTypeNamesAndPathTVTypeName, "1", "255"), new[] { "TVTypeName" });
             }
 
@@ -52,22 +55,28 @@ namespace CSSPServices
 
             if (tvTypeNamesAndPath.Index < 1)
             {
+                tvTypeNamesAndPath.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVTypeNamesAndPathIndex, "1"), new[] { "Index" });
             }
 
             if (string.IsNullOrWhiteSpace(tvTypeNamesAndPath.TVPath))
             {
+                tvTypeNamesAndPath.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeNamesAndPathTVPath), new[] { "TVPath" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvTypeNamesAndPath.TVPath) && (tvTypeNamesAndPath.TVPath.Length < 1 || tvTypeNamesAndPath.TVPath.Length > 255))
             {
+                tvTypeNamesAndPath.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVTypeNamesAndPathTVPath, "1", "255"), new[] { "TVPath" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                tvTypeNamesAndPath.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

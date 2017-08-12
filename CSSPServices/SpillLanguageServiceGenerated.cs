@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             SpillLanguage spillLanguage = validationContext.ObjectInstance as SpillLanguage;
+            spillLanguage.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (spillLanguage.SpillLanguageID == 0)
                 {
+                    spillLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageSpillLanguageID), new[] { "SpillLanguageID" });
+                }
+
+                if (!GetRead().Where(c => c.SpillLanguageID == spillLanguage.SpillLanguageID).Any())
+                {
+                    spillLanguage.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SpillLanguage, ModelsRes.SpillLanguageSpillLanguageID, spillLanguage.SpillLanguageID.ToString()), new[] { "SpillLanguageID" });
                 }
             }
 
@@ -54,17 +62,20 @@ namespace CSSPServices
 
             if (SpillSpillID == null)
             {
+                spillLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Spill, ModelsRes.SpillLanguageSpillID, spillLanguage.SpillID.ToString()), new[] { "SpillID" });
             }
 
             retStr = enums.LanguageOK(spillLanguage.Language);
             if (spillLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                spillLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageLanguage), new[] { "Language" });
             }
 
             if (string.IsNullOrWhiteSpace(spillLanguage.SpillComment))
             {
+                spillLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageSpillComment), new[] { "SpillComment" });
             }
 
@@ -73,17 +84,20 @@ namespace CSSPServices
             retStr = enums.TranslationStatusOK(spillLanguage.TranslationStatus);
             if (spillLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                spillLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageTranslationStatus), new[] { "TranslationStatus" });
             }
 
             if (spillLanguage.LastUpdateDate_UTC.Year == 1)
             {
+                spillLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (spillLanguage.LastUpdateDate_UTC.Year < 1980)
                 {
+                spillLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SpillLanguageLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -94,6 +108,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                spillLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillLanguageLastUpdateContactTVItemID, spillLanguage.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -104,28 +119,35 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    spillLanguage.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillLanguageLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(spillLanguage.LastUpdateContactTVText) && spillLanguage.LastUpdateContactTVText.Length > 200)
             {
+                spillLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLanguageLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(spillLanguage.LanguageText) && spillLanguage.LanguageText.Length > 100)
             {
+                spillLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLanguageLanguageText, "100"), new[] { "LanguageText" });
             }
 
             if (!string.IsNullOrWhiteSpace(spillLanguage.TranslationStatusText) && spillLanguage.TranslationStatusText.Length > 100)
             {
+                spillLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                spillLanguage.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -157,11 +179,8 @@ namespace CSSPServices
         }
         public bool Delete(SpillLanguage spillLanguage)
         {
-            if (!db.SpillLanguages.Where(c => c.SpillLanguageID == spillLanguage.SpillLanguageID).Any())
-            {
-                spillLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "SpillLanguage", "SpillLanguageID", spillLanguage.SpillLanguageID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            spillLanguage.ValidationResults = Validate(new ValidationContext(spillLanguage), ActionDBTypeEnum.Delete);
+            if (spillLanguage.ValidationResults.Count() > 0) return false;
 
             db.SpillLanguages.Remove(spillLanguage);
 
@@ -171,12 +190,6 @@ namespace CSSPServices
         }
         public bool Update(SpillLanguage spillLanguage)
         {
-            if (!db.SpillLanguages.Where(c => c.SpillLanguageID == spillLanguage.SpillLanguageID).Any())
-            {
-                spillLanguage.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "SpillLanguage", "SpillLanguageID", spillLanguage.SpillLanguageID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             spillLanguage.ValidationResults = Validate(new ValidationContext(spillLanguage), ActionDBTypeEnum.Update);
             if (spillLanguage.ValidationResults.Count() > 0) return false;
 

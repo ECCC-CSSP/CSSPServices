@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             TVFile tvFile = validationContext.ObjectInstance as TVFile;
+            tvFile.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (tvFile.TVFileID == 0)
                 {
+                    tvFile.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTVFileID), new[] { "TVFileID" });
+                }
+
+                if (!GetRead().Where(c => c.TVFileID == tvFile.TVFileID).Any())
+                {
+                    tvFile.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVFile, ModelsRes.TVFileTVFileID, tvFile.TVFileID.ToString()), new[] { "TVFileID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (TVItemTVFileTVItemID == null)
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileTVFileTVItemID, tvFile.TVFileTVItemID.ToString()), new[] { "TVFileTVItemID" });
             }
             else
@@ -64,6 +73,7 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemTVFileTVItemID.TVType))
                 {
+                    tvFile.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVFileTVFileTVItemID, "File"), new[] { "TVFileTVItemID" });
                 }
             }
@@ -71,24 +81,28 @@ namespace CSSPServices
             retStr = enums.TVTypeOK(tvFile.TemplateTVType);
             if (tvFile.TemplateTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTemplateTVType), new[] { "TemplateTVType" });
             }
 
             retStr = enums.LanguageOK(tvFile.Language);
             if (tvFile.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguage), new[] { "Language" });
             }
 
             retStr = enums.FilePurposeOK(tvFile.FilePurpose);
             if (tvFile.FilePurpose == FilePurposeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFilePurpose), new[] { "FilePurpose" });
             }
 
             retStr = enums.FileTypeOK(tvFile.FileType);
             if (tvFile.FileType == FileTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileType), new[] { "FileType" });
             }
 
@@ -96,6 +110,7 @@ namespace CSSPServices
 
             if (tvFile.FileSize_kb < 0 || tvFile.FileSize_kb > 1000000)
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVFileFileSize_kb, "0", "1000000"), new[] { "FileSize_kb" });
             }
 
@@ -103,49 +118,58 @@ namespace CSSPServices
 
             if (tvFile.FileCreatedDate_UTC.Year == 1)
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileCreatedDate_UTC), new[] { "FileCreatedDate_UTC" });
             }
             else
             {
                 if (tvFile.FileCreatedDate_UTC.Year < 1980)
                 {
+                tvFile.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileFileCreatedDate_UTC, "1980"), new[] { "FileCreatedDate_UTC" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.ClientFilePath) && tvFile.ClientFilePath.Length > 250)
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileClientFilePath, "250"), new[] { "ClientFilePath" });
             }
 
             if (string.IsNullOrWhiteSpace(tvFile.ServerFileName))
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileServerFileName), new[] { "ServerFileName" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.ServerFileName) && tvFile.ServerFileName.Length > 250)
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileServerFileName, "250"), new[] { "ServerFileName" });
             }
 
             if (string.IsNullOrWhiteSpace(tvFile.ServerFilePath))
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileServerFilePath), new[] { "ServerFilePath" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.ServerFilePath) && tvFile.ServerFilePath.Length > 250)
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileServerFilePath, "250"), new[] { "ServerFilePath" });
             }
 
             if (tvFile.LastUpdateDate_UTC.Year == 1)
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tvFile.LastUpdateDate_UTC.Year < 1980)
                 {
+                tvFile.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -156,6 +180,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileLastUpdateContactTVItemID, tvFile.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -166,43 +191,53 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    tvFile.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVFileLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.TVFileTVText) && tvFile.TVFileTVText.Length > 200)
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileTVFileTVText, "200"), new[] { "TVFileTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.LastUpdateContactTVText) && tvFile.LastUpdateContactTVText.Length > 200)
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.TemplateTVTypeText) && tvFile.TemplateTVTypeText.Length > 100)
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileTemplateTVTypeText, "100"), new[] { "TemplateTVTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.LanguageText) && tvFile.LanguageText.Length > 100)
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileLanguageText, "100"), new[] { "LanguageText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.FilePurposeText) && tvFile.FilePurposeText.Length > 100)
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileFilePurposeText, "100"), new[] { "FilePurposeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.FileTypeText) && tvFile.FileTypeText.Length > 100)
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileFileTypeText, "100"), new[] { "FileTypeText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                tvFile.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -234,11 +269,8 @@ namespace CSSPServices
         }
         public bool Delete(TVFile tvFile)
         {
-            if (!db.TVFiles.Where(c => c.TVFileID == tvFile.TVFileID).Any())
-            {
-                tvFile.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVFile", "TVFileID", tvFile.TVFileID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            tvFile.ValidationResults = Validate(new ValidationContext(tvFile), ActionDBTypeEnum.Delete);
+            if (tvFile.ValidationResults.Count() > 0) return false;
 
             db.TVFiles.Remove(tvFile);
 
@@ -248,12 +280,6 @@ namespace CSSPServices
         }
         public bool Update(TVFile tvFile)
         {
-            if (!db.TVFiles.Where(c => c.TVFileID == tvFile.TVFileID).Any())
-            {
-                tvFile.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TVFile", "TVFileID", tvFile.TVFileID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             tvFile.ValidationResults = Validate(new ValidationContext(tvFile), ActionDBTypeEnum.Update);
             if (tvFile.ValidationResults.Count() > 0) return false;
 

@@ -37,9 +37,11 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             TVLocation tvLocation = validationContext.ObjectInstance as TVLocation;
+            tvLocation.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(tvLocation.Error))
             {
+                tvLocation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationError), new[] { "Error" });
             }
 
@@ -49,44 +51,54 @@ namespace CSSPServices
 
             if (tvLocation.TVItemID < 1)
             {
+                tvLocation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVLocationTVItemID, "1"), new[] { "TVItemID" });
             }
 
             if (string.IsNullOrWhiteSpace(tvLocation.TVText))
             {
+                tvLocation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationTVText), new[] { "TVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvLocation.TVText) && (tvLocation.TVText.Length < 1 || tvLocation.TVText.Length > 255))
             {
+                tvLocation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVLocationTVText, "1", "255"), new[] { "TVText" });
             }
 
             retStr = enums.TVTypeOK(tvLocation.TVType);
             if (tvLocation.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                tvLocation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationTVType), new[] { "TVType" });
             }
 
             retStr = enums.TVTypeOK(tvLocation.SubTVType);
             if (tvLocation.SubTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                tvLocation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationSubTVType), new[] { "SubTVType" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvLocation.TVTypeText) && tvLocation.TVTypeText.Length > 100)
             {
+                tvLocation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVLocationTVTypeText, "100"), new[] { "TVTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvLocation.SubTVTypeText) && tvLocation.SubTVTypeText.Length > 100)
             {
+                tvLocation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVLocationSubTVTypeText, "100"), new[] { "SubTVTypeText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                tvLocation.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

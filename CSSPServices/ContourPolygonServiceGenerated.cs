@@ -37,11 +37,13 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             ContourPolygon contourPolygon = validationContext.ObjectInstance as ContourPolygon;
+            contourPolygon.HasErrors = false;
 
             //ContourValue (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (contourPolygon.ContourValue < 0)
             {
+                contourPolygon.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContourPolygonContourValue, "0"), new[] { "ContourValue" });
             }
 
@@ -49,6 +51,7 @@ namespace CSSPServices
 
             if (contourPolygon.Layer < 1 || contourPolygon.Layer > 100)
             {
+                contourPolygon.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContourPolygonLayer, "1", "100"), new[] { "Layer" });
             }
 
@@ -56,12 +59,16 @@ namespace CSSPServices
 
             if (contourPolygon.Depth < 1 || contourPolygon.Depth > 10000)
             {
+                contourPolygon.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContourPolygonDepth, "1", "10000"), new[] { "Depth" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                contourPolygon.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

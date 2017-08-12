@@ -49,6 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "PolSourceSiteTVText") polSourceObservation.PolSourceSiteTVText = GetRandomString("", 5);
             if (OmitPropName != "ContactTVText") polSourceObservation.ContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") polSourceObservation.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") polSourceObservation.HasErrors = true;
 
             return polSourceObservation;
         }
@@ -80,20 +81,22 @@ namespace CSSPServices.Tests
 
                 count = polSourceObservationService.GetRead().Count();
 
+                Assert.AreEqual(polSourceObservationService.GetRead().Count(), polSourceObservationService.GetEdit().Count());
+
                 polSourceObservationService.Add(polSourceObservation);
-                if (polSourceObservation.ValidationResults.Count() > 0)
+                if (polSourceObservation.HasErrors)
                 {
                     Assert.AreEqual("", polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, polSourceObservationService.GetRead().Where(c => c == polSourceObservation).Any());
                 polSourceObservationService.Update(polSourceObservation);
-                if (polSourceObservation.ValidationResults.Count() > 0)
+                if (polSourceObservation.HasErrors)
                 {
                     Assert.AreEqual("", polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, polSourceObservationService.GetRead().Count());
                 polSourceObservationService.Delete(polSourceObservation);
-                if (polSourceObservation.ValidationResults.Count() > 0)
+                if (polSourceObservation.HasErrors)
                 {
                     Assert.AreEqual("", polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -117,6 +120,12 @@ namespace CSSPServices.Tests
                 polSourceObservation.PolSourceObservationID = 0;
                 polSourceObservationService.Update(polSourceObservation);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationPolSourceObservationID), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                polSourceObservation = null;
+                polSourceObservation = GetFilledRandomPolSourceObservation("");
+                polSourceObservation.PolSourceObservationID = 10000000;
+                polSourceObservationService.Update(polSourceObservation);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceObservation, ModelsRes.PolSourceObservationPolSourceObservationID, polSourceObservation.PolSourceObservationID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -246,6 +255,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // polSourceObservation.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // polSourceObservation.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -281,6 +297,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationRet.ContactTVText));
                 Assert.IsNotNull(polSourceObservationRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationRet.LastUpdateContactTVText));
+                Assert.IsNotNull(polSourceObservationRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

@@ -50,6 +50,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "FixLength") boxModelCalNumb.FixLength = true;
             if (OmitPropName != "FixWidth") boxModelCalNumb.FixWidth = true;
             if (OmitPropName != "BoxModelResultTypeText") boxModelCalNumb.BoxModelResultTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") boxModelCalNumb.HasErrors = true;
 
             return boxModelCalNumb;
         }

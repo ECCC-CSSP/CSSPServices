@@ -58,6 +58,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "StorageDataTypeText") tideDataValue.StorageDataTypeText = GetRandomString("", 5);
             if (OmitPropName != "TideStartText") tideDataValue.TideStartText = GetRandomString("", 5);
             if (OmitPropName != "TideEndText") tideDataValue.TideEndText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") tideDataValue.HasErrors = true;
 
             return tideDataValue;
         }
@@ -89,20 +90,22 @@ namespace CSSPServices.Tests
 
                 count = tideDataValueService.GetRead().Count();
 
+                Assert.AreEqual(tideDataValueService.GetRead().Count(), tideDataValueService.GetEdit().Count());
+
                 tideDataValueService.Add(tideDataValue);
-                if (tideDataValue.ValidationResults.Count() > 0)
+                if (tideDataValue.HasErrors)
                 {
                     Assert.AreEqual("", tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, tideDataValueService.GetRead().Where(c => c == tideDataValue).Any());
                 tideDataValueService.Update(tideDataValue);
-                if (tideDataValue.ValidationResults.Count() > 0)
+                if (tideDataValue.HasErrors)
                 {
                     Assert.AreEqual("", tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, tideDataValueService.GetRead().Count());
                 tideDataValueService.Delete(tideDataValue);
-                if (tideDataValue.ValidationResults.Count() > 0)
+                if (tideDataValue.HasErrors)
                 {
                     Assert.AreEqual("", tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -126,6 +129,12 @@ namespace CSSPServices.Tests
                 tideDataValue.TideDataValueID = 0;
                 tideDataValueService.Update(tideDataValue);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueTideDataValueID), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                tideDataValue = null;
+                tideDataValue = GetFilledRandomTideDataValue("");
+                tideDataValue.TideDataValueID = 10000000;
+                tideDataValueService.Update(tideDataValue);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TideDataValue, ModelsRes.TideDataValueTideDataValueID, tideDataValue.TideDataValueID.ToString()), tideDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -390,6 +399,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // tideDataValue.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // tideDataValue.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -442,6 +458,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideStartText));
                 Assert.IsNotNull(tideDataValueRet.TideEndText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tideDataValueRet.TideEndText));
+                Assert.IsNotNull(tideDataValueRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

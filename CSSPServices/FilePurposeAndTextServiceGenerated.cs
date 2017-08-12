@@ -37,21 +37,27 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             FilePurposeAndText filePurposeAndText = validationContext.ObjectInstance as FilePurposeAndText;
+            filePurposeAndText.HasErrors = false;
 
             retStr = enums.FilePurposeOK(filePurposeAndText.FilePurpose);
             if (filePurposeAndText.FilePurpose == FilePurposeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                filePurposeAndText.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FilePurposeAndTextFilePurpose), new[] { "FilePurpose" });
             }
 
             if (!string.IsNullOrWhiteSpace(filePurposeAndText.FilePurposeText) && filePurposeAndText.FilePurposeText.Length > 100)
             {
+                filePurposeAndText.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.FilePurposeAndTextFilePurposeText, "100"), new[] { "FilePurposeText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                filePurposeAndText.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

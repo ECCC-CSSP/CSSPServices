@@ -49,6 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVText") vpScenarioLanguage.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") vpScenarioLanguage.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusText") vpScenarioLanguage.TranslationStatusText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") vpScenarioLanguage.HasErrors = true;
 
             return vpScenarioLanguage;
         }
@@ -80,20 +81,22 @@ namespace CSSPServices.Tests
 
                 count = vpScenarioLanguageService.GetRead().Count();
 
+                Assert.AreEqual(vpScenarioLanguageService.GetRead().Count(), vpScenarioLanguageService.GetEdit().Count());
+
                 vpScenarioLanguageService.Add(vpScenarioLanguage);
-                if (vpScenarioLanguage.ValidationResults.Count() > 0)
+                if (vpScenarioLanguage.HasErrors)
                 {
                     Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, vpScenarioLanguageService.GetRead().Where(c => c == vpScenarioLanguage).Any());
                 vpScenarioLanguageService.Update(vpScenarioLanguage);
-                if (vpScenarioLanguage.ValidationResults.Count() > 0)
+                if (vpScenarioLanguage.HasErrors)
                 {
                     Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, vpScenarioLanguageService.GetRead().Count());
                 vpScenarioLanguageService.Delete(vpScenarioLanguage);
-                if (vpScenarioLanguage.ValidationResults.Count() > 0)
+                if (vpScenarioLanguage.HasErrors)
                 {
                     Assert.AreEqual("", vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -117,6 +120,12 @@ namespace CSSPServices.Tests
                 vpScenarioLanguage.VPScenarioLanguageID = 0;
                 vpScenarioLanguageService.Update(vpScenarioLanguage);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageVPScenarioLanguageID), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                vpScenarioLanguage = null;
+                vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
+                vpScenarioLanguage.VPScenarioLanguageID = 10000000;
+                vpScenarioLanguageService.Update(vpScenarioLanguage);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenarioLanguage, ModelsRes.VPScenarioLanguageVPScenarioLanguageID, vpScenarioLanguage.VPScenarioLanguageID.ToString()), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -251,6 +260,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // vpScenarioLanguage.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // vpScenarioLanguage.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -286,6 +302,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.LanguageText));
                 Assert.IsNotNull(vpScenarioLanguageRet.TranslationStatusText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(vpScenarioLanguageRet.TranslationStatusText));
+                Assert.IsNotNull(vpScenarioLanguageRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

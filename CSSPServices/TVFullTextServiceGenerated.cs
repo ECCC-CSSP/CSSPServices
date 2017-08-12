@@ -37,30 +37,38 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             TVFullText tvFullText = validationContext.ObjectInstance as TVFullText;
+            tvFullText.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(tvFullText.TVPath))
             {
+                tvFullText.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFullTextTVPath), new[] { "TVPath" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFullText.TVPath) && (tvFullText.TVPath.Length < 1 || tvFullText.TVPath.Length > 255))
             {
+                tvFullText.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFullTextTVPath, "1", "255"), new[] { "TVPath" });
             }
 
             if (string.IsNullOrWhiteSpace(tvFullText.FullText))
             {
+                tvFullText.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFullTextFullText), new[] { "FullText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFullText.FullText) && (tvFullText.FullText.Length < 1 || tvFullText.FullText.Length > 255))
             {
+                tvFullText.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFullTextFullText, "1", "255"), new[] { "FullText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                tvFullText.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

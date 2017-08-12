@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             Email email = validationContext.ObjectInstance as Email;
+            email.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (email.EmailID == 0)
                 {
+                    email.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailID), new[] { "EmailID" });
+                }
+
+                if (!GetRead().Where(c => c.EmailID == email.EmailID).Any())
+                {
+                    email.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Email, ModelsRes.EmailEmailID, email.EmailID.ToString()), new[] { "EmailID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (TVItemEmailTVItemID == null)
             {
+                email.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailEmailTVItemID, email.EmailTVItemID.ToString()), new[] { "EmailTVItemID" });
             }
             else
@@ -64,17 +73,20 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemEmailTVItemID.TVType))
                 {
+                    email.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailEmailTVItemID, "Email"), new[] { "EmailTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(email.EmailAddress))
             {
+                email.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailAddress), new[] { "EmailAddress" });
             }
 
             if (!string.IsNullOrWhiteSpace(email.EmailAddress) && email.EmailAddress.Length > 255)
             {
+                email.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailAddress, "255"), new[] { "EmailAddress" });
             }
 
@@ -83,6 +95,7 @@ namespace CSSPServices
                 Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
                 if (!regex.IsMatch(email.EmailAddress))
                 {
+                    email.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.EmailEmailAddress), new[] { "EmailAddress" });
                 }
             }
@@ -90,17 +103,20 @@ namespace CSSPServices
             retStr = enums.EmailTypeOK(email.EmailType);
             if (email.EmailType == EmailTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                email.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailType), new[] { "EmailType" });
             }
 
             if (email.LastUpdateDate_UTC.Year == 1)
             {
+                email.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (email.LastUpdateDate_UTC.Year < 1980)
                 {
+                email.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.EmailLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -111,6 +127,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                email.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailLastUpdateContactTVItemID, email.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -121,28 +138,35 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    email.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(email.EmailTVText) && email.EmailTVText.Length > 200)
             {
+                email.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailTVText, "200"), new[] { "EmailTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(email.LastUpdateContactTVText) && email.LastUpdateContactTVText.Length > 200)
             {
+                email.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(email.EmailTypeText) && email.EmailTypeText.Length > 100)
             {
+                email.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailTypeText, "100"), new[] { "EmailTypeText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                email.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -174,11 +198,8 @@ namespace CSSPServices
         }
         public bool Delete(Email email)
         {
-            if (!db.Emails.Where(c => c.EmailID == email.EmailID).Any())
-            {
-                email.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Email", "EmailID", email.EmailID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            email.ValidationResults = Validate(new ValidationContext(email), ActionDBTypeEnum.Delete);
+            if (email.ValidationResults.Count() > 0) return false;
 
             db.Emails.Remove(email);
 
@@ -188,12 +209,6 @@ namespace CSSPServices
         }
         public bool Update(Email email)
         {
-            if (!db.Emails.Where(c => c.EmailID == email.EmailID).Any())
-            {
-                email.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Email", "EmailID", email.EmailID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             email.ValidationResults = Validate(new ValidationContext(email), ActionDBTypeEnum.Update);
             if (email.ValidationResults.Count() > 0) return false;
 

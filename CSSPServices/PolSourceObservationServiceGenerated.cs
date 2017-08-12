@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             PolSourceObservation polSourceObservation = validationContext.ObjectInstance as PolSourceObservation;
+            polSourceObservation.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (polSourceObservation.PolSourceObservationID == 0)
                 {
+                    polSourceObservation.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationPolSourceObservationID), new[] { "PolSourceObservationID" });
+                }
+
+                if (!GetRead().Where(c => c.PolSourceObservationID == polSourceObservation.PolSourceObservationID).Any())
+                {
+                    polSourceObservation.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceObservation, ModelsRes.PolSourceObservationPolSourceObservationID, polSourceObservation.PolSourceObservationID.ToString()), new[] { "PolSourceObservationID" });
                 }
             }
 
@@ -54,17 +62,20 @@ namespace CSSPServices
 
             if (PolSourceSitePolSourceSiteID == null)
             {
+                polSourceObservation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceSite, ModelsRes.PolSourceObservationPolSourceSiteID, polSourceObservation.PolSourceSiteID.ToString()), new[] { "PolSourceSiteID" });
             }
 
             if (polSourceObservation.ObservationDate_Local.Year == 1)
             {
+                polSourceObservation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationObservationDate_Local), new[] { "ObservationDate_Local" });
             }
             else
             {
                 if (polSourceObservation.ObservationDate_Local.Year < 1980)
                 {
+                polSourceObservation.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.PolSourceObservationObservationDate_Local, "1980"), new[] { "ObservationDate_Local" });
                 }
             }
@@ -75,6 +86,7 @@ namespace CSSPServices
 
             if (TVItemContactTVItemID == null)
             {
+                polSourceObservation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationContactTVItemID, polSourceObservation.ContactTVItemID.ToString()), new[] { "ContactTVItemID" });
             }
             else
@@ -85,12 +97,14 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemContactTVItemID.TVType))
                 {
+                    polSourceObservation.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationContactTVItemID, "Contact"), new[] { "ContactTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(polSourceObservation.Observation_ToBeDeleted))
             {
+                polSourceObservation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationObservation_ToBeDeleted), new[] { "Observation_ToBeDeleted" });
             }
 
@@ -98,12 +112,14 @@ namespace CSSPServices
 
             if (polSourceObservation.LastUpdateDate_UTC.Year == 1)
             {
+                polSourceObservation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (polSourceObservation.LastUpdateDate_UTC.Year < 1980)
                 {
+                polSourceObservation.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.PolSourceObservationLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -114,6 +130,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                polSourceObservation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, polSourceObservation.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -124,28 +141,35 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    polSourceObservation.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(polSourceObservation.PolSourceSiteTVText) && polSourceObservation.PolSourceSiteTVText.Length > 200)
             {
+                polSourceObservation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationPolSourceSiteTVText, "200"), new[] { "PolSourceSiteTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(polSourceObservation.ContactTVText) && polSourceObservation.ContactTVText.Length > 200)
             {
+                polSourceObservation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationContactTVText, "200"), new[] { "ContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(polSourceObservation.LastUpdateContactTVText) && polSourceObservation.LastUpdateContactTVText.Length > 200)
             {
+                polSourceObservation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                polSourceObservation.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -177,11 +201,8 @@ namespace CSSPServices
         }
         public bool Delete(PolSourceObservation polSourceObservation)
         {
-            if (!db.PolSourceObservations.Where(c => c.PolSourceObservationID == polSourceObservation.PolSourceObservationID).Any())
-            {
-                polSourceObservation.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "PolSourceObservation", "PolSourceObservationID", polSourceObservation.PolSourceObservationID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            polSourceObservation.ValidationResults = Validate(new ValidationContext(polSourceObservation), ActionDBTypeEnum.Delete);
+            if (polSourceObservation.ValidationResults.Count() > 0) return false;
 
             db.PolSourceObservations.Remove(polSourceObservation);
 
@@ -191,12 +212,6 @@ namespace CSSPServices
         }
         public bool Update(PolSourceObservation polSourceObservation)
         {
-            if (!db.PolSourceObservations.Where(c => c.PolSourceObservationID == polSourceObservation.PolSourceObservationID).Any())
-            {
-                polSourceObservation.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "PolSourceObservation", "PolSourceObservationID", polSourceObservation.PolSourceObservationID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             polSourceObservation.ValidationResults = Validate(new ValidationContext(polSourceObservation), ActionDBTypeEnum.Update);
             if (polSourceObservation.ValidationResults.Count() > 0) return false;
 

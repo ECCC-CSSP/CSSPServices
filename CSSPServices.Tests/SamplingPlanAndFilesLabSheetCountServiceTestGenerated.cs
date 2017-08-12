@@ -42,6 +42,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "LabSheetHistoryCount") samplingPlanAndFilesLabSheetCount.LabSheetHistoryCount = GetRandomInt(0, 10);
             if (OmitPropName != "LabSheetTransferredCount") samplingPlanAndFilesLabSheetCount.LabSheetTransferredCount = GetRandomInt(0, 10);
+            if (OmitPropName != "HasErrors") samplingPlanAndFilesLabSheetCount.HasErrors = true;
 
             return samplingPlanAndFilesLabSheetCount;
         }

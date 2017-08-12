@@ -37,21 +37,27 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             SearchTagAndTerms searchTagAndTerms = validationContext.ObjectInstance as SearchTagAndTerms;
+            searchTagAndTerms.HasErrors = false;
 
             retStr = enums.SearchTagOK(searchTagAndTerms.SearchTag);
             if (searchTagAndTerms.SearchTag == SearchTagEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                searchTagAndTerms.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SearchTagAndTermsSearchTag), new[] { "SearchTag" });
             }
 
             if (!string.IsNullOrWhiteSpace(searchTagAndTerms.SearchTagText) && searchTagAndTerms.SearchTagText.Length > 100)
             {
+                searchTagAndTerms.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SearchTagAndTermsSearchTagText, "100"), new[] { "SearchTagText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                searchTagAndTerms.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

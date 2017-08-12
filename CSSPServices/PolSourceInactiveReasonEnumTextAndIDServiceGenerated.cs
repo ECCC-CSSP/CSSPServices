@@ -37,9 +37,11 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             PolSourceInactiveReasonEnumTextAndID polSourceInactiveReasonEnumTextAndID = validationContext.ObjectInstance as PolSourceInactiveReasonEnumTextAndID;
+            polSourceInactiveReasonEnumTextAndID.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(polSourceInactiveReasonEnumTextAndID.Text))
             {
+                polSourceInactiveReasonEnumTextAndID.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceInactiveReasonEnumTextAndIDText), new[] { "Text" });
             }
 
@@ -49,12 +51,16 @@ namespace CSSPServices
 
             if (polSourceInactiveReasonEnumTextAndID.ID < 1)
             {
+                polSourceInactiveReasonEnumTextAndID.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceInactiveReasonEnumTextAndIDID, "1"), new[] { "ID" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                polSourceInactiveReasonEnumTextAndID.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

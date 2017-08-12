@@ -37,9 +37,11 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             TVTextLanguage tvTextLanguage = validationContext.ObjectInstance as TVTextLanguage;
+            tvTextLanguage.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(tvTextLanguage.TVText))
             {
+                tvTextLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTextLanguageTVText), new[] { "TVText" });
             }
 
@@ -48,17 +50,22 @@ namespace CSSPServices
             retStr = enums.LanguageOK(tvTextLanguage.Language);
             if (tvTextLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                tvTextLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTextLanguageLanguage), new[] { "Language" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvTextLanguage.LanguageText) && tvTextLanguage.LanguageText.Length > 100)
             {
+                tvTextLanguage.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTextLanguageLanguageText, "100"), new[] { "LanguageText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                tvTextLanguage.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

@@ -49,6 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVText") docTemplate.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") docTemplate.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "TVTypeText") docTemplate.TVTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") docTemplate.HasErrors = true;
 
             return docTemplate;
         }
@@ -80,20 +81,22 @@ namespace CSSPServices.Tests
 
                 count = docTemplateService.GetRead().Count();
 
+                Assert.AreEqual(docTemplateService.GetRead().Count(), docTemplateService.GetEdit().Count());
+
                 docTemplateService.Add(docTemplate);
-                if (docTemplate.ValidationResults.Count() > 0)
+                if (docTemplate.HasErrors)
                 {
                     Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, docTemplateService.GetRead().Where(c => c == docTemplate).Any());
                 docTemplateService.Update(docTemplate);
-                if (docTemplate.ValidationResults.Count() > 0)
+                if (docTemplate.HasErrors)
                 {
                     Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, docTemplateService.GetRead().Count());
                 docTemplateService.Delete(docTemplate);
-                if (docTemplate.ValidationResults.Count() > 0)
+                if (docTemplate.HasErrors)
                 {
                     Assert.AreEqual("", docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -117,6 +120,12 @@ namespace CSSPServices.Tests
                 docTemplate.DocTemplateID = 0;
                 docTemplateService.Update(docTemplate);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateDocTemplateID), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                docTemplate = null;
+                docTemplate = GetFilledRandomDocTemplate("");
+                docTemplate.DocTemplateID = 10000000;
+                docTemplateService.Update(docTemplate);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.DocTemplate, ModelsRes.DocTemplateDocTemplateID, docTemplate.DocTemplateID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -257,6 +266,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // docTemplate.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // docTemplate.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -292,6 +308,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.LanguageText));
                 Assert.IsNotNull(docTemplateRet.TVTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.TVTypeText));
+                Assert.IsNotNull(docTemplateRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

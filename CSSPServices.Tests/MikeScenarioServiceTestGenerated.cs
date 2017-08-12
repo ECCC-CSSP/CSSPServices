@@ -70,6 +70,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MikeScenarioTVText") mikeScenario.MikeScenarioTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") mikeScenario.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "ScenarioStatusText") mikeScenario.ScenarioStatusText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") mikeScenario.HasErrors = true;
 
             return mikeScenario;
         }
@@ -101,20 +102,22 @@ namespace CSSPServices.Tests
 
                 count = mikeScenarioService.GetRead().Count();
 
+                Assert.AreEqual(mikeScenarioService.GetRead().Count(), mikeScenarioService.GetEdit().Count());
+
                 mikeScenarioService.Add(mikeScenario);
-                if (mikeScenario.ValidationResults.Count() > 0)
+                if (mikeScenario.HasErrors)
                 {
                     Assert.AreEqual("", mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, mikeScenarioService.GetRead().Where(c => c == mikeScenario).Any());
                 mikeScenarioService.Update(mikeScenario);
-                if (mikeScenario.ValidationResults.Count() > 0)
+                if (mikeScenario.HasErrors)
                 {
                     Assert.AreEqual("", mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, mikeScenarioService.GetRead().Count());
                 mikeScenarioService.Delete(mikeScenario);
-                if (mikeScenario.ValidationResults.Count() > 0)
+                if (mikeScenario.HasErrors)
                 {
                     Assert.AreEqual("", mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -138,6 +141,12 @@ namespace CSSPServices.Tests
                 mikeScenario.MikeScenarioID = 0;
                 mikeScenarioService.Update(mikeScenario);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeScenarioMikeScenarioID), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                mikeScenario = null;
+                mikeScenario = GetFilledRandomMikeScenario("");
+                mikeScenario.MikeScenarioID = 10000000;
+                mikeScenarioService.Update(mikeScenario);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeScenario, ModelsRes.MikeScenarioMikeScenarioID, mikeScenario.MikeScenarioID.ToString()), mikeScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -636,6 +645,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // mikeScenario.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // mikeScenario.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -728,6 +744,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.LastUpdateContactTVText));
                 Assert.IsNotNull(mikeScenarioRet.ScenarioStatusText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mikeScenarioRet.ScenarioStatusText));
+                Assert.IsNotNull(mikeScenarioRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

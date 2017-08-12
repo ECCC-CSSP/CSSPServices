@@ -25,6 +25,12 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="LanguageRequest">Language requested from the DB</param>
+        /// <param name="db">Database context CSSPWebToolsDBContext</param>
+        /// <param name="ContactID">Contact ID of the user requesting the data from the DB</param>
         public AddressService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
             : base(LanguageRequest, db, ContactID)
         {
@@ -32,17 +38,46 @@ namespace CSSPServices
         #endregion Constructors
 
         #region Validation
+        /// <summary>
+        /// <para>CRUD validation function will return all invalid parameters with error message for the Address Type</para>
+        /// <para>It will also set the HasErrors field to true for later use</para>
+        /// </summary>
+        /// <param name="validationContext">Object of type Address to be validated</param>
+        /// <param name="actionDBType">ActionDBType sent with the Object for special purpose</param>
+        /// <returns>IEnumerable&lt;ValidationResult&gt;</returns>
+        /// <remarks>
+        /// <para>The validationContext is the object of type Address which need to be validated</para>
+        /// <para>The actionDBtype allowable</para>
+        /// <code>
+        ///     public enum ActionDBTypeEnum
+        ///     {
+        ///         Error = 0,
+        ///         Create = 1,
+        ///         Read = 2,
+        ///         Update = 3,
+        ///         Delete = 4
+        ///     }
+        /// </code>
+        /// </remarks>
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             Address address = validationContext.ObjectInstance as Address;
+            address.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (address.AddressID == 0)
                 {
+                    address.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AddressAddressID), new[] { "AddressID" });
+                }
+
+                if (!GetRead().Where(c => c.AddressID == address.AddressID).Any())
+                {
+                    address.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Address, ModelsRes.AddressAddressID, address.AddressID.ToString()), new[] { "AddressID" });
                 }
             }
 
@@ -54,6 +89,7 @@ namespace CSSPServices
 
             if (TVItemAddressTVItemID == null)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressAddressTVItemID, address.AddressTVItemID.ToString()), new[] { "AddressTVItemID" });
             }
             else
@@ -64,6 +100,7 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemAddressTVItemID.TVType))
                 {
+                    address.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressAddressTVItemID, "Address"), new[] { "AddressTVItemID" });
                 }
             }
@@ -71,6 +108,7 @@ namespace CSSPServices
             retStr = enums.AddressTypeOK(address.AddressType);
             if (address.AddressType == AddressTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AddressAddressType), new[] { "AddressType" });
             }
 
@@ -80,6 +118,7 @@ namespace CSSPServices
 
             if (TVItemCountryTVItemID == null)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressCountryTVItemID, address.CountryTVItemID.ToString()), new[] { "CountryTVItemID" });
             }
             else
@@ -90,6 +129,7 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemCountryTVItemID.TVType))
                 {
+                    address.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressCountryTVItemID, "Country"), new[] { "CountryTVItemID" });
                 }
             }
@@ -100,6 +140,7 @@ namespace CSSPServices
 
             if (TVItemProvinceTVItemID == null)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressProvinceTVItemID, address.ProvinceTVItemID.ToString()), new[] { "ProvinceTVItemID" });
             }
             else
@@ -110,6 +151,7 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemProvinceTVItemID.TVType))
                 {
+                    address.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressProvinceTVItemID, "Province"), new[] { "ProvinceTVItemID" });
                 }
             }
@@ -120,6 +162,7 @@ namespace CSSPServices
 
             if (TVItemMunicipalityTVItemID == null)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressMunicipalityTVItemID, address.MunicipalityTVItemID.ToString()), new[] { "MunicipalityTVItemID" });
             }
             else
@@ -130,17 +173,20 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemMunicipalityTVItemID.TVType))
                 {
+                    address.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressMunicipalityTVItemID, "Municipality"), new[] { "MunicipalityTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(address.StreetName) && address.StreetName.Length > 200)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressStreetName, "200"), new[] { "StreetName" });
             }
 
             if (!string.IsNullOrWhiteSpace(address.StreetNumber) && address.StreetNumber.Length > 50)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressStreetNumber, "50"), new[] { "StreetNumber" });
             }
 
@@ -149,28 +195,33 @@ namespace CSSPServices
                 retStr = enums.StreetTypeOK(address.StreetType);
                 if (address.StreetType == StreetTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
+                    address.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AddressStreetType), new[] { "StreetType" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(address.PostalCode) && (address.PostalCode.Length < 6 || address.PostalCode.Length > 11))
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressPostalCode, "6", "11"), new[] { "PostalCode" });
             }
 
             if (!string.IsNullOrWhiteSpace(address.GoogleAddressText) && (address.GoogleAddressText.Length < 10 || address.GoogleAddressText.Length > 200))
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressGoogleAddressText, "10", "200"), new[] { "GoogleAddressText" });
             }
 
             if (address.LastUpdateDate_UTC.Year == 1)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AddressLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (address.LastUpdateDate_UTC.Year < 1980)
                 {
+                address.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AddressLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -181,6 +232,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressLastUpdateContactTVItemID, address.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -191,6 +243,7 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    address.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
@@ -201,6 +254,7 @@ namespace CSSPServices
 
             if (TVItemParentTVItemID == null)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressParentTVItemID, address.ParentTVItemID.ToString()), new[] { "ParentTVItemID" });
             }
             else
@@ -214,48 +268,59 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemParentTVItemID.TVType))
                 {
+                    address.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressParentTVItemID, "Root,Infrastructure,Contact,PolSourceSite"), new[] { "ParentTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(address.AddressTVText) && address.AddressTVText.Length > 200)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressAddressTVText, "200"), new[] { "AddressTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(address.CountryTVText) && address.CountryTVText.Length > 200)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressCountryTVText, "200"), new[] { "CountryTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(address.ProvinceTVText) && address.ProvinceTVText.Length > 200)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressProvinceTVText, "200"), new[] { "ProvinceTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(address.MunicipalityTVText) && address.MunicipalityTVText.Length > 200)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressMunicipalityTVText, "200"), new[] { "MunicipalityTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(address.LastUpdateContactTVText) && address.LastUpdateContactTVText.Length > 200)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(address.AddressTypeText) && address.AddressTypeText.Length > 100)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressAddressTypeText, "100"), new[] { "AddressTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(address.StreetTypeText) && address.StreetTypeText.Length > 100)
             {
+                address.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressStreetTypeText, "100"), new[] { "StreetTypeText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                address.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -263,6 +328,11 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
+        /// <summary>
+        /// Get the Address item from the DB context with AddressID
+        /// </summary>
+        /// <param name="AddressID"></param>
+        /// <returns>Address</returns>
         public Address GetAddressWithAddressID(int AddressID)
         {
             IQueryable<Address> addressQuery = (from c in GetRead()
@@ -274,6 +344,11 @@ namespace CSSPServices
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD
+        /// <summary>
+        /// Add function for the Address type
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public bool Add(Address address)
         {
             address.ValidationResults = Validate(new ValidationContext(address), ActionDBTypeEnum.Create);
@@ -285,13 +360,15 @@ namespace CSSPServices
 
             return true;
         }
+        /// <summary>
+        /// Delete function for the Address type
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public bool Delete(Address address)
         {
-            if (!db.Addresses.Where(c => c.AddressID == address.AddressID).Any())
-            {
-                address.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Address", "AddressID", address.AddressID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            address.ValidationResults = Validate(new ValidationContext(address), ActionDBTypeEnum.Delete);
+            if (address.ValidationResults.Count() > 0) return false;
 
             db.Addresses.Remove(address);
 
@@ -299,14 +376,13 @@ namespace CSSPServices
 
             return true;
         }
+        /// <summary>
+        /// Update function for the Address type
+        /// </summary>
+        /// <param name="address"></param>
+        /// <returns></returns>
         public bool Update(Address address)
         {
-            if (!db.Addresses.Where(c => c.AddressID == address.AddressID).Any())
-            {
-                address.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "Address", "AddressID", address.AddressID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             address.ValidationResults = Validate(new ValidationContext(address), ActionDBTypeEnum.Update);
             if (address.ValidationResults.Count() > 0) return false;
 
@@ -316,10 +392,19 @@ namespace CSSPServices
 
             return true;
         }
+        /// <summary>
+        /// IQueryable of all Address from DB Read only
+        /// </summary>
+        /// <returns>IQueryable&lt;Address&gt;</returns>
         public IQueryable<Address> GetRead()
         {
             return db.Addresses.AsNoTracking();
         }
+        /// <summary>
+        /// <para>IQueryable of all Address item from the DB for editing</para>
+        /// <para>no use of AsNoTracking()</para>
+        /// </summary>
+        /// <returns>IQueryable&lt;Address&gt;</returns>
         public IQueryable<Address> GetEdit()
         {
             return db.Addresses;
@@ -327,6 +412,11 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
+        /// <summary>
+        /// Fills the Address type with appropriate info
+        /// </summary>
+        /// <param name="addressQuery"></param>
+        /// <returns></returns>
         private List<Address> FillAddress(IQueryable<Address> addressQuery)
         {
             List<Address> AddressList = (from c in addressQuery

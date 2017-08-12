@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Initial") newContact.Initial = GetRandomString("", 5);
             if (OmitPropName != "ContactTitle") newContact.ContactTitle = (ContactTitleEnum)GetRandomEnumType(typeof(ContactTitleEnum));
             if (OmitPropName != "ContactTitleText") newContact.ContactTitleText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") newContact.HasErrors = true;
 
             return newContact;
         }

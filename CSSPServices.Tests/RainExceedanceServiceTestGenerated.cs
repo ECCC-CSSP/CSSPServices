@@ -54,6 +54,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateDate_UTC") rainExceedance.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") rainExceedance.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") rainExceedance.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") rainExceedance.HasErrors = true;
 
             return rainExceedance;
         }
@@ -85,20 +86,22 @@ namespace CSSPServices.Tests
 
                 count = rainExceedanceService.GetRead().Count();
 
+                Assert.AreEqual(rainExceedanceService.GetRead().Count(), rainExceedanceService.GetEdit().Count());
+
                 rainExceedanceService.Add(rainExceedance);
-                if (rainExceedance.ValidationResults.Count() > 0)
+                if (rainExceedance.HasErrors)
                 {
                     Assert.AreEqual("", rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, rainExceedanceService.GetRead().Where(c => c == rainExceedance).Any());
                 rainExceedanceService.Update(rainExceedance);
-                if (rainExceedance.ValidationResults.Count() > 0)
+                if (rainExceedance.HasErrors)
                 {
                     Assert.AreEqual("", rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, rainExceedanceService.GetRead().Count());
                 rainExceedanceService.Delete(rainExceedance);
-                if (rainExceedance.ValidationResults.Count() > 0)
+                if (rainExceedance.HasErrors)
                 {
                     Assert.AreEqual("", rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -122,6 +125,12 @@ namespace CSSPServices.Tests
                 rainExceedance.RainExceedanceID = 0;
                 rainExceedanceService.Update(rainExceedance);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceRainExceedanceID), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                rainExceedance = null;
+                rainExceedance = GetFilledRandomRainExceedance("");
+                rainExceedance.RainExceedanceID = 10000000;
+                rainExceedanceService.Update(rainExceedance);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RainExceedance, ModelsRes.RainExceedanceRainExceedanceID, rainExceedance.RainExceedanceID.ToString()), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -340,6 +349,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // rainExceedance.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // rainExceedance.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -393,6 +409,7 @@ namespace CSSPServices.Tests
 
                 Assert.IsNotNull(rainExceedanceRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.LastUpdateContactTVText));
+                Assert.IsNotNull(rainExceedanceRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

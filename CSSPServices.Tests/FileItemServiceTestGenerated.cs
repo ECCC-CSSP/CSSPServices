@@ -42,6 +42,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Name") fileItem.Name = GetRandomString("", 5);
             if (OmitPropName != "TVItemID") fileItem.TVItemID = GetRandomInt(1, 11);
+            if (OmitPropName != "HasErrors") fileItem.HasErrors = true;
 
             return fileItem;
         }

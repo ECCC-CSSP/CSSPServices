@@ -37,14 +37,17 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             URLNumberOfSamples uRLNumberOfSamples = validationContext.ObjectInstance as URLNumberOfSamples;
+            uRLNumberOfSamples.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(uRLNumberOfSamples.url))
             {
+                uRLNumberOfSamples.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.URLNumberOfSamplesurl), new[] { "url" });
             }
 
             if (!string.IsNullOrWhiteSpace(uRLNumberOfSamples.url) && (uRLNumberOfSamples.url.Length < 1 || uRLNumberOfSamples.url.Length > 255))
             {
+                uRLNumberOfSamples.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.URLNumberOfSamplesurl, "1", "255"), new[] { "url" });
             }
 
@@ -52,9 +55,12 @@ namespace CSSPServices
 
             //NumberOfSamples has no Range Attribute
 
+            //HasErrors (bool) is required but no testing needed 
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                uRLNumberOfSamples.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

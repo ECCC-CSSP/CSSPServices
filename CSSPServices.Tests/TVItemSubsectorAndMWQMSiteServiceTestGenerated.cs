@@ -40,6 +40,7 @@ namespace CSSPServices.Tests
         {
             TVItemSubsectorAndMWQMSite tvItemSubsectorAndMWQMSite = new TVItemSubsectorAndMWQMSite();
 
+            if (OmitPropName != "HasErrors") tvItemSubsectorAndMWQMSite.HasErrors = true;
 
             return tvItemSubsectorAndMWQMSite;
         }

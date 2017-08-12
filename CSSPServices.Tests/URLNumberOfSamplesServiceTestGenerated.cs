@@ -42,6 +42,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "url") uRLNumberOfSamples.url = GetRandomString("", 6);
             // should implement a Range for the property NumberOfSamples and type URLNumberOfSamples
+            if (OmitPropName != "HasErrors") uRLNumberOfSamples.HasErrors = true;
 
             return uRLNumberOfSamples;
         }

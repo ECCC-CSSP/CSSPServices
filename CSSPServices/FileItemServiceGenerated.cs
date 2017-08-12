@@ -37,14 +37,17 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             FileItem fileItem = validationContext.ObjectInstance as FileItem;
+            fileItem.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(fileItem.Name))
             {
+                fileItem.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FileItemName), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(fileItem.Name) && (fileItem.Name.Length < 0 || fileItem.Name.Length > 255))
             {
+                fileItem.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FileItemName, "0", "255"), new[] { "Name" });
             }
 
@@ -52,12 +55,16 @@ namespace CSSPServices
 
             if (fileItem.TVItemID < 1)
             {
+                fileItem.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.FileItemTVItemID, "1"), new[] { "TVItemID" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                fileItem.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

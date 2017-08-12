@@ -48,6 +48,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVItemID") log.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") log.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LogCommandText") log.LogCommandText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") log.HasErrors = true;
 
             return log;
         }
@@ -79,20 +80,22 @@ namespace CSSPServices.Tests
 
                 count = logService.GetRead().Count();
 
+                Assert.AreEqual(logService.GetRead().Count(), logService.GetEdit().Count());
+
                 logService.Add(log);
-                if (log.ValidationResults.Count() > 0)
+                if (log.HasErrors)
                 {
                     Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, logService.GetRead().Where(c => c == log).Any());
                 logService.Update(log);
-                if (log.ValidationResults.Count() > 0)
+                if (log.HasErrors)
                 {
                     Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, logService.GetRead().Count());
                 logService.Delete(log);
-                if (log.ValidationResults.Count() > 0)
+                if (log.HasErrors)
                 {
                     Assert.AreEqual("", log.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -116,6 +119,12 @@ namespace CSSPServices.Tests
                 log.LogID = 0;
                 logService.Update(log);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LogLogID), log.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                log = null;
+                log = GetFilledRandomLog("");
+                log.LogID = 10000000;
+                logService.Update(log);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Log, ModelsRes.LogLogID, log.LogID.ToString()), log.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -237,6 +246,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // log.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // log.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -271,6 +287,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.LastUpdateContactTVText));
                 Assert.IsNotNull(logRet.LogCommandText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(logRet.LogCommandText));
+                Assert.IsNotNull(logRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

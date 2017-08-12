@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "sid") tideLocation.sid = GetRandomInt(0, 100000);
             if (OmitPropName != "Lat") tideLocation.Lat = GetRandomDouble(-90.0D, 90.0D);
             if (OmitPropName != "Lng") tideLocation.Lng = GetRandomDouble(-180.0D, 180.0D);
+            if (OmitPropName != "HasErrors") tideLocation.HasErrors = true;
 
             return tideLocation;
         }
@@ -77,20 +78,22 @@ namespace CSSPServices.Tests
 
                 count = tideLocationService.GetRead().Count();
 
+                Assert.AreEqual(tideLocationService.GetRead().Count(), tideLocationService.GetEdit().Count());
+
                 tideLocationService.Add(tideLocation);
-                if (tideLocation.ValidationResults.Count() > 0)
+                if (tideLocation.HasErrors)
                 {
                     Assert.AreEqual("", tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, tideLocationService.GetRead().Where(c => c == tideLocation).Any());
                 tideLocationService.Update(tideLocation);
-                if (tideLocation.ValidationResults.Count() > 0)
+                if (tideLocation.HasErrors)
                 {
                     Assert.AreEqual("", tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, tideLocationService.GetRead().Count());
                 tideLocationService.Delete(tideLocation);
-                if (tideLocation.ValidationResults.Count() > 0)
+                if (tideLocation.HasErrors)
                 {
                     Assert.AreEqual("", tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -114,6 +117,12 @@ namespace CSSPServices.Tests
                 tideLocation.TideLocationID = 0;
                 tideLocationService.Update(tideLocation);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TideLocationTideLocationID), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                tideLocation = null;
+                tideLocation = GetFilledRandomTideLocation("");
+                tideLocation.TideLocationID = 10000000;
+                tideLocationService.Update(tideLocation);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TideLocation, ModelsRes.TideLocationTideLocationID, tideLocation.TideLocationID.ToString()), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -241,6 +250,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // tideLocation.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // tideLocation.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -270,6 +286,8 @@ namespace CSSPServices.Tests
                 Assert.IsNotNull(tideLocationRet.sid);
                 Assert.IsNotNull(tideLocationRet.Lat);
                 Assert.IsNotNull(tideLocationRet.Lng);
+
+                Assert.IsNotNull(tideLocationRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

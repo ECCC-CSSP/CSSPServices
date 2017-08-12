@@ -59,6 +59,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVItemID") boxModelResult.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") boxModelResult.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "BoxModelResultTypeText") boxModelResult.BoxModelResultTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") boxModelResult.HasErrors = true;
 
             return boxModelResult;
         }
@@ -90,20 +91,22 @@ namespace CSSPServices.Tests
 
                 count = boxModelResultService.GetRead().Count();
 
+                Assert.AreEqual(boxModelResultService.GetRead().Count(), boxModelResultService.GetEdit().Count());
+
                 boxModelResultService.Add(boxModelResult);
-                if (boxModelResult.ValidationResults.Count() > 0)
+                if (boxModelResult.HasErrors)
                 {
                     Assert.AreEqual("", boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, boxModelResultService.GetRead().Where(c => c == boxModelResult).Any());
                 boxModelResultService.Update(boxModelResult);
-                if (boxModelResult.ValidationResults.Count() > 0)
+                if (boxModelResult.HasErrors)
                 {
                     Assert.AreEqual("", boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, boxModelResultService.GetRead().Count());
                 boxModelResultService.Delete(boxModelResult);
-                if (boxModelResult.ValidationResults.Count() > 0)
+                if (boxModelResult.HasErrors)
                 {
                     Assert.AreEqual("", boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -127,6 +130,12 @@ namespace CSSPServices.Tests
                 boxModelResult.BoxModelResultID = 0;
                 boxModelResultService.Update(boxModelResult);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelResultBoxModelResultID), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                boxModelResult = null;
+                boxModelResult = GetFilledRandomBoxModelResult("");
+                boxModelResult.BoxModelResultID = 10000000;
+                boxModelResultService.Update(boxModelResult);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModelResult, ModelsRes.BoxModelResultBoxModelResultID, boxModelResult.BoxModelResultID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -444,6 +453,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // boxModelResult.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // boxModelResult.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -487,6 +503,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.LastUpdateContactTVText));
                 Assert.IsNotNull(boxModelResultRet.BoxModelResultTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.BoxModelResultTypeText));
+                Assert.IsNotNull(boxModelResultRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

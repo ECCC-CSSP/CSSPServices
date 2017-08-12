@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateDate_UTC") polSourceObservationIssue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") polSourceObservationIssue.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") polSourceObservationIssue.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") polSourceObservationIssue.HasErrors = true;
 
             return polSourceObservationIssue;
         }
@@ -77,20 +78,22 @@ namespace CSSPServices.Tests
 
                 count = polSourceObservationIssueService.GetRead().Count();
 
+                Assert.AreEqual(polSourceObservationIssueService.GetRead().Count(), polSourceObservationIssueService.GetEdit().Count());
+
                 polSourceObservationIssueService.Add(polSourceObservationIssue);
-                if (polSourceObservationIssue.ValidationResults.Count() > 0)
+                if (polSourceObservationIssue.HasErrors)
                 {
                     Assert.AreEqual("", polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, polSourceObservationIssueService.GetRead().Where(c => c == polSourceObservationIssue).Any());
                 polSourceObservationIssueService.Update(polSourceObservationIssue);
-                if (polSourceObservationIssue.ValidationResults.Count() > 0)
+                if (polSourceObservationIssue.HasErrors)
                 {
                     Assert.AreEqual("", polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, polSourceObservationIssueService.GetRead().Count());
                 polSourceObservationIssueService.Delete(polSourceObservationIssue);
-                if (polSourceObservationIssue.ValidationResults.Count() > 0)
+                if (polSourceObservationIssue.HasErrors)
                 {
                     Assert.AreEqual("", polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -114,6 +117,12 @@ namespace CSSPServices.Tests
                 polSourceObservationIssue.PolSourceObservationIssueID = 0;
                 polSourceObservationIssueService.Update(polSourceObservationIssue);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationIssuePolSourceObservationIssueID), polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                polSourceObservationIssue = null;
+                polSourceObservationIssue = GetFilledRandomPolSourceObservationIssue("");
+                polSourceObservationIssue.PolSourceObservationIssueID = 10000000;
+                polSourceObservationIssueService.Update(polSourceObservationIssue);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceObservationIssue, ModelsRes.PolSourceObservationIssuePolSourceObservationIssueID, polSourceObservationIssue.PolSourceObservationIssueID.ToString()), polSourceObservationIssue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -213,6 +222,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // polSourceObservationIssue.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // polSourceObservationIssue.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -243,6 +259,7 @@ namespace CSSPServices.Tests
 
                 Assert.IsNotNull(polSourceObservationIssueRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationIssueRet.LastUpdateContactTVText));
+                Assert.IsNotNull(polSourceObservationIssueRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

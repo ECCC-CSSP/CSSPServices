@@ -60,6 +60,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MWQMRunTVText") mwqmSample.MWQMRunTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") mwqmSample.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "SampleType_oldText") mwqmSample.SampleType_oldText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") mwqmSample.HasErrors = true;
 
             return mwqmSample;
         }
@@ -91,20 +92,22 @@ namespace CSSPServices.Tests
 
                 count = mwqmSampleService.GetRead().Count();
 
+                Assert.AreEqual(mwqmSampleService.GetRead().Count(), mwqmSampleService.GetEdit().Count());
+
                 mwqmSampleService.Add(mwqmSample);
-                if (mwqmSample.ValidationResults.Count() > 0)
+                if (mwqmSample.HasErrors)
                 {
                     Assert.AreEqual("", mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, mwqmSampleService.GetRead().Where(c => c == mwqmSample).Any());
                 mwqmSampleService.Update(mwqmSample);
-                if (mwqmSample.ValidationResults.Count() > 0)
+                if (mwqmSample.HasErrors)
                 {
                     Assert.AreEqual("", mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, mwqmSampleService.GetRead().Count());
                 mwqmSampleService.Delete(mwqmSample);
-                if (mwqmSample.ValidationResults.Count() > 0)
+                if (mwqmSample.HasErrors)
                 {
                     Assert.AreEqual("", mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -128,6 +131,12 @@ namespace CSSPServices.Tests
                 mwqmSample.MWQMSampleID = 0;
                 mwqmSampleService.Update(mwqmSample);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleMWQMSampleID), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                mwqmSample = null;
+                mwqmSample = GetFilledRandomMWQMSample("");
+                mwqmSample.MWQMSampleID = 10000000;
+                mwqmSampleService.Update(mwqmSample);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSample, ModelsRes.MWQMSampleMWQMSampleID, mwqmSample.MWQMSampleID.ToString()), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -470,6 +479,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // mwqmSample.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // mwqmSample.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -542,6 +558,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.LastUpdateContactTVText));
                 Assert.IsNotNull(mwqmSampleRet.SampleType_oldText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSampleRet.SampleType_oldText));
+                Assert.IsNotNull(mwqmSampleRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

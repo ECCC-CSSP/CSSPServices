@@ -61,6 +61,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVItemID") hydrometricSite.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "HydrometricTVText") hydrometricSite.HydrometricTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") hydrometricSite.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") hydrometricSite.HasErrors = true;
 
             return hydrometricSite;
         }
@@ -92,20 +93,22 @@ namespace CSSPServices.Tests
 
                 count = hydrometricSiteService.GetRead().Count();
 
+                Assert.AreEqual(hydrometricSiteService.GetRead().Count(), hydrometricSiteService.GetEdit().Count());
+
                 hydrometricSiteService.Add(hydrometricSite);
-                if (hydrometricSite.ValidationResults.Count() > 0)
+                if (hydrometricSite.HasErrors)
                 {
                     Assert.AreEqual("", hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, hydrometricSiteService.GetRead().Where(c => c == hydrometricSite).Any());
                 hydrometricSiteService.Update(hydrometricSite);
-                if (hydrometricSite.ValidationResults.Count() > 0)
+                if (hydrometricSite.HasErrors)
                 {
                     Assert.AreEqual("", hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, hydrometricSiteService.GetRead().Count());
                 hydrometricSiteService.Delete(hydrometricSite);
-                if (hydrometricSite.ValidationResults.Count() > 0)
+                if (hydrometricSite.HasErrors)
                 {
                     Assert.AreEqual("", hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -129,6 +132,12 @@ namespace CSSPServices.Tests
                 hydrometricSite.HydrometricSiteID = 0;
                 hydrometricSiteService.Update(hydrometricSite);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricSiteHydrometricSiteID), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                hydrometricSite = null;
+                hydrometricSite = GetFilledRandomHydrometricSite("");
+                hydrometricSite.HydrometricSiteID = 10000000;
+                hydrometricSiteService.Update(hydrometricSite);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricSite, ModelsRes.HydrometricSiteHydrometricSiteID, hydrometricSite.HydrometricSiteID.ToString()), hydrometricSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -404,6 +413,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // hydrometricSite.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // hydrometricSite.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -496,6 +512,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.HydrometricTVText));
                 Assert.IsNotNull(hydrometricSiteRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricSiteRet.LastUpdateContactTVText));
+                Assert.IsNotNull(hydrometricSiteRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

@@ -37,28 +37,35 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             MapObj mapObj = validationContext.ObjectInstance as MapObj;
+            mapObj.HasErrors = false;
 
             //MapInfoID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (mapObj.MapInfoID < 1)
             {
+                mapObj.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MapObjMapInfoID, "1"), new[] { "MapInfoID" });
             }
 
             retStr = enums.MapInfoDrawTypeOK(mapObj.MapInfoDrawType);
             if (mapObj.MapInfoDrawType == MapInfoDrawTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                mapObj.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapObjMapInfoDrawType), new[] { "MapInfoDrawType" });
             }
 
             if (!string.IsNullOrWhiteSpace(mapObj.MapInfoDrawTypeText) && mapObj.MapInfoDrawTypeText.Length > 100)
             {
+                mapObj.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapObjMapInfoDrawTypeText, "100"), new[] { "MapInfoDrawTypeText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                mapObj.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

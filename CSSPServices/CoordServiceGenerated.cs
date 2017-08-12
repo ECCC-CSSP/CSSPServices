@@ -37,11 +37,13 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             Coord coord = validationContext.ObjectInstance as Coord;
+            coord.HasErrors = false;
 
             //Lat (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (coord.Lat < -180 || coord.Lat > 180)
             {
+                coord.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordLat, "-180", "180"), new[] { "Lat" });
             }
 
@@ -49,6 +51,7 @@ namespace CSSPServices
 
             if (coord.Lng < -90 || coord.Lng > 90)
             {
+                coord.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordLng, "-90", "90"), new[] { "Lng" });
             }
 
@@ -56,12 +59,16 @@ namespace CSSPServices
 
             if (coord.Ordinal < 0 || coord.Ordinal > 10000)
             {
+                coord.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.CoordOrdinal, "0", "10000"), new[] { "Ordinal" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                coord.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

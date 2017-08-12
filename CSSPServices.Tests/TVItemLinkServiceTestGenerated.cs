@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVText") tvItemLink.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "FromTVTypeText") tvItemLink.FromTVTypeText = GetRandomString("", 5);
             if (OmitPropName != "ToTVTypeText") tvItemLink.ToTVTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") tvItemLink.HasErrors = true;
 
             return tvItemLink;
         }
@@ -88,20 +89,22 @@ namespace CSSPServices.Tests
 
                 count = tvItemLinkService.GetRead().Count();
 
+                Assert.AreEqual(tvItemLinkService.GetRead().Count(), tvItemLinkService.GetEdit().Count());
+
                 tvItemLinkService.Add(tvItemLink);
-                if (tvItemLink.ValidationResults.Count() > 0)
+                if (tvItemLink.HasErrors)
                 {
                     Assert.AreEqual("", tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, tvItemLinkService.GetRead().Where(c => c == tvItemLink).Any());
                 tvItemLinkService.Update(tvItemLink);
-                if (tvItemLink.ValidationResults.Count() > 0)
+                if (tvItemLink.HasErrors)
                 {
                     Assert.AreEqual("", tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, tvItemLinkService.GetRead().Count());
                 tvItemLinkService.Delete(tvItemLink);
-                if (tvItemLink.ValidationResults.Count() > 0)
+                if (tvItemLink.HasErrors)
                 {
                     Assert.AreEqual("", tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -125,6 +128,12 @@ namespace CSSPServices.Tests
                 tvItemLink.TVItemLinkID = 0;
                 tvItemLinkService.Update(tvItemLink);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLinkTVItemLinkID), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                tvItemLink = null;
+                tvItemLink = GetFilledRandomTVItemLink("");
+                tvItemLink.TVItemLinkID = 10000000;
+                tvItemLinkService.Update(tvItemLink);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItemLink, ModelsRes.TVItemLinkTVItemLinkID, tvItemLink.TVItemLinkID.ToString()), tvItemLink.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -380,6 +389,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // tvItemLink.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // tvItemLink.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -434,6 +450,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.FromTVTypeText));
                 Assert.IsNotNull(tvItemLinkRet.ToTVTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemLinkRet.ToTVTypeText));
+                Assert.IsNotNull(tvItemLinkRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

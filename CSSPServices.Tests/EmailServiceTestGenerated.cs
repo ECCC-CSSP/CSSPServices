@@ -48,6 +48,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "EmailTVText") email.EmailTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") email.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "EmailTypeText") email.EmailTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") email.HasErrors = true;
 
             return email;
         }
@@ -79,20 +80,22 @@ namespace CSSPServices.Tests
 
                 count = emailService.GetRead().Count();
 
+                Assert.AreEqual(emailService.GetRead().Count(), emailService.GetEdit().Count());
+
                 emailService.Add(email);
-                if (email.ValidationResults.Count() > 0)
+                if (email.HasErrors)
                 {
                     Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, emailService.GetRead().Where(c => c == email).Any());
                 emailService.Update(email);
-                if (email.ValidationResults.Count() > 0)
+                if (email.HasErrors)
                 {
                     Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, emailService.GetRead().Count());
                 emailService.Delete(email);
-                if (email.ValidationResults.Count() > 0)
+                if (email.HasErrors)
                 {
                     Assert.AreEqual("", email.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -116,6 +119,12 @@ namespace CSSPServices.Tests
                 email.EmailID = 0;
                 emailService.Update(email);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailID), email.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                email = null;
+                email = GetFilledRandomEmail("");
+                email.EmailID = 10000000;
+                emailService.Update(email);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Email, ModelsRes.EmailEmailID, email.EmailID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -245,6 +254,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // email.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // email.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -279,6 +295,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.LastUpdateContactTVText));
                 Assert.IsNotNull(emailRet.EmailTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailTypeText));
+                Assert.IsNotNull(emailRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

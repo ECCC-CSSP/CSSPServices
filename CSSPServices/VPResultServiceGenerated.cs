@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             VPResult vpResult = validationContext.ObjectInstance as VPResult;
+            vpResult.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (vpResult.VPResultID == 0)
                 {
+                    vpResult.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPResultVPResultID), new[] { "VPResultID" });
+                }
+
+                if (!GetRead().Where(c => c.VPResultID == vpResult.VPResultID).Any())
+                {
+                    vpResult.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPResult, ModelsRes.VPResultVPResultID, vpResult.VPResultID.ToString()), new[] { "VPResultID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (VPScenarioVPScenarioID == null)
             {
+                vpResult.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPResultVPScenarioID, vpResult.VPScenarioID.ToString()), new[] { "VPScenarioID" });
             }
 
@@ -61,6 +70,7 @@ namespace CSSPServices
 
             if (vpResult.Ordinal < 0 || vpResult.Ordinal > 1000)
             {
+                vpResult.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
 
@@ -68,6 +78,7 @@ namespace CSSPServices
 
             if (vpResult.Concentration_MPN_100ml < 0 || vpResult.Concentration_MPN_100ml > 10000000)
             {
+                vpResult.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultConcentration_MPN_100ml, "0", "10000000"), new[] { "Concentration_MPN_100ml" });
             }
 
@@ -75,6 +86,7 @@ namespace CSSPServices
 
             if (vpResult.Dilution < 0 || vpResult.Dilution > 1000000)
             {
+                vpResult.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultDilution, "0", "1000000"), new[] { "Dilution" });
             }
 
@@ -82,6 +94,7 @@ namespace CSSPServices
 
             if (vpResult.FarFieldWidth_m < 0 || vpResult.FarFieldWidth_m > 10000)
             {
+                vpResult.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultFarFieldWidth_m, "0", "10000"), new[] { "FarFieldWidth_m" });
             }
 
@@ -89,6 +102,7 @@ namespace CSSPServices
 
             if (vpResult.DispersionDistance_m < 0 || vpResult.DispersionDistance_m > 100000)
             {
+                vpResult.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultDispersionDistance_m, "0", "100000"), new[] { "DispersionDistance_m" });
             }
 
@@ -96,17 +110,20 @@ namespace CSSPServices
 
             if (vpResult.TravelTime_hour < 0 || vpResult.TravelTime_hour > 100)
             {
+                vpResult.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultTravelTime_hour, "0", "100"), new[] { "TravelTime_hour" });
             }
 
             if (vpResult.LastUpdateDate_UTC.Year == 1)
             {
+                vpResult.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPResultLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (vpResult.LastUpdateDate_UTC.Year < 1980)
                 {
+                vpResult.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.VPResultLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -117,6 +134,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                vpResult.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPResultLastUpdateContactTVItemID, vpResult.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -127,18 +145,23 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    vpResult.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPResultLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(vpResult.LastUpdateContactTVText) && vpResult.LastUpdateContactTVText.Length > 200)
             {
+                vpResult.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPResultLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                vpResult.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -170,11 +193,8 @@ namespace CSSPServices
         }
         public bool Delete(VPResult vpResult)
         {
-            if (!db.VPResults.Where(c => c.VPResultID == vpResult.VPResultID).Any())
-            {
-                vpResult.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "VPResult", "VPResultID", vpResult.VPResultID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            vpResult.ValidationResults = Validate(new ValidationContext(vpResult), ActionDBTypeEnum.Delete);
+            if (vpResult.ValidationResults.Count() > 0) return false;
 
             db.VPResults.Remove(vpResult);
 
@@ -184,12 +204,6 @@ namespace CSSPServices
         }
         public bool Update(VPResult vpResult)
         {
-            if (!db.VPResults.Where(c => c.VPResultID == vpResult.VPResultID).Any())
-            {
-                vpResult.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "VPResult", "VPResultID", vpResult.VPResultID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             vpResult.ValidationResults = Validate(new ValidationContext(vpResult), ActionDBTypeEnum.Update);
             if (vpResult.ValidationResults.Count() > 0) return false;
 

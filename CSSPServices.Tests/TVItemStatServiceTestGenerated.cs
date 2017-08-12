@@ -48,6 +48,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TVText") tvItemStat.TVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") tvItemStat.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "TVTypeText") tvItemStat.TVTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") tvItemStat.HasErrors = true;
 
             return tvItemStat;
         }
@@ -79,20 +80,22 @@ namespace CSSPServices.Tests
 
                 count = tvItemStatService.GetRead().Count();
 
+                Assert.AreEqual(tvItemStatService.GetRead().Count(), tvItemStatService.GetEdit().Count());
+
                 tvItemStatService.Add(tvItemStat);
-                if (tvItemStat.ValidationResults.Count() > 0)
+                if (tvItemStat.HasErrors)
                 {
                     Assert.AreEqual("", tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, tvItemStatService.GetRead().Where(c => c == tvItemStat).Any());
                 tvItemStatService.Update(tvItemStat);
-                if (tvItemStat.ValidationResults.Count() > 0)
+                if (tvItemStat.HasErrors)
                 {
                     Assert.AreEqual("", tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, tvItemStatService.GetRead().Count());
                 tvItemStatService.Delete(tvItemStat);
-                if (tvItemStat.ValidationResults.Count() > 0)
+                if (tvItemStat.HasErrors)
                 {
                     Assert.AreEqual("", tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -116,6 +119,12 @@ namespace CSSPServices.Tests
                 tvItemStat.TVItemStatID = 0;
                 tvItemStatService.Update(tvItemStat);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemStatTVItemStatID), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                tvItemStat = null;
+                tvItemStat = GetFilledRandomTVItemStat("");
+                tvItemStat.TVItemStatID = 10000000;
+                tvItemStatService.Update(tvItemStat);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItemStat, ModelsRes.TVItemStatTVItemStatID, tvItemStat.TVItemStatID.ToString()), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -242,6 +251,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // tvItemStat.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // tvItemStat.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -275,6 +291,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.LastUpdateContactTVText));
                 Assert.IsNotNull(tvItemStatRet.TVTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(tvItemStatRet.TVTypeText));
+                Assert.IsNotNull(tvItemStatRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

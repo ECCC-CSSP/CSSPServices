@@ -37,9 +37,11 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             OtherFilesToUpload otherFilesToUpload = validationContext.ObjectInstance as OtherFilesToUpload;
+            otherFilesToUpload.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(otherFilesToUpload.Error))
             {
+                otherFilesToUpload.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.OtherFilesToUploadError), new[] { "Error" });
             }
 
@@ -49,12 +51,16 @@ namespace CSSPServices
 
             if (otherFilesToUpload.MikeScenarioID < 1)
             {
+                otherFilesToUpload.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.OtherFilesToUploadMikeScenarioID, "1"), new[] { "MikeScenarioID" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                otherFilesToUpload.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

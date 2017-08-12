@@ -48,6 +48,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "TelTVText") tel.TelTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") tel.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "TelTypeText") tel.TelTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") tel.HasErrors = true;
 
             return tel;
         }
@@ -79,20 +80,22 @@ namespace CSSPServices.Tests
 
                 count = telService.GetRead().Count();
 
+                Assert.AreEqual(telService.GetRead().Count(), telService.GetEdit().Count());
+
                 telService.Add(tel);
-                if (tel.ValidationResults.Count() > 0)
+                if (tel.HasErrors)
                 {
                     Assert.AreEqual("", tel.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, telService.GetRead().Where(c => c == tel).Any());
                 telService.Update(tel);
-                if (tel.ValidationResults.Count() > 0)
+                if (tel.HasErrors)
                 {
                     Assert.AreEqual("", tel.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, telService.GetRead().Count());
                 telService.Delete(tel);
-                if (tel.ValidationResults.Count() > 0)
+                if (tel.HasErrors)
                 {
                     Assert.AreEqual("", tel.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -116,6 +119,12 @@ namespace CSSPServices.Tests
                 tel.TelID = 0;
                 telService.Update(tel);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TelTelID), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                tel = null;
+                tel = GetFilledRandomTel("");
+                tel.TelID = 10000000;
+                telService.Update(tel);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Tel, ModelsRes.TelTelID, tel.TelID.ToString()), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -244,6 +253,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // tel.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // tel.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -278,6 +294,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.LastUpdateContactTVText));
                 Assert.IsNotNull(telRet.TelTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(telRet.TelTypeText));
+                Assert.IsNotNull(telRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

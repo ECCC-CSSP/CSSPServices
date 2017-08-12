@@ -37,10 +37,14 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             Vector vector = validationContext.ObjectInstance as Vector;
+            vector.HasErrors = false;
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                vector.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

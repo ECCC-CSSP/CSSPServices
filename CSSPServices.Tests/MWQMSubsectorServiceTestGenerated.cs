@@ -70,6 +70,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSubsector.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "SubsectorTVText") mwqmSubsector.SubsectorTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") mwqmSubsector.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") mwqmSubsector.HasErrors = true;
 
             return mwqmSubsector;
         }
@@ -101,20 +102,22 @@ namespace CSSPServices.Tests
 
                 count = mwqmSubsectorService.GetRead().Count();
 
+                Assert.AreEqual(mwqmSubsectorService.GetRead().Count(), mwqmSubsectorService.GetEdit().Count());
+
                 mwqmSubsectorService.Add(mwqmSubsector);
-                if (mwqmSubsector.ValidationResults.Count() > 0)
+                if (mwqmSubsector.HasErrors)
                 {
                     Assert.AreEqual("", mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, mwqmSubsectorService.GetRead().Where(c => c == mwqmSubsector).Any());
                 mwqmSubsectorService.Update(mwqmSubsector);
-                if (mwqmSubsector.ValidationResults.Count() > 0)
+                if (mwqmSubsector.HasErrors)
                 {
                     Assert.AreEqual("", mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, mwqmSubsectorService.GetRead().Count());
                 mwqmSubsectorService.Delete(mwqmSubsector);
-                if (mwqmSubsector.ValidationResults.Count() > 0)
+                if (mwqmSubsector.HasErrors)
                 {
                     Assert.AreEqual("", mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -138,6 +141,12 @@ namespace CSSPServices.Tests
                 mwqmSubsector.MWQMSubsectorID = 0;
                 mwqmSubsectorService.Update(mwqmSubsector);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorMWQMSubsectorID), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                mwqmSubsector = null;
+                mwqmSubsector = GetFilledRandomMWQMSubsector("");
+                mwqmSubsector.MWQMSubsectorID = 10000000;
+                mwqmSubsectorService.Update(mwqmSubsector);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSubsector, ModelsRes.MWQMSubsectorMWQMSubsectorID, mwqmSubsector.MWQMSubsectorID.ToString()), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -600,6 +609,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // mwqmSubsector.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // mwqmSubsector.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -728,6 +744,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.SubsectorTVText));
                 Assert.IsNotNull(mwqmSubsectorRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorRet.LastUpdateContactTVText));
+                Assert.IsNotNull(mwqmSubsectorRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

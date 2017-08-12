@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             MapInfoPoint mapInfoPoint = validationContext.ObjectInstance as MapInfoPoint;
+            mapInfoPoint.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (mapInfoPoint.MapInfoPointID == 0)
                 {
+                    mapInfoPoint.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoPointMapInfoPointID), new[] { "MapInfoPointID" });
+                }
+
+                if (!GetRead().Where(c => c.MapInfoPointID == mapInfoPoint.MapInfoPointID).Any())
+                {
+                    mapInfoPoint.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MapInfoPoint, ModelsRes.MapInfoPointMapInfoPointID, mapInfoPoint.MapInfoPointID.ToString()), new[] { "MapInfoPointID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (MapInfoMapInfoID == null)
             {
+                mapInfoPoint.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MapInfo, ModelsRes.MapInfoPointMapInfoID, mapInfoPoint.MapInfoID.ToString()), new[] { "MapInfoID" });
             }
 
@@ -61,6 +70,7 @@ namespace CSSPServices
 
             if (mapInfoPoint.Ordinal < 0)
             {
+                mapInfoPoint.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MapInfoPointOrdinal, "0"), new[] { "Ordinal" });
             }
 
@@ -68,6 +78,7 @@ namespace CSSPServices
 
             if (mapInfoPoint.Lat < -90 || mapInfoPoint.Lat > 90)
             {
+                mapInfoPoint.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointLat, "-90", "90"), new[] { "Lat" });
             }
 
@@ -75,17 +86,20 @@ namespace CSSPServices
 
             if (mapInfoPoint.Lng < -180 || mapInfoPoint.Lng > 180)
             {
+                mapInfoPoint.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointLng, "-180", "180"), new[] { "Lng" });
             }
 
             if (mapInfoPoint.LastUpdateDate_UTC.Year == 1)
             {
+                mapInfoPoint.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoPointLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mapInfoPoint.LastUpdateDate_UTC.Year < 1980)
                 {
+                mapInfoPoint.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MapInfoPointLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -96,6 +110,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                mapInfoPoint.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoPointLastUpdateContactTVItemID, mapInfoPoint.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -106,18 +121,23 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    mapInfoPoint.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoPointLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(mapInfoPoint.LastUpdateContactTVText) && mapInfoPoint.LastUpdateContactTVText.Length > 200)
             {
+                mapInfoPoint.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoPointLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                mapInfoPoint.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -149,11 +169,8 @@ namespace CSSPServices
         }
         public bool Delete(MapInfoPoint mapInfoPoint)
         {
-            if (!db.MapInfoPoints.Where(c => c.MapInfoPointID == mapInfoPoint.MapInfoPointID).Any())
-            {
-                mapInfoPoint.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MapInfoPoint", "MapInfoPointID", mapInfoPoint.MapInfoPointID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            mapInfoPoint.ValidationResults = Validate(new ValidationContext(mapInfoPoint), ActionDBTypeEnum.Delete);
+            if (mapInfoPoint.ValidationResults.Count() > 0) return false;
 
             db.MapInfoPoints.Remove(mapInfoPoint);
 
@@ -163,12 +180,6 @@ namespace CSSPServices
         }
         public bool Update(MapInfoPoint mapInfoPoint)
         {
-            if (!db.MapInfoPoints.Where(c => c.MapInfoPointID == mapInfoPoint.MapInfoPointID).Any())
-            {
-                mapInfoPoint.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MapInfoPoint", "MapInfoPointID", mapInfoPoint.MapInfoPointID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             mapInfoPoint.ValidationResults = Validate(new ValidationContext(mapInfoPoint), ActionDBTypeEnum.Update);
             if (mapInfoPoint.ValidationResults.Count() > 0) return false;
 

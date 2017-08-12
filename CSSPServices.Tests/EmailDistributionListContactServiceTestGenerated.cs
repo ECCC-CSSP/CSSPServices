@@ -53,6 +53,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateDate_UTC") emailDistributionListContact.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") emailDistributionListContact.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") emailDistributionListContact.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") emailDistributionListContact.HasErrors = true;
 
             return emailDistributionListContact;
         }
@@ -84,20 +85,22 @@ namespace CSSPServices.Tests
 
                 count = emailDistributionListContactService.GetRead().Count();
 
+                Assert.AreEqual(emailDistributionListContactService.GetRead().Count(), emailDistributionListContactService.GetEdit().Count());
+
                 emailDistributionListContactService.Add(emailDistributionListContact);
-                if (emailDistributionListContact.ValidationResults.Count() > 0)
+                if (emailDistributionListContact.HasErrors)
                 {
                     Assert.AreEqual("", emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, emailDistributionListContactService.GetRead().Where(c => c == emailDistributionListContact).Any());
                 emailDistributionListContactService.Update(emailDistributionListContact);
-                if (emailDistributionListContact.ValidationResults.Count() > 0)
+                if (emailDistributionListContact.HasErrors)
                 {
                     Assert.AreEqual("", emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, emailDistributionListContactService.GetRead().Count());
                 emailDistributionListContactService.Delete(emailDistributionListContact);
-                if (emailDistributionListContact.ValidationResults.Count() > 0)
+                if (emailDistributionListContact.HasErrors)
                 {
                     Assert.AreEqual("", emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -121,6 +124,12 @@ namespace CSSPServices.Tests
                 emailDistributionListContact.EmailDistributionListContactID = 0;
                 emailDistributionListContactService.Update(emailDistributionListContact);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactEmailDistributionListContactID), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                emailDistributionListContact = null;
+                emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
+                emailDistributionListContact.EmailDistributionListContactID = 10000000;
+                emailDistributionListContactService.Update(emailDistributionListContact);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.EmailDistributionListContact, ModelsRes.EmailDistributionListContactEmailDistributionListContactID, emailDistributionListContact.EmailDistributionListContactID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -280,6 +289,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // emailDistributionListContact.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // emailDistributionListContact.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -319,6 +335,7 @@ namespace CSSPServices.Tests
 
                 Assert.IsNotNull(emailDistributionListContactRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactRet.LastUpdateContactTVText));
+                Assert.IsNotNull(emailDistributionListContactRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

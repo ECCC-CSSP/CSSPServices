@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             ResetPassword resetPassword = validationContext.ObjectInstance as ResetPassword;
+            resetPassword.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (resetPassword.ResetPasswordID == 0)
                 {
+                    resetPassword.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordResetPasswordID), new[] { "ResetPasswordID" });
+                }
+
+                if (!GetRead().Where(c => c.ResetPasswordID == resetPassword.ResetPasswordID).Any())
+                {
+                    resetPassword.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ResetPassword, ModelsRes.ResetPasswordResetPasswordID, resetPassword.ResetPasswordID.ToString()), new[] { "ResetPasswordID" });
                 }
             }
 
@@ -50,44 +58,52 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(resetPassword.Email))
             {
+                resetPassword.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordEmail), new[] { "Email" });
             }
 
             if (!string.IsNullOrWhiteSpace(resetPassword.Email) && resetPassword.Email.Length > 256)
             {
+                resetPassword.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordEmail, "256"), new[] { "Email" });
             }
 
             if (resetPassword.ExpireDate_Local.Year == 1)
             {
+                resetPassword.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordExpireDate_Local), new[] { "ExpireDate_Local" });
             }
             else
             {
                 if (resetPassword.ExpireDate_Local.Year < 1980)
                 {
+                resetPassword.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ResetPasswordExpireDate_Local, "1980"), new[] { "ExpireDate_Local" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(resetPassword.Code))
             {
+                resetPassword.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordCode), new[] { "Code" });
             }
 
             if (!string.IsNullOrWhiteSpace(resetPassword.Code) && resetPassword.Code.Length > 8)
             {
+                resetPassword.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordCode, "8"), new[] { "Code" });
             }
 
             if (resetPassword.LastUpdateDate_UTC.Year == 1)
             {
+                resetPassword.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (resetPassword.LastUpdateDate_UTC.Year < 1980)
                 {
+                resetPassword.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ResetPasswordLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -98,6 +114,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                resetPassword.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ResetPasswordLastUpdateContactTVItemID, resetPassword.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -108,38 +125,47 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    resetPassword.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ResetPasswordLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(resetPassword.LastUpdateContactTVText) && resetPassword.LastUpdateContactTVText.Length > 200)
             {
+                resetPassword.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (string.IsNullOrWhiteSpace(resetPassword.Password))
             {
+                resetPassword.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordPassword), new[] { "Password" });
             }
 
             if (!string.IsNullOrWhiteSpace(resetPassword.Password) && (resetPassword.Password.Length < 6 || resetPassword.Password.Length > 100))
             {
+                resetPassword.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordPassword, "6", "100"), new[] { "Password" });
             }
 
             if (string.IsNullOrWhiteSpace(resetPassword.ConfirmPassword))
             {
+                resetPassword.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordConfirmPassword), new[] { "ConfirmPassword" });
             }
 
             if (!string.IsNullOrWhiteSpace(resetPassword.ConfirmPassword) && (resetPassword.ConfirmPassword.Length < 6 || resetPassword.ConfirmPassword.Length > 100))
             {
+                resetPassword.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordConfirmPassword, "6", "100"), new[] { "ConfirmPassword" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                resetPassword.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -171,11 +197,8 @@ namespace CSSPServices
         }
         public bool Delete(ResetPassword resetPassword)
         {
-            if (!db.ResetPasswords.Where(c => c.ResetPasswordID == resetPassword.ResetPasswordID).Any())
-            {
-                resetPassword.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ResetPassword", "ResetPasswordID", resetPassword.ResetPasswordID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            resetPassword.ValidationResults = Validate(new ValidationContext(resetPassword), ActionDBTypeEnum.Delete);
+            if (resetPassword.ValidationResults.Count() > 0) return false;
 
             db.ResetPasswords.Remove(resetPassword);
 
@@ -185,12 +208,6 @@ namespace CSSPServices
         }
         public bool Update(ResetPassword resetPassword)
         {
-            if (!db.ResetPasswords.Where(c => c.ResetPasswordID == resetPassword.ResetPasswordID).Any())
-            {
-                resetPassword.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ResetPassword", "ResetPasswordID", resetPassword.ResetPasswordID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             resetPassword.ValidationResults = Validate(new ValidationContext(resetPassword), ActionDBTypeEnum.Update);
             if (resetPassword.ValidationResults.Count() > 0) return false;
 

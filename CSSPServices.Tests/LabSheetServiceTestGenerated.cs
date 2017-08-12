@@ -69,6 +69,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SampleTypeText") labSheet.SampleTypeText = GetRandomString("", 5);
             if (OmitPropName != "LabSheetTypeText") labSheet.LabSheetTypeText = GetRandomString("", 5);
             if (OmitPropName != "LabSheetStatusText") labSheet.LabSheetStatusText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") labSheet.HasErrors = true;
 
             return labSheet;
         }
@@ -100,20 +101,22 @@ namespace CSSPServices.Tests
 
                 count = labSheetService.GetRead().Count();
 
+                Assert.AreEqual(labSheetService.GetRead().Count(), labSheetService.GetEdit().Count());
+
                 labSheetService.Add(labSheet);
-                if (labSheet.ValidationResults.Count() > 0)
+                if (labSheet.HasErrors)
                 {
                     Assert.AreEqual("", labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, labSheetService.GetRead().Where(c => c == labSheet).Any());
                 labSheetService.Update(labSheet);
-                if (labSheet.ValidationResults.Count() > 0)
+                if (labSheet.HasErrors)
                 {
                     Assert.AreEqual("", labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, labSheetService.GetRead().Count());
                 labSheetService.Delete(labSheet);
-                if (labSheet.ValidationResults.Count() > 0)
+                if (labSheet.HasErrors)
                 {
                     Assert.AreEqual("", labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -137,6 +140,12 @@ namespace CSSPServices.Tests
                 labSheet.LabSheetID = 0;
                 labSheetService.Update(labSheet);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetLabSheetID), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                labSheet = null;
+                labSheet = GetFilledRandomLabSheet("");
+                labSheet.LabSheetID = 10000000;
+                labSheetService.Update(labSheet);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheet, ModelsRes.LabSheetLabSheetID, labSheet.LabSheetID.ToString()), labSheet.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -576,6 +585,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // labSheet.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // labSheet.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -657,6 +673,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.LabSheetTypeText));
                 Assert.IsNotNull(labSheetRet.LabSheetStatusText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetRet.LabSheetStatusText));
+                Assert.IsNotNull(labSheetRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

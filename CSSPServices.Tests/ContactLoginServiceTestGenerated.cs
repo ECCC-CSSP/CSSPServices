@@ -58,6 +58,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVText") contactLogin.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "Password") contactLogin.Password = GetRandomString("", 11);
             if (OmitPropName != "ConfirmPassword") contactLogin.ConfirmPassword = GetRandomString("", 11);
+            if (OmitPropName != "HasErrors") contactLogin.HasErrors = true;
 
             return contactLogin;
         }
@@ -89,20 +90,22 @@ namespace CSSPServices.Tests
 
                 count = contactLoginService.GetRead().Count();
 
+                Assert.AreEqual(contactLoginService.GetRead().Count(), contactLoginService.GetEdit().Count());
+
                 contactLoginService.Add(contactLogin);
-                if (contactLogin.ValidationResults.Count() > 0)
+                if (contactLogin.HasErrors)
                 {
                     Assert.AreEqual("", contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, contactLoginService.GetRead().Where(c => c == contactLogin).Any());
                 contactLoginService.Update(contactLogin);
-                if (contactLogin.ValidationResults.Count() > 0)
+                if (contactLogin.HasErrors)
                 {
                     Assert.AreEqual("", contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, contactLoginService.GetRead().Count());
                 contactLoginService.Delete(contactLogin);
-                if (contactLogin.ValidationResults.Count() > 0)
+                if (contactLogin.HasErrors)
                 {
                     Assert.AreEqual("", contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -126,6 +129,12 @@ namespace CSSPServices.Tests
                 contactLogin.ContactLoginID = 0;
                 contactLoginService.Update(contactLogin);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginContactLoginID), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                contactLogin = null;
+                contactLogin = GetFilledRandomContactLogin("");
+                contactLogin.ContactLoginID = 10000000;
+                contactLoginService.Update(contactLogin);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ContactLogin, ModelsRes.ContactLoginContactLoginID, contactLogin.ContactLoginID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -279,6 +288,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // contactLogin.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // contactLogin.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -310,6 +326,7 @@ namespace CSSPServices.Tests
 
                 Assert.IsNotNull(contactLoginRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.LastUpdateContactTVText));
+                Assert.IsNotNull(contactLoginRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

@@ -37,9 +37,11 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             LastUpdateAndContact lastUpdateAndContact = validationContext.ObjectInstance as LastUpdateAndContact;
+            lastUpdateAndContact.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(lastUpdateAndContact.Error))
             {
+                lastUpdateAndContact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LastUpdateAndContactError), new[] { "Error" });
             }
 
@@ -47,12 +49,14 @@ namespace CSSPServices
 
             if (lastUpdateAndContact.LastUpdateDate_UTC.Year == 1)
             {
+                lastUpdateAndContact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LastUpdateAndContactLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (lastUpdateAndContact.LastUpdateDate_UTC.Year < 1980)
                 {
+                lastUpdateAndContact.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LastUpdateAndContactLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -61,12 +65,16 @@ namespace CSSPServices
 
             if (lastUpdateAndContact.LastUpdateContactTVItemID < 1)
             {
+                lastUpdateAndContact.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LastUpdateAndContactLastUpdateContactTVItemID, "1"), new[] { "LastUpdateContactTVItemID" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                lastUpdateAndContact.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

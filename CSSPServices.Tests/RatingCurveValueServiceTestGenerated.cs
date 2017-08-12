@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateDate_UTC") ratingCurveValue.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") ratingCurveValue.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") ratingCurveValue.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") ratingCurveValue.HasErrors = true;
 
             return ratingCurveValue;
         }
@@ -77,20 +78,22 @@ namespace CSSPServices.Tests
 
                 count = ratingCurveValueService.GetRead().Count();
 
+                Assert.AreEqual(ratingCurveValueService.GetRead().Count(), ratingCurveValueService.GetEdit().Count());
+
                 ratingCurveValueService.Add(ratingCurveValue);
-                if (ratingCurveValue.ValidationResults.Count() > 0)
+                if (ratingCurveValue.HasErrors)
                 {
                     Assert.AreEqual("", ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, ratingCurveValueService.GetRead().Where(c => c == ratingCurveValue).Any());
                 ratingCurveValueService.Update(ratingCurveValue);
-                if (ratingCurveValue.ValidationResults.Count() > 0)
+                if (ratingCurveValue.HasErrors)
                 {
                     Assert.AreEqual("", ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, ratingCurveValueService.GetRead().Count());
                 ratingCurveValueService.Delete(ratingCurveValue);
-                if (ratingCurveValue.ValidationResults.Count() > 0)
+                if (ratingCurveValue.HasErrors)
                 {
                     Assert.AreEqual("", ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -114,6 +117,12 @@ namespace CSSPServices.Tests
                 ratingCurveValue.RatingCurveValueID = 0;
                 ratingCurveValueService.Update(ratingCurveValue);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveValueRatingCurveValueID), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                ratingCurveValue = null;
+                ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                ratingCurveValue.RatingCurveValueID = 10000000;
+                ratingCurveValueService.Update(ratingCurveValue);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RatingCurveValue, ModelsRes.RatingCurveValueRatingCurveValueID, ratingCurveValue.RatingCurveValueID.ToString()), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -215,6 +224,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // ratingCurveValue.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // ratingCurveValue.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -244,6 +260,7 @@ namespace CSSPServices.Tests
 
                 Assert.IsNotNull(ratingCurveValueRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueRet.LastUpdateContactTVText));
+                Assert.IsNotNull(ratingCurveValueRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

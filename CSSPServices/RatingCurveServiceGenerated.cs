@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             RatingCurve ratingCurve = validationContext.ObjectInstance as RatingCurve;
+            ratingCurve.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (ratingCurve.RatingCurveID == 0)
                 {
+                    ratingCurve.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveRatingCurveID), new[] { "RatingCurveID" });
+                }
+
+                if (!GetRead().Where(c => c.RatingCurveID == ratingCurve.RatingCurveID).Any())
+                {
+                    ratingCurve.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RatingCurve, ModelsRes.RatingCurveRatingCurveID, ratingCurve.RatingCurveID.ToString()), new[] { "RatingCurveID" });
                 }
             }
 
@@ -54,27 +62,32 @@ namespace CSSPServices
 
             if (HydrometricSiteHydrometricSiteID == null)
             {
+                ratingCurve.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricSite, ModelsRes.RatingCurveHydrometricSiteID, ratingCurve.HydrometricSiteID.ToString()), new[] { "HydrometricSiteID" });
             }
 
             if (string.IsNullOrWhiteSpace(ratingCurve.RatingCurveNumber))
             {
+                ratingCurve.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveRatingCurveNumber), new[] { "RatingCurveNumber" });
             }
 
             if (!string.IsNullOrWhiteSpace(ratingCurve.RatingCurveNumber) && ratingCurve.RatingCurveNumber.Length > 50)
             {
+                ratingCurve.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RatingCurveRatingCurveNumber, "50"), new[] { "RatingCurveNumber" });
             }
 
             if (ratingCurve.LastUpdateDate_UTC.Year == 1)
             {
+                ratingCurve.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (ratingCurve.LastUpdateDate_UTC.Year < 1980)
                 {
+                ratingCurve.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.RatingCurveLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -85,6 +98,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                ratingCurve.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RatingCurveLastUpdateContactTVItemID, ratingCurve.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -95,18 +109,23 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    ratingCurve.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RatingCurveLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(ratingCurve.LastUpdateContactTVText) && ratingCurve.LastUpdateContactTVText.Length > 200)
             {
+                ratingCurve.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RatingCurveLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                ratingCurve.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -138,11 +157,8 @@ namespace CSSPServices
         }
         public bool Delete(RatingCurve ratingCurve)
         {
-            if (!db.RatingCurves.Where(c => c.RatingCurveID == ratingCurve.RatingCurveID).Any())
-            {
-                ratingCurve.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "RatingCurve", "RatingCurveID", ratingCurve.RatingCurveID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            ratingCurve.ValidationResults = Validate(new ValidationContext(ratingCurve), ActionDBTypeEnum.Delete);
+            if (ratingCurve.ValidationResults.Count() > 0) return false;
 
             db.RatingCurves.Remove(ratingCurve);
 
@@ -152,12 +168,6 @@ namespace CSSPServices
         }
         public bool Update(RatingCurve ratingCurve)
         {
-            if (!db.RatingCurves.Where(c => c.RatingCurveID == ratingCurve.RatingCurveID).Any())
-            {
-                ratingCurve.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "RatingCurve", "RatingCurveID", ratingCurve.RatingCurveID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             ratingCurve.ValidationResults = Validate(new ValidationContext(ratingCurve), ActionDBTypeEnum.Update);
             if (ratingCurve.ValidationResults.Count() > 0) return false;
 

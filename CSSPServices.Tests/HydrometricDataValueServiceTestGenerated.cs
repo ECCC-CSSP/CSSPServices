@@ -50,6 +50,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVItemID") hydrometricDataValue.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") hydrometricDataValue.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "StorageDataTypeText") hydrometricDataValue.StorageDataTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") hydrometricDataValue.HasErrors = true;
 
             return hydrometricDataValue;
         }
@@ -81,20 +82,22 @@ namespace CSSPServices.Tests
 
                 count = hydrometricDataValueService.GetRead().Count();
 
+                Assert.AreEqual(hydrometricDataValueService.GetRead().Count(), hydrometricDataValueService.GetEdit().Count());
+
                 hydrometricDataValueService.Add(hydrometricDataValue);
-                if (hydrometricDataValue.ValidationResults.Count() > 0)
+                if (hydrometricDataValue.HasErrors)
                 {
                     Assert.AreEqual("", hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, hydrometricDataValueService.GetRead().Where(c => c == hydrometricDataValue).Any());
                 hydrometricDataValueService.Update(hydrometricDataValue);
-                if (hydrometricDataValue.ValidationResults.Count() > 0)
+                if (hydrometricDataValue.HasErrors)
                 {
                     Assert.AreEqual("", hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, hydrometricDataValueService.GetRead().Count());
                 hydrometricDataValueService.Delete(hydrometricDataValue);
-                if (hydrometricDataValue.ValidationResults.Count() > 0)
+                if (hydrometricDataValue.HasErrors)
                 {
                     Assert.AreEqual("", hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -118,6 +121,12 @@ namespace CSSPServices.Tests
                 hydrometricDataValue.HydrometricDataValueID = 0;
                 hydrometricDataValueService.Update(hydrometricDataValue);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricDataValueHydrometricDataValueID), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                hydrometricDataValue = null;
+                hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                hydrometricDataValue.HydrometricDataValueID = 10000000;
+                hydrometricDataValueService.Update(hydrometricDataValue);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricDataValue, ModelsRes.HydrometricDataValueHydrometricDataValueID, hydrometricDataValue.HydrometricDataValueID.ToString()), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -244,6 +253,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // hydrometricDataValue.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // hydrometricDataValue.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -282,6 +298,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.LastUpdateContactTVText));
                 Assert.IsNotNull(hydrometricDataValueRet.StorageDataTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.StorageDataTypeText));
+                Assert.IsNotNull(hydrometricDataValueRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

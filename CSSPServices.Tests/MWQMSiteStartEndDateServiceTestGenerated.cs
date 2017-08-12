@@ -47,6 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSiteStartEndDate.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "MWQMSiteTVText") mwqmSiteStartEndDate.MWQMSiteTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") mwqmSiteStartEndDate.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") mwqmSiteStartEndDate.HasErrors = true;
 
             return mwqmSiteStartEndDate;
         }
@@ -78,20 +79,22 @@ namespace CSSPServices.Tests
 
                 count = mwqmSiteStartEndDateService.GetRead().Count();
 
+                Assert.AreEqual(mwqmSiteStartEndDateService.GetRead().Count(), mwqmSiteStartEndDateService.GetEdit().Count());
+
                 mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
-                if (mwqmSiteStartEndDate.ValidationResults.Count() > 0)
+                if (mwqmSiteStartEndDate.HasErrors)
                 {
                     Assert.AreEqual("", mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, mwqmSiteStartEndDateService.GetRead().Where(c => c == mwqmSiteStartEndDate).Any());
                 mwqmSiteStartEndDateService.Update(mwqmSiteStartEndDate);
-                if (mwqmSiteStartEndDate.ValidationResults.Count() > 0)
+                if (mwqmSiteStartEndDate.HasErrors)
                 {
                     Assert.AreEqual("", mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, mwqmSiteStartEndDateService.GetRead().Count());
                 mwqmSiteStartEndDateService.Delete(mwqmSiteStartEndDate);
-                if (mwqmSiteStartEndDate.ValidationResults.Count() > 0)
+                if (mwqmSiteStartEndDate.HasErrors)
                 {
                     Assert.AreEqual("", mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -115,6 +118,12 @@ namespace CSSPServices.Tests
                 mwqmSiteStartEndDate.MWQMSiteStartEndDateID = 0;
                 mwqmSiteStartEndDateService.Update(mwqmSiteStartEndDate);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteStartEndDateMWQMSiteStartEndDateID), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                mwqmSiteStartEndDate = null;
+                mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
+                mwqmSiteStartEndDate.MWQMSiteStartEndDateID = 10000000;
+                mwqmSiteStartEndDateService.Update(mwqmSiteStartEndDate);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSiteStartEndDate, ModelsRes.MWQMSiteStartEndDateMWQMSiteStartEndDateID, mwqmSiteStartEndDate.MWQMSiteStartEndDateID.ToString()), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -210,6 +219,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // mwqmSiteStartEndDate.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // mwqmSiteStartEndDate.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -244,6 +260,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateRet.MWQMSiteTVText));
                 Assert.IsNotNull(mwqmSiteStartEndDateRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteStartEndDateRet.LastUpdateContactTVText));
+                Assert.IsNotNull(mwqmSiteStartEndDateRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

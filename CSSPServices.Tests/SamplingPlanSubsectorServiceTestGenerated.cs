@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVItemID") samplingPlanSubsector.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "SubsectorTVText") samplingPlanSubsector.SubsectorTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") samplingPlanSubsector.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") samplingPlanSubsector.HasErrors = true;
 
             return samplingPlanSubsector;
         }
@@ -77,20 +78,22 @@ namespace CSSPServices.Tests
 
                 count = samplingPlanSubsectorService.GetRead().Count();
 
+                Assert.AreEqual(samplingPlanSubsectorService.GetRead().Count(), samplingPlanSubsectorService.GetEdit().Count());
+
                 samplingPlanSubsectorService.Add(samplingPlanSubsector);
-                if (samplingPlanSubsector.ValidationResults.Count() > 0)
+                if (samplingPlanSubsector.HasErrors)
                 {
                     Assert.AreEqual("", samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, samplingPlanSubsectorService.GetRead().Where(c => c == samplingPlanSubsector).Any());
                 samplingPlanSubsectorService.Update(samplingPlanSubsector);
-                if (samplingPlanSubsector.ValidationResults.Count() > 0)
+                if (samplingPlanSubsector.HasErrors)
                 {
                     Assert.AreEqual("", samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, samplingPlanSubsectorService.GetRead().Count());
                 samplingPlanSubsectorService.Delete(samplingPlanSubsector);
-                if (samplingPlanSubsector.ValidationResults.Count() > 0)
+                if (samplingPlanSubsector.HasErrors)
                 {
                     Assert.AreEqual("", samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -114,6 +117,12 @@ namespace CSSPServices.Tests
                 samplingPlanSubsector.SamplingPlanSubsectorID = 0;
                 samplingPlanSubsectorService.Update(samplingPlanSubsector);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSubsectorSamplingPlanSubsectorID), samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                samplingPlanSubsector = null;
+                samplingPlanSubsector = GetFilledRandomSamplingPlanSubsector("");
+                samplingPlanSubsector.SamplingPlanSubsectorID = 10000000;
+                samplingPlanSubsectorService.Update(samplingPlanSubsector);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlanSubsector, ModelsRes.SamplingPlanSubsectorSamplingPlanSubsectorID, samplingPlanSubsector.SamplingPlanSubsectorID.ToString()), samplingPlanSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -207,6 +216,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // samplingPlanSubsector.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // samplingPlanSubsector.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -237,6 +253,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.SubsectorTVText));
                 Assert.IsNotNull(samplingPlanSubsectorRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorRet.LastUpdateContactTVText));
+                Assert.IsNotNull(samplingPlanSubsectorRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

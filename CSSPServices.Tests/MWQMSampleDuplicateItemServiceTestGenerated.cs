@@ -42,6 +42,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "ParentSite") mwqmSampleDuplicateItem.ParentSite = GetRandomString("", 6);
             if (OmitPropName != "DuplicateSite") mwqmSampleDuplicateItem.DuplicateSite = GetRandomString("", 6);
+            if (OmitPropName != "HasErrors") mwqmSampleDuplicateItem.HasErrors = true;
 
             return mwqmSampleDuplicateItem;
         }

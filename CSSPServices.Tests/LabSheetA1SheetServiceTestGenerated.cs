@@ -125,6 +125,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SamplingPlanTypeText") labSheetA1Sheet.SamplingPlanTypeText = GetRandomString("", 5);
             if (OmitPropName != "SampleTypeText") labSheetA1Sheet.SampleTypeText = GetRandomString("", 5);
             if (OmitPropName != "LabSheetTypeText") labSheetA1Sheet.LabSheetTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") labSheetA1Sheet.HasErrors = true;
 
             return labSheetA1Sheet;
         }

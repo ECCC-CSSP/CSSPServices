@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             TideSite tideSite = validationContext.ObjectInstance as TideSite;
+            tideSite.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (tideSite.TideSiteID == 0)
                 {
+                    tideSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideSiteTideSiteID), new[] { "TideSiteID" });
+                }
+
+                if (!GetRead().Where(c => c.TideSiteID == tideSite.TideSiteID).Any())
+                {
+                    tideSite.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TideSite, ModelsRes.TideSiteTideSiteID, tideSite.TideSiteID.ToString()), new[] { "TideSiteID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (TVItemTideSiteTVItemID == null)
             {
+                tideSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TideSiteTideSiteTVItemID, tideSite.TideSiteTVItemID.ToString()), new[] { "TideSiteTVItemID" });
             }
             else
@@ -64,17 +73,20 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemTideSiteTVItemID.TVType))
                 {
+                    tideSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TideSiteTideSiteTVItemID, "TideSite"), new[] { "TideSiteTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(tideSite.WebTideModel))
             {
+                tideSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideSiteWebTideModel), new[] { "WebTideModel" });
             }
 
             if (!string.IsNullOrWhiteSpace(tideSite.WebTideModel) && tideSite.WebTideModel.Length > 100)
             {
+                tideSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideSiteWebTideModel, "100"), new[] { "WebTideModel" });
             }
 
@@ -82,17 +94,20 @@ namespace CSSPServices
 
             if (tideSite.WebTideDatum_m < -100 || tideSite.WebTideDatum_m > 100)
             {
+                tideSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideSiteWebTideDatum_m, "-100", "100"), new[] { "WebTideDatum_m" });
             }
 
             if (tideSite.LastUpdateDate_UTC.Year == 1)
             {
+                tideSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideSiteLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tideSite.LastUpdateDate_UTC.Year < 1980)
                 {
+                tideSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TideSiteLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -103,6 +118,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                tideSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TideSiteLastUpdateContactTVItemID, tideSite.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -113,23 +129,29 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    tideSite.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TideSiteLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(tideSite.TideSiteTVText) && tideSite.TideSiteTVText.Length > 200)
             {
+                tideSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideSiteTideSiteTVText, "200"), new[] { "TideSiteTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tideSite.LastUpdateContactTVText) && tideSite.LastUpdateContactTVText.Length > 200)
             {
+                tideSite.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideSiteLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                tideSite.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -161,11 +183,8 @@ namespace CSSPServices
         }
         public bool Delete(TideSite tideSite)
         {
-            if (!db.TideSites.Where(c => c.TideSiteID == tideSite.TideSiteID).Any())
-            {
-                tideSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TideSite", "TideSiteID", tideSite.TideSiteID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            tideSite.ValidationResults = Validate(new ValidationContext(tideSite), ActionDBTypeEnum.Delete);
+            if (tideSite.ValidationResults.Count() > 0) return false;
 
             db.TideSites.Remove(tideSite);
 
@@ -175,12 +194,6 @@ namespace CSSPServices
         }
         public bool Update(TideSite tideSite)
         {
-            if (!db.TideSites.Where(c => c.TideSiteID == tideSite.TideSiteID).Any())
-            {
-                tideSite.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "TideSite", "TideSiteID", tideSite.TideSiteID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             tideSite.ValidationResults = Validate(new ValidationContext(tideSite), ActionDBTypeEnum.Update);
             if (tideSite.ValidationResults.Count() > 0) return false;
 

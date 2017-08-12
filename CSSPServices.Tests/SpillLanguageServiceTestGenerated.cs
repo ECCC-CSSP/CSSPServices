@@ -49,6 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVText") spillLanguage.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") spillLanguage.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusText") spillLanguage.TranslationStatusText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") spillLanguage.HasErrors = true;
 
             return spillLanguage;
         }
@@ -80,20 +81,22 @@ namespace CSSPServices.Tests
 
                 count = spillLanguageService.GetRead().Count();
 
+                Assert.AreEqual(spillLanguageService.GetRead().Count(), spillLanguageService.GetEdit().Count());
+
                 spillLanguageService.Add(spillLanguage);
-                if (spillLanguage.ValidationResults.Count() > 0)
+                if (spillLanguage.HasErrors)
                 {
                     Assert.AreEqual("", spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, spillLanguageService.GetRead().Where(c => c == spillLanguage).Any());
                 spillLanguageService.Update(spillLanguage);
-                if (spillLanguage.ValidationResults.Count() > 0)
+                if (spillLanguage.HasErrors)
                 {
                     Assert.AreEqual("", spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, spillLanguageService.GetRead().Count());
                 spillLanguageService.Delete(spillLanguage);
-                if (spillLanguage.ValidationResults.Count() > 0)
+                if (spillLanguage.HasErrors)
                 {
                     Assert.AreEqual("", spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -117,6 +120,12 @@ namespace CSSPServices.Tests
                 spillLanguage.SpillLanguageID = 0;
                 spillLanguageService.Update(spillLanguage);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageSpillLanguageID), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                spillLanguage = null;
+                spillLanguage = GetFilledRandomSpillLanguage("");
+                spillLanguage.SpillLanguageID = 10000000;
+                spillLanguageService.Update(spillLanguage);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SpillLanguage, ModelsRes.SpillLanguageSpillLanguageID, spillLanguage.SpillLanguageID.ToString()), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -244,6 +253,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // spillLanguage.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // spillLanguage.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -279,6 +295,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.LanguageText));
                 Assert.IsNotNull(spillLanguageRet.TranslationStatusText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(spillLanguageRet.TranslationStatusText));
+                Assert.IsNotNull(spillLanguageRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

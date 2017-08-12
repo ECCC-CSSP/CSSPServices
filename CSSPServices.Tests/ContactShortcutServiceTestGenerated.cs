@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateDate_UTC") contactShortcut.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") contactShortcut.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") contactShortcut.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") contactShortcut.HasErrors = true;
 
             return contactShortcut;
         }
@@ -77,20 +78,22 @@ namespace CSSPServices.Tests
 
                 count = contactShortcutService.GetRead().Count();
 
+                Assert.AreEqual(contactShortcutService.GetRead().Count(), contactShortcutService.GetEdit().Count());
+
                 contactShortcutService.Add(contactShortcut);
-                if (contactShortcut.ValidationResults.Count() > 0)
+                if (contactShortcut.HasErrors)
                 {
                     Assert.AreEqual("", contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, contactShortcutService.GetRead().Where(c => c == contactShortcut).Any());
                 contactShortcutService.Update(contactShortcut);
-                if (contactShortcut.ValidationResults.Count() > 0)
+                if (contactShortcut.HasErrors)
                 {
                     Assert.AreEqual("", contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, contactShortcutService.GetRead().Count());
                 contactShortcutService.Delete(contactShortcut);
-                if (contactShortcut.ValidationResults.Count() > 0)
+                if (contactShortcut.HasErrors)
                 {
                     Assert.AreEqual("", contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -114,6 +117,12 @@ namespace CSSPServices.Tests
                 contactShortcut.ContactShortcutID = 0;
                 contactShortcutService.Update(contactShortcut);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutContactShortcutID), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                contactShortcut = null;
+                contactShortcut = GetFilledRandomContactShortcut("");
+                contactShortcut.ContactShortcutID = 10000000;
+                contactShortcutService.Update(contactShortcut);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ContactShortcut, ModelsRes.ContactShortcutContactShortcutID, contactShortcut.ContactShortcutID.ToString()), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -215,6 +224,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // contactShortcut.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // contactShortcut.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -246,6 +262,7 @@ namespace CSSPServices.Tests
 
                 Assert.IsNotNull(contactShortcutRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(contactShortcutRet.LastUpdateContactTVText));
+                Assert.IsNotNull(contactShortcutRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

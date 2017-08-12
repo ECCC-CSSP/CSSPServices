@@ -49,6 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVText") mwqmSubsectorLanguage.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") mwqmSubsectorLanguage.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusText") mwqmSubsectorLanguage.TranslationStatusText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") mwqmSubsectorLanguage.HasErrors = true;
 
             return mwqmSubsectorLanguage;
         }
@@ -80,20 +81,22 @@ namespace CSSPServices.Tests
 
                 count = mwqmSubsectorLanguageService.GetRead().Count();
 
+                Assert.AreEqual(mwqmSubsectorLanguageService.GetRead().Count(), mwqmSubsectorLanguageService.GetEdit().Count());
+
                 mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage);
-                if (mwqmSubsectorLanguage.ValidationResults.Count() > 0)
+                if (mwqmSubsectorLanguage.HasErrors)
                 {
                     Assert.AreEqual("", mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, mwqmSubsectorLanguageService.GetRead().Where(c => c == mwqmSubsectorLanguage).Any());
                 mwqmSubsectorLanguageService.Update(mwqmSubsectorLanguage);
-                if (mwqmSubsectorLanguage.ValidationResults.Count() > 0)
+                if (mwqmSubsectorLanguage.HasErrors)
                 {
                     Assert.AreEqual("", mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, mwqmSubsectorLanguageService.GetRead().Count());
                 mwqmSubsectorLanguageService.Delete(mwqmSubsectorLanguage);
-                if (mwqmSubsectorLanguage.ValidationResults.Count() > 0)
+                if (mwqmSubsectorLanguage.HasErrors)
                 {
                     Assert.AreEqual("", mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -117,6 +120,12 @@ namespace CSSPServices.Tests
                 mwqmSubsectorLanguage.MWQMSubsectorLanguageID = 0;
                 mwqmSubsectorLanguageService.Update(mwqmSubsectorLanguage);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorLanguageMWQMSubsectorLanguageID), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                mwqmSubsectorLanguage = null;
+                mwqmSubsectorLanguage = GetFilledRandomMWQMSubsectorLanguage("");
+                mwqmSubsectorLanguage.MWQMSubsectorLanguageID = 10000000;
+                mwqmSubsectorLanguageService.Update(mwqmSubsectorLanguage);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSubsectorLanguage, ModelsRes.MWQMSubsectorLanguageMWQMSubsectorLanguageID, mwqmSubsectorLanguage.MWQMSubsectorLanguageID.ToString()), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -251,6 +260,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // mwqmSubsectorLanguage.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // mwqmSubsectorLanguage.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -286,6 +302,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LanguageText));
                 Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.TranslationStatusText));
+                Assert.IsNotNull(mwqmSubsectorLanguageRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

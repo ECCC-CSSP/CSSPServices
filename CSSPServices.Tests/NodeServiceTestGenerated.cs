@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             // should implement a Range for the property Z and type Node
             // should implement a Range for the property Code and type Node
             // should implement a Range for the property Value and type Node
+            if (OmitPropName != "HasErrors") node.HasErrors = true;
 
             return node;
         }

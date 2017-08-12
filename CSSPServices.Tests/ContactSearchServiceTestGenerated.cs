@@ -43,6 +43,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ContactID") contactSearch.ContactID = GetRandomInt(1, 11);
             if (OmitPropName != "ContactTVItemID") contactSearch.ContactTVItemID = GetRandomInt(1, 11);
             if (OmitPropName != "FullName") contactSearch.FullName = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") contactSearch.HasErrors = true;
 
             return contactSearch;
         }

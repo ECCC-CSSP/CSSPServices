@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             ContactLogin contactLogin = validationContext.ObjectInstance as ContactLogin;
+            contactLogin.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (contactLogin.ContactLoginID == 0)
                 {
+                    contactLogin.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginContactLoginID), new[] { "ContactLoginID" });
+                }
+
+                if (!GetRead().Where(c => c.ContactLoginID == contactLogin.ContactLoginID).Any())
+                {
+                    contactLogin.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ContactLogin, ModelsRes.ContactLoginContactLoginID, contactLogin.ContactLoginID.ToString()), new[] { "ContactLoginID" });
                 }
             }
 
@@ -54,16 +62,19 @@ namespace CSSPServices
 
             if (ContactContactID == null)
             {
+                contactLogin.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactLoginContactID, contactLogin.ContactID.ToString()), new[] { "ContactID" });
             }
 
             if (string.IsNullOrWhiteSpace(contactLogin.LoginEmail))
             {
+                contactLogin.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginLoginEmail), new[] { "LoginEmail" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactLogin.LoginEmail) && contactLogin.LoginEmail.Length > 200)
             {
+                contactLogin.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginLoginEmail, "200"), new[] { "LoginEmail" });
             }
 
@@ -72,6 +83,7 @@ namespace CSSPServices
                 Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
                 if (!regex.IsMatch(contactLogin.LoginEmail))
                 {
+                    contactLogin.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.ContactLoginLoginEmail), new[] { "LoginEmail" });
                 }
             }
@@ -84,12 +96,14 @@ namespace CSSPServices
                 //Error: Type not implemented [PasswordSalt] of type [Byte[]]
             if (contactLogin.LastUpdateDate_UTC.Year == 1)
             {
+                contactLogin.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (contactLogin.LastUpdateDate_UTC.Year < 1980)
                 {
+                contactLogin.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ContactLoginLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -100,6 +114,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                contactLogin.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactLoginLastUpdateContactTVItemID, contactLogin.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -110,38 +125,47 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    contactLogin.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactLoginLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(contactLogin.LastUpdateContactTVText) && contactLogin.LastUpdateContactTVText.Length > 200)
             {
+                contactLogin.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (string.IsNullOrWhiteSpace(contactLogin.Password))
             {
+                contactLogin.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginPassword), new[] { "Password" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactLogin.Password) && (contactLogin.Password.Length < 6 || contactLogin.Password.Length > 100))
             {
+                contactLogin.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginPassword, "6", "100"), new[] { "Password" });
             }
 
             if (string.IsNullOrWhiteSpace(contactLogin.ConfirmPassword))
             {
+                contactLogin.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginConfirmPassword), new[] { "ConfirmPassword" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactLogin.ConfirmPassword) && (contactLogin.ConfirmPassword.Length < 6 || contactLogin.ConfirmPassword.Length > 100))
             {
+                contactLogin.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginConfirmPassword, "6", "100"), new[] { "ConfirmPassword" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                contactLogin.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -173,11 +197,8 @@ namespace CSSPServices
         }
         public bool Delete(ContactLogin contactLogin)
         {
-            if (!db.ContactLogins.Where(c => c.ContactLoginID == contactLogin.ContactLoginID).Any())
-            {
-                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ContactLogin", "ContactLoginID", contactLogin.ContactLoginID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            contactLogin.ValidationResults = Validate(new ValidationContext(contactLogin), ActionDBTypeEnum.Delete);
+            if (contactLogin.ValidationResults.Count() > 0) return false;
 
             db.ContactLogins.Remove(contactLogin);
 
@@ -187,12 +208,6 @@ namespace CSSPServices
         }
         public bool Update(ContactLogin contactLogin)
         {
-            if (!db.ContactLogins.Where(c => c.ContactLoginID == contactLogin.ContactLoginID).Any())
-            {
-                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "ContactLogin", "ContactLoginID", contactLogin.ContactLoginID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             contactLogin.ValidationResults = Validate(new ValidationContext(contactLogin), ActionDBTypeEnum.Update);
             if (contactLogin.ValidationResults.Count() > 0) return false;
 

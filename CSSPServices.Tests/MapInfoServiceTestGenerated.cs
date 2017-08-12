@@ -53,6 +53,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVText") mapInfo.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "TVTypeText") mapInfo.TVTypeText = GetRandomString("", 5);
             if (OmitPropName != "MapInfoDrawTypeText") mapInfo.MapInfoDrawTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") mapInfo.HasErrors = true;
 
             return mapInfo;
         }
@@ -84,20 +85,22 @@ namespace CSSPServices.Tests
 
                 count = mapInfoService.GetRead().Count();
 
+                Assert.AreEqual(mapInfoService.GetRead().Count(), mapInfoService.GetEdit().Count());
+
                 mapInfoService.Add(mapInfo);
-                if (mapInfo.ValidationResults.Count() > 0)
+                if (mapInfo.HasErrors)
                 {
                     Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, mapInfoService.GetRead().Where(c => c == mapInfo).Any());
                 mapInfoService.Update(mapInfo);
-                if (mapInfo.ValidationResults.Count() > 0)
+                if (mapInfo.HasErrors)
                 {
                     Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, mapInfoService.GetRead().Count());
                 mapInfoService.Delete(mapInfo);
-                if (mapInfo.ValidationResults.Count() > 0)
+                if (mapInfo.HasErrors)
                 {
                     Assert.AreEqual("", mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -121,6 +124,12 @@ namespace CSSPServices.Tests
                 mapInfo.MapInfoID = 0;
                 mapInfoService.Update(mapInfo);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoID), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                mapInfo = null;
+                mapInfo = GetFilledRandomMapInfo("");
+                mapInfo.MapInfoID = 10000000;
+                mapInfoService.Update(mapInfo);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MapInfo, ModelsRes.MapInfoMapInfoID, mapInfo.MapInfoID.ToString()), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -339,6 +348,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // mapInfo.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // mapInfo.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -378,6 +394,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.TVTypeText));
                 Assert.IsNotNull(mapInfoRet.MapInfoDrawTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoDrawTypeText));
+                Assert.IsNotNull(mapInfoRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

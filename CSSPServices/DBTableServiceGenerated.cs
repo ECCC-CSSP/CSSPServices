@@ -37,30 +37,38 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             DBTable dBTable = validationContext.ObjectInstance as DBTable;
+            dBTable.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(dBTable.TableName))
             {
+                dBTable.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DBTableTableName), new[] { "TableName" });
             }
 
             if (!string.IsNullOrWhiteSpace(dBTable.TableName) && (dBTable.TableName.Length < 1 || dBTable.TableName.Length > 200))
             {
+                dBTable.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.DBTableTableName, "1", "200"), new[] { "TableName" });
             }
 
             if (string.IsNullOrWhiteSpace(dBTable.Plurial))
             {
+                dBTable.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DBTablePlurial), new[] { "Plurial" });
             }
 
             if (!string.IsNullOrWhiteSpace(dBTable.Plurial) && (dBTable.Plurial.Length < 1 || dBTable.Plurial.Length > 3))
             {
+                dBTable.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.DBTablePlurial, "1", "3"), new[] { "Plurial" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                dBTable.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

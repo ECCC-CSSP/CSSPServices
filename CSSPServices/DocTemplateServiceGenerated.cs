@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             DocTemplate docTemplate = validationContext.ObjectInstance as DocTemplate;
+            docTemplate.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (docTemplate.DocTemplateID == 0)
                 {
+                    docTemplate.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateDocTemplateID), new[] { "DocTemplateID" });
+                }
+
+                if (!GetRead().Where(c => c.DocTemplateID == docTemplate.DocTemplateID).Any())
+                {
+                    docTemplate.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.DocTemplate, ModelsRes.DocTemplateDocTemplateID, docTemplate.DocTemplateID.ToString()), new[] { "DocTemplateID" });
                 }
             }
 
@@ -51,12 +59,14 @@ namespace CSSPServices
             retStr = enums.LanguageOK(docTemplate.Language);
             if (docTemplate.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                docTemplate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateLanguage), new[] { "Language" });
             }
 
             retStr = enums.TVTypeOK(docTemplate.TVType);
             if (docTemplate.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                docTemplate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateTVType), new[] { "TVType" });
             }
 
@@ -66,6 +76,7 @@ namespace CSSPServices
 
             if (TVItemTVFileTVItemID == null)
             {
+                docTemplate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.DocTemplateTVFileTVItemID, docTemplate.TVFileTVItemID.ToString()), new[] { "TVFileTVItemID" });
             }
             else
@@ -76,28 +87,33 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemTVFileTVItemID.TVType))
                 {
+                    docTemplate.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.DocTemplateTVFileTVItemID, "File"), new[] { "TVFileTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(docTemplate.FileName))
             {
+                docTemplate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateFileName), new[] { "FileName" });
             }
 
             if (!string.IsNullOrWhiteSpace(docTemplate.FileName) && docTemplate.FileName.Length > 150)
             {
+                docTemplate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateFileName, "150"), new[] { "FileName" });
             }
 
             if (docTemplate.LastUpdateDate_UTC.Year == 1)
             {
+                docTemplate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (docTemplate.LastUpdateDate_UTC.Year < 1980)
                 {
+                docTemplate.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.DocTemplateLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -108,6 +124,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                docTemplate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.DocTemplateLastUpdateContactTVItemID, docTemplate.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -118,28 +135,35 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    docTemplate.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.DocTemplateLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(docTemplate.LastUpdateContactTVText) && docTemplate.LastUpdateContactTVText.Length > 200)
             {
+                docTemplate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(docTemplate.LanguageText) && docTemplate.LanguageText.Length > 100)
             {
+                docTemplate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateLanguageText, "100"), new[] { "LanguageText" });
             }
 
             if (!string.IsNullOrWhiteSpace(docTemplate.TVTypeText) && docTemplate.TVTypeText.Length > 100)
             {
+                docTemplate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateTVTypeText, "100"), new[] { "TVTypeText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                docTemplate.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -171,11 +195,8 @@ namespace CSSPServices
         }
         public bool Delete(DocTemplate docTemplate)
         {
-            if (!db.DocTemplates.Where(c => c.DocTemplateID == docTemplate.DocTemplateID).Any())
-            {
-                docTemplate.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "DocTemplate", "DocTemplateID", docTemplate.DocTemplateID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            docTemplate.ValidationResults = Validate(new ValidationContext(docTemplate), ActionDBTypeEnum.Delete);
+            if (docTemplate.ValidationResults.Count() > 0) return false;
 
             db.DocTemplates.Remove(docTemplate);
 
@@ -185,12 +206,6 @@ namespace CSSPServices
         }
         public bool Update(DocTemplate docTemplate)
         {
-            if (!db.DocTemplates.Where(c => c.DocTemplateID == docTemplate.DocTemplateID).Any())
-            {
-                docTemplate.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "DocTemplate", "DocTemplateID", docTemplate.DocTemplateID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             docTemplate.ValidationResults = Validate(new ValidationContext(docTemplate), ActionDBTypeEnum.Update);
             if (docTemplate.ValidationResults.Count() > 0) return false;
 

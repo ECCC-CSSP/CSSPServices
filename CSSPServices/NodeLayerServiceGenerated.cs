@@ -37,11 +37,13 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             NodeLayer nodeLayer = validationContext.ObjectInstance as NodeLayer;
+            nodeLayer.HasErrors = false;
 
             //Layer (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (nodeLayer.Layer < 1 || nodeLayer.Layer > 100)
             {
+                nodeLayer.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.NodeLayerLayer, "1", "100"), new[] { "Layer" });
             }
 
@@ -49,9 +51,12 @@ namespace CSSPServices
 
             //Z has no Range Attribute
 
+            //HasErrors (bool) is required but no testing needed 
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                nodeLayer.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

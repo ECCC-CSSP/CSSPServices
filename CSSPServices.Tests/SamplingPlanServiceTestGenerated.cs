@@ -63,6 +63,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SampleTypeText") samplingPlan.SampleTypeText = GetRandomString("", 5);
             if (OmitPropName != "SamplingPlanTypeText") samplingPlan.SamplingPlanTypeText = GetRandomString("", 5);
             if (OmitPropName != "LabSheetTypeText") samplingPlan.LabSheetTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") samplingPlan.HasErrors = true;
 
             return samplingPlan;
         }
@@ -94,20 +95,22 @@ namespace CSSPServices.Tests
 
                 count = samplingPlanService.GetRead().Count();
 
+                Assert.AreEqual(samplingPlanService.GetRead().Count(), samplingPlanService.GetEdit().Count());
+
                 samplingPlanService.Add(samplingPlan);
-                if (samplingPlan.ValidationResults.Count() > 0)
+                if (samplingPlan.HasErrors)
                 {
                     Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, samplingPlanService.GetRead().Where(c => c == samplingPlan).Any());
                 samplingPlanService.Update(samplingPlan);
-                if (samplingPlan.ValidationResults.Count() > 0)
+                if (samplingPlan.HasErrors)
                 {
                     Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, samplingPlanService.GetRead().Count());
                 samplingPlanService.Delete(samplingPlan);
-                if (samplingPlan.ValidationResults.Count() > 0)
+                if (samplingPlan.HasErrors)
                 {
                     Assert.AreEqual("", samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -131,6 +134,12 @@ namespace CSSPServices.Tests
                 samplingPlan.SamplingPlanID = 0;
                 samplingPlanService.Update(samplingPlan);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanID), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                samplingPlan = null;
+                samplingPlan = GetFilledRandomSamplingPlan("");
+                samplingPlan.SamplingPlanID = 10000000;
+                samplingPlanService.Update(samplingPlan);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlan, ModelsRes.SamplingPlanSamplingPlanID, samplingPlan.SamplingPlanID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -511,6 +520,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // samplingPlan.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // samplingPlan.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -573,6 +589,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanTypeText));
                 Assert.IsNotNull(samplingPlanRet.LabSheetTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.LabSheetTypeText));
+                Assert.IsNotNull(samplingPlanRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

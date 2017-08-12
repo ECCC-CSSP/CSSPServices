@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             EmailDistributionList emailDistributionList = validationContext.ObjectInstance as EmailDistributionList;
+            emailDistributionList.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (emailDistributionList.EmailDistributionListID == 0)
                 {
+                    emailDistributionList.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListEmailDistributionListID), new[] { "EmailDistributionListID" });
+                }
+
+                if (!GetRead().Where(c => c.EmailDistributionListID == emailDistributionList.EmailDistributionListID).Any())
+                {
+                    emailDistributionList.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.EmailDistributionList, ModelsRes.EmailDistributionListEmailDistributionListID, emailDistributionList.EmailDistributionListID.ToString()), new[] { "EmailDistributionListID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (TVItemCountryTVItemID == null)
             {
+                emailDistributionList.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailDistributionListCountryTVItemID, emailDistributionList.CountryTVItemID.ToString()), new[] { "CountryTVItemID" });
             }
             else
@@ -64,17 +73,20 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemCountryTVItemID.TVType))
                 {
+                    emailDistributionList.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListCountryTVItemID, "Country"), new[] { "CountryTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(emailDistributionList.RegionName))
             {
+                emailDistributionList.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListRegionName), new[] { "RegionName" });
             }
 
             if (!string.IsNullOrWhiteSpace(emailDistributionList.RegionName) && emailDistributionList.RegionName.Length > 100)
             {
+                emailDistributionList.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListRegionName, "100"), new[] { "RegionName" });
             }
 
@@ -82,17 +94,20 @@ namespace CSSPServices
 
             if (emailDistributionList.Ordinal < 0 || emailDistributionList.Ordinal > 1000)
             {
+                emailDistributionList.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.EmailDistributionListOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
 
             if (emailDistributionList.LastUpdateDate_UTC.Year == 1)
             {
+                emailDistributionList.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (emailDistributionList.LastUpdateDate_UTC.Year < 1980)
                 {
+                emailDistributionList.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.EmailDistributionListLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -103,6 +118,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                emailDistributionList.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailDistributionListLastUpdateContactTVItemID, emailDistributionList.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -113,23 +129,29 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    emailDistributionList.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(emailDistributionList.CountryTVText) && emailDistributionList.CountryTVText.Length > 200)
             {
+                emailDistributionList.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListCountryTVText, "200"), new[] { "CountryTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(emailDistributionList.LastUpdateContactTVText) && emailDistributionList.LastUpdateContactTVText.Length > 200)
             {
+                emailDistributionList.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                emailDistributionList.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -161,11 +183,8 @@ namespace CSSPServices
         }
         public bool Delete(EmailDistributionList emailDistributionList)
         {
-            if (!db.EmailDistributionLists.Where(c => c.EmailDistributionListID == emailDistributionList.EmailDistributionListID).Any())
-            {
-                emailDistributionList.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "EmailDistributionList", "EmailDistributionListID", emailDistributionList.EmailDistributionListID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            emailDistributionList.ValidationResults = Validate(new ValidationContext(emailDistributionList), ActionDBTypeEnum.Delete);
+            if (emailDistributionList.ValidationResults.Count() > 0) return false;
 
             db.EmailDistributionLists.Remove(emailDistributionList);
 
@@ -175,12 +194,6 @@ namespace CSSPServices
         }
         public bool Update(EmailDistributionList emailDistributionList)
         {
-            if (!db.EmailDistributionLists.Where(c => c.EmailDistributionListID == emailDistributionList.EmailDistributionListID).Any())
-            {
-                emailDistributionList.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "EmailDistributionList", "EmailDistributionListID", emailDistributionList.EmailDistributionListID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             emailDistributionList.ValidationResults = Validate(new ValidationContext(emailDistributionList), ActionDBTypeEnum.Update);
             if (emailDistributionList.ValidationResults.Count() > 0) return false;
 

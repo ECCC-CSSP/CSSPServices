@@ -65,6 +65,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVItemID") climateSite.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "ClimateSiteTVText") climateSite.ClimateSiteTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") climateSite.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") climateSite.HasErrors = true;
 
             return climateSite;
         }
@@ -96,20 +97,22 @@ namespace CSSPServices.Tests
 
                 count = climateSiteService.GetRead().Count();
 
+                Assert.AreEqual(climateSiteService.GetRead().Count(), climateSiteService.GetEdit().Count());
+
                 climateSiteService.Add(climateSite);
-                if (climateSite.ValidationResults.Count() > 0)
+                if (climateSite.HasErrors)
                 {
                     Assert.AreEqual("", climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, climateSiteService.GetRead().Where(c => c == climateSite).Any());
                 climateSiteService.Update(climateSite);
-                if (climateSite.ValidationResults.Count() > 0)
+                if (climateSite.HasErrors)
                 {
                     Assert.AreEqual("", climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, climateSiteService.GetRead().Count());
                 climateSiteService.Delete(climateSite);
-                if (climateSite.ValidationResults.Count() > 0)
+                if (climateSite.HasErrors)
                 {
                     Assert.AreEqual("", climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -133,6 +136,12 @@ namespace CSSPServices.Tests
                 climateSite.ClimateSiteID = 0;
                 climateSiteService.Update(climateSite);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateSiteClimateSiteID), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                climateSite = null;
+                climateSite = GetFilledRandomClimateSite("");
+                climateSite.ClimateSiteID = 10000000;
+                climateSiteService.Update(climateSite);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ClimateSite, ModelsRes.ClimateSiteClimateSiteID, climateSite.ClimateSiteID.ToString()), climateSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -453,6 +462,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // climateSite.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // climateSite.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -559,6 +575,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.ClimateSiteTVText));
                 Assert.IsNotNull(climateSiteRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(climateSiteRet.LastUpdateContactTVText));
+                Assert.IsNotNull(climateSiteRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

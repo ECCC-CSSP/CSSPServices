@@ -49,6 +49,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVText") boxModelLanguage.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") boxModelLanguage.LanguageText = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatusText") boxModelLanguage.TranslationStatusText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") boxModelLanguage.HasErrors = true;
 
             return boxModelLanguage;
         }
@@ -80,20 +81,22 @@ namespace CSSPServices.Tests
 
                 count = boxModelLanguageService.GetRead().Count();
 
+                Assert.AreEqual(boxModelLanguageService.GetRead().Count(), boxModelLanguageService.GetEdit().Count());
+
                 boxModelLanguageService.Add(boxModelLanguage);
-                if (boxModelLanguage.ValidationResults.Count() > 0)
+                if (boxModelLanguage.HasErrors)
                 {
                     Assert.AreEqual("", boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, boxModelLanguageService.GetRead().Where(c => c == boxModelLanguage).Any());
                 boxModelLanguageService.Update(boxModelLanguage);
-                if (boxModelLanguage.ValidationResults.Count() > 0)
+                if (boxModelLanguage.HasErrors)
                 {
                     Assert.AreEqual("", boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, boxModelLanguageService.GetRead().Count());
                 boxModelLanguageService.Delete(boxModelLanguage);
-                if (boxModelLanguage.ValidationResults.Count() > 0)
+                if (boxModelLanguage.HasErrors)
                 {
                     Assert.AreEqual("", boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -117,6 +120,12 @@ namespace CSSPServices.Tests
                 boxModelLanguage.BoxModelLanguageID = 0;
                 boxModelLanguageService.Update(boxModelLanguage);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLanguageBoxModelLanguageID), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                boxModelLanguage = null;
+                boxModelLanguage = GetFilledRandomBoxModelLanguage("");
+                boxModelLanguage.BoxModelLanguageID = 10000000;
+                boxModelLanguageService.Update(boxModelLanguage);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModelLanguage, ModelsRes.BoxModelLanguageBoxModelLanguageID, boxModelLanguage.BoxModelLanguageID.ToString()), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -251,6 +260,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // boxModelLanguage.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // boxModelLanguage.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -286,6 +302,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageRet.LanguageText));
                 Assert.IsNotNull(boxModelLanguageRet.TranslationStatusText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelLanguageRet.TranslationStatusText));
+                Assert.IsNotNull(boxModelLanguageRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

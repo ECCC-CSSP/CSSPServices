@@ -58,6 +58,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MWQMSiteTVText") labSheetTubeMPNDetail.MWQMSiteTVText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") labSheetTubeMPNDetail.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "SampleTypeText") labSheetTubeMPNDetail.SampleTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") labSheetTubeMPNDetail.HasErrors = true;
 
             return labSheetTubeMPNDetail;
         }
@@ -89,20 +90,22 @@ namespace CSSPServices.Tests
 
                 count = labSheetTubeMPNDetailService.GetRead().Count();
 
+                Assert.AreEqual(labSheetTubeMPNDetailService.GetRead().Count(), labSheetTubeMPNDetailService.GetEdit().Count());
+
                 labSheetTubeMPNDetailService.Add(labSheetTubeMPNDetail);
-                if (labSheetTubeMPNDetail.ValidationResults.Count() > 0)
+                if (labSheetTubeMPNDetail.HasErrors)
                 {
                     Assert.AreEqual("", labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, labSheetTubeMPNDetailService.GetRead().Where(c => c == labSheetTubeMPNDetail).Any());
                 labSheetTubeMPNDetailService.Update(labSheetTubeMPNDetail);
-                if (labSheetTubeMPNDetail.ValidationResults.Count() > 0)
+                if (labSheetTubeMPNDetail.HasErrors)
                 {
                     Assert.AreEqual("", labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, labSheetTubeMPNDetailService.GetRead().Count());
                 labSheetTubeMPNDetailService.Delete(labSheetTubeMPNDetail);
-                if (labSheetTubeMPNDetail.ValidationResults.Count() > 0)
+                if (labSheetTubeMPNDetail.HasErrors)
                 {
                     Assert.AreEqual("", labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -126,6 +129,12 @@ namespace CSSPServices.Tests
                 labSheetTubeMPNDetail.LabSheetTubeMPNDetailID = 0;
                 labSheetTubeMPNDetailService.Update(labSheetTubeMPNDetail);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetTubeMPNDetailLabSheetTubeMPNDetailID), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                labSheetTubeMPNDetail = null;
+                labSheetTubeMPNDetail = GetFilledRandomLabSheetTubeMPNDetail("");
+                labSheetTubeMPNDetail.LabSheetTubeMPNDetailID = 10000000;
+                labSheetTubeMPNDetailService.Update(labSheetTubeMPNDetail);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.LabSheetTubeMPNDetail, ModelsRes.LabSheetTubeMPNDetailLabSheetTubeMPNDetailID, labSheetTubeMPNDetail.LabSheetTubeMPNDetailID.ToString()), labSheetTubeMPNDetail.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -416,6 +425,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // labSheetTubeMPNDetail.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // labSheetTubeMPNDetail.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -488,6 +504,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.LastUpdateContactTVText));
                 Assert.IsNotNull(labSheetTubeMPNDetailRet.SampleTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(labSheetTubeMPNDetailRet.SampleTypeText));
+                Assert.IsNotNull(labSheetTubeMPNDetailRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

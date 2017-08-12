@@ -46,6 +46,7 @@ namespace CSSPServices.Tests
             // should implement a Range for the property Distance and type VPResValues
             // should implement a Range for the property TheTime and type VPResValues
             // should implement a Range for the property Decay and type VPResValues
+            if (OmitPropName != "HasErrors") vpResValues.HasErrors = true;
 
             return vpResValues;
         }

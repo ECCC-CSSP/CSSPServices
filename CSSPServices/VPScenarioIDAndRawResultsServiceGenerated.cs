@@ -37,24 +37,30 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             VPScenarioIDAndRawResults vpScenarioIDAndRawResults = validationContext.ObjectInstance as VPScenarioIDAndRawResults;
+            vpScenarioIDAndRawResults.HasErrors = false;
 
             //VPScenarioID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (vpScenarioIDAndRawResults.VPScenarioID < 1)
             {
+                vpScenarioIDAndRawResults.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPScenarioIDAndRawResultsVPScenarioID, "1"), new[] { "VPScenarioID" });
             }
 
             if (string.IsNullOrWhiteSpace(vpScenarioIDAndRawResults.RawResults))
             {
+                vpScenarioIDAndRawResults.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioIDAndRawResultsRawResults), new[] { "RawResults" });
             }
 
             //RawResults has no StringLength Attribute
 
+            //HasErrors (bool) is required but no testing needed 
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                vpScenarioIDAndRawResults.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

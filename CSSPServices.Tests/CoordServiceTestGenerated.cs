@@ -43,6 +43,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "Lat") coord.Lat = GetRandomDouble(-180.0D, 180.0D);
             if (OmitPropName != "Lng") coord.Lng = GetRandomDouble(-90.0D, 90.0D);
             if (OmitPropName != "Ordinal") coord.Ordinal = GetRandomInt(0, 10000);
+            if (OmitPropName != "HasErrors") coord.HasErrors = true;
 
             return coord;
         }

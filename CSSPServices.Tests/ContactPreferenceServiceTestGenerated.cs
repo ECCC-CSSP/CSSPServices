@@ -47,6 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVItemID") contactPreference.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") contactPreference.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "TVTypeText") contactPreference.TVTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") contactPreference.HasErrors = true;
 
             return contactPreference;
         }
@@ -78,20 +79,22 @@ namespace CSSPServices.Tests
 
                 count = contactPreferenceService.GetRead().Count();
 
+                Assert.AreEqual(contactPreferenceService.GetRead().Count(), contactPreferenceService.GetEdit().Count());
+
                 contactPreferenceService.Add(contactPreference);
-                if (contactPreference.ValidationResults.Count() > 0)
+                if (contactPreference.HasErrors)
                 {
                     Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, contactPreferenceService.GetRead().Where(c => c == contactPreference).Any());
                 contactPreferenceService.Update(contactPreference);
-                if (contactPreference.ValidationResults.Count() > 0)
+                if (contactPreference.HasErrors)
                 {
                     Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, contactPreferenceService.GetRead().Count());
                 contactPreferenceService.Delete(contactPreference);
-                if (contactPreference.ValidationResults.Count() > 0)
+                if (contactPreference.HasErrors)
                 {
                     Assert.AreEqual("", contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -115,6 +118,12 @@ namespace CSSPServices.Tests
                 contactPreference.ContactPreferenceID = 0;
                 contactPreferenceService.Update(contactPreference);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPreferenceContactPreferenceID), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                contactPreference = null;
+                contactPreference = GetFilledRandomContactPreference("");
+                contactPreference.ContactPreferenceID = 10000000;
+                contactPreferenceService.Update(contactPreference);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ContactPreference, ModelsRes.ContactPreferenceContactPreferenceID, contactPreference.ContactPreferenceID.ToString()), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -220,6 +229,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // contactPreference.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // contactPreference.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -251,6 +267,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceRet.LastUpdateContactTVText));
                 Assert.IsNotNull(contactPreferenceRet.TVTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(contactPreferenceRet.TVTypeText));
+                Assert.IsNotNull(contactPreferenceRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

@@ -37,10 +37,12 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             TVItemInfrastructureTypeTVItemLink tvItemInfrastructureTypeTVItemLink = validationContext.ObjectInstance as TVItemInfrastructureTypeTVItemLink;
+            tvItemInfrastructureTypeTVItemLink.HasErrors = false;
 
             retStr = enums.InfrastructureTypeOK(tvItemInfrastructureTypeTVItemLink.InfrastructureType);
             if (tvItemInfrastructureTypeTVItemLink.InfrastructureType == InfrastructureTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                tvItemInfrastructureTypeTVItemLink.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemInfrastructureTypeTVItemLinkInfrastructureType), new[] { "InfrastructureType" });
             }
 
@@ -48,12 +50,16 @@ namespace CSSPServices
 
             if (!string.IsNullOrWhiteSpace(tvItemInfrastructureTypeTVItemLink.InfrastructureTypeText) && tvItemInfrastructureTypeTVItemLink.InfrastructureTypeText.Length > 100)
             {
+                tvItemInfrastructureTypeTVItemLink.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemInfrastructureTypeTVItemLinkInfrastructureTypeText, "100"), new[] { "InfrastructureTypeText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                tvItemInfrastructureTypeTVItemLink.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

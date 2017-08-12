@@ -42,6 +42,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "TableName") dBTable.TableName = GetRandomString("", 6);
             if (OmitPropName != "Plurial") dBTable.Plurial = GetRandomString("", 3);
+            if (OmitPropName != "HasErrors") dBTable.HasErrors = true;
 
             return dBTable;
         }

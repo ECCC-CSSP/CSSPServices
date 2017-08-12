@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             MapInfo mapInfo = validationContext.ObjectInstance as MapInfo;
+            mapInfo.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (mapInfo.MapInfoID == 0)
                 {
+                    mapInfo.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoID), new[] { "MapInfoID" });
+                }
+
+                if (!GetRead().Where(c => c.MapInfoID == mapInfo.MapInfoID).Any())
+                {
+                    mapInfo.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MapInfo, ModelsRes.MapInfoMapInfoID, mapInfo.MapInfoID.ToString()), new[] { "MapInfoID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (TVItemTVItemID == null)
             {
+                mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoTVItemID, mapInfo.TVItemID.ToString()), new[] { "TVItemID" });
             }
             else
@@ -98,6 +107,7 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemTVItemID.TVType))
                 {
+                    mapInfo.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoTVItemID, "Root,Address,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario,LiftStation,LineOverflow,MeshNode,MikeSourceIncluded,MikeSourceIsRiver,MikeSourceNotIncluded,NoData,NoDepuration,Outfall,Passed,WebTideNode"), new[] { "TVItemID" });
                 }
             }
@@ -105,6 +115,7 @@ namespace CSSPServices
             retStr = enums.TVTypeOK(mapInfo.TVType);
             if (mapInfo.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoTVType), new[] { "TVType" });
             }
 
@@ -112,6 +123,7 @@ namespace CSSPServices
 
             if (mapInfo.LatMin < -90 || mapInfo.LatMin > 90)
             {
+                mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMin, "-90", "90"), new[] { "LatMin" });
             }
 
@@ -119,6 +131,7 @@ namespace CSSPServices
 
             if (mapInfo.LatMax < -90 || mapInfo.LatMax > 90)
             {
+                mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMax, "-90", "90"), new[] { "LatMax" });
             }
 
@@ -126,6 +139,7 @@ namespace CSSPServices
 
             if (mapInfo.LngMin < -180 || mapInfo.LngMin > 180)
             {
+                mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMin, "-180", "180"), new[] { "LngMin" });
             }
 
@@ -133,23 +147,27 @@ namespace CSSPServices
 
             if (mapInfo.LngMax < -180 || mapInfo.LngMax > 180)
             {
+                mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMax, "-180", "180"), new[] { "LngMax" });
             }
 
             retStr = enums.MapInfoDrawTypeOK(mapInfo.MapInfoDrawType);
             if (mapInfo.MapInfoDrawType == MapInfoDrawTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoDrawType), new[] { "MapInfoDrawType" });
             }
 
             if (mapInfo.LastUpdateDate_UTC.Year == 1)
             {
+                mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mapInfo.LastUpdateDate_UTC.Year < 1980)
                 {
+                mapInfo.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MapInfoLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -160,6 +178,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoLastUpdateContactTVItemID, mapInfo.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -170,33 +189,41 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    mapInfo.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(mapInfo.TVText) && mapInfo.TVText.Length > 200)
             {
+                mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoTVText, "200"), new[] { "TVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mapInfo.LastUpdateContactTVText) && mapInfo.LastUpdateContactTVText.Length > 200)
             {
+                mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mapInfo.TVTypeText) && mapInfo.TVTypeText.Length > 100)
             {
+                mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoTVTypeText, "100"), new[] { "TVTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mapInfo.MapInfoDrawTypeText) && mapInfo.MapInfoDrawTypeText.Length > 100)
             {
+                mapInfo.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoMapInfoDrawTypeText, "100"), new[] { "MapInfoDrawTypeText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                mapInfo.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -228,11 +255,8 @@ namespace CSSPServices
         }
         public bool Delete(MapInfo mapInfo)
         {
-            if (!db.MapInfos.Where(c => c.MapInfoID == mapInfo.MapInfoID).Any())
-            {
-                mapInfo.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MapInfo", "MapInfoID", mapInfo.MapInfoID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            mapInfo.ValidationResults = Validate(new ValidationContext(mapInfo), ActionDBTypeEnum.Delete);
+            if (mapInfo.ValidationResults.Count() > 0) return false;
 
             db.MapInfos.Remove(mapInfo);
 
@@ -242,12 +266,6 @@ namespace CSSPServices
         }
         public bool Update(MapInfo mapInfo)
         {
-            if (!db.MapInfos.Where(c => c.MapInfoID == mapInfo.MapInfoID).Any())
-            {
-                mapInfo.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "MapInfo", "MapInfoID", mapInfo.MapInfoID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             mapInfo.ValidationResults = Validate(new ValidationContext(mapInfo), ActionDBTypeEnum.Update);
             if (mapInfo.ValidationResults.Count() > 0) return false;
 

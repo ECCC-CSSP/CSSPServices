@@ -37,9 +37,11 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             CalDecay calDecay = validationContext.ObjectInstance as CalDecay;
+            calDecay.HasErrors = false;
 
             if (!string.IsNullOrWhiteSpace(calDecay.Error) && calDecay.Error.Length > 255)
             {
+                calDecay.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.CalDecayError, "255"), new[] { "Error" });
             }
 
@@ -47,12 +49,16 @@ namespace CSSPServices
 
             if (calDecay.Decay < 0)
             {
+                calDecay.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.CalDecayDecay, "0"), new[] { "Decay" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                calDecay.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

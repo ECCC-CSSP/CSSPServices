@@ -47,6 +47,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateDate_UTC") mwqmLookupMPN.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmLookupMPN.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") mwqmLookupMPN.LastUpdateContactTVText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") mwqmLookupMPN.HasErrors = true;
 
             return mwqmLookupMPN;
         }
@@ -78,20 +79,22 @@ namespace CSSPServices.Tests
 
                 count = mwqmLookupMPNService.GetRead().Count();
 
+                Assert.AreEqual(mwqmLookupMPNService.GetRead().Count(), mwqmLookupMPNService.GetEdit().Count());
+
                 mwqmLookupMPNService.Add(mwqmLookupMPN);
-                if (mwqmLookupMPN.ValidationResults.Count() > 0)
+                if (mwqmLookupMPN.HasErrors)
                 {
                     Assert.AreEqual("", mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, mwqmLookupMPNService.GetRead().Where(c => c == mwqmLookupMPN).Any());
                 mwqmLookupMPNService.Update(mwqmLookupMPN);
-                if (mwqmLookupMPN.ValidationResults.Count() > 0)
+                if (mwqmLookupMPN.HasErrors)
                 {
                     Assert.AreEqual("", mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, mwqmLookupMPNService.GetRead().Count());
                 mwqmLookupMPNService.Delete(mwqmLookupMPN);
-                if (mwqmLookupMPN.ValidationResults.Count() > 0)
+                if (mwqmLookupMPN.HasErrors)
                 {
                     Assert.AreEqual("", mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -115,6 +118,12 @@ namespace CSSPServices.Tests
                 mwqmLookupMPN.MWQMLookupMPNID = 0;
                 mwqmLookupMPNService.Update(mwqmLookupMPN);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMLookupMPNMWQMLookupMPNID), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                mwqmLookupMPN = null;
+                mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
+                mwqmLookupMPN.MWQMLookupMPNID = 10000000;
+                mwqmLookupMPNService.Update(mwqmLookupMPN);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMLookupMPN, ModelsRes.MWQMLookupMPNMWQMLookupMPNID, mwqmLookupMPN.MWQMLookupMPNID.ToString()), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -237,6 +246,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // mwqmLookupMPN.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // mwqmLookupMPN.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -267,6 +283,7 @@ namespace CSSPServices.Tests
 
                 Assert.IsNotNull(mwqmLookupMPNRet.LastUpdateContactTVText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmLookupMPNRet.LastUpdateContactTVText));
+                Assert.IsNotNull(mwqmLookupMPNRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

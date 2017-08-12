@@ -37,11 +37,13 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             Element element = validationContext.ObjectInstance as Element;
+            element.HasErrors = false;
 
             //ID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (element.ID < 1)
             {
+                element.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ElementID, "1"), new[] { "ID" });
             }
 
@@ -49,6 +51,7 @@ namespace CSSPServices
 
             if (element.Type < 1)
             {
+                element.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ElementType, "1"), new[] { "Type" });
             }
 
@@ -56,6 +59,7 @@ namespace CSSPServices
 
             if (element.NumbOfNodes < 1)
             {
+                element.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ElementNumbOfNodes, "1"), new[] { "NumbOfNodes" });
             }
 
@@ -75,9 +79,12 @@ namespace CSSPServices
 
             //ZNode0 has no Range Attribute
 
+            //HasErrors (bool) is required but no testing needed 
+
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                element.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

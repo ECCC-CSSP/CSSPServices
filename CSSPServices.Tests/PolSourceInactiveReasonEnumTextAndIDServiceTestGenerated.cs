@@ -42,6 +42,7 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "Text") polSourceInactiveReasonEnumTextAndID.Text = GetRandomString("", 20);
             if (OmitPropName != "ID") polSourceInactiveReasonEnumTextAndID.ID = GetRandomInt(1, 11);
+            if (OmitPropName != "HasErrors") polSourceInactiveReasonEnumTextAndID.HasErrors = true;
 
             return polSourceInactiveReasonEnumTextAndID;
         }

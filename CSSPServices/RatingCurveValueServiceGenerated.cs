@@ -37,12 +37,20 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             RatingCurveValue ratingCurveValue = validationContext.ObjectInstance as RatingCurveValue;
+            ratingCurveValue.HasErrors = false;
 
-            if (actionDBType == ActionDBTypeEnum.Update)
+            if (actionDBType == ActionDBTypeEnum.Update || actionDBType == ActionDBTypeEnum.Delete)
             {
                 if (ratingCurveValue.RatingCurveValueID == 0)
                 {
+                    ratingCurveValue.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveValueRatingCurveValueID), new[] { "RatingCurveValueID" });
+                }
+
+                if (!GetRead().Where(c => c.RatingCurveValueID == ratingCurveValue.RatingCurveValueID).Any())
+                {
+                    ratingCurveValue.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RatingCurveValue, ModelsRes.RatingCurveValueRatingCurveValueID, ratingCurveValue.RatingCurveValueID.ToString()), new[] { "RatingCurveValueID" });
                 }
             }
 
@@ -54,6 +62,7 @@ namespace CSSPServices
 
             if (RatingCurveRatingCurveID == null)
             {
+                ratingCurveValue.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RatingCurve, ModelsRes.RatingCurveValueRatingCurveID, ratingCurveValue.RatingCurveID.ToString()), new[] { "RatingCurveID" });
             }
 
@@ -61,6 +70,7 @@ namespace CSSPServices
 
             if (ratingCurveValue.StageValue_m < 0 || ratingCurveValue.StageValue_m > 1000)
             {
+                ratingCurveValue.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueStageValue_m, "0", "1000"), new[] { "StageValue_m" });
             }
 
@@ -68,17 +78,20 @@ namespace CSSPServices
 
             if (ratingCurveValue.DischargeValue_m3_s < 0 || ratingCurveValue.DischargeValue_m3_s > 1000000)
             {
+                ratingCurveValue.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000"), new[] { "DischargeValue_m3_s" });
             }
 
             if (ratingCurveValue.LastUpdateDate_UTC.Year == 1)
             {
+                ratingCurveValue.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveValueLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (ratingCurveValue.LastUpdateDate_UTC.Year < 1980)
                 {
+                ratingCurveValue.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.RatingCurveValueLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
@@ -89,6 +102,7 @@ namespace CSSPServices
 
             if (TVItemLastUpdateContactTVItemID == null)
             {
+                ratingCurveValue.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RatingCurveValueLastUpdateContactTVItemID, ratingCurveValue.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
@@ -99,18 +113,23 @@ namespace CSSPServices
                 };
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
+                    ratingCurveValue.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RatingCurveValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(ratingCurveValue.LastUpdateContactTVText) && ratingCurveValue.LastUpdateContactTVText.Length > 200)
             {
+                ratingCurveValue.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RatingCurveValueLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                ratingCurveValue.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 
@@ -142,11 +161,8 @@ namespace CSSPServices
         }
         public bool Delete(RatingCurveValue ratingCurveValue)
         {
-            if (!db.RatingCurveValues.Where(c => c.RatingCurveValueID == ratingCurveValue.RatingCurveValueID).Any())
-            {
-                ratingCurveValue.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "RatingCurveValue", "RatingCurveValueID", ratingCurveValue.RatingCurveValueID.ToString())) }.AsEnumerable();
-                return false;
-            }
+            ratingCurveValue.ValidationResults = Validate(new ValidationContext(ratingCurveValue), ActionDBTypeEnum.Delete);
+            if (ratingCurveValue.ValidationResults.Count() > 0) return false;
 
             db.RatingCurveValues.Remove(ratingCurveValue);
 
@@ -156,12 +172,6 @@ namespace CSSPServices
         }
         public bool Update(RatingCurveValue ratingCurveValue)
         {
-            if (!db.RatingCurveValues.Where(c => c.RatingCurveValueID == ratingCurveValue.RatingCurveValueID).Any())
-            {
-                ratingCurveValue.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, "RatingCurveValue", "RatingCurveValueID", ratingCurveValue.RatingCurveValueID.ToString())) }.AsEnumerable();
-                return false;
-            }
-
             ratingCurveValue.ValidationResults = Validate(new ValidationContext(ratingCurveValue), ActionDBTypeEnum.Update);
             if (ratingCurveValue.ValidationResults.Count() > 0) return false;
 

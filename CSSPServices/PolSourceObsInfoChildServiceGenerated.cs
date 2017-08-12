@@ -37,32 +37,40 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             PolSourceObsInfoChild polSourceObsInfoChild = validationContext.ObjectInstance as PolSourceObsInfoChild;
+            polSourceObsInfoChild.HasErrors = false;
 
             retStr = enums.PolSourceObsInfoOK(polSourceObsInfoChild.PolSourceObsInfo);
             if (polSourceObsInfoChild.PolSourceObsInfo == PolSourceObsInfoEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                polSourceObsInfoChild.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObsInfoChildPolSourceObsInfo), new[] { "PolSourceObsInfo" });
             }
 
             retStr = enums.PolSourceObsInfoOK(polSourceObsInfoChild.PolSourceObsInfoChildStart);
             if (polSourceObsInfoChild.PolSourceObsInfoChildStart == PolSourceObsInfoEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                polSourceObsInfoChild.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObsInfoChildPolSourceObsInfoChildStart), new[] { "PolSourceObsInfoChildStart" });
             }
 
             if (!string.IsNullOrWhiteSpace(polSourceObsInfoChild.PolSourceObsInfoText) && polSourceObsInfoChild.PolSourceObsInfoText.Length > 100)
             {
+                polSourceObsInfoChild.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObsInfoChildPolSourceObsInfoText, "100"), new[] { "PolSourceObsInfoText" });
             }
 
             if (!string.IsNullOrWhiteSpace(polSourceObsInfoChild.PolSourceObsInfoChildStartText) && polSourceObsInfoChild.PolSourceObsInfoChildStartText.Length > 100)
             {
+                polSourceObsInfoChild.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObsInfoChildPolSourceObsInfoChildStartText, "100"), new[] { "PolSourceObsInfoChildStartText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                polSourceObsInfoChild.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

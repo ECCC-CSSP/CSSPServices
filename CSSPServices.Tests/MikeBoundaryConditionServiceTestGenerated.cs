@@ -57,6 +57,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "MikeBoundaryConditionLevelOrVelocityText") mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText = GetRandomString("", 5);
             if (OmitPropName != "WebTideDataSetText") mikeBoundaryCondition.WebTideDataSetText = GetRandomString("", 5);
             if (OmitPropName != "TVTypeText") mikeBoundaryCondition.TVTypeText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") mikeBoundaryCondition.HasErrors = true;
 
             return mikeBoundaryCondition;
         }
@@ -88,20 +89,22 @@ namespace CSSPServices.Tests
 
                 count = mikeBoundaryConditionService.GetRead().Count();
 
+                Assert.AreEqual(mikeBoundaryConditionService.GetRead().Count(), mikeBoundaryConditionService.GetEdit().Count());
+
                 mikeBoundaryConditionService.Add(mikeBoundaryCondition);
-                if (mikeBoundaryCondition.ValidationResults.Count() > 0)
+                if (mikeBoundaryCondition.HasErrors)
                 {
                     Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, mikeBoundaryConditionService.GetRead().Where(c => c == mikeBoundaryCondition).Any());
                 mikeBoundaryConditionService.Update(mikeBoundaryCondition);
-                if (mikeBoundaryCondition.ValidationResults.Count() > 0)
+                if (mikeBoundaryCondition.HasErrors)
                 {
                     Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, mikeBoundaryConditionService.GetRead().Count());
                 mikeBoundaryConditionService.Delete(mikeBoundaryCondition);
-                if (mikeBoundaryCondition.ValidationResults.Count() > 0)
+                if (mikeBoundaryCondition.HasErrors)
                 {
                     Assert.AreEqual("", mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -125,6 +128,12 @@ namespace CSSPServices.Tests
                 mikeBoundaryCondition.MikeBoundaryConditionID = 0;
                 mikeBoundaryConditionService.Update(mikeBoundaryCondition);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionID), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                mikeBoundaryCondition = null;
+                mikeBoundaryCondition = GetFilledRandomMikeBoundaryCondition("");
+                mikeBoundaryCondition.MikeBoundaryConditionID = 10000000;
+                mikeBoundaryConditionService.Update(mikeBoundaryCondition);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeBoundaryCondition, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionID, mikeBoundaryCondition.MikeBoundaryConditionID.ToString()), mikeBoundaryCondition.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -403,6 +412,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // mikeBoundaryCondition.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // mikeBoundaryCondition.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -451,6 +467,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.WebTideDataSetText));
                 Assert.IsNotNull(mikeBoundaryConditionRet.TVTypeText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mikeBoundaryConditionRet.TVTypeText));
+                Assert.IsNotNull(mikeBoundaryConditionRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

@@ -37,14 +37,17 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             ContactOK contactOK = validationContext.ObjectInstance as ContactOK;
+            contactOK.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(contactOK.Error))
             {
+                contactOK.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactOKError), new[] { "Error" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactOK.Error) && contactOK.Error.Length > 255)
             {
+                contactOK.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactOKError, "255"), new[] { "Error" });
             }
 
@@ -52,6 +55,7 @@ namespace CSSPServices
 
             if (contactOK.ContactID < 1)
             {
+                contactOK.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactOKContactID, "1"), new[] { "ContactID" });
             }
 
@@ -59,12 +63,16 @@ namespace CSSPServices
 
             if (contactOK.ContactTVItemID < 1)
             {
+                contactOK.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactOKContactTVItemID, "1"), new[] { "ContactTVItemID" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                contactOK.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

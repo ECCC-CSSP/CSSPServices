@@ -60,6 +60,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "LastUpdateContactTVItemID") climateDataValue.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") climateDataValue.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "StorageDataTypeEnumText") climateDataValue.StorageDataTypeEnumText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") climateDataValue.HasErrors = true;
 
             return climateDataValue;
         }
@@ -91,20 +92,22 @@ namespace CSSPServices.Tests
 
                 count = climateDataValueService.GetRead().Count();
 
+                Assert.AreEqual(climateDataValueService.GetRead().Count(), climateDataValueService.GetEdit().Count());
+
                 climateDataValueService.Add(climateDataValue);
-                if (climateDataValue.ValidationResults.Count() > 0)
+                if (climateDataValue.HasErrors)
                 {
                     Assert.AreEqual("", climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, climateDataValueService.GetRead().Where(c => c == climateDataValue).Any());
                 climateDataValueService.Update(climateDataValue);
-                if (climateDataValue.ValidationResults.Count() > 0)
+                if (climateDataValue.HasErrors)
                 {
                     Assert.AreEqual("", climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, climateDataValueService.GetRead().Count());
                 climateDataValueService.Delete(climateDataValue);
-                if (climateDataValue.ValidationResults.Count() > 0)
+                if (climateDataValue.HasErrors)
                 {
                     Assert.AreEqual("", climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -128,6 +131,12 @@ namespace CSSPServices.Tests
                 climateDataValue.ClimateDataValueID = 0;
                 climateDataValueService.Update(climateDataValue);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueClimateDataValueID), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                climateDataValue = null;
+                climateDataValue = GetFilledRandomClimateDataValue("");
+                climateDataValue.ClimateDataValueID = 10000000;
+                climateDataValueService.Update(climateDataValue);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ClimateDataValue, ModelsRes.ClimateDataValueClimateDataValueID, climateDataValue.ClimateDataValueID.ToString()), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -464,6 +473,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // climateDataValue.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // climateDataValue.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -545,6 +561,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.LastUpdateContactTVText));
                 Assert.IsNotNull(climateDataValueRet.StorageDataTypeEnumText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(climateDataValueRet.StorageDataTypeEnumText));
+                Assert.IsNotNull(climateDataValueRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

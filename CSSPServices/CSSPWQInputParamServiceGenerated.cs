@@ -37,20 +37,24 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             CSSPWQInputParam cSSPWQInputParam = validationContext.ObjectInstance as CSSPWQInputParam;
+            cSSPWQInputParam.HasErrors = false;
 
             retStr = enums.CSSPWQInputTypeOK(cSSPWQInputParam.CSSPWQInputType);
             if (cSSPWQInputParam.CSSPWQInputType == CSSPWQInputTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                cSSPWQInputParam.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.CSSPWQInputParamCSSPWQInputType), new[] { "CSSPWQInputType" });
             }
 
             if (string.IsNullOrWhiteSpace(cSSPWQInputParam.Name))
             {
+                cSSPWQInputParam.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.CSSPWQInputParamName), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(cSSPWQInputParam.Name) && (cSSPWQInputParam.Name.Length < 1 || cSSPWQInputParam.Name.Length > 200))
             {
+                cSSPWQInputParam.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.CSSPWQInputParamName, "1", "200"), new[] { "Name" });
             }
 
@@ -58,17 +62,22 @@ namespace CSSPServices
 
             if (cSSPWQInputParam.TVItemID < 1)
             {
+                cSSPWQInputParam.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.CSSPWQInputParamTVItemID, "1"), new[] { "TVItemID" });
             }
 
             if (!string.IsNullOrWhiteSpace(cSSPWQInputParam.CSSPWQInputTypeText) && cSSPWQInputParam.CSSPWQInputTypeText.Length > 100)
             {
+                cSSPWQInputParam.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.CSSPWQInputParamCSSPWQInputTypeText, "100"), new[] { "CSSPWQInputTypeText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                cSSPWQInputParam.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

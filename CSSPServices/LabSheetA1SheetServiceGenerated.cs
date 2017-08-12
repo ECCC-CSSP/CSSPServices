@@ -37,9 +37,11 @@ namespace CSSPServices
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
             LabSheetA1Sheet labSheetA1Sheet = validationContext.ObjectInstance as LabSheetA1Sheet;
+            labSheetA1Sheet.HasErrors = false;
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Error))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetError), new[] { "Error" });
             }
 
@@ -49,29 +51,34 @@ namespace CSSPServices
 
             if (labSheetA1Sheet.Version < 1 || labSheetA1Sheet.Version > 100)
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LabSheetA1SheetVersion, "1", "100"), new[] { "Version" });
             }
 
             retStr = enums.SamplingPlanTypeOK(labSheetA1Sheet.SamplingPlanType);
             if (labSheetA1Sheet.SamplingPlanType == SamplingPlanTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetSamplingPlanType), new[] { "SamplingPlanType" });
             }
 
             retStr = enums.SampleTypeOK(labSheetA1Sheet.SampleType);
             if (labSheetA1Sheet.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetSampleType), new[] { "SampleType" });
             }
 
             retStr = enums.LabSheetTypeOK(labSheetA1Sheet.LabSheetType);
             if (labSheetA1Sheet.LabSheetType == LabSheetTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetLabSheetType), new[] { "LabSheetType" });
             }
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.SubsectorName))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetSubsectorName), new[] { "SubsectorName" });
             }
 
@@ -79,6 +86,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.SubsectorLocation))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetSubsectorLocation), new[] { "SubsectorLocation" });
             }
 
@@ -90,6 +98,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.RunYear))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetRunYear), new[] { "RunYear" });
             }
 
@@ -97,6 +106,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.RunMonth))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetRunMonth), new[] { "RunMonth" });
             }
 
@@ -104,6 +114,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.RunDay))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetRunDay), new[] { "RunDay" });
             }
 
@@ -115,6 +126,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Tides))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetTides), new[] { "Tides" });
             }
 
@@ -122,6 +134,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.SampleCrewInitials))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetSampleCrewInitials), new[] { "SampleCrewInitials" });
             }
 
@@ -129,6 +142,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.IncubationStartSameDay))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetIncubationStartSameDay), new[] { "IncubationStartSameDay" });
             }
 
@@ -140,6 +154,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.IncubationBath1StartTime))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetIncubationBath1StartTime), new[] { "IncubationBath1StartTime" });
             }
 
@@ -147,6 +162,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.IncubationBath2StartTime))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetIncubationBath2StartTime), new[] { "IncubationBath2StartTime" });
             }
 
@@ -154,6 +170,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.IncubationBath3StartTime))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetIncubationBath3StartTime), new[] { "IncubationBath3StartTime" });
             }
 
@@ -161,6 +178,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.IncubationBath1EndTime))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetIncubationBath1EndTime), new[] { "IncubationBath1EndTime" });
             }
 
@@ -168,6 +186,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.IncubationBath2EndTime))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetIncubationBath2EndTime), new[] { "IncubationBath2EndTime" });
             }
 
@@ -175,6 +194,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.IncubationBath3EndTime))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetIncubationBath3EndTime), new[] { "IncubationBath3EndTime" });
             }
 
@@ -182,6 +202,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.IncubationBath1TimeCalculated))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetIncubationBath1TimeCalculated), new[] { "IncubationBath1TimeCalculated" });
             }
 
@@ -189,6 +210,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.IncubationBath2TimeCalculated))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetIncubationBath2TimeCalculated), new[] { "IncubationBath2TimeCalculated" });
             }
 
@@ -196,6 +218,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.IncubationBath3TimeCalculated))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetIncubationBath3TimeCalculated), new[] { "IncubationBath3TimeCalculated" });
             }
 
@@ -203,6 +226,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.WaterBath1))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetWaterBath1), new[] { "WaterBath1" });
             }
 
@@ -210,6 +234,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.WaterBath2))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetWaterBath2), new[] { "WaterBath2" });
             }
 
@@ -217,6 +242,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.WaterBath3))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetWaterBath3), new[] { "WaterBath3" });
             }
 
@@ -224,6 +250,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.TCField1))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetTCField1), new[] { "TCField1" });
             }
 
@@ -231,6 +258,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.TCLab1))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetTCLab1), new[] { "TCLab1" });
             }
 
@@ -238,6 +266,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.TCHas2Coolers))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetTCHas2Coolers), new[] { "TCHas2Coolers" });
             }
 
@@ -245,6 +274,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.TCField2))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetTCField2), new[] { "TCField2" });
             }
 
@@ -252,6 +282,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.TCLab2))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetTCLab2), new[] { "TCLab2" });
             }
 
@@ -259,6 +290,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.TCFirst))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetTCFirst), new[] { "TCFirst" });
             }
 
@@ -266,6 +298,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.TCAverage))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetTCAverage), new[] { "TCAverage" });
             }
 
@@ -273,6 +306,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.ControlLot))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetControlLot), new[] { "ControlLot" });
             }
 
@@ -280,6 +314,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Positive35))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetPositive35), new[] { "Positive35" });
             }
 
@@ -287,6 +322,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.NonTarget35))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetNonTarget35), new[] { "NonTarget35" });
             }
 
@@ -294,6 +330,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Negative35))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetNegative35), new[] { "Negative35" });
             }
 
@@ -301,6 +338,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Bath1Positive44_5))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetBath1Positive44_5), new[] { "Bath1Positive44_5" });
             }
 
@@ -308,6 +346,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Bath2Positive44_5))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetBath2Positive44_5), new[] { "Bath2Positive44_5" });
             }
 
@@ -315,6 +354,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Bath3Positive44_5))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetBath3Positive44_5), new[] { "Bath3Positive44_5" });
             }
 
@@ -322,6 +362,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Bath1NonTarget44_5))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetBath1NonTarget44_5), new[] { "Bath1NonTarget44_5" });
             }
 
@@ -329,6 +370,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Bath2NonTarget44_5))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetBath2NonTarget44_5), new[] { "Bath2NonTarget44_5" });
             }
 
@@ -336,6 +378,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Bath3NonTarget44_5))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetBath3NonTarget44_5), new[] { "Bath3NonTarget44_5" });
             }
 
@@ -343,6 +386,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Bath1Negative44_5))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetBath1Negative44_5), new[] { "Bath1Negative44_5" });
             }
 
@@ -350,6 +394,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Bath2Negative44_5))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetBath2Negative44_5), new[] { "Bath2Negative44_5" });
             }
 
@@ -357,6 +402,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Bath3Negative44_5))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetBath3Negative44_5), new[] { "Bath3Negative44_5" });
             }
 
@@ -364,6 +410,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Blank35))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetBlank35), new[] { "Blank35" });
             }
 
@@ -371,6 +418,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Bath1Blank44_5))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetBath1Blank44_5), new[] { "Bath1Blank44_5" });
             }
 
@@ -378,6 +426,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Bath2Blank44_5))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetBath2Blank44_5), new[] { "Bath2Blank44_5" });
             }
 
@@ -385,6 +434,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Bath3Blank44_5))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetBath3Blank44_5), new[] { "Bath3Blank44_5" });
             }
 
@@ -392,6 +442,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Lot35))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetLot35), new[] { "Lot35" });
             }
 
@@ -399,6 +450,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Lot44_5))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetLot44_5), new[] { "Lot44_5" });
             }
 
@@ -406,6 +458,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.RunComment))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetRunComment), new[] { "RunComment" });
             }
 
@@ -413,6 +466,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.RunWeatherComment))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetRunWeatherComment), new[] { "RunWeatherComment" });
             }
 
@@ -420,6 +474,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.SampleBottleLotNumber))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetSampleBottleLotNumber), new[] { "SampleBottleLotNumber" });
             }
 
@@ -427,6 +482,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.SalinitiesReadBy))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetSalinitiesReadBy), new[] { "SalinitiesReadBy" });
             }
 
@@ -434,6 +490,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.SalinitiesReadYear))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetSalinitiesReadYear), new[] { "SalinitiesReadYear" });
             }
 
@@ -441,6 +498,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.SalinitiesReadMonth))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetSalinitiesReadMonth), new[] { "SalinitiesReadMonth" });
             }
 
@@ -448,6 +506,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.SalinitiesReadDay))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetSalinitiesReadDay), new[] { "SalinitiesReadDay" });
             }
 
@@ -455,6 +514,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.ResultsReadBy))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetResultsReadBy), new[] { "ResultsReadBy" });
             }
 
@@ -462,6 +522,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.ResultsReadYear))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetResultsReadYear), new[] { "ResultsReadYear" });
             }
 
@@ -469,6 +530,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.ResultsReadMonth))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetResultsReadMonth), new[] { "ResultsReadMonth" });
             }
 
@@ -476,6 +538,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.ResultsReadDay))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetResultsReadDay), new[] { "ResultsReadDay" });
             }
 
@@ -483,6 +546,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.ResultsRecordedBy))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetResultsRecordedBy), new[] { "ResultsRecordedBy" });
             }
 
@@ -490,6 +554,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.ResultsRecordedYear))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetResultsRecordedYear), new[] { "ResultsRecordedYear" });
             }
 
@@ -497,6 +562,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.ResultsRecordedMonth))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetResultsRecordedMonth), new[] { "ResultsRecordedMonth" });
             }
 
@@ -504,6 +570,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.ResultsRecordedDay))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetResultsRecordedDay), new[] { "ResultsRecordedDay" });
             }
 
@@ -511,6 +578,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.DailyDuplicateRLog))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetDailyDuplicateRLog), new[] { "DailyDuplicateRLog" });
             }
 
@@ -518,6 +586,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.DailyDuplicatePrecisionCriteria))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetDailyDuplicatePrecisionCriteria), new[] { "DailyDuplicatePrecisionCriteria" });
             }
 
@@ -525,6 +594,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.DailyDuplicateAcceptableOrUnacceptable))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetDailyDuplicateAcceptableOrUnacceptable), new[] { "DailyDuplicateAcceptableOrUnacceptable" });
             }
 
@@ -532,6 +602,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.IntertechDuplicateRLog))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetIntertechDuplicateRLog), new[] { "IntertechDuplicateRLog" });
             }
 
@@ -539,6 +610,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.IntertechDuplicatePrecisionCriteria))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetIntertechDuplicatePrecisionCriteria), new[] { "IntertechDuplicatePrecisionCriteria" });
             }
 
@@ -546,6 +618,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.IntertechDuplicateAcceptableOrUnacceptable))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetIntertechDuplicateAcceptableOrUnacceptable), new[] { "IntertechDuplicateAcceptableOrUnacceptable" });
             }
 
@@ -553,6 +626,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.IntertechReadAcceptableOrUnacceptable))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetIntertechReadAcceptableOrUnacceptable), new[] { "IntertechReadAcceptableOrUnacceptable" });
             }
 
@@ -560,6 +634,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.ApprovalYear))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetApprovalYear), new[] { "ApprovalYear" });
             }
 
@@ -567,6 +642,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.ApprovalMonth))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetApprovalMonth), new[] { "ApprovalMonth" });
             }
 
@@ -574,6 +650,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.ApprovalDay))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetApprovalDay), new[] { "ApprovalDay" });
             }
 
@@ -581,6 +658,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.ApprovedBySupervisorInitials))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetApprovedBySupervisorInitials), new[] { "ApprovedBySupervisorInitials" });
             }
 
@@ -590,6 +668,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(labSheetA1Sheet.Log))
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1SheetLog), new[] { "Log" });
             }
 
@@ -597,22 +676,28 @@ namespace CSSPServices
 
             if (!string.IsNullOrWhiteSpace(labSheetA1Sheet.SamplingPlanTypeText) && labSheetA1Sheet.SamplingPlanTypeText.Length > 100)
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetA1SheetSamplingPlanTypeText, "100"), new[] { "SamplingPlanTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheetA1Sheet.SampleTypeText) && labSheetA1Sheet.SampleTypeText.Length > 100)
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetA1SheetSampleTypeText, "100"), new[] { "SampleTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(labSheetA1Sheet.LabSheetTypeText) && labSheetA1Sheet.LabSheetTypeText.Length > 100)
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetA1SheetLabSheetTypeText, "100"), new[] { "LabSheetTypeText" });
             }
+
+            //HasErrors (bool) is required but no testing needed 
 
             retStr = ""; // added to stop compiling error
             if (retStr != "") // will never be true
             {
+                labSheetA1Sheet.HasErrors = true;
                 yield return new ValidationResult("AAA", new[] { "AAA" });
             }
 

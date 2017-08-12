@@ -94,6 +94,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "SampleStatusText") mwqmRun.SampleStatusText = GetRandomString("", 5);
             if (OmitPropName != "Tide_StartText") mwqmRun.Tide_StartText = GetRandomString("", 5);
             if (OmitPropName != "Tide_EndText") mwqmRun.Tide_EndText = GetRandomString("", 5);
+            if (OmitPropName != "HasErrors") mwqmRun.HasErrors = true;
 
             return mwqmRun;
         }
@@ -125,20 +126,22 @@ namespace CSSPServices.Tests
 
                 count = mwqmRunService.GetRead().Count();
 
+                Assert.AreEqual(mwqmRunService.GetRead().Count(), mwqmRunService.GetEdit().Count());
+
                 mwqmRunService.Add(mwqmRun);
-                if (mwqmRun.ValidationResults.Count() > 0)
+                if (mwqmRun.HasErrors)
                 {
                     Assert.AreEqual("", mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(true, mwqmRunService.GetRead().Where(c => c == mwqmRun).Any());
                 mwqmRunService.Update(mwqmRun);
-                if (mwqmRun.ValidationResults.Count() > 0)
+                if (mwqmRun.HasErrors)
                 {
                     Assert.AreEqual("", mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
                 Assert.AreEqual(count + 1, mwqmRunService.GetRead().Count());
                 mwqmRunService.Delete(mwqmRun);
-                if (mwqmRun.ValidationResults.Count() > 0)
+                if (mwqmRun.HasErrors)
                 {
                     Assert.AreEqual("", mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                 }
@@ -162,6 +165,12 @@ namespace CSSPServices.Tests
                 mwqmRun.MWQMRunID = 0;
                 mwqmRunService.Update(mwqmRun);
                 Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunMWQMRunID), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                mwqmRun = null;
+                mwqmRun = GetFilledRandomMWQMRun("");
+                mwqmRun.MWQMRunID = 10000000;
+                mwqmRunService.Update(mwqmRun);
+                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMRun, ModelsRes.MWQMRunMWQMRunID, mwqmRun.MWQMRunID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                 // -----------------------------------
@@ -984,6 +993,13 @@ namespace CSSPServices.Tests
                 // -----------------------------------
                 // Is NOT Nullable
                 // [NotMapped]
+                // mwqmRun.HasErrors   (Boolean)
+                // -----------------------------------
+
+
+                // -----------------------------------
+                // Is NOT Nullable
+                // [NotMapped]
                 // mwqmRun.ValidationResults   (IEnumerable`1)
                 // -----------------------------------
 
@@ -1179,6 +1195,7 @@ namespace CSSPServices.Tests
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.Tide_StartText));
                 Assert.IsNotNull(mwqmRunRet.Tide_EndText);
                 Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmRunRet.Tide_EndText));
+                Assert.IsNotNull(mwqmRunRet.HasErrors);
             }
         }
         #endregion Tests Get With Key
