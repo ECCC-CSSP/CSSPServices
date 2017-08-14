@@ -109,7 +109,7 @@ namespace CSSPServices
             {
                 if (mwqmSample.SampleDateTime_Local.Year < 1980)
                 {
-                    mwqmSample.HasErrors = true;
+                mwqmSample.HasErrors = true;
                     yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSampleSampleDateTime_Local, "1980"), new[] { "SampleDateTime_Local" });
                 }
             }

@@ -16,6 +16,10 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    /// >    Entity action on the Addresses DB Table
+    /// >   <c>[CSSPModels.Address] (../../../../CSSPModels/CSSPModels/_site/api/CSSPModels.Address.html)</c>
+    /// </summary>
     public partial class AddressService : BaseService
     {
         #region Variables
@@ -25,12 +29,6 @@ namespace CSSPServices
         #endregion Properties
 
         #region Constructors
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="LanguageRequest">Language requested from the DB</param>
-        /// <param name="db">Database context CSSPWebToolsDBContext</param>
-        /// <param name="ContactID">Contact ID of the user requesting the data from the DB</param>
         public AddressService(LanguageEnum LanguageRequest, CSSPWebToolsDBContext db, int ContactID)
             : base(LanguageRequest, db, ContactID)
         {
@@ -38,27 +36,6 @@ namespace CSSPServices
         #endregion Constructors
 
         #region Validation
-        /// <summary>
-        /// <para>CRUD validation function will return all invalid parameters with error message for the Address Type</para>
-        /// <para>It will also set the HasErrors field to true for later use</para>
-        /// </summary>
-        /// <param name="validationContext">Object of type Address to be validated</param>
-        /// <param name="actionDBType">ActionDBType sent with the Object for special purpose</param>
-        /// <returns>IEnumerable&lt;ValidationResult&gt;</returns>
-        /// <remarks>
-        /// <para>The validationContext is the object of type Address which need to be validated</para>
-        /// <para>The actionDBtype allowable</para>
-        /// <code>
-        ///     public enum ActionDBTypeEnum
-        ///     {
-        ///         Error = 0,
-        ///         Create = 1,
-        ///         Read = 2,
-        ///         Update = 3,
-        ///         Delete = 4
-        ///     }
-        /// </code>
-        /// </remarks>
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType)
         {
             string retStr = "";
@@ -328,11 +305,6 @@ namespace CSSPServices
         #endregion Validation
 
         #region Functions public Generated Get
-        /// <summary>
-        /// Get the Address item from the DB context with AddressID
-        /// </summary>
-        /// <param name="AddressID"></param>
-        /// <returns>Address</returns>
         public Address GetAddressWithAddressID(int AddressID)
         {
             IQueryable<Address> addressQuery = (from c in GetRead()
@@ -344,11 +316,6 @@ namespace CSSPServices
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD
-        /// <summary>
-        /// Add function for the Address type
-        /// </summary>
-        /// <param name="address"></param>
-        /// <returns></returns>
         public bool Add(Address address)
         {
             address.ValidationResults = Validate(new ValidationContext(address), ActionDBTypeEnum.Create);
@@ -360,11 +327,6 @@ namespace CSSPServices
 
             return true;
         }
-        /// <summary>
-        /// Delete function for the Address type
-        /// </summary>
-        /// <param name="address"></param>
-        /// <returns></returns>
         public bool Delete(Address address)
         {
             address.ValidationResults = Validate(new ValidationContext(address), ActionDBTypeEnum.Delete);
@@ -376,11 +338,6 @@ namespace CSSPServices
 
             return true;
         }
-        /// <summary>
-        /// Update function for the Address type
-        /// </summary>
-        /// <param name="address"></param>
-        /// <returns></returns>
         public bool Update(Address address)
         {
             address.ValidationResults = Validate(new ValidationContext(address), ActionDBTypeEnum.Update);
@@ -392,19 +349,10 @@ namespace CSSPServices
 
             return true;
         }
-        /// <summary>
-        /// IQueryable of all Address from DB Read only
-        /// </summary>
-        /// <returns>IQueryable&lt;Address&gt;</returns>
         public IQueryable<Address> GetRead()
         {
             return db.Addresses.AsNoTracking();
         }
-        /// <summary>
-        /// <para>IQueryable of all Address item from the DB for editing</para>
-        /// <para>no use of AsNoTracking()</para>
-        /// </summary>
-        /// <returns>IQueryable&lt;Address&gt;</returns>
         public IQueryable<Address> GetEdit()
         {
             return db.Addresses;
@@ -412,11 +360,6 @@ namespace CSSPServices
         #endregion Functions public Generated CRUD
 
         #region Functions private Generated Fill Class
-        /// <summary>
-        /// Fills the Address type with appropriate info
-        /// </summary>
-        /// <param name="addressQuery"></param>
-        /// <returns></returns>
         private List<Address> FillAddress(IQueryable<Address> addressQuery)
         {
             List<Address> AddressList = (from c in addressQuery
