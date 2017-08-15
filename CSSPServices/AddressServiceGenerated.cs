@@ -18,7 +18,7 @@ namespace CSSPServices
 {
     /// <summary>
     /// >    Entity action on the Addresses DB Table
-    /// >   <c>[CSSPModels.Address] (../../../../CSSPModels/CSSPModels/_site/api/CSSPModels.Address.html)</c>
+    /// >   <c>[CSSPModels.Address] (CSSPModels.Address.html)</c>
     /// </summary>
     public partial class AddressService : BaseService
     {
