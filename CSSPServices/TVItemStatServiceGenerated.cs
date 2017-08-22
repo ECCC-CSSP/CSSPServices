@@ -99,7 +99,7 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.TVTypeOK(tvItemStat.TVType);
+            retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvItemStat.TVType);
             if (tvItemStat.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemStat.HasErrors = true;
@@ -264,7 +264,7 @@ namespace CSSPServices
 
             foreach (TVItemStat tvItemStat in TVItemStatList)
             {
-                tvItemStat.TVTypeText = enums.GetEnumText_TVTypeEnum(tvItemStat.TVType);
+                tvItemStat.TVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)tvItemStat.TVType);
             }
 
             return TVItemStatList;

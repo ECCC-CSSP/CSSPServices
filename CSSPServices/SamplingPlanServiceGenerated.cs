@@ -80,21 +80,21 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanForGroupName, "100"), new[] { "ForGroupName" });
             }
 
-            retStr = enums.SampleTypeOK(samplingPlan.SampleType);
+            retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)samplingPlan.SampleType);
             if (samplingPlan.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 samplingPlan.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSampleType), new[] { "SampleType" });
             }
 
-            retStr = enums.SamplingPlanTypeOK(samplingPlan.SamplingPlanType);
+            retStr = enums.EnumTypeOK(typeof(SamplingPlanTypeEnum), (int?)samplingPlan.SamplingPlanType);
             if (samplingPlan.SamplingPlanType == SamplingPlanTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 samplingPlan.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanType), new[] { "SamplingPlanType" });
             }
 
-            retStr = enums.LabSheetTypeOK(samplingPlan.LabSheetType);
+            retStr = enums.EnumTypeOK(typeof(LabSheetTypeEnum), (int?)samplingPlan.LabSheetType);
             if (samplingPlan.LabSheetType == LabSheetTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 samplingPlan.HasErrors = true;
@@ -413,9 +413,9 @@ namespace CSSPServices
 
             foreach (SamplingPlan samplingPlan in SamplingPlanList)
             {
-                samplingPlan.SampleTypeText = enums.GetEnumText_SampleTypeEnum(samplingPlan.SampleType);
-                samplingPlan.SamplingPlanTypeText = enums.GetEnumText_SamplingPlanTypeEnum(samplingPlan.SamplingPlanType);
-                samplingPlan.LabSheetTypeText = enums.GetEnumText_LabSheetTypeEnum(samplingPlan.LabSheetType);
+                samplingPlan.SampleTypeText = enums.GetResValueForTypeAndID(typeof(SampleTypeEnum), (int?)samplingPlan.SampleType);
+                samplingPlan.SamplingPlanTypeText = enums.GetResValueForTypeAndID(typeof(SamplingPlanTypeEnum), (int?)samplingPlan.SamplingPlanType);
+                samplingPlan.LabSheetTypeText = enums.GetResValueForTypeAndID(typeof(LabSheetTypeEnum), (int?)samplingPlan.LabSheetType);
             }
 
             return SamplingPlanList;

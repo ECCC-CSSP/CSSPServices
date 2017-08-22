@@ -66,7 +66,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppTask, ModelsRes.AppTaskLanguageAppTaskID, appTaskLanguage.AppTaskID.ToString()), new[] { "AppTaskID" });
             }
 
-            retStr = enums.LanguageOK(appTaskLanguage.Language);
+            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)appTaskLanguage.Language);
             if (appTaskLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 appTaskLanguage.HasErrors = true;
@@ -85,7 +85,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageErrorText, "250"), new[] { "ErrorText" });
             }
 
-            retStr = enums.TranslationStatusOK(appTaskLanguage.TranslationStatus);
+            retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)appTaskLanguage.TranslationStatus);
             if (appTaskLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 appTaskLanguage.HasErrors = true;
@@ -239,8 +239,8 @@ namespace CSSPServices
 
             foreach (AppTaskLanguage appTaskLanguage in AppTaskLanguageList)
             {
-                appTaskLanguage.LanguageText = enums.GetEnumText_LanguageEnum(appTaskLanguage.Language);
-                appTaskLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(appTaskLanguage.TranslationStatus);
+                appTaskLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)appTaskLanguage.Language);
+                appTaskLanguage.TranslationStatusText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)appTaskLanguage.TranslationStatus);
             }
 
             return AppTaskLanguageList;

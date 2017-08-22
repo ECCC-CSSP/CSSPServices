@@ -123,14 +123,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionFormat, "100"), new[] { "MikeBoundaryConditionFormat" });
             }
 
-            retStr = enums.MikeBoundaryConditionLevelOrVelocityOK(mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity);
+            retStr = enums.EnumTypeOK(typeof(MikeBoundaryConditionLevelOrVelocityEnum), (int?)mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity);
             if (mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity == MikeBoundaryConditionLevelOrVelocityEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mikeBoundaryCondition.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeBoundaryConditionMikeBoundaryConditionLevelOrVelocity), new[] { "MikeBoundaryConditionLevelOrVelocity" });
             }
 
-            retStr = enums.WebTideDataSetOK(mikeBoundaryCondition.WebTideDataSet);
+            retStr = enums.EnumTypeOK(typeof(WebTideDataSetEnum), (int?)mikeBoundaryCondition.WebTideDataSet);
             if (mikeBoundaryCondition.WebTideDataSet == WebTideDataSetEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mikeBoundaryCondition.HasErrors = true;
@@ -153,7 +153,7 @@ namespace CSSPServices
 
             //WebTideDataFromStartToEndDate has no StringLength Attribute
 
-            retStr = enums.TVTypeOK(mikeBoundaryCondition.TVType);
+            retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)mikeBoundaryCondition.TVType);
             if (mikeBoundaryCondition.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mikeBoundaryCondition.HasErrors = true;
@@ -329,9 +329,9 @@ namespace CSSPServices
 
             foreach (MikeBoundaryCondition mikeBoundaryCondition in MikeBoundaryConditionList)
             {
-                mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText = enums.GetEnumText_MikeBoundaryConditionLevelOrVelocityEnum(mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity);
-                mikeBoundaryCondition.WebTideDataSetText = enums.GetEnumText_WebTideDataSetEnum(mikeBoundaryCondition.WebTideDataSet);
-                mikeBoundaryCondition.TVTypeText = enums.GetEnumText_TVTypeEnum(mikeBoundaryCondition.TVType);
+                mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocityText = enums.GetResValueForTypeAndID(typeof(MikeBoundaryConditionLevelOrVelocityEnum), (int?)mikeBoundaryCondition.MikeBoundaryConditionLevelOrVelocity);
+                mikeBoundaryCondition.WebTideDataSetText = enums.GetResValueForTypeAndID(typeof(WebTideDataSetEnum), (int?)mikeBoundaryCondition.WebTideDataSet);
+                mikeBoundaryCondition.TVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)mikeBoundaryCondition.TVType);
             }
 
             return MikeBoundaryConditionList;

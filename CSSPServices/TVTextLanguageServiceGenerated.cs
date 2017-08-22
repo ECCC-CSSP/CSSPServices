@@ -47,7 +47,7 @@ namespace CSSPServices
 
             //TVText has no StringLength Attribute
 
-            retStr = enums.LanguageOK(tvTextLanguage.Language);
+            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)tvTextLanguage.Language);
             if (tvTextLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvTextLanguage.HasErrors = true;

@@ -66,7 +66,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModel, ModelsRes.BoxModelResultBoxModelID, boxModelResult.BoxModelID.ToString()), new[] { "BoxModelID" });
             }
 
-            retStr = enums.BoxModelResultTypeOK(boxModelResult.BoxModelResultType);
+            retStr = enums.EnumTypeOK(typeof(BoxModelResultTypeEnum), (int?)boxModelResult.BoxModelResultType);
             if (boxModelResult.BoxModelResultType == BoxModelResultTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 boxModelResult.HasErrors = true;
@@ -316,7 +316,7 @@ namespace CSSPServices
 
             foreach (BoxModelResult boxModelResult in BoxModelResultList)
             {
-                boxModelResult.BoxModelResultTypeText = enums.GetEnumText_BoxModelResultTypeEnum(boxModelResult.BoxModelResultType);
+                boxModelResult.BoxModelResultTypeText = enums.GetResValueForTypeAndID(typeof(BoxModelResultTypeEnum), (int?)boxModelResult.BoxModelResultType);
             }
 
             return BoxModelResultList;

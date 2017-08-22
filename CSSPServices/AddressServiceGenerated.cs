@@ -16,10 +16,6 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
-    /// <summary>
-    /// >    Entity action on the Addresses DB Table
-    /// >   <c>[CSSPModels.Address] (CSSPModels.Address.html)</c>
-    /// </summary>
     public partial class AddressService : BaseService
     {
         #region Variables
@@ -82,7 +78,7 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.AddressTypeOK(address.AddressType);
+            retStr = enums.EnumTypeOK(typeof(AddressTypeEnum), (int?)address.AddressType);
             if (address.AddressType == AddressTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 address.HasErrors = true;
@@ -169,7 +165,7 @@ namespace CSSPServices
 
             if (address.StreetType != null)
             {
-                retStr = enums.StreetTypeOK(address.StreetType);
+                retStr = enums.EnumTypeOK(typeof(StreetTypeEnum), (int?)address.StreetType);
                 if (address.StreetType == StreetTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     address.HasErrors = true;
@@ -414,8 +410,8 @@ namespace CSSPServices
 
             foreach (Address address in AddressList)
             {
-                address.AddressTypeText = enums.GetEnumText_AddressTypeEnum(address.AddressType);
-                address.StreetTypeText = enums.GetEnumText_StreetTypeEnum(address.StreetType);
+                address.AddressTypeText = enums.GetResValueForTypeAndID(typeof(AddressTypeEnum), (int?)address.AddressType);
+                address.StreetTypeText = enums.GetResValueForTypeAndID(typeof(StreetTypeEnum), (int?)address.StreetType);
             }
 
             return AddressList;

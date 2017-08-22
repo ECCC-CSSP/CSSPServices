@@ -79,7 +79,7 @@ namespace CSSPServices
 
             if (labSheetA1Measurement.SampleType != null)
             {
-                retStr = enums.SampleTypeOK(labSheetA1Measurement.SampleType);
+                retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)labSheetA1Measurement.SampleType);
                 if (labSheetA1Measurement.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     labSheetA1Measurement.HasErrors = true;

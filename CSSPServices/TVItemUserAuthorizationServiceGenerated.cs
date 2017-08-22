@@ -253,7 +253,7 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.TVAuthOK(tvItemUserAuthorization.TVAuth);
+            retStr = enums.EnumTypeOK(typeof(TVAuthEnum), (int?)tvItemUserAuthorization.TVAuth);
             if (tvItemUserAuthorization.TVAuth == TVAuthEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemUserAuthorization.HasErrors = true;
@@ -457,7 +457,7 @@ namespace CSSPServices
 
             foreach (TVItemUserAuthorization tvItemUserAuthorization in TVItemUserAuthorizationList)
             {
-                tvItemUserAuthorization.TVAuthText = enums.GetEnumText_TVAuthEnum(tvItemUserAuthorization.TVAuth);
+                tvItemUserAuthorization.TVAuthText = enums.GetResValueForTypeAndID(typeof(TVAuthEnum), (int?)tvItemUserAuthorization.TVAuth);
             }
 
             return TVItemUserAuthorizationList;

@@ -56,14 +56,14 @@ namespace CSSPServices
 
             //DocTemplateID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            retStr = enums.LanguageOK(docTemplate.Language);
+            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)docTemplate.Language);
             if (docTemplate.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 docTemplate.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateLanguage), new[] { "Language" });
             }
 
-            retStr = enums.TVTypeOK(docTemplate.TVType);
+            retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)docTemplate.TVType);
             if (docTemplate.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 docTemplate.HasErrors = true;
@@ -250,8 +250,8 @@ namespace CSSPServices
 
             foreach (DocTemplate docTemplate in DocTemplateList)
             {
-                docTemplate.LanguageText = enums.GetEnumText_LanguageEnum(docTemplate.Language);
-                docTemplate.TVTypeText = enums.GetEnumText_TVTypeEnum(docTemplate.TVType);
+                docTemplate.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)docTemplate.Language);
+                docTemplate.TVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)docTemplate.TVType);
             }
 
             return DocTemplateList;

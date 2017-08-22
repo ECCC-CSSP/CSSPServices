@@ -101,7 +101,7 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.ScenarioStatusOK(mikeScenario.ScenarioStatus);
+            retStr = enums.EnumTypeOK(typeof(ScenarioStatusEnum), (int?)mikeScenario.ScenarioStatus);
             if (mikeScenario.ScenarioStatus == ScenarioStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mikeScenario.HasErrors = true;
@@ -463,7 +463,7 @@ namespace CSSPServices
 
             foreach (MikeScenario mikeScenario in MikeScenarioList)
             {
-                mikeScenario.ScenarioStatusText = enums.GetEnumText_ScenarioStatusEnum(mikeScenario.ScenarioStatus);
+                mikeScenario.ScenarioStatusText = enums.GetResValueForTypeAndID(typeof(ScenarioStatusEnum), (int?)mikeScenario.ScenarioStatus);
             }
 
             return MikeScenarioList;

@@ -66,7 +66,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSample, ModelsRes.MWQMSampleLanguageMWQMSampleID, mwqmSampleLanguage.MWQMSampleID.ToString()), new[] { "MWQMSampleID" });
             }
 
-            retStr = enums.LanguageOK(mwqmSampleLanguage.Language);
+            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)mwqmSampleLanguage.Language);
             if (mwqmSampleLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmSampleLanguage.HasErrors = true;
@@ -81,7 +81,7 @@ namespace CSSPServices
 
             //MWQMSampleNote has no StringLength Attribute
 
-            retStr = enums.TranslationStatusOK(mwqmSampleLanguage.TranslationStatus);
+            retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)mwqmSampleLanguage.TranslationStatus);
             if (mwqmSampleLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmSampleLanguage.HasErrors = true;
@@ -234,8 +234,8 @@ namespace CSSPServices
 
             foreach (MWQMSampleLanguage mwqmSampleLanguage in MWQMSampleLanguageList)
             {
-                mwqmSampleLanguage.LanguageText = enums.GetEnumText_LanguageEnum(mwqmSampleLanguage.Language);
-                mwqmSampleLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(mwqmSampleLanguage.TranslationStatus);
+                mwqmSampleLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)mwqmSampleLanguage.Language);
+                mwqmSampleLanguage.TranslationStatusText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)mwqmSampleLanguage.TranslationStatus);
             }
 
             return MWQMSampleLanguageList;

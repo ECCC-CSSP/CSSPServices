@@ -170,7 +170,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleSampleTypesText, "50"), new[] { "SampleTypesText" });
             }
 
-            retStr = enums.SampleTypeOK(mwqmSample.SampleType_old);
+            retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)mwqmSample.SampleType_old);
             if (mwqmSample.SampleType_old == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmSample.HasErrors = true;
@@ -382,7 +382,7 @@ namespace CSSPServices
 
             foreach (MWQMSample mwqmSample in MWQMSampleList)
             {
-                mwqmSample.SampleType_oldText = enums.GetEnumText_SampleTypeEnum(mwqmSample.SampleType_old);
+                mwqmSample.SampleType_oldText = enums.GetResValueForTypeAndID(typeof(SampleTypeEnum), (int?)mwqmSample.SampleType_old);
             }
 
             return MWQMSampleList;

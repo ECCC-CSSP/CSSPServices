@@ -100,7 +100,7 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.EmailTypeOK(email.EmailType);
+            retStr = enums.EnumTypeOK(typeof(EmailTypeEnum), (int?)email.EmailType);
             if (email.EmailType == EmailTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 email.HasErrors = true;
@@ -257,7 +257,7 @@ namespace CSSPServices
 
             foreach (Email email in EmailList)
             {
-                email.EmailTypeText = enums.GetEnumText_EmailTypeEnum(email.EmailType);
+                email.EmailTypeText = enums.GetResValueForTypeAndID(typeof(EmailTypeEnum), (int?)email.EmailType);
             }
 
             return EmailList;

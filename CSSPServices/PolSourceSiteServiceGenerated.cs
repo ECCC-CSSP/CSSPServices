@@ -115,7 +115,7 @@ namespace CSSPServices
 
             if (polSourceSite.InactiveReason != null)
             {
-                retStr = enums.PolSourceInactiveReasonOK(polSourceSite.InactiveReason);
+                retStr = enums.EnumTypeOK(typeof(PolSourceInactiveReasonEnum), (int?)polSourceSite.InactiveReason);
                 if (polSourceSite.InactiveReason == PolSourceInactiveReasonEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     polSourceSite.HasErrors = true;
@@ -301,7 +301,7 @@ namespace CSSPServices
 
             foreach (PolSourceSite polSourceSite in PolSourceSiteList)
             {
-                polSourceSite.InactiveReasonText = enums.GetEnumText_PolSourceInactiveReasonEnum(polSourceSite.InactiveReason);
+                polSourceSite.InactiveReasonText = enums.GetResValueForTypeAndID(typeof(PolSourceInactiveReasonEnum), (int?)polSourceSite.InactiveReason);
             }
 
             return PolSourceSiteList;

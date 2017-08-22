@@ -90,7 +90,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelNumber, "50"), new[] { "TelNumber" });
             }
 
-            retStr = enums.TelTypeOK(tel.TelType);
+            retStr = enums.EnumTypeOK(typeof(TelTypeEnum), (int?)tel.TelType);
             if (tel.TelType == TelTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tel.HasErrors = true;
@@ -247,7 +247,7 @@ namespace CSSPServices
 
             foreach (Tel tel in TelList)
             {
-                tel.TelTypeText = enums.GetEnumText_TelTypeEnum(tel.TelType);
+                tel.TelTypeText = enums.GetResValueForTypeAndID(typeof(TelTypeEnum), (int?)tel.TelType);
             }
 
             return TelList;

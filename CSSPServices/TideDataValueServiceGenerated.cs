@@ -94,14 +94,14 @@ namespace CSSPServices
 
             //Keep (bool) is required but no testing needed 
 
-            retStr = enums.TideDataTypeOK(tideDataValue.TideDataType);
+            retStr = enums.EnumTypeOK(typeof(TideDataTypeEnum), (int?)tideDataValue.TideDataType);
             if (tideDataValue.TideDataType == TideDataTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tideDataValue.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueTideDataType), new[] { "TideDataType" });
             }
 
-            retStr = enums.StorageDataTypeOK(tideDataValue.StorageDataType);
+            retStr = enums.EnumTypeOK(typeof(StorageDataTypeEnum), (int?)tideDataValue.StorageDataType);
             if (tideDataValue.StorageDataType == StorageDataTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tideDataValue.HasErrors = true;
@@ -134,7 +134,7 @@ namespace CSSPServices
 
             if (tideDataValue.TideStart != null)
             {
-                retStr = enums.TideTextOK(tideDataValue.TideStart);
+                retStr = enums.EnumTypeOK(typeof(TideTextEnum), (int?)tideDataValue.TideStart);
                 if (tideDataValue.TideStart == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     tideDataValue.HasErrors = true;
@@ -144,7 +144,7 @@ namespace CSSPServices
 
             if (tideDataValue.TideEnd != null)
             {
-                retStr = enums.TideTextOK(tideDataValue.TideEnd);
+                retStr = enums.EnumTypeOK(typeof(TideTextEnum), (int?)tideDataValue.TideEnd);
                 if (tideDataValue.TideEnd == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     tideDataValue.HasErrors = true;
@@ -327,10 +327,10 @@ namespace CSSPServices
 
             foreach (TideDataValue tideDataValue in TideDataValueList)
             {
-                tideDataValue.TideDataTypeText = enums.GetEnumText_TideDataTypeEnum(tideDataValue.TideDataType);
-                tideDataValue.StorageDataTypeText = enums.GetEnumText_StorageDataTypeEnum(tideDataValue.StorageDataType);
-                tideDataValue.TideStartText = enums.GetEnumText_TideTextEnum(tideDataValue.TideStart);
-                tideDataValue.TideEndText = enums.GetEnumText_TideTextEnum(tideDataValue.TideEnd);
+                tideDataValue.TideDataTypeText = enums.GetResValueForTypeAndID(typeof(TideDataTypeEnum), (int?)tideDataValue.TideDataType);
+                tideDataValue.StorageDataTypeText = enums.GetResValueForTypeAndID(typeof(StorageDataTypeEnum), (int?)tideDataValue.StorageDataType);
+                tideDataValue.TideStartText = enums.GetResValueForTypeAndID(typeof(TideTextEnum), (int?)tideDataValue.TideStart);
+                tideDataValue.TideEndText = enums.GetResValueForTypeAndID(typeof(TideTextEnum), (int?)tideDataValue.TideEnd);
             }
 
             return TideDataValueList;

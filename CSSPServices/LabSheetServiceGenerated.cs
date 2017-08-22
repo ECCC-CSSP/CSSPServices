@@ -163,28 +163,28 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.SamplingPlanTypeOK(labSheet.SamplingPlanType);
+            retStr = enums.EnumTypeOK(typeof(SamplingPlanTypeEnum), (int?)labSheet.SamplingPlanType);
             if (labSheet.SamplingPlanType == SamplingPlanTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetSamplingPlanType), new[] { "SamplingPlanType" });
             }
 
-            retStr = enums.SampleTypeOK(labSheet.SampleType);
+            retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)labSheet.SampleType);
             if (labSheet.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetSampleType), new[] { "SampleType" });
             }
 
-            retStr = enums.LabSheetTypeOK(labSheet.LabSheetType);
+            retStr = enums.EnumTypeOK(typeof(LabSheetTypeEnum), (int?)labSheet.LabSheetType);
             if (labSheet.LabSheetType == LabSheetTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheet.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetLabSheetType), new[] { "LabSheetType" });
             }
 
-            retStr = enums.LabSheetStatusOK(labSheet.LabSheetStatus);
+            retStr = enums.EnumTypeOK(typeof(LabSheetStatusEnum), (int?)labSheet.LabSheetStatus);
             if (labSheet.LabSheetStatus == LabSheetStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheet.HasErrors = true;
@@ -466,10 +466,10 @@ namespace CSSPServices
 
             foreach (LabSheet labSheet in LabSheetList)
             {
-                labSheet.SamplingPlanTypeText = enums.GetEnumText_SamplingPlanTypeEnum(labSheet.SamplingPlanType);
-                labSheet.SampleTypeText = enums.GetEnumText_SampleTypeEnum(labSheet.SampleType);
-                labSheet.LabSheetTypeText = enums.GetEnumText_LabSheetTypeEnum(labSheet.LabSheetType);
-                labSheet.LabSheetStatusText = enums.GetEnumText_LabSheetStatusEnum(labSheet.LabSheetStatus);
+                labSheet.SamplingPlanTypeText = enums.GetResValueForTypeAndID(typeof(SamplingPlanTypeEnum), (int?)labSheet.SamplingPlanType);
+                labSheet.SampleTypeText = enums.GetResValueForTypeAndID(typeof(SampleTypeEnum), (int?)labSheet.SampleType);
+                labSheet.LabSheetTypeText = enums.GetResValueForTypeAndID(typeof(LabSheetTypeEnum), (int?)labSheet.LabSheetType);
+                labSheet.LabSheetStatusText = enums.GetResValueForTypeAndID(typeof(LabSheetStatusEnum), (int?)labSheet.LabSheetStatus);
             }
 
             return LabSheetList;

@@ -137,7 +137,7 @@ namespace CSSPServicesGenerateCodeHelper
                     }
                     if (csspProp.HasCSSPEnumTypeTextAttribute)
                     {
-                        sb.AppendLine(@"                " + TypeNameLower + @"." + csspProp.PropName + @" = enums.GetEnumText_" + csspProp.EnumTypeName + @"(" + TypeNameLower + @"." + csspProp.EnumType + @");");
+                        sb.AppendLine(@"                " + TypeNameLower + @"." + csspProp.PropName + @" = enums.GetResValueForTypeAndID(typeof(" + csspProp.EnumTypeName + @"), (int?)" + TypeNameLower + @"." + csspProp.EnumType + @");");
                     }
                 }
                 sb.AppendLine(@"            }");
@@ -338,7 +338,7 @@ namespace CSSPServicesGenerateCodeHelper
                 {
                     sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" != null)");
                     sb.AppendLine(@"            {");
-                    sb.AppendLine(@"                retStr = enums." + csspProp.PropType.Replace("Enum", "") + @"OK(" + TypeNameLower + @"." + prop.Name + @");");
+                    sb.AppendLine(@"                retStr = enums.EnumTypeOK(typeof(" + csspProp.PropType + @"), (int?)" + TypeNameLower + @"." + prop.Name + @");");
                     sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" == " + csspProp.PropType + ".Error || !string.IsNullOrWhiteSpace(retStr))");
                     sb.AppendLine(@"                {");
                     sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
@@ -349,7 +349,7 @@ namespace CSSPServicesGenerateCodeHelper
                 }
                 else
                 {
-                    sb.AppendLine(@"            retStr = enums." + prop.PropertyType.Name.Replace("Enum", "") + @"OK(" + TypeNameLower + @"." + prop.Name + @");");
+                    sb.AppendLine(@"            retStr = enums.EnumTypeOK(typeof(" + csspProp.PropType + @"), (int?)" + TypeNameLower + @"." + prop.Name + @");");
                     sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" == " + prop.PropertyType.Name + @".Error || !string.IsNullOrWhiteSpace(retStr))");
                     sb.AppendLine(@"            {");
                     sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");

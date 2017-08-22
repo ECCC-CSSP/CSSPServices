@@ -66,7 +66,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPScenarioLanguageVPScenarioID, vpScenarioLanguage.VPScenarioID.ToString()), new[] { "VPScenarioID" });
             }
 
-            retStr = enums.LanguageOK(vpScenarioLanguage.Language);
+            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)vpScenarioLanguage.Language);
             if (vpScenarioLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 vpScenarioLanguage.HasErrors = true;
@@ -85,7 +85,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLanguageVPScenarioName, "100"), new[] { "VPScenarioName" });
             }
 
-            retStr = enums.TranslationStatusOK(vpScenarioLanguage.TranslationStatus);
+            retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)vpScenarioLanguage.TranslationStatus);
             if (vpScenarioLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 vpScenarioLanguage.HasErrors = true;
@@ -238,8 +238,8 @@ namespace CSSPServices
 
             foreach (VPScenarioLanguage vpScenarioLanguage in VPScenarioLanguageList)
             {
-                vpScenarioLanguage.LanguageText = enums.GetEnumText_LanguageEnum(vpScenarioLanguage.Language);
-                vpScenarioLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(vpScenarioLanguage.TranslationStatus);
+                vpScenarioLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)vpScenarioLanguage.Language);
+                vpScenarioLanguage.TranslationStatusText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)vpScenarioLanguage.TranslationStatus);
             }
 
             return VPScenarioLanguageList;

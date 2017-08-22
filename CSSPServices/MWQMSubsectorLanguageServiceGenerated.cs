@@ -66,7 +66,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSubsector, ModelsRes.MWQMSubsectorLanguageMWQMSubsectorID, mwqmSubsectorLanguage.MWQMSubsectorID.ToString()), new[] { "MWQMSubsectorID" });
             }
 
-            retStr = enums.LanguageOK(mwqmSubsectorLanguage.Language);
+            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)mwqmSubsectorLanguage.Language);
             if (mwqmSubsectorLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmSubsectorLanguage.HasErrors = true;
@@ -85,7 +85,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLanguageSubsectorDesc, "250"), new[] { "SubsectorDesc" });
             }
 
-            retStr = enums.TranslationStatusOK(mwqmSubsectorLanguage.TranslationStatus);
+            retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)mwqmSubsectorLanguage.TranslationStatus);
             if (mwqmSubsectorLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmSubsectorLanguage.HasErrors = true;
@@ -238,8 +238,8 @@ namespace CSSPServices
 
             foreach (MWQMSubsectorLanguage mwqmSubsectorLanguage in MWQMSubsectorLanguageList)
             {
-                mwqmSubsectorLanguage.LanguageText = enums.GetEnumText_LanguageEnum(mwqmSubsectorLanguage.Language);
-                mwqmSubsectorLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(mwqmSubsectorLanguage.TranslationStatus);
+                mwqmSubsectorLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)mwqmSubsectorLanguage.Language);
+                mwqmSubsectorLanguage.TranslationStatusText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)mwqmSubsectorLanguage.TranslationStatus);
             }
 
             return MWQMSubsectorLanguageList;

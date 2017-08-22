@@ -66,7 +66,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModel, ModelsRes.BoxModelLanguageBoxModelID, boxModelLanguage.BoxModelID.ToString()), new[] { "BoxModelID" });
             }
 
-            retStr = enums.LanguageOK(boxModelLanguage.Language);
+            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)boxModelLanguage.Language);
             if (boxModelLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 boxModelLanguage.HasErrors = true;
@@ -85,7 +85,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLanguageScenarioName, "250"), new[] { "ScenarioName" });
             }
 
-            retStr = enums.TranslationStatusOK(boxModelLanguage.TranslationStatus);
+            retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)boxModelLanguage.TranslationStatus);
             if (boxModelLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 boxModelLanguage.HasErrors = true;
@@ -238,8 +238,8 @@ namespace CSSPServices
 
             foreach (BoxModelLanguage boxModelLanguage in BoxModelLanguageList)
             {
-                boxModelLanguage.LanguageText = enums.GetEnumText_LanguageEnum(boxModelLanguage.Language);
-                boxModelLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(boxModelLanguage.TranslationStatus);
+                boxModelLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)boxModelLanguage.Language);
+                boxModelLanguage.TranslationStatusText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)boxModelLanguage.TranslationStatus);
             }
 
             return BoxModelLanguageList;

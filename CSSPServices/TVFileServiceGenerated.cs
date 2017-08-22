@@ -78,28 +78,28 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.TVTypeOK(tvFile.TemplateTVType);
+            retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvFile.TemplateTVType);
             if (tvFile.TemplateTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTemplateTVType), new[] { "TemplateTVType" });
             }
 
-            retStr = enums.LanguageOK(tvFile.Language);
+            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)tvFile.Language);
             if (tvFile.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguage), new[] { "Language" });
             }
 
-            retStr = enums.FilePurposeOK(tvFile.FilePurpose);
+            retStr = enums.EnumTypeOK(typeof(FilePurposeEnum), (int?)tvFile.FilePurpose);
             if (tvFile.FilePurpose == FilePurposeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFile.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFilePurpose), new[] { "FilePurpose" });
             }
 
-            retStr = enums.FileTypeOK(tvFile.FileType);
+            retStr = enums.EnumTypeOK(typeof(FileTypeEnum), (int?)tvFile.FileType);
             if (tvFile.FileType == FileTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFile.HasErrors = true;
@@ -337,10 +337,10 @@ namespace CSSPServices
 
             foreach (TVFile tvFile in TVFileList)
             {
-                tvFile.TemplateTVTypeText = enums.GetEnumText_TVTypeEnum(tvFile.TemplateTVType);
-                tvFile.LanguageText = enums.GetEnumText_LanguageEnum(tvFile.Language);
-                tvFile.FilePurposeText = enums.GetEnumText_FilePurposeEnum(tvFile.FilePurpose);
-                tvFile.FileTypeText = enums.GetEnumText_FileTypeEnum(tvFile.FileType);
+                tvFile.TemplateTVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)tvFile.TemplateTVType);
+                tvFile.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)tvFile.Language);
+                tvFile.FilePurposeText = enums.GetResValueForTypeAndID(typeof(FilePurposeEnum), (int?)tvFile.FilePurpose);
+                tvFile.FileTypeText = enums.GetResValueForTypeAndID(typeof(FileTypeEnum), (int?)tvFile.FileType);
             }
 
             return TVFileList;

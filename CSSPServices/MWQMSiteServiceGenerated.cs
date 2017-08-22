@@ -102,7 +102,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteDescription, "200"), new[] { "MWQMSiteDescription" });
             }
 
-            retStr = enums.MWQMSiteLatestClassificationOK(mwqmSite.MWQMSiteLatestClassification);
+            retStr = enums.EnumTypeOK(typeof(MWQMSiteLatestClassificationEnum), (int?)mwqmSite.MWQMSiteLatestClassification);
             if (mwqmSite.MWQMSiteLatestClassification == MWQMSiteLatestClassificationEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmSite.HasErrors = true;
@@ -269,7 +269,7 @@ namespace CSSPServices
 
             foreach (MWQMSite mwqmSite in MWQMSiteList)
             {
-                mwqmSite.MWQMSiteLatestClassificationText = enums.GetEnumText_MWQMSiteLatestClassificationEnum(mwqmSite.MWQMSiteLatestClassification);
+                mwqmSite.MWQMSiteLatestClassificationText = enums.GetResValueForTypeAndID(typeof(MWQMSiteLatestClassificationEnum), (int?)mwqmSite.MWQMSiteLatestClassification);
             }
 
             return MWQMSiteList;

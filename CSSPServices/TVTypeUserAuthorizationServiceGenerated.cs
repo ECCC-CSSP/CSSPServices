@@ -78,14 +78,14 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.TVTypeOK(tvTypeUserAuthorization.TVType);
+            retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvTypeUserAuthorization.TVType);
             if (tvTypeUserAuthorization.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvTypeUserAuthorization.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVType), new[] { "TVType" });
             }
 
-            retStr = enums.TVAuthOK(tvTypeUserAuthorization.TVAuth);
+            retStr = enums.EnumTypeOK(typeof(TVAuthEnum), (int?)tvTypeUserAuthorization.TVAuth);
             if (tvTypeUserAuthorization.TVAuth == TVAuthEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvTypeUserAuthorization.HasErrors = true;
@@ -248,8 +248,8 @@ namespace CSSPServices
 
             foreach (TVTypeUserAuthorization tvTypeUserAuthorization in TVTypeUserAuthorizationList)
             {
-                tvTypeUserAuthorization.TVTypeText = enums.GetEnumText_TVTypeEnum(tvTypeUserAuthorization.TVType);
-                tvTypeUserAuthorization.TVAuthText = enums.GetEnumText_TVAuthEnum(tvTypeUserAuthorization.TVAuth);
+                tvTypeUserAuthorization.TVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)tvTypeUserAuthorization.TVType);
+                tvTypeUserAuthorization.TVAuthText = enums.GetResValueForTypeAndID(typeof(TVAuthEnum), (int?)tvTypeUserAuthorization.TVAuth);
             }
 
             return TVTypeUserAuthorizationList;

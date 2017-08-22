@@ -162,7 +162,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetTubeMPNDetailProcessedBy, "10"), new[] { "ProcessedBy" });
             }
 
-            retStr = enums.SampleTypeOK(labSheetTubeMPNDetail.SampleType);
+            retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)labSheetTubeMPNDetail.SampleType);
             if (labSheetTubeMPNDetail.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 labSheetTubeMPNDetail.HasErrors = true;
@@ -335,7 +335,7 @@ namespace CSSPServices
 
             foreach (LabSheetTubeMPNDetail labSheetTubeMPNDetail in LabSheetTubeMPNDetailList)
             {
-                labSheetTubeMPNDetail.SampleTypeText = enums.GetEnumText_SampleTypeEnum(labSheetTubeMPNDetail.SampleType);
+                labSheetTubeMPNDetail.SampleTypeText = enums.GetResValueForTypeAndID(typeof(SampleTypeEnum), (int?)labSheetTubeMPNDetail.SampleType);
             }
 
             return LabSheetTubeMPNDetailList;

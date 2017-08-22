@@ -82,7 +82,7 @@ namespace CSSPServices
 
             //Keep (bool) is required but no testing needed 
 
-            retStr = enums.StorageDataTypeOK(hydrometricDataValue.StorageDataType);
+            retStr = enums.EnumTypeOK(typeof(StorageDataTypeEnum), (int?)hydrometricDataValue.StorageDataType);
             if (hydrometricDataValue.StorageDataType == StorageDataTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 hydrometricDataValue.HasErrors = true;
@@ -241,7 +241,7 @@ namespace CSSPServices
 
             foreach (HydrometricDataValue hydrometricDataValue in HydrometricDataValueList)
             {
-                hydrometricDataValue.StorageDataTypeText = enums.GetEnumText_StorageDataTypeEnum(hydrometricDataValue.StorageDataType);
+                hydrometricDataValue.StorageDataTypeText = enums.GetResValueForTypeAndID(typeof(StorageDataTypeEnum), (int?)hydrometricDataValue.StorageDataType);
             }
 
             return HydrometricDataValueList;

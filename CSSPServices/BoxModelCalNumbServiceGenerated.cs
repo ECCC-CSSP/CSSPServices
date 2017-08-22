@@ -51,7 +51,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelCalNumbError, "255"), new[] { "Error" });
             }
 
-            retStr = enums.BoxModelResultTypeOK(boxModelCalNumb.BoxModelResultType);
+            retStr = enums.EnumTypeOK(typeof(BoxModelResultTypeEnum), (int?)boxModelCalNumb.BoxModelResultType);
             if (boxModelCalNumb.BoxModelResultType == BoxModelResultTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 boxModelCalNumb.HasErrors = true;

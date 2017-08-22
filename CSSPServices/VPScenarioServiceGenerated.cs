@@ -78,7 +78,7 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.ScenarioStatusOK(vpScenario.VPScenarioStatus);
+            retStr = enums.EnumTypeOK(typeof(ScenarioStatusEnum), (int?)vpScenario.VPScenarioStatus);
             if (vpScenario.VPScenarioStatus == ScenarioStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 vpScenario.HasErrors = true;
@@ -375,7 +375,7 @@ namespace CSSPServices
 
             foreach (VPScenario vpScenario in VPScenarioList)
             {
-                vpScenario.VPScenarioStatusText = enums.GetEnumText_ScenarioStatusEnum(vpScenario.VPScenarioStatus);
+                vpScenario.VPScenarioStatusText = enums.GetResValueForTypeAndID(typeof(ScenarioStatusEnum), (int?)vpScenario.VPScenarioStatus);
             }
 
             return VPScenarioList;

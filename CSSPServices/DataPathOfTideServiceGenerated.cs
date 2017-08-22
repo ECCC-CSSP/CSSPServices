@@ -51,7 +51,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.DataPathOfTideText, "1", "200"), new[] { "Text" });
             }
 
-            retStr = enums.WebTideDataSetOK(dataPathOfTide.WebTideDataSet);
+            retStr = enums.EnumTypeOK(typeof(WebTideDataSetEnum), (int?)dataPathOfTide.WebTideDataSet);
             if (dataPathOfTide.WebTideDataSet == WebTideDataSetEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 dataPathOfTide.HasErrors = true;

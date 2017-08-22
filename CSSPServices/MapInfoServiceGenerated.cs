@@ -112,7 +112,7 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.TVTypeOK(mapInfo.TVType);
+            retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)mapInfo.TVType);
             if (mapInfo.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mapInfo.HasErrors = true;
@@ -151,7 +151,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMax, "-180", "180"), new[] { "LngMax" });
             }
 
-            retStr = enums.MapInfoDrawTypeOK(mapInfo.MapInfoDrawType);
+            retStr = enums.EnumTypeOK(typeof(MapInfoDrawTypeEnum), (int?)mapInfo.MapInfoDrawType);
             if (mapInfo.MapInfoDrawType == MapInfoDrawTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mapInfo.HasErrors = true;
@@ -318,8 +318,8 @@ namespace CSSPServices
 
             foreach (MapInfo mapInfo in MapInfoList)
             {
-                mapInfo.TVTypeText = enums.GetEnumText_TVTypeEnum(mapInfo.TVType);
-                mapInfo.MapInfoDrawTypeText = enums.GetEnumText_MapInfoDrawTypeEnum(mapInfo.MapInfoDrawType);
+                mapInfo.TVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)mapInfo.TVType);
+                mapInfo.MapInfoDrawTypeText = enums.GetResValueForTypeAndID(typeof(MapInfoDrawTypeEnum), (int?)mapInfo.MapInfoDrawType);
             }
 
             return MapInfoList;

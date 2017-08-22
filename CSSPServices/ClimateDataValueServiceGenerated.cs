@@ -82,7 +82,7 @@ namespace CSSPServices
 
             //Keep (bool) is required but no testing needed 
 
-            retStr = enums.StorageDataTypeOK(climateDataValue.StorageDataType);
+            retStr = enums.EnumTypeOK(typeof(StorageDataTypeEnum), (int?)climateDataValue.StorageDataType);
             if (climateDataValue.StorageDataType == StorageDataTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 climateDataValue.HasErrors = true;
@@ -342,7 +342,7 @@ namespace CSSPServices
 
             foreach (ClimateDataValue climateDataValue in ClimateDataValueList)
             {
-                climateDataValue.StorageDataTypeEnumText = enums.GetEnumText_StorageDataTypeEnum(climateDataValue.StorageDataType);
+                climateDataValue.StorageDataTypeEnumText = enums.GetResValueForTypeAndID(typeof(StorageDataTypeEnum), (int?)climateDataValue.StorageDataType);
             }
 
             return ClimateDataValueList;

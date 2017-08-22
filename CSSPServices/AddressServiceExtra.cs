@@ -79,11 +79,11 @@ namespace CSSPServices
             Enums enums = new Enums(LanguageRequest);
             if (LanguageRequest == LanguageEnum.fr)
             {
-                address.AddressTVText = address.StreetNumber + " " + address.StreetName + ", " + MunicipalityTVText + "," + ProvinceTVText + "," + CountryTVText + ", " + enums.GetEnumText_StreetTypeEnum(address.StreetType) + "";
+                address.AddressTVText = address.StreetNumber + " " + address.StreetName + ", " + MunicipalityTVText + "," + ProvinceTVText + "," + CountryTVText + ", " + enums.GetResValueForTypeAndID(typeof(StreetTypeEnum), (int?)address.StreetType) + "";
             }
             else
             {
-                address.AddressTVText = address.StreetNumber + " " + address.StreetName + ", " + MunicipalityTVText + "," + ProvinceTVText + "," + CountryTVText + ", " + enums.GetEnumText_StreetTypeEnum(address.StreetType) + "";
+                address.AddressTVText = address.StreetNumber + " " + address.StreetName + ", " + MunicipalityTVText + "," + ProvinceTVText + "," + CountryTVText + ", " + enums.GetResValueForTypeAndID(typeof(StreetTypeEnum), (int?)address.StreetType) + "";
             }
         }
         #endregion Functions private

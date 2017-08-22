@@ -39,14 +39,14 @@ namespace CSSPServices
             PolSourceObsInfoChild polSourceObsInfoChild = validationContext.ObjectInstance as PolSourceObsInfoChild;
             polSourceObsInfoChild.HasErrors = false;
 
-            retStr = enums.PolSourceObsInfoOK(polSourceObsInfoChild.PolSourceObsInfo);
+            retStr = enums.EnumTypeOK(typeof(PolSourceObsInfoEnum), (int?)polSourceObsInfoChild.PolSourceObsInfo);
             if (polSourceObsInfoChild.PolSourceObsInfo == PolSourceObsInfoEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 polSourceObsInfoChild.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObsInfoChildPolSourceObsInfo), new[] { "PolSourceObsInfo" });
             }
 
-            retStr = enums.PolSourceObsInfoOK(polSourceObsInfoChild.PolSourceObsInfoChildStart);
+            retStr = enums.EnumTypeOK(typeof(PolSourceObsInfoEnum), (int?)polSourceObsInfoChild.PolSourceObsInfoChildStart);
             if (polSourceObsInfoChild.PolSourceObsInfoChildStart == PolSourceObsInfoEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 polSourceObsInfoChild.HasErrors = true;

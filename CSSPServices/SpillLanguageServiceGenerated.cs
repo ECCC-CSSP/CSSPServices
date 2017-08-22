@@ -66,7 +66,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Spill, ModelsRes.SpillLanguageSpillID, spillLanguage.SpillID.ToString()), new[] { "SpillID" });
             }
 
-            retStr = enums.LanguageOK(spillLanguage.Language);
+            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)spillLanguage.Language);
             if (spillLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 spillLanguage.HasErrors = true;
@@ -81,7 +81,7 @@ namespace CSSPServices
 
             //SpillComment has no StringLength Attribute
 
-            retStr = enums.TranslationStatusOK(spillLanguage.TranslationStatus);
+            retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)spillLanguage.TranslationStatus);
             if (spillLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 spillLanguage.HasErrors = true;
@@ -234,8 +234,8 @@ namespace CSSPServices
 
             foreach (SpillLanguage spillLanguage in SpillLanguageList)
             {
-                spillLanguage.LanguageText = enums.GetEnumText_LanguageEnum(spillLanguage.Language);
-                spillLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(spillLanguage.TranslationStatus);
+                spillLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)spillLanguage.Language);
+                spillLanguage.TranslationStatusText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)spillLanguage.TranslationStatus);
             }
 
             return SpillLanguageList;

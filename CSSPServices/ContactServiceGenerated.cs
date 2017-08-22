@@ -156,7 +156,7 @@ namespace CSSPServices
 
             if (contact.ContactTitle != null)
             {
-                retStr = enums.ContactTitleOK(contact.ContactTitle);
+                retStr = enums.EnumTypeOK(typeof(ContactTitleEnum), (int?)contact.ContactTitle);
                 if (contact.ContactTitle == ContactTitleEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     contact.HasErrors = true;
@@ -346,7 +346,7 @@ namespace CSSPServices
 
             foreach (Contact contact in ContactList)
             {
-                contact.ContactTitleText = enums.GetEnumText_ContactTitleEnum(contact.ContactTitle);
+                contact.ContactTitleText = enums.GetResValueForTypeAndID(typeof(ContactTitleEnum), (int?)contact.ContactTitle);
             }
 
             return ContactList;

@@ -100,7 +100,7 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.SampleTypeOK(mwqmRun.RunSampleType);
+            retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)mwqmRun.RunSampleType);
             if (mwqmRun.RunSampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmRun.HasErrors = true;
@@ -173,7 +173,7 @@ namespace CSSPServices
 
             if (mwqmRun.SeaStateAtStart_BeaufortScale != null)
             {
-                retStr = enums.BeaufortScaleOK(mwqmRun.SeaStateAtStart_BeaufortScale);
+                retStr = enums.EnumTypeOK(typeof(BeaufortScaleEnum), (int?)mwqmRun.SeaStateAtStart_BeaufortScale);
                 if (mwqmRun.SeaStateAtStart_BeaufortScale == BeaufortScaleEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
@@ -183,7 +183,7 @@ namespace CSSPServices
 
             if (mwqmRun.SeaStateAtEnd_BeaufortScale != null)
             {
-                retStr = enums.BeaufortScaleOK(mwqmRun.SeaStateAtEnd_BeaufortScale);
+                retStr = enums.EnumTypeOK(typeof(BeaufortScaleEnum), (int?)mwqmRun.SeaStateAtEnd_BeaufortScale);
                 if (mwqmRun.SeaStateAtEnd_BeaufortScale == BeaufortScaleEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
@@ -226,7 +226,7 @@ namespace CSSPServices
 
             if (mwqmRun.AnalyzeMethod != null)
             {
-                retStr = enums.AnalyzeMethodOK(mwqmRun.AnalyzeMethod);
+                retStr = enums.EnumTypeOK(typeof(AnalyzeMethodEnum), (int?)mwqmRun.AnalyzeMethod);
                 if (mwqmRun.AnalyzeMethod == AnalyzeMethodEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
@@ -236,7 +236,7 @@ namespace CSSPServices
 
             if (mwqmRun.SampleMatrix != null)
             {
-                retStr = enums.SampleMatrixOK(mwqmRun.SampleMatrix);
+                retStr = enums.EnumTypeOK(typeof(SampleMatrixEnum), (int?)mwqmRun.SampleMatrix);
                 if (mwqmRun.SampleMatrix == SampleMatrixEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
@@ -246,7 +246,7 @@ namespace CSSPServices
 
             if (mwqmRun.Laboratory != null)
             {
-                retStr = enums.LaboratoryOK(mwqmRun.Laboratory);
+                retStr = enums.EnumTypeOK(typeof(LaboratoryEnum), (int?)mwqmRun.Laboratory);
                 if (mwqmRun.Laboratory == LaboratoryEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
@@ -256,7 +256,7 @@ namespace CSSPServices
 
             if (mwqmRun.SampleStatus != null)
             {
-                retStr = enums.SampleStatusOK(mwqmRun.SampleStatus);
+                retStr = enums.EnumTypeOK(typeof(SampleStatusEnum), (int?)mwqmRun.SampleStatus);
                 if (mwqmRun.SampleStatus == SampleStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
@@ -313,7 +313,7 @@ namespace CSSPServices
 
             if (mwqmRun.Tide_Start != null)
             {
-                retStr = enums.TideTextOK(mwqmRun.Tide_Start);
+                retStr = enums.EnumTypeOK(typeof(TideTextEnum), (int?)mwqmRun.Tide_Start);
                 if (mwqmRun.Tide_Start == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
@@ -323,7 +323,7 @@ namespace CSSPServices
 
             if (mwqmRun.Tide_End != null)
             {
-                retStr = enums.TideTextOK(mwqmRun.Tide_End);
+                retStr = enums.EnumTypeOK(typeof(TideTextEnum), (int?)mwqmRun.Tide_End);
                 if (mwqmRun.Tide_End == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
@@ -686,15 +686,15 @@ namespace CSSPServices
 
             foreach (MWQMRun mwqmRun in MWQMRunList)
             {
-                mwqmRun.RunSampleTypeText = enums.GetEnumText_SampleTypeEnum(mwqmRun.RunSampleType);
-                mwqmRun.SeaStateAtStart_BeaufortScaleText = enums.GetEnumText_BeaufortScaleEnum(mwqmRun.SeaStateAtStart_BeaufortScale);
-                mwqmRun.SeaStateAtEnd_BeaufortScaleText = enums.GetEnumText_BeaufortScaleEnum(mwqmRun.SeaStateAtEnd_BeaufortScale);
-                mwqmRun.AnalyzeMethodText = enums.GetEnumText_AnalyzeMethodEnum(mwqmRun.AnalyzeMethod);
-                mwqmRun.SampleMatrixText = enums.GetEnumText_SampleMatrixEnum(mwqmRun.SampleMatrix);
-                mwqmRun.LaboratoryText = enums.GetEnumText_LaboratoryEnum(mwqmRun.Laboratory);
-                mwqmRun.SampleStatusText = enums.GetEnumText_SampleStatusEnum(mwqmRun.SampleStatus);
-                mwqmRun.Tide_StartText = enums.GetEnumText_TideTextEnum(mwqmRun.Tide_Start);
-                mwqmRun.Tide_EndText = enums.GetEnumText_TideTextEnum(mwqmRun.Tide_End);
+                mwqmRun.RunSampleTypeText = enums.GetResValueForTypeAndID(typeof(SampleTypeEnum), (int?)mwqmRun.RunSampleType);
+                mwqmRun.SeaStateAtStart_BeaufortScaleText = enums.GetResValueForTypeAndID(typeof(BeaufortScaleEnum), (int?)mwqmRun.SeaStateAtStart_BeaufortScale);
+                mwqmRun.SeaStateAtEnd_BeaufortScaleText = enums.GetResValueForTypeAndID(typeof(BeaufortScaleEnum), (int?)mwqmRun.SeaStateAtEnd_BeaufortScale);
+                mwqmRun.AnalyzeMethodText = enums.GetResValueForTypeAndID(typeof(AnalyzeMethodEnum), (int?)mwqmRun.AnalyzeMethod);
+                mwqmRun.SampleMatrixText = enums.GetResValueForTypeAndID(typeof(SampleMatrixEnum), (int?)mwqmRun.SampleMatrix);
+                mwqmRun.LaboratoryText = enums.GetResValueForTypeAndID(typeof(LaboratoryEnum), (int?)mwqmRun.Laboratory);
+                mwqmRun.SampleStatusText = enums.GetResValueForTypeAndID(typeof(SampleStatusEnum), (int?)mwqmRun.SampleStatus);
+                mwqmRun.Tide_StartText = enums.GetResValueForTypeAndID(typeof(TideTextEnum), (int?)mwqmRun.Tide_Start);
+                mwqmRun.Tide_EndText = enums.GetResValueForTypeAndID(typeof(TideTextEnum), (int?)mwqmRun.Tide_End);
             }
 
             return MWQMRunList;

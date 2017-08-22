@@ -39,7 +39,7 @@ namespace CSSPServices
             CSSPWQInputParam cSSPWQInputParam = validationContext.ObjectInstance as CSSPWQInputParam;
             cSSPWQInputParam.HasErrors = false;
 
-            retStr = enums.CSSPWQInputTypeOK(cSSPWQInputParam.CSSPWQInputType);
+            retStr = enums.EnumTypeOK(typeof(CSSPWQInputTypeEnum), (int?)cSSPWQInputParam.CSSPWQInputType);
             if (cSSPWQInputParam.CSSPWQInputType == CSSPWQInputTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 cSSPWQInputParam.HasErrors = true;

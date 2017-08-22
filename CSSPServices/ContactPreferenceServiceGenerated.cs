@@ -66,7 +66,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactPreferenceContactID, contactPreference.ContactID.ToString()), new[] { "ContactID" });
             }
 
-            retStr = enums.TVTypeOK(contactPreference.TVType);
+            retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)contactPreference.TVType);
             if (contactPreference.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 contactPreference.HasErrors = true;
@@ -220,7 +220,7 @@ namespace CSSPServices
 
             foreach (ContactPreference contactPreference in ContactPreferenceList)
             {
-                contactPreference.TVTypeText = enums.GetEnumText_TVTypeEnum(contactPreference.TVType);
+                contactPreference.TVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)contactPreference.TVType);
             }
 
             return ContactPreferenceList;

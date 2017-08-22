@@ -99,7 +99,7 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.LanguageOK(tvItemLanguage.Language);
+            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)tvItemLanguage.Language);
             if (tvItemLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemLanguage.HasErrors = true;
@@ -118,7 +118,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLanguageTVText, "200"), new[] { "TVText" });
             }
 
-            retStr = enums.TranslationStatusOK(tvItemLanguage.TranslationStatus);
+            retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)tvItemLanguage.TranslationStatus);
             if (tvItemLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemLanguage.HasErrors = true;
@@ -271,8 +271,8 @@ namespace CSSPServices
 
             foreach (TVItemLanguage tvItemLanguage in TVItemLanguageList)
             {
-                tvItemLanguage.LanguageText = enums.GetEnumText_LanguageEnum(tvItemLanguage.Language);
-                tvItemLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(tvItemLanguage.TranslationStatus);
+                tvItemLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)tvItemLanguage.Language);
+                tvItemLanguage.TranslationStatusText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)tvItemLanguage.TranslationStatus);
             }
 
             return TVItemLanguageList;

@@ -102,7 +102,7 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.SiteTypeOK(useOfSite.SiteType);
+            retStr = enums.EnumTypeOK(typeof(SiteTypeEnum), (int?)useOfSite.SiteType);
             if (useOfSite.SiteType == SiteTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 useOfSite.HasErrors = true;
@@ -350,7 +350,7 @@ namespace CSSPServices
 
             foreach (UseOfSite useOfSite in UseOfSiteList)
             {
-                useOfSite.SiteTypeText = enums.GetEnumText_SiteTypeEnum(useOfSite.SiteType);
+                useOfSite.SiteTypeText = enums.GetResValueForTypeAndID(typeof(SiteTypeEnum), (int?)useOfSite.SiteType);
             }
 
             return UseOfSiteList;

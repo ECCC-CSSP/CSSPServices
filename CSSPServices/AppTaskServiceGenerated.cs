@@ -144,14 +144,14 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.AppTaskCommandOK(appTask.AppTaskCommand);
+            retStr = enums.EnumTypeOK(typeof(AppTaskCommandEnum), (int?)appTask.AppTaskCommand);
             if (appTask.AppTaskCommand == AppTaskCommandEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 appTask.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskCommand), new[] { "AppTaskCommand" });
             }
 
-            retStr = enums.AppTaskStatusOK(appTask.AppTaskStatus);
+            retStr = enums.EnumTypeOK(typeof(AppTaskStatusEnum), (int?)appTask.AppTaskStatus);
             if (appTask.AppTaskStatus == AppTaskStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 appTask.HasErrors = true;
@@ -174,7 +174,7 @@ namespace CSSPServices
 
             //Parameters has no StringLength Attribute
 
-            retStr = enums.LanguageOK(appTask.Language);
+            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)appTask.Language);
             if (appTask.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 appTask.HasErrors = true;
@@ -406,9 +406,9 @@ namespace CSSPServices
 
             foreach (AppTask appTask in AppTaskList)
             {
-                appTask.AppTaskCommandText = enums.GetEnumText_AppTaskCommandEnum(appTask.AppTaskCommand);
-                appTask.AppTaskStatusText = enums.GetEnumText_AppTaskStatusEnum(appTask.AppTaskStatus);
-                appTask.LanguageText = enums.GetEnumText_LanguageEnum(appTask.Language);
+                appTask.AppTaskCommandText = enums.GetResValueForTypeAndID(typeof(AppTaskCommandEnum), (int?)appTask.AppTaskCommand);
+                appTask.AppTaskStatusText = enums.GetResValueForTypeAndID(typeof(AppTaskStatusEnum), (int?)appTask.AppTaskStatus);
+                appTask.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)appTask.Language);
             }
 
             return AppTaskList;

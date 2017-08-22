@@ -142,14 +142,14 @@ namespace CSSPServices
                 }
             }
 
-            retStr = enums.TVTypeOK(tvItemLink.FromTVType);
+            retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvItemLink.FromTVType);
             if (tvItemLink.FromTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemLink.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLinkFromTVType), new[] { "FromTVType" });
             }
 
-            retStr = enums.TVTypeOK(tvItemLink.ToTVType);
+            retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvItemLink.ToTVType);
             if (tvItemLink.ToTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemLink.HasErrors = true;
@@ -387,8 +387,8 @@ namespace CSSPServices
 
             foreach (TVItemLink tvItemLink in TVItemLinkList)
             {
-                tvItemLink.FromTVTypeText = enums.GetEnumText_TVTypeEnum(tvItemLink.FromTVType);
-                tvItemLink.ToTVTypeText = enums.GetEnumText_TVTypeEnum(tvItemLink.ToTVType);
+                tvItemLink.FromTVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)tvItemLink.FromTVType);
+                tvItemLink.ToTVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)tvItemLink.ToTVType);
             }
 
             return TVItemLinkList;

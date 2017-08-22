@@ -67,14 +67,14 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVLocationTVText, "1", "255"), new[] { "TVText" });
             }
 
-            retStr = enums.TVTypeOK(tvLocation.TVType);
+            retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvLocation.TVType);
             if (tvLocation.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvLocation.HasErrors = true;
                 yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationTVType), new[] { "TVType" });
             }
 
-            retStr = enums.TVTypeOK(tvLocation.SubTVType);
+            retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvLocation.SubTVType);
             if (tvLocation.SubTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvLocation.HasErrors = true;

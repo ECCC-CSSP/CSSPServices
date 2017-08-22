@@ -85,7 +85,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemTVPath, "250"), new[] { "TVPath" });
             }
 
-            retStr = enums.TVTypeOK(tvItem.TVType);
+            retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvItem.TVType);
             if (tvItem.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItem.HasErrors = true;
@@ -295,7 +295,7 @@ namespace CSSPServices
 
             foreach (TVItem tvItem in TVItemList)
             {
-                tvItem.TVTypeText = enums.GetEnumText_TVTypeEnum(tvItem.TVType);
+                tvItem.TVTypeText = enums.GetResValueForTypeAndID(typeof(TVTypeEnum), (int?)tvItem.TVType);
             }
 
             return TVItemList;

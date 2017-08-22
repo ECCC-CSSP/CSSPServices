@@ -66,7 +66,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMRun, ModelsRes.MWQMRunLanguageMWQMRunID, mwqmRunLanguage.MWQMRunID.ToString()), new[] { "MWQMRunID" });
             }
 
-            retStr = enums.LanguageOK(mwqmRunLanguage.Language);
+            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)mwqmRunLanguage.Language);
             if (mwqmRunLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmRunLanguage.HasErrors = true;
@@ -81,7 +81,7 @@ namespace CSSPServices
 
             //RunComment has no StringLength Attribute
 
-            retStr = enums.TranslationStatusOK(mwqmRunLanguage.TranslationStatusRunComment);
+            retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)mwqmRunLanguage.TranslationStatusRunComment);
             if (mwqmRunLanguage.TranslationStatusRunComment == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmRunLanguage.HasErrors = true;
@@ -96,7 +96,7 @@ namespace CSSPServices
 
             //RunWeatherComment has no StringLength Attribute
 
-            retStr = enums.TranslationStatusOK(mwqmRunLanguage.TranslationStatusRunWeatherComment);
+            retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)mwqmRunLanguage.TranslationStatusRunWeatherComment);
             if (mwqmRunLanguage.TranslationStatusRunWeatherComment == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmRunLanguage.HasErrors = true;
@@ -257,9 +257,9 @@ namespace CSSPServices
 
             foreach (MWQMRunLanguage mwqmRunLanguage in MWQMRunLanguageList)
             {
-                mwqmRunLanguage.LanguageText = enums.GetEnumText_LanguageEnum(mwqmRunLanguage.Language);
-                mwqmRunLanguage.TranslationStatusRunCommentText = enums.GetEnumText_TranslationStatusEnum(mwqmRunLanguage.TranslationStatusRunComment);
-                mwqmRunLanguage.TranslationStatusRunWeatherCommentText = enums.GetEnumText_TranslationStatusEnum(mwqmRunLanguage.TranslationStatusRunWeatherComment);
+                mwqmRunLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)mwqmRunLanguage.Language);
+                mwqmRunLanguage.TranslationStatusRunCommentText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)mwqmRunLanguage.TranslationStatusRunComment);
+                mwqmRunLanguage.TranslationStatusRunWeatherCommentText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)mwqmRunLanguage.TranslationStatusRunWeatherComment);
             }
 
             return MWQMRunLanguageList;

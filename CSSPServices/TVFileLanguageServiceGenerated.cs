@@ -66,7 +66,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVFile, ModelsRes.TVFileLanguageTVFileID, tvFileLanguage.TVFileID.ToString()), new[] { "TVFileID" });
             }
 
-            retStr = enums.LanguageOK(tvFileLanguage.Language);
+            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)tvFileLanguage.Language);
             if (tvFileLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFileLanguage.HasErrors = true;
@@ -75,7 +75,7 @@ namespace CSSPServices
 
             //FileDescription has no StringLength Attribute
 
-            retStr = enums.TranslationStatusOK(tvFileLanguage.TranslationStatus);
+            retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)tvFileLanguage.TranslationStatus);
             if (tvFileLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFileLanguage.HasErrors = true;
@@ -228,8 +228,8 @@ namespace CSSPServices
 
             foreach (TVFileLanguage tvFileLanguage in TVFileLanguageList)
             {
-                tvFileLanguage.LanguageText = enums.GetEnumText_LanguageEnum(tvFileLanguage.Language);
-                tvFileLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(tvFileLanguage.TranslationStatus);
+                tvFileLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)tvFileLanguage.Language);
+                tvFileLanguage.TranslationStatusText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)tvFileLanguage.TranslationStatus);
             }
 
             return TVFileLanguageList;

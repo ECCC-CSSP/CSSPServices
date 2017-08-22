@@ -66,7 +66,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Infrastructure, ModelsRes.InfrastructureLanguageInfrastructureID, infrastructureLanguage.InfrastructureID.ToString()), new[] { "InfrastructureID" });
             }
 
-            retStr = enums.LanguageOK(infrastructureLanguage.Language);
+            retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)infrastructureLanguage.Language);
             if (infrastructureLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 infrastructureLanguage.HasErrors = true;
@@ -81,7 +81,7 @@ namespace CSSPServices
 
             //Comment has no StringLength Attribute
 
-            retStr = enums.TranslationStatusOK(infrastructureLanguage.TranslationStatus);
+            retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)infrastructureLanguage.TranslationStatus);
             if (infrastructureLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 infrastructureLanguage.HasErrors = true;
@@ -234,8 +234,8 @@ namespace CSSPServices
 
             foreach (InfrastructureLanguage infrastructureLanguage in InfrastructureLanguageList)
             {
-                infrastructureLanguage.LanguageText = enums.GetEnumText_LanguageEnum(infrastructureLanguage.Language);
-                infrastructureLanguage.TranslationStatusText = enums.GetEnumText_TranslationStatusEnum(infrastructureLanguage.TranslationStatus);
+                infrastructureLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)infrastructureLanguage.Language);
+                infrastructureLanguage.TranslationStatusText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)infrastructureLanguage.TranslationStatus);
             }
 
             return InfrastructureLanguageList;

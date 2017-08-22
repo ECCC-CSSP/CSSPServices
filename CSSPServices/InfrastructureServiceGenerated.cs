@@ -131,7 +131,7 @@ namespace CSSPServices
 
             if (infrastructure.InfrastructureType != null)
             {
-                retStr = enums.InfrastructureTypeOK(infrastructure.InfrastructureType);
+                retStr = enums.EnumTypeOK(typeof(InfrastructureTypeEnum), (int?)infrastructure.InfrastructureType);
                 if (infrastructure.InfrastructureType == InfrastructureTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
@@ -141,7 +141,7 @@ namespace CSSPServices
 
             if (infrastructure.FacilityType != null)
             {
-                retStr = enums.FacilityTypeOK(infrastructure.FacilityType);
+                retStr = enums.EnumTypeOK(typeof(FacilityTypeEnum), (int?)infrastructure.FacilityType);
                 if (infrastructure.FacilityType == FacilityTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
@@ -169,7 +169,7 @@ namespace CSSPServices
 
             if (infrastructure.AerationType != null)
             {
-                retStr = enums.AerationTypeOK(infrastructure.AerationType);
+                retStr = enums.EnumTypeOK(typeof(AerationTypeEnum), (int?)infrastructure.AerationType);
                 if (infrastructure.AerationType == AerationTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
@@ -179,7 +179,7 @@ namespace CSSPServices
 
             if (infrastructure.PreliminaryTreatmentType != null)
             {
-                retStr = enums.PreliminaryTreatmentTypeOK(infrastructure.PreliminaryTreatmentType);
+                retStr = enums.EnumTypeOK(typeof(PreliminaryTreatmentTypeEnum), (int?)infrastructure.PreliminaryTreatmentType);
                 if (infrastructure.PreliminaryTreatmentType == PreliminaryTreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
@@ -189,7 +189,7 @@ namespace CSSPServices
 
             if (infrastructure.PrimaryTreatmentType != null)
             {
-                retStr = enums.PrimaryTreatmentTypeOK(infrastructure.PrimaryTreatmentType);
+                retStr = enums.EnumTypeOK(typeof(PrimaryTreatmentTypeEnum), (int?)infrastructure.PrimaryTreatmentType);
                 if (infrastructure.PrimaryTreatmentType == PrimaryTreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
@@ -199,7 +199,7 @@ namespace CSSPServices
 
             if (infrastructure.SecondaryTreatmentType != null)
             {
-                retStr = enums.SecondaryTreatmentTypeOK(infrastructure.SecondaryTreatmentType);
+                retStr = enums.EnumTypeOK(typeof(SecondaryTreatmentTypeEnum), (int?)infrastructure.SecondaryTreatmentType);
                 if (infrastructure.SecondaryTreatmentType == SecondaryTreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
@@ -209,7 +209,7 @@ namespace CSSPServices
 
             if (infrastructure.TertiaryTreatmentType != null)
             {
-                retStr = enums.TertiaryTreatmentTypeOK(infrastructure.TertiaryTreatmentType);
+                retStr = enums.EnumTypeOK(typeof(TertiaryTreatmentTypeEnum), (int?)infrastructure.TertiaryTreatmentType);
                 if (infrastructure.TertiaryTreatmentType == TertiaryTreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
@@ -219,7 +219,7 @@ namespace CSSPServices
 
             if (infrastructure.TreatmentType != null)
             {
-                retStr = enums.TreatmentTypeOK(infrastructure.TreatmentType);
+                retStr = enums.EnumTypeOK(typeof(TreatmentTypeEnum), (int?)infrastructure.TreatmentType);
                 if (infrastructure.TreatmentType == TreatmentTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
@@ -229,7 +229,7 @@ namespace CSSPServices
 
             if (infrastructure.DisinfectionType != null)
             {
-                retStr = enums.DisinfectionTypeOK(infrastructure.DisinfectionType);
+                retStr = enums.EnumTypeOK(typeof(DisinfectionTypeEnum), (int?)infrastructure.DisinfectionType);
                 if (infrastructure.DisinfectionType == DisinfectionTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
@@ -239,7 +239,7 @@ namespace CSSPServices
 
             if (infrastructure.CollectionSystemType != null)
             {
-                retStr = enums.CollectionSystemTypeOK(infrastructure.CollectionSystemType);
+                retStr = enums.EnumTypeOK(typeof(CollectionSystemTypeEnum), (int?)infrastructure.CollectionSystemType);
                 if (infrastructure.CollectionSystemType == CollectionSystemTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
@@ -249,7 +249,7 @@ namespace CSSPServices
 
             if (infrastructure.AlarmSystemType != null)
             {
-                retStr = enums.AlarmSystemTypeOK(infrastructure.AlarmSystemType);
+                retStr = enums.EnumTypeOK(typeof(AlarmSystemTypeEnum), (int?)infrastructure.AlarmSystemType);
                 if (infrastructure.AlarmSystemType == AlarmSystemTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     infrastructure.HasErrors = true;
@@ -759,17 +759,17 @@ namespace CSSPServices
 
             foreach (Infrastructure infrastructure in InfrastructureList)
             {
-                infrastructure.InfrastructureTypeText = enums.GetEnumText_InfrastructureTypeEnum(infrastructure.InfrastructureType);
-                infrastructure.FacilityTypeText = enums.GetEnumText_FacilityTypeEnum(infrastructure.FacilityType);
-                infrastructure.AerationTypeText = enums.GetEnumText_AerationTypeEnum(infrastructure.AerationType);
-                infrastructure.PreliminaryTreatmentTypeText = enums.GetEnumText_PreliminaryTreatmentTypeEnum(infrastructure.PreliminaryTreatmentType);
-                infrastructure.PrimaryTreatmentTypeText = enums.GetEnumText_PrimaryTreatmentTypeEnum(infrastructure.PrimaryTreatmentType);
-                infrastructure.SecondaryTreatmentTypeText = enums.GetEnumText_SecondaryTreatmentTypeEnum(infrastructure.SecondaryTreatmentType);
-                infrastructure.TertiaryTreatmentTypeText = enums.GetEnumText_TertiaryTreatmentTypeEnum(infrastructure.TertiaryTreatmentType);
-                infrastructure.TreatmentTypeText = enums.GetEnumText_TreatmentTypeEnum(infrastructure.TreatmentType);
-                infrastructure.DisinfectionTypeText = enums.GetEnumText_DisinfectionTypeEnum(infrastructure.DisinfectionType);
-                infrastructure.CollectionSystemTypeText = enums.GetEnumText_CollectionSystemTypeEnum(infrastructure.CollectionSystemType);
-                infrastructure.AlarmSystemTypeText = enums.GetEnumText_AlarmSystemTypeEnum(infrastructure.AlarmSystemType);
+                infrastructure.InfrastructureTypeText = enums.GetResValueForTypeAndID(typeof(InfrastructureTypeEnum), (int?)infrastructure.InfrastructureType);
+                infrastructure.FacilityTypeText = enums.GetResValueForTypeAndID(typeof(FacilityTypeEnum), (int?)infrastructure.FacilityType);
+                infrastructure.AerationTypeText = enums.GetResValueForTypeAndID(typeof(AerationTypeEnum), (int?)infrastructure.AerationType);
+                infrastructure.PreliminaryTreatmentTypeText = enums.GetResValueForTypeAndID(typeof(PreliminaryTreatmentTypeEnum), (int?)infrastructure.PreliminaryTreatmentType);
+                infrastructure.PrimaryTreatmentTypeText = enums.GetResValueForTypeAndID(typeof(PrimaryTreatmentTypeEnum), (int?)infrastructure.PrimaryTreatmentType);
+                infrastructure.SecondaryTreatmentTypeText = enums.GetResValueForTypeAndID(typeof(SecondaryTreatmentTypeEnum), (int?)infrastructure.SecondaryTreatmentType);
+                infrastructure.TertiaryTreatmentTypeText = enums.GetResValueForTypeAndID(typeof(TertiaryTreatmentTypeEnum), (int?)infrastructure.TertiaryTreatmentType);
+                infrastructure.TreatmentTypeText = enums.GetResValueForTypeAndID(typeof(TreatmentTypeEnum), (int?)infrastructure.TreatmentType);
+                infrastructure.DisinfectionTypeText = enums.GetResValueForTypeAndID(typeof(DisinfectionTypeEnum), (int?)infrastructure.DisinfectionType);
+                infrastructure.CollectionSystemTypeText = enums.GetResValueForTypeAndID(typeof(CollectionSystemTypeEnum), (int?)infrastructure.CollectionSystemType);
+                infrastructure.AlarmSystemTypeText = enums.GetResValueForTypeAndID(typeof(AlarmSystemTypeEnum), (int?)infrastructure.AlarmSystemType);
             }
 
             return InfrastructureList;

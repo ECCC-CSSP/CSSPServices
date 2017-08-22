@@ -76,7 +76,7 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LogID, "1"), new[] { "ID" });
             }
 
-            retStr = enums.LogCommandOK(log.LogCommand);
+            retStr = enums.EnumTypeOK(typeof(LogCommandEnum), (int?)log.LogCommand);
             if (log.LogCommand == LogCommandEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 log.HasErrors = true;
@@ -231,7 +231,7 @@ namespace CSSPServices
 
             foreach (Log log in LogList)
             {
-                log.LogCommandText = enums.GetEnumText_LogCommandEnum(log.LogCommand);
+                log.LogCommandText = enums.GetResValueForTypeAndID(typeof(LogCommandEnum), (int?)log.LogCommand);
             }
 
             return LogList;
