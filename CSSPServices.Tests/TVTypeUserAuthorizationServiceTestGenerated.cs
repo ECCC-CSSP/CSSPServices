@@ -63,21 +63,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, dbTestDB, ContactID);
 
-                TVTypeUserAuthorization tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    TVTypeUserAuthorization tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = tvTypeUserAuthorizationService.GetRead().Count();
 
@@ -102,174 +104,175 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // tvTypeUserAuthorization.TVTypeUserAuthorizationID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // tvTypeUserAuthorization.TVTypeUserAuthorizationID   (Int32)
+                    // -----------------------------------
 
-                tvTypeUserAuthorization = null;
-                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
-                tvTypeUserAuthorization.TVTypeUserAuthorizationID = 0;
-                tvTypeUserAuthorizationService.Update(tvTypeUserAuthorization);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVTypeUserAuthorizationID), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.TVTypeUserAuthorizationID = 0;
+                    tvTypeUserAuthorizationService.Update(tvTypeUserAuthorization);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVTypeUserAuthorizationID), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                tvTypeUserAuthorization = null;
-                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
-                tvTypeUserAuthorization.TVTypeUserAuthorizationID = 10000000;
-                tvTypeUserAuthorizationService.Update(tvTypeUserAuthorization);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVTypeUserAuthorization, ModelsRes.TVTypeUserAuthorizationTVTypeUserAuthorizationID, tvTypeUserAuthorization.TVTypeUserAuthorizationID.ToString()), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // tvTypeUserAuthorization.ContactTVItemID   (Int32)
-                // -----------------------------------
-
-                tvTypeUserAuthorization = null;
-                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
-                tvTypeUserAuthorization.ContactTVItemID = 0;
-                tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVTypeUserAuthorizationContactTVItemID, tvTypeUserAuthorization.ContactTVItemID.ToString()), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                tvTypeUserAuthorization = null;
-                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
-                tvTypeUserAuthorization.ContactTVItemID = 1;
-                tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVTypeUserAuthorizationContactTVItemID, "Contact"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.TVTypeUserAuthorizationID = 10000000;
+                    tvTypeUserAuthorizationService.Update(tvTypeUserAuthorization);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVTypeUserAuthorization, ModelsRes.TVTypeUserAuthorizationTVTypeUserAuthorizationID, tvTypeUserAuthorization.TVTypeUserAuthorizationID.ToString()), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // tvTypeUserAuthorization.TVType   (TVTypeEnum)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // tvTypeUserAuthorization.ContactTVItemID   (Int32)
+                    // -----------------------------------
 
-                tvTypeUserAuthorization = null;
-                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
-                tvTypeUserAuthorization.TVType = (TVTypeEnum)1000000;
-                tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVType), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.ContactTVItemID = 0;
+                    tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVTypeUserAuthorizationContactTVItemID, tvTypeUserAuthorization.ContactTVItemID.ToString()), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // tvTypeUserAuthorization.TVAuth   (TVAuthEnum)
-                // -----------------------------------
-
-                tvTypeUserAuthorization = null;
-                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
-                tvTypeUserAuthorization.TVAuth = (TVAuthEnum)1000000;
-                tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVAuth), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.ContactTVItemID = 1;
+                    tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVTypeUserAuthorizationContactTVItemID, "Contact"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // tvTypeUserAuthorization.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // tvTypeUserAuthorization.TVType   (TVTypeEnum)
+                    // -----------------------------------
+
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.TVType = (TVTypeEnum)1000000;
+                    tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVType), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // tvTypeUserAuthorization.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // tvTypeUserAuthorization.TVAuth   (TVAuthEnum)
+                    // -----------------------------------
 
-                tvTypeUserAuthorization = null;
-                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
-                tvTypeUserAuthorization.LastUpdateContactTVItemID = 0;
-                tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVItemID, tvTypeUserAuthorization.LastUpdateContactTVItemID.ToString()), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                tvTypeUserAuthorization = null;
-                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
-                tvTypeUserAuthorization.LastUpdateContactTVItemID = 1;
-                tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVItemID, "Contact"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.TVAuth = (TVAuthEnum)1000000;
+                    tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVTypeUserAuthorizationTVAuth), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // tvTypeUserAuthorization.ContactTVText   (String)
-                // -----------------------------------
-
-                tvTypeUserAuthorization = null;
-                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
-                tvTypeUserAuthorization.ContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationContactTVText, "200"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // tvTypeUserAuthorization.LastUpdateContactTVText   (String)
-                // -----------------------------------
-
-                tvTypeUserAuthorization = null;
-                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
-                tvTypeUserAuthorization.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVText, "200"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // tvTypeUserAuthorization.TVTypeText   (String)
-                // -----------------------------------
-
-                tvTypeUserAuthorization = null;
-                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
-                tvTypeUserAuthorization.TVTypeText = GetRandomString("", 101);
-                Assert.AreEqual(false, tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationTVTypeText, "100"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // tvTypeUserAuthorization.TVAuthText   (String)
-                // -----------------------------------
-
-                tvTypeUserAuthorization = null;
-                tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
-                tvTypeUserAuthorization.TVAuthText = GetRandomString("", 101);
-                Assert.AreEqual(false, tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationTVAuthText, "100"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // tvTypeUserAuthorization.HasErrors   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // tvTypeUserAuthorization.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // tvTypeUserAuthorization.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // tvTypeUserAuthorization.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
 
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.LastUpdateContactTVItemID = 0;
+                    tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVItemID, tvTypeUserAuthorization.LastUpdateContactTVItemID.ToString()), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.LastUpdateContactTVItemID = 1;
+                    tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVItemID, "Contact"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // tvTypeUserAuthorization.ContactTVText   (String)
+                    // -----------------------------------
+
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.ContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationContactTVText, "200"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // tvTypeUserAuthorization.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationLastUpdateContactTVText, "200"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // tvTypeUserAuthorization.TVTypeText   (String)
+                    // -----------------------------------
+
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.TVTypeText = GetRandomString("", 101);
+                    Assert.AreEqual(false, tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationTVTypeText, "100"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // tvTypeUserAuthorization.TVAuthText   (String)
+                    // -----------------------------------
+
+                    tvTypeUserAuthorization = null;
+                    tvTypeUserAuthorization = GetFilledRandomTVTypeUserAuthorization("");
+                    tvTypeUserAuthorization.TVAuthText = GetRandomString("", 101);
+                    Assert.AreEqual(false, tvTypeUserAuthorizationService.Add(tvTypeUserAuthorization));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTypeUserAuthorizationTVAuthText, "100"), tvTypeUserAuthorization.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, tvTypeUserAuthorizationService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // tvTypeUserAuthorization.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // tvTypeUserAuthorization.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -282,27 +285,30 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, dbTestDB, ContactID);
-                TVTypeUserAuthorization tvTypeUserAuthorization = (from c in tvTypeUserAuthorizationService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(tvTypeUserAuthorization);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, dbTestDB, ContactID);
+                    TVTypeUserAuthorization tvTypeUserAuthorization = (from c in tvTypeUserAuthorizationService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(tvTypeUserAuthorization);
 
-                TVTypeUserAuthorization tvTypeUserAuthorizationRet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID);
-                Assert.IsNotNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationID);
-                Assert.IsNotNull(tvTypeUserAuthorizationRet.ContactTVItemID);
-                Assert.IsNotNull(tvTypeUserAuthorizationRet.TVType);
-                Assert.IsNotNull(tvTypeUserAuthorizationRet.TVAuth);
-                Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateContactTVItemID);
+                    TVTypeUserAuthorization tvTypeUserAuthorizationRet = tvTypeUserAuthorizationService.GetTVTypeUserAuthorizationWithTVTypeUserAuthorizationID(tvTypeUserAuthorization.TVTypeUserAuthorizationID);
+                    Assert.IsNotNull(tvTypeUserAuthorizationRet.TVTypeUserAuthorizationID);
+                    Assert.IsNotNull(tvTypeUserAuthorizationRet.ContactTVItemID);
+                    Assert.IsNotNull(tvTypeUserAuthorizationRet.TVType);
+                    Assert.IsNotNull(tvTypeUserAuthorizationRet.TVAuth);
+                    Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(tvTypeUserAuthorizationRet.ContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.ContactTVText));
-                Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.LastUpdateContactTVText));
-                Assert.IsNotNull(tvTypeUserAuthorizationRet.TVTypeText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeText));
-                Assert.IsNotNull(tvTypeUserAuthorizationRet.TVAuthText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVAuthText));
-                Assert.IsNotNull(tvTypeUserAuthorizationRet.HasErrors);
+                    Assert.IsNotNull(tvTypeUserAuthorizationRet.ContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.ContactTVText));
+                    Assert.IsNotNull(tvTypeUserAuthorizationRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(tvTypeUserAuthorizationRet.TVTypeText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVTypeText));
+                    Assert.IsNotNull(tvTypeUserAuthorizationRet.TVAuthText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(tvTypeUserAuthorizationRet.TVAuthText));
+                    Assert.IsNotNull(tvTypeUserAuthorizationRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

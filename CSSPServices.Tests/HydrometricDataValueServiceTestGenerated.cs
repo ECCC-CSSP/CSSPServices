@@ -64,21 +64,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(LanguageRequest, dbTestDB, ContactID);
 
-                HydrometricDataValue hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    HydrometricDataValue hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = hydrometricDataValueService.GetRead().Count();
 
@@ -103,166 +105,167 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // hydrometricDataValue.HydrometricDataValueID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // hydrometricDataValue.HydrometricDataValueID   (Int32)
+                    // -----------------------------------
 
-                hydrometricDataValue = null;
-                hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-                hydrometricDataValue.HydrometricDataValueID = 0;
-                hydrometricDataValueService.Update(hydrometricDataValue);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricDataValueHydrometricDataValueID), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.HydrometricDataValueID = 0;
+                    hydrometricDataValueService.Update(hydrometricDataValue);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricDataValueHydrometricDataValueID), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                hydrometricDataValue = null;
-                hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-                hydrometricDataValue.HydrometricDataValueID = 10000000;
-                hydrometricDataValueService.Update(hydrometricDataValue);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricDataValue, ModelsRes.HydrometricDataValueHydrometricDataValueID, hydrometricDataValue.HydrometricDataValueID.ToString()), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "HydrometricSite", ExistPlurial = "s", ExistFieldID = "HydrometricSiteID", AllowableTVtypeList = Error)]
-                // hydrometricDataValue.HydrometricSiteID   (Int32)
-                // -----------------------------------
-
-                hydrometricDataValue = null;
-                hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-                hydrometricDataValue.HydrometricSiteID = 0;
-                hydrometricDataValueService.Add(hydrometricDataValue);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricSite, ModelsRes.HydrometricDataValueHydrometricSiteID, hydrometricDataValue.HydrometricSiteID.ToString()), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.HydrometricDataValueID = 10000000;
+                    hydrometricDataValueService.Update(hydrometricDataValue);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricDataValue, ModelsRes.HydrometricDataValueHydrometricDataValueID, hydrometricDataValue.HydrometricDataValueID.ToString()), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // hydrometricDataValue.DateTime_Local   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "HydrometricSite", ExistPlurial = "s", ExistFieldID = "HydrometricSiteID", AllowableTVtypeList = Error)]
+                    // hydrometricDataValue.HydrometricSiteID   (Int32)
+                    // -----------------------------------
+
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.HydrometricSiteID = 0;
+                    hydrometricDataValueService.Add(hydrometricDataValue);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricSite, ModelsRes.HydrometricDataValueHydrometricSiteID, hydrometricDataValue.HydrometricSiteID.ToString()), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // hydrometricDataValue.Keep   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // hydrometricDataValue.DateTime_Local   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // hydrometricDataValue.StorageDataType   (StorageDataTypeEnum)
-                // -----------------------------------
-
-                hydrometricDataValue = null;
-                hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-                hydrometricDataValue.StorageDataType = (StorageDataTypeEnum)1000000;
-                hydrometricDataValueService.Add(hydrometricDataValue);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricDataValueStorageDataType), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // hydrometricDataValue.Keep   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 10000)]
-                // hydrometricDataValue.Flow_m3_s   (Double)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // hydrometricDataValue.StorageDataType   (StorageDataTypeEnum)
+                    // -----------------------------------
 
-                //Error: Type not implemented [Flow_m3_s]
-
-                hydrometricDataValue = null;
-                hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-                hydrometricDataValue.Flow_m3_s = -1.0D;
-                Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricDataValueFlow_m3_s, "0", "10000"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
-                hydrometricDataValue = null;
-                hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-                hydrometricDataValue.Flow_m3_s = 10001.0D;
-                Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricDataValueFlow_m3_s, "0", "10000"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // hydrometricDataValue.HourlyValues   (String)
-                // -----------------------------------
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.StorageDataType = (StorageDataTypeEnum)1000000;
+                    hydrometricDataValueService.Add(hydrometricDataValue);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricDataValueStorageDataType), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // hydrometricDataValue.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 10000)]
+                    // hydrometricDataValue.Flow_m3_s   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [Flow_m3_s]
+
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.Flow_m3_s = -1.0D;
+                    Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricDataValueFlow_m3_s, "0", "10000"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.Flow_m3_s = 10001.0D;
+                    Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricDataValueFlow_m3_s, "0", "10000"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // hydrometricDataValue.HourlyValues   (String)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // hydrometricDataValue.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
-
-                hydrometricDataValue = null;
-                hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-                hydrometricDataValue.LastUpdateContactTVItemID = 0;
-                hydrometricDataValueService.Add(hydrometricDataValue);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.HydrometricDataValueLastUpdateContactTVItemID, hydrometricDataValue.LastUpdateContactTVItemID.ToString()), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                hydrometricDataValue = null;
-                hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-                hydrometricDataValue.LastUpdateContactTVItemID = 1;
-                hydrometricDataValueService.Add(hydrometricDataValue);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.HydrometricDataValueLastUpdateContactTVItemID, "Contact"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // hydrometricDataValue.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // hydrometricDataValue.LastUpdateContactTVText   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // hydrometricDataValue.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
 
-                hydrometricDataValue = null;
-                hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-                hydrometricDataValue.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricDataValueLastUpdateContactTVText, "200"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.LastUpdateContactTVItemID = 0;
+                    hydrometricDataValueService.Add(hydrometricDataValue);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.HydrometricDataValueLastUpdateContactTVItemID, hydrometricDataValue.LastUpdateContactTVItemID.ToString()), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // hydrometricDataValue.StorageDataTypeText   (String)
-                // -----------------------------------
-
-                hydrometricDataValue = null;
-                hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
-                hydrometricDataValue.StorageDataTypeText = GetRandomString("", 101);
-                Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricDataValueStorageDataTypeText, "100"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // hydrometricDataValue.HasErrors   (Boolean)
-                // -----------------------------------
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.LastUpdateContactTVItemID = 1;
+                    hydrometricDataValueService.Add(hydrometricDataValue);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.HydrometricDataValueLastUpdateContactTVItemID, "Contact"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // hydrometricDataValue.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // hydrometricDataValue.LastUpdateContactTVText   (String)
+                    // -----------------------------------
 
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricDataValueLastUpdateContactTVText, "200"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // hydrometricDataValue.StorageDataTypeText   (String)
+                    // -----------------------------------
+
+                    hydrometricDataValue = null;
+                    hydrometricDataValue = GetFilledRandomHydrometricDataValue("");
+                    hydrometricDataValue.StorageDataTypeText = GetRandomString("", 101);
+                    Assert.AreEqual(false, hydrometricDataValueService.Add(hydrometricDataValue));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricDataValueStorageDataTypeText, "100"), hydrometricDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, hydrometricDataValueService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // hydrometricDataValue.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // hydrometricDataValue.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -275,30 +278,33 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(LanguageRequest, dbTestDB, ContactID);
-                HydrometricDataValue hydrometricDataValue = (from c in hydrometricDataValueService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(hydrometricDataValue);
-
-                HydrometricDataValue hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID);
-                Assert.IsNotNull(hydrometricDataValueRet.HydrometricDataValueID);
-                Assert.IsNotNull(hydrometricDataValueRet.HydrometricSiteID);
-                Assert.IsNotNull(hydrometricDataValueRet.DateTime_Local);
-                Assert.IsNotNull(hydrometricDataValueRet.Keep);
-                Assert.IsNotNull(hydrometricDataValueRet.StorageDataType);
-                Assert.IsNotNull(hydrometricDataValueRet.Flow_m3_s);
-                if (hydrometricDataValueRet.HourlyValues != null)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                   Assert.IsNotNull(hydrometricDataValueRet.HourlyValues);
-                   Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.HourlyValues));
-                }
-                Assert.IsNotNull(hydrometricDataValueRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(hydrometricDataValueRet.LastUpdateContactTVItemID);
+                    HydrometricDataValueService hydrometricDataValueService = new HydrometricDataValueService(LanguageRequest, dbTestDB, ContactID);
+                    HydrometricDataValue hydrometricDataValue = (from c in hydrometricDataValueService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(hydrometricDataValue);
 
-                Assert.IsNotNull(hydrometricDataValueRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.LastUpdateContactTVText));
-                Assert.IsNotNull(hydrometricDataValueRet.StorageDataTypeText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.StorageDataTypeText));
-                Assert.IsNotNull(hydrometricDataValueRet.HasErrors);
+                    HydrometricDataValue hydrometricDataValueRet = hydrometricDataValueService.GetHydrometricDataValueWithHydrometricDataValueID(hydrometricDataValue.HydrometricDataValueID);
+                    Assert.IsNotNull(hydrometricDataValueRet.HydrometricDataValueID);
+                    Assert.IsNotNull(hydrometricDataValueRet.HydrometricSiteID);
+                    Assert.IsNotNull(hydrometricDataValueRet.DateTime_Local);
+                    Assert.IsNotNull(hydrometricDataValueRet.Keep);
+                    Assert.IsNotNull(hydrometricDataValueRet.StorageDataType);
+                    Assert.IsNotNull(hydrometricDataValueRet.Flow_m3_s);
+                    if (hydrometricDataValueRet.HourlyValues != null)
+                    {
+                       Assert.IsNotNull(hydrometricDataValueRet.HourlyValues);
+                       Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.HourlyValues));
+                    }
+                    Assert.IsNotNull(hydrometricDataValueRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(hydrometricDataValueRet.LastUpdateContactTVItemID);
+
+                    Assert.IsNotNull(hydrometricDataValueRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(hydrometricDataValueRet.StorageDataTypeText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(hydrometricDataValueRet.StorageDataTypeText));
+                    Assert.IsNotNull(hydrometricDataValueRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

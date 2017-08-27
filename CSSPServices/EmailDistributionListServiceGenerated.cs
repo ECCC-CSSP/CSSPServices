@@ -78,18 +78,6 @@ namespace CSSPServices
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(emailDistributionList.RegionName))
-            {
-                emailDistributionList.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListRegionName), new[] { "RegionName" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(emailDistributionList.RegionName) && emailDistributionList.RegionName.Length > 100)
-            {
-                emailDistributionList.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListRegionName, "100"), new[] { "RegionName" });
-            }
-
             //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
             if (emailDistributionList.Ordinal < 0 || emailDistributionList.Ordinal > 1000)
@@ -229,7 +217,6 @@ namespace CSSPServices
                                          {
                                              EmailDistributionListID = c.EmailDistributionListID,
                                              CountryTVItemID = c.CountryTVItemID,
-                                             RegionName = c.RegionName,
                                              Ordinal = c.Ordinal,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,

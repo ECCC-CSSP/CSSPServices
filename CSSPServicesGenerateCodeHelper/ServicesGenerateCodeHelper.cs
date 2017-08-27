@@ -13,10 +13,11 @@ using CSSPEnums;
 using CSSPModelsGenerateCodeHelper;
 using System.Data.SqlClient;
 using System.Data;
+using CSSPGenerateCodeBase;
 
 namespace CSSPServicesGenerateCodeHelper
 {
-    public partial class ServicesGenerateCodeHelper
+    public partial class ServicesGenerateCodeHelper : GenerateCodeBase
     {
         #region Variables
         #endregion Variables
@@ -48,21 +49,21 @@ namespace CSSPServicesGenerateCodeHelper
         #endregion Constructors
 
         #region Events
-        public virtual void ErrorEvent(ErrorEventArgs e)
-        {
-            ErrorHandler?.Invoke(this, e);
-        }
-        public event EventHandler<ErrorEventArgs> ErrorHandler;
-        public virtual void StatusTempEvent(StatusEventArgs e)
-        {
-            StatusTempHandler?.Invoke(this, e);
-        }
-        public event EventHandler<StatusEventArgs> StatusTempHandler;
-        public virtual void StatusPermanentEvent(StatusEventArgs e)
-        {
-            StatusPermanentHandler?.Invoke(this, e);
-        }
-        public event EventHandler<StatusEventArgs> StatusPermanentHandler;
+        //public virtual void ErrorEvent(ErrorEventArgs e)
+        //{
+        //    ErrorHandler?.Invoke(this, e);
+        //}
+        //public event EventHandler<ErrorEventArgs> ErrorHandler;
+        //public virtual void StatusTempEvent(StatusEventArgs e)
+        //{
+        //    StatusTempHandler?.Invoke(this, e);
+        //}
+        //public event EventHandler<StatusEventArgs> StatusTempHandler;
+        //public virtual void StatusPermanentEvent(StatusEventArgs e)
+        //{
+        //    StatusPermanentHandler?.Invoke(this, e);
+        //}
+        //public event EventHandler<StatusEventArgs> StatusPermanentHandler;
         #endregion Events
 
         #region Functions public
@@ -94,24 +95,6 @@ namespace CSSPServicesGenerateCodeHelper
         public string BaseDirFillDBTest { get; set; }
         public string CSSPWebToolsDBConnectionString { get; set; }
         public string TestDBConnectionString { get; set; }
-    }
-    public class ErrorEventArgs : EventArgs
-    {
-        public ErrorEventArgs(string Error)
-        {
-            this.Error = Error;
-        }
-
-        public string Error { get; set; }
-    }
-    public class StatusEventArgs : EventArgs
-    {
-        public StatusEventArgs(string Status)
-        {
-            this.Status = Status;
-        }
-
-        public string Status { get; set; }
     }
     #endregion Other Classes
 }

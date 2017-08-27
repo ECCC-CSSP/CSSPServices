@@ -58,28 +58,31 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                RTBStringPosService rTBStringPosService = new RTBStringPosService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    RTBStringPosService rTBStringPosService = new RTBStringPosService(LanguageRequest, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    RTBStringPos rTBStringPos = GetFilledRandomRTBStringPos("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
+
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
+
                 }
-
-                RTBStringPos rTBStringPos = GetFilledRandomRTBStringPos("");
-
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
-
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
-
             }
         }
         #endregion Tests Generated CRUD and Properties

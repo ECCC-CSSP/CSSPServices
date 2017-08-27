@@ -68,21 +68,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(LanguageRequest, dbTestDB, ContactID);
 
-                MikeSourceStartEnd mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    MikeSourceStartEnd mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = mikeSourceStartEndService.GetRead().Count();
 
@@ -107,278 +109,279 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // mikeSourceStartEnd.MikeSourceStartEndID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // mikeSourceStartEnd.MikeSourceStartEndID   (Int32)
+                    // -----------------------------------
 
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.MikeSourceStartEndID = 0;
-                mikeSourceStartEndService.Update(mikeSourceStartEnd);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndMikeSourceStartEndID), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.MikeSourceStartEndID = 0;
+                    mikeSourceStartEndService.Update(mikeSourceStartEnd);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndMikeSourceStartEndID), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.MikeSourceStartEndID = 10000000;
-                mikeSourceStartEndService.Update(mikeSourceStartEnd);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeSourceStartEnd, ModelsRes.MikeSourceStartEndMikeSourceStartEndID, mikeSourceStartEnd.MikeSourceStartEndID.ToString()), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "MikeSource", ExistPlurial = "s", ExistFieldID = "MikeSourceID", AllowableTVtypeList = Error)]
-                // mikeSourceStartEnd.MikeSourceID   (Int32)
-                // -----------------------------------
-
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.MikeSourceID = 0;
-                mikeSourceStartEndService.Add(mikeSourceStartEnd);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeSource, ModelsRes.MikeSourceStartEndMikeSourceID, mikeSourceStartEnd.MikeSourceID.ToString()), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.MikeSourceStartEndID = 10000000;
+                    mikeSourceStartEndService.Update(mikeSourceStartEnd);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeSourceStartEnd, ModelsRes.MikeSourceStartEndMikeSourceStartEndID, mikeSourceStartEnd.MikeSourceStartEndID.ToString()), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // mikeSourceStartEnd.StartDateAndTime_Local   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "MikeSource", ExistPlurial = "s", ExistFieldID = "MikeSourceID", AllowableTVtypeList = Error)]
+                    // mikeSourceStartEnd.MikeSourceID   (Int32)
+                    // -----------------------------------
+
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.MikeSourceID = 0;
+                    mikeSourceStartEndService.Add(mikeSourceStartEnd);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeSource, ModelsRes.MikeSourceStartEndMikeSourceID, mikeSourceStartEnd.MikeSourceID.ToString()), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // [CSSPBigger(OtherField = StartDateAndTime_Local)]
-                // mikeSourceStartEnd.EndDateAndTime_Local   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // mikeSourceStartEnd.StartDateAndTime_Local   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 1000000)]
-                // mikeSourceStartEnd.SourceFlowStart_m3_day   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [SourceFlowStart_m3_day]
-
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourceFlowStart_m3_day = -1.0D;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowStart_m3_day, "0", "1000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourceFlowStart_m3_day = 1000001.0D;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowStart_m3_day, "0", "1000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 1000000)]
-                // mikeSourceStartEnd.SourceFlowEnd_m3_day   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [SourceFlowEnd_m3_day]
-
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourceFlowEnd_m3_day = -1.0D;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowEnd_m3_day, "0", "1000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourceFlowEnd_m3_day = 1000001.0D;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowEnd_m3_day, "0", "1000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 10000000)]
-                // mikeSourceStartEnd.SourcePollutionStart_MPN_100ml   (Int32)
-                // -----------------------------------
-
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourcePollutionStart_MPN_100ml = -1;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionStart_MPN_100ml, "0", "10000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourcePollutionStart_MPN_100ml = 10000001;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionStart_MPN_100ml, "0", "10000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 10000000)]
-                // mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml   (Int32)
-                // -----------------------------------
-
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml = -1;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionEnd_MPN_100ml, "0", "10000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml = 10000001;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionEnd_MPN_100ml, "0", "10000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(-10, 40)]
-                // mikeSourceStartEnd.SourceTemperatureStart_C   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [SourceTemperatureStart_C]
-
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourceTemperatureStart_C = -11.0D;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureStart_C, "-10", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourceTemperatureStart_C = 41.0D;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureStart_C, "-10", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(-10, 40)]
-                // mikeSourceStartEnd.SourceTemperatureEnd_C   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [SourceTemperatureEnd_C]
-
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourceTemperatureEnd_C = -11.0D;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureEnd_C, "-10", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourceTemperatureEnd_C = 41.0D;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureEnd_C, "-10", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 40)]
-                // mikeSourceStartEnd.SourceSalinityStart_PSU   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [SourceSalinityStart_PSU]
-
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourceSalinityStart_PSU = -1.0D;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityStart_PSU, "0", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourceSalinityStart_PSU = 41.0D;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityStart_PSU, "0", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 40)]
-                // mikeSourceStartEnd.SourceSalinityEnd_PSU   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [SourceSalinityEnd_PSU]
-
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourceSalinityEnd_PSU = -1.0D;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityEnd_PSU, "0", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.SourceSalinityEnd_PSU = 41.0D;
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityEnd_PSU, "0", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // mikeSourceStartEnd.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // [CSSPBigger(OtherField = StartDateAndTime_Local)]
+                    // mikeSourceStartEnd.EndDateAndTime_Local   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // mikeSourceStartEnd.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 1000000)]
+                    // mikeSourceStartEnd.SourceFlowStart_m3_day   (Double)
+                    // -----------------------------------
 
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.LastUpdateContactTVItemID = 0;
-                mikeSourceStartEndService.Add(mikeSourceStartEnd);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, mikeSourceStartEnd.LastUpdateContactTVItemID.ToString()), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    //Error: Type not implemented [SourceFlowStart_m3_day]
 
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.LastUpdateContactTVItemID = 1;
-                mikeSourceStartEndService.Add(mikeSourceStartEnd);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, "Contact"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourceFlowStart_m3_day = -1.0D;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowStart_m3_day, "0", "1000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourceFlowStart_m3_day = 1000001.0D;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowStart_m3_day, "0", "1000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 1000000)]
+                    // mikeSourceStartEnd.SourceFlowEnd_m3_day   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [SourceFlowEnd_m3_day]
+
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourceFlowEnd_m3_day = -1.0D;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowEnd_m3_day, "0", "1000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourceFlowEnd_m3_day = 1000001.0D;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowEnd_m3_day, "0", "1000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 10000000)]
+                    // mikeSourceStartEnd.SourcePollutionStart_MPN_100ml   (Int32)
+                    // -----------------------------------
+
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourcePollutionStart_MPN_100ml = -1;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionStart_MPN_100ml, "0", "10000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourcePollutionStart_MPN_100ml = 10000001;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionStart_MPN_100ml, "0", "10000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 10000000)]
+                    // mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml   (Int32)
+                    // -----------------------------------
+
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml = -1;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionEnd_MPN_100ml, "0", "10000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml = 10000001;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionEnd_MPN_100ml, "0", "10000000"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(-10, 40)]
+                    // mikeSourceStartEnd.SourceTemperatureStart_C   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [SourceTemperatureStart_C]
+
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourceTemperatureStart_C = -11.0D;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureStart_C, "-10", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourceTemperatureStart_C = 41.0D;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureStart_C, "-10", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(-10, 40)]
+                    // mikeSourceStartEnd.SourceTemperatureEnd_C   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [SourceTemperatureEnd_C]
+
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourceTemperatureEnd_C = -11.0D;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureEnd_C, "-10", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourceTemperatureEnd_C = 41.0D;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureEnd_C, "-10", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 40)]
+                    // mikeSourceStartEnd.SourceSalinityStart_PSU   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [SourceSalinityStart_PSU]
+
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourceSalinityStart_PSU = -1.0D;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityStart_PSU, "0", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourceSalinityStart_PSU = 41.0D;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityStart_PSU, "0", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 40)]
+                    // mikeSourceStartEnd.SourceSalinityEnd_PSU   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [SourceSalinityEnd_PSU]
+
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourceSalinityEnd_PSU = -1.0D;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityEnd_PSU, "0", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.SourceSalinityEnd_PSU = 41.0D;
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityEnd_PSU, "0", "40"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // mikeSourceStartEnd.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // mikeSourceStartEnd.LastUpdateContactTVText   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // mikeSourceStartEnd.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
 
-                mikeSourceStartEnd = null;
-                mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
-                mikeSourceStartEnd.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceStartEndLastUpdateContactTVText, "200"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.LastUpdateContactTVItemID = 0;
+                    mikeSourceStartEndService.Add(mikeSourceStartEnd);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, mikeSourceStartEnd.LastUpdateContactTVItemID.ToString()), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // mikeSourceStartEnd.HasErrors   (Boolean)
-                // -----------------------------------
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.LastUpdateContactTVItemID = 1;
+                    mikeSourceStartEndService.Add(mikeSourceStartEnd);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, "Contact"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // mikeSourceStartEnd.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // mikeSourceStartEnd.LastUpdateContactTVText   (String)
+                    // -----------------------------------
 
+                    mikeSourceStartEnd = null;
+                    mikeSourceStartEnd = GetFilledRandomMikeSourceStartEnd("");
+                    mikeSourceStartEnd.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, mikeSourceStartEndService.Add(mikeSourceStartEnd));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceStartEndLastUpdateContactTVText, "200"), mikeSourceStartEnd.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceStartEndService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // mikeSourceStartEnd.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // mikeSourceStartEnd.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -391,29 +394,32 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(LanguageRequest, dbTestDB, ContactID);
-                MikeSourceStartEnd mikeSourceStartEnd = (from c in mikeSourceStartEndService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(mikeSourceStartEnd);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MikeSourceStartEndService mikeSourceStartEndService = new MikeSourceStartEndService(LanguageRequest, dbTestDB, ContactID);
+                    MikeSourceStartEnd mikeSourceStartEnd = (from c in mikeSourceStartEndService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(mikeSourceStartEnd);
 
-                MikeSourceStartEnd mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID);
-                Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceStartEndID);
-                Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceID);
-                Assert.IsNotNull(mikeSourceStartEndRet.StartDateAndTime_Local);
-                Assert.IsNotNull(mikeSourceStartEndRet.EndDateAndTime_Local);
-                Assert.IsNotNull(mikeSourceStartEndRet.SourceFlowStart_m3_day);
-                Assert.IsNotNull(mikeSourceStartEndRet.SourceFlowEnd_m3_day);
-                Assert.IsNotNull(mikeSourceStartEndRet.SourcePollutionStart_MPN_100ml);
-                Assert.IsNotNull(mikeSourceStartEndRet.SourcePollutionEnd_MPN_100ml);
-                Assert.IsNotNull(mikeSourceStartEndRet.SourceTemperatureStart_C);
-                Assert.IsNotNull(mikeSourceStartEndRet.SourceTemperatureEnd_C);
-                Assert.IsNotNull(mikeSourceStartEndRet.SourceSalinityStart_PSU);
-                Assert.IsNotNull(mikeSourceStartEndRet.SourceSalinityEnd_PSU);
-                Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateContactTVItemID);
+                    MikeSourceStartEnd mikeSourceStartEndRet = mikeSourceStartEndService.GetMikeSourceStartEndWithMikeSourceStartEndID(mikeSourceStartEnd.MikeSourceStartEndID);
+                    Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceStartEndID);
+                    Assert.IsNotNull(mikeSourceStartEndRet.MikeSourceID);
+                    Assert.IsNotNull(mikeSourceStartEndRet.StartDateAndTime_Local);
+                    Assert.IsNotNull(mikeSourceStartEndRet.EndDateAndTime_Local);
+                    Assert.IsNotNull(mikeSourceStartEndRet.SourceFlowStart_m3_day);
+                    Assert.IsNotNull(mikeSourceStartEndRet.SourceFlowEnd_m3_day);
+                    Assert.IsNotNull(mikeSourceStartEndRet.SourcePollutionStart_MPN_100ml);
+                    Assert.IsNotNull(mikeSourceStartEndRet.SourcePollutionEnd_MPN_100ml);
+                    Assert.IsNotNull(mikeSourceStartEndRet.SourceTemperatureStart_C);
+                    Assert.IsNotNull(mikeSourceStartEndRet.SourceTemperatureEnd_C);
+                    Assert.IsNotNull(mikeSourceStartEndRet.SourceSalinityStart_PSU);
+                    Assert.IsNotNull(mikeSourceStartEndRet.SourceSalinityEnd_PSU);
+                    Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.LastUpdateContactTVText));
-                Assert.IsNotNull(mikeSourceStartEndRet.HasErrors);
+                    Assert.IsNotNull(mikeSourceStartEndRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceStartEndRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(mikeSourceStartEndRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

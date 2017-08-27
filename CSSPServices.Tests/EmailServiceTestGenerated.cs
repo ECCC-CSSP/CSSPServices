@@ -62,21 +62,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                EmailService emailService = new EmailService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    EmailService emailService = new EmailService(LanguageRequest, dbTestDB, ContactID);
 
-                Email email = GetFilledRandomEmail("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    Email email = GetFilledRandomEmail("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = emailService.GetRead().Count();
 
@@ -101,169 +103,170 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, emailService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // email.EmailID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // email.EmailID   (Int32)
+                    // -----------------------------------
 
-                email = null;
-                email = GetFilledRandomEmail("");
-                email.EmailID = 0;
-                emailService.Update(email);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailID), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.EmailID = 0;
+                    emailService.Update(email);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailID), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                email = null;
-                email = GetFilledRandomEmail("");
-                email.EmailID = 10000000;
-                emailService.Update(email);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Email, ModelsRes.EmailEmailID, email.EmailID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Email)]
-                // email.EmailTVItemID   (Int32)
-                // -----------------------------------
-
-                email = null;
-                email = GetFilledRandomEmail("");
-                email.EmailTVItemID = 0;
-                emailService.Add(email);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailEmailTVItemID, email.EmailTVItemID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                email = null;
-                email = GetFilledRandomEmail("");
-                email.EmailTVItemID = 1;
-                emailService.Add(email);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailEmailTVItemID, "Email"), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.EmailID = 10000000;
+                    emailService.Update(email);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Email, ModelsRes.EmailEmailID, email.EmailID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [DataType(DataType.EmailAddress)]
-                // [StringLength(255))]
-                // email.EmailAddress   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Email)]
+                    // email.EmailTVItemID   (Int32)
+                    // -----------------------------------
 
-                email = null;
-                email = GetFilledRandomEmail("EmailAddress");
-                Assert.AreEqual(false, emailService.Add(email));
-                Assert.AreEqual(1, email.ValidationResults.Count());
-                Assert.IsTrue(email.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailAddress)).Any());
-                Assert.AreEqual(null, email.EmailAddress);
-                Assert.AreEqual(count, emailService.GetRead().Count());
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.EmailTVItemID = 0;
+                    emailService.Add(email);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailEmailTVItemID, email.EmailTVItemID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                email = null;
-                email = GetFilledRandomEmail("");
-                email.EmailAddress = GetRandomString("", 256);
-                Assert.AreEqual(false, emailService.Add(email));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailAddress, "255"), email.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, emailService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // email.EmailType   (EmailTypeEnum)
-                // -----------------------------------
-
-                email = null;
-                email = GetFilledRandomEmail("");
-                email.EmailType = (EmailTypeEnum)1000000;
-                emailService.Add(email);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailType), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.EmailTVItemID = 1;
+                    emailService.Add(email);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailEmailTVItemID, "Email"), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // email.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [DataType(DataType.EmailAddress)]
+                    // [StringLength(255))]
+                    // email.EmailAddress   (String)
+                    // -----------------------------------
+
+                    email = null;
+                    email = GetFilledRandomEmail("EmailAddress");
+                    Assert.AreEqual(false, emailService.Add(email));
+                    Assert.AreEqual(1, email.ValidationResults.Count());
+                    Assert.IsTrue(email.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailAddress)).Any());
+                    Assert.AreEqual(null, email.EmailAddress);
+                    Assert.AreEqual(count, emailService.GetRead().Count());
+
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.EmailAddress = GetRandomString("", 256);
+                    Assert.AreEqual(false, emailService.Add(email));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailAddress, "255"), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, emailService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // email.EmailType   (EmailTypeEnum)
+                    // -----------------------------------
+
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.EmailType = (EmailTypeEnum)1000000;
+                    emailService.Add(email);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailType), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // email.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
-
-                email = null;
-                email = GetFilledRandomEmail("");
-                email.LastUpdateContactTVItemID = 0;
-                emailService.Add(email);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailLastUpdateContactTVItemID, email.LastUpdateContactTVItemID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                email = null;
-                email = GetFilledRandomEmail("");
-                email.LastUpdateContactTVItemID = 1;
-                emailService.Add(email);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailLastUpdateContactTVItemID, "Contact"), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // email.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "EmailTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // email.EmailTVText   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // email.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
 
-                email = null;
-                email = GetFilledRandomEmail("");
-                email.EmailTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, emailService.Add(email));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailTVText, "200"), email.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, emailService.GetRead().Count());
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.LastUpdateContactTVItemID = 0;
+                    emailService.Add(email);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailLastUpdateContactTVItemID, email.LastUpdateContactTVItemID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // email.LastUpdateContactTVText   (String)
-                // -----------------------------------
-
-                email = null;
-                email = GetFilledRandomEmail("");
-                email.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, emailService.Add(email));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailLastUpdateContactTVText, "200"), email.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, emailService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // email.EmailTypeText   (String)
-                // -----------------------------------
-
-                email = null;
-                email = GetFilledRandomEmail("");
-                email.EmailTypeText = GetRandomString("", 101);
-                Assert.AreEqual(false, emailService.Add(email));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailTypeText, "100"), email.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, emailService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // email.HasErrors   (Boolean)
-                // -----------------------------------
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.LastUpdateContactTVItemID = 1;
+                    emailService.Add(email);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailLastUpdateContactTVItemID, "Contact"), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // email.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "EmailTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // email.EmailTVText   (String)
+                    // -----------------------------------
 
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.EmailTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, emailService.Add(email));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailTVText, "200"), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, emailService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // email.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, emailService.Add(email));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailLastUpdateContactTVText, "200"), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, emailService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // email.EmailTypeText   (String)
+                    // -----------------------------------
+
+                    email = null;
+                    email = GetFilledRandomEmail("");
+                    email.EmailTypeText = GetRandomString("", 101);
+                    Assert.AreEqual(false, emailService.Add(email));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailTypeText, "100"), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, emailService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // email.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // email.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -276,26 +279,29 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                EmailService emailService = new EmailService(LanguageRequest, dbTestDB, ContactID);
-                Email email = (from c in emailService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(email);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    EmailService emailService = new EmailService(LanguageRequest, dbTestDB, ContactID);
+                    Email email = (from c in emailService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(email);
 
-                Email emailRet = emailService.GetEmailWithEmailID(email.EmailID);
-                Assert.IsNotNull(emailRet.EmailID);
-                Assert.IsNotNull(emailRet.EmailTVItemID);
-                Assert.IsNotNull(emailRet.EmailAddress);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailAddress));
-                Assert.IsNotNull(emailRet.EmailType);
-                Assert.IsNotNull(emailRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(emailRet.LastUpdateContactTVItemID);
+                    Email emailRet = emailService.GetEmailWithEmailID(email.EmailID);
+                    Assert.IsNotNull(emailRet.EmailID);
+                    Assert.IsNotNull(emailRet.EmailTVItemID);
+                    Assert.IsNotNull(emailRet.EmailAddress);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailAddress));
+                    Assert.IsNotNull(emailRet.EmailType);
+                    Assert.IsNotNull(emailRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(emailRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(emailRet.EmailTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailTVText));
-                Assert.IsNotNull(emailRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.LastUpdateContactTVText));
-                Assert.IsNotNull(emailRet.EmailTypeText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailTypeText));
-                Assert.IsNotNull(emailRet.HasErrors);
+                    Assert.IsNotNull(emailRet.EmailTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailTVText));
+                    Assert.IsNotNull(emailRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(emailRet.EmailTypeText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailRet.EmailTypeText));
+                    Assert.IsNotNull(emailRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

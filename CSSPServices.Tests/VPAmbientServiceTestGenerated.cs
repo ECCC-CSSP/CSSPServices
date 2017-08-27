@@ -69,21 +69,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                VPAmbientService vpAmbientService = new VPAmbientService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    VPAmbientService vpAmbientService = new VPAmbientService(LanguageRequest, dbTestDB, ContactID);
 
-                VPAmbient vpAmbient = GetFilledRandomVPAmbient("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    VPAmbient vpAmbient = GetFilledRandomVPAmbient("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = vpAmbientService.GetRead().Count();
 
@@ -108,326 +110,327 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // vpAmbient.VPAmbientID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // vpAmbient.VPAmbientID   (Int32)
+                    // -----------------------------------
 
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.VPAmbientID = 0;
-                vpAmbientService.Update(vpAmbient);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPAmbientVPAmbientID), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.VPAmbientID = 0;
+                    vpAmbientService.Update(vpAmbient);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPAmbientVPAmbientID), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.VPAmbientID = 10000000;
-                vpAmbientService.Update(vpAmbient);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPAmbient, ModelsRes.VPAmbientVPAmbientID, vpAmbient.VPAmbientID.ToString()), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "VPScenario", ExistPlurial = "s", ExistFieldID = "VPScenarioID", AllowableTVtypeList = Error)]
-                // vpAmbient.VPScenarioID   (Int32)
-                // -----------------------------------
-
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.VPScenarioID = 0;
-                vpAmbientService.Add(vpAmbient);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPAmbientVPScenarioID, vpAmbient.VPScenarioID.ToString()), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.VPAmbientID = 10000000;
+                    vpAmbientService.Update(vpAmbient);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPAmbient, ModelsRes.VPAmbientVPAmbientID, vpAmbient.VPAmbientID.ToString()), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 10)]
-                // vpAmbient.Row   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "VPScenario", ExistPlurial = "s", ExistFieldID = "VPScenarioID", AllowableTVtypeList = Error)]
+                    // vpAmbient.VPScenarioID   (Int32)
+                    // -----------------------------------
 
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.Row = -1;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientRow, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.Row = 11;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientRow, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 1000)]
-                // vpAmbient.MeasurementDepth_m   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [MeasurementDepth_m]
-
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.MeasurementDepth_m = -1.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientMeasurementDepth_m, "0", "1000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.MeasurementDepth_m = 1001.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientMeasurementDepth_m, "0", "1000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 10)]
-                // vpAmbient.CurrentSpeed_m_s   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [CurrentSpeed_m_s]
-
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.CurrentSpeed_m_s = -1.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.CurrentSpeed_m_s = 11.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(-180, 180)]
-                // vpAmbient.CurrentDirection_deg   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [CurrentDirection_deg]
-
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.CurrentDirection_deg = -181.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.CurrentDirection_deg = 181.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 40)]
-                // vpAmbient.AmbientSalinity_PSU   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [AmbientSalinity_PSU]
-
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.AmbientSalinity_PSU = -1.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.AmbientSalinity_PSU = 41.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(-10, 40)]
-                // vpAmbient.AmbientTemperature_C   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [AmbientTemperature_C]
-
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.AmbientTemperature_C = -11.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientTemperature_C, "-10", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.AmbientTemperature_C = 41.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientTemperature_C, "-10", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 10000000)]
-                // vpAmbient.BackgroundConcentration_MPN_100ml   (Int32)
-                // -----------------------------------
-
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.BackgroundConcentration_MPN_100ml = -1;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientBackgroundConcentration_MPN_100ml, "0", "10000000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.BackgroundConcentration_MPN_100ml = 10000001;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientBackgroundConcentration_MPN_100ml, "0", "10000000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 100)]
-                // vpAmbient.PollutantDecayRate_per_day   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [PollutantDecayRate_per_day]
-
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.PollutantDecayRate_per_day = -1.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "100"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.PollutantDecayRate_per_day = 101.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "100"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 10)]
-                // vpAmbient.FarFieldCurrentSpeed_m_s   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [FarFieldCurrentSpeed_m_s]
-
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.FarFieldCurrentSpeed_m_s = -1.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.FarFieldCurrentSpeed_m_s = 11.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(-180, 180)]
-                // vpAmbient.FarFieldCurrentDirection_deg   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [FarFieldCurrentDirection_deg]
-
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.FarFieldCurrentDirection_deg = -181.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.FarFieldCurrentDirection_deg = 181.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 1)]
-                // vpAmbient.FarFieldDiffusionCoefficient   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [FarFieldDiffusionCoefficient]
-
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.FarFieldDiffusionCoefficient = -1.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.FarFieldDiffusionCoefficient = 2.0D;
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // vpAmbient.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.VPScenarioID = 0;
+                    vpAmbientService.Add(vpAmbient);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPAmbientVPScenarioID, vpAmbient.VPScenarioID.ToString()), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // vpAmbient.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 10)]
+                    // vpAmbient.Row   (Int32)
+                    // -----------------------------------
 
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.LastUpdateContactTVItemID = 0;
-                vpAmbientService.Add(vpAmbient);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPAmbientLastUpdateContactTVItemID, vpAmbient.LastUpdateContactTVItemID.ToString()), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.Row = -1;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientRow, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.Row = 11;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientRow, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.LastUpdateContactTVItemID = 1;
-                vpAmbientService.Add(vpAmbient);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPAmbientLastUpdateContactTVItemID, "Contact"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 1000)]
+                    // vpAmbient.MeasurementDepth_m   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [MeasurementDepth_m]
+
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.MeasurementDepth_m = -1.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientMeasurementDepth_m, "0", "1000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.MeasurementDepth_m = 1001.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientMeasurementDepth_m, "0", "1000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 10)]
+                    // vpAmbient.CurrentSpeed_m_s   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [CurrentSpeed_m_s]
+
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.CurrentSpeed_m_s = -1.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.CurrentSpeed_m_s = 11.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(-180, 180)]
+                    // vpAmbient.CurrentDirection_deg   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [CurrentDirection_deg]
+
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.CurrentDirection_deg = -181.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.CurrentDirection_deg = 181.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 40)]
+                    // vpAmbient.AmbientSalinity_PSU   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [AmbientSalinity_PSU]
+
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.AmbientSalinity_PSU = -1.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.AmbientSalinity_PSU = 41.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(-10, 40)]
+                    // vpAmbient.AmbientTemperature_C   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [AmbientTemperature_C]
+
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.AmbientTemperature_C = -11.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientTemperature_C, "-10", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.AmbientTemperature_C = 41.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientTemperature_C, "-10", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 10000000)]
+                    // vpAmbient.BackgroundConcentration_MPN_100ml   (Int32)
+                    // -----------------------------------
+
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.BackgroundConcentration_MPN_100ml = -1;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientBackgroundConcentration_MPN_100ml, "0", "10000000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.BackgroundConcentration_MPN_100ml = 10000001;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientBackgroundConcentration_MPN_100ml, "0", "10000000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 100)]
+                    // vpAmbient.PollutantDecayRate_per_day   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [PollutantDecayRate_per_day]
+
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.PollutantDecayRate_per_day = -1.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "100"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.PollutantDecayRate_per_day = 101.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "100"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 10)]
+                    // vpAmbient.FarFieldCurrentSpeed_m_s   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [FarFieldCurrentSpeed_m_s]
+
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.FarFieldCurrentSpeed_m_s = -1.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.FarFieldCurrentSpeed_m_s = 11.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(-180, 180)]
+                    // vpAmbient.FarFieldCurrentDirection_deg   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [FarFieldCurrentDirection_deg]
+
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.FarFieldCurrentDirection_deg = -181.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.FarFieldCurrentDirection_deg = 181.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 1)]
+                    // vpAmbient.FarFieldDiffusionCoefficient   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [FarFieldDiffusionCoefficient]
+
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.FarFieldDiffusionCoefficient = -1.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.FarFieldDiffusionCoefficient = 2.0D;
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // vpAmbient.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // vpAmbient.LastUpdateContactTVText   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // vpAmbient.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
 
-                vpAmbient = null;
-                vpAmbient = GetFilledRandomVPAmbient("");
-                vpAmbient.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPAmbientLastUpdateContactTVText, "200"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.LastUpdateContactTVItemID = 0;
+                    vpAmbientService.Add(vpAmbient);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPAmbientLastUpdateContactTVItemID, vpAmbient.LastUpdateContactTVItemID.ToString()), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // vpAmbient.HasErrors   (Boolean)
-                // -----------------------------------
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.LastUpdateContactTVItemID = 1;
+                    vpAmbientService.Add(vpAmbient);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPAmbientLastUpdateContactTVItemID, "Contact"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // vpAmbient.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // vpAmbient.LastUpdateContactTVText   (String)
+                    // -----------------------------------
 
+                    vpAmbient = null;
+                    vpAmbient = GetFilledRandomVPAmbient("");
+                    vpAmbient.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPAmbientLastUpdateContactTVText, "200"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, vpAmbientService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // vpAmbient.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // vpAmbient.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -440,30 +443,33 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                VPAmbientService vpAmbientService = new VPAmbientService(LanguageRequest, dbTestDB, ContactID);
-                VPAmbient vpAmbient = (from c in vpAmbientService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(vpAmbient);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    VPAmbientService vpAmbientService = new VPAmbientService(LanguageRequest, dbTestDB, ContactID);
+                    VPAmbient vpAmbient = (from c in vpAmbientService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(vpAmbient);
 
-                VPAmbient vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID);
-                Assert.IsNotNull(vpAmbientRet.VPAmbientID);
-                Assert.IsNotNull(vpAmbientRet.VPScenarioID);
-                Assert.IsNotNull(vpAmbientRet.Row);
-                Assert.IsNotNull(vpAmbientRet.MeasurementDepth_m);
-                Assert.IsNotNull(vpAmbientRet.CurrentSpeed_m_s);
-                Assert.IsNotNull(vpAmbientRet.CurrentDirection_deg);
-                Assert.IsNotNull(vpAmbientRet.AmbientSalinity_PSU);
-                Assert.IsNotNull(vpAmbientRet.AmbientTemperature_C);
-                Assert.IsNotNull(vpAmbientRet.BackgroundConcentration_MPN_100ml);
-                Assert.IsNotNull(vpAmbientRet.PollutantDecayRate_per_day);
-                Assert.IsNotNull(vpAmbientRet.FarFieldCurrentSpeed_m_s);
-                Assert.IsNotNull(vpAmbientRet.FarFieldCurrentDirection_deg);
-                Assert.IsNotNull(vpAmbientRet.FarFieldDiffusionCoefficient);
-                Assert.IsNotNull(vpAmbientRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(vpAmbientRet.LastUpdateContactTVItemID);
+                    VPAmbient vpAmbientRet = vpAmbientService.GetVPAmbientWithVPAmbientID(vpAmbient.VPAmbientID);
+                    Assert.IsNotNull(vpAmbientRet.VPAmbientID);
+                    Assert.IsNotNull(vpAmbientRet.VPScenarioID);
+                    Assert.IsNotNull(vpAmbientRet.Row);
+                    Assert.IsNotNull(vpAmbientRet.MeasurementDepth_m);
+                    Assert.IsNotNull(vpAmbientRet.CurrentSpeed_m_s);
+                    Assert.IsNotNull(vpAmbientRet.CurrentDirection_deg);
+                    Assert.IsNotNull(vpAmbientRet.AmbientSalinity_PSU);
+                    Assert.IsNotNull(vpAmbientRet.AmbientTemperature_C);
+                    Assert.IsNotNull(vpAmbientRet.BackgroundConcentration_MPN_100ml);
+                    Assert.IsNotNull(vpAmbientRet.PollutantDecayRate_per_day);
+                    Assert.IsNotNull(vpAmbientRet.FarFieldCurrentSpeed_m_s);
+                    Assert.IsNotNull(vpAmbientRet.FarFieldCurrentDirection_deg);
+                    Assert.IsNotNull(vpAmbientRet.FarFieldDiffusionCoefficient);
+                    Assert.IsNotNull(vpAmbientRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(vpAmbientRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(vpAmbientRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientRet.LastUpdateContactTVText));
-                Assert.IsNotNull(vpAmbientRet.HasErrors);
+                    Assert.IsNotNull(vpAmbientRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(vpAmbientRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(vpAmbientRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

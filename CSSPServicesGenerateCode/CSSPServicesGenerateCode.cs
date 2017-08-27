@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -13,6 +12,10 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CSSPServicesGenerateCodeHelper;
 using System.Configuration;
+using CSSPServices;
+using CSSPEnums;
+using CSSPModels;
+using CSSPGenerateCodeBase;
 
 namespace CSSPServicesGenerateCode
 {
@@ -23,6 +26,7 @@ namespace CSSPServicesGenerateCode
 
         #region Properties
         ServicesGenerateCodeHelper servicesGenerateCodeHelper { get; set; }
+        public object AddressServices { get; private set; }
         #endregion Properties
 
         #region Constructors
@@ -71,17 +75,17 @@ namespace CSSPServicesGenerateCode
 
             servicesGenerateCodeHelper.GenerateCodeOf_ClassServiceTestGenerated();
         }
-        private void ServicesGenerateCodeHelper_ErrorHandler(object sender, CSSPServicesGenerateCodeHelper.ErrorEventArgs e)
+        private void ServicesGenerateCodeHelper_ErrorHandler(object sender, GenerateCodeBase.ErrorEventArgs e)
         {
             richTextBoxStatus.AppendText(e.Error + "\r\n");
             Application.DoEvents();
         }
-        private void ServicesGenerateCodeHelper_StatusPermanentHandler(object sender, StatusEventArgs e)
+        private void ServicesGenerateCodeHelper_StatusPermanentHandler(object sender, GenerateCodeBase.StatusEventArgs e)
         {
             richTextBoxStatus.AppendText(e.Status + "\r\n");
             Application.DoEvents();
         }
-        private void ServicesGenerateCodeHelper_StatusTempHandler(object sender, StatusEventArgs e)
+        private void ServicesGenerateCodeHelper_StatusTempHandler(object sender, GenerateCodeBase.StatusEventArgs e)
         {
             lblStatus.Text = e.Status;
             lblStatus.Refresh();
@@ -117,6 +121,7 @@ namespace CSSPServicesGenerateCode
         }
 
         #endregion Functions private
+     
     }
 
 }

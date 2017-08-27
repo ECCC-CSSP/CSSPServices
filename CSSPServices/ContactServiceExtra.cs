@@ -601,7 +601,7 @@ namespace CSSPServices
             contact.ContactTVItemID = tvItemContact.TVItemID;
             contact.LastUpdateContactTVItemID = tvItemContact.TVItemID;
 
-            if (!Add(contact, AddContactType.Register))
+            if (!Add(contact, AddContactTypeEnum.Register))
             {
                 register.ValidationResults = contact.ValidationResults;
                 return false;
@@ -1176,7 +1176,7 @@ namespace CSSPServices
         //    }
         //    return GetContactWithContactIDDB(contactNew.ContactID);
         //}
-        public bool AddContact(Contact contact, AddContactType addContactType)
+        public bool AddContact(Contact contact, AddContactTypeEnum addContactType)
         {
             TVItem tvItemRoot = null;
             Contact LoggedInContact = null;
@@ -1187,7 +1187,7 @@ namespace CSSPServices
             TVTypeUserAuthorizationService tvTypeUserAuthorizationService = new TVTypeUserAuthorizationService(LanguageRequest, db, ContactID);
             TVItemLinkService tvItemLinkService = new TVItemLinkService(LanguageRequest, db, ContactID);
 
-            if (addContactType != AddContactType.First)
+            if (addContactType != AddContactTypeEnum.First)
             {
                 LoggedInContact = GetRead().Where(c => c.ContactID == ContactID).FirstOrDefault();
                 if (LoggedInContact == null)
@@ -1197,7 +1197,7 @@ namespace CSSPServices
                 }
             }
 
-            if (addContactType == AddContactType.First)
+            if (addContactType == AddContactTypeEnum.First)
             {
                 if (contactService.GetRead().Count() > 0)
                 {
@@ -1267,15 +1267,15 @@ namespace CSSPServices
                 TVTypeUserAuthorization tvTypeUserAuthorizationNew = new TVTypeUserAuthorization();
                 tvTypeUserAuthorizationNew.ContactTVItemID = contact.ContactTVItemID;
                 tvTypeUserAuthorizationNew.TVType = TVTypeEnum.Root;
-                if (addContactType == AddContactType.First)
+                if (addContactType == AddContactTypeEnum.First)
                 {
                     tvTypeUserAuthorizationNew.TVAuth = TVAuthEnum.Admin;
                 }
-                else if (addContactType == AddContactType.LoggedIn)
+                else if (addContactType == AddContactTypeEnum.LoggedIn)
                 {
                     tvTypeUserAuthorizationNew.TVAuth = TVAuthEnum.NoAccess;
                 }
-                else if (addContactType == AddContactType.Register)
+                else if (addContactType == AddContactTypeEnum.Register)
                 {
                     tvTypeUserAuthorizationNew.TVAuth = TVAuthEnum.Read;
                 }
@@ -1307,15 +1307,15 @@ namespace CSSPServices
                         tvItemLink.TVLevel = 0;
                         tvItemLink.TVPath = "p" + contact.ParentTVItemID + "p" + contact.ContactTVItemID;
                         tvItemLink.LastUpdateDate_UTC = DateTime.UtcNow;
-                        if (addContactType == AddContactType.First)
+                        if (addContactType == AddContactTypeEnum.First)
                         {
                             tvItemLink.LastUpdateContactTVItemID = contact.ContactTVItemID;
                         }
-                        else if (addContactType == AddContactType.Register)
+                        else if (addContactType == AddContactTypeEnum.Register)
                         {
                             tvItemLink.LastUpdateContactTVItemID = contact.ContactTVItemID;
                         }
-                        else if (addContactType == AddContactType.LoggedIn)
+                        else if (addContactType == AddContactTypeEnum.LoggedIn)
                         {
                             tvItemLink.LastUpdateContactTVItemID = LoggedInContact.ContactTVItemID;
                         }
@@ -1742,12 +1742,6 @@ namespace CSSPServices
 
         #region Functions private
         #endregion Functions private
-        public enum AddContactType
-        {
-            Error = 0,
-            First = 1,
-            Register = 2,
-            LoggedIn = 3,
-        }
+
     }
 }

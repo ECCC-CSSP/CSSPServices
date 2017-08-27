@@ -64,21 +64,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(LanguageRequest, dbTestDB, ContactID);
 
-                AppTaskLanguage appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    AppTaskLanguage appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = appTaskLanguageService.GetRead().Count();
 
@@ -103,179 +105,180 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // appTaskLanguage.AppTaskLanguageID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // appTaskLanguage.AppTaskLanguageID   (Int32)
+                    // -----------------------------------
 
-                appTaskLanguage = null;
-                appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-                appTaskLanguage.AppTaskLanguageID = 0;
-                appTaskLanguageService.Update(appTaskLanguage);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageAppTaskLanguageID), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.AppTaskLanguageID = 0;
+                    appTaskLanguageService.Update(appTaskLanguage);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageAppTaskLanguageID), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                appTaskLanguage = null;
-                appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-                appTaskLanguage.AppTaskLanguageID = 10000000;
-                appTaskLanguageService.Update(appTaskLanguage);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppTaskLanguage, ModelsRes.AppTaskLanguageAppTaskLanguageID, appTaskLanguage.AppTaskLanguageID.ToString()), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "AppTask", ExistPlurial = "s", ExistFieldID = "AppTaskID", AllowableTVtypeList = Error)]
-                // appTaskLanguage.AppTaskID   (Int32)
-                // -----------------------------------
-
-                appTaskLanguage = null;
-                appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-                appTaskLanguage.AppTaskID = 0;
-                appTaskLanguageService.Add(appTaskLanguage);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppTask, ModelsRes.AppTaskLanguageAppTaskID, appTaskLanguage.AppTaskID.ToString()), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.AppTaskLanguageID = 10000000;
+                    appTaskLanguageService.Update(appTaskLanguage);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppTaskLanguage, ModelsRes.AppTaskLanguageAppTaskLanguageID, appTaskLanguage.AppTaskLanguageID.ToString()), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // appTaskLanguage.Language   (LanguageEnum)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "AppTask", ExistPlurial = "s", ExistFieldID = "AppTaskID", AllowableTVtypeList = Error)]
+                    // appTaskLanguage.AppTaskID   (Int32)
+                    // -----------------------------------
 
-                appTaskLanguage = null;
-                appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-                appTaskLanguage.Language = (LanguageEnum)1000000;
-                appTaskLanguageService.Add(appTaskLanguage);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageLanguage), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is Nullable
-                // [StringLength(250))]
-                // appTaskLanguage.StatusText   (String)
-                // -----------------------------------
-
-                appTaskLanguage = null;
-                appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-                appTaskLanguage.StatusText = GetRandomString("", 251);
-                Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageStatusText, "250"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [StringLength(250))]
-                // appTaskLanguage.ErrorText   (String)
-                // -----------------------------------
-
-                appTaskLanguage = null;
-                appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-                appTaskLanguage.ErrorText = GetRandomString("", 251);
-                Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageErrorText, "250"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // appTaskLanguage.TranslationStatus   (TranslationStatusEnum)
-                // -----------------------------------
-
-                appTaskLanguage = null;
-                appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-                appTaskLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
-                appTaskLanguageService.Add(appTaskLanguage);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageTranslationStatus), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.AppTaskID = 0;
+                    appTaskLanguageService.Add(appTaskLanguage);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppTask, ModelsRes.AppTaskLanguageAppTaskID, appTaskLanguage.AppTaskID.ToString()), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // appTaskLanguage.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // appTaskLanguage.Language   (LanguageEnum)
+                    // -----------------------------------
+
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.Language = (LanguageEnum)1000000;
+                    appTaskLanguageService.Add(appTaskLanguage);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageLanguage), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // appTaskLanguage.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [StringLength(250))]
+                    // appTaskLanguage.StatusText   (String)
+                    // -----------------------------------
 
-                appTaskLanguage = null;
-                appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-                appTaskLanguage.LastUpdateContactTVItemID = 0;
-                appTaskLanguageService.Add(appTaskLanguage);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskLanguageLastUpdateContactTVItemID, appTaskLanguage.LastUpdateContactTVItemID.ToString()), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.StatusText = GetRandomString("", 251);
+                    Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageStatusText, "250"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
 
-                appTaskLanguage = null;
-                appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-                appTaskLanguage.LastUpdateContactTVItemID = 1;
-                appTaskLanguageService.Add(appTaskLanguage);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskLanguageLastUpdateContactTVItemID, "Contact"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    // -----------------------------------
+                    // Is Nullable
+                    // [StringLength(250))]
+                    // appTaskLanguage.ErrorText   (String)
+                    // -----------------------------------
 
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.ErrorText = GetRandomString("", 251);
+                    Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageErrorText, "250"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // appTaskLanguage.LastUpdateContactTVText   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // appTaskLanguage.TranslationStatus   (TranslationStatusEnum)
+                    // -----------------------------------
 
-                appTaskLanguage = null;
-                appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-                appTaskLanguage.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageLastUpdateContactTVText, "200"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // appTaskLanguage.LanguageText   (String)
-                // -----------------------------------
-
-                appTaskLanguage = null;
-                appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-                appTaskLanguage.LanguageText = GetRandomString("", 101);
-                Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageLanguageText, "100"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // appTaskLanguage.TranslationStatusText   (String)
-                // -----------------------------------
-
-                appTaskLanguage = null;
-                appTaskLanguage = GetFilledRandomAppTaskLanguage("");
-                appTaskLanguage.TranslationStatusText = GetRandomString("", 101);
-                Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageTranslationStatusText, "100"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // appTaskLanguage.HasErrors   (Boolean)
-                // -----------------------------------
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
+                    appTaskLanguageService.Add(appTaskLanguage);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguageTranslationStatus), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // appTaskLanguage.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // appTaskLanguage.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
 
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // appTaskLanguage.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
+
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.LastUpdateContactTVItemID = 0;
+                    appTaskLanguageService.Add(appTaskLanguage);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskLanguageLastUpdateContactTVItemID, appTaskLanguage.LastUpdateContactTVItemID.ToString()), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.LastUpdateContactTVItemID = 1;
+                    appTaskLanguageService.Add(appTaskLanguage);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskLanguageLastUpdateContactTVItemID, "Contact"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // appTaskLanguage.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageLastUpdateContactTVText, "200"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // appTaskLanguage.LanguageText   (String)
+                    // -----------------------------------
+
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.LanguageText = GetRandomString("", 101);
+                    Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageLanguageText, "100"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // appTaskLanguage.TranslationStatusText   (String)
+                    // -----------------------------------
+
+                    appTaskLanguage = null;
+                    appTaskLanguage = GetFilledRandomAppTaskLanguage("");
+                    appTaskLanguage.TranslationStatusText = GetRandomString("", 101);
+                    Assert.AreEqual(false, appTaskLanguageService.Add(appTaskLanguage));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageTranslationStatusText, "100"), appTaskLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskLanguageService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // appTaskLanguage.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // appTaskLanguage.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -288,35 +291,38 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(LanguageRequest, dbTestDB, ContactID);
-                AppTaskLanguage appTaskLanguage = (from c in appTaskLanguageService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(appTaskLanguage);
-
-                AppTaskLanguage appTaskLanguageRet = appTaskLanguageService.GetAppTaskLanguageWithAppTaskLanguageID(appTaskLanguage.AppTaskLanguageID);
-                Assert.IsNotNull(appTaskLanguageRet.AppTaskLanguageID);
-                Assert.IsNotNull(appTaskLanguageRet.AppTaskID);
-                Assert.IsNotNull(appTaskLanguageRet.Language);
-                if (appTaskLanguageRet.StatusText != null)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                   Assert.IsNotNull(appTaskLanguageRet.StatusText);
-                   Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.StatusText));
-                }
-                if (appTaskLanguageRet.ErrorText != null)
-                {
-                   Assert.IsNotNull(appTaskLanguageRet.ErrorText);
-                   Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.ErrorText));
-                }
-                Assert.IsNotNull(appTaskLanguageRet.TranslationStatus);
-                Assert.IsNotNull(appTaskLanguageRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(appTaskLanguageRet.LastUpdateContactTVItemID);
+                    AppTaskLanguageService appTaskLanguageService = new AppTaskLanguageService(LanguageRequest, dbTestDB, ContactID);
+                    AppTaskLanguage appTaskLanguage = (from c in appTaskLanguageService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(appTaskLanguage);
 
-                Assert.IsNotNull(appTaskLanguageRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.LastUpdateContactTVText));
-                Assert.IsNotNull(appTaskLanguageRet.LanguageText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.LanguageText));
-                Assert.IsNotNull(appTaskLanguageRet.TranslationStatusText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.TranslationStatusText));
-                Assert.IsNotNull(appTaskLanguageRet.HasErrors);
+                    AppTaskLanguage appTaskLanguageRet = appTaskLanguageService.GetAppTaskLanguageWithAppTaskLanguageID(appTaskLanguage.AppTaskLanguageID);
+                    Assert.IsNotNull(appTaskLanguageRet.AppTaskLanguageID);
+                    Assert.IsNotNull(appTaskLanguageRet.AppTaskID);
+                    Assert.IsNotNull(appTaskLanguageRet.Language);
+                    if (appTaskLanguageRet.StatusText != null)
+                    {
+                       Assert.IsNotNull(appTaskLanguageRet.StatusText);
+                       Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.StatusText));
+                    }
+                    if (appTaskLanguageRet.ErrorText != null)
+                    {
+                       Assert.IsNotNull(appTaskLanguageRet.ErrorText);
+                       Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.ErrorText));
+                    }
+                    Assert.IsNotNull(appTaskLanguageRet.TranslationStatus);
+                    Assert.IsNotNull(appTaskLanguageRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(appTaskLanguageRet.LastUpdateContactTVItemID);
+
+                    Assert.IsNotNull(appTaskLanguageRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(appTaskLanguageRet.LanguageText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.LanguageText));
+                    Assert.IsNotNull(appTaskLanguageRet.TranslationStatusText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskLanguageRet.TranslationStatusText));
+                    Assert.IsNotNull(appTaskLanguageRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

@@ -68,18 +68,6 @@ namespace CSSPServices
 
             //IsCC (bool) is required but no testing needed 
 
-            if (string.IsNullOrWhiteSpace(emailDistributionListContact.Agency))
-            {
-                emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactAgency), new[] { "Agency" });
-            }
-
-            if (!string.IsNullOrWhiteSpace(emailDistributionListContact.Agency) && emailDistributionListContact.Agency.Length > 20)
-            {
-                emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactAgency, "20"), new[] { "Agency" });
-            }
-
             if (string.IsNullOrWhiteSpace(emailDistributionListContact.Name))
             {
                 emailDistributionListContact.HasErrors = true;
@@ -246,7 +234,6 @@ namespace CSSPServices
                                              EmailDistributionListContactID = c.EmailDistributionListContactID,
                                              EmailDistributionListID = c.EmailDistributionListID,
                                              IsCC = c.IsCC,
-                                             Agency = c.Agency,
                                              Name = c.Name,
                                              Email = c.Email,
                                              CMPRainfallSeasonal = c.CMPRainfallSeasonal,

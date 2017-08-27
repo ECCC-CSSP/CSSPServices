@@ -42,7 +42,6 @@ namespace CSSPServices.Tests
 
             if (OmitPropName != "EmailDistributionListID") emailDistributionListContact.EmailDistributionListID = 1;
             if (OmitPropName != "IsCC") emailDistributionListContact.IsCC = true;
-            if (OmitPropName != "Agency") emailDistributionListContact.Agency = GetRandomString("", 5);
             if (OmitPropName != "Name") emailDistributionListContact.Name = GetRandomString("", 5);
             if (OmitPropName != "Email") emailDistributionListContact.Email = GetRandomEmail();
             if (OmitPropName != "CMPRainfallSeasonal") emailDistributionListContact.CMPRainfallSeasonal = true;
@@ -67,21 +66,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(LanguageRequest, dbTestDB, ContactID);
 
-                EmailDistributionListContact emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    EmailDistributionListContact emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = emailDistributionListContactService.GetRead().Count();
 
@@ -106,199 +107,179 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // emailDistributionListContact.EmailDistributionListContactID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // emailDistributionListContact.EmailDistributionListContactID   (Int32)
+                    // -----------------------------------
 
-                emailDistributionListContact = null;
-                emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
-                emailDistributionListContact.EmailDistributionListContactID = 0;
-                emailDistributionListContactService.Update(emailDistributionListContact);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactEmailDistributionListContactID), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    emailDistributionListContact = null;
+                    emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
+                    emailDistributionListContact.EmailDistributionListContactID = 0;
+                    emailDistributionListContactService.Update(emailDistributionListContact);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactEmailDistributionListContactID), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                emailDistributionListContact = null;
-                emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
-                emailDistributionListContact.EmailDistributionListContactID = 10000000;
-                emailDistributionListContactService.Update(emailDistributionListContact);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.EmailDistributionListContact, ModelsRes.EmailDistributionListContactEmailDistributionListContactID, emailDistributionListContact.EmailDistributionListContactID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "EmailDistributionList", ExistPlurial = "s", ExistFieldID = "EmailDistributionListID", AllowableTVtypeList = Error)]
-                // emailDistributionListContact.EmailDistributionListID   (Int32)
-                // -----------------------------------
-
-                emailDistributionListContact = null;
-                emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
-                emailDistributionListContact.EmailDistributionListID = 0;
-                emailDistributionListContactService.Add(emailDistributionListContact);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.EmailDistributionList, ModelsRes.EmailDistributionListContactEmailDistributionListID, emailDistributionListContact.EmailDistributionListID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    emailDistributionListContact = null;
+                    emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
+                    emailDistributionListContact.EmailDistributionListContactID = 10000000;
+                    emailDistributionListContactService.Update(emailDistributionListContact);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.EmailDistributionListContact, ModelsRes.EmailDistributionListContactEmailDistributionListContactID, emailDistributionListContact.EmailDistributionListContactID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // emailDistributionListContact.IsCC   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "EmailDistributionList", ExistPlurial = "s", ExistFieldID = "EmailDistributionListID", AllowableTVtypeList = Error)]
+                    // emailDistributionListContact.EmailDistributionListID   (Int32)
+                    // -----------------------------------
+
+                    emailDistributionListContact = null;
+                    emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
+                    emailDistributionListContact.EmailDistributionListID = 0;
+                    emailDistributionListContactService.Add(emailDistributionListContact);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.EmailDistributionList, ModelsRes.EmailDistributionListContactEmailDistributionListID, emailDistributionListContact.EmailDistributionListID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(20))]
-                // emailDistributionListContact.Agency   (String)
-                // -----------------------------------
-
-                emailDistributionListContact = null;
-                emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Agency");
-                Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-                Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
-                Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactAgency)).Any());
-                Assert.AreEqual(null, emailDistributionListContact.Agency);
-                Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
-
-                emailDistributionListContact = null;
-                emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
-                emailDistributionListContact.Agency = GetRandomString("", 21);
-                Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactAgency, "20"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(100))]
-                // emailDistributionListContact.Name   (String)
-                // -----------------------------------
-
-                emailDistributionListContact = null;
-                emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Name");
-                Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-                Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
-                Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactName)).Any());
-                Assert.AreEqual(null, emailDistributionListContact.Name);
-                Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
-
-                emailDistributionListContact = null;
-                emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
-                emailDistributionListContact.Name = GetRandomString("", 101);
-                Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactName, "100"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [DataType(DataType.EmailAddress)]
-                // [StringLength(200))]
-                // emailDistributionListContact.Email   (String)
-                // -----------------------------------
-
-                emailDistributionListContact = null;
-                emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Email");
-                Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-                Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
-                Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactEmail)).Any());
-                Assert.AreEqual(null, emailDistributionListContact.Email);
-                Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
-
-                emailDistributionListContact = null;
-                emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
-                emailDistributionListContact.Email = GetRandomString("", 201);
-                Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactEmail, "200"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // emailDistributionListContact.CMPRainfallSeasonal   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // emailDistributionListContact.IsCC   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // emailDistributionListContact.CMPWastewater   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(100))]
+                    // emailDistributionListContact.Name   (String)
+                    // -----------------------------------
+
+                    emailDistributionListContact = null;
+                    emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Name");
+                    Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
+                    Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
+                    Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactName)).Any());
+                    Assert.AreEqual(null, emailDistributionListContact.Name);
+                    Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+
+                    emailDistributionListContact = null;
+                    emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
+                    emailDistributionListContact.Name = GetRandomString("", 101);
+                    Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactName, "100"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [DataType(DataType.EmailAddress)]
+                    // [StringLength(200))]
+                    // emailDistributionListContact.Email   (String)
+                    // -----------------------------------
+
+                    emailDistributionListContact = null;
+                    emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Email");
+                    Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
+                    Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
+                    Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactEmail)).Any());
+                    Assert.AreEqual(null, emailDistributionListContact.Email);
+                    Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+
+                    emailDistributionListContact = null;
+                    emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
+                    emailDistributionListContact.Email = GetRandomString("", 201);
+                    Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactEmail, "200"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // emailDistributionListContact.CMPRainfallSeasonal   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // emailDistributionListContact.EmergencyWeather   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // emailDistributionListContact.CMPWastewater   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // emailDistributionListContact.EmergencyWastewater   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // emailDistributionListContact.EmergencyWeather   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // emailDistributionListContact.ReopeningAllTypes   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // emailDistributionListContact.EmergencyWastewater   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // emailDistributionListContact.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // emailDistributionListContact.ReopeningAllTypes   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // emailDistributionListContact.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
-
-                emailDistributionListContact = null;
-                emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
-                emailDistributionListContact.LastUpdateContactTVItemID = 0;
-                emailDistributionListContactService.Add(emailDistributionListContact);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, emailDistributionListContact.LastUpdateContactTVItemID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                emailDistributionListContact = null;
-                emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
-                emailDistributionListContact.LastUpdateContactTVItemID = 1;
-                emailDistributionListContactService.Add(emailDistributionListContact);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, "Contact"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // emailDistributionListContact.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // emailDistributionListContact.LastUpdateContactTVText   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // emailDistributionListContact.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
 
-                emailDistributionListContact = null;
-                emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
-                emailDistributionListContact.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactLastUpdateContactTVText, "200"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+                    emailDistributionListContact = null;
+                    emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
+                    emailDistributionListContact.LastUpdateContactTVItemID = 0;
+                    emailDistributionListContactService.Add(emailDistributionListContact);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, emailDistributionListContact.LastUpdateContactTVItemID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // emailDistributionListContact.HasErrors   (Boolean)
-                // -----------------------------------
+                    emailDistributionListContact = null;
+                    emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
+                    emailDistributionListContact.LastUpdateContactTVItemID = 1;
+                    emailDistributionListContactService.Add(emailDistributionListContact);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, "Contact"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // emailDistributionListContact.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // emailDistributionListContact.LastUpdateContactTVText   (String)
+                    // -----------------------------------
 
+                    emailDistributionListContact = null;
+                    emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
+                    emailDistributionListContact.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactLastUpdateContactTVText, "200"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // emailDistributionListContact.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // emailDistributionListContact.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -311,31 +292,32 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(LanguageRequest, dbTestDB, ContactID);
-                EmailDistributionListContact emailDistributionListContact = (from c in emailDistributionListContactService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(emailDistributionListContact);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    EmailDistributionListContactService emailDistributionListContactService = new EmailDistributionListContactService(LanguageRequest, dbTestDB, ContactID);
+                    EmailDistributionListContact emailDistributionListContact = (from c in emailDistributionListContactService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(emailDistributionListContact);
 
-                EmailDistributionListContact emailDistributionListContactRet = emailDistributionListContactService.GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID);
-                Assert.IsNotNull(emailDistributionListContactRet.EmailDistributionListContactID);
-                Assert.IsNotNull(emailDistributionListContactRet.EmailDistributionListID);
-                Assert.IsNotNull(emailDistributionListContactRet.IsCC);
-                Assert.IsNotNull(emailDistributionListContactRet.Agency);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactRet.Agency));
-                Assert.IsNotNull(emailDistributionListContactRet.Name);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactRet.Name));
-                Assert.IsNotNull(emailDistributionListContactRet.Email);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactRet.Email));
-                Assert.IsNotNull(emailDistributionListContactRet.CMPRainfallSeasonal);
-                Assert.IsNotNull(emailDistributionListContactRet.CMPWastewater);
-                Assert.IsNotNull(emailDistributionListContactRet.EmergencyWeather);
-                Assert.IsNotNull(emailDistributionListContactRet.EmergencyWastewater);
-                Assert.IsNotNull(emailDistributionListContactRet.ReopeningAllTypes);
-                Assert.IsNotNull(emailDistributionListContactRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(emailDistributionListContactRet.LastUpdateContactTVItemID);
+                    EmailDistributionListContact emailDistributionListContactRet = emailDistributionListContactService.GetEmailDistributionListContactWithEmailDistributionListContactID(emailDistributionListContact.EmailDistributionListContactID);
+                    Assert.IsNotNull(emailDistributionListContactRet.EmailDistributionListContactID);
+                    Assert.IsNotNull(emailDistributionListContactRet.EmailDistributionListID);
+                    Assert.IsNotNull(emailDistributionListContactRet.IsCC);
+                    Assert.IsNotNull(emailDistributionListContactRet.Name);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactRet.Name));
+                    Assert.IsNotNull(emailDistributionListContactRet.Email);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactRet.Email));
+                    Assert.IsNotNull(emailDistributionListContactRet.CMPRainfallSeasonal);
+                    Assert.IsNotNull(emailDistributionListContactRet.CMPWastewater);
+                    Assert.IsNotNull(emailDistributionListContactRet.EmergencyWeather);
+                    Assert.IsNotNull(emailDistributionListContactRet.EmergencyWastewater);
+                    Assert.IsNotNull(emailDistributionListContactRet.ReopeningAllTypes);
+                    Assert.IsNotNull(emailDistributionListContactRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(emailDistributionListContactRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(emailDistributionListContactRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactRet.LastUpdateContactTVText));
-                Assert.IsNotNull(emailDistributionListContactRet.HasErrors);
+                    Assert.IsNotNull(emailDistributionListContactRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(emailDistributionListContactRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(emailDistributionListContactRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

@@ -63,21 +63,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                DocTemplateService docTemplateService = new DocTemplateService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    DocTemplateService docTemplateService = new DocTemplateService(LanguageRequest, dbTestDB, ContactID);
 
-                DocTemplate docTemplate = GetFilledRandomDocTemplate("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    DocTemplate docTemplate = GetFilledRandomDocTemplate("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = docTemplateService.GetRead().Count();
 
@@ -102,180 +104,181 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, docTemplateService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // docTemplate.DocTemplateID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // docTemplate.DocTemplateID   (Int32)
+                    // -----------------------------------
 
-                docTemplate = null;
-                docTemplate = GetFilledRandomDocTemplate("");
-                docTemplate.DocTemplateID = 0;
-                docTemplateService.Update(docTemplate);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateDocTemplateID), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.DocTemplateID = 0;
+                    docTemplateService.Update(docTemplate);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateDocTemplateID), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                docTemplate = null;
-                docTemplate = GetFilledRandomDocTemplate("");
-                docTemplate.DocTemplateID = 10000000;
-                docTemplateService.Update(docTemplate);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.DocTemplate, ModelsRes.DocTemplateDocTemplateID, docTemplate.DocTemplateID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // docTemplate.Language   (LanguageEnum)
-                // -----------------------------------
-
-                docTemplate = null;
-                docTemplate = GetFilledRandomDocTemplate("");
-                docTemplate.Language = (LanguageEnum)1000000;
-                docTemplateService.Add(docTemplate);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateLanguage), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.DocTemplateID = 10000000;
+                    docTemplateService.Update(docTemplate);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.DocTemplate, ModelsRes.DocTemplateDocTemplateID, docTemplate.DocTemplateID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // docTemplate.TVType   (TVTypeEnum)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // docTemplate.Language   (LanguageEnum)
+                    // -----------------------------------
 
-                docTemplate = null;
-                docTemplate = GetFilledRandomDocTemplate("");
-                docTemplate.TVType = (TVTypeEnum)1000000;
-                docTemplateService.Add(docTemplate);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateTVType), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = File)]
-                // docTemplate.TVFileTVItemID   (Int32)
-                // -----------------------------------
-
-                docTemplate = null;
-                docTemplate = GetFilledRandomDocTemplate("");
-                docTemplate.TVFileTVItemID = 0;
-                docTemplateService.Add(docTemplate);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.DocTemplateTVFileTVItemID, docTemplate.TVFileTVItemID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                docTemplate = null;
-                docTemplate = GetFilledRandomDocTemplate("");
-                docTemplate.TVFileTVItemID = 1;
-                docTemplateService.Add(docTemplate);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.DocTemplateTVFileTVItemID, "File"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.Language = (LanguageEnum)1000000;
+                    docTemplateService.Add(docTemplate);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateLanguage), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(150))]
-                // docTemplate.FileName   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // docTemplate.TVType   (TVTypeEnum)
+                    // -----------------------------------
 
-                docTemplate = null;
-                docTemplate = GetFilledRandomDocTemplate("FileName");
-                Assert.AreEqual(false, docTemplateService.Add(docTemplate));
-                Assert.AreEqual(1, docTemplate.ValidationResults.Count());
-                Assert.IsTrue(docTemplate.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateFileName)).Any());
-                Assert.AreEqual(null, docTemplate.FileName);
-                Assert.AreEqual(count, docTemplateService.GetRead().Count());
-
-                docTemplate = null;
-                docTemplate = GetFilledRandomDocTemplate("");
-                docTemplate.FileName = GetRandomString("", 151);
-                Assert.AreEqual(false, docTemplateService.Add(docTemplate));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateFileName, "150"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, docTemplateService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // docTemplate.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.TVType = (TVTypeEnum)1000000;
+                    docTemplateService.Add(docTemplate);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateTVType), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // docTemplate.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = File)]
+                    // docTemplate.TVFileTVItemID   (Int32)
+                    // -----------------------------------
 
-                docTemplate = null;
-                docTemplate = GetFilledRandomDocTemplate("");
-                docTemplate.LastUpdateContactTVItemID = 0;
-                docTemplateService.Add(docTemplate);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.DocTemplateLastUpdateContactTVItemID, docTemplate.LastUpdateContactTVItemID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.TVFileTVItemID = 0;
+                    docTemplateService.Add(docTemplate);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.DocTemplateTVFileTVItemID, docTemplate.TVFileTVItemID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                docTemplate = null;
-                docTemplate = GetFilledRandomDocTemplate("");
-                docTemplate.LastUpdateContactTVItemID = 1;
-                docTemplateService.Add(docTemplate);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.DocTemplateLastUpdateContactTVItemID, "Contact"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // docTemplate.LastUpdateContactTVText   (String)
-                // -----------------------------------
-
-                docTemplate = null;
-                docTemplate = GetFilledRandomDocTemplate("");
-                docTemplate.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, docTemplateService.Add(docTemplate));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateLastUpdateContactTVText, "200"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, docTemplateService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // docTemplate.LanguageText   (String)
-                // -----------------------------------
-
-                docTemplate = null;
-                docTemplate = GetFilledRandomDocTemplate("");
-                docTemplate.LanguageText = GetRandomString("", 101);
-                Assert.AreEqual(false, docTemplateService.Add(docTemplate));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateLanguageText, "100"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, docTemplateService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // docTemplate.TVTypeText   (String)
-                // -----------------------------------
-
-                docTemplate = null;
-                docTemplate = GetFilledRandomDocTemplate("");
-                docTemplate.TVTypeText = GetRandomString("", 101);
-                Assert.AreEqual(false, docTemplateService.Add(docTemplate));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateTVTypeText, "100"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, docTemplateService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // docTemplate.HasErrors   (Boolean)
-                // -----------------------------------
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.TVFileTVItemID = 1;
+                    docTemplateService.Add(docTemplate);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.DocTemplateTVFileTVItemID, "File"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // docTemplate.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(150))]
+                    // docTemplate.FileName   (String)
+                    // -----------------------------------
 
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("FileName");
+                    Assert.AreEqual(false, docTemplateService.Add(docTemplate));
+                    Assert.AreEqual(1, docTemplate.ValidationResults.Count());
+                    Assert.IsTrue(docTemplate.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateFileName)).Any());
+                    Assert.AreEqual(null, docTemplate.FileName);
+                    Assert.AreEqual(count, docTemplateService.GetRead().Count());
+
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.FileName = GetRandomString("", 151);
+                    Assert.AreEqual(false, docTemplateService.Add(docTemplate));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateFileName, "150"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, docTemplateService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // docTemplate.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // docTemplate.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
+
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.LastUpdateContactTVItemID = 0;
+                    docTemplateService.Add(docTemplate);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.DocTemplateLastUpdateContactTVItemID, docTemplate.LastUpdateContactTVItemID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.LastUpdateContactTVItemID = 1;
+                    docTemplateService.Add(docTemplate);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.DocTemplateLastUpdateContactTVItemID, "Contact"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // docTemplate.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, docTemplateService.Add(docTemplate));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateLastUpdateContactTVText, "200"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, docTemplateService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // docTemplate.LanguageText   (String)
+                    // -----------------------------------
+
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.LanguageText = GetRandomString("", 101);
+                    Assert.AreEqual(false, docTemplateService.Add(docTemplate));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateLanguageText, "100"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, docTemplateService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // docTemplate.TVTypeText   (String)
+                    // -----------------------------------
+
+                    docTemplate = null;
+                    docTemplate = GetFilledRandomDocTemplate("");
+                    docTemplate.TVTypeText = GetRandomString("", 101);
+                    Assert.AreEqual(false, docTemplateService.Add(docTemplate));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateTVTypeText, "100"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, docTemplateService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // docTemplate.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // docTemplate.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -288,27 +291,30 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                DocTemplateService docTemplateService = new DocTemplateService(LanguageRequest, dbTestDB, ContactID);
-                DocTemplate docTemplate = (from c in docTemplateService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(docTemplate);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    DocTemplateService docTemplateService = new DocTemplateService(LanguageRequest, dbTestDB, ContactID);
+                    DocTemplate docTemplate = (from c in docTemplateService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(docTemplate);
 
-                DocTemplate docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID);
-                Assert.IsNotNull(docTemplateRet.DocTemplateID);
-                Assert.IsNotNull(docTemplateRet.Language);
-                Assert.IsNotNull(docTemplateRet.TVType);
-                Assert.IsNotNull(docTemplateRet.TVFileTVItemID);
-                Assert.IsNotNull(docTemplateRet.FileName);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.FileName));
-                Assert.IsNotNull(docTemplateRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(docTemplateRet.LastUpdateContactTVItemID);
+                    DocTemplate docTemplateRet = docTemplateService.GetDocTemplateWithDocTemplateID(docTemplate.DocTemplateID);
+                    Assert.IsNotNull(docTemplateRet.DocTemplateID);
+                    Assert.IsNotNull(docTemplateRet.Language);
+                    Assert.IsNotNull(docTemplateRet.TVType);
+                    Assert.IsNotNull(docTemplateRet.TVFileTVItemID);
+                    Assert.IsNotNull(docTemplateRet.FileName);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.FileName));
+                    Assert.IsNotNull(docTemplateRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(docTemplateRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(docTemplateRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.LastUpdateContactTVText));
-                Assert.IsNotNull(docTemplateRet.LanguageText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.LanguageText));
-                Assert.IsNotNull(docTemplateRet.TVTypeText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.TVTypeText));
-                Assert.IsNotNull(docTemplateRet.HasErrors);
+                    Assert.IsNotNull(docTemplateRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(docTemplateRet.LanguageText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.LanguageText));
+                    Assert.IsNotNull(docTemplateRet.TVTypeText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(docTemplateRet.TVTypeText));
+                    Assert.IsNotNull(docTemplateRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

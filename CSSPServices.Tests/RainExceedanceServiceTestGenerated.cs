@@ -68,21 +68,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                RainExceedanceService rainExceedanceService = new RainExceedanceService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    RainExceedanceService rainExceedanceService = new RainExceedanceService(LanguageRequest, dbTestDB, ContactID);
 
-                RainExceedance rainExceedance = GetFilledRandomRainExceedance("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    RainExceedance rainExceedance = GetFilledRandomRainExceedance("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = rainExceedanceService.GetRead().Count();
 
@@ -107,258 +109,259 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // rainExceedance.RainExceedanceID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // rainExceedance.RainExceedanceID   (Int32)
+                    // -----------------------------------
 
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.RainExceedanceID = 0;
-                rainExceedanceService.Update(rainExceedance);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceRainExceedanceID), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.RainExceedanceID = 0;
+                    rainExceedanceService.Update(rainExceedance);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceRainExceedanceID), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.RainExceedanceID = 10000000;
-                rainExceedanceService.Update(rainExceedance);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RainExceedance, ModelsRes.RainExceedanceRainExceedanceID, rainExceedance.RainExceedanceID.ToString()), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // rainExceedance.YearRound   (Boolean)
-                // -----------------------------------
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.RainExceedanceID = 10000000;
+                    rainExceedanceService.Update(rainExceedance);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RainExceedance, ModelsRes.RainExceedanceRainExceedanceID, rainExceedance.RainExceedanceID.ToString()), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPAfter(Year = 1980)]
-                // rainExceedance.StartDate_Local   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // rainExceedance.YearRound   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPAfter(Year = 1980)]
-                // [CSSPBigger(OtherField = StartDate_Local)]
-                // rainExceedance.EndDate_Local   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // rainExceedance.StartDate_Local   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [Range(0, 300)]
-                // rainExceedance.RainMaximum_mm   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [RainMaximum_mm]
-
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.RainMaximum_mm = -1.0D;
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainMaximum_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.RainMaximum_mm = 301.0D;
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainMaximum_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [Range(0, 300)]
-                // rainExceedance.RainExtreme_mm   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [RainExtreme_mm]
-
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.RainExtreme_mm = -1.0D;
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainExtreme_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.RainExtreme_mm = 301.0D;
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainExtreme_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 30)]
-                // rainExceedance.DaysPriorToStart   (Int32)
-                // -----------------------------------
-
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.DaysPriorToStart = -1;
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceDaysPriorToStart, "0", "30"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.DaysPriorToStart = 31;
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceDaysPriorToStart, "0", "30"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // rainExceedance.RepeatEveryYear   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // [CSSPBigger(OtherField = StartDate_Local)]
+                    // rainExceedance.EndDate_Local   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(250))]
-                // rainExceedance.ProvinceTVItemIDs   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(0, 300)]
+                    // rainExceedance.RainMaximum_mm   (Double)
+                    // -----------------------------------
 
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("ProvinceTVItemIDs");
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
-                Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceProvinceTVItemIDs)).Any());
-                Assert.AreEqual(null, rainExceedance.ProvinceTVItemIDs);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    //Error: Type not implemented [RainMaximum_mm]
 
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.ProvinceTVItemIDs = GetRandomString("", 251);
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceProvinceTVItemIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.RainMaximum_mm = -1.0D;
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainMaximum_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.RainMaximum_mm = 301.0D;
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainMaximum_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(250))]
-                // rainExceedance.SubsectorTVItemIDs   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(0, 300)]
+                    // rainExceedance.RainExtreme_mm   (Double)
+                    // -----------------------------------
 
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("SubsectorTVItemIDs");
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
-                Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceSubsectorTVItemIDs)).Any());
-                Assert.AreEqual(null, rainExceedance.SubsectorTVItemIDs);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    //Error: Type not implemented [RainExtreme_mm]
 
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.SubsectorTVItemIDs = GetRandomString("", 251);
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceSubsectorTVItemIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.RainExtreme_mm = -1.0D;
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainExtreme_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.RainExtreme_mm = 301.0D;
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainExtreme_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(250))]
-                // rainExceedance.ClimateSiteTVItemIDs   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 30)]
+                    // rainExceedance.DaysPriorToStart   (Int32)
+                    // -----------------------------------
 
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("ClimateSiteTVItemIDs");
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
-                Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceClimateSiteTVItemIDs)).Any());
-                Assert.AreEqual(null, rainExceedance.ClimateSiteTVItemIDs);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.DaysPriorToStart = -1;
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceDaysPriorToStart, "0", "30"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.DaysPriorToStart = 31;
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceDaysPriorToStart, "0", "30"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.ClimateSiteTVItemIDs = GetRandomString("", 251);
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceClimateSiteTVItemIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(250))]
-                // rainExceedance.EmailDistributionListIDs   (String)
-                // -----------------------------------
-
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("EmailDistributionListIDs");
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
-                Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceEmailDistributionListIDs)).Any());
-                Assert.AreEqual(null, rainExceedance.EmailDistributionListIDs);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
-
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.EmailDistributionListIDs = GetRandomString("", 251);
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceEmailDistributionListIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // rainExceedance.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // rainExceedance.RepeatEveryYear   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // rainExceedance.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(250))]
+                    // rainExceedance.ProvinceTVItemIDs   (String)
+                    // -----------------------------------
 
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.LastUpdateContactTVItemID = 0;
-                rainExceedanceService.Add(rainExceedance);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RainExceedanceLastUpdateContactTVItemID, rainExceedance.LastUpdateContactTVItemID.ToString()), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("ProvinceTVItemIDs");
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
+                    Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceProvinceTVItemIDs)).Any());
+                    Assert.AreEqual(null, rainExceedance.ProvinceTVItemIDs);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.LastUpdateContactTVItemID = 1;
-                rainExceedanceService.Add(rainExceedance);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RainExceedanceLastUpdateContactTVItemID, "Contact"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.ProvinceTVItemIDs = GetRandomString("", 251);
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceProvinceTVItemIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(250))]
+                    // rainExceedance.SubsectorTVItemIDs   (String)
+                    // -----------------------------------
+
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("SubsectorTVItemIDs");
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
+                    Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceSubsectorTVItemIDs)).Any());
+                    Assert.AreEqual(null, rainExceedance.SubsectorTVItemIDs);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.SubsectorTVItemIDs = GetRandomString("", 251);
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceSubsectorTVItemIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(250))]
+                    // rainExceedance.ClimateSiteTVItemIDs   (String)
+                    // -----------------------------------
+
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("ClimateSiteTVItemIDs");
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
+                    Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceClimateSiteTVItemIDs)).Any());
+                    Assert.AreEqual(null, rainExceedance.ClimateSiteTVItemIDs);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.ClimateSiteTVItemIDs = GetRandomString("", 251);
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceClimateSiteTVItemIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(250))]
+                    // rainExceedance.EmailDistributionListIDs   (String)
+                    // -----------------------------------
+
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("EmailDistributionListIDs");
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
+                    Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceEmailDistributionListIDs)).Any());
+                    Assert.AreEqual(null, rainExceedance.EmailDistributionListIDs);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.EmailDistributionListIDs = GetRandomString("", 251);
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceEmailDistributionListIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // rainExceedance.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // rainExceedance.LastUpdateContactTVText   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // rainExceedance.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
 
-                rainExceedance = null;
-                rainExceedance = GetFilledRandomRainExceedance("");
-                rainExceedance.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceLastUpdateContactTVText, "200"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.LastUpdateContactTVItemID = 0;
+                    rainExceedanceService.Add(rainExceedance);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RainExceedanceLastUpdateContactTVItemID, rainExceedance.LastUpdateContactTVItemID.ToString()), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // rainExceedance.HasErrors   (Boolean)
-                // -----------------------------------
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.LastUpdateContactTVItemID = 1;
+                    rainExceedanceService.Add(rainExceedance);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RainExceedanceLastUpdateContactTVItemID, "Contact"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // rainExceedance.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // rainExceedance.LastUpdateContactTVText   (String)
+                    // -----------------------------------
 
+                    rainExceedance = null;
+                    rainExceedance = GetFilledRandomRainExceedance("");
+                    rainExceedance.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceLastUpdateContactTVText, "200"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // rainExceedance.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // rainExceedance.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -371,45 +374,48 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                RainExceedanceService rainExceedanceService = new RainExceedanceService(LanguageRequest, dbTestDB, ContactID);
-                RainExceedance rainExceedance = (from c in rainExceedanceService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(rainExceedance);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    RainExceedanceService rainExceedanceService = new RainExceedanceService(LanguageRequest, dbTestDB, ContactID);
+                    RainExceedance rainExceedance = (from c in rainExceedanceService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(rainExceedance);
 
-                RainExceedance rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID);
-                Assert.IsNotNull(rainExceedanceRet.RainExceedanceID);
-                Assert.IsNotNull(rainExceedanceRet.YearRound);
-                if (rainExceedanceRet.StartDate_Local != null)
-                {
-                   Assert.IsNotNull(rainExceedanceRet.StartDate_Local);
-                }
-                if (rainExceedanceRet.EndDate_Local != null)
-                {
-                   Assert.IsNotNull(rainExceedanceRet.EndDate_Local);
-                }
-                if (rainExceedanceRet.RainMaximum_mm != null)
-                {
-                   Assert.IsNotNull(rainExceedanceRet.RainMaximum_mm);
-                }
-                if (rainExceedanceRet.RainExtreme_mm != null)
-                {
-                   Assert.IsNotNull(rainExceedanceRet.RainExtreme_mm);
-                }
-                Assert.IsNotNull(rainExceedanceRet.DaysPriorToStart);
-                Assert.IsNotNull(rainExceedanceRet.RepeatEveryYear);
-                Assert.IsNotNull(rainExceedanceRet.ProvinceTVItemIDs);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.ProvinceTVItemIDs));
-                Assert.IsNotNull(rainExceedanceRet.SubsectorTVItemIDs);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.SubsectorTVItemIDs));
-                Assert.IsNotNull(rainExceedanceRet.ClimateSiteTVItemIDs);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.ClimateSiteTVItemIDs));
-                Assert.IsNotNull(rainExceedanceRet.EmailDistributionListIDs);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.EmailDistributionListIDs));
-                Assert.IsNotNull(rainExceedanceRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(rainExceedanceRet.LastUpdateContactTVItemID);
+                    RainExceedance rainExceedanceRet = rainExceedanceService.GetRainExceedanceWithRainExceedanceID(rainExceedance.RainExceedanceID);
+                    Assert.IsNotNull(rainExceedanceRet.RainExceedanceID);
+                    Assert.IsNotNull(rainExceedanceRet.YearRound);
+                    if (rainExceedanceRet.StartDate_Local != null)
+                    {
+                       Assert.IsNotNull(rainExceedanceRet.StartDate_Local);
+                    }
+                    if (rainExceedanceRet.EndDate_Local != null)
+                    {
+                       Assert.IsNotNull(rainExceedanceRet.EndDate_Local);
+                    }
+                    if (rainExceedanceRet.RainMaximum_mm != null)
+                    {
+                       Assert.IsNotNull(rainExceedanceRet.RainMaximum_mm);
+                    }
+                    if (rainExceedanceRet.RainExtreme_mm != null)
+                    {
+                       Assert.IsNotNull(rainExceedanceRet.RainExtreme_mm);
+                    }
+                    Assert.IsNotNull(rainExceedanceRet.DaysPriorToStart);
+                    Assert.IsNotNull(rainExceedanceRet.RepeatEveryYear);
+                    Assert.IsNotNull(rainExceedanceRet.ProvinceTVItemIDs);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.ProvinceTVItemIDs));
+                    Assert.IsNotNull(rainExceedanceRet.SubsectorTVItemIDs);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.SubsectorTVItemIDs));
+                    Assert.IsNotNull(rainExceedanceRet.ClimateSiteTVItemIDs);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.ClimateSiteTVItemIDs));
+                    Assert.IsNotNull(rainExceedanceRet.EmailDistributionListIDs);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.EmailDistributionListIDs));
+                    Assert.IsNotNull(rainExceedanceRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(rainExceedanceRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(rainExceedanceRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.LastUpdateContactTVText));
-                Assert.IsNotNull(rainExceedanceRet.HasErrors);
+                    Assert.IsNotNull(rainExceedanceRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(rainExceedanceRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(rainExceedanceRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

@@ -72,21 +72,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, dbTestDB, ContactID);
 
-                ContactLogin contactLogin = GetFilledRandomContactLogin("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    ContactLogin contactLogin = GetFilledRandomContactLogin("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = contactLoginService.GetRead().Count();
 
@@ -111,193 +113,194 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // contactLogin.ContactLoginID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // contactLogin.ContactLoginID   (Int32)
+                    // -----------------------------------
 
-                contactLogin = null;
-                contactLogin = GetFilledRandomContactLogin("");
-                contactLogin.ContactLoginID = 0;
-                contactLoginService.Update(contactLogin);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginContactLoginID), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.ContactLoginID = 0;
+                    contactLoginService.Update(contactLogin);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginContactLoginID), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                contactLogin = null;
-                contactLogin = GetFilledRandomContactLogin("");
-                contactLogin.ContactLoginID = 10000000;
-                contactLoginService.Update(contactLogin);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ContactLogin, ModelsRes.ContactLoginContactLoginID, contactLogin.ContactLoginID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "Contact", ExistPlurial = "s", ExistFieldID = "ContactID", AllowableTVtypeList = Error)]
-                // contactLogin.ContactID   (Int32)
-                // -----------------------------------
-
-                contactLogin = null;
-                contactLogin = GetFilledRandomContactLogin("");
-                contactLogin.ContactID = 0;
-                contactLoginService.Add(contactLogin);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactLoginContactID, contactLogin.ContactID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.ContactLoginID = 10000000;
+                    contactLoginService.Update(contactLogin);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ContactLogin, ModelsRes.ContactLoginContactLoginID, contactLogin.ContactLoginID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [DataType(DataType.EmailAddress)]
-                // [StringLength(200))]
-                // contactLogin.LoginEmail   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "Contact", ExistPlurial = "s", ExistFieldID = "ContactID", AllowableTVtypeList = Error)]
+                    // contactLogin.ContactID   (Int32)
+                    // -----------------------------------
 
-                contactLogin = null;
-                contactLogin = GetFilledRandomContactLogin("LoginEmail");
-                Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                Assert.AreEqual(1, contactLogin.ValidationResults.Count());
-                Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginLoginEmail)).Any());
-                Assert.AreEqual(null, contactLogin.LoginEmail);
-                Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-                contactLogin = null;
-                contactLogin = GetFilledRandomContactLogin("");
-                contactLogin.LoginEmail = GetRandomString("", 201);
-                Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginLoginEmail, "200"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // contactLogin.PasswordHash   (Byte[])
-                // -----------------------------------
-
-                //Error: Type not implemented [PasswordHash]
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.ContactID = 0;
+                    contactLoginService.Add(contactLogin);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactLoginContactID, contactLogin.ContactID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // contactLogin.PasswordSalt   (Byte[])
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [DataType(DataType.EmailAddress)]
+                    // [StringLength(200))]
+                    // contactLogin.LoginEmail   (String)
+                    // -----------------------------------
 
-                //Error: Type not implemented [PasswordSalt]
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("LoginEmail");
+                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
+                    Assert.AreEqual(1, contactLogin.ValidationResults.Count());
+                    Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginLoginEmail)).Any());
+                    Assert.AreEqual(null, contactLogin.LoginEmail);
+                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.LoginEmail = GetRandomString("", 201);
+                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginLoginEmail, "200"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // contactLogin.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // contactLogin.PasswordHash   (Byte[])
+                    // -----------------------------------
 
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // contactLogin.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
-
-                contactLogin = null;
-                contactLogin = GetFilledRandomContactLogin("");
-                contactLogin.LastUpdateContactTVItemID = 0;
-                contactLoginService.Add(contactLogin);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactLoginLastUpdateContactTVItemID, contactLogin.LastUpdateContactTVItemID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                contactLogin = null;
-                contactLogin = GetFilledRandomContactLogin("");
-                contactLogin.LastUpdateContactTVItemID = 1;
-                contactLoginService.Add(contactLogin);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactLoginLastUpdateContactTVItemID, "Contact"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    //Error: Type not implemented [PasswordHash]
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // contactLogin.LastUpdateContactTVText   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // contactLogin.PasswordSalt   (Byte[])
+                    // -----------------------------------
 
-                contactLogin = null;
-                contactLogin = GetFilledRandomContactLogin("");
-                contactLogin.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginLastUpdateContactTVText, "200"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // [StringLength(100, MinimumLength = 6)]
-                // contactLogin.Password   (String)
-                // -----------------------------------
-
-                contactLogin = null;
-                contactLogin = GetFilledRandomContactLogin("Password");
-                Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                Assert.AreEqual(1, contactLogin.ValidationResults.Count());
-                Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginPassword)).Any());
-                Assert.AreEqual(null, contactLogin.Password);
-                Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-                contactLogin = null;
-                contactLogin = GetFilledRandomContactLogin("");
-                contactLogin.Password = GetRandomString("", 5);
-                Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, contactLoginService.GetRead().Count());
-                contactLogin = null;
-                contactLogin = GetFilledRandomContactLogin("");
-                contactLogin.Password = GetRandomString("", 101);
-                Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // [StringLength(100, MinimumLength = 6)]
-                // contactLogin.ConfirmPassword   (String)
-                // -----------------------------------
-
-                contactLogin = null;
-                contactLogin = GetFilledRandomContactLogin("ConfirmPassword");
-                Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                Assert.AreEqual(1, contactLogin.ValidationResults.Count());
-                Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginConfirmPassword)).Any());
-                Assert.AreEqual(null, contactLogin.ConfirmPassword);
-                Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-                contactLogin = null;
-                contactLogin = GetFilledRandomContactLogin("");
-                contactLogin.ConfirmPassword = GetRandomString("", 5);
-                Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginConfirmPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, contactLoginService.GetRead().Count());
-                contactLogin = null;
-                contactLogin = GetFilledRandomContactLogin("");
-                contactLogin.ConfirmPassword = GetRandomString("", 101);
-                Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginConfirmPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, contactLoginService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // contactLogin.HasErrors   (Boolean)
-                // -----------------------------------
+                    //Error: Type not implemented [PasswordSalt]
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // contactLogin.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // contactLogin.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
 
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // contactLogin.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
+
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.LastUpdateContactTVItemID = 0;
+                    contactLoginService.Add(contactLogin);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactLoginLastUpdateContactTVItemID, contactLogin.LastUpdateContactTVItemID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.LastUpdateContactTVItemID = 1;
+                    contactLoginService.Add(contactLogin);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactLoginLastUpdateContactTVItemID, "Contact"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // contactLogin.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginLastUpdateContactTVText, "200"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // [StringLength(100, MinimumLength = 6)]
+                    // contactLogin.Password   (String)
+                    // -----------------------------------
+
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("Password");
+                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
+                    Assert.AreEqual(1, contactLogin.ValidationResults.Count());
+                    Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginPassword)).Any());
+                    Assert.AreEqual(null, contactLogin.Password);
+                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
+
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.Password = GetRandomString("", 5);
+                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
+                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.Password = GetRandomString("", 101);
+                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
+                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // [StringLength(100, MinimumLength = 6)]
+                    // contactLogin.ConfirmPassword   (String)
+                    // -----------------------------------
+
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("ConfirmPassword");
+                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
+                    Assert.AreEqual(1, contactLogin.ValidationResults.Count());
+                    Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginConfirmPassword)).Any());
+                    Assert.AreEqual(null, contactLogin.ConfirmPassword);
+                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
+
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.ConfirmPassword = GetRandomString("", 5);
+                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
+                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginConfirmPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
+                    contactLogin = null;
+                    contactLogin = GetFilledRandomContactLogin("");
+                    contactLogin.ConfirmPassword = GetRandomString("", 101);
+                    Assert.AreEqual(false, contactLoginService.Add(contactLogin));
+                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginConfirmPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, contactLoginService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // contactLogin.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // contactLogin.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -310,23 +313,26 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, dbTestDB, ContactID);
-                ContactLogin contactLogin = (from c in contactLoginService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(contactLogin);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    ContactLoginService contactLoginService = new ContactLoginService(LanguageRequest, dbTestDB, ContactID);
+                    ContactLogin contactLogin = (from c in contactLoginService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(contactLogin);
 
-                ContactLogin contactLoginRet = contactLoginService.GetContactLoginWithContactLoginID(contactLogin.ContactLoginID);
-                Assert.IsNotNull(contactLoginRet.ContactLoginID);
-                Assert.IsNotNull(contactLoginRet.ContactID);
-                Assert.IsNotNull(contactLoginRet.LoginEmail);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.LoginEmail));
-                Assert.IsNotNull(contactLoginRet.PasswordHash);
-                Assert.IsNotNull(contactLoginRet.PasswordSalt);
-                Assert.IsNotNull(contactLoginRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(contactLoginRet.LastUpdateContactTVItemID);
+                    ContactLogin contactLoginRet = contactLoginService.GetContactLoginWithContactLoginID(contactLogin.ContactLoginID);
+                    Assert.IsNotNull(contactLoginRet.ContactLoginID);
+                    Assert.IsNotNull(contactLoginRet.ContactID);
+                    Assert.IsNotNull(contactLoginRet.LoginEmail);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.LoginEmail));
+                    Assert.IsNotNull(contactLoginRet.PasswordHash);
+                    Assert.IsNotNull(contactLoginRet.PasswordSalt);
+                    Assert.IsNotNull(contactLoginRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(contactLoginRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(contactLoginRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.LastUpdateContactTVText));
-                Assert.IsNotNull(contactLoginRet.HasErrors);
+                    Assert.IsNotNull(contactLoginRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(contactLoginRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(contactLoginRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

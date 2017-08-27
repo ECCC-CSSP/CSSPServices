@@ -13,6 +13,7 @@ using CSSPEnums;
 using System.Text.RegularExpressions;
 using System.ComponentModel.DataAnnotations;
 using CSSPModelsGenerateCodeHelper;
+using CSSPGenerateCodeBase;
 
 namespace CSSPServicesGenerateCodeHelper
 {
@@ -181,7 +182,7 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"        #region Functions public Generated CRUD");
             if (TypeName == "Contact")
             {
-                sb.AppendLine(@"        public bool Add(" + TypeName + @" " + TypeNameLower + @", AddContactType addContactType)");
+                sb.AppendLine(@"        public bool Add(" + TypeName + @" " + TypeNameLower + @", AddContactTypeEnum addContactType)");
             }
             else
             {
@@ -208,7 +209,7 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"        {");
             if (TypeName == "Contact")
             {
-                sb.AppendLine(@"            " + TypeNameLower + @".ValidationResults = Validate(new ValidationContext(" + TypeNameLower + @"), ActionDBTypeEnum.Update, ContactService.AddContactType.LoggedIn);");
+                sb.AppendLine(@"            " + TypeNameLower + @".ValidationResults = Validate(new ValidationContext(" + TypeNameLower + @"), ActionDBTypeEnum.Update, AddContactTypeEnum.LoggedIn);");
             }
             else
             {
@@ -226,7 +227,7 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"        {");
             if (TypeName == "Contact")
             {
-                sb.AppendLine(@"            " + TypeNameLower + @".ValidationResults = Validate(new ValidationContext(" + TypeNameLower + @"), ActionDBTypeEnum.Update, ContactService.AddContactType.LoggedIn);");
+                sb.AppendLine(@"            " + TypeNameLower + @".ValidationResults = Validate(new ValidationContext(" + TypeNameLower + @"), ActionDBTypeEnum.Update, AddContactTypeEnum.LoggedIn);");
             }
             else
             {
@@ -832,7 +833,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"        #region Validation");
                 if (TypeName == "Contact")
                 {
-                    sb.AppendLine(@"        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType, AddContactType addContactType)");
+                    sb.AppendLine(@"        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType, AddContactTypeEnum addContactType)");
                 }
                 else
                 {

@@ -63,21 +63,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                PolSourceObservationService polSourceObservationService = new PolSourceObservationService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    PolSourceObservationService polSourceObservationService = new PolSourceObservationService(LanguageRequest, dbTestDB, ContactID);
 
-                PolSourceObservation polSourceObservation = GetFilledRandomPolSourceObservation("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    PolSourceObservation polSourceObservation = GetFilledRandomPolSourceObservation("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = polSourceObservationService.GetRead().Count();
 
@@ -102,169 +104,170 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // polSourceObservation.PolSourceObservationID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // polSourceObservation.PolSourceObservationID   (Int32)
+                    // -----------------------------------
 
-                polSourceObservation = null;
-                polSourceObservation = GetFilledRandomPolSourceObservation("");
-                polSourceObservation.PolSourceObservationID = 0;
-                polSourceObservationService.Update(polSourceObservation);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationPolSourceObservationID), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    polSourceObservation = null;
+                    polSourceObservation = GetFilledRandomPolSourceObservation("");
+                    polSourceObservation.PolSourceObservationID = 0;
+                    polSourceObservationService.Update(polSourceObservation);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationPolSourceObservationID), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                polSourceObservation = null;
-                polSourceObservation = GetFilledRandomPolSourceObservation("");
-                polSourceObservation.PolSourceObservationID = 10000000;
-                polSourceObservationService.Update(polSourceObservation);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceObservation, ModelsRes.PolSourceObservationPolSourceObservationID, polSourceObservation.PolSourceObservationID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "PolSourceSite", ExistPlurial = "s", ExistFieldID = "PolSourceSiteID", AllowableTVtypeList = Error)]
-                // polSourceObservation.PolSourceSiteID   (Int32)
-                // -----------------------------------
-
-                polSourceObservation = null;
-                polSourceObservation = GetFilledRandomPolSourceObservation("");
-                polSourceObservation.PolSourceSiteID = 0;
-                polSourceObservationService.Add(polSourceObservation);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceSite, ModelsRes.PolSourceObservationPolSourceSiteID, polSourceObservation.PolSourceSiteID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    polSourceObservation = null;
+                    polSourceObservation = GetFilledRandomPolSourceObservation("");
+                    polSourceObservation.PolSourceObservationID = 10000000;
+                    polSourceObservationService.Update(polSourceObservation);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceObservation, ModelsRes.PolSourceObservationPolSourceObservationID, polSourceObservation.PolSourceObservationID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // polSourceObservation.ObservationDate_Local   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "PolSourceSite", ExistPlurial = "s", ExistFieldID = "PolSourceSiteID", AllowableTVtypeList = Error)]
+                    // polSourceObservation.PolSourceSiteID   (Int32)
+                    // -----------------------------------
+
+                    polSourceObservation = null;
+                    polSourceObservation = GetFilledRandomPolSourceObservation("");
+                    polSourceObservation.PolSourceSiteID = 0;
+                    polSourceObservationService.Add(polSourceObservation);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceSite, ModelsRes.PolSourceObservationPolSourceSiteID, polSourceObservation.PolSourceSiteID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // polSourceObservation.ContactTVItemID   (Int32)
-                // -----------------------------------
-
-                polSourceObservation = null;
-                polSourceObservation = GetFilledRandomPolSourceObservation("");
-                polSourceObservation.ContactTVItemID = 0;
-                polSourceObservationService.Add(polSourceObservation);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationContactTVItemID, polSourceObservation.ContactTVItemID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                polSourceObservation = null;
-                polSourceObservation = GetFilledRandomPolSourceObservation("");
-                polSourceObservation.ContactTVItemID = 1;
-                polSourceObservationService.Add(polSourceObservation);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationContactTVItemID, "Contact"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // polSourceObservation.ObservationDate_Local   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // polSourceObservation.Observation_ToBeDeleted   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // polSourceObservation.ContactTVItemID   (Int32)
+                    // -----------------------------------
 
-                polSourceObservation = null;
-                polSourceObservation = GetFilledRandomPolSourceObservation("Observation_ToBeDeleted");
-                Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
-                Assert.AreEqual(1, polSourceObservation.ValidationResults.Count());
-                Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationObservation_ToBeDeleted)).Any());
-                Assert.AreEqual(null, polSourceObservation.Observation_ToBeDeleted);
-                Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
+                    polSourceObservation = null;
+                    polSourceObservation = GetFilledRandomPolSourceObservation("");
+                    polSourceObservation.ContactTVItemID = 0;
+                    polSourceObservationService.Add(polSourceObservation);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationContactTVItemID, polSourceObservation.ContactTVItemID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // polSourceObservation.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    polSourceObservation = null;
+                    polSourceObservation = GetFilledRandomPolSourceObservation("");
+                    polSourceObservation.ContactTVItemID = 1;
+                    polSourceObservationService.Add(polSourceObservation);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationContactTVItemID, "Contact"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // polSourceObservation.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // polSourceObservation.Observation_ToBeDeleted   (String)
+                    // -----------------------------------
 
-                polSourceObservation = null;
-                polSourceObservation = GetFilledRandomPolSourceObservation("");
-                polSourceObservation.LastUpdateContactTVItemID = 0;
-                polSourceObservationService.Add(polSourceObservation);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, polSourceObservation.LastUpdateContactTVItemID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                polSourceObservation = null;
-                polSourceObservation = GetFilledRandomPolSourceObservation("");
-                polSourceObservation.LastUpdateContactTVItemID = 1;
-                polSourceObservationService.Add(polSourceObservation);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, "Contact"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    polSourceObservation = null;
+                    polSourceObservation = GetFilledRandomPolSourceObservation("Observation_ToBeDeleted");
+                    Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
+                    Assert.AreEqual(1, polSourceObservation.ValidationResults.Count());
+                    Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationObservation_ToBeDeleted)).Any());
+                    Assert.AreEqual(null, polSourceObservation.Observation_ToBeDeleted);
+                    Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "PolSourceSiteID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // polSourceObservation.PolSourceSiteTVText   (String)
-                // -----------------------------------
-
-                polSourceObservation = null;
-                polSourceObservation = GetFilledRandomPolSourceObservation("");
-                polSourceObservation.PolSourceSiteTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationPolSourceSiteTVText, "200"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // polSourceObservation.ContactTVText   (String)
-                // -----------------------------------
-
-                polSourceObservation = null;
-                polSourceObservation = GetFilledRandomPolSourceObservation("");
-                polSourceObservation.ContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationContactTVText, "200"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // polSourceObservation.LastUpdateContactTVText   (String)
-                // -----------------------------------
-
-                polSourceObservation = null;
-                polSourceObservation = GetFilledRandomPolSourceObservation("");
-                polSourceObservation.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationLastUpdateContactTVText, "200"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // polSourceObservation.HasErrors   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // polSourceObservation.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // polSourceObservation.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // polSourceObservation.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
 
+                    polSourceObservation = null;
+                    polSourceObservation = GetFilledRandomPolSourceObservation("");
+                    polSourceObservation.LastUpdateContactTVItemID = 0;
+                    polSourceObservationService.Add(polSourceObservation);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, polSourceObservation.LastUpdateContactTVItemID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    polSourceObservation = null;
+                    polSourceObservation = GetFilledRandomPolSourceObservation("");
+                    polSourceObservation.LastUpdateContactTVItemID = 1;
+                    polSourceObservationService.Add(polSourceObservation);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, "Contact"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "PolSourceSiteID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // polSourceObservation.PolSourceSiteTVText   (String)
+                    // -----------------------------------
+
+                    polSourceObservation = null;
+                    polSourceObservation = GetFilledRandomPolSourceObservation("");
+                    polSourceObservation.PolSourceSiteTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationPolSourceSiteTVText, "200"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // polSourceObservation.ContactTVText   (String)
+                    // -----------------------------------
+
+                    polSourceObservation = null;
+                    polSourceObservation = GetFilledRandomPolSourceObservation("");
+                    polSourceObservation.ContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationContactTVText, "200"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // polSourceObservation.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    polSourceObservation = null;
+                    polSourceObservation = GetFilledRandomPolSourceObservation("");
+                    polSourceObservation.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationLastUpdateContactTVText, "200"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // polSourceObservation.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // polSourceObservation.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -277,27 +280,30 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                PolSourceObservationService polSourceObservationService = new PolSourceObservationService(LanguageRequest, dbTestDB, ContactID);
-                PolSourceObservation polSourceObservation = (from c in polSourceObservationService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(polSourceObservation);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    PolSourceObservationService polSourceObservationService = new PolSourceObservationService(LanguageRequest, dbTestDB, ContactID);
+                    PolSourceObservation polSourceObservation = (from c in polSourceObservationService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(polSourceObservation);
 
-                PolSourceObservation polSourceObservationRet = polSourceObservationService.GetPolSourceObservationWithPolSourceObservationID(polSourceObservation.PolSourceObservationID);
-                Assert.IsNotNull(polSourceObservationRet.PolSourceObservationID);
-                Assert.IsNotNull(polSourceObservationRet.PolSourceSiteID);
-                Assert.IsNotNull(polSourceObservationRet.ObservationDate_Local);
-                Assert.IsNotNull(polSourceObservationRet.ContactTVItemID);
-                Assert.IsNotNull(polSourceObservationRet.Observation_ToBeDeleted);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationRet.Observation_ToBeDeleted));
-                Assert.IsNotNull(polSourceObservationRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(polSourceObservationRet.LastUpdateContactTVItemID);
+                    PolSourceObservation polSourceObservationRet = polSourceObservationService.GetPolSourceObservationWithPolSourceObservationID(polSourceObservation.PolSourceObservationID);
+                    Assert.IsNotNull(polSourceObservationRet.PolSourceObservationID);
+                    Assert.IsNotNull(polSourceObservationRet.PolSourceSiteID);
+                    Assert.IsNotNull(polSourceObservationRet.ObservationDate_Local);
+                    Assert.IsNotNull(polSourceObservationRet.ContactTVItemID);
+                    Assert.IsNotNull(polSourceObservationRet.Observation_ToBeDeleted);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationRet.Observation_ToBeDeleted));
+                    Assert.IsNotNull(polSourceObservationRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(polSourceObservationRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(polSourceObservationRet.PolSourceSiteTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationRet.PolSourceSiteTVText));
-                Assert.IsNotNull(polSourceObservationRet.ContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationRet.ContactTVText));
-                Assert.IsNotNull(polSourceObservationRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationRet.LastUpdateContactTVText));
-                Assert.IsNotNull(polSourceObservationRet.HasErrors);
+                    Assert.IsNotNull(polSourceObservationRet.PolSourceSiteTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationRet.PolSourceSiteTVText));
+                    Assert.IsNotNull(polSourceObservationRet.ContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationRet.ContactTVText));
+                    Assert.IsNotNull(polSourceObservationRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(polSourceObservationRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(polSourceObservationRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

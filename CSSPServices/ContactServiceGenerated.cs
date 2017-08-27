@@ -32,7 +32,7 @@ namespace CSSPServices
         #endregion Constructors
 
         #region Validation
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType, AddContactType addContactType)
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext, ActionDBTypeEnum actionDBType, AddContactTypeEnum addContactType)
         {
             string retStr = "";
             Enums enums = new Enums(LanguageRequest);
@@ -264,7 +264,7 @@ namespace CSSPServices
         #endregion Functions public Generated Get
 
         #region Functions public Generated CRUD
-        public bool Add(Contact contact, AddContactType addContactType)
+        public bool Add(Contact contact, AddContactTypeEnum addContactType)
         {
             contact.ValidationResults = Validate(new ValidationContext(contact), ActionDBTypeEnum.Create, addContactType);
             if (contact.ValidationResults.Count() > 0) return false;
@@ -277,7 +277,7 @@ namespace CSSPServices
         }
         public bool Delete(Contact contact)
         {
-            contact.ValidationResults = Validate(new ValidationContext(contact), ActionDBTypeEnum.Update, ContactService.AddContactType.LoggedIn);
+            contact.ValidationResults = Validate(new ValidationContext(contact), ActionDBTypeEnum.Update, AddContactTypeEnum.LoggedIn);
             if (contact.ValidationResults.Count() > 0) return false;
 
             db.Contacts.Remove(contact);
@@ -288,7 +288,7 @@ namespace CSSPServices
         }
         public bool Update(Contact contact)
         {
-            contact.ValidationResults = Validate(new ValidationContext(contact), ActionDBTypeEnum.Update, ContactService.AddContactType.LoggedIn);
+            contact.ValidationResults = Validate(new ValidationContext(contact), ActionDBTypeEnum.Update, AddContactTypeEnum.LoggedIn);
             if (contact.ValidationResults.Count() > 0) return false;
 
             db.Contacts.Update(contact);

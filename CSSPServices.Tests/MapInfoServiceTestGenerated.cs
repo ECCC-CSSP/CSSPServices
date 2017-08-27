@@ -67,21 +67,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                MapInfoService mapInfoService = new MapInfoService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    MapInfoService mapInfoService = new MapInfoService(LanguageRequest, dbTestDB, ContactID);
 
-                MapInfo mapInfo = GetFilledRandomMapInfo("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    MapInfo mapInfo = GetFilledRandomMapInfo("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = mapInfoService.GetRead().Count();
 
@@ -106,258 +108,259 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, mapInfoService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // mapInfo.MapInfoID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // mapInfo.MapInfoID   (Int32)
+                    // -----------------------------------
 
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.MapInfoID = 0;
-                mapInfoService.Update(mapInfo);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoID), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.MapInfoID = 0;
+                    mapInfoService.Update(mapInfo);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoID), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.MapInfoID = 10000000;
-                mapInfoService.Update(mapInfo);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MapInfo, ModelsRes.MapInfoMapInfoID, mapInfo.MapInfoID.ToString()), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Address,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario,LiftStation,LineOverflow,MeshNode,MikeSourceIncluded,MikeSourceIsRiver,MikeSourceNotIncluded,NoData,NoDepuration,Outfall,Passed,WebTideNode)]
-                // mapInfo.TVItemID   (Int32)
-                // -----------------------------------
-
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.TVItemID = 0;
-                mapInfoService.Add(mapInfo);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoTVItemID, mapInfo.TVItemID.ToString()), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.TVItemID = 2;
-                mapInfoService.Add(mapInfo);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoTVItemID, "Root,Address,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario,LiftStation,LineOverflow,MeshNode,MikeSourceIncluded,MikeSourceIsRiver,MikeSourceNotIncluded,NoData,NoDepuration,Outfall,Passed,WebTideNode"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.MapInfoID = 10000000;
+                    mapInfoService.Update(mapInfo);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MapInfo, ModelsRes.MapInfoMapInfoID, mapInfo.MapInfoID.ToString()), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // mapInfo.TVType   (TVTypeEnum)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Address,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario,LiftStation,LineOverflow,MeshNode,MikeSourceIncluded,MikeSourceIsRiver,MikeSourceNotIncluded,NoData,NoDepuration,Outfall,Passed,WebTideNode)]
+                    // mapInfo.TVItemID   (Int32)
+                    // -----------------------------------
 
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.TVType = (TVTypeEnum)1000000;
-                mapInfoService.Add(mapInfo);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoTVType), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.TVItemID = 0;
+                    mapInfoService.Add(mapInfo);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoTVItemID, mapInfo.TVItemID.ToString()), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(-90, 90)]
-                // mapInfo.LatMin   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [LatMin]
-
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.LatMin = -91.0D;
-                Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMin, "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mapInfoService.GetRead().Count());
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.LatMin = 91.0D;
-                Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMin, "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mapInfoService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(-90, 90)]
-                // mapInfo.LatMax   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [LatMax]
-
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.LatMax = -91.0D;
-                Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMax, "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mapInfoService.GetRead().Count());
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.LatMax = 91.0D;
-                Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMax, "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mapInfoService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(-180, 180)]
-                // mapInfo.LngMin   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [LngMin]
-
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.LngMin = -181.0D;
-                Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMin, "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mapInfoService.GetRead().Count());
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.LngMin = 181.0D;
-                Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMin, "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mapInfoService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(-180, 180)]
-                // mapInfo.LngMax   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [LngMax]
-
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.LngMax = -181.0D;
-                Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMax, "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mapInfoService.GetRead().Count());
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.LngMax = 181.0D;
-                Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMax, "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mapInfoService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // mapInfo.MapInfoDrawType   (MapInfoDrawTypeEnum)
-                // -----------------------------------
-
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.MapInfoDrawType = (MapInfoDrawTypeEnum)1000000;
-                mapInfoService.Add(mapInfo);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoDrawType), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.TVItemID = 2;
+                    mapInfoService.Add(mapInfo);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoTVItemID, "Root,Address,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario,LiftStation,LineOverflow,MeshNode,MikeSourceIncluded,MikeSourceIsRiver,MikeSourceNotIncluded,NoData,NoDepuration,Outfall,Passed,WebTideNode"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // mapInfo.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // mapInfo.TVType   (TVTypeEnum)
+                    // -----------------------------------
+
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.TVType = (TVTypeEnum)1000000;
+                    mapInfoService.Add(mapInfo);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoTVType), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // mapInfo.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(-90, 90)]
+                    // mapInfo.LatMin   (Double)
+                    // -----------------------------------
 
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.LastUpdateContactTVItemID = 0;
-                mapInfoService.Add(mapInfo);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoLastUpdateContactTVItemID, mapInfo.LastUpdateContactTVItemID.ToString()), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    //Error: Type not implemented [LatMin]
 
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.LastUpdateContactTVItemID = 1;
-                mapInfoService.Add(mapInfo);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoLastUpdateContactTVItemID, "Contact"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.LatMin = -91.0D;
+                    Assert.AreEqual(false, mapInfoService.Add(mapInfo));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMin, "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.LatMin = 91.0D;
+                    Assert.AreEqual(false, mapInfoService.Add(mapInfo));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMin, "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(-90, 90)]
+                    // mapInfo.LatMax   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [LatMax]
+
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.LatMax = -91.0D;
+                    Assert.AreEqual(false, mapInfoService.Add(mapInfo));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMax, "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.LatMax = 91.0D;
+                    Assert.AreEqual(false, mapInfoService.Add(mapInfo));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLatMax, "-90", "90"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(-180, 180)]
+                    // mapInfo.LngMin   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [LngMin]
+
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.LngMin = -181.0D;
+                    Assert.AreEqual(false, mapInfoService.Add(mapInfo));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMin, "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.LngMin = 181.0D;
+                    Assert.AreEqual(false, mapInfoService.Add(mapInfo));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMin, "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(-180, 180)]
+                    // mapInfo.LngMax   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [LngMax]
+
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.LngMax = -181.0D;
+                    Assert.AreEqual(false, mapInfoService.Add(mapInfo));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMax, "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.LngMax = 181.0D;
+                    Assert.AreEqual(false, mapInfoService.Add(mapInfo));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoLngMax, "-180", "180"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // mapInfo.MapInfoDrawType   (MapInfoDrawTypeEnum)
+                    // -----------------------------------
+
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.MapInfoDrawType = (MapInfoDrawTypeEnum)1000000;
+                    mapInfoService.Add(mapInfo);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoMapInfoDrawType), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // mapInfo.TVText   (String)
-                // -----------------------------------
-
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.TVText = GetRandomString("", 201);
-                Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoTVText, "200"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mapInfoService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // mapInfo.LastUpdateContactTVText   (String)
-                // -----------------------------------
-
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoLastUpdateContactTVText, "200"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mapInfoService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // mapInfo.TVTypeText   (String)
-                // -----------------------------------
-
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.TVTypeText = GetRandomString("", 101);
-                Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoTVTypeText, "100"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mapInfoService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // mapInfo.MapInfoDrawTypeText   (String)
-                // -----------------------------------
-
-                mapInfo = null;
-                mapInfo = GetFilledRandomMapInfo("");
-                mapInfo.MapInfoDrawTypeText = GetRandomString("", 101);
-                Assert.AreEqual(false, mapInfoService.Add(mapInfo));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoMapInfoDrawTypeText, "100"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mapInfoService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // mapInfo.HasErrors   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // mapInfo.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // mapInfo.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // mapInfo.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
 
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.LastUpdateContactTVItemID = 0;
+                    mapInfoService.Add(mapInfo);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoLastUpdateContactTVItemID, mapInfo.LastUpdateContactTVItemID.ToString()), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.LastUpdateContactTVItemID = 1;
+                    mapInfoService.Add(mapInfo);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoLastUpdateContactTVItemID, "Contact"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // mapInfo.TVText   (String)
+                    // -----------------------------------
+
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.TVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, mapInfoService.Add(mapInfo));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoTVText, "200"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // mapInfo.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, mapInfoService.Add(mapInfo));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoLastUpdateContactTVText, "200"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // mapInfo.TVTypeText   (String)
+                    // -----------------------------------
+
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.TVTypeText = GetRandomString("", 101);
+                    Assert.AreEqual(false, mapInfoService.Add(mapInfo));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoTVTypeText, "100"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // mapInfo.MapInfoDrawTypeText   (String)
+                    // -----------------------------------
+
+                    mapInfo = null;
+                    mapInfo = GetFilledRandomMapInfo("");
+                    mapInfo.MapInfoDrawTypeText = GetRandomString("", 101);
+                    Assert.AreEqual(false, mapInfoService.Add(mapInfo));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoMapInfoDrawTypeText, "100"), mapInfo.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mapInfoService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // mapInfo.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // mapInfo.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -370,31 +373,34 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                MapInfoService mapInfoService = new MapInfoService(LanguageRequest, dbTestDB, ContactID);
-                MapInfo mapInfo = (from c in mapInfoService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(mapInfo);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MapInfoService mapInfoService = new MapInfoService(LanguageRequest, dbTestDB, ContactID);
+                    MapInfo mapInfo = (from c in mapInfoService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(mapInfo);
 
-                MapInfo mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID);
-                Assert.IsNotNull(mapInfoRet.MapInfoID);
-                Assert.IsNotNull(mapInfoRet.TVItemID);
-                Assert.IsNotNull(mapInfoRet.TVType);
-                Assert.IsNotNull(mapInfoRet.LatMin);
-                Assert.IsNotNull(mapInfoRet.LatMax);
-                Assert.IsNotNull(mapInfoRet.LngMin);
-                Assert.IsNotNull(mapInfoRet.LngMax);
-                Assert.IsNotNull(mapInfoRet.MapInfoDrawType);
-                Assert.IsNotNull(mapInfoRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(mapInfoRet.LastUpdateContactTVItemID);
+                    MapInfo mapInfoRet = mapInfoService.GetMapInfoWithMapInfoID(mapInfo.MapInfoID);
+                    Assert.IsNotNull(mapInfoRet.MapInfoID);
+                    Assert.IsNotNull(mapInfoRet.TVItemID);
+                    Assert.IsNotNull(mapInfoRet.TVType);
+                    Assert.IsNotNull(mapInfoRet.LatMin);
+                    Assert.IsNotNull(mapInfoRet.LatMax);
+                    Assert.IsNotNull(mapInfoRet.LngMin);
+                    Assert.IsNotNull(mapInfoRet.LngMax);
+                    Assert.IsNotNull(mapInfoRet.MapInfoDrawType);
+                    Assert.IsNotNull(mapInfoRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(mapInfoRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(mapInfoRet.TVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.TVText));
-                Assert.IsNotNull(mapInfoRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.LastUpdateContactTVText));
-                Assert.IsNotNull(mapInfoRet.TVTypeText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.TVTypeText));
-                Assert.IsNotNull(mapInfoRet.MapInfoDrawTypeText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoDrawTypeText));
-                Assert.IsNotNull(mapInfoRet.HasErrors);
+                    Assert.IsNotNull(mapInfoRet.TVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.TVText));
+                    Assert.IsNotNull(mapInfoRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(mapInfoRet.TVTypeText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.TVTypeText));
+                    Assert.IsNotNull(mapInfoRet.MapInfoDrawTypeText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mapInfoRet.MapInfoDrawTypeText));
+                    Assert.IsNotNull(mapInfoRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

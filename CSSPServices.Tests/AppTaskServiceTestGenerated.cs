@@ -73,21 +73,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                AppTaskService appTaskService = new AppTaskService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    AppTaskService appTaskService = new AppTaskService(LanguageRequest, dbTestDB, ContactID);
 
-                AppTask appTask = GetFilledRandomAppTask("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    AppTask appTask = GetFilledRandomAppTask("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = appTaskService.GetRead().Count();
 
@@ -112,321 +114,322 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, appTaskService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // appTask.AppTaskID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // appTask.AppTaskID   (Int32)
+                    // -----------------------------------
 
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.AppTaskID = 0;
-                appTaskService.Update(appTask);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskID), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.AppTaskID = 0;
+                    appTaskService.Update(appTask);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskID), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.AppTaskID = 10000000;
-                appTaskService.Update(appTask);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppTask, ModelsRes.AppTaskAppTaskID, appTask.AppTaskID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario)]
-                // appTask.TVItemID   (Int32)
-                // -----------------------------------
-
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.TVItemID = 0;
-                appTaskService.Add(appTask);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID, appTask.TVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.TVItemID = 2;
-                appTaskService.Add(appTask);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.AppTaskID = 10000000;
+                    appTaskService.Update(appTask);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppTask, ModelsRes.AppTaskAppTaskID, appTask.AppTaskID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario)]
-                // appTask.TVItemID2   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario)]
+                    // appTask.TVItemID   (Int32)
+                    // -----------------------------------
 
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.TVItemID2 = 0;
-                appTaskService.Add(appTask);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID2, appTask.TVItemID2.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.TVItemID = 0;
+                    appTaskService.Add(appTask);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID, appTask.TVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.TVItemID2 = 2;
-                appTaskService.Add(appTask);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskTVItemID2, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // appTask.AppTaskCommand   (AppTaskCommandEnum)
-                // -----------------------------------
-
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.AppTaskCommand = (AppTaskCommandEnum)1000000;
-                appTaskService.Add(appTask);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskCommand), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.TVItemID = 2;
+                    appTaskService.Add(appTask);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // appTask.AppTaskStatus   (AppTaskStatusEnum)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario)]
+                    // appTask.TVItemID2   (Int32)
+                    // -----------------------------------
 
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.AppTaskStatus = (AppTaskStatusEnum)1000000;
-                appTaskService.Add(appTask);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskStatus), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.TVItemID2 = 0;
+                    appTaskService.Add(appTask);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID2, appTask.TVItemID2.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 100)]
-                // appTask.PercentCompleted   (Int32)
-                // -----------------------------------
-
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.PercentCompleted = -1;
-                Assert.AreEqual(false, appTaskService.Add(appTask));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskPercentCompleted, "0", "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskService.GetRead().Count());
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.PercentCompleted = 101;
-                Assert.AreEqual(false, appTaskService.Add(appTask));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskPercentCompleted, "0", "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // appTask.Parameters   (String)
-                // -----------------------------------
-
-                appTask = null;
-                appTask = GetFilledRandomAppTask("Parameters");
-                Assert.AreEqual(false, appTaskService.Add(appTask));
-                Assert.AreEqual(1, appTask.ValidationResults.Count());
-                Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskParameters)).Any());
-                Assert.AreEqual(null, appTask.Parameters);
-                Assert.AreEqual(count, appTaskService.GetRead().Count());
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.TVItemID2 = 2;
+                    appTaskService.Add(appTask);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskTVItemID2, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // appTask.Language   (LanguageEnum)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // appTask.AppTaskCommand   (AppTaskCommandEnum)
+                    // -----------------------------------
 
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.Language = (LanguageEnum)1000000;
-                appTaskService.Add(appTask);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguage), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // appTask.StartDateTime_UTC   (DateTime)
-                // -----------------------------------
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.AppTaskCommand = (AppTaskCommandEnum)1000000;
+                    appTaskService.Add(appTask);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskCommand), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPAfter(Year = 1980)]
-                // [CSSPBigger(OtherField = StartDateTime_UTC)]
-                // appTask.EndDateTime_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // appTask.AppTaskStatus   (AppTaskStatusEnum)
+                    // -----------------------------------
+
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.AppTaskStatus = (AppTaskStatusEnum)1000000;
+                    appTaskService.Add(appTask);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskStatus), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [Range(0, 1000000)]
-                // appTask.EstimatedLength_second   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 100)]
+                    // appTask.PercentCompleted   (Int32)
+                    // -----------------------------------
 
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.EstimatedLength_second = -1;
-                Assert.AreEqual(false, appTaskService.Add(appTask));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskService.GetRead().Count());
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.EstimatedLength_second = 1000001;
-                Assert.AreEqual(false, appTaskService.Add(appTask));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskService.GetRead().Count());
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.PercentCompleted = -1;
+                    Assert.AreEqual(false, appTaskService.Add(appTask));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskPercentCompleted, "0", "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskService.GetRead().Count());
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.PercentCompleted = 101;
+                    Assert.AreEqual(false, appTaskService.Add(appTask));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskPercentCompleted, "0", "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskService.GetRead().Count());
 
-                // -----------------------------------
-                // Is Nullable
-                // [Range(0, 1000000)]
-                // appTask.RemainingTime_second   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // appTask.Parameters   (String)
+                    // -----------------------------------
 
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.RemainingTime_second = -1;
-                Assert.AreEqual(false, appTaskService.Add(appTask));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskService.GetRead().Count());
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.RemainingTime_second = 1000001;
-                Assert.AreEqual(false, appTaskService.Add(appTask));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // appTask.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("Parameters");
+                    Assert.AreEqual(false, appTaskService.Add(appTask));
+                    Assert.AreEqual(1, appTask.ValidationResults.Count());
+                    Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskParameters)).Any());
+                    Assert.AreEqual(null, appTask.Parameters);
+                    Assert.AreEqual(count, appTaskService.GetRead().Count());
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // appTask.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // appTask.Language   (LanguageEnum)
+                    // -----------------------------------
 
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.LastUpdateContactTVItemID = 0;
-                appTaskService.Add(appTask);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskLastUpdateContactTVItemID, appTask.LastUpdateContactTVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.LastUpdateContactTVItemID = 1;
-                appTaskService.Add(appTask);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskLastUpdateContactTVItemID, "Contact"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.Language = (LanguageEnum)1000000;
+                    appTaskService.Add(appTask);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguage), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // appTask.TVItemTVText   (String)
-                // -----------------------------------
-
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.TVItemTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, appTaskService.Add(appTask));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskTVItemTVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID2", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // appTask.TVItem2TVText   (String)
-                // -----------------------------------
-
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.TVItem2TVText = GetRandomString("", 201);
-                Assert.AreEqual(false, appTaskService.Add(appTask));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskTVItem2TVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // appTask.LastUpdateContactTVText   (String)
-                // -----------------------------------
-
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, appTaskService.Add(appTask));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLastUpdateContactTVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // appTask.AppTaskCommandText   (String)
-                // -----------------------------------
-
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.AppTaskCommandText = GetRandomString("", 101);
-                Assert.AreEqual(false, appTaskService.Add(appTask));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskAppTaskCommandText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // appTask.AppTaskStatusText   (String)
-                // -----------------------------------
-
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.AppTaskStatusText = GetRandomString("", 101);
-                Assert.AreEqual(false, appTaskService.Add(appTask));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskAppTaskStatusText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // appTask.LanguageText   (String)
-                // -----------------------------------
-
-                appTask = null;
-                appTask = GetFilledRandomAppTask("");
-                appTask.LanguageText = GetRandomString("", 101);
-                Assert.AreEqual(false, appTaskService.Add(appTask));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appTaskService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // appTask.HasErrors   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // appTask.StartDateTime_UTC   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // appTask.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // [CSSPBigger(OtherField = StartDateTime_UTC)]
+                    // appTask.EndDateTime_UTC   (DateTime)
+                    // -----------------------------------
 
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(0, 1000000)]
+                    // appTask.EstimatedLength_second   (Int32)
+                    // -----------------------------------
+
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.EstimatedLength_second = -1;
+                    Assert.AreEqual(false, appTaskService.Add(appTask));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskService.GetRead().Count());
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.EstimatedLength_second = 1000001;
+                    Assert.AreEqual(false, appTaskService.Add(appTask));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(0, 1000000)]
+                    // appTask.RemainingTime_second   (Int32)
+                    // -----------------------------------
+
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.RemainingTime_second = -1;
+                    Assert.AreEqual(false, appTaskService.Add(appTask));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskService.GetRead().Count());
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.RemainingTime_second = 1000001;
+                    Assert.AreEqual(false, appTaskService.Add(appTask));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // appTask.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // appTask.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
+
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.LastUpdateContactTVItemID = 0;
+                    appTaskService.Add(appTask);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskLastUpdateContactTVItemID, appTask.LastUpdateContactTVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.LastUpdateContactTVItemID = 1;
+                    appTaskService.Add(appTask);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskLastUpdateContactTVItemID, "Contact"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // appTask.TVItemTVText   (String)
+                    // -----------------------------------
+
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.TVItemTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, appTaskService.Add(appTask));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskTVItemTVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "TVItemID2", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // appTask.TVItem2TVText   (String)
+                    // -----------------------------------
+
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.TVItem2TVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, appTaskService.Add(appTask));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskTVItem2TVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // appTask.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, appTaskService.Add(appTask));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLastUpdateContactTVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // appTask.AppTaskCommandText   (String)
+                    // -----------------------------------
+
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.AppTaskCommandText = GetRandomString("", 101);
+                    Assert.AreEqual(false, appTaskService.Add(appTask));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskAppTaskCommandText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // appTask.AppTaskStatusText   (String)
+                    // -----------------------------------
+
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.AppTaskStatusText = GetRandomString("", 101);
+                    Assert.AreEqual(false, appTaskService.Add(appTask));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskAppTaskStatusText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // appTask.LanguageText   (String)
+                    // -----------------------------------
+
+                    appTask = null;
+                    appTask = GetFilledRandomAppTask("");
+                    appTask.LanguageText = GetRandomString("", 101);
+                    Assert.AreEqual(false, appTaskService.Add(appTask));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appTaskService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // appTask.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // appTask.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -439,49 +442,52 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                AppTaskService appTaskService = new AppTaskService(LanguageRequest, dbTestDB, ContactID);
-                AppTask appTask = (from c in appTaskService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(appTask);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    AppTaskService appTaskService = new AppTaskService(LanguageRequest, dbTestDB, ContactID);
+                    AppTask appTask = (from c in appTaskService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(appTask);
 
-                AppTask appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
-                Assert.IsNotNull(appTaskRet.AppTaskID);
-                Assert.IsNotNull(appTaskRet.TVItemID);
-                Assert.IsNotNull(appTaskRet.TVItemID2);
-                Assert.IsNotNull(appTaskRet.AppTaskCommand);
-                Assert.IsNotNull(appTaskRet.AppTaskStatus);
-                Assert.IsNotNull(appTaskRet.PercentCompleted);
-                Assert.IsNotNull(appTaskRet.Parameters);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.Parameters));
-                Assert.IsNotNull(appTaskRet.Language);
-                Assert.IsNotNull(appTaskRet.StartDateTime_UTC);
-                if (appTaskRet.EndDateTime_UTC != null)
-                {
-                   Assert.IsNotNull(appTaskRet.EndDateTime_UTC);
-                }
-                if (appTaskRet.EstimatedLength_second != null)
-                {
-                   Assert.IsNotNull(appTaskRet.EstimatedLength_second);
-                }
-                if (appTaskRet.RemainingTime_second != null)
-                {
-                   Assert.IsNotNull(appTaskRet.RemainingTime_second);
-                }
-                Assert.IsNotNull(appTaskRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(appTaskRet.LastUpdateContactTVItemID);
+                    AppTask appTaskRet = appTaskService.GetAppTaskWithAppTaskID(appTask.AppTaskID);
+                    Assert.IsNotNull(appTaskRet.AppTaskID);
+                    Assert.IsNotNull(appTaskRet.TVItemID);
+                    Assert.IsNotNull(appTaskRet.TVItemID2);
+                    Assert.IsNotNull(appTaskRet.AppTaskCommand);
+                    Assert.IsNotNull(appTaskRet.AppTaskStatus);
+                    Assert.IsNotNull(appTaskRet.PercentCompleted);
+                    Assert.IsNotNull(appTaskRet.Parameters);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.Parameters));
+                    Assert.IsNotNull(appTaskRet.Language);
+                    Assert.IsNotNull(appTaskRet.StartDateTime_UTC);
+                    if (appTaskRet.EndDateTime_UTC != null)
+                    {
+                       Assert.IsNotNull(appTaskRet.EndDateTime_UTC);
+                    }
+                    if (appTaskRet.EstimatedLength_second != null)
+                    {
+                       Assert.IsNotNull(appTaskRet.EstimatedLength_second);
+                    }
+                    if (appTaskRet.RemainingTime_second != null)
+                    {
+                       Assert.IsNotNull(appTaskRet.RemainingTime_second);
+                    }
+                    Assert.IsNotNull(appTaskRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(appTaskRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(appTaskRet.TVItemTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.TVItemTVText));
-                Assert.IsNotNull(appTaskRet.TVItem2TVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.TVItem2TVText));
-                Assert.IsNotNull(appTaskRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.LastUpdateContactTVText));
-                Assert.IsNotNull(appTaskRet.AppTaskCommandText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskCommandText));
-                Assert.IsNotNull(appTaskRet.AppTaskStatusText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskStatusText));
-                Assert.IsNotNull(appTaskRet.LanguageText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.LanguageText));
-                Assert.IsNotNull(appTaskRet.HasErrors);
+                    Assert.IsNotNull(appTaskRet.TVItemTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.TVItemTVText));
+                    Assert.IsNotNull(appTaskRet.TVItem2TVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.TVItem2TVText));
+                    Assert.IsNotNull(appTaskRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(appTaskRet.AppTaskCommandText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskCommandText));
+                    Assert.IsNotNull(appTaskRet.AppTaskStatusText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.AppTaskStatusText));
+                    Assert.IsNotNull(appTaskRet.LanguageText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(appTaskRet.LanguageText));
+                    Assert.IsNotNull(appTaskRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

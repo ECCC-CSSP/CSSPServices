@@ -54,28 +54,31 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                VectorService vectorService = new VectorService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    VectorService vectorService = new VectorService(LanguageRequest, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    Vector vector = GetFilledRandomVector("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
+
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
+
                 }
-
-                Vector vector = GetFilledRandomVector("");
-
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
-
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
-
             }
         }
         #endregion Tests Generated CRUD and Properties

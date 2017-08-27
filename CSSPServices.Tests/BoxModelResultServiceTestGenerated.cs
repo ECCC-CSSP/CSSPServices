@@ -73,21 +73,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                BoxModelResultService boxModelResultService = new BoxModelResultService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    BoxModelResultService boxModelResultService = new BoxModelResultService(LanguageRequest, dbTestDB, ContactID);
 
-                BoxModelResult boxModelResult = GetFilledRandomBoxModelResult("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    BoxModelResult boxModelResult = GetFilledRandomBoxModelResult("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = boxModelResultService.GetRead().Count();
 
@@ -112,357 +114,358 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // boxModelResult.BoxModelResultID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // boxModelResult.BoxModelResultID   (Int32)
+                    // -----------------------------------
 
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.BoxModelResultID = 0;
-                boxModelResultService.Update(boxModelResult);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelResultBoxModelResultID), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.BoxModelResultID = 0;
+                    boxModelResultService.Update(boxModelResult);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelResultBoxModelResultID), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.BoxModelResultID = 10000000;
-                boxModelResultService.Update(boxModelResult);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModelResult, ModelsRes.BoxModelResultBoxModelResultID, boxModelResult.BoxModelResultID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "BoxModel", ExistPlurial = "s", ExistFieldID = "BoxModelID", AllowableTVtypeList = Error)]
-                // boxModelResult.BoxModelID   (Int32)
-                // -----------------------------------
-
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.BoxModelID = 0;
-                boxModelResultService.Add(boxModelResult);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModel, ModelsRes.BoxModelResultBoxModelID, boxModelResult.BoxModelID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.BoxModelResultID = 10000000;
+                    boxModelResultService.Update(boxModelResult);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModelResult, ModelsRes.BoxModelResultBoxModelResultID, boxModelResult.BoxModelResultID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // boxModelResult.BoxModelResultType   (BoxModelResultTypeEnum)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "BoxModel", ExistPlurial = "s", ExistFieldID = "BoxModelID", AllowableTVtypeList = Error)]
+                    // boxModelResult.BoxModelID   (Int32)
+                    // -----------------------------------
 
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.BoxModelResultType = (BoxModelResultTypeEnum)1000000;
-                boxModelResultService.Add(boxModelResult);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelResultBoxModelResultType), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, -1)]
-                // boxModelResult.Volume_m3   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [Volume_m3]
-
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.Volume_m3 = -1.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultVolume_m3, "0"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, -1)]
-                // boxModelResult.Surface_m2   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [Surface_m2]
-
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.Surface_m2 = -1.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultSurface_m2, "0"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 100000)]
-                // boxModelResult.Radius_m   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [Radius_m]
-
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.Radius_m = -1.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRadius_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.Radius_m = 100001.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRadius_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 360)]
-                // boxModelResult.LeftSideDiameterLineAngle_deg   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [LeftSideDiameterLineAngle_deg]
-
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.LeftSideDiameterLineAngle_deg = -1.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.LeftSideDiameterLineAngle_deg = 361.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(-90, 90)]
-                // boxModelResult.CircleCenterLatitude   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [CircleCenterLatitude]
-
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.CircleCenterLatitude = -91.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.CircleCenterLatitude = 91.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(-180, 180)]
-                // boxModelResult.CircleCenterLongitude   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [CircleCenterLongitude]
-
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.CircleCenterLongitude = -181.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.CircleCenterLongitude = 181.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // boxModelResult.FixLength   (Boolean)
-                // -----------------------------------
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.BoxModelID = 0;
+                    boxModelResultService.Add(boxModelResult);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModel, ModelsRes.BoxModelResultBoxModelID, boxModelResult.BoxModelID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // boxModelResult.FixWidth   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // boxModelResult.BoxModelResultType   (BoxModelResultTypeEnum)
+                    // -----------------------------------
+
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.BoxModelResultType = (BoxModelResultTypeEnum)1000000;
+                    boxModelResultService.Add(boxModelResult);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelResultBoxModelResultType), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 100000)]
-                // boxModelResult.RectLength_m   (Double)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, -1)]
+                    // boxModelResult.Volume_m3   (Double)
+                    // -----------------------------------
 
-                //Error: Type not implemented [RectLength_m]
+                    //Error: Type not implemented [Volume_m3]
 
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.RectLength_m = -1.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectLength_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.RectLength_m = 100001.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectLength_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.Volume_m3 = -1.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultVolume_m3, "0"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 100000)]
-                // boxModelResult.RectWidth_m   (Double)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, -1)]
+                    // boxModelResult.Surface_m2   (Double)
+                    // -----------------------------------
 
-                //Error: Type not implemented [RectWidth_m]
+                    //Error: Type not implemented [Surface_m2]
 
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.RectWidth_m = -1.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectWidth_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.RectWidth_m = 100001.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectWidth_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.Surface_m2 = -1.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultSurface_m2, "0"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 360)]
-                // boxModelResult.LeftSideLineAngle_deg   (Double)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 100000)]
+                    // boxModelResult.Radius_m   (Double)
+                    // -----------------------------------
 
-                //Error: Type not implemented [LeftSideLineAngle_deg]
+                    //Error: Type not implemented [Radius_m]
 
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.LeftSideLineAngle_deg = -1.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.LeftSideLineAngle_deg = 361.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.Radius_m = -1.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRadius_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.Radius_m = 100001.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRadius_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(-90, 90)]
-                // boxModelResult.LeftSideLineStartLatitude   (Double)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 360)]
+                    // boxModelResult.LeftSideDiameterLineAngle_deg   (Double)
+                    // -----------------------------------
 
-                //Error: Type not implemented [LeftSideLineStartLatitude]
+                    //Error: Type not implemented [LeftSideDiameterLineAngle_deg]
 
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.LeftSideLineStartLatitude = -91.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.LeftSideLineStartLatitude = 91.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.LeftSideDiameterLineAngle_deg = -1.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.LeftSideDiameterLineAngle_deg = 361.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(-180, 180)]
-                // boxModelResult.LeftSideLineStartLongitude   (Double)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(-90, 90)]
+                    // boxModelResult.CircleCenterLatitude   (Double)
+                    // -----------------------------------
 
-                //Error: Type not implemented [LeftSideLineStartLongitude]
+                    //Error: Type not implemented [CircleCenterLatitude]
 
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.LeftSideLineStartLongitude = -181.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.LeftSideLineStartLongitude = 181.0D;
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.CircleCenterLatitude = -91.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.CircleCenterLatitude = 91.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // boxModelResult.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(-180, 180)]
+                    // boxModelResult.CircleCenterLongitude   (Double)
+                    // -----------------------------------
 
+                    //Error: Type not implemented [CircleCenterLongitude]
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // boxModelResult.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.CircleCenterLongitude = -181.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.CircleCenterLongitude = 181.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.LastUpdateContactTVItemID = 0;
-                boxModelResultService.Add(boxModelResult);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelResultLastUpdateContactTVItemID, boxModelResult.LastUpdateContactTVItemID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.LastUpdateContactTVItemID = 1;
-                boxModelResultService.Add(boxModelResult);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelResultLastUpdateContactTVItemID, "Contact"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // boxModelResult.FixLength   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // boxModelResult.LastUpdateContactTVText   (String)
-                // -----------------------------------
-
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelResultLastUpdateContactTVText, "200"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // boxModelResult.BoxModelResultTypeText   (String)
-                // -----------------------------------
-
-                boxModelResult = null;
-                boxModelResult = GetFilledRandomBoxModelResult("");
-                boxModelResult.BoxModelResultTypeText = GetRandomString("", 101);
-                Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelResultBoxModelResultTypeText, "100"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, boxModelResultService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // boxModelResult.HasErrors   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // boxModelResult.FixWidth   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // boxModelResult.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 100000)]
+                    // boxModelResult.RectLength_m   (Double)
+                    // -----------------------------------
 
+                    //Error: Type not implemented [RectLength_m]
+
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.RectLength_m = -1.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectLength_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.RectLength_m = 100001.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectLength_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 100000)]
+                    // boxModelResult.RectWidth_m   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [RectWidth_m]
+
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.RectWidth_m = -1.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectWidth_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.RectWidth_m = 100001.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectWidth_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 360)]
+                    // boxModelResult.LeftSideLineAngle_deg   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [LeftSideLineAngle_deg]
+
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.LeftSideLineAngle_deg = -1.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.LeftSideLineAngle_deg = 361.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(-90, 90)]
+                    // boxModelResult.LeftSideLineStartLatitude   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [LeftSideLineStartLatitude]
+
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.LeftSideLineStartLatitude = -91.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.LeftSideLineStartLatitude = 91.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(-180, 180)]
+                    // boxModelResult.LeftSideLineStartLongitude   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [LeftSideLineStartLongitude]
+
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.LeftSideLineStartLongitude = -181.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.LeftSideLineStartLongitude = 181.0D;
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // boxModelResult.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // boxModelResult.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
+
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.LastUpdateContactTVItemID = 0;
+                    boxModelResultService.Add(boxModelResult);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelResultLastUpdateContactTVItemID, boxModelResult.LastUpdateContactTVItemID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.LastUpdateContactTVItemID = 1;
+                    boxModelResultService.Add(boxModelResult);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelResultLastUpdateContactTVItemID, "Contact"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // boxModelResult.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelResultLastUpdateContactTVText, "200"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // boxModelResult.BoxModelResultTypeText   (String)
+                    // -----------------------------------
+
+                    boxModelResult = null;
+                    boxModelResult = GetFilledRandomBoxModelResult("");
+                    boxModelResult.BoxModelResultTypeText = GetRandomString("", 101);
+                    Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelResultBoxModelResultTypeText, "100"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, boxModelResultService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // boxModelResult.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // boxModelResult.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -475,35 +478,38 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                BoxModelResultService boxModelResultService = new BoxModelResultService(LanguageRequest, dbTestDB, ContactID);
-                BoxModelResult boxModelResult = (from c in boxModelResultService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(boxModelResult);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    BoxModelResultService boxModelResultService = new BoxModelResultService(LanguageRequest, dbTestDB, ContactID);
+                    BoxModelResult boxModelResult = (from c in boxModelResultService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(boxModelResult);
 
-                BoxModelResult boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID);
-                Assert.IsNotNull(boxModelResultRet.BoxModelResultID);
-                Assert.IsNotNull(boxModelResultRet.BoxModelID);
-                Assert.IsNotNull(boxModelResultRet.BoxModelResultType);
-                Assert.IsNotNull(boxModelResultRet.Volume_m3);
-                Assert.IsNotNull(boxModelResultRet.Surface_m2);
-                Assert.IsNotNull(boxModelResultRet.Radius_m);
-                Assert.IsNotNull(boxModelResultRet.LeftSideDiameterLineAngle_deg);
-                Assert.IsNotNull(boxModelResultRet.CircleCenterLatitude);
-                Assert.IsNotNull(boxModelResultRet.CircleCenterLongitude);
-                Assert.IsNotNull(boxModelResultRet.FixLength);
-                Assert.IsNotNull(boxModelResultRet.FixWidth);
-                Assert.IsNotNull(boxModelResultRet.RectLength_m);
-                Assert.IsNotNull(boxModelResultRet.RectWidth_m);
-                Assert.IsNotNull(boxModelResultRet.LeftSideLineAngle_deg);
-                Assert.IsNotNull(boxModelResultRet.LeftSideLineStartLatitude);
-                Assert.IsNotNull(boxModelResultRet.LeftSideLineStartLongitude);
-                Assert.IsNotNull(boxModelResultRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(boxModelResultRet.LastUpdateContactTVItemID);
+                    BoxModelResult boxModelResultRet = boxModelResultService.GetBoxModelResultWithBoxModelResultID(boxModelResult.BoxModelResultID);
+                    Assert.IsNotNull(boxModelResultRet.BoxModelResultID);
+                    Assert.IsNotNull(boxModelResultRet.BoxModelID);
+                    Assert.IsNotNull(boxModelResultRet.BoxModelResultType);
+                    Assert.IsNotNull(boxModelResultRet.Volume_m3);
+                    Assert.IsNotNull(boxModelResultRet.Surface_m2);
+                    Assert.IsNotNull(boxModelResultRet.Radius_m);
+                    Assert.IsNotNull(boxModelResultRet.LeftSideDiameterLineAngle_deg);
+                    Assert.IsNotNull(boxModelResultRet.CircleCenterLatitude);
+                    Assert.IsNotNull(boxModelResultRet.CircleCenterLongitude);
+                    Assert.IsNotNull(boxModelResultRet.FixLength);
+                    Assert.IsNotNull(boxModelResultRet.FixWidth);
+                    Assert.IsNotNull(boxModelResultRet.RectLength_m);
+                    Assert.IsNotNull(boxModelResultRet.RectWidth_m);
+                    Assert.IsNotNull(boxModelResultRet.LeftSideLineAngle_deg);
+                    Assert.IsNotNull(boxModelResultRet.LeftSideLineStartLatitude);
+                    Assert.IsNotNull(boxModelResultRet.LeftSideLineStartLongitude);
+                    Assert.IsNotNull(boxModelResultRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(boxModelResultRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(boxModelResultRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.LastUpdateContactTVText));
-                Assert.IsNotNull(boxModelResultRet.BoxModelResultTypeText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.BoxModelResultTypeText));
-                Assert.IsNotNull(boxModelResultRet.HasErrors);
+                    Assert.IsNotNull(boxModelResultRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(boxModelResultRet.BoxModelResultTypeText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(boxModelResultRet.BoxModelResultTypeText));
+                    Assert.IsNotNull(boxModelResultRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

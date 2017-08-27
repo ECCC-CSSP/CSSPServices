@@ -73,21 +73,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                UseOfSiteService useOfSiteService = new UseOfSiteService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    UseOfSiteService useOfSiteService = new UseOfSiteService(LanguageRequest, dbTestDB, ContactID);
 
-                UseOfSite useOfSite = GetFilledRandomUseOfSite("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    UseOfSite useOfSite = GetFilledRandomUseOfSite("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = useOfSiteService.GetRead().Count();
 
@@ -112,355 +114,356 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // useOfSite.UseOfSiteID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // useOfSite.UseOfSiteID   (Int32)
+                    // -----------------------------------
 
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.UseOfSiteID = 0;
-                useOfSiteService.Update(useOfSite);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteUseOfSiteID), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.UseOfSiteID = 0;
+                    useOfSiteService.Update(useOfSite);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteUseOfSiteID), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.UseOfSiteID = 10000000;
-                useOfSiteService.Update(useOfSite);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.UseOfSite, ModelsRes.UseOfSiteUseOfSiteID, useOfSite.UseOfSiteID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = ClimateSite,HydrometricSite,TideSite)]
-                // useOfSite.SiteTVItemID   (Int32)
-                // -----------------------------------
-
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.SiteTVItemID = 0;
-                useOfSiteService.Add(useOfSite);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteSiteTVItemID, useOfSite.SiteTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.SiteTVItemID = 1;
-                useOfSiteService.Add(useOfSite);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.UseOfSiteSiteTVItemID, "ClimateSite,HydrometricSite,TideSite"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.UseOfSiteID = 10000000;
+                    useOfSiteService.Update(useOfSite);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.UseOfSite, ModelsRes.UseOfSiteUseOfSiteID, useOfSite.UseOfSiteID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Subsector)]
-                // useOfSite.SubsectorTVItemID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = ClimateSite,HydrometricSite,TideSite)]
+                    // useOfSite.SiteTVItemID   (Int32)
+                    // -----------------------------------
 
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.SubsectorTVItemID = 0;
-                useOfSiteService.Add(useOfSite);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteSubsectorTVItemID, useOfSite.SubsectorTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.SiteTVItemID = 0;
+                    useOfSiteService.Add(useOfSite);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteSiteTVItemID, useOfSite.SiteTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.SubsectorTVItemID = 1;
-                useOfSiteService.Add(useOfSite);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.UseOfSiteSubsectorTVItemID, "Subsector"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // useOfSite.SiteType   (SiteTypeEnum)
-                // -----------------------------------
-
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.SiteType = (SiteTypeEnum)1000000;
-                useOfSiteService.Add(useOfSite);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteSiteType), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.SiteTVItemID = 1;
+                    useOfSiteService.Add(useOfSite);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.UseOfSiteSiteTVItemID, "ClimateSite,HydrometricSite,TideSite"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 1000)]
-                // useOfSite.Ordinal   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Subsector)]
+                    // useOfSite.SubsectorTVItemID   (Int32)
+                    // -----------------------------------
 
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.Ordinal = -1;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteOrdinal, "0", "1000"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.Ordinal = 1001;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteOrdinal, "0", "1000"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.SubsectorTVItemID = 0;
+                    useOfSiteService.Add(useOfSite);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteSubsectorTVItemID, useOfSite.SubsectorTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(1980, 2050)]
-                // useOfSite.StartYear   (Int32)
-                // -----------------------------------
-
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.StartYear = 1979;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteStartYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.StartYear = 2051;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteStartYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [Range(1980, 2050)]
-                // useOfSite.EndYear   (Int32)
-                // -----------------------------------
-
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.EndYear = 1979;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteEndYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.EndYear = 2051;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteEndYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // useOfSite.UseWeight   (Boolean)
-                // -----------------------------------
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.SubsectorTVItemID = 1;
+                    useOfSiteService.Add(useOfSite);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.UseOfSiteSubsectorTVItemID, "Subsector"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [Range(0, 100)]
-                // useOfSite.Weight_perc   (Double)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // useOfSite.SiteType   (SiteTypeEnum)
+                    // -----------------------------------
 
-                //Error: Type not implemented [Weight_perc]
-
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.Weight_perc = -1.0D;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteWeight_perc, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.Weight_perc = 101.0D;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteWeight_perc, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // useOfSite.UseEquation   (Boolean)
-                // -----------------------------------
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.SiteType = (SiteTypeEnum)1000000;
+                    useOfSiteService.Add(useOfSite);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteSiteType), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [Range(0, 100)]
-                // useOfSite.Param1   (Double)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 1000)]
+                    // useOfSite.Ordinal   (Int32)
+                    // -----------------------------------
 
-                //Error: Type not implemented [Param1]
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.Ordinal = -1;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteOrdinal, "0", "1000"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.Ordinal = 1001;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteOrdinal, "0", "1000"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.Param1 = -1.0D;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam1, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.Param1 = 101.0D;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam1, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(1980, 2050)]
+                    // useOfSite.StartYear   (Int32)
+                    // -----------------------------------
 
-                // -----------------------------------
-                // Is Nullable
-                // [Range(0, 100)]
-                // useOfSite.Param2   (Double)
-                // -----------------------------------
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.StartYear = 1979;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteStartYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.StartYear = 2051;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteStartYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-                //Error: Type not implemented [Param2]
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(1980, 2050)]
+                    // useOfSite.EndYear   (Int32)
+                    // -----------------------------------
 
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.Param2 = -1.0D;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam2, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.Param2 = 101.0D;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam2, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.EndYear = 1979;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteEndYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.EndYear = 2051;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteEndYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-                // -----------------------------------
-                // Is Nullable
-                // [Range(0, 100)]
-                // useOfSite.Param3   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [Param3]
-
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.Param3 = -1.0D;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam3, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.Param3 = 101.0D;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam3, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [Range(0, 100)]
-                // useOfSite.Param4   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [Param4]
-
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.Param4 = -1.0D;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam4, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.Param4 = 101.0D;
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam4, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // useOfSite.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // useOfSite.UseWeight   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // useOfSite.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(0, 100)]
+                    // useOfSite.Weight_perc   (Double)
+                    // -----------------------------------
 
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.LastUpdateContactTVItemID = 0;
-                useOfSiteService.Add(useOfSite);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteLastUpdateContactTVItemID, useOfSite.LastUpdateContactTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    //Error: Type not implemented [Weight_perc]
 
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.LastUpdateContactTVItemID = 1;
-                useOfSiteService.Add(useOfSite);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.UseOfSiteLastUpdateContactTVItemID, "Contact"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.Weight_perc = -1.0D;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteWeight_perc, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.Weight_perc = 101.0D;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteWeight_perc, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // useOfSite.SiteTVText   (String)
-                // -----------------------------------
-
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.SiteTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteSiteTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SubsectorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // useOfSite.SubsectorTVText   (String)
-                // -----------------------------------
-
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.SubsectorTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteSubsectorTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // useOfSite.LastUpdateContactTVText   (String)
-                // -----------------------------------
-
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteLastUpdateContactTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // useOfSite.SiteTypeText   (String)
-                // -----------------------------------
-
-                useOfSite = null;
-                useOfSite = GetFilledRandomUseOfSite("");
-                useOfSite.SiteTypeText = GetRandomString("", 101);
-                Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteSiteTypeText, "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, useOfSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // useOfSite.HasErrors   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // useOfSite.UseEquation   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // useOfSite.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(0, 100)]
+                    // useOfSite.Param1   (Double)
+                    // -----------------------------------
 
+                    //Error: Type not implemented [Param1]
+
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.Param1 = -1.0D;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam1, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.Param1 = 101.0D;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam1, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(0, 100)]
+                    // useOfSite.Param2   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [Param2]
+
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.Param2 = -1.0D;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam2, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.Param2 = 101.0D;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam2, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(0, 100)]
+                    // useOfSite.Param3   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [Param3]
+
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.Param3 = -1.0D;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam3, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.Param3 = 101.0D;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam3, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [Range(0, 100)]
+                    // useOfSite.Param4   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [Param4]
+
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.Param4 = -1.0D;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam4, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.Param4 = 101.0D;
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam4, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // useOfSite.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // useOfSite.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
+
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.LastUpdateContactTVItemID = 0;
+                    useOfSiteService.Add(useOfSite);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteLastUpdateContactTVItemID, useOfSite.LastUpdateContactTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.LastUpdateContactTVItemID = 1;
+                    useOfSiteService.Add(useOfSite);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.UseOfSiteLastUpdateContactTVItemID, "Contact"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // useOfSite.SiteTVText   (String)
+                    // -----------------------------------
+
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.SiteTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteSiteTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SubsectorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // useOfSite.SubsectorTVText   (String)
+                    // -----------------------------------
+
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.SubsectorTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteSubsectorTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // useOfSite.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteLastUpdateContactTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // useOfSite.SiteTypeText   (String)
+                    // -----------------------------------
+
+                    useOfSite = null;
+                    useOfSite = GetFilledRandomUseOfSite("");
+                    useOfSite.SiteTypeText = GetRandomString("", 101);
+                    Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteSiteTypeText, "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, useOfSiteService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // useOfSite.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // useOfSite.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -473,61 +476,64 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                UseOfSiteService useOfSiteService = new UseOfSiteService(LanguageRequest, dbTestDB, ContactID);
-                UseOfSite useOfSite = (from c in useOfSiteService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(useOfSite);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    UseOfSiteService useOfSiteService = new UseOfSiteService(LanguageRequest, dbTestDB, ContactID);
+                    UseOfSite useOfSite = (from c in useOfSiteService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(useOfSite);
 
-                UseOfSite useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID);
-                Assert.IsNotNull(useOfSiteRet.UseOfSiteID);
-                Assert.IsNotNull(useOfSiteRet.SiteTVItemID);
-                Assert.IsNotNull(useOfSiteRet.SubsectorTVItemID);
-                Assert.IsNotNull(useOfSiteRet.SiteType);
-                Assert.IsNotNull(useOfSiteRet.Ordinal);
-                Assert.IsNotNull(useOfSiteRet.StartYear);
-                if (useOfSiteRet.EndYear != null)
-                {
-                   Assert.IsNotNull(useOfSiteRet.EndYear);
-                }
-                if (useOfSiteRet.UseWeight != null)
-                {
-                   Assert.IsNotNull(useOfSiteRet.UseWeight);
-                }
-                if (useOfSiteRet.Weight_perc != null)
-                {
-                   Assert.IsNotNull(useOfSiteRet.Weight_perc);
-                }
-                if (useOfSiteRet.UseEquation != null)
-                {
-                   Assert.IsNotNull(useOfSiteRet.UseEquation);
-                }
-                if (useOfSiteRet.Param1 != null)
-                {
-                   Assert.IsNotNull(useOfSiteRet.Param1);
-                }
-                if (useOfSiteRet.Param2 != null)
-                {
-                   Assert.IsNotNull(useOfSiteRet.Param2);
-                }
-                if (useOfSiteRet.Param3 != null)
-                {
-                   Assert.IsNotNull(useOfSiteRet.Param3);
-                }
-                if (useOfSiteRet.Param4 != null)
-                {
-                   Assert.IsNotNull(useOfSiteRet.Param4);
-                }
-                Assert.IsNotNull(useOfSiteRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(useOfSiteRet.LastUpdateContactTVItemID);
+                    UseOfSite useOfSiteRet = useOfSiteService.GetUseOfSiteWithUseOfSiteID(useOfSite.UseOfSiteID);
+                    Assert.IsNotNull(useOfSiteRet.UseOfSiteID);
+                    Assert.IsNotNull(useOfSiteRet.SiteTVItemID);
+                    Assert.IsNotNull(useOfSiteRet.SubsectorTVItemID);
+                    Assert.IsNotNull(useOfSiteRet.SiteType);
+                    Assert.IsNotNull(useOfSiteRet.Ordinal);
+                    Assert.IsNotNull(useOfSiteRet.StartYear);
+                    if (useOfSiteRet.EndYear != null)
+                    {
+                       Assert.IsNotNull(useOfSiteRet.EndYear);
+                    }
+                    if (useOfSiteRet.UseWeight != null)
+                    {
+                       Assert.IsNotNull(useOfSiteRet.UseWeight);
+                    }
+                    if (useOfSiteRet.Weight_perc != null)
+                    {
+                       Assert.IsNotNull(useOfSiteRet.Weight_perc);
+                    }
+                    if (useOfSiteRet.UseEquation != null)
+                    {
+                       Assert.IsNotNull(useOfSiteRet.UseEquation);
+                    }
+                    if (useOfSiteRet.Param1 != null)
+                    {
+                       Assert.IsNotNull(useOfSiteRet.Param1);
+                    }
+                    if (useOfSiteRet.Param2 != null)
+                    {
+                       Assert.IsNotNull(useOfSiteRet.Param2);
+                    }
+                    if (useOfSiteRet.Param3 != null)
+                    {
+                       Assert.IsNotNull(useOfSiteRet.Param3);
+                    }
+                    if (useOfSiteRet.Param4 != null)
+                    {
+                       Assert.IsNotNull(useOfSiteRet.Param4);
+                    }
+                    Assert.IsNotNull(useOfSiteRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(useOfSiteRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(useOfSiteRet.SiteTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTVText));
-                Assert.IsNotNull(useOfSiteRet.SubsectorTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SubsectorTVText));
-                Assert.IsNotNull(useOfSiteRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.LastUpdateContactTVText));
-                Assert.IsNotNull(useOfSiteRet.SiteTypeText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTypeText));
-                Assert.IsNotNull(useOfSiteRet.HasErrors);
+                    Assert.IsNotNull(useOfSiteRet.SiteTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTVText));
+                    Assert.IsNotNull(useOfSiteRet.SubsectorTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SubsectorTVText));
+                    Assert.IsNotNull(useOfSiteRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(useOfSiteRet.SiteTypeText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(useOfSiteRet.SiteTypeText));
+                    Assert.IsNotNull(useOfSiteRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

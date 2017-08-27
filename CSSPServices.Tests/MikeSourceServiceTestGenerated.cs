@@ -63,21 +63,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                MikeSourceService mikeSourceService = new MikeSourceService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    MikeSourceService mikeSourceService = new MikeSourceService(LanguageRequest, dbTestDB, ContactID);
 
-                MikeSource mikeSource = GetFilledRandomMikeSource("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    MikeSource mikeSource = GetFilledRandomMikeSource("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = mikeSourceService.GetRead().Count();
 
@@ -102,159 +104,160 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, mikeSourceService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // mikeSource.MikeSourceID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // mikeSource.MikeSourceID   (Int32)
+                    // -----------------------------------
 
-                mikeSource = null;
-                mikeSource = GetFilledRandomMikeSource("");
-                mikeSource.MikeSourceID = 0;
-                mikeSourceService.Update(mikeSource);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceMikeSourceID), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.MikeSourceID = 0;
+                    mikeSourceService.Update(mikeSource);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceMikeSourceID), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                mikeSource = null;
-                mikeSource = GetFilledRandomMikeSource("");
-                mikeSource.MikeSourceID = 10000000;
-                mikeSourceService.Update(mikeSource);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeSource, ModelsRes.MikeSourceMikeSourceID, mikeSource.MikeSourceID.ToString()), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MikeSource)]
-                // mikeSource.MikeSourceTVItemID   (Int32)
-                // -----------------------------------
-
-                mikeSource = null;
-                mikeSource = GetFilledRandomMikeSource("");
-                mikeSource.MikeSourceTVItemID = 0;
-                mikeSourceService.Add(mikeSource);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeSourceMikeSourceTVItemID, mikeSource.MikeSourceTVItemID.ToString()), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                mikeSource = null;
-                mikeSource = GetFilledRandomMikeSource("");
-                mikeSource.MikeSourceTVItemID = 1;
-                mikeSourceService.Add(mikeSource);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeSourceMikeSourceTVItemID, "MikeSource"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.MikeSourceID = 10000000;
+                    mikeSourceService.Update(mikeSource);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeSource, ModelsRes.MikeSourceMikeSourceID, mikeSource.MikeSourceID.ToString()), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // mikeSource.IsContinuous   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MikeSource)]
+                    // mikeSource.MikeSourceTVItemID   (Int32)
+                    // -----------------------------------
+
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.MikeSourceTVItemID = 0;
+                    mikeSourceService.Add(mikeSource);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeSourceMikeSourceTVItemID, mikeSource.MikeSourceTVItemID.ToString()), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.MikeSourceTVItemID = 1;
+                    mikeSourceService.Add(mikeSource);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeSourceMikeSourceTVItemID, "MikeSource"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // mikeSource.Include   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // mikeSource.IsContinuous   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // mikeSource.IsRiver   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // mikeSource.Include   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(50))]
-                // mikeSource.SourceNumberString   (String)
-                // -----------------------------------
-
-                mikeSource = null;
-                mikeSource = GetFilledRandomMikeSource("SourceNumberString");
-                Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
-                Assert.AreEqual(1, mikeSource.ValidationResults.Count());
-                Assert.IsTrue(mikeSource.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceSourceNumberString)).Any());
-                Assert.AreEqual(null, mikeSource.SourceNumberString);
-                Assert.AreEqual(count, mikeSourceService.GetRead().Count());
-
-                mikeSource = null;
-                mikeSource = GetFilledRandomMikeSource("");
-                mikeSource.SourceNumberString = GetRandomString("", 51);
-                Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceSourceNumberString, "50"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // mikeSource.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // mikeSource.IsRiver   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // mikeSource.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(50))]
+                    // mikeSource.SourceNumberString   (String)
+                    // -----------------------------------
 
-                mikeSource = null;
-                mikeSource = GetFilledRandomMikeSource("");
-                mikeSource.LastUpdateContactTVItemID = 0;
-                mikeSourceService.Add(mikeSource);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeSourceLastUpdateContactTVItemID, mikeSource.LastUpdateContactTVItemID.ToString()), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("SourceNumberString");
+                    Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
+                    Assert.AreEqual(1, mikeSource.ValidationResults.Count());
+                    Assert.IsTrue(mikeSource.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceSourceNumberString)).Any());
+                    Assert.AreEqual(null, mikeSource.SourceNumberString);
+                    Assert.AreEqual(count, mikeSourceService.GetRead().Count());
 
-                mikeSource = null;
-                mikeSource = GetFilledRandomMikeSource("");
-                mikeSource.LastUpdateContactTVItemID = 1;
-                mikeSourceService.Add(mikeSource);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeSourceLastUpdateContactTVItemID, "Contact"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.SourceNumberString = GetRandomString("", 51);
+                    Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceSourceNumberString, "50"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceService.GetRead().Count());
 
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MikeSourceTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // mikeSource.MikeSourceTVText   (String)
-                // -----------------------------------
-
-                mikeSource = null;
-                mikeSource = GetFilledRandomMikeSource("");
-                mikeSource.MikeSourceTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceMikeSourceTVText, "200"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // mikeSource.LastUpdateContactTVText   (String)
-                // -----------------------------------
-
-                mikeSource = null;
-                mikeSource = GetFilledRandomMikeSource("");
-                mikeSource.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceLastUpdateContactTVText, "200"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mikeSourceService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // mikeSource.HasErrors   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // mikeSource.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // mikeSource.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // mikeSource.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
 
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.LastUpdateContactTVItemID = 0;
+                    mikeSourceService.Add(mikeSource);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeSourceLastUpdateContactTVItemID, mikeSource.LastUpdateContactTVItemID.ToString()), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.LastUpdateContactTVItemID = 1;
+                    mikeSourceService.Add(mikeSource);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeSourceLastUpdateContactTVItemID, "Contact"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MikeSourceTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // mikeSource.MikeSourceTVText   (String)
+                    // -----------------------------------
+
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.MikeSourceTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceMikeSourceTVText, "200"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // mikeSource.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    mikeSource = null;
+                    mikeSource = GetFilledRandomMikeSource("");
+                    mikeSource.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, mikeSourceService.Add(mikeSource));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceLastUpdateContactTVText, "200"), mikeSource.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mikeSourceService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // mikeSource.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // mikeSource.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -267,26 +270,29 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                MikeSourceService mikeSourceService = new MikeSourceService(LanguageRequest, dbTestDB, ContactID);
-                MikeSource mikeSource = (from c in mikeSourceService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(mikeSource);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MikeSourceService mikeSourceService = new MikeSourceService(LanguageRequest, dbTestDB, ContactID);
+                    MikeSource mikeSource = (from c in mikeSourceService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(mikeSource);
 
-                MikeSource mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID);
-                Assert.IsNotNull(mikeSourceRet.MikeSourceID);
-                Assert.IsNotNull(mikeSourceRet.MikeSourceTVItemID);
-                Assert.IsNotNull(mikeSourceRet.IsContinuous);
-                Assert.IsNotNull(mikeSourceRet.Include);
-                Assert.IsNotNull(mikeSourceRet.IsRiver);
-                Assert.IsNotNull(mikeSourceRet.SourceNumberString);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.SourceNumberString));
-                Assert.IsNotNull(mikeSourceRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(mikeSourceRet.LastUpdateContactTVItemID);
+                    MikeSource mikeSourceRet = mikeSourceService.GetMikeSourceWithMikeSourceID(mikeSource.MikeSourceID);
+                    Assert.IsNotNull(mikeSourceRet.MikeSourceID);
+                    Assert.IsNotNull(mikeSourceRet.MikeSourceTVItemID);
+                    Assert.IsNotNull(mikeSourceRet.IsContinuous);
+                    Assert.IsNotNull(mikeSourceRet.Include);
+                    Assert.IsNotNull(mikeSourceRet.IsRiver);
+                    Assert.IsNotNull(mikeSourceRet.SourceNumberString);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.SourceNumberString));
+                    Assert.IsNotNull(mikeSourceRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(mikeSourceRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(mikeSourceRet.MikeSourceTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceTVText));
-                Assert.IsNotNull(mikeSourceRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.LastUpdateContactTVText));
-                Assert.IsNotNull(mikeSourceRet.HasErrors);
+                    Assert.IsNotNull(mikeSourceRet.MikeSourceTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.MikeSourceTVText));
+                    Assert.IsNotNull(mikeSourceRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mikeSourceRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(mikeSourceRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

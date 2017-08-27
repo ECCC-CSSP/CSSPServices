@@ -67,28 +67,31 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                LabSheetA1MeasurementService labSheetA1MeasurementService = new LabSheetA1MeasurementService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    LabSheetA1MeasurementService labSheetA1MeasurementService = new LabSheetA1MeasurementService(LanguageRequest, dbTestDB, ContactID);
+
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
+
+                    LabSheetA1Measurement labSheetA1Measurement = GetFilledRandomLabSheetA1Measurement("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
+
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
+
                 }
-
-                LabSheetA1Measurement labSheetA1Measurement = GetFilledRandomLabSheetA1Measurement("");
-
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
-
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
-
             }
         }
         #endregion Tests Generated CRUD and Properties

@@ -77,21 +77,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                SamplingPlanService samplingPlanService = new SamplingPlanService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    SamplingPlanService samplingPlanService = new SamplingPlanService(LanguageRequest, dbTestDB, ContactID);
 
-                SamplingPlan samplingPlan = GetFilledRandomSamplingPlan("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    SamplingPlan samplingPlan = GetFilledRandomSamplingPlan("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = samplingPlanService.GetRead().Count();
 
@@ -116,420 +118,421 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
-
-
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // samplingPlan.SamplingPlanID   (Int32)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.SamplingPlanID = 0;
-                samplingPlanService.Update(samplingPlan);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanID), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.SamplingPlanID = 10000000;
-                samplingPlanService.Update(samplingPlan);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlan, ModelsRes.SamplingPlanSamplingPlanID, samplingPlan.SamplingPlanID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(200))]
-                // samplingPlan.SamplingPlanName   (String)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("SamplingPlanName");
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
-                Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanName)).Any());
-                Assert.AreEqual(null, samplingPlan.SamplingPlanName);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.SamplingPlanName = GetRandomString("", 201);
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanName, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(100))]
-                // samplingPlan.ForGroupName   (String)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("ForGroupName");
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
-                Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanForGroupName)).Any());
-                Assert.AreEqual(null, samplingPlan.ForGroupName);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.ForGroupName = GetRandomString("", 101);
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanForGroupName, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // samplingPlan.SampleType   (SampleTypeEnum)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.SampleType = (SampleTypeEnum)1000000;
-                samplingPlanService.Add(samplingPlan);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSampleType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // samplingPlan.SamplingPlanType   (SamplingPlanTypeEnum)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.SamplingPlanType = (SamplingPlanTypeEnum)1000000;
-                samplingPlanService.Add(samplingPlan);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // samplingPlan.LabSheetType   (LabSheetTypeEnum)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.LabSheetType = (LabSheetTypeEnum)1000000;
-                samplingPlanService.Add(samplingPlan);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanLabSheetType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Province)]
-                // samplingPlan.ProvinceTVItemID   (Int32)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.ProvinceTVItemID = 0;
-                samplingPlanService.Add(samplingPlan);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanProvinceTVItemID, samplingPlan.ProvinceTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.ProvinceTVItemID = 1;
-                samplingPlanService.Add(samplingPlan);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanProvinceTVItemID, "Province"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // samplingPlan.CreatorTVItemID   (Int32)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.CreatorTVItemID = 0;
-                samplingPlanService.Add(samplingPlan);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanCreatorTVItemID, samplingPlan.CreatorTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.CreatorTVItemID = 1;
-                samplingPlanService.Add(samplingPlan);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanCreatorTVItemID, "Contact"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(2000, 2050)]
-                // samplingPlan.Year   (Int32)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.Year = 1999;
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.Year = 2051;
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(15))]
-                // samplingPlan.AccessCode   (String)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("AccessCode");
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
-                Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanAccessCode)).Any());
-                Assert.AreEqual(null, samplingPlan.AccessCode);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.AccessCode = GetRandomString("", 16);
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanAccessCode, "15"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 100)]
-                // samplingPlan.DailyDuplicatePrecisionCriteria   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [DailyDuplicatePrecisionCriteria]
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.DailyDuplicatePrecisionCriteria = -1.0D;
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.DailyDuplicatePrecisionCriteria = 101.0D;
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 100)]
-                // samplingPlan.IntertechDuplicatePrecisionCriteria   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [IntertechDuplicatePrecisionCriteria]
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.IntertechDuplicatePrecisionCriteria = -1.0D;
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.IntertechDuplicatePrecisionCriteria = 101.0D;
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // samplingPlan.IncludeLaboratoryQAQC   (Boolean)
-                // -----------------------------------
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(15))]
-                // samplingPlan.ApprovalCode   (String)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("ApprovalCode");
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
-                Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanApprovalCode)).Any());
-                Assert.AreEqual(null, samplingPlan.ApprovalCode);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.ApprovalCode = GetRandomString("", 16);
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanApprovalCode, "15"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = File)]
-                // samplingPlan.SamplingPlanFileTVItemID   (Int32)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.SamplingPlanFileTVItemID = 0;
-                samplingPlanService.Add(samplingPlan);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, samplingPlan.SamplingPlanFileTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.SamplingPlanFileTVItemID = 1;
-                samplingPlanService.Add(samplingPlan);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, "File"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // samplingPlan.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // samplingPlan.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.LastUpdateContactTVItemID = 0;
-                samplingPlanService.Add(samplingPlan);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanLastUpdateContactTVItemID, samplingPlan.LastUpdateContactTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.LastUpdateContactTVItemID = 1;
-                samplingPlanService.Add(samplingPlan);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanLastUpdateContactTVItemID, "Contact"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ProvinceTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // samplingPlan.ProvinceTVText   (String)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.ProvinceTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanProvinceTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "CreatorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // samplingPlan.CreatorTVText   (String)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.CreatorTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanCreatorTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SamplingPlanFileTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // samplingPlan.SamplingPlanFileTVText   (String)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.SamplingPlanFileTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanFileTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // samplingPlan.LastUpdateContactTVText   (String)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanLastUpdateContactTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // samplingPlan.SampleTypeText   (String)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.SampleTypeText = GetRandomString("", 101);
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSampleTypeText, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // samplingPlan.SamplingPlanTypeText   (String)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.SamplingPlanTypeText = GetRandomString("", 101);
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanTypeText, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // samplingPlan.LabSheetTypeText   (String)
-                // -----------------------------------
-
-                samplingPlan = null;
-                samplingPlan = GetFilledRandomSamplingPlan("");
-                samplingPlan.LabSheetTypeText = GetRandomString("", 101);
-                Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanLabSheetTypeText, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // samplingPlan.HasErrors   (Boolean)
-                // -----------------------------------
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // samplingPlan.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
-
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
+
+
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // samplingPlan.SamplingPlanID   (Int32)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.SamplingPlanID = 0;
+                    samplingPlanService.Update(samplingPlan);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanID), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.SamplingPlanID = 10000000;
+                    samplingPlanService.Update(samplingPlan);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlan, ModelsRes.SamplingPlanSamplingPlanID, samplingPlan.SamplingPlanID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(200))]
+                    // samplingPlan.SamplingPlanName   (String)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("SamplingPlanName");
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
+                    Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanName)).Any());
+                    Assert.AreEqual(null, samplingPlan.SamplingPlanName);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.SamplingPlanName = GetRandomString("", 201);
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanName, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(100))]
+                    // samplingPlan.ForGroupName   (String)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("ForGroupName");
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
+                    Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanForGroupName)).Any());
+                    Assert.AreEqual(null, samplingPlan.ForGroupName);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.ForGroupName = GetRandomString("", 101);
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanForGroupName, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // samplingPlan.SampleType   (SampleTypeEnum)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.SampleType = (SampleTypeEnum)1000000;
+                    samplingPlanService.Add(samplingPlan);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSampleType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // samplingPlan.SamplingPlanType   (SamplingPlanTypeEnum)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.SamplingPlanType = (SamplingPlanTypeEnum)1000000;
+                    samplingPlanService.Add(samplingPlan);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // samplingPlan.LabSheetType   (LabSheetTypeEnum)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.LabSheetType = (LabSheetTypeEnum)1000000;
+                    samplingPlanService.Add(samplingPlan);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanLabSheetType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Province)]
+                    // samplingPlan.ProvinceTVItemID   (Int32)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.ProvinceTVItemID = 0;
+                    samplingPlanService.Add(samplingPlan);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanProvinceTVItemID, samplingPlan.ProvinceTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.ProvinceTVItemID = 1;
+                    samplingPlanService.Add(samplingPlan);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanProvinceTVItemID, "Province"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // samplingPlan.CreatorTVItemID   (Int32)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.CreatorTVItemID = 0;
+                    samplingPlanService.Add(samplingPlan);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanCreatorTVItemID, samplingPlan.CreatorTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.CreatorTVItemID = 1;
+                    samplingPlanService.Add(samplingPlan);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanCreatorTVItemID, "Contact"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(2000, 2050)]
+                    // samplingPlan.Year   (Int32)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.Year = 1999;
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.Year = 2051;
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(15))]
+                    // samplingPlan.AccessCode   (String)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("AccessCode");
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
+                    Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanAccessCode)).Any());
+                    Assert.AreEqual(null, samplingPlan.AccessCode);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.AccessCode = GetRandomString("", 16);
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanAccessCode, "15"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 100)]
+                    // samplingPlan.DailyDuplicatePrecisionCriteria   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [DailyDuplicatePrecisionCriteria]
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.DailyDuplicatePrecisionCriteria = -1.0D;
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.DailyDuplicatePrecisionCriteria = 101.0D;
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 100)]
+                    // samplingPlan.IntertechDuplicatePrecisionCriteria   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [IntertechDuplicatePrecisionCriteria]
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.IntertechDuplicatePrecisionCriteria = -1.0D;
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.IntertechDuplicatePrecisionCriteria = 101.0D;
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // samplingPlan.IncludeLaboratoryQAQC   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(15))]
+                    // samplingPlan.ApprovalCode   (String)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("ApprovalCode");
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
+                    Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanApprovalCode)).Any());
+                    Assert.AreEqual(null, samplingPlan.ApprovalCode);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.ApprovalCode = GetRandomString("", 16);
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanApprovalCode, "15"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = File)]
+                    // samplingPlan.SamplingPlanFileTVItemID   (Int32)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.SamplingPlanFileTVItemID = 0;
+                    samplingPlanService.Add(samplingPlan);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, samplingPlan.SamplingPlanFileTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.SamplingPlanFileTVItemID = 1;
+                    samplingPlanService.Add(samplingPlan);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, "File"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // samplingPlan.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // samplingPlan.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.LastUpdateContactTVItemID = 0;
+                    samplingPlanService.Add(samplingPlan);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanLastUpdateContactTVItemID, samplingPlan.LastUpdateContactTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.LastUpdateContactTVItemID = 1;
+                    samplingPlanService.Add(samplingPlan);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanLastUpdateContactTVItemID, "Contact"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ProvinceTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // samplingPlan.ProvinceTVText   (String)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.ProvinceTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanProvinceTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "CreatorTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // samplingPlan.CreatorTVText   (String)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.CreatorTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanCreatorTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "SamplingPlanFileTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // samplingPlan.SamplingPlanFileTVText   (String)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.SamplingPlanFileTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanFileTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // samplingPlan.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanLastUpdateContactTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // samplingPlan.SampleTypeText   (String)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.SampleTypeText = GetRandomString("", 101);
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSampleTypeText, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // samplingPlan.SamplingPlanTypeText   (String)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.SamplingPlanTypeText = GetRandomString("", 101);
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanTypeText, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // samplingPlan.LabSheetTypeText   (String)
+                    // -----------------------------------
+
+                    samplingPlan = null;
+                    samplingPlan = GetFilledRandomSamplingPlan("");
+                    samplingPlan.LabSheetTypeText = GetRandomString("", 101);
+                    Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanLabSheetTypeText, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // samplingPlan.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // samplingPlan.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -542,54 +545,57 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                SamplingPlanService samplingPlanService = new SamplingPlanService(LanguageRequest, dbTestDB, ContactID);
-                SamplingPlan samplingPlan = (from c in samplingPlanService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(samplingPlan);
-
-                SamplingPlan samplingPlanRet = samplingPlanService.GetSamplingPlanWithSamplingPlanID(samplingPlan.SamplingPlanID);
-                Assert.IsNotNull(samplingPlanRet.SamplingPlanID);
-                Assert.IsNotNull(samplingPlanRet.SamplingPlanName);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanName));
-                Assert.IsNotNull(samplingPlanRet.ForGroupName);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ForGroupName));
-                Assert.IsNotNull(samplingPlanRet.SampleType);
-                Assert.IsNotNull(samplingPlanRet.SamplingPlanType);
-                Assert.IsNotNull(samplingPlanRet.LabSheetType);
-                Assert.IsNotNull(samplingPlanRet.ProvinceTVItemID);
-                Assert.IsNotNull(samplingPlanRet.CreatorTVItemID);
-                Assert.IsNotNull(samplingPlanRet.Year);
-                Assert.IsNotNull(samplingPlanRet.AccessCode);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.AccessCode));
-                Assert.IsNotNull(samplingPlanRet.DailyDuplicatePrecisionCriteria);
-                Assert.IsNotNull(samplingPlanRet.IntertechDuplicatePrecisionCriteria);
-                Assert.IsNotNull(samplingPlanRet.IncludeLaboratoryQAQC);
-                Assert.IsNotNull(samplingPlanRet.ApprovalCode);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ApprovalCode));
-                if (samplingPlanRet.SamplingPlanFileTVItemID != null)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                   Assert.IsNotNull(samplingPlanRet.SamplingPlanFileTVItemID);
-                }
-                Assert.IsNotNull(samplingPlanRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(samplingPlanRet.LastUpdateContactTVItemID);
+                    SamplingPlanService samplingPlanService = new SamplingPlanService(LanguageRequest, dbTestDB, ContactID);
+                    SamplingPlan samplingPlan = (from c in samplingPlanService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(samplingPlan);
 
-                Assert.IsNotNull(samplingPlanRet.ProvinceTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ProvinceTVText));
-                Assert.IsNotNull(samplingPlanRet.CreatorTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.CreatorTVText));
-                if (samplingPlanRet.SamplingPlanFileTVItemID != null)
-                {
-                   Assert.IsNotNull(samplingPlanRet.SamplingPlanFileTVText);
-                   Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanFileTVText));
+                    SamplingPlan samplingPlanRet = samplingPlanService.GetSamplingPlanWithSamplingPlanID(samplingPlan.SamplingPlanID);
+                    Assert.IsNotNull(samplingPlanRet.SamplingPlanID);
+                    Assert.IsNotNull(samplingPlanRet.SamplingPlanName);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanName));
+                    Assert.IsNotNull(samplingPlanRet.ForGroupName);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ForGroupName));
+                    Assert.IsNotNull(samplingPlanRet.SampleType);
+                    Assert.IsNotNull(samplingPlanRet.SamplingPlanType);
+                    Assert.IsNotNull(samplingPlanRet.LabSheetType);
+                    Assert.IsNotNull(samplingPlanRet.ProvinceTVItemID);
+                    Assert.IsNotNull(samplingPlanRet.CreatorTVItemID);
+                    Assert.IsNotNull(samplingPlanRet.Year);
+                    Assert.IsNotNull(samplingPlanRet.AccessCode);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.AccessCode));
+                    Assert.IsNotNull(samplingPlanRet.DailyDuplicatePrecisionCriteria);
+                    Assert.IsNotNull(samplingPlanRet.IntertechDuplicatePrecisionCriteria);
+                    Assert.IsNotNull(samplingPlanRet.IncludeLaboratoryQAQC);
+                    Assert.IsNotNull(samplingPlanRet.ApprovalCode);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ApprovalCode));
+                    if (samplingPlanRet.SamplingPlanFileTVItemID != null)
+                    {
+                       Assert.IsNotNull(samplingPlanRet.SamplingPlanFileTVItemID);
+                    }
+                    Assert.IsNotNull(samplingPlanRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(samplingPlanRet.LastUpdateContactTVItemID);
+
+                    Assert.IsNotNull(samplingPlanRet.ProvinceTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.ProvinceTVText));
+                    Assert.IsNotNull(samplingPlanRet.CreatorTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.CreatorTVText));
+                    if (samplingPlanRet.SamplingPlanFileTVItemID != null)
+                    {
+                       Assert.IsNotNull(samplingPlanRet.SamplingPlanFileTVText);
+                       Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanFileTVText));
+                    }
+                    Assert.IsNotNull(samplingPlanRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(samplingPlanRet.SampleTypeText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SampleTypeText));
+                    Assert.IsNotNull(samplingPlanRet.SamplingPlanTypeText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanTypeText));
+                    Assert.IsNotNull(samplingPlanRet.LabSheetTypeText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.LabSheetTypeText));
+                    Assert.IsNotNull(samplingPlanRet.HasErrors);
                 }
-                Assert.IsNotNull(samplingPlanRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.LastUpdateContactTVText));
-                Assert.IsNotNull(samplingPlanRet.SampleTypeText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SampleTypeText));
-                Assert.IsNotNull(samplingPlanRet.SamplingPlanTypeText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.SamplingPlanTypeText));
-                Assert.IsNotNull(samplingPlanRet.LabSheetTypeText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanRet.LabSheetTypeText));
-                Assert.IsNotNull(samplingPlanRet.HasErrors);
             }
         }
         #endregion Tests Get With Key

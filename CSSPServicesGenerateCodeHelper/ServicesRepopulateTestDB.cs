@@ -15,6 +15,7 @@ using System.Data.SqlClient;
 using System.Data;
 using Microsoft.EntityFrameworkCore;
 using CSSPServices;
+using CSSPGenerateCodeBase;
 
 namespace CSSPServicesGenerateCodeHelper
 {
@@ -1314,13 +1315,32 @@ namespace CSSPServicesGenerateCodeHelper
             emailDistributionList.CountryTVItemID = tvItemCanada.TVItemID;
             if (!AddObject("EmailDistributionList", emailDistributionList)) return false;
 
+            EmailDistributionListLanguage emailDistributionListLanguageEN = dbCSSPWebToolsDBRead.EmailDistributionListLanguages.AsNoTracking().Where(c => c.EmailDistributionListID == EmailDistributionListID && c.Language == LanguageEnum.en).FirstOrDefault();
+            emailDistributionListLanguageEN.EmailDistributionListID = emailDistributionList.EmailDistributionListID;
+            if (!AddObject("EmailDistributionListLanguage", emailDistributionListLanguageEN)) return false;
+
+            EmailDistributionListLanguage emailDistributionListLanguageFR = dbCSSPWebToolsDBRead.EmailDistributionListLanguages.AsNoTracking().Where(c => c.EmailDistributionListID == EmailDistributionListID && c.Language == LanguageEnum.fr).FirstOrDefault();
+            emailDistributionListLanguageFR.EmailDistributionListID = emailDistributionList.EmailDistributionListID;
+            if (!AddObject("EmailDistributionListLanguage", emailDistributionListLanguageFR)) return false;
+
+
             List<EmailDistributionListContact> emailDistributionListContactList = dbCSSPWebToolsDBRead.EmailDistributionListContacts.AsNoTracking().Where(c => c.EmailDistributionListID == EmailDistributionListID).Take(5).ToList();
             foreach (EmailDistributionListContact emailDistributionListContact in emailDistributionListContactList)
             {
                 emailDistributionListContact.EmailDistributionListID = emailDistributionList.EmailDistributionListID;
+                int EmailDistributionListContactID = emailDistributionListContact.EmailDistributionListContactID;
                 if (!AddObject("EmailDistributionListContact", emailDistributionListContact)) return false;
+
+                EmailDistributionListContactLanguage emailDistributionListContactLanguageEN = dbCSSPWebToolsDBRead.EmailDistributionListContactLanguages.AsNoTracking().Where(c => c.EmailDistributionListContactID == EmailDistributionListContactID && c.Language == LanguageEnum.en).FirstOrDefault();
+                emailDistributionListContactLanguageEN.EmailDistributionListContactID = emailDistributionListContact.EmailDistributionListContactID;
+                if (!AddObject("EmailDistributionListContactLanguage", emailDistributionListContactLanguageEN)) return false;
+
+                EmailDistributionListContactLanguage emailDistributionListContactLanguageFR = dbCSSPWebToolsDBRead.EmailDistributionListContactLanguages.AsNoTracking().Where(c => c.EmailDistributionListContactID == EmailDistributionListContactID && c.Language == LanguageEnum.fr).FirstOrDefault();
+                emailDistributionListContactLanguageFR.EmailDistributionListContactID = emailDistributionListContact.EmailDistributionListContactID;
+                if (!AddObject("EmailDistributionListContactLanguage", emailDistributionListContactLanguageFR)) return false;
+
             }
-            #endregion TVItemLink
+            #endregion EmailDistributionList and EmailDistributionListContact
             #region AppTask and AppTaskLanguage
             StatusTempEvent(new StatusEventArgs("doing ... AppTask and AppTaskLanguage"));
             AppTask appTask = new AppTask();
@@ -1501,6 +1521,32 @@ namespace CSSPServicesGenerateCodeHelper
                 if (!AddObject("TVTypeUserAuthorization", tvTypeUserAuthorization)) return false;
             }
             #endregion TVTypeUserAuthorization
+            #region MWQMAnalysisReportParameter
+            StatusTempEvent(new StatusEventArgs("doing ... MWQMAnalysisReportParameter"));
+            MWQMAnalysisReportParameter mwqmAnalysisReportParameter = new MWQMAnalysisReportParameter();
+            mwqmAnalysisReportParameter.MWQMSubsectorTVItemID = tvItemNB_06_020_002.TVItemID;
+            mwqmAnalysisReportParameter.Name = "Name of analysis report parameter";
+            mwqmAnalysisReportParameter.AnalysisReportYear = 2016;
+            mwqmAnalysisReportParameter.StartDate_Local = new DateTime(2010, 1, 1);
+            mwqmAnalysisReportParameter.EndDate_Local = new DateTime(2016, 12, 31);
+            mwqmAnalysisReportParameter.AnalysisCalculationType = AnalysisCalculationTypeEnum.AllAllAll;
+            mwqmAnalysisReportParameter.NumberOfRuns = 30;
+            mwqmAnalysisReportParameter.FullYear = true;
+            mwqmAnalysisReportParameter.SalinityHighlightDeviationFromAverage = 8.0f;
+            mwqmAnalysisReportParameter.ShortRangeNumberOfDays = 3;
+            mwqmAnalysisReportParameter.MidRangeNumberOfDays = 6;
+            mwqmAnalysisReportParameter.DryLimit24h = 4;
+            mwqmAnalysisReportParameter.DryLimit48h = 8;
+            mwqmAnalysisReportParameter.DryLimit72h = 12;
+            mwqmAnalysisReportParameter.DryLimit96h = 16;
+            mwqmAnalysisReportParameter.WetLimit24h = 12;
+            mwqmAnalysisReportParameter.WetLimit48h = 24;
+            mwqmAnalysisReportParameter.WetLimit72h = 36;
+            mwqmAnalysisReportParameter.WetLimit96h = 48;
+            mwqmAnalysisReportParameter.LastUpdateDate_UTC = DateTime.Now;
+            mwqmAnalysisReportParameter.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
+            if (!AddObject("MWQMAnalysisReportParameter", mwqmAnalysisReportParameter)) return false;
+            #endregion MWQMAnalysisReportParameter
 
             return true;
         }
@@ -1670,6 +1716,20 @@ namespace CSSPServicesGenerateCodeHelper
                         dbTestDBWrite.EmailDistributionListContacts.Add((EmailDistributionListContact)objTarget);
                     }
                     break;
+                case "EmailDistributionListContactLanguage":
+                    {
+                        ((EmailDistributionListContactLanguage)objTarget).EmailDistributionListContactLanguageID = 0;
+                        ((EmailDistributionListContactLanguage)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.EmailDistributionListContactLanguages.Add((EmailDistributionListContactLanguage)objTarget);
+                    }
+                    break;
+                case "EmailDistributionListLanguage":
+                    {
+                        ((EmailDistributionListLanguage)objTarget).EmailDistributionListLanguageID = 0;
+                        ((EmailDistributionListLanguage)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.EmailDistributionListLanguages.Add((EmailDistributionListLanguage)objTarget);
+                    }
+                    break;
                 case "HydrometricDataValue":
                     {
                         ((HydrometricDataValue)objTarget).HydrometricDataValueID = 0;
@@ -1752,6 +1812,13 @@ namespace CSSPServicesGenerateCodeHelper
                         ((MikeSourceStartEnd)objTarget).MikeSourceStartEndID = 0;
                         ((MikeSourceStartEnd)objTarget).LastUpdateContactTVItemID = 2;
                         dbTestDBWrite.MikeSourceStartEnds.Add((MikeSourceStartEnd)objTarget);
+                    }
+                    break;
+                case "MWQMAnalysisReportParameter":
+                    {
+                        ((MWQMAnalysisReportParameter)objTarget).MWQMAnalysisReportParameterID = 0;
+                        ((MWQMAnalysisReportParameter)objTarget).LastUpdateContactTVItemID = 2;
+                        dbTestDBWrite.MWQMAnalysisReportParameters.Add((MWQMAnalysisReportParameter)objTarget);
                     }
                     break;
                 case "MWQMLookupMPN":
@@ -2103,7 +2170,9 @@ namespace CSSPServicesGenerateCodeHelper
             {
                 "Logs",
                 "RainExceedances",
+                "EmailDistributionListContactLanguages",
                 "EmailDistributionListContacts",
+                "EmailDistributionListLanguages",
                 "EmailDistributionLists",
                 "ContactLogins",
                 "AppErrLogs",
@@ -2137,6 +2206,7 @@ namespace CSSPServicesGenerateCodeHelper
                 "MikeBoundaryConditions",
                 "MikeSources",
                 "MikeSourceStartEnds",
+                "MWQMAnalysisReportParameters",
                 "MWQMLookupMPNs",
                 "SamplingPlans",
                 "SamplingPlanSubsectors",

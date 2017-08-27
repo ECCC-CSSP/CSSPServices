@@ -64,21 +64,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                MWQMSiteService mwqmSiteService = new MWQMSiteService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    MWQMSiteService mwqmSiteService = new MWQMSiteService(LanguageRequest, dbTestDB, ContactID);
 
-                MWQMSite mwqmSite = GetFilledRandomMWQMSite("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    MWQMSite mwqmSite = GetFilledRandomMWQMSite("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = mwqmSiteService.GetRead().Count();
 
@@ -103,208 +105,209 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // mwqmSite.MWQMSiteID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // mwqmSite.MWQMSiteID   (Int32)
+                    // -----------------------------------
 
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("");
-                mwqmSite.MWQMSiteID = 0;
-                mwqmSiteService.Update(mwqmSite);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteID), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.MWQMSiteID = 0;
+                    mwqmSiteService.Update(mwqmSite);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteID), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("");
-                mwqmSite.MWQMSiteID = 10000000;
-                mwqmSiteService.Update(mwqmSite);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSite, ModelsRes.MWQMSiteMWQMSiteID, mwqmSite.MWQMSiteID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MWQMSite)]
-                // mwqmSite.MWQMSiteTVItemID   (Int32)
-                // -----------------------------------
-
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("");
-                mwqmSite.MWQMSiteTVItemID = 0;
-                mwqmSiteService.Add(mwqmSite);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteMWQMSiteTVItemID, mwqmSite.MWQMSiteTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("");
-                mwqmSite.MWQMSiteTVItemID = 1;
-                mwqmSiteService.Add(mwqmSite);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteMWQMSiteTVItemID, "MWQMSite"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.MWQMSiteID = 10000000;
+                    mwqmSiteService.Update(mwqmSite);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSite, ModelsRes.MWQMSiteMWQMSiteID, mwqmSite.MWQMSiteID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(8))]
-                // mwqmSite.MWQMSiteNumber   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MWQMSite)]
+                    // mwqmSite.MWQMSiteTVItemID   (Int32)
+                    // -----------------------------------
 
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("MWQMSiteNumber");
-                Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                Assert.AreEqual(1, mwqmSite.ValidationResults.Count());
-                Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteNumber)).Any());
-                Assert.AreEqual(null, mwqmSite.MWQMSiteNumber);
-                Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.MWQMSiteTVItemID = 0;
+                    mwqmSiteService.Add(mwqmSite);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteMWQMSiteTVItemID, mwqmSite.MWQMSiteTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("");
-                mwqmSite.MWQMSiteNumber = GetRandomString("", 9);
-                Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteNumber, "8"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(200))]
-                // mwqmSite.MWQMSiteDescription   (String)
-                // -----------------------------------
-
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("MWQMSiteDescription");
-                Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                Assert.AreEqual(1, mwqmSite.ValidationResults.Count());
-                Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteDescription)).Any());
-                Assert.AreEqual(null, mwqmSite.MWQMSiteDescription);
-                Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("");
-                mwqmSite.MWQMSiteDescription = GetRandomString("", 201);
-                Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteDescription, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPEnumType]
-                // mwqmSite.MWQMSiteLatestClassification   (MWQMSiteLatestClassificationEnum)
-                // -----------------------------------
-
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("");
-                mwqmSite.MWQMSiteLatestClassification = (MWQMSiteLatestClassificationEnum)1000000;
-                mwqmSiteService.Add(mwqmSite);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteLatestClassification), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.MWQMSiteTVItemID = 1;
+                    mwqmSiteService.Add(mwqmSite);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteMWQMSiteTVItemID, "MWQMSite"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 1000)]
-                // mwqmSite.Ordinal   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(8))]
+                    // mwqmSite.MWQMSiteNumber   (String)
+                    // -----------------------------------
 
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("");
-                mwqmSite.Ordinal = -1;
-                Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteOrdinal, "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("");
-                mwqmSite.Ordinal = 1001;
-                Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteOrdinal, "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("MWQMSiteNumber");
+                    Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
+                    Assert.AreEqual(1, mwqmSite.ValidationResults.Count());
+                    Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteNumber)).Any());
+                    Assert.AreEqual(null, mwqmSite.MWQMSiteNumber);
+                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // mwqmSite.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.MWQMSiteNumber = GetRandomString("", 9);
+                    Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteNumber, "8"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(200))]
+                    // mwqmSite.MWQMSiteDescription   (String)
+                    // -----------------------------------
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // mwqmSite.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("MWQMSiteDescription");
+                    Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
+                    Assert.AreEqual(1, mwqmSite.ValidationResults.Count());
+                    Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteDescription)).Any());
+                    Assert.AreEqual(null, mwqmSite.MWQMSiteDescription);
+                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("");
-                mwqmSite.LastUpdateContactTVItemID = 0;
-                mwqmSiteService.Add(mwqmSite);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteLastUpdateContactTVItemID, mwqmSite.LastUpdateContactTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.MWQMSiteDescription = GetRandomString("", 201);
+                    Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteDescription, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("");
-                mwqmSite.LastUpdateContactTVItemID = 1;
-                mwqmSiteService.Add(mwqmSite);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteLastUpdateContactTVItemID, "Contact"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // mwqmSite.MWQMSiteLatestClassification   (MWQMSiteLatestClassificationEnum)
+                    // -----------------------------------
 
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // mwqmSite.MWQMSiteTVText   (String)
-                // -----------------------------------
-
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("");
-                mwqmSite.MWQMSiteTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteTVText, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // mwqmSite.LastUpdateContactTVText   (String)
-                // -----------------------------------
-
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("");
-                mwqmSite.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteLastUpdateContactTVText, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is Nullable
-                // [NotMapped]
-                // [StringLength(100))]
-                // mwqmSite.MWQMSiteLatestClassificationText   (String)
-                // -----------------------------------
-
-                mwqmSite = null;
-                mwqmSite = GetFilledRandomMWQMSite("");
-                mwqmSite.MWQMSiteLatestClassificationText = GetRandomString("", 101);
-                Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteLatestClassificationText, "100"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // mwqmSite.HasErrors   (Boolean)
-                // -----------------------------------
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.MWQMSiteLatestClassification = (MWQMSiteLatestClassificationEnum)1000000;
+                    mwqmSiteService.Add(mwqmSite);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteLatestClassification), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // mwqmSite.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 1000)]
+                    // mwqmSite.Ordinal   (Int32)
+                    // -----------------------------------
 
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.Ordinal = -1;
+                    Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteOrdinal, "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.Ordinal = 1001;
+                    Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteOrdinal, "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // mwqmSite.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // mwqmSite.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
+
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.LastUpdateContactTVItemID = 0;
+                    mwqmSiteService.Add(mwqmSite);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteLastUpdateContactTVItemID, mwqmSite.LastUpdateContactTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.LastUpdateContactTVItemID = 1;
+                    mwqmSiteService.Add(mwqmSite);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteLastUpdateContactTVItemID, "Contact"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // mwqmSite.MWQMSiteTVText   (String)
+                    // -----------------------------------
+
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.MWQMSiteTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteTVText, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // mwqmSite.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteLastUpdateContactTVText, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // mwqmSite.MWQMSiteLatestClassificationText   (String)
+                    // -----------------------------------
+
+                    mwqmSite = null;
+                    mwqmSite = GetFilledRandomMWQMSite("");
+                    mwqmSite.MWQMSiteLatestClassificationText = GetRandomString("", 101);
+                    Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteLatestClassificationText, "100"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // mwqmSite.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // mwqmSite.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -317,29 +320,32 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                MWQMSiteService mwqmSiteService = new MWQMSiteService(LanguageRequest, dbTestDB, ContactID);
-                MWQMSite mwqmSite = (from c in mwqmSiteService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(mwqmSite);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    MWQMSiteService mwqmSiteService = new MWQMSiteService(LanguageRequest, dbTestDB, ContactID);
+                    MWQMSite mwqmSite = (from c in mwqmSiteService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(mwqmSite);
 
-                MWQMSite mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID);
-                Assert.IsNotNull(mwqmSiteRet.MWQMSiteID);
-                Assert.IsNotNull(mwqmSiteRet.MWQMSiteTVItemID);
-                Assert.IsNotNull(mwqmSiteRet.MWQMSiteNumber);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteNumber));
-                Assert.IsNotNull(mwqmSiteRet.MWQMSiteDescription);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteDescription));
-                Assert.IsNotNull(mwqmSiteRet.MWQMSiteLatestClassification);
-                Assert.IsNotNull(mwqmSiteRet.Ordinal);
-                Assert.IsNotNull(mwqmSiteRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(mwqmSiteRet.LastUpdateContactTVItemID);
+                    MWQMSite mwqmSiteRet = mwqmSiteService.GetMWQMSiteWithMWQMSiteID(mwqmSite.MWQMSiteID);
+                    Assert.IsNotNull(mwqmSiteRet.MWQMSiteID);
+                    Assert.IsNotNull(mwqmSiteRet.MWQMSiteTVItemID);
+                    Assert.IsNotNull(mwqmSiteRet.MWQMSiteNumber);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteNumber));
+                    Assert.IsNotNull(mwqmSiteRet.MWQMSiteDescription);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteDescription));
+                    Assert.IsNotNull(mwqmSiteRet.MWQMSiteLatestClassification);
+                    Assert.IsNotNull(mwqmSiteRet.Ordinal);
+                    Assert.IsNotNull(mwqmSiteRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(mwqmSiteRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(mwqmSiteRet.MWQMSiteTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteTVText));
-                Assert.IsNotNull(mwqmSiteRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.LastUpdateContactTVText));
-                Assert.IsNotNull(mwqmSiteRet.MWQMSiteLatestClassificationText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteLatestClassificationText));
-                Assert.IsNotNull(mwqmSiteRet.HasErrors);
+                    Assert.IsNotNull(mwqmSiteRet.MWQMSiteTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteTVText));
+                    Assert.IsNotNull(mwqmSiteRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(mwqmSiteRet.MWQMSiteLatestClassificationText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSiteRet.MWQMSiteLatestClassificationText));
+                    Assert.IsNotNull(mwqmSiteRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

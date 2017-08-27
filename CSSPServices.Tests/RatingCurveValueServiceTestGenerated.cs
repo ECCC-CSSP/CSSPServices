@@ -60,21 +60,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(LanguageRequest, dbTestDB, ContactID);
 
-                RatingCurveValue ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    RatingCurveValue ratingCurveValue = GetFilledRandomRatingCurveValue("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = ratingCurveValueService.GetRead().Count();
 
@@ -99,141 +101,142 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // ratingCurveValue.RatingCurveValueID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // ratingCurveValue.RatingCurveValueID   (Int32)
+                    // -----------------------------------
 
-                ratingCurveValue = null;
-                ratingCurveValue = GetFilledRandomRatingCurveValue("");
-                ratingCurveValue.RatingCurveValueID = 0;
-                ratingCurveValueService.Update(ratingCurveValue);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveValueRatingCurveValueID), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.RatingCurveValueID = 0;
+                    ratingCurveValueService.Update(ratingCurveValue);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveValueRatingCurveValueID), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                ratingCurveValue = null;
-                ratingCurveValue = GetFilledRandomRatingCurveValue("");
-                ratingCurveValue.RatingCurveValueID = 10000000;
-                ratingCurveValueService.Update(ratingCurveValue);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RatingCurveValue, ModelsRes.RatingCurveValueRatingCurveValueID, ratingCurveValue.RatingCurveValueID.ToString()), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "RatingCurve", ExistPlurial = "s", ExistFieldID = "RatingCurveID", AllowableTVtypeList = Error)]
-                // ratingCurveValue.RatingCurveID   (Int32)
-                // -----------------------------------
-
-                ratingCurveValue = null;
-                ratingCurveValue = GetFilledRandomRatingCurveValue("");
-                ratingCurveValue.RatingCurveID = 0;
-                ratingCurveValueService.Add(ratingCurveValue);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RatingCurve, ModelsRes.RatingCurveValueRatingCurveID, ratingCurveValue.RatingCurveID.ToString()), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.RatingCurveValueID = 10000000;
+                    ratingCurveValueService.Update(ratingCurveValue);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RatingCurveValue, ModelsRes.RatingCurveValueRatingCurveValueID, ratingCurveValue.RatingCurveValueID.ToString()), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 1000)]
-                // ratingCurveValue.StageValue_m   (Double)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "RatingCurve", ExistPlurial = "s", ExistFieldID = "RatingCurveID", AllowableTVtypeList = Error)]
+                    // ratingCurveValue.RatingCurveID   (Int32)
+                    // -----------------------------------
 
-                //Error: Type not implemented [StageValue_m]
-
-                ratingCurveValue = null;
-                ratingCurveValue = GetFilledRandomRatingCurveValue("");
-                ratingCurveValue.StageValue_m = -1.0D;
-                Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueStageValue_m, "0", "1000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
-                ratingCurveValue = null;
-                ratingCurveValue = GetFilledRandomRatingCurveValue("");
-                ratingCurveValue.StageValue_m = 1001.0D;
-                Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueStageValue_m, "0", "1000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(0, 1000000)]
-                // ratingCurveValue.DischargeValue_m3_s   (Double)
-                // -----------------------------------
-
-                //Error: Type not implemented [DischargeValue_m3_s]
-
-                ratingCurveValue = null;
-                ratingCurveValue = GetFilledRandomRatingCurveValue("");
-                ratingCurveValue.DischargeValue_m3_s = -1.0D;
-                Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
-                ratingCurveValue = null;
-                ratingCurveValue = GetFilledRandomRatingCurveValue("");
-                ratingCurveValue.DischargeValue_m3_s = 1000001.0D;
-                Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
-                Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // ratingCurveValue.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.RatingCurveID = 0;
+                    ratingCurveValueService.Add(ratingCurveValue);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RatingCurve, ModelsRes.RatingCurveValueRatingCurveID, ratingCurveValue.RatingCurveID.ToString()), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // ratingCurveValue.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 1000)]
+                    // ratingCurveValue.StageValue_m   (Double)
+                    // -----------------------------------
 
-                ratingCurveValue = null;
-                ratingCurveValue = GetFilledRandomRatingCurveValue("");
-                ratingCurveValue.LastUpdateContactTVItemID = 0;
-                ratingCurveValueService.Add(ratingCurveValue);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RatingCurveValueLastUpdateContactTVItemID, ratingCurveValue.LastUpdateContactTVItemID.ToString()), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    //Error: Type not implemented [StageValue_m]
 
-                ratingCurveValue = null;
-                ratingCurveValue = GetFilledRandomRatingCurveValue("");
-                ratingCurveValue.LastUpdateContactTVItemID = 1;
-                ratingCurveValueService.Add(ratingCurveValue);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RatingCurveValueLastUpdateContactTVItemID, "Contact"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.StageValue_m = -1.0D;
+                    Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueStageValue_m, "0", "1000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.StageValue_m = 1001.0D;
+                    Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueStageValue_m, "0", "1000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(0, 1000000)]
+                    // ratingCurveValue.DischargeValue_m3_s   (Double)
+                    // -----------------------------------
+
+                    //Error: Type not implemented [DischargeValue_m3_s]
+
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.DischargeValue_m3_s = -1.0D;
+                    Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.DischargeValue_m3_s = 1000001.0D;
+                    Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
+                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // ratingCurveValue.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // ratingCurveValue.LastUpdateContactTVText   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // ratingCurveValue.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
 
-                ratingCurveValue = null;
-                ratingCurveValue = GetFilledRandomRatingCurveValue("");
-                ratingCurveValue.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RatingCurveValueLastUpdateContactTVText, "200"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.LastUpdateContactTVItemID = 0;
+                    ratingCurveValueService.Add(ratingCurveValue);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RatingCurveValueLastUpdateContactTVItemID, ratingCurveValue.LastUpdateContactTVItemID.ToString()), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // ratingCurveValue.HasErrors   (Boolean)
-                // -----------------------------------
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.LastUpdateContactTVItemID = 1;
+                    ratingCurveValueService.Add(ratingCurveValue);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RatingCurveValueLastUpdateContactTVItemID, "Contact"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // ratingCurveValue.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // ratingCurveValue.LastUpdateContactTVText   (String)
+                    // -----------------------------------
 
+                    ratingCurveValue = null;
+                    ratingCurveValue = GetFilledRandomRatingCurveValue("");
+                    ratingCurveValue.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, ratingCurveValueService.Add(ratingCurveValue));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RatingCurveValueLastUpdateContactTVText, "200"), ratingCurveValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, ratingCurveValueService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // ratingCurveValue.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // ratingCurveValue.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -246,21 +249,24 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(LanguageRequest, dbTestDB, ContactID);
-                RatingCurveValue ratingCurveValue = (from c in ratingCurveValueService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(ratingCurveValue);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    RatingCurveValueService ratingCurveValueService = new RatingCurveValueService(LanguageRequest, dbTestDB, ContactID);
+                    RatingCurveValue ratingCurveValue = (from c in ratingCurveValueService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(ratingCurveValue);
 
-                RatingCurveValue ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
-                Assert.IsNotNull(ratingCurveValueRet.RatingCurveValueID);
-                Assert.IsNotNull(ratingCurveValueRet.RatingCurveID);
-                Assert.IsNotNull(ratingCurveValueRet.StageValue_m);
-                Assert.IsNotNull(ratingCurveValueRet.DischargeValue_m3_s);
-                Assert.IsNotNull(ratingCurveValueRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(ratingCurveValueRet.LastUpdateContactTVItemID);
+                    RatingCurveValue ratingCurveValueRet = ratingCurveValueService.GetRatingCurveValueWithRatingCurveValueID(ratingCurveValue.RatingCurveValueID);
+                    Assert.IsNotNull(ratingCurveValueRet.RatingCurveValueID);
+                    Assert.IsNotNull(ratingCurveValueRet.RatingCurveID);
+                    Assert.IsNotNull(ratingCurveValueRet.StageValue_m);
+                    Assert.IsNotNull(ratingCurveValueRet.DischargeValue_m3_s);
+                    Assert.IsNotNull(ratingCurveValueRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(ratingCurveValueRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(ratingCurveValueRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueRet.LastUpdateContactTVText));
-                Assert.IsNotNull(ratingCurveValueRet.HasErrors);
+                    Assert.IsNotNull(ratingCurveValueRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(ratingCurveValueRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(ratingCurveValueRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

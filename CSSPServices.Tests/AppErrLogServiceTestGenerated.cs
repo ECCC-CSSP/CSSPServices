@@ -62,21 +62,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                AppErrLogService appErrLogService = new AppErrLogService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    AppErrLogService appErrLogService = new AppErrLogService(LanguageRequest, dbTestDB, ContactID);
 
-                AppErrLog appErrLog = GetFilledRandomAppErrLog("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    AppErrLog appErrLog = GetFilledRandomAppErrLog("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = appErrLogService.GetRead().Count();
 
@@ -101,155 +103,156 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // appErrLog.AppErrLogID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // appErrLog.AppErrLogID   (Int32)
+                    // -----------------------------------
 
-                appErrLog = null;
-                appErrLog = GetFilledRandomAppErrLog("");
-                appErrLog.AppErrLogID = 0;
-                appErrLogService.Update(appErrLog);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogAppErrLogID), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.AppErrLogID = 0;
+                    appErrLogService.Update(appErrLog);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogAppErrLogID), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                appErrLog = null;
-                appErrLog = GetFilledRandomAppErrLog("");
-                appErrLog.AppErrLogID = 10000000;
-                appErrLogService.Update(appErrLog);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppErrLog, ModelsRes.AppErrLogAppErrLogID, appErrLog.AppErrLogID.ToString()), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [StringLength(100))]
-                // appErrLog.Tag   (String)
-                // -----------------------------------
-
-                appErrLog = null;
-                appErrLog = GetFilledRandomAppErrLog("Tag");
-                Assert.AreEqual(false, appErrLogService.Add(appErrLog));
-                Assert.AreEqual(1, appErrLog.ValidationResults.Count());
-                Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogTag)).Any());
-                Assert.AreEqual(null, appErrLog.Tag);
-                Assert.AreEqual(count, appErrLogService.GetRead().Count());
-
-                appErrLog = null;
-                appErrLog = GetFilledRandomAppErrLog("");
-                appErrLog.Tag = GetRandomString("", 101);
-                Assert.AreEqual(false, appErrLogService.Add(appErrLog));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogTag, "100"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appErrLogService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [Range(1, -1)]
-                // appErrLog.LineNumber   (Int32)
-                // -----------------------------------
-
-                appErrLog = null;
-                appErrLog = GetFilledRandomAppErrLog("");
-                appErrLog.LineNumber = 0;
-                Assert.AreEqual(false, appErrLogService.Add(appErrLog));
-                Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppErrLogLineNumber, "1"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appErrLogService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // appErrLog.Source   (String)
-                // -----------------------------------
-
-                appErrLog = null;
-                appErrLog = GetFilledRandomAppErrLog("Source");
-                Assert.AreEqual(false, appErrLogService.Add(appErrLog));
-                Assert.AreEqual(1, appErrLog.ValidationResults.Count());
-                Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogSource)).Any());
-                Assert.AreEqual(null, appErrLog.Source);
-                Assert.AreEqual(count, appErrLogService.GetRead().Count());
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.AppErrLogID = 10000000;
+                    appErrLogService.Update(appErrLog);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppErrLog, ModelsRes.AppErrLogAppErrLogID, appErrLog.AppErrLogID.ToString()), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // appErrLog.Message   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [StringLength(100))]
+                    // appErrLog.Tag   (String)
+                    // -----------------------------------
 
-                appErrLog = null;
-                appErrLog = GetFilledRandomAppErrLog("Message");
-                Assert.AreEqual(false, appErrLogService.Add(appErrLog));
-                Assert.AreEqual(1, appErrLog.ValidationResults.Count());
-                Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogMessage)).Any());
-                Assert.AreEqual(null, appErrLog.Message);
-                Assert.AreEqual(count, appErrLogService.GetRead().Count());
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("Tag");
+                    Assert.AreEqual(false, appErrLogService.Add(appErrLog));
+                    Assert.AreEqual(1, appErrLog.ValidationResults.Count());
+                    Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogTag)).Any());
+                    Assert.AreEqual(null, appErrLog.Tag);
+                    Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.Tag = GetRandomString("", 101);
+                    Assert.AreEqual(false, appErrLogService.Add(appErrLog));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogTag, "100"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // appErrLog.DateTime_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [Range(1, -1)]
+                    // appErrLog.LineNumber   (Int32)
+                    // -----------------------------------
 
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.LineNumber = 0;
+                    Assert.AreEqual(false, appErrLogService.Add(appErrLog));
+                    Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppErrLogLineNumber, "1"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // appErrLog.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // appErrLog.Source   (String)
+                    // -----------------------------------
 
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // appErrLog.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
-
-                appErrLog = null;
-                appErrLog = GetFilledRandomAppErrLog("");
-                appErrLog.LastUpdateContactTVItemID = 0;
-                appErrLogService.Add(appErrLog);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppErrLogLastUpdateContactTVItemID, appErrLog.LastUpdateContactTVItemID.ToString()), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                appErrLog = null;
-                appErrLog = GetFilledRandomAppErrLog("");
-                appErrLog.LastUpdateContactTVItemID = 1;
-                appErrLogService.Add(appErrLog);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppErrLogLastUpdateContactTVItemID, "Contact"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // appErrLog.LastUpdateContactTVText   (String)
-                // -----------------------------------
-
-                appErrLog = null;
-                appErrLog = GetFilledRandomAppErrLog("");
-                appErrLog.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, appErrLogService.Add(appErrLog));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogLastUpdateContactTVText, "200"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, appErrLogService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // appErrLog.HasErrors   (Boolean)
-                // -----------------------------------
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("Source");
+                    Assert.AreEqual(false, appErrLogService.Add(appErrLog));
+                    Assert.AreEqual(1, appErrLog.ValidationResults.Count());
+                    Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogSource)).Any());
+                    Assert.AreEqual(null, appErrLog.Source);
+                    Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // appErrLog.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // appErrLog.Message   (String)
+                    // -----------------------------------
 
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("Message");
+                    Assert.AreEqual(false, appErrLogService.Add(appErrLog));
+                    Assert.AreEqual(1, appErrLog.ValidationResults.Count());
+                    Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogMessage)).Any());
+                    Assert.AreEqual(null, appErrLog.Message);
+                    Assert.AreEqual(count, appErrLogService.GetRead().Count());
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // appErrLog.DateTime_UTC   (DateTime)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // appErrLog.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // appErrLog.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
+
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.LastUpdateContactTVItemID = 0;
+                    appErrLogService.Add(appErrLog);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppErrLogLastUpdateContactTVItemID, appErrLog.LastUpdateContactTVItemID.ToString()), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.LastUpdateContactTVItemID = 1;
+                    appErrLogService.Add(appErrLog);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppErrLogLastUpdateContactTVItemID, "Contact"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // appErrLog.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    appErrLog = null;
+                    appErrLog = GetFilledRandomAppErrLog("");
+                    appErrLog.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, appErrLogService.Add(appErrLog));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogLastUpdateContactTVText, "200"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, appErrLogService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // appErrLog.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // appErrLog.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -262,26 +265,29 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                AppErrLogService appErrLogService = new AppErrLogService(LanguageRequest, dbTestDB, ContactID);
-                AppErrLog appErrLog = (from c in appErrLogService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(appErrLog);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    AppErrLogService appErrLogService = new AppErrLogService(LanguageRequest, dbTestDB, ContactID);
+                    AppErrLog appErrLog = (from c in appErrLogService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(appErrLog);
 
-                AppErrLog appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID);
-                Assert.IsNotNull(appErrLogRet.AppErrLogID);
-                Assert.IsNotNull(appErrLogRet.Tag);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Tag));
-                Assert.IsNotNull(appErrLogRet.LineNumber);
-                Assert.IsNotNull(appErrLogRet.Source);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Source));
-                Assert.IsNotNull(appErrLogRet.Message);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Message));
-                Assert.IsNotNull(appErrLogRet.DateTime_UTC);
-                Assert.IsNotNull(appErrLogRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(appErrLogRet.LastUpdateContactTVItemID);
+                    AppErrLog appErrLogRet = appErrLogService.GetAppErrLogWithAppErrLogID(appErrLog.AppErrLogID);
+                    Assert.IsNotNull(appErrLogRet.AppErrLogID);
+                    Assert.IsNotNull(appErrLogRet.Tag);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Tag));
+                    Assert.IsNotNull(appErrLogRet.LineNumber);
+                    Assert.IsNotNull(appErrLogRet.Source);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Source));
+                    Assert.IsNotNull(appErrLogRet.Message);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.Message));
+                    Assert.IsNotNull(appErrLogRet.DateTime_UTC);
+                    Assert.IsNotNull(appErrLogRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(appErrLogRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(appErrLogRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.LastUpdateContactTVText));
-                Assert.IsNotNull(appErrLogRet.HasErrors);
+                    Assert.IsNotNull(appErrLogRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(appErrLogRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(appErrLogRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key

@@ -61,21 +61,23 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                SamplingPlanSubsectorSiteService samplingPlanSubsectorSiteService = new SamplingPlanSubsectorSiteService(LanguageRequest, dbTestDB, ContactID);
-
-                int count = 0;
-                if (count == 1)
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
                 {
-                    // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
-                }
+                    SamplingPlanSubsectorSiteService samplingPlanSubsectorSiteService = new SamplingPlanSubsectorSiteService(LanguageRequest, dbTestDB, ContactID);
 
-                SamplingPlanSubsectorSite samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+                    int count = 0;
+                    if (count == 1)
+                    {
+                        // just so we don't get a warning during compile [The variable 'count' is assigned but its value is never used]
+                    }
 
-                // -------------------------------
-                // -------------------------------
-                // CRUD testing
-                // -------------------------------
-                // -------------------------------
+                    SamplingPlanSubsectorSite samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+
+                    // -------------------------------
+                    // -------------------------------
+                    // CRUD testing
+                    // -------------------------------
+                    // -------------------------------
 
                 count = samplingPlanSubsectorSiteService.GetRead().Count();
 
@@ -100,139 +102,140 @@ namespace CSSPServices.Tests
                 }
                 Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
 
-                // -------------------------------
-                // -------------------------------
-                // Properties testing
-                // -------------------------------
-                // -------------------------------
+                    // -------------------------------
+                    // -------------------------------
+                    // Properties testing
+                    // -------------------------------
+                    // -------------------------------
 
 
-                // -----------------------------------
-                // [Key]
-                // Is NOT Nullable
-                // samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // [Key]
+                    // Is NOT Nullable
+                    // samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID   (Int32)
+                    // -----------------------------------
 
-                samplingPlanSubsectorSite = null;
-                samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-                samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID = 0;
-                samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
-                Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    samplingPlanSubsectorSite = null;
+                    samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+                    samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID = 0;
+                    samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                samplingPlanSubsectorSite = null;
-                samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-                samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID = 10000000;
-                samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlanSubsectorSite, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID, samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
-
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "SamplingPlanSubsector", ExistPlurial = "s", ExistFieldID = "SamplingPlanSubsectorID", AllowableTVtypeList = Error)]
-                // samplingPlanSubsectorSite.SamplingPlanSubsectorID   (Int32)
-                // -----------------------------------
-
-                samplingPlanSubsectorSite = null;
-                samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-                samplingPlanSubsectorSite.SamplingPlanSubsectorID = 0;
-                samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlanSubsector, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorID, samplingPlanSubsectorSite.SamplingPlanSubsectorID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    samplingPlanSubsectorSite = null;
+                    samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+                    samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID = 10000000;
+                    samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlanSubsectorSite, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID, samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MWQMSite)]
-                // samplingPlanSubsectorSite.MWQMSiteTVItemID   (Int32)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "SamplingPlanSubsector", ExistPlurial = "s", ExistFieldID = "SamplingPlanSubsectorID", AllowableTVtypeList = Error)]
+                    // samplingPlanSubsectorSite.SamplingPlanSubsectorID   (Int32)
+                    // -----------------------------------
 
-                samplingPlanSubsectorSite = null;
-                samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-                samplingPlanSubsectorSite.MWQMSiteTVItemID = 0;
-                samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, samplingPlanSubsectorSite.MWQMSiteTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                samplingPlanSubsectorSite = null;
-                samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-                samplingPlanSubsectorSite.MWQMSiteTVItemID = 1;
-                samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, "MWQMSite"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    samplingPlanSubsectorSite = null;
+                    samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+                    samplingPlanSubsectorSite.SamplingPlanSubsectorID = 0;
+                    samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlanSubsector, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorID, samplingPlanSubsectorSite.SamplingPlanSubsectorID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // samplingPlanSubsectorSite.IsDuplicate   (Boolean)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = MWQMSite)]
+                    // samplingPlanSubsectorSite.MWQMSiteTVItemID   (Int32)
+                    // -----------------------------------
+
+                    samplingPlanSubsectorSite = null;
+                    samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+                    samplingPlanSubsectorSite.MWQMSiteTVItemID = 0;
+                    samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, samplingPlanSubsectorSite.MWQMSiteTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    samplingPlanSubsectorSite = null;
+                    samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+                    samplingPlanSubsectorSite.MWQMSiteTVItemID = 1;
+                    samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, "MWQMSite"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPAfter(Year = 1980)]
-                // samplingPlanSubsectorSite.LastUpdateDate_UTC   (DateTime)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // samplingPlanSubsectorSite.IsDuplicate   (Boolean)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
-                // samplingPlanSubsectorSite.LastUpdateContactTVItemID   (Int32)
-                // -----------------------------------
-
-                samplingPlanSubsectorSite = null;
-                samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-                samplingPlanSubsectorSite.LastUpdateContactTVItemID = 0;
-                samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, samplingPlanSubsectorSite.LastUpdateContactTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
-
-                samplingPlanSubsectorSite = null;
-                samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-                samplingPlanSubsectorSite.LastUpdateContactTVItemID = 1;
-                samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, "Contact"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPAfter(Year = 1980)]
+                    // samplingPlanSubsectorSite.LastUpdateDate_UTC   (DateTime)
+                    // -----------------------------------
 
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // samplingPlanSubsectorSite.MWQMSiteTVText   (String)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Contact)]
+                    // samplingPlanSubsectorSite.LastUpdateContactTVItemID   (Int32)
+                    // -----------------------------------
 
-                samplingPlanSubsectorSite = null;
-                samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-                samplingPlanSubsectorSite.MWQMSiteTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVText, "200"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
+                    samplingPlanSubsectorSite = null;
+                    samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+                    samplingPlanSubsectorSite.LastUpdateContactTVItemID = 0;
+                    samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, samplingPlanSubsectorSite.LastUpdateContactTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
-                // -----------------------------------
-                // Is Nullable
-                // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
-                // [NotMapped]
-                // [StringLength(200))]
-                // samplingPlanSubsectorSite.LastUpdateContactTVText   (String)
-                // -----------------------------------
-
-                samplingPlanSubsectorSite = null;
-                samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
-                samplingPlanSubsectorSite.LastUpdateContactTVText = GetRandomString("", 201);
-                Assert.AreEqual(false, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
-                Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVText, "200"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
-                Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
-
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // samplingPlanSubsectorSite.HasErrors   (Boolean)
-                // -----------------------------------
+                    samplingPlanSubsectorSite = null;
+                    samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+                    samplingPlanSubsectorSite.LastUpdateContactTVItemID = 1;
+                    samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, "Contact"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
-                // -----------------------------------
-                // Is NOT Nullable
-                // [NotMapped]
-                // samplingPlanSubsectorSite.ValidationResults   (IEnumerable`1)
-                // -----------------------------------
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "MWQMSiteTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // samplingPlanSubsectorSite.MWQMSiteTVText   (String)
+                    // -----------------------------------
 
+                    samplingPlanSubsectorSite = null;
+                    samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+                    samplingPlanSubsectorSite.MWQMSiteTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVText, "200"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "LastUpdateContactTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // samplingPlanSubsectorSite.LastUpdateContactTVText   (String)
+                    // -----------------------------------
+
+                    samplingPlanSubsectorSite = null;
+                    samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
+                    samplingPlanSubsectorSite.LastUpdateContactTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVText, "200"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // samplingPlanSubsectorSite.HasErrors   (Boolean)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [NotMapped]
+                    // samplingPlanSubsectorSite.ValidationResults   (IEnumerable`1)
+                    // -----------------------------------
+
+                }
             }
         }
         #endregion Tests Generated CRUD and Properties
@@ -245,23 +248,26 @@ namespace CSSPServices.Tests
             {
                 ChangeCulture(culture);
 
-                SamplingPlanSubsectorSiteService samplingPlanSubsectorSiteService = new SamplingPlanSubsectorSiteService(LanguageRequest, dbTestDB, ContactID);
-                SamplingPlanSubsectorSite samplingPlanSubsectorSite = (from c in samplingPlanSubsectorSiteService.GetRead() select c).FirstOrDefault();
-                Assert.IsNotNull(samplingPlanSubsectorSite);
+                using (CSSPWebToolsDBContext dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB))
+                {
+                    SamplingPlanSubsectorSiteService samplingPlanSubsectorSiteService = new SamplingPlanSubsectorSiteService(LanguageRequest, dbTestDB, ContactID);
+                    SamplingPlanSubsectorSite samplingPlanSubsectorSite = (from c in samplingPlanSubsectorSiteService.GetRead() select c).FirstOrDefault();
+                    Assert.IsNotNull(samplingPlanSubsectorSite);
 
-                SamplingPlanSubsectorSite samplingPlanSubsectorSiteRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID);
-                Assert.IsNotNull(samplingPlanSubsectorSiteRet.SamplingPlanSubsectorSiteID);
-                Assert.IsNotNull(samplingPlanSubsectorSiteRet.SamplingPlanSubsectorID);
-                Assert.IsNotNull(samplingPlanSubsectorSiteRet.MWQMSiteTVItemID);
-                Assert.IsNotNull(samplingPlanSubsectorSiteRet.IsDuplicate);
-                Assert.IsNotNull(samplingPlanSubsectorSiteRet.LastUpdateDate_UTC);
-                Assert.IsNotNull(samplingPlanSubsectorSiteRet.LastUpdateContactTVItemID);
+                    SamplingPlanSubsectorSite samplingPlanSubsectorSiteRet = samplingPlanSubsectorSiteService.GetSamplingPlanSubsectorSiteWithSamplingPlanSubsectorSiteID(samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID);
+                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.SamplingPlanSubsectorSiteID);
+                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.SamplingPlanSubsectorID);
+                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.MWQMSiteTVItemID);
+                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.IsDuplicate);
+                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.LastUpdateDate_UTC);
+                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.LastUpdateContactTVItemID);
 
-                Assert.IsNotNull(samplingPlanSubsectorSiteRet.MWQMSiteTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteRet.MWQMSiteTVText));
-                Assert.IsNotNull(samplingPlanSubsectorSiteRet.LastUpdateContactTVText);
-                Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteRet.LastUpdateContactTVText));
-                Assert.IsNotNull(samplingPlanSubsectorSiteRet.HasErrors);
+                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.MWQMSiteTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteRet.MWQMSiteTVText));
+                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.LastUpdateContactTVText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(samplingPlanSubsectorSiteRet.LastUpdateContactTVText));
+                    Assert.IsNotNull(samplingPlanSubsectorSiteRet.HasErrors);
+                }
             }
         }
         #endregion Tests Get With Key
