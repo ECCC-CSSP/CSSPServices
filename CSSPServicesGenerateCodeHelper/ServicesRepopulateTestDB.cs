@@ -16,6 +16,7 @@ using System.Data;
 using Microsoft.EntityFrameworkCore;
 using CSSPServices;
 using CSSPGenerateCodeBase;
+using System.Configuration;
 
 namespace CSSPServicesGenerateCodeHelper
 {
@@ -37,17 +38,25 @@ namespace CSSPServicesGenerateCodeHelper
         #region Functions public
         public void RepopulateTestDB()
         {
+            string CSSPWebToolsDBConnectionString = ConfigurationManager.ConnectionStrings["CSSPWebToolsDB"].ConnectionString;
+            string TestDBConnectionString = ConfigurationManager.ConnectionStrings["TestDB"].ConnectionString;
+            if (System.Environment.UserName == "Charles")
+            {
+                CSSPWebToolsDBConnectionString = CSSPWebToolsDBConnectionString.Replace("wmon01dtchlebl2", "charles-pc");
+                TestDBConnectionString = TestDBConnectionString.Replace("wmon01dtchlebl2", "charles-pc");
+            }
+
             List<Table> tableCSSPWebToolsDBList = new List<Table>();
             List<Table> tableTestDBList = new List<Table>();
 
             StatusPermanentEvent(new StatusEventArgs("Loading CSSPWebTools table information..."));
-            if (!LoadDBInfo(tableCSSPWebToolsDBList, servicesFiles.CSSPWebToolsDBConnectionString))
+            if (!LoadDBInfo(tableCSSPWebToolsDBList, CSSPWebToolsDBConnectionString))
             {
                 return;
             }
 
             StatusPermanentEvent(new StatusEventArgs("Loading TestDB table information..."));
-            if (!LoadDBInfo(tableTestDBList, servicesFiles.TestDBConnectionString))
+            if (!LoadDBInfo(tableTestDBList, TestDBConnectionString))
             {
                 return;
             }
@@ -57,7 +66,7 @@ namespace CSSPServicesGenerateCodeHelper
             StatusPermanentEvent(new StatusEventArgs("Done comparing ... everything ok"));
 
             StatusPermanentEvent(new StatusEventArgs("Cleaning TestDB ..."));
-            if (!CleanTestDB(tableTestDBList, servicesFiles.TestDBConnectionString)) return;
+            if (!CleanTestDB(tableTestDBList, TestDBConnectionString)) return;
             StatusPermanentEvent(new StatusEventArgs("Done Cleaning TestDB ... everything ok"));
 
             StatusPermanentEvent(new StatusEventArgs("Filling TestDB ..."));
@@ -1527,8 +1536,8 @@ namespace CSSPServicesGenerateCodeHelper
             mwqmAnalysisReportParameter.MWQMSubsectorTVItemID = tvItemNB_06_020_002.TVItemID;
             mwqmAnalysisReportParameter.Name = "Name of analysis report parameter";
             mwqmAnalysisReportParameter.AnalysisReportYear = 2016;
-            mwqmAnalysisReportParameter.StartDate_Local = new DateTime(2010, 1, 1);
-            mwqmAnalysisReportParameter.EndDate_Local = new DateTime(2016, 12, 31);
+            mwqmAnalysisReportParameter.StartDate = new DateTime(2010, 1, 1);
+            mwqmAnalysisReportParameter.EndDate = new DateTime(2016, 12, 31);
             mwqmAnalysisReportParameter.AnalysisCalculationType = AnalysisCalculationTypeEnum.AllAllAll;
             mwqmAnalysisReportParameter.NumberOfRuns = 30;
             mwqmAnalysisReportParameter.FullYear = true;

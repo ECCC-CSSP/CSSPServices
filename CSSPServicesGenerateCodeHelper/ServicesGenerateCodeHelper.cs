@@ -23,7 +23,6 @@ namespace CSSPServicesGenerateCodeHelper
         #endregion Variables
 
         #region Properties
-        private ServicesFiles servicesFiles { get; set; }
         protected CSSPWebToolsDBContext dbCSSPWebToolsDB { get; set; }
         protected CSSPWebToolsDBContext dbCSSPWebToolsDBRead { get; set; }
         protected CSSPWebToolsDBContext dbTestDB { get; set; }
@@ -32,38 +31,18 @@ namespace CSSPServicesGenerateCodeHelper
         #endregion Properties
 
         #region Constructors
-        public ServicesGenerateCodeHelper(ServicesFiles servicesFiles)
+        public ServicesGenerateCodeHelper()
         {
-            this.servicesFiles = servicesFiles;
             dbCSSPWebToolsDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryCSSPWebToolsDB);
             dbCSSPWebToolsDBRead = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerCSSPWebToolsDB);
             dbTestDB = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryTestDB);
             dbTestDBWrite = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerTestDB);
 
-            ModelsFiles modelsFiles = new ModelsFiles();
-            modelsFiles.CSSPModelsDLL = this.servicesFiles.CSSPModelsDLL;
-            // the other file name are not required
-
-            modelsGenerateCodeHelper = new ModelsGenerateCodeHelper(modelsFiles);
+            modelsGenerateCodeHelper = new ModelsGenerateCodeHelper();
         }
         #endregion Constructors
 
         #region Events
-        //public virtual void ErrorEvent(ErrorEventArgs e)
-        //{
-        //    ErrorHandler?.Invoke(this, e);
-        //}
-        //public event EventHandler<ErrorEventArgs> ErrorHandler;
-        //public virtual void StatusTempEvent(StatusEventArgs e)
-        //{
-        //    StatusTempHandler?.Invoke(this, e);
-        //}
-        //public event EventHandler<StatusEventArgs> StatusTempHandler;
-        //public virtual void StatusPermanentEvent(StatusEventArgs e)
-        //{
-        //    StatusPermanentHandler?.Invoke(this, e);
-        //}
-        //public event EventHandler<StatusEventArgs> StatusPermanentHandler;
         #endregion Events
 
         #region Functions public
@@ -72,29 +51,4 @@ namespace CSSPServicesGenerateCodeHelper
         #region Functions private
         #endregion Functions private
     }
-
-    #region Other Classes
-    public class ServicesFiles
-    {
-        public ServicesFiles()
-        {
-            CSSPServicesDLL = "";
-            CSSPModelsDLL = "";
-            BaseDir = "";
-            BaseDirServices = "";
-            BaseDirTest = "";
-            BaseDirFillDBTest = "";
-            CSSPWebToolsDBConnectionString = "";
-            TestDBConnectionString = "";
-        }
-        public string CSSPServicesDLL { get; set; }
-        public string CSSPModelsDLL { get; set; }
-        public string BaseDir { get; set; }
-        public string BaseDirServices { get; set; }
-        public string BaseDirTest { get; set; }
-        public string BaseDirFillDBTest { get; set; }
-        public string CSSPWebToolsDBConnectionString { get; set; }
-        public string TestDBConnectionString { get; set; }
-    }
-    #endregion Other Classes
 }

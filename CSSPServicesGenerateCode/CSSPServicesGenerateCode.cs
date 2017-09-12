@@ -96,32 +96,12 @@ namespace CSSPServicesGenerateCode
         #region Functions private
         private void StartUp()
         {
-            string CSSPWebToolsDBConnectionString = ConfigurationManager.ConnectionStrings["CSSPWebToolsDB"].ConnectionString;
-            string TestDBConnectionString = ConfigurationManager.ConnectionStrings["TestDB"].ConnectionString;
-            if (System.Environment.UserName == "Charles")
-            {
-                CSSPWebToolsDBConnectionString = CSSPWebToolsDBConnectionString.Replace("wmon01dtchlebl2", "charles-pc");
-                TestDBConnectionString = TestDBConnectionString.Replace("wmon01dtchlebl2", "charles-pc");
-            }
-
-            ServicesFiles servicesFiles = new ServicesFiles();
-            servicesFiles.CSSPServicesDLL = textBoxCSSPServicesDLL.Text;
-            servicesFiles.CSSPModelsDLL = textBoxCSSPModelsDLL.Text;
-            servicesFiles.BaseDir = textBoxBaseDir.Text;
-            servicesFiles.BaseDirTest = textBoxFile1ToGenerate.Text;
-            servicesFiles.BaseDirServices = textBoxFile2ToGenerate.Text;
-            servicesFiles.BaseDirFillDBTest = textBoxFile3ToGenerate.Text;
-            servicesFiles.CSSPWebToolsDBConnectionString = CSSPWebToolsDBConnectionString;
-            servicesFiles.TestDBConnectionString = TestDBConnectionString;
-
-            servicesGenerateCodeHelper = new ServicesGenerateCodeHelper(servicesFiles);
+            servicesGenerateCodeHelper = new ServicesGenerateCodeHelper();
             servicesGenerateCodeHelper.ErrorHandler += ServicesGenerateCodeHelper_ErrorHandler;
             servicesGenerateCodeHelper.StatusTempHandler += ServicesGenerateCodeHelper_StatusTempHandler;
             servicesGenerateCodeHelper.StatusPermanentHandler += ServicesGenerateCodeHelper_StatusPermanentHandler;
         }
 
         #endregion Functions private
-     
     }
-
 }

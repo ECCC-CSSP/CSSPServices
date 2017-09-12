@@ -743,7 +743,7 @@ namespace CSSPServicesGenerateCodeHelper
         #region Functions public
         public void GenerateCodeOf_ClassServiceGenerated()
         {
-            FileInfo fiDLL = new FileInfo(servicesFiles.CSSPModelsDLL);
+            FileInfo fiDLL = new FileInfo(@"C:\CSSP Code\CSSPModels\CSSPModels\bin\Debug\CSSPModels.dll");
 
             if (!fiDLL.Exists)
             {
@@ -902,7 +902,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"    }");
                 sb.AppendLine(@"}");
 
-                FileInfo fiOutputGen = new FileInfo(servicesFiles.BaseDir + servicesFiles.BaseDirServices + TypeName + "ServiceGenerated.cs");
+                FileInfo fiOutputGen = new FileInfo(@"C:\CSSP Code\CSSPServices\CSSPServices\" + TypeName + "ServiceGenerated.cs");
                 using (StreamWriter sw2 = fiOutputGen.CreateText())
                 {
                     sw2.Write(sb.ToString());

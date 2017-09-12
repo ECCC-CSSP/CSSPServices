@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             ClimateDataValue climateDataValue = new ClimateDataValue();
 
-            if (OmitPropName != "ClimateSiteID") climateDataValue.ClimateSiteID = 1;
+            if (OmitPropName != "ClimateSiteID") climateDataValue.ClimateSiteID = 0;
             if (OmitPropName != "DateTime_Local") climateDataValue.DateTime_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "Keep") climateDataValue.Keep = true;
             if (OmitPropName != "StorageDataType") climateDataValue.StorageDataType = (StorageDataTypeEnum)GetRandomEnumType(typeof(StorageDataTypeEnum));

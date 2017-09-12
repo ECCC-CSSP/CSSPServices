@@ -98,38 +98,38 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMAnalysisReportParameterAnalysisReportYear, "1980", "2050"), new[] { "AnalysisReportYear" });
             }
 
-            if (mwqmAnalysisReportParameter.StartDate_Local.Year == 1)
+            if (mwqmAnalysisReportParameter.StartDate.Year == 1)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMAnalysisReportParameterStartDate_Local), new[] { "StartDate_Local" });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMAnalysisReportParameterStartDate), new[] { "StartDate" });
             }
             else
             {
-                if (mwqmAnalysisReportParameter.StartDate_Local.Year < 1980)
+                if (mwqmAnalysisReportParameter.StartDate.Year < 1980)
                 {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMAnalysisReportParameterStartDate_Local, "1980"), new[] { "StartDate_Local" });
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMAnalysisReportParameterStartDate, "1980"), new[] { "StartDate" });
                 }
             }
 
-            if (mwqmAnalysisReportParameter.EndDate_Local.Year == 1)
+            if (mwqmAnalysisReportParameter.EndDate.Year == 1)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMAnalysisReportParameterEndDate_Local), new[] { "EndDate_Local" });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMAnalysisReportParameterEndDate), new[] { "EndDate" });
             }
             else
             {
-                if (mwqmAnalysisReportParameter.EndDate_Local.Year < 1980)
+                if (mwqmAnalysisReportParameter.EndDate.Year < 1980)
                 {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMAnalysisReportParameterEndDate_Local, "1980"), new[] { "EndDate_Local" });
+                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMAnalysisReportParameterEndDate, "1980"), new[] { "EndDate" });
                 }
             }
 
-            if (mwqmAnalysisReportParameter.StartDate_Local > mwqmAnalysisReportParameter.EndDate_Local)
+            if (mwqmAnalysisReportParameter.StartDate > mwqmAnalysisReportParameter.EndDate)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.MWQMAnalysisReportParameterEndDate_Local, ModelsRes.MWQMAnalysisReportParameterStartDate_Local), new[] { ModelsRes.MWQMAnalysisReportParameterEndDate_Local });
+                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.MWQMAnalysisReportParameterEndDate, ModelsRes.MWQMAnalysisReportParameterStartDate), new[] { ModelsRes.MWQMAnalysisReportParameterEndDate });
             }
 
             retStr = enums.EnumTypeOK(typeof(AnalysisCalculationTypeEnum), (int?)mwqmAnalysisReportParameter.AnalysisCalculationType);
@@ -360,8 +360,8 @@ namespace CSSPServices
                                              MWQMSubsectorTVItemID = c.MWQMSubsectorTVItemID,
                                              Name = c.Name,
                                              AnalysisReportYear = c.AnalysisReportYear,
-                                             StartDate_Local = c.StartDate_Local,
-                                             EndDate_Local = c.EndDate_Local,
+                                             StartDate = c.StartDate,
+                                             EndDate = c.EndDate,
                                              AnalysisCalculationType = c.AnalysisCalculationType,
                                              NumberOfRuns = c.NumberOfRuns,
                                              FullYear = c.FullYear,

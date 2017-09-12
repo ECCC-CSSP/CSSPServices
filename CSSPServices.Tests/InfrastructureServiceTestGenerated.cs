@@ -84,7 +84,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "ReceivingWater_MPN_per_100ml") infrastructure.ReceivingWater_MPN_per_100ml = GetRandomInt(0, 10000000);
             if (OmitPropName != "DistanceFromShore_m") infrastructure.DistanceFromShore_m = GetRandomDouble(0.0D, 1000.0D);
             if (OmitPropName != "SeeOtherTVItemID") infrastructure.SeeOtherTVItemID = 16;
-            if (OmitPropName != "CivicAddressTVItemID") infrastructure.CivicAddressTVItemID = 16;
+            if (OmitPropName != "CivicAddressTVItemID") infrastructure.CivicAddressTVItemID = 28;
             if (OmitPropName != "LastUpdateDate_UTC") infrastructure.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") infrastructure.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "InfrastructureTVText") infrastructure.InfrastructureTVText = GetRandomString("", 5);
@@ -946,7 +946,7 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is Nullable
-                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Infrastructure)]
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Address)]
                     // infrastructure.CivicAddressTVItemID   (Int32)
                     // -----------------------------------
 
@@ -960,7 +960,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.CivicAddressTVItemID = 1;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureCivicAddressTVItemID, "Infrastructure"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureCivicAddressTVItemID, "Address"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------

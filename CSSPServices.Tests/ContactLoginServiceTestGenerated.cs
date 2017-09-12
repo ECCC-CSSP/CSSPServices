@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             ContactLogin contactLogin = new ContactLogin();
 
-            if (OmitPropName != "ContactID") contactLogin.ContactID = 1;
+            if (OmitPropName != "ContactID") contactLogin.ContactID = 0;
             if (OmitPropName != "LoginEmail") contactLogin.LoginEmail = GetRandomEmail();
             ContactService contactService = new ContactService(LanguageRequest, dbTestDB, ContactID);
 

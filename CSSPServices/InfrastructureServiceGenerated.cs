@@ -475,12 +475,12 @@ namespace CSSPServices
                 {
                     List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
                     {
-                        TVTypeEnum.Infrastructure,
+                        TVTypeEnum.Address,
                     };
                     if (!AllowableTVTypes.Contains(TVItemCivicAddressTVItemID.TVType))
                     {
                         infrastructure.HasErrors = true;
-                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureCivicAddressTVItemID, "Infrastructure"), new[] { "CivicAddressTVItemID" });
+                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureCivicAddressTVItemID, "Address"), new[] { "CivicAddressTVItemID" });
                     }
                 }
             }

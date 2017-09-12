@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             SpillLanguage spillLanguage = new SpillLanguage();
 
-            if (OmitPropName != "SpillID") spillLanguage.SpillID = 1;
+            if (OmitPropName != "SpillID") spillLanguage.SpillID = 0;
             if (OmitPropName != "Language") spillLanguage.Language = LanguageRequest;
             if (OmitPropName != "SpillComment") spillLanguage.SpillComment = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatus") spillLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));

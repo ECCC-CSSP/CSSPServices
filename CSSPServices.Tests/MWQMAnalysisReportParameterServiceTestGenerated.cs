@@ -43,8 +43,8 @@ namespace CSSPServices.Tests
             // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMAnalysisReportParameter MWQMSubsectorTVItemID TVItem TVItemID]
             if (OmitPropName != "Name") mwqmAnalysisReportParameter.Name = GetRandomString("", 10);
             if (OmitPropName != "AnalysisReportYear") mwqmAnalysisReportParameter.AnalysisReportYear = GetRandomInt(1980, 2050);
-            if (OmitPropName != "StartDate_Local") mwqmAnalysisReportParameter.StartDate_Local = new DateTime(2005, 3, 6);
-            if (OmitPropName != "EndDate_Local") mwqmAnalysisReportParameter.EndDate_Local = new DateTime(2005, 3, 6);
+            if (OmitPropName != "StartDate") mwqmAnalysisReportParameter.StartDate = new DateTime(2005, 3, 6);
+            if (OmitPropName != "EndDate") mwqmAnalysisReportParameter.EndDate = new DateTime(2005, 3, 6);
             if (OmitPropName != "AnalysisCalculationType") mwqmAnalysisReportParameter.AnalysisCalculationType = (AnalysisCalculationTypeEnum)GetRandomEnumType(typeof(AnalysisCalculationTypeEnum));
             if (OmitPropName != "NumberOfRuns") mwqmAnalysisReportParameter.NumberOfRuns = GetRandomInt(1, 1000);
             if (OmitPropName != "FullYear") mwqmAnalysisReportParameter.FullYear = true;
@@ -211,15 +211,15 @@ namespace CSSPServices.Tests
                     // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
-                    // mwqmAnalysisReportParameter.StartDate_Local   (DateTime)
+                    // mwqmAnalysisReportParameter.StartDate   (DateTime)
                     // -----------------------------------
 
 
                     // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
-                    // [CSSPBigger(OtherField = StartDate_Local)]
-                    // mwqmAnalysisReportParameter.EndDate_Local   (DateTime)
+                    // [CSSPBigger(OtherField = StartDate)]
+                    // mwqmAnalysisReportParameter.EndDate   (DateTime)
                     // -----------------------------------
 
 
@@ -551,8 +551,8 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.Name);
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.Name));
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.AnalysisReportYear);
-                    Assert.IsNotNull(mwqmAnalysisReportParameterRet.StartDate_Local);
-                    Assert.IsNotNull(mwqmAnalysisReportParameterRet.EndDate_Local);
+                    Assert.IsNotNull(mwqmAnalysisReportParameterRet.StartDate);
+                    Assert.IsNotNull(mwqmAnalysisReportParameterRet.EndDate);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.AnalysisCalculationType);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.NumberOfRuns);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.FullYear);

@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             BoxModelLanguage boxModelLanguage = new BoxModelLanguage();
 
-            if (OmitPropName != "BoxModelID") boxModelLanguage.BoxModelID = 1;
+            if (OmitPropName != "BoxModelID") boxModelLanguage.BoxModelID = 0;
             if (OmitPropName != "Language") boxModelLanguage.Language = LanguageRequest;
             if (OmitPropName != "ScenarioName") boxModelLanguage.ScenarioName = GetRandomString("", 5);
             if (OmitPropName != "TranslationStatus") boxModelLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
