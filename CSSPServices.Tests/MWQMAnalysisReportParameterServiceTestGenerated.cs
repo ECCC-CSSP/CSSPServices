@@ -40,8 +40,8 @@ namespace CSSPServices.Tests
         {
             MWQMAnalysisReportParameter mwqmAnalysisReportParameter = new MWQMAnalysisReportParameter();
 
-            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMAnalysisReportParameter MWQMSubsectorTVItemID TVItem TVItemID]
-            if (OmitPropName != "Name") mwqmAnalysisReportParameter.Name = GetRandomString("", 10);
+            // Need to implement (no items found, would need to add at least one in the TestDB) [MWQMAnalysisReportParameter SubsectorTVItemID TVItem TVItemID]
+            if (OmitPropName != "AnalysisName") mwqmAnalysisReportParameter.AnalysisName = GetRandomString("", 10);
             if (OmitPropName != "AnalysisReportYear") mwqmAnalysisReportParameter.AnalysisReportYear = GetRandomInt(1980, 2050);
             if (OmitPropName != "StartDate") mwqmAnalysisReportParameter.StartDate = new DateTime(2005, 3, 6);
             if (OmitPropName != "EndDate") mwqmAnalysisReportParameter.EndDate = new DateTime(2005, 3, 6);
@@ -59,6 +59,7 @@ namespace CSSPServices.Tests
             if (OmitPropName != "WetLimit48h") mwqmAnalysisReportParameter.WetLimit48h = GetRandomInt(1, 100);
             if (OmitPropName != "WetLimit72h") mwqmAnalysisReportParameter.WetLimit72h = GetRandomInt(1, 100);
             if (OmitPropName != "WetLimit96h") mwqmAnalysisReportParameter.WetLimit96h = GetRandomInt(1, 100);
+            if (OmitPropName != "RunsToOmit") mwqmAnalysisReportParameter.RunsToOmit = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") mwqmAnalysisReportParameter.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmAnalysisReportParameter.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") mwqmAnalysisReportParameter.LastUpdateContactTVText = GetRandomString("", 5);
@@ -146,47 +147,47 @@ namespace CSSPServices.Tests
                     // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = Error)]
-                    // mwqmAnalysisReportParameter.MWQMSubsectorTVItemID   (Int32)
+                    // mwqmAnalysisReportParameter.SubsectorTVItemID   (Int32)
                     // -----------------------------------
 
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
-                    mwqmAnalysisReportParameter.MWQMSubsectorTVItemID = 0;
+                    mwqmAnalysisReportParameter.SubsectorTVItemID = 0;
                     mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMAnalysisReportParameterMWQMSubsectorTVItemID, mwqmAnalysisReportParameter.MWQMSubsectorTVItemID.ToString()), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMAnalysisReportParameterSubsectorTVItemID, mwqmAnalysisReportParameter.SubsectorTVItemID.ToString()), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
-                    mwqmAnalysisReportParameter.MWQMSubsectorTVItemID = 1;
+                    mwqmAnalysisReportParameter.SubsectorTVItemID = 1;
                     mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMAnalysisReportParameterMWQMSubsectorTVItemID, "Error"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMAnalysisReportParameterSubsectorTVItemID, "Error"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
                     // Is NOT Nullable
                     // [StringLength(250, MinimumLength = 5)]
-                    // mwqmAnalysisReportParameter.Name   (String)
+                    // mwqmAnalysisReportParameter.AnalysisName   (String)
                     // -----------------------------------
 
                     mwqmAnalysisReportParameter = null;
-                    mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("Name");
+                    mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("AnalysisName");
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
                     Assert.AreEqual(1, mwqmAnalysisReportParameter.ValidationResults.Count());
-                    Assert.IsTrue(mwqmAnalysisReportParameter.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMAnalysisReportParameterName)).Any());
-                    Assert.AreEqual(null, mwqmAnalysisReportParameter.Name);
+                    Assert.IsTrue(mwqmAnalysisReportParameter.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMAnalysisReportParameterAnalysisName)).Any());
+                    Assert.AreEqual(null, mwqmAnalysisReportParameter.AnalysisName);
                     Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
 
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
-                    mwqmAnalysisReportParameter.Name = GetRandomString("", 4);
+                    mwqmAnalysisReportParameter.AnalysisName = GetRandomString("", 4);
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMAnalysisReportParameterName, "5", "250"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMAnalysisReportParameterAnalysisName, "5", "250"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
                     mwqmAnalysisReportParameter = null;
                     mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
-                    mwqmAnalysisReportParameter.Name = GetRandomString("", 251);
+                    mwqmAnalysisReportParameter.AnalysisName = GetRandomString("", 251);
                     Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMAnalysisReportParameterName, "5", "250"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMAnalysisReportParameterAnalysisName, "5", "250"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
 
                     // -----------------------------------
@@ -474,6 +475,27 @@ namespace CSSPServices.Tests
 
                     // -----------------------------------
                     // Is NOT Nullable
+                    // [StringLength(250))]
+                    // mwqmAnalysisReportParameter.RunsToOmit   (String)
+                    // -----------------------------------
+
+                    mwqmAnalysisReportParameter = null;
+                    mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("RunsToOmit");
+                    Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
+                    Assert.AreEqual(1, mwqmAnalysisReportParameter.ValidationResults.Count());
+                    Assert.IsTrue(mwqmAnalysisReportParameter.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMAnalysisReportParameterRunsToOmit)).Any());
+                    Assert.AreEqual(null, mwqmAnalysisReportParameter.RunsToOmit);
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+
+                    mwqmAnalysisReportParameter = null;
+                    mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
+                    mwqmAnalysisReportParameter.RunsToOmit = GetRandomString("", 251);
+                    Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMAnalysisReportParameterRunsToOmit, "250"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // mwqmAnalysisReportParameter.LastUpdateDate_UTC   (DateTime)
                     // -----------------------------------
@@ -547,9 +569,9 @@ namespace CSSPServices.Tests
 
                     MWQMAnalysisReportParameter mwqmAnalysisReportParameterRet = mwqmAnalysisReportParameterService.GetMWQMAnalysisReportParameterWithMWQMAnalysisReportParameterID(mwqmAnalysisReportParameter.MWQMAnalysisReportParameterID);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.MWQMAnalysisReportParameterID);
-                    Assert.IsNotNull(mwqmAnalysisReportParameterRet.MWQMSubsectorTVItemID);
-                    Assert.IsNotNull(mwqmAnalysisReportParameterRet.Name);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.Name));
+                    Assert.IsNotNull(mwqmAnalysisReportParameterRet.SubsectorTVItemID);
+                    Assert.IsNotNull(mwqmAnalysisReportParameterRet.AnalysisName);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.AnalysisName));
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.AnalysisReportYear);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.StartDate);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.EndDate);
@@ -567,6 +589,8 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.WetLimit48h);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.WetLimit72h);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.WetLimit96h);
+                    Assert.IsNotNull(mwqmAnalysisReportParameterRet.RunsToOmit);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.RunsToOmit));
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.LastUpdateDate_UTC);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.LastUpdateContactTVItemID);
 

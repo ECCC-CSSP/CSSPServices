@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             RatingCurve ratingCurve = new RatingCurve();
 
-            if (OmitPropName != "HydrometricSiteID") ratingCurve.HydrometricSiteID = 0;
+            if (OmitPropName != "HydrometricSiteID") ratingCurve.HydrometricSiteID = 1;
             if (OmitPropName != "RatingCurveNumber") ratingCurve.RatingCurveNumber = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") ratingCurve.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") ratingCurve.LastUpdateContactTVItemID = 2;

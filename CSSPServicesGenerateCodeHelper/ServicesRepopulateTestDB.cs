@@ -570,11 +570,13 @@ namespace CSSPServicesGenerateCodeHelper
             // MWQMSubsectorLanguage EN NB-06_020_001 TVItemID = 634
             MWQMSubsectorLanguage mwqmSubsector001EN = dbCSSPWebToolsDBRead.MWQMSubsectorLanguages.AsNoTracking().Where(c => c.MWQMSubsectorID == MWQMSubsector001ID && c.Language == LanguageEnum.en).FirstOrDefault();
             mwqmSubsector001EN.MWQMSubsectorID = mwqmSubsector001.MWQMSubsectorID;
+            mwqmSubsector001EN.LogBook = "somthing in the logbook";
             if (!AddObject("MWQMSubsectorLanguage", mwqmSubsector001EN)) return false;
 
             // MWQMSubsectorLanguage FR NB-06_020_001 TVItemID = 634
             MWQMSubsectorLanguage mwqmSubsector001FR = dbCSSPWebToolsDBRead.MWQMSubsectorLanguages.AsNoTracking().Where(c => c.MWQMSubsectorID == MWQMSubsector001ID && c.Language == LanguageEnum.fr).FirstOrDefault();
             mwqmSubsector001FR.MWQMSubsectorID = mwqmSubsector001.MWQMSubsectorID;
+            mwqmSubsector001FR.LogBook = "somthing in the logbook";
             if (!AddObject("MWQMSubsectorLanguage", mwqmSubsector001FR)) return false;
             #endregion TVItem Subsector NB-06_020_001 
             #region TVItem Subsector NB-06_020_002 
@@ -607,11 +609,13 @@ namespace CSSPServicesGenerateCodeHelper
             // MWQMSubsectorLanguage EN NB-06_020_002 TVItemID = 635
             MWQMSubsectorLanguage mwqmSubsector002EN = dbCSSPWebToolsDBRead.MWQMSubsectorLanguages.AsNoTracking().Where(c => c.MWQMSubsectorID == MWQMSubsector002ID && c.Language == LanguageEnum.en).FirstOrDefault();
             mwqmSubsector002EN.MWQMSubsectorID = mwqmSubsector002.MWQMSubsectorID;
+            mwqmSubsector002EN.LogBook = "Something in the logbook";
             if (!AddObject("MWQMSubsectorLanguage", mwqmSubsector002EN)) return false;
 
             // MWQMSubsectorLanguage FR NB-06_020_002 TVItemID = 635
             MWQMSubsectorLanguage mwqmSubsector002FR = dbCSSPWebToolsDBRead.MWQMSubsectorLanguages.AsNoTracking().Where(c => c.MWQMSubsectorID == MWQMSubsector002ID && c.Language == LanguageEnum.fr).FirstOrDefault();
             mwqmSubsector002FR.MWQMSubsectorID = mwqmSubsector002.MWQMSubsectorID;
+            mwqmSubsector002FR.LogBook = "Something in the logbook";
             if (!AddObject("MWQMSubsectorLanguage", mwqmSubsector002FR)) return false;
             #endregion TVItem Subsector NB-06_020_002 
             #region TVItem TideSite Subsector NB-06-020-002
@@ -1533,8 +1537,8 @@ namespace CSSPServicesGenerateCodeHelper
             #region MWQMAnalysisReportParameter
             StatusTempEvent(new StatusEventArgs("doing ... MWQMAnalysisReportParameter"));
             MWQMAnalysisReportParameter mwqmAnalysisReportParameter = new MWQMAnalysisReportParameter();
-            mwqmAnalysisReportParameter.MWQMSubsectorTVItemID = tvItemNB_06_020_002.TVItemID;
-            mwqmAnalysisReportParameter.Name = "Name of analysis report parameter";
+            mwqmAnalysisReportParameter.SubsectorTVItemID = tvItemNB_06_020_002.TVItemID;
+            mwqmAnalysisReportParameter.AnalysisName = "Name of analysis report parameter";
             mwqmAnalysisReportParameter.AnalysisReportYear = 2016;
             mwqmAnalysisReportParameter.StartDate = new DateTime(2010, 1, 1);
             mwqmAnalysisReportParameter.EndDate = new DateTime(2016, 12, 31);
@@ -1552,6 +1556,7 @@ namespace CSSPServicesGenerateCodeHelper
             mwqmAnalysisReportParameter.WetLimit48h = 24;
             mwqmAnalysisReportParameter.WetLimit72h = 36;
             mwqmAnalysisReportParameter.WetLimit96h = 48;
+            mwqmAnalysisReportParameter.RunsToOmit = "";
             mwqmAnalysisReportParameter.LastUpdateDate_UTC = DateTime.Now;
             mwqmAnalysisReportParameter.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
             if (!AddObject("MWQMAnalysisReportParameter", mwqmAnalysisReportParameter)) return false;

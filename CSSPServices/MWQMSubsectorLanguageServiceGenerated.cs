@@ -85,11 +85,23 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLanguageSubsectorDesc, "250"), new[] { "SubsectorDesc" });
             }
 
-            retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)mwqmSubsectorLanguage.TranslationStatus);
-            if (mwqmSubsectorLanguage.TranslationStatus == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)mwqmSubsectorLanguage.TranslationStatusSubsectorDesc);
+            if (mwqmSubsectorLanguage.TranslationStatusSubsectorDesc == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmSubsectorLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorLanguageTranslationStatus), new[] { "TranslationStatus" });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorLanguageTranslationStatusSubsectorDesc), new[] { "TranslationStatusSubsectorDesc" });
+            }
+
+            //LogBook has no StringLength Attribute
+
+            if (mwqmSubsectorLanguage.TranslationStatusLogBook != null)
+            {
+                retStr = enums.EnumTypeOK(typeof(TranslationStatusEnum), (int?)mwqmSubsectorLanguage.TranslationStatusLogBook);
+                if (mwqmSubsectorLanguage.TranslationStatusLogBook == TranslationStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+                {
+                    mwqmSubsectorLanguage.HasErrors = true;
+                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorLanguageTranslationStatusLogBook), new[] { "TranslationStatusLogBook" });
+                }
             }
 
             if (mwqmSubsectorLanguage.LastUpdateDate_UTC.Year == 1)
@@ -140,10 +152,16 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLanguageLanguageText, "100"), new[] { "LanguageText" });
             }
 
-            if (!string.IsNullOrWhiteSpace(mwqmSubsectorLanguage.TranslationStatusText) && mwqmSubsectorLanguage.TranslationStatusText.Length > 100)
+            if (!string.IsNullOrWhiteSpace(mwqmSubsectorLanguage.TranslationStatusSubsectorDescText) && mwqmSubsectorLanguage.TranslationStatusSubsectorDescText.Length > 100)
             {
                 mwqmSubsectorLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLanguageTranslationStatusText, "100"), new[] { "TranslationStatusText" });
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLanguageTranslationStatusSubsectorDescText, "100"), new[] { "TranslationStatusSubsectorDescText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmSubsectorLanguage.TranslationStatusLogBookText) && mwqmSubsectorLanguage.TranslationStatusLogBookText.Length > 100)
+            {
+                mwqmSubsectorLanguage.HasErrors = true;
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLanguageTranslationStatusLogBookText, "100"), new[] { "TranslationStatusLogBookText" });
             }
 
             //HasErrors (bool) is required but no testing needed 
@@ -227,7 +245,9 @@ namespace CSSPServices
                                              MWQMSubsectorID = c.MWQMSubsectorID,
                                              Language = c.Language,
                                              SubsectorDesc = c.SubsectorDesc,
-                                             TranslationStatus = c.TranslationStatus,
+                                             TranslationStatusSubsectorDesc = c.TranslationStatusSubsectorDesc,
+                                             LogBook = c.LogBook,
+                                             TranslationStatusLogBook = c.TranslationStatusLogBook,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                              LastUpdateContactTVText = LastUpdateContactTVText,
@@ -239,7 +259,8 @@ namespace CSSPServices
             foreach (MWQMSubsectorLanguage mwqmSubsectorLanguage in MWQMSubsectorLanguageList)
             {
                 mwqmSubsectorLanguage.LanguageText = enums.GetResValueForTypeAndID(typeof(LanguageEnum), (int?)mwqmSubsectorLanguage.Language);
-                mwqmSubsectorLanguage.TranslationStatusText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)mwqmSubsectorLanguage.TranslationStatus);
+                mwqmSubsectorLanguage.TranslationStatusSubsectorDescText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)mwqmSubsectorLanguage.TranslationStatusSubsectorDesc);
+                mwqmSubsectorLanguage.TranslationStatusLogBookText = enums.GetResValueForTypeAndID(typeof(TranslationStatusEnum), (int?)mwqmSubsectorLanguage.TranslationStatusLogBook);
             }
 
             return MWQMSubsectorLanguageList;

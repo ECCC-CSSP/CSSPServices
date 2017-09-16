@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             InfrastructureLanguage infrastructureLanguage = new InfrastructureLanguage();
 
-            if (OmitPropName != "InfrastructureID") infrastructureLanguage.InfrastructureID = 0;
+            if (OmitPropName != "InfrastructureID") infrastructureLanguage.InfrastructureID = 1;
             if (OmitPropName != "Language") infrastructureLanguage.Language = LanguageRequest;
             if (OmitPropName != "Comment") infrastructureLanguage.Comment = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatus") infrastructureLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));

@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             TVFileLanguage tvFileLanguage = new TVFileLanguage();
 
-            if (OmitPropName != "TVFileID") tvFileLanguage.TVFileID = 0;
+            if (OmitPropName != "TVFileID") tvFileLanguage.TVFileID = 1;
             if (OmitPropName != "Language") tvFileLanguage.Language = LanguageRequest;
             if (OmitPropName != "FileDescription") tvFileLanguage.FileDescription = GetRandomString("", 20);
             if (OmitPropName != "TranslationStatus") tvFileLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));

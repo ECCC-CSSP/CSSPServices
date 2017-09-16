@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             BoxModelResult boxModelResult = new BoxModelResult();
 
-            if (OmitPropName != "BoxModelID") boxModelResult.BoxModelID = 0;
+            if (OmitPropName != "BoxModelID") boxModelResult.BoxModelID = 1;
             if (OmitPropName != "BoxModelResultType") boxModelResult.BoxModelResultType = (BoxModelResultTypeEnum)GetRandomEnumType(typeof(BoxModelResultTypeEnum));
             if (OmitPropName != "Volume_m3") boxModelResult.Volume_m3 = GetRandomDouble(0.0D, 10.0D);
             if (OmitPropName != "Surface_m2") boxModelResult.Surface_m2 = GetRandomDouble(0.0D, 10.0D);

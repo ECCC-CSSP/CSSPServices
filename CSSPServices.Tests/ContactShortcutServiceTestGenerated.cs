@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             ContactShortcut contactShortcut = new ContactShortcut();
 
-            if (OmitPropName != "ContactID") contactShortcut.ContactID = 0;
+            if (OmitPropName != "ContactID") contactShortcut.ContactID = 1;
             if (OmitPropName != "ShortCutText") contactShortcut.ShortCutText = GetRandomString("", 5);
             if (OmitPropName != "ShortCutAddress") contactShortcut.ShortCutAddress = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateDate_UTC") contactShortcut.LastUpdateDate_UTC = new DateTime(2005, 3, 6);

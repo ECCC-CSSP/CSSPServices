@@ -56,14 +56,14 @@ namespace CSSPServices
 
             //MWQMAnalysisReportParameterID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            //MWQMSubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
+            //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
 
-            TVItem TVItemMWQMSubsectorTVItemID = (from c in db.TVItems where c.TVItemID == mwqmAnalysisReportParameter.MWQMSubsectorTVItemID select c).FirstOrDefault();
+            TVItem TVItemSubsectorTVItemID = (from c in db.TVItems where c.TVItemID == mwqmAnalysisReportParameter.SubsectorTVItemID select c).FirstOrDefault();
 
-            if (TVItemMWQMSubsectorTVItemID == null)
+            if (TVItemSubsectorTVItemID == null)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMAnalysisReportParameterMWQMSubsectorTVItemID, mwqmAnalysisReportParameter.MWQMSubsectorTVItemID.ToString()), new[] { "MWQMSubsectorTVItemID" });
+                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMAnalysisReportParameterSubsectorTVItemID, mwqmAnalysisReportParameter.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
             }
             else
             {
@@ -71,23 +71,23 @@ namespace CSSPServices
                 {
                     TVTypeEnum.Error,
                 };
-                if (!AllowableTVTypes.Contains(TVItemMWQMSubsectorTVItemID.TVType))
+                if (!AllowableTVTypes.Contains(TVItemSubsectorTVItemID.TVType))
                 {
                     mwqmAnalysisReportParameter.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMAnalysisReportParameterMWQMSubsectorTVItemID, "Error"), new[] { "MWQMSubsectorTVItemID" });
+                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMAnalysisReportParameterSubsectorTVItemID, "Error"), new[] { "SubsectorTVItemID" });
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.Name))
+            if (string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.AnalysisName))
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMAnalysisReportParameterName), new[] { "Name" });
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMAnalysisReportParameterAnalysisName), new[] { "AnalysisName" });
             }
 
-            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.Name) && (mwqmAnalysisReportParameter.Name.Length < 5 || mwqmAnalysisReportParameter.Name.Length > 250))
+            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.AnalysisName) && (mwqmAnalysisReportParameter.AnalysisName.Length < 5 || mwqmAnalysisReportParameter.AnalysisName.Length > 250))
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMAnalysisReportParameterName, "5", "250"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMAnalysisReportParameterAnalysisName, "5", "250"), new[] { "AnalysisName" });
             }
 
             //AnalysisReportYear (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -237,6 +237,18 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMAnalysisReportParameterWetLimit96h, "1", "100"), new[] { "WetLimit96h" });
             }
 
+            if (string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.RunsToOmit))
+            {
+                mwqmAnalysisReportParameter.HasErrors = true;
+                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMAnalysisReportParameterRunsToOmit), new[] { "RunsToOmit" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.RunsToOmit) && mwqmAnalysisReportParameter.RunsToOmit.Length > 250)
+            {
+                mwqmAnalysisReportParameter.HasErrors = true;
+                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMAnalysisReportParameterRunsToOmit, "250"), new[] { "RunsToOmit" });
+            }
+
             if (mwqmAnalysisReportParameter.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
@@ -357,8 +369,8 @@ namespace CSSPServices
                                          select new MWQMAnalysisReportParameter
                                          {
                                              MWQMAnalysisReportParameterID = c.MWQMAnalysisReportParameterID,
-                                             MWQMSubsectorTVItemID = c.MWQMSubsectorTVItemID,
-                                             Name = c.Name,
+                                             SubsectorTVItemID = c.SubsectorTVItemID,
+                                             AnalysisName = c.AnalysisName,
                                              AnalysisReportYear = c.AnalysisReportYear,
                                              StartDate = c.StartDate,
                                              EndDate = c.EndDate,
@@ -376,6 +388,7 @@ namespace CSSPServices
                                              WetLimit48h = c.WetLimit48h,
                                              WetLimit72h = c.WetLimit72h,
                                              WetLimit96h = c.WetLimit96h,
+                                             RunsToOmit = c.RunsToOmit,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
                                              LastUpdateContactTVText = LastUpdateContactTVText,

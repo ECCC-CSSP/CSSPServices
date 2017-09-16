@@ -40,15 +40,18 @@ namespace CSSPServices.Tests
         {
             MWQMSubsectorLanguage mwqmSubsectorLanguage = new MWQMSubsectorLanguage();
 
-            if (OmitPropName != "MWQMSubsectorID") mwqmSubsectorLanguage.MWQMSubsectorID = 0;
+            if (OmitPropName != "MWQMSubsectorID") mwqmSubsectorLanguage.MWQMSubsectorID = 1;
             if (OmitPropName != "Language") mwqmSubsectorLanguage.Language = LanguageRequest;
             if (OmitPropName != "SubsectorDesc") mwqmSubsectorLanguage.SubsectorDesc = GetRandomString("", 5);
-            if (OmitPropName != "TranslationStatus") mwqmSubsectorLanguage.TranslationStatus = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
+            if (OmitPropName != "TranslationStatusSubsectorDesc") mwqmSubsectorLanguage.TranslationStatusSubsectorDesc = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
+            if (OmitPropName != "LogBook") mwqmSubsectorLanguage.LogBook = GetRandomString("", 20);
+            if (OmitPropName != "TranslationStatusLogBook") mwqmSubsectorLanguage.TranslationStatusLogBook = (TranslationStatusEnum)GetRandomEnumType(typeof(TranslationStatusEnum));
             if (OmitPropName != "LastUpdateDate_UTC") mwqmSubsectorLanguage.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmSubsectorLanguage.LastUpdateContactTVItemID = 2;
             if (OmitPropName != "LastUpdateContactTVText") mwqmSubsectorLanguage.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "LanguageText") mwqmSubsectorLanguage.LanguageText = GetRandomString("", 5);
-            if (OmitPropName != "TranslationStatusText") mwqmSubsectorLanguage.TranslationStatusText = GetRandomString("", 5);
+            if (OmitPropName != "TranslationStatusSubsectorDescText") mwqmSubsectorLanguage.TranslationStatusSubsectorDescText = GetRandomString("", 5);
+            if (OmitPropName != "TranslationStatusLogBookText") mwqmSubsectorLanguage.TranslationStatusLogBookText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") mwqmSubsectorLanguage.HasErrors = true;
 
             return mwqmSubsectorLanguage;
@@ -180,14 +183,33 @@ namespace CSSPServices.Tests
                     // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPEnumType]
-                    // mwqmSubsectorLanguage.TranslationStatus   (TranslationStatusEnum)
+                    // mwqmSubsectorLanguage.TranslationStatusSubsectorDesc   (TranslationStatusEnum)
                     // -----------------------------------
 
                     mwqmSubsectorLanguage = null;
                     mwqmSubsectorLanguage = GetFilledRandomMWQMSubsectorLanguage("");
-                    mwqmSubsectorLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
+                    mwqmSubsectorLanguage.TranslationStatusSubsectorDesc = (TranslationStatusEnum)1000000;
                     mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorLanguageTranslationStatus), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorLanguageTranslationStatusSubsectorDesc), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // mwqmSubsectorLanguage.LogBook   (String)
+                    // -----------------------------------
+
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPEnumType]
+                    // mwqmSubsectorLanguage.TranslationStatusLogBook   (TranslationStatusEnum)
+                    // -----------------------------------
+
+                    mwqmSubsectorLanguage = null;
+                    mwqmSubsectorLanguage = GetFilledRandomMWQMSubsectorLanguage("");
+                    mwqmSubsectorLanguage.TranslationStatusLogBook = (TranslationStatusEnum)1000000;
+                    mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage);
+                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorLanguageTranslationStatusLogBook), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -249,14 +271,28 @@ namespace CSSPServices.Tests
                     // Is Nullable
                     // [NotMapped]
                     // [StringLength(100))]
-                    // mwqmSubsectorLanguage.TranslationStatusText   (String)
+                    // mwqmSubsectorLanguage.TranslationStatusSubsectorDescText   (String)
                     // -----------------------------------
 
                     mwqmSubsectorLanguage = null;
                     mwqmSubsectorLanguage = GetFilledRandomMWQMSubsectorLanguage("");
-                    mwqmSubsectorLanguage.TranslationStatusText = GetRandomString("", 101);
+                    mwqmSubsectorLanguage.TranslationStatusSubsectorDescText = GetRandomString("", 101);
                     Assert.AreEqual(false, mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLanguageTranslationStatusText, "100"), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLanguageTranslationStatusSubsectorDescText, "100"), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mwqmSubsectorLanguageService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // mwqmSubsectorLanguage.TranslationStatusLogBookText   (String)
+                    // -----------------------------------
+
+                    mwqmSubsectorLanguage = null;
+                    mwqmSubsectorLanguage = GetFilledRandomMWQMSubsectorLanguage("");
+                    mwqmSubsectorLanguage.TranslationStatusLogBookText = GetRandomString("", 101);
+                    Assert.AreEqual(false, mwqmSubsectorLanguageService.Add(mwqmSubsectorLanguage));
+                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLanguageTranslationStatusLogBookText, "100"), mwqmSubsectorLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSubsectorLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -297,7 +333,16 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmSubsectorLanguageRet.Language);
                     Assert.IsNotNull(mwqmSubsectorLanguageRet.SubsectorDesc);
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.SubsectorDesc));
-                    Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatus);
+                    Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusSubsectorDesc);
+                    if (mwqmSubsectorLanguageRet.LogBook != null)
+                    {
+                       Assert.IsNotNull(mwqmSubsectorLanguageRet.LogBook);
+                       Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LogBook));
+                    }
+                    if (mwqmSubsectorLanguageRet.TranslationStatusLogBook != null)
+                    {
+                       Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusLogBook);
+                    }
                     Assert.IsNotNull(mwqmSubsectorLanguageRet.LastUpdateDate_UTC);
                     Assert.IsNotNull(mwqmSubsectorLanguageRet.LastUpdateContactTVItemID);
 
@@ -305,8 +350,10 @@ namespace CSSPServices.Tests
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LastUpdateContactTVText));
                     Assert.IsNotNull(mwqmSubsectorLanguageRet.LanguageText);
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.LanguageText));
-                    Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusText);
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.TranslationStatusText));
+                    Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusSubsectorDescText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.TranslationStatusSubsectorDescText));
+                    Assert.IsNotNull(mwqmSubsectorLanguageRet.TranslationStatusLogBookText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmSubsectorLanguageRet.TranslationStatusLogBookText));
                     Assert.IsNotNull(mwqmSubsectorLanguageRet.HasErrors);
                 }
             }

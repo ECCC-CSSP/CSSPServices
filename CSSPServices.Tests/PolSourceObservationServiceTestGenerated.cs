@@ -40,7 +40,7 @@ namespace CSSPServices.Tests
         {
             PolSourceObservation polSourceObservation = new PolSourceObservation();
 
-            if (OmitPropName != "PolSourceSiteID") polSourceObservation.PolSourceSiteID = 0;
+            if (OmitPropName != "PolSourceSiteID") polSourceObservation.PolSourceSiteID = 1;
             if (OmitPropName != "ObservationDate_Local") polSourceObservation.ObservationDate_Local = new DateTime(2005, 3, 6);
             if (OmitPropName != "ContactTVItemID") polSourceObservation.ContactTVItemID = 2;
             if (OmitPropName != "Observation_ToBeDeleted") polSourceObservation.Observation_ToBeDeleted = GetRandomString("", 20);
