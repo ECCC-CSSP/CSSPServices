@@ -120,13 +120,13 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.ResetPasswordID = 0;
                     resetPasswordService.Update(resetPassword);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordResetPasswordID), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordResetPasswordID), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     resetPassword = null;
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.ResetPasswordID = 10000000;
                     resetPasswordService.Update(resetPassword);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ResetPassword, ModelsRes.ResetPasswordResetPasswordID, resetPassword.ResetPasswordID.ToString()), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ResetPassword, CSSPModelsRes.ResetPasswordResetPasswordID, resetPassword.ResetPasswordID.ToString()), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -139,7 +139,7 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("Email");
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
                     Assert.AreEqual(1, resetPassword.ValidationResults.Count());
-                    Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordEmail)).Any());
+                    Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordEmail)).Any());
                     Assert.AreEqual(null, resetPassword.Email);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
@@ -147,7 +147,7 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.Email = GetRandomString("", 257);
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordEmail, "256"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ResetPasswordEmail, "256"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
                     // -----------------------------------
@@ -167,7 +167,7 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("Code");
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
                     Assert.AreEqual(1, resetPassword.ValidationResults.Count());
-                    Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordCode)).Any());
+                    Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordCode)).Any());
                     Assert.AreEqual(null, resetPassword.Code);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
@@ -175,7 +175,7 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.Code = GetRandomString("", 9);
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordCode, "8"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ResetPasswordCode, "8"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
                     // -----------------------------------
@@ -195,13 +195,13 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.LastUpdateContactTVItemID = 0;
                     resetPasswordService.Add(resetPassword);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ResetPasswordLastUpdateContactTVItemID, resetPassword.LastUpdateContactTVItemID.ToString()), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ResetPasswordLastUpdateContactTVItemID, resetPassword.LastUpdateContactTVItemID.ToString()), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     resetPassword = null;
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.LastUpdateContactTVItemID = 1;
                     resetPasswordService.Add(resetPassword);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ResetPasswordLastUpdateContactTVItemID, "Contact"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ResetPasswordLastUpdateContactTVItemID, "Contact"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -216,7 +216,7 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordLastUpdateContactTVText, "200"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ResetPasswordLastUpdateContactTVText, "200"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
                     // -----------------------------------
@@ -230,7 +230,7 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("Password");
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
                     Assert.AreEqual(1, resetPassword.ValidationResults.Count());
-                    Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordPassword)).Any());
+                    Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordPassword)).Any());
                     Assert.AreEqual(null, resetPassword.Password);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
@@ -238,13 +238,13 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.Password = GetRandomString("", 5);
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordPassword, "6", "100"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ResetPasswordPassword, "6", "100"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
                     resetPassword = null;
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.Password = GetRandomString("", 101);
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordPassword, "6", "100"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ResetPasswordPassword, "6", "100"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
                     // -----------------------------------
@@ -258,7 +258,7 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("ConfirmPassword");
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
                     Assert.AreEqual(1, resetPassword.ValidationResults.Count());
-                    Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordConfirmPassword)).Any());
+                    Assert.IsTrue(resetPassword.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordConfirmPassword)).Any());
                     Assert.AreEqual(null, resetPassword.ConfirmPassword);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
@@ -266,13 +266,13 @@ namespace CSSPServices.Tests
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.ConfirmPassword = GetRandomString("", 5);
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordConfirmPassword, "6", "100"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ResetPasswordConfirmPassword, "6", "100"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
                     resetPassword = null;
                     resetPassword = GetFilledRandomResetPassword("");
                     resetPassword.ConfirmPassword = GetRandomString("", 101);
                     Assert.AreEqual(false, resetPasswordService.Add(resetPassword));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ResetPasswordConfirmPassword, "6", "100"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ResetPasswordConfirmPassword, "6", "100"), resetPassword.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, resetPasswordService.GetRead().Count());
 
                     // -----------------------------------

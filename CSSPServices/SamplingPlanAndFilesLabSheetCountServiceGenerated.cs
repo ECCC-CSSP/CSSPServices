@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour SamplingPlanAndFilesLabSheetCount</para>
+    /// </summary>
     public partial class SamplingPlanAndFilesLabSheetCountService : BaseService
     {
         #region Variables
@@ -44,7 +47,7 @@ namespace CSSPServices
             if (samplingPlanAndFilesLabSheetCount.LabSheetHistoryCount < 0)
             {
                 samplingPlanAndFilesLabSheetCount.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetHistoryCount, "0"), new[] { "LabSheetHistoryCount" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetHistoryCount, "0"), new[] { "LabSheetHistoryCount" });
             }
 
             //LabSheetTransferredCount (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -52,7 +55,7 @@ namespace CSSPServices
             if (samplingPlanAndFilesLabSheetCount.LabSheetTransferredCount < 0)
             {
                 samplingPlanAndFilesLabSheetCount.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetTransferredCount, "0"), new[] { "LabSheetTransferredCount" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.SamplingPlanAndFilesLabSheetCountLabSheetTransferredCount, "0"), new[] { "LabSheetTransferredCount" });
             }
 
             //HasErrors (bool) is required but no testing needed 

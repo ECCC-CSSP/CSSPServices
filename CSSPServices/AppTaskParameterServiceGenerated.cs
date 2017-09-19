@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour AppTaskParameter</para>
+    /// </summary>
     public partial class AppTaskParameterService : BaseService
     {
         #region Variables
@@ -42,25 +45,25 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(appTaskParameter.Name))
             {
                 appTaskParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskParameterName), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskParameterName), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(appTaskParameter.Name) && appTaskParameter.Name.Length > 255)
             {
                 appTaskParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskParameterName, "255"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskParameterName, "255"), new[] { "Name" });
             }
 
             if (string.IsNullOrWhiteSpace(appTaskParameter.Value))
             {
                 appTaskParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskParameterValue), new[] { "Value" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskParameterValue), new[] { "Value" });
             }
 
             if (!string.IsNullOrWhiteSpace(appTaskParameter.Value) && appTaskParameter.Value.Length > 255)
             {
                 appTaskParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskParameterValue, "255"), new[] { "Value" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskParameterValue, "255"), new[] { "Value" });
             }
 
             //HasErrors (bool) is required but no testing needed 

@@ -121,13 +121,13 @@ namespace CSSPServices.Tests
                     docTemplate = GetFilledRandomDocTemplate("");
                     docTemplate.DocTemplateID = 0;
                     docTemplateService.Update(docTemplate);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateDocTemplateID), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DocTemplateDocTemplateID), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     docTemplate = null;
                     docTemplate = GetFilledRandomDocTemplate("");
                     docTemplate.DocTemplateID = 10000000;
                     docTemplateService.Update(docTemplate);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.DocTemplate, ModelsRes.DocTemplateDocTemplateID, docTemplate.DocTemplateID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.DocTemplate, CSSPModelsRes.DocTemplateDocTemplateID, docTemplate.DocTemplateID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -140,7 +140,7 @@ namespace CSSPServices.Tests
                     docTemplate = GetFilledRandomDocTemplate("");
                     docTemplate.Language = (LanguageEnum)1000000;
                     docTemplateService.Add(docTemplate);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateLanguage), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DocTemplateLanguage), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -153,7 +153,7 @@ namespace CSSPServices.Tests
                     docTemplate = GetFilledRandomDocTemplate("");
                     docTemplate.TVType = (TVTypeEnum)1000000;
                     docTemplateService.Add(docTemplate);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateTVType), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DocTemplateTVType), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -166,13 +166,13 @@ namespace CSSPServices.Tests
                     docTemplate = GetFilledRandomDocTemplate("");
                     docTemplate.TVFileTVItemID = 0;
                     docTemplateService.Add(docTemplate);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.DocTemplateTVFileTVItemID, docTemplate.TVFileTVItemID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.DocTemplateTVFileTVItemID, docTemplate.TVFileTVItemID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     docTemplate = null;
                     docTemplate = GetFilledRandomDocTemplate("");
                     docTemplate.TVFileTVItemID = 1;
                     docTemplateService.Add(docTemplate);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.DocTemplateTVFileTVItemID, "File"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.DocTemplateTVFileTVItemID, "File"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -185,7 +185,7 @@ namespace CSSPServices.Tests
                     docTemplate = GetFilledRandomDocTemplate("FileName");
                     Assert.AreEqual(false, docTemplateService.Add(docTemplate));
                     Assert.AreEqual(1, docTemplate.ValidationResults.Count());
-                    Assert.IsTrue(docTemplate.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.DocTemplateFileName)).Any());
+                    Assert.IsTrue(docTemplate.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.DocTemplateFileName)).Any());
                     Assert.AreEqual(null, docTemplate.FileName);
                     Assert.AreEqual(count, docTemplateService.GetRead().Count());
 
@@ -193,7 +193,7 @@ namespace CSSPServices.Tests
                     docTemplate = GetFilledRandomDocTemplate("");
                     docTemplate.FileName = GetRandomString("", 151);
                     Assert.AreEqual(false, docTemplateService.Add(docTemplate));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateFileName, "150"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.DocTemplateFileName, "150"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, docTemplateService.GetRead().Count());
 
                     // -----------------------------------
@@ -213,13 +213,13 @@ namespace CSSPServices.Tests
                     docTemplate = GetFilledRandomDocTemplate("");
                     docTemplate.LastUpdateContactTVItemID = 0;
                     docTemplateService.Add(docTemplate);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.DocTemplateLastUpdateContactTVItemID, docTemplate.LastUpdateContactTVItemID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.DocTemplateLastUpdateContactTVItemID, docTemplate.LastUpdateContactTVItemID.ToString()), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     docTemplate = null;
                     docTemplate = GetFilledRandomDocTemplate("");
                     docTemplate.LastUpdateContactTVItemID = 1;
                     docTemplateService.Add(docTemplate);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.DocTemplateLastUpdateContactTVItemID, "Contact"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.DocTemplateLastUpdateContactTVItemID, "Contact"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -234,7 +234,7 @@ namespace CSSPServices.Tests
                     docTemplate = GetFilledRandomDocTemplate("");
                     docTemplate.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, docTemplateService.Add(docTemplate));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateLastUpdateContactTVText, "200"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.DocTemplateLastUpdateContactTVText, "200"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, docTemplateService.GetRead().Count());
 
                     // -----------------------------------
@@ -248,7 +248,7 @@ namespace CSSPServices.Tests
                     docTemplate = GetFilledRandomDocTemplate("");
                     docTemplate.LanguageText = GetRandomString("", 101);
                     Assert.AreEqual(false, docTemplateService.Add(docTemplate));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateLanguageText, "100"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.DocTemplateLanguageText, "100"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, docTemplateService.GetRead().Count());
 
                     // -----------------------------------
@@ -262,7 +262,7 @@ namespace CSSPServices.Tests
                     docTemplate = GetFilledRandomDocTemplate("");
                     docTemplate.TVTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, docTemplateService.Add(docTemplate));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.DocTemplateTVTypeText, "100"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.DocTemplateTVTypeText, "100"), docTemplate.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, docTemplateService.GetRead().Count());
 
                     // -----------------------------------

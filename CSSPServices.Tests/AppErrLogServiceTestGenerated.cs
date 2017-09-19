@@ -120,13 +120,13 @@ namespace CSSPServices.Tests
                     appErrLog = GetFilledRandomAppErrLog("");
                     appErrLog.AppErrLogID = 0;
                     appErrLogService.Update(appErrLog);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogAppErrLogID), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogAppErrLogID), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     appErrLog = null;
                     appErrLog = GetFilledRandomAppErrLog("");
                     appErrLog.AppErrLogID = 10000000;
                     appErrLogService.Update(appErrLog);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppErrLog, ModelsRes.AppErrLogAppErrLogID, appErrLog.AppErrLogID.ToString()), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AppErrLog, CSSPModelsRes.AppErrLogAppErrLogID, appErrLog.AppErrLogID.ToString()), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -139,7 +139,7 @@ namespace CSSPServices.Tests
                     appErrLog = GetFilledRandomAppErrLog("Tag");
                     Assert.AreEqual(false, appErrLogService.Add(appErrLog));
                     Assert.AreEqual(1, appErrLog.ValidationResults.Count());
-                    Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogTag)).Any());
+                    Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogTag)).Any());
                     Assert.AreEqual(null, appErrLog.Tag);
                     Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
@@ -147,7 +147,7 @@ namespace CSSPServices.Tests
                     appErrLog = GetFilledRandomAppErrLog("");
                     appErrLog.Tag = GetRandomString("", 101);
                     Assert.AreEqual(false, appErrLogService.Add(appErrLog));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogTag, "100"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppErrLogTag, "100"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
                     // -----------------------------------
@@ -160,7 +160,7 @@ namespace CSSPServices.Tests
                     appErrLog = GetFilledRandomAppErrLog("");
                     appErrLog.LineNumber = 0;
                     Assert.AreEqual(false, appErrLogService.Add(appErrLog));
-                    Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppErrLogLineNumber, "1"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.AppErrLogLineNumber, "1"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
                     // -----------------------------------
@@ -172,7 +172,7 @@ namespace CSSPServices.Tests
                     appErrLog = GetFilledRandomAppErrLog("Source");
                     Assert.AreEqual(false, appErrLogService.Add(appErrLog));
                     Assert.AreEqual(1, appErrLog.ValidationResults.Count());
-                    Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogSource)).Any());
+                    Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogSource)).Any());
                     Assert.AreEqual(null, appErrLog.Source);
                     Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
@@ -186,7 +186,7 @@ namespace CSSPServices.Tests
                     appErrLog = GetFilledRandomAppErrLog("Message");
                     Assert.AreEqual(false, appErrLogService.Add(appErrLog));
                     Assert.AreEqual(1, appErrLog.ValidationResults.Count());
-                    Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogMessage)).Any());
+                    Assert.IsTrue(appErrLog.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogMessage)).Any());
                     Assert.AreEqual(null, appErrLog.Message);
                     Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
@@ -215,13 +215,13 @@ namespace CSSPServices.Tests
                     appErrLog = GetFilledRandomAppErrLog("");
                     appErrLog.LastUpdateContactTVItemID = 0;
                     appErrLogService.Add(appErrLog);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppErrLogLastUpdateContactTVItemID, appErrLog.LastUpdateContactTVItemID.ToString()), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppErrLogLastUpdateContactTVItemID, appErrLog.LastUpdateContactTVItemID.ToString()), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     appErrLog = null;
                     appErrLog = GetFilledRandomAppErrLog("");
                     appErrLog.LastUpdateContactTVItemID = 1;
                     appErrLogService.Add(appErrLog);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppErrLogLastUpdateContactTVItemID, "Contact"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppErrLogLastUpdateContactTVItemID, "Contact"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -236,7 +236,7 @@ namespace CSSPServices.Tests
                     appErrLog = GetFilledRandomAppErrLog("");
                     appErrLog.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, appErrLogService.Add(appErrLog));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogLastUpdateContactTVText, "200"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppErrLogLastUpdateContactTVText, "200"), appErrLog.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appErrLogService.GetRead().Count());
 
                     // -----------------------------------

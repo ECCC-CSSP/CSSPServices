@@ -35,13 +35,13 @@ namespace CSSPServicesGenerateCodeHelper
             sb.AppendLine(@"                    " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
             sb.AppendLine(@"                    " + TypeNameLower + "." + csspProp.PropName + " = 0;");
             sb.AppendLine(@"                    " + TypeNameLower + @"Service.Update(" + TypeNameLower + @");");
-            sb.AppendLine(@"                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + csspProp.PropName + "), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+            sb.AppendLine(@"                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes." + TypeName + csspProp.PropName + "), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
             sb.AppendLine(@"");
             sb.AppendLine(@"                    " + TypeNameLower + @" = null;");
             sb.AppendLine(@"                    " + TypeNameLower + @" = GetFilledRandom" + TypeName + @"("""");");
             sb.AppendLine(@"                    " + TypeNameLower + "." + csspProp.PropName + " = 10000000;");
             sb.AppendLine(@"                    " + TypeNameLower + @"Service.Update(" + TypeNameLower + @");");
-            sb.AppendLine(@"                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + TypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+            sb.AppendLine(@"                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + TypeName + ", CSSPModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
             sb.AppendLine(@"");
         }
         private void CreateClass_CSSPEnumType_Testing(CSSPProp csspProp, string TypeName, string TypeNameLower, StringBuilder sb)
@@ -66,7 +66,7 @@ namespace CSSPServicesGenerateCodeHelper
                     {
                         sb.AppendLine(@"                    " + TypeNameLower + @"Service.Add(" + TypeNameLower + @");");
                     }
-                    sb.AppendLine(@"                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + csspProp.PropName + @"), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+                    sb.AppendLine(@"                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes." + TypeName + csspProp.PropName + @"), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
                     sb.AppendLine(@"");
                 }
             }
@@ -104,7 +104,7 @@ namespace CSSPServicesGenerateCodeHelper
                             {
                                 sb.AppendLine(@"                    " + TypeNameLower + @"Service.Add(" + TypeNameLower + @");");
                             }
-                            sb.AppendLine(@"                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+                            sb.AppendLine(@"                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + csspProp.ExistTypeName + ", CSSPModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + ".ToString()), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
                             sb.AppendLine(@"");
 
                             if (csspProp.ExistTypeName == "TVItem")
@@ -131,7 +131,7 @@ namespace CSSPServicesGenerateCodeHelper
                                 {
                                     sb.AppendLine(@"                    " + TypeNameLower + @"Service.Add(" + TypeNameLower + @");");
                                 }
-                                sb.AppendLine(@"                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes." + TypeName + csspProp.PropName + @", """ + String.Join(",", csspProp.AllowableTVTypeList) + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+                                sb.AppendLine(@"                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + String.Join(",", csspProp.AllowableTVTypeList) + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
                                 sb.AppendLine(@"");
                             }
                         }
@@ -219,11 +219,11 @@ namespace CSSPServicesGenerateCodeHelper
                             }
                             if (csspProp.Max != null)
                             {
-                                sb.AppendLine(@"                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+                                sb.AppendLine(@"                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
                             }
                             else
                             {
-                                sb.AppendLine(@"                    Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+                                sb.AppendLine(@"                    Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
                             }
                             sb.AppendLine(@"                    Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
                         }
@@ -243,11 +243,11 @@ namespace CSSPServicesGenerateCodeHelper
                             }
                             if (csspProp.Min != null)
                             {
-                                sb.AppendLine(@"                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+                                sb.AppendLine(@"                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
                             }
                             else
                             {
-                                sb.AppendLine(@"                    Assert.AreEqual(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+                                sb.AppendLine(@"                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxValueIs_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
                             }
                             sb.AppendLine(@"                    Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
                         }
@@ -284,11 +284,11 @@ namespace CSSPServicesGenerateCodeHelper
                                 }
                                 if (csspProp.Max != null)
                                 {
-                                    sb.AppendLine(@"                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+                                    sb.AppendLine(@"                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
                                 }
                                 else
                                 {
-                                    sb.AppendLine(@"                    Assert.AreEqual(string.Format(ServicesRes._MinLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+                                    sb.AppendLine(@"                    Assert.AreEqual(string.Format(CSSPServicesRes._MinLengthIs_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
                                 }
                                 sb.AppendLine(@"                    Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
                             }
@@ -309,11 +309,11 @@ namespace CSSPServicesGenerateCodeHelper
                             }
                             if (csspProp.Min != null)
                             {
-                                sb.AppendLine(@"                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+                                sb.AppendLine(@"                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
                             }
                             else
                             {
-                                sb.AppendLine(@"                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
+                                sb.AppendLine(@"                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), " + TypeNameLower + ".ValidationResults.FirstOrDefault().ErrorMessage);");
                             }
                             sb.AppendLine(@"                    Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
                         }
@@ -357,7 +357,7 @@ namespace CSSPServicesGenerateCodeHelper
                                 sb.AppendLine(@"                    Assert.AreEqual(false, " + TypeNameLower + @"Service.Add(" + TypeNameLower + @"));");
                             }
                             sb.AppendLine(@"                    Assert.AreEqual(1, " + TypeNameLower + @".ValidationResults.Count());");
-                            sb.AppendLine(@"                    Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + csspProp.PropName + @")).Any());");
+                            sb.AppendLine(@"                    Assert.IsTrue(" + TypeNameLower + @".ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes." + TypeName + csspProp.PropName + @")).Any());");
                             sb.AppendLine(@"                    Assert.AreEqual(null, " + TypeNameLower + @"." + csspProp.PropName + @");");
                             sb.AppendLine(@"                    Assert.AreEqual(count, " + TypeNameLower + @"Service.GetRead().Count());");
                             sb.AppendLine(@"");

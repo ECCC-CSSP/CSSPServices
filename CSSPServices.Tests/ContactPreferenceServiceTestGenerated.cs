@@ -119,13 +119,13 @@ namespace CSSPServices.Tests
                     contactPreference = GetFilledRandomContactPreference("");
                     contactPreference.ContactPreferenceID = 0;
                     contactPreferenceService.Update(contactPreference);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPreferenceContactPreferenceID), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactPreferenceContactPreferenceID), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     contactPreference = null;
                     contactPreference = GetFilledRandomContactPreference("");
                     contactPreference.ContactPreferenceID = 10000000;
                     contactPreferenceService.Update(contactPreference);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ContactPreference, ModelsRes.ContactPreferenceContactPreferenceID, contactPreference.ContactPreferenceID.ToString()), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ContactPreference, CSSPModelsRes.ContactPreferenceContactPreferenceID, contactPreference.ContactPreferenceID.ToString()), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -138,7 +138,7 @@ namespace CSSPServices.Tests
                     contactPreference = GetFilledRandomContactPreference("");
                     contactPreference.ContactID = 0;
                     contactPreferenceService.Add(contactPreference);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactPreferenceContactID, contactPreference.ContactID.ToString()), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ContactPreferenceContactID, contactPreference.ContactID.ToString()), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -151,7 +151,7 @@ namespace CSSPServices.Tests
                     contactPreference = GetFilledRandomContactPreference("");
                     contactPreference.TVType = (TVTypeEnum)1000000;
                     contactPreferenceService.Add(contactPreference);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactPreferenceTVType), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactPreferenceTVType), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -164,13 +164,13 @@ namespace CSSPServices.Tests
                     contactPreference = GetFilledRandomContactPreference("");
                     contactPreference.MarkerSize = 0;
                     Assert.AreEqual(false, contactPreferenceService.Add(contactPreference));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContactPreferenceMarkerSize, "1", "1000"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ContactPreferenceMarkerSize, "1", "1000"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
                     contactPreference = null;
                     contactPreference = GetFilledRandomContactPreference("");
                     contactPreference.MarkerSize = 1001;
                     Assert.AreEqual(false, contactPreferenceService.Add(contactPreference));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContactPreferenceMarkerSize, "1", "1000"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ContactPreferenceMarkerSize, "1", "1000"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
 
                     // -----------------------------------
@@ -190,13 +190,13 @@ namespace CSSPServices.Tests
                     contactPreference = GetFilledRandomContactPreference("");
                     contactPreference.LastUpdateContactTVItemID = 0;
                     contactPreferenceService.Add(contactPreference);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactPreferenceLastUpdateContactTVItemID, contactPreference.LastUpdateContactTVItemID.ToString()), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactPreferenceLastUpdateContactTVItemID, contactPreference.LastUpdateContactTVItemID.ToString()), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     contactPreference = null;
                     contactPreference = GetFilledRandomContactPreference("");
                     contactPreference.LastUpdateContactTVItemID = 1;
                     contactPreferenceService.Add(contactPreference);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactPreferenceLastUpdateContactTVItemID, "Contact"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ContactPreferenceLastUpdateContactTVItemID, "Contact"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -211,7 +211,7 @@ namespace CSSPServices.Tests
                     contactPreference = GetFilledRandomContactPreference("");
                     contactPreference.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, contactPreferenceService.Add(contactPreference));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactPreferenceLastUpdateContactTVText, "200"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactPreferenceLastUpdateContactTVText, "200"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
 
                     // -----------------------------------
@@ -225,7 +225,7 @@ namespace CSSPServices.Tests
                     contactPreference = GetFilledRandomContactPreference("");
                     contactPreference.TVTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, contactPreferenceService.Add(contactPreference));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactPreferenceTVTypeText, "100"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactPreferenceTVTypeText, "100"), contactPreference.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, contactPreferenceService.GetRead().Count());
 
                     // -----------------------------------

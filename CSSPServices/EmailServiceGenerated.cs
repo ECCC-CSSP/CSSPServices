@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour Email</para>
+    /// </summary>
     public partial class EmailService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (email.EmailID == 0)
                 {
                     email.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailID), new[] { "EmailID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailEmailID), new[] { "EmailID" });
                 }
 
                 if (!GetRead().Where(c => c.EmailID == email.EmailID).Any())
                 {
                     email.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Email, ModelsRes.EmailEmailID, email.EmailID.ToString()), new[] { "EmailID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Email, CSSPModelsRes.EmailEmailID, email.EmailID.ToString()), new[] { "EmailID" });
                 }
             }
 
@@ -63,7 +66,7 @@ namespace CSSPServices
             if (TVItemEmailTVItemID == null)
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailEmailTVItemID, email.EmailTVItemID.ToString()), new[] { "EmailTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailEmailTVItemID, email.EmailTVItemID.ToString()), new[] { "EmailTVItemID" });
             }
             else
             {
@@ -74,20 +77,20 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemEmailTVItemID.TVType))
                 {
                     email.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailEmailTVItemID, "Email"), new[] { "EmailTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.EmailEmailTVItemID, "Email"), new[] { "EmailTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(email.EmailAddress))
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailAddress), new[] { "EmailAddress" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailEmailAddress), new[] { "EmailAddress" });
             }
 
             if (!string.IsNullOrWhiteSpace(email.EmailAddress) && email.EmailAddress.Length > 255)
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailAddress, "255"), new[] { "EmailAddress" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailEmailAddress, "255"), new[] { "EmailAddress" });
             }
 
             if (!string.IsNullOrWhiteSpace(email.EmailAddress))
@@ -96,7 +99,7 @@ namespace CSSPServices
                 if (!regex.IsMatch(email.EmailAddress))
                 {
                     email.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.EmailEmailAddress), new[] { "EmailAddress" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, CSSPModelsRes.EmailEmailAddress), new[] { "EmailAddress" });
                 }
             }
 
@@ -104,20 +107,20 @@ namespace CSSPServices
             if (email.EmailType == EmailTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailType), new[] { "EmailType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailEmailType), new[] { "EmailType" });
             }
 
             if (email.LastUpdateDate_UTC.Year == 1)
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (email.LastUpdateDate_UTC.Year < 1980)
                 {
                 email.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.EmailLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.EmailLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -128,7 +131,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailLastUpdateContactTVItemID, email.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailLastUpdateContactTVItemID, email.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -139,26 +142,26 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     email.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.EmailLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(email.EmailTVText) && email.EmailTVText.Length > 200)
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailTVText, "200"), new[] { "EmailTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailEmailTVText, "200"), new[] { "EmailTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(email.LastUpdateContactTVText) && email.LastUpdateContactTVText.Length > 200)
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(email.EmailTypeText) && email.EmailTypeText.Length > 100)
             {
                 email.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailTypeText, "100"), new[] { "EmailTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailEmailTypeText, "100"), new[] { "EmailTypeText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

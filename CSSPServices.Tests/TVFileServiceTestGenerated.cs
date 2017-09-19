@@ -132,13 +132,13 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.TVFileID = 0;
                     tvFileService.Update(tvFile);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTVFileID), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileTVFileID), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tvFile = null;
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.TVFileID = 10000000;
                     tvFileService.Update(tvFile);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVFile, ModelsRes.TVFileTVFileID, tvFile.TVFileID.ToString()), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVFile, CSSPModelsRes.TVFileTVFileID, tvFile.TVFileID.ToString()), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -151,13 +151,13 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.TVFileTVItemID = 0;
                     tvFileService.Add(tvFile);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileTVFileTVItemID, tvFile.TVFileTVItemID.ToString()), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileTVFileTVItemID, tvFile.TVFileTVItemID.ToString()), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tvFile = null;
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.TVFileTVItemID = 1;
                     tvFileService.Add(tvFile);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVFileTVFileTVItemID, "File"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVFileTVFileTVItemID, "File"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -170,7 +170,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.TemplateTVType = (TVTypeEnum)1000000;
                     tvFileService.Add(tvFile);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTemplateTVType), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileTemplateTVType), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -183,7 +183,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.Language = (LanguageEnum)1000000;
                     tvFileService.Add(tvFile);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguage), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileLanguage), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -196,7 +196,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.FilePurpose = (FilePurposeEnum)1000000;
                     tvFileService.Add(tvFile);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFilePurpose), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileFilePurpose), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -209,7 +209,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.FileType = (FileTypeEnum)1000000;
                     tvFileService.Add(tvFile);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileType), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileFileType), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -222,13 +222,13 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.FileSize_kb = -1;
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVFileFileSize_kb, "0", "1000000"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVFileFileSize_kb, "0", "1000000"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
                     tvFile = null;
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.FileSize_kb = 1000001;
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVFileFileSize_kb, "0", "1000000"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVFileFileSize_kb, "0", "1000000"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                     // -----------------------------------
@@ -260,7 +260,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.ClientFilePath = GetRandomString("", 251);
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileClientFilePath, "250"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileClientFilePath, "250"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                     // -----------------------------------
@@ -273,7 +273,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("ServerFileName");
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
                     Assert.AreEqual(1, tvFile.ValidationResults.Count());
-                    Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVFileServerFileName)).Any());
+                    Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileServerFileName)).Any());
                     Assert.AreEqual(null, tvFile.ServerFileName);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
 
@@ -281,7 +281,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.ServerFileName = GetRandomString("", 251);
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileServerFileName, "250"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileServerFileName, "250"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                     // -----------------------------------
@@ -294,7 +294,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("ServerFilePath");
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
                     Assert.AreEqual(1, tvFile.ValidationResults.Count());
-                    Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TVFileServerFilePath)).Any());
+                    Assert.IsTrue(tvFile.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileServerFilePath)).Any());
                     Assert.AreEqual(null, tvFile.ServerFilePath);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
 
@@ -302,7 +302,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.ServerFilePath = GetRandomString("", 251);
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileServerFilePath, "250"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileServerFilePath, "250"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                     // -----------------------------------
@@ -322,13 +322,13 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.LastUpdateContactTVItemID = 0;
                     tvFileService.Add(tvFile);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileLastUpdateContactTVItemID, tvFile.LastUpdateContactTVItemID.ToString()), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileLastUpdateContactTVItemID, tvFile.LastUpdateContactTVItemID.ToString()), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tvFile = null;
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.LastUpdateContactTVItemID = 1;
                     tvFileService.Add(tvFile);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVFileLastUpdateContactTVItemID, "Contact"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVFileLastUpdateContactTVItemID, "Contact"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -343,7 +343,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.TVFileTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileTVFileTVText, "200"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileTVFileTVText, "200"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                     // -----------------------------------
@@ -358,7 +358,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileLastUpdateContactTVText, "200"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileLastUpdateContactTVText, "200"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                     // -----------------------------------
@@ -372,7 +372,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.TemplateTVTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileTemplateTVTypeText, "100"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileTemplateTVTypeText, "100"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                     // -----------------------------------
@@ -386,7 +386,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.LanguageText = GetRandomString("", 101);
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileLanguageText, "100"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileLanguageText, "100"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                     // -----------------------------------
@@ -400,7 +400,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.FilePurposeText = GetRandomString("", 101);
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileFilePurposeText, "100"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileFilePurposeText, "100"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                     // -----------------------------------
@@ -414,7 +414,7 @@ namespace CSSPServices.Tests
                     tvFile = GetFilledRandomTVFile("");
                     tvFile.FileTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, tvFileService.Add(tvFile));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileFileTypeText, "100"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileFileTypeText, "100"), tvFile.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileService.GetRead().Count());
 
                     // -----------------------------------

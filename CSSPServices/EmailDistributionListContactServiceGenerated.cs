@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour EmailDistributionListContact</para>
+    /// </summary>
     public partial class EmailDistributionListContactService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (emailDistributionListContact.EmailDistributionListContactID == 0)
                 {
                     emailDistributionListContact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactEmailDistributionListContactID), new[] { "EmailDistributionListContactID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactEmailDistributionListContactID), new[] { "EmailDistributionListContactID" });
                 }
 
                 if (!GetRead().Where(c => c.EmailDistributionListContactID == emailDistributionListContact.EmailDistributionListContactID).Any())
                 {
                     emailDistributionListContact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.EmailDistributionListContact, ModelsRes.EmailDistributionListContactEmailDistributionListContactID, emailDistributionListContact.EmailDistributionListContactID.ToString()), new[] { "EmailDistributionListContactID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.EmailDistributionListContact, CSSPModelsRes.EmailDistributionListContactEmailDistributionListContactID, emailDistributionListContact.EmailDistributionListContactID.ToString()), new[] { "EmailDistributionListContactID" });
                 }
             }
 
@@ -63,7 +66,7 @@ namespace CSSPServices
             if (EmailDistributionListEmailDistributionListID == null)
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.EmailDistributionList, ModelsRes.EmailDistributionListContactEmailDistributionListID, emailDistributionListContact.EmailDistributionListID.ToString()), new[] { "EmailDistributionListID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.EmailDistributionList, CSSPModelsRes.EmailDistributionListContactEmailDistributionListID, emailDistributionListContact.EmailDistributionListID.ToString()), new[] { "EmailDistributionListID" });
             }
 
             //IsCC (bool) is required but no testing needed 
@@ -71,25 +74,25 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(emailDistributionListContact.Name))
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactName), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactName), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(emailDistributionListContact.Name) && emailDistributionListContact.Name.Length > 100)
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactName, "100"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListContactName, "100"), new[] { "Name" });
             }
 
             if (string.IsNullOrWhiteSpace(emailDistributionListContact.Email))
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactEmail), new[] { "Email" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactEmail), new[] { "Email" });
             }
 
             if (!string.IsNullOrWhiteSpace(emailDistributionListContact.Email) && emailDistributionListContact.Email.Length > 200)
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactEmail, "200"), new[] { "Email" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListContactEmail, "200"), new[] { "Email" });
             }
 
             if (!string.IsNullOrWhiteSpace(emailDistributionListContact.Email))
@@ -98,7 +101,7 @@ namespace CSSPServices
                 if (!regex.IsMatch(emailDistributionListContact.Email))
                 {
                     emailDistributionListContact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.EmailDistributionListContactEmail), new[] { "Email" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, CSSPModelsRes.EmailDistributionListContactEmail), new[] { "Email" });
                 }
             }
 
@@ -115,14 +118,14 @@ namespace CSSPServices
             if (emailDistributionListContact.LastUpdateDate_UTC.Year == 1)
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (emailDistributionListContact.LastUpdateDate_UTC.Year < 1980)
                 {
                 emailDistributionListContact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.EmailDistributionListContactLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.EmailDistributionListContactLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -133,7 +136,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, emailDistributionListContact.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, emailDistributionListContact.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -144,14 +147,14 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     emailDistributionListContact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(emailDistributionListContact.LastUpdateContactTVText) && emailDistributionListContact.LastUpdateContactTVText.Length > 200)
             {
                 emailDistributionListContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListContactLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

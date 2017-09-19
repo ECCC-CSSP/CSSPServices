@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour SamplingPlanSubsector</para>
+    /// </summary>
     public partial class SamplingPlanSubsectorService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (samplingPlanSubsector.SamplingPlanSubsectorID == 0)
                 {
                     samplingPlanSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSubsectorSamplingPlanSubsectorID), new[] { "SamplingPlanSubsectorID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSubsectorSamplingPlanSubsectorID), new[] { "SamplingPlanSubsectorID" });
                 }
 
                 if (!GetRead().Where(c => c.SamplingPlanSubsectorID == samplingPlanSubsector.SamplingPlanSubsectorID).Any())
                 {
                     samplingPlanSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlanSubsector, ModelsRes.SamplingPlanSubsectorSamplingPlanSubsectorID, samplingPlanSubsector.SamplingPlanSubsectorID.ToString()), new[] { "SamplingPlanSubsectorID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.SamplingPlanSubsector, CSSPModelsRes.SamplingPlanSubsectorSamplingPlanSubsectorID, samplingPlanSubsector.SamplingPlanSubsectorID.ToString()), new[] { "SamplingPlanSubsectorID" });
                 }
             }
 
@@ -63,7 +66,7 @@ namespace CSSPServices
             if (SamplingPlanSamplingPlanID == null)
             {
                 samplingPlanSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlan, ModelsRes.SamplingPlanSubsectorSamplingPlanID, samplingPlanSubsector.SamplingPlanID.ToString()), new[] { "SamplingPlanID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.SamplingPlan, CSSPModelsRes.SamplingPlanSubsectorSamplingPlanID, samplingPlanSubsector.SamplingPlanID.ToString()), new[] { "SamplingPlanID" });
             }
 
             //SubsectorTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -73,7 +76,7 @@ namespace CSSPServices
             if (TVItemSubsectorTVItemID == null)
             {
                 samplingPlanSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorSubsectorTVItemID, samplingPlanSubsector.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanSubsectorSubsectorTVItemID, samplingPlanSubsector.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
             }
             else
             {
@@ -84,21 +87,21 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemSubsectorTVItemID.TVType))
                 {
                     samplingPlanSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorSubsectorTVItemID, "Subsector"), new[] { "SubsectorTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanSubsectorSubsectorTVItemID, "Subsector"), new[] { "SubsectorTVItemID" });
                 }
             }
 
             if (samplingPlanSubsector.LastUpdateDate_UTC.Year == 1)
             {
                 samplingPlanSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSubsectorLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSubsectorLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (samplingPlanSubsector.LastUpdateDate_UTC.Year < 1980)
                 {
                 samplingPlanSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SamplingPlanSubsectorLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.SamplingPlanSubsectorLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -109,7 +112,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 samplingPlanSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorLastUpdateContactTVItemID, samplingPlanSubsector.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanSubsectorLastUpdateContactTVItemID, samplingPlanSubsector.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -120,20 +123,20 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     samplingPlanSubsector.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanSubsectorLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlanSubsector.SubsectorTVText) && samplingPlanSubsector.SubsectorTVText.Length > 200)
             {
                 samplingPlanSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSubsectorSubsectorTVText, "200"), new[] { "SubsectorTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSubsectorSubsectorTVText, "200"), new[] { "SubsectorTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlanSubsector.LastUpdateContactTVText) && samplingPlanSubsector.LastUpdateContactTVText.Length > 200)
             {
                 samplingPlanSubsector.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSubsectorLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSubsectorLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

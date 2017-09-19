@@ -120,13 +120,13 @@ namespace CSSPServices.Tests
                     tel = GetFilledRandomTel("");
                     tel.TelID = 0;
                     telService.Update(tel);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TelTelID), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TelTelID), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tel = null;
                     tel = GetFilledRandomTel("");
                     tel.TelID = 10000000;
                     telService.Update(tel);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Tel, ModelsRes.TelTelID, tel.TelID.ToString()), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Tel, CSSPModelsRes.TelTelID, tel.TelID.ToString()), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -139,13 +139,13 @@ namespace CSSPServices.Tests
                     tel = GetFilledRandomTel("");
                     tel.TelTVItemID = 0;
                     telService.Add(tel);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TelTelTVItemID, tel.TelTVItemID.ToString()), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TelTelTVItemID, tel.TelTVItemID.ToString()), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tel = null;
                     tel = GetFilledRandomTel("");
                     tel.TelTVItemID = 1;
                     telService.Add(tel);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TelTelTVItemID, "Tel"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TelTelTVItemID, "Tel"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -158,7 +158,7 @@ namespace CSSPServices.Tests
                     tel = GetFilledRandomTel("TelNumber");
                     Assert.AreEqual(false, telService.Add(tel));
                     Assert.AreEqual(1, tel.ValidationResults.Count());
-                    Assert.IsTrue(tel.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TelTelNumber)).Any());
+                    Assert.IsTrue(tel.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TelTelNumber)).Any());
                     Assert.AreEqual(null, tel.TelNumber);
                     Assert.AreEqual(count, telService.GetRead().Count());
 
@@ -166,7 +166,7 @@ namespace CSSPServices.Tests
                     tel = GetFilledRandomTel("");
                     tel.TelNumber = GetRandomString("", 51);
                     Assert.AreEqual(false, telService.Add(tel));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelNumber, "50"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TelTelNumber, "50"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, telService.GetRead().Count());
 
                     // -----------------------------------
@@ -179,7 +179,7 @@ namespace CSSPServices.Tests
                     tel = GetFilledRandomTel("");
                     tel.TelType = (TelTypeEnum)1000000;
                     telService.Add(tel);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TelTelType), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TelTelType), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -199,13 +199,13 @@ namespace CSSPServices.Tests
                     tel = GetFilledRandomTel("");
                     tel.LastUpdateContactTVItemID = 0;
                     telService.Add(tel);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TelLastUpdateContactTVItemID, tel.LastUpdateContactTVItemID.ToString()), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TelLastUpdateContactTVItemID, tel.LastUpdateContactTVItemID.ToString()), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tel = null;
                     tel = GetFilledRandomTel("");
                     tel.LastUpdateContactTVItemID = 1;
                     telService.Add(tel);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TelLastUpdateContactTVItemID, "Contact"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TelLastUpdateContactTVItemID, "Contact"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -220,7 +220,7 @@ namespace CSSPServices.Tests
                     tel = GetFilledRandomTel("");
                     tel.TelTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, telService.Add(tel));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelTVText, "200"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TelTelTVText, "200"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, telService.GetRead().Count());
 
                     // -----------------------------------
@@ -235,7 +235,7 @@ namespace CSSPServices.Tests
                     tel = GetFilledRandomTel("");
                     tel.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, telService.Add(tel));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelLastUpdateContactTVText, "200"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TelLastUpdateContactTVText, "200"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, telService.GetRead().Count());
 
                     // -----------------------------------
@@ -249,7 +249,7 @@ namespace CSSPServices.Tests
                     tel = GetFilledRandomTel("");
                     tel.TelTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, telService.Add(tel));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelTypeText, "100"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TelTelTypeText, "100"), tel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, telService.GetRead().Count());
 
                     // -----------------------------------

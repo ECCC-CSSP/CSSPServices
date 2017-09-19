@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour FileItemList</para>
+    /// </summary>
     public partial class FileItemListService : BaseService
     {
         #region Variables
@@ -42,25 +45,25 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(fileItemList.Text))
             {
                 fileItemList.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FileItemListText), new[] { "Text" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.FileItemListText), new[] { "Text" });
             }
 
             if (!string.IsNullOrWhiteSpace(fileItemList.Text) && (fileItemList.Text.Length < 1 || fileItemList.Text.Length > 255))
             {
                 fileItemList.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FileItemListText, "1", "255"), new[] { "Text" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.FileItemListText, "1", "255"), new[] { "Text" });
             }
 
             if (string.IsNullOrWhiteSpace(fileItemList.FileName))
             {
                 fileItemList.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FileItemListFileName), new[] { "FileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.FileItemListFileName), new[] { "FileName" });
             }
 
             if (!string.IsNullOrWhiteSpace(fileItemList.FileName) && (fileItemList.FileName.Length < 1 || fileItemList.FileName.Length > 255))
             {
                 fileItemList.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FileItemListFileName, "1", "255"), new[] { "FileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.FileItemListFileName, "1", "255"), new[] { "FileName" });
             }
 
             //HasErrors (bool) is required but no testing needed 

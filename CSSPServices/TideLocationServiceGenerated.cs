@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour TideLocation</para>
+    /// </summary>
     public partial class TideLocationService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (tideLocation.TideLocationID == 0)
                 {
                     tideLocation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideLocationTideLocationID), new[] { "TideLocationID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideLocationTideLocationID), new[] { "TideLocationID" });
                 }
 
                 if (!GetRead().Where(c => c.TideLocationID == tideLocation.TideLocationID).Any())
                 {
                     tideLocation.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TideLocation, ModelsRes.TideLocationTideLocationID, tideLocation.TideLocationID.ToString()), new[] { "TideLocationID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TideLocation, CSSPModelsRes.TideLocationTideLocationID, tideLocation.TideLocationID.ToString()), new[] { "TideLocationID" });
                 }
             }
 
@@ -61,31 +64,31 @@ namespace CSSPServices
             if (tideLocation.Zone < 0 || tideLocation.Zone > 10000)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationZone, "0", "10000"), new[] { "Zone" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationZone, "0", "10000"), new[] { "Zone" });
             }
 
             if (string.IsNullOrWhiteSpace(tideLocation.Name))
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideLocationName), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideLocationName), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(tideLocation.Name) && tideLocation.Name.Length > 100)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideLocationName, "100"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideLocationName, "100"), new[] { "Name" });
             }
 
             if (string.IsNullOrWhiteSpace(tideLocation.Prov))
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideLocationProv), new[] { "Prov" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideLocationProv), new[] { "Prov" });
             }
 
             if (!string.IsNullOrWhiteSpace(tideLocation.Prov) && tideLocation.Prov.Length > 100)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideLocationProv, "100"), new[] { "Prov" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideLocationProv, "100"), new[] { "Prov" });
             }
 
             //sid (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -93,7 +96,7 @@ namespace CSSPServices
             if (tideLocation.sid < 0 || tideLocation.sid > 100000)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationsid, "0", "100000"), new[] { "sid" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationsid, "0", "100000"), new[] { "sid" });
             }
 
             //Lat (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -101,7 +104,7 @@ namespace CSSPServices
             if (tideLocation.Lat < -90 || tideLocation.Lat > 90)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationLat, "-90", "90"), new[] { "Lat" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationLat, "-90", "90"), new[] { "Lat" });
             }
 
             //Lng (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -109,7 +112,7 @@ namespace CSSPServices
             if (tideLocation.Lng < -180 || tideLocation.Lng > 180)
             {
                 tideLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationLng, "-180", "180"), new[] { "Lng" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationLng, "-180", "180"), new[] { "Lng" });
             }
 
             //HasErrors (bool) is required but no testing needed 

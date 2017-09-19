@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour RatingCurveValue</para>
+    /// </summary>
     public partial class RatingCurveValueService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (ratingCurveValue.RatingCurveValueID == 0)
                 {
                     ratingCurveValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveValueRatingCurveValueID), new[] { "RatingCurveValueID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RatingCurveValueRatingCurveValueID), new[] { "RatingCurveValueID" });
                 }
 
                 if (!GetRead().Where(c => c.RatingCurveValueID == ratingCurveValue.RatingCurveValueID).Any())
                 {
                     ratingCurveValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RatingCurveValue, ModelsRes.RatingCurveValueRatingCurveValueID, ratingCurveValue.RatingCurveValueID.ToString()), new[] { "RatingCurveValueID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.RatingCurveValue, CSSPModelsRes.RatingCurveValueRatingCurveValueID, ratingCurveValue.RatingCurveValueID.ToString()), new[] { "RatingCurveValueID" });
                 }
             }
 
@@ -63,7 +66,7 @@ namespace CSSPServices
             if (RatingCurveRatingCurveID == null)
             {
                 ratingCurveValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RatingCurve, ModelsRes.RatingCurveValueRatingCurveID, ratingCurveValue.RatingCurveID.ToString()), new[] { "RatingCurveID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.RatingCurve, CSSPModelsRes.RatingCurveValueRatingCurveID, ratingCurveValue.RatingCurveID.ToString()), new[] { "RatingCurveID" });
             }
 
             //StageValue_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -71,7 +74,7 @@ namespace CSSPServices
             if (ratingCurveValue.StageValue_m < 0 || ratingCurveValue.StageValue_m > 1000)
             {
                 ratingCurveValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueStageValue_m, "0", "1000"), new[] { "StageValue_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RatingCurveValueStageValue_m, "0", "1000"), new[] { "StageValue_m" });
             }
 
             //DischargeValue_m3_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -79,20 +82,20 @@ namespace CSSPServices
             if (ratingCurveValue.DischargeValue_m3_s < 0 || ratingCurveValue.DischargeValue_m3_s > 1000000)
             {
                 ratingCurveValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000"), new[] { "DischargeValue_m3_s" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RatingCurveValueDischargeValue_m3_s, "0", "1000000"), new[] { "DischargeValue_m3_s" });
             }
 
             if (ratingCurveValue.LastUpdateDate_UTC.Year == 1)
             {
                 ratingCurveValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveValueLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RatingCurveValueLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (ratingCurveValue.LastUpdateDate_UTC.Year < 1980)
                 {
                 ratingCurveValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.RatingCurveValueLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.RatingCurveValueLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -103,7 +106,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 ratingCurveValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RatingCurveValueLastUpdateContactTVItemID, ratingCurveValue.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.RatingCurveValueLastUpdateContactTVItemID, ratingCurveValue.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -114,14 +117,14 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     ratingCurveValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RatingCurveValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.RatingCurveValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(ratingCurveValue.LastUpdateContactTVText) && ratingCurveValue.LastUpdateContactTVText.Length > 200)
             {
                 ratingCurveValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RatingCurveValueLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RatingCurveValueLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

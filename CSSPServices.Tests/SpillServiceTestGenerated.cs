@@ -122,13 +122,13 @@ namespace CSSPServices.Tests
                     spill = GetFilledRandomSpill("");
                     spill.SpillID = 0;
                     spillService.Update(spill);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SpillSpillID), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SpillSpillID), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     spill = null;
                     spill = GetFilledRandomSpill("");
                     spill.SpillID = 10000000;
                     spillService.Update(spill);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Spill, ModelsRes.SpillSpillID, spill.SpillID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Spill, CSSPModelsRes.SpillSpillID, spill.SpillID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -141,13 +141,13 @@ namespace CSSPServices.Tests
                     spill = GetFilledRandomSpill("");
                     spill.MunicipalityTVItemID = 0;
                     spillService.Add(spill);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillMunicipalityTVItemID, spill.MunicipalityTVItemID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillMunicipalityTVItemID, spill.MunicipalityTVItemID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     spill = null;
                     spill = GetFilledRandomSpill("");
                     spill.MunicipalityTVItemID = 1;
                     spillService.Add(spill);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillMunicipalityTVItemID, "Municipality"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SpillMunicipalityTVItemID, "Municipality"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -160,13 +160,13 @@ namespace CSSPServices.Tests
                     spill = GetFilledRandomSpill("");
                     spill.InfrastructureTVItemID = 0;
                     spillService.Add(spill);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillInfrastructureTVItemID, spill.InfrastructureTVItemID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillInfrastructureTVItemID, spill.InfrastructureTVItemID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     spill = null;
                     spill = GetFilledRandomSpill("");
                     spill.InfrastructureTVItemID = 1;
                     spillService.Add(spill);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillInfrastructureTVItemID, "Infrastructure"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SpillInfrastructureTVItemID, "Infrastructure"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -196,13 +196,13 @@ namespace CSSPServices.Tests
                     spill = GetFilledRandomSpill("");
                     spill.AverageFlow_m3_day = -1.0D;
                     Assert.AreEqual(false, spillService.Add(spill));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SpillAverageFlow_m3_day, "0", "1000000"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SpillAverageFlow_m3_day, "0", "1000000"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, spillService.GetRead().Count());
                     spill = null;
                     spill = GetFilledRandomSpill("");
                     spill.AverageFlow_m3_day = 1000001.0D;
                     Assert.AreEqual(false, spillService.Add(spill));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SpillAverageFlow_m3_day, "0", "1000000"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SpillAverageFlow_m3_day, "0", "1000000"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, spillService.GetRead().Count());
 
                     // -----------------------------------
@@ -222,13 +222,13 @@ namespace CSSPServices.Tests
                     spill = GetFilledRandomSpill("");
                     spill.LastUpdateContactTVItemID = 0;
                     spillService.Add(spill);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillLastUpdateContactTVItemID, spill.LastUpdateContactTVItemID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillLastUpdateContactTVItemID, spill.LastUpdateContactTVItemID.ToString()), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     spill = null;
                     spill = GetFilledRandomSpill("");
                     spill.LastUpdateContactTVItemID = 1;
                     spillService.Add(spill);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillLastUpdateContactTVItemID, "Contact"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SpillLastUpdateContactTVItemID, "Contact"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -243,7 +243,7 @@ namespace CSSPServices.Tests
                     spill = GetFilledRandomSpill("");
                     spill.MunicipalityTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, spillService.Add(spill));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillMunicipalityTVText, "200"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillMunicipalityTVText, "200"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, spillService.GetRead().Count());
 
                     // -----------------------------------
@@ -258,7 +258,7 @@ namespace CSSPServices.Tests
                     spill = GetFilledRandomSpill("");
                     spill.InfrastructureTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, spillService.Add(spill));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillInfrastructureTVText, "200"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillInfrastructureTVText, "200"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, spillService.GetRead().Count());
 
                     // -----------------------------------
@@ -273,7 +273,7 @@ namespace CSSPServices.Tests
                     spill = GetFilledRandomSpill("");
                     spill.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, spillService.Add(spill));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLastUpdateContactTVText, "200"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillLastUpdateContactTVText, "200"), spill.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, spillService.GetRead().Count());
 
                     // -----------------------------------

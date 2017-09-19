@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour Search</para>
+    /// </summary>
     public partial class SearchService : BaseService
     {
         #region Variables
@@ -42,13 +45,13 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(search.value))
             {
                 search.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.Searchvalue), new[] { "value" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.Searchvalue), new[] { "value" });
             }
 
             if (!string.IsNullOrWhiteSpace(search.value) && (search.value.Length < 1 || search.value.Length > 255))
             {
                 search.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.Searchvalue, "1", "255"), new[] { "value" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.Searchvalue, "1", "255"), new[] { "value" });
             }
 
             //id (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -56,7 +59,7 @@ namespace CSSPServices
             if (search.id < 1)
             {
                 search.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.Searchid, "1"), new[] { "id" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.Searchid, "1"), new[] { "id" });
             }
 
             //HasErrors (bool) is required but no testing needed 

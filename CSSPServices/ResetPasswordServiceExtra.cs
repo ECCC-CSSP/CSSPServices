@@ -65,14 +65,14 @@ namespace CSSPServices
                 ResetPassword resetPasswordRet = GetRead().Where(c => c.Code == resetPassword.Code && c.Email == resetPassword.Email).FirstOrDefault();
                 if (resetPasswordRet == null)
                 {
-                    validationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ResetPassword, ModelsRes.ResetPasswordCode + "," + ModelsRes.ResetPasswordEmail, resetPassword.Code + "," + resetPassword.Email)) };
+                    validationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ResetPassword, CSSPModelsRes.ResetPasswordCode + "," + CSSPModelsRes.ResetPasswordEmail, resetPassword.Code + "," + resetPassword.Email)) };
                     return false;
                 }
 
                 ContactLogin contactLogin = contactLoginService.GetEdit().Where(c => c.LoginEmail == resetPassword.Email).FirstOrDefault();
                 if (contactLogin == null)
                 {
-                    validationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ResetPasswordEmail, resetPassword.Email)) };
+                    validationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ResetPasswordEmail, resetPassword.Email)) };
                     return false;
                 }
 

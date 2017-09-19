@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour Vector</para>
+    /// </summary>
     public partial class VectorService : BaseService
     {
         #region Variables

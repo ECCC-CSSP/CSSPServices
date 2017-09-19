@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour VPResult</para>
+    /// </summary>
     public partial class VPResultService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (vpResult.VPResultID == 0)
                 {
                     vpResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPResultVPResultID), new[] { "VPResultID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPResultVPResultID), new[] { "VPResultID" });
                 }
 
                 if (!GetRead().Where(c => c.VPResultID == vpResult.VPResultID).Any())
                 {
                     vpResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPResult, ModelsRes.VPResultVPResultID, vpResult.VPResultID.ToString()), new[] { "VPResultID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPResult, CSSPModelsRes.VPResultVPResultID, vpResult.VPResultID.ToString()), new[] { "VPResultID" });
                 }
             }
 
@@ -63,7 +66,7 @@ namespace CSSPServices
             if (VPScenarioVPScenarioID == null)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPResultVPScenarioID, vpResult.VPScenarioID.ToString()), new[] { "VPScenarioID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPScenario, CSSPModelsRes.VPResultVPScenarioID, vpResult.VPScenarioID.ToString()), new[] { "VPScenarioID" });
             }
 
             //Ordinal (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -71,7 +74,7 @@ namespace CSSPServices
             if (vpResult.Ordinal < 0 || vpResult.Ordinal > 1000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultOrdinal, "0", "1000"), new[] { "Ordinal" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultOrdinal, "0", "1000"), new[] { "Ordinal" });
             }
 
             //Concentration_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -79,7 +82,7 @@ namespace CSSPServices
             if (vpResult.Concentration_MPN_100ml < 0 || vpResult.Concentration_MPN_100ml > 10000000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultConcentration_MPN_100ml, "0", "10000000"), new[] { "Concentration_MPN_100ml" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultConcentration_MPN_100ml, "0", "10000000"), new[] { "Concentration_MPN_100ml" });
             }
 
             //Dilution (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -87,7 +90,7 @@ namespace CSSPServices
             if (vpResult.Dilution < 0 || vpResult.Dilution > 1000000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultDilution, "0", "1000000"), new[] { "Dilution" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultDilution, "0", "1000000"), new[] { "Dilution" });
             }
 
             //FarFieldWidth_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -95,7 +98,7 @@ namespace CSSPServices
             if (vpResult.FarFieldWidth_m < 0 || vpResult.FarFieldWidth_m > 10000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultFarFieldWidth_m, "0", "10000"), new[] { "FarFieldWidth_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultFarFieldWidth_m, "0", "10000"), new[] { "FarFieldWidth_m" });
             }
 
             //DispersionDistance_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -103,7 +106,7 @@ namespace CSSPServices
             if (vpResult.DispersionDistance_m < 0 || vpResult.DispersionDistance_m > 100000)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultDispersionDistance_m, "0", "100000"), new[] { "DispersionDistance_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultDispersionDistance_m, "0", "100000"), new[] { "DispersionDistance_m" });
             }
 
             //TravelTime_hour (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -111,20 +114,20 @@ namespace CSSPServices
             if (vpResult.TravelTime_hour < 0 || vpResult.TravelTime_hour > 100)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultTravelTime_hour, "0", "100"), new[] { "TravelTime_hour" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultTravelTime_hour, "0", "100"), new[] { "TravelTime_hour" });
             }
 
             if (vpResult.LastUpdateDate_UTC.Year == 1)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPResultLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPResultLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (vpResult.LastUpdateDate_UTC.Year < 1980)
                 {
                 vpResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.VPResultLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.VPResultLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -135,7 +138,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPResultLastUpdateContactTVItemID, vpResult.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPResultLastUpdateContactTVItemID, vpResult.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -146,14 +149,14 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     vpResult.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPResultLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPResultLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(vpResult.LastUpdateContactTVText) && vpResult.LastUpdateContactTVText.Length > 200)
             {
                 vpResult.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPResultLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPResultLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

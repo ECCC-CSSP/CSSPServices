@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour Tel</para>
+    /// </summary>
     public partial class TelService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (tel.TelID == 0)
                 {
                     tel.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TelTelID), new[] { "TelID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TelTelID), new[] { "TelID" });
                 }
 
                 if (!GetRead().Where(c => c.TelID == tel.TelID).Any())
                 {
                     tel.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Tel, ModelsRes.TelTelID, tel.TelID.ToString()), new[] { "TelID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Tel, CSSPModelsRes.TelTelID, tel.TelID.ToString()), new[] { "TelID" });
                 }
             }
 
@@ -63,7 +66,7 @@ namespace CSSPServices
             if (TVItemTelTVItemID == null)
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TelTelTVItemID, tel.TelTVItemID.ToString()), new[] { "TelTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TelTelTVItemID, tel.TelTVItemID.ToString()), new[] { "TelTVItemID" });
             }
             else
             {
@@ -74,40 +77,40 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemTelTVItemID.TVType))
                 {
                     tel.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TelTelTVItemID, "Tel"), new[] { "TelTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TelTelTVItemID, "Tel"), new[] { "TelTVItemID" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(tel.TelNumber))
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TelTelNumber), new[] { "TelNumber" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TelTelNumber), new[] { "TelNumber" });
             }
 
             if (!string.IsNullOrWhiteSpace(tel.TelNumber) && tel.TelNumber.Length > 50)
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelNumber, "50"), new[] { "TelNumber" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TelTelNumber, "50"), new[] { "TelNumber" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TelTypeEnum), (int?)tel.TelType);
             if (tel.TelType == TelTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TelTelType), new[] { "TelType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TelTelType), new[] { "TelType" });
             }
 
             if (tel.LastUpdateDate_UTC.Year == 1)
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TelLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TelLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tel.LastUpdateDate_UTC.Year < 1980)
                 {
                 tel.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TelLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TelLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -118,7 +121,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TelLastUpdateContactTVItemID, tel.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TelLastUpdateContactTVItemID, tel.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -129,26 +132,26 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     tel.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TelLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TelLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(tel.TelTVText) && tel.TelTVText.Length > 200)
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelTVText, "200"), new[] { "TelTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TelTelTVText, "200"), new[] { "TelTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tel.LastUpdateContactTVText) && tel.LastUpdateContactTVText.Length > 200)
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TelLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tel.TelTypeText) && tel.TelTypeText.Length > 100)
             {
                 tel.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TelTelTypeText, "100"), new[] { "TelTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TelTelTypeText, "100"), new[] { "TelTypeText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

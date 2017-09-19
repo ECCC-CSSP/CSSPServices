@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour TVFile</para>
+    /// </summary>
     public partial class TVFileService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (tvFile.TVFileID == 0)
                 {
                     tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTVFileID), new[] { "TVFileID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileTVFileID), new[] { "TVFileID" });
                 }
 
                 if (!GetRead().Where(c => c.TVFileID == tvFile.TVFileID).Any())
                 {
                     tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVFile, ModelsRes.TVFileTVFileID, tvFile.TVFileID.ToString()), new[] { "TVFileID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVFile, CSSPModelsRes.TVFileTVFileID, tvFile.TVFileID.ToString()), new[] { "TVFileID" });
                 }
             }
 
@@ -63,7 +66,7 @@ namespace CSSPServices
             if (TVItemTVFileTVItemID == null)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileTVFileTVItemID, tvFile.TVFileTVItemID.ToString()), new[] { "TVFileTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileTVFileTVItemID, tvFile.TVFileTVItemID.ToString()), new[] { "TVFileTVItemID" });
             }
             else
             {
@@ -74,7 +77,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemTVFileTVItemID.TVType))
                 {
                     tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVFileTVFileTVItemID, "File"), new[] { "TVFileTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVFileTVFileTVItemID, "File"), new[] { "TVFileTVItemID" });
                 }
             }
 
@@ -82,28 +85,28 @@ namespace CSSPServices
             if (tvFile.TemplateTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileTemplateTVType), new[] { "TemplateTVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileTemplateTVType), new[] { "TemplateTVType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LanguageEnum), (int?)tvFile.Language);
             if (tvFile.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguage), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileLanguage), new[] { "Language" });
             }
 
             retStr = enums.EnumTypeOK(typeof(FilePurposeEnum), (int?)tvFile.FilePurpose);
             if (tvFile.FilePurpose == FilePurposeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFilePurpose), new[] { "FilePurpose" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileFilePurpose), new[] { "FilePurpose" });
             }
 
             retStr = enums.EnumTypeOK(typeof(FileTypeEnum), (int?)tvFile.FileType);
             if (tvFile.FileType == FileTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileType), new[] { "FileType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileFileType), new[] { "FileType" });
             }
 
             //FileSize_kb (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -111,7 +114,7 @@ namespace CSSPServices
             if (tvFile.FileSize_kb < 0 || tvFile.FileSize_kb > 1000000)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVFileFileSize_kb, "0", "1000000"), new[] { "FileSize_kb" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVFileFileSize_kb, "0", "1000000"), new[] { "FileSize_kb" });
             }
 
             //FileInfo has no StringLength Attribute
@@ -119,58 +122,58 @@ namespace CSSPServices
             if (tvFile.FileCreatedDate_UTC.Year == 1)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileFileCreatedDate_UTC), new[] { "FileCreatedDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileFileCreatedDate_UTC), new[] { "FileCreatedDate_UTC" });
             }
             else
             {
                 if (tvFile.FileCreatedDate_UTC.Year < 1980)
                 {
                 tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileFileCreatedDate_UTC, "1980"), new[] { "FileCreatedDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVFileFileCreatedDate_UTC, "1980"), new[] { "FileCreatedDate_UTC" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.ClientFilePath) && tvFile.ClientFilePath.Length > 250)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileClientFilePath, "250"), new[] { "ClientFilePath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileClientFilePath, "250"), new[] { "ClientFilePath" });
             }
 
             if (string.IsNullOrWhiteSpace(tvFile.ServerFileName))
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileServerFileName), new[] { "ServerFileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileServerFileName), new[] { "ServerFileName" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.ServerFileName) && tvFile.ServerFileName.Length > 250)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileServerFileName, "250"), new[] { "ServerFileName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileServerFileName, "250"), new[] { "ServerFileName" });
             }
 
             if (string.IsNullOrWhiteSpace(tvFile.ServerFilePath))
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileServerFilePath), new[] { "ServerFilePath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileServerFilePath), new[] { "ServerFilePath" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.ServerFilePath) && tvFile.ServerFilePath.Length > 250)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileServerFilePath, "250"), new[] { "ServerFilePath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileServerFilePath, "250"), new[] { "ServerFilePath" });
             }
 
             if (tvFile.LastUpdateDate_UTC.Year == 1)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tvFile.LastUpdateDate_UTC.Year < 1980)
                 {
                 tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVFileLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVFileLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -181,7 +184,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileLastUpdateContactTVItemID, tvFile.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileLastUpdateContactTVItemID, tvFile.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -192,44 +195,44 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     tvFile.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVFileLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVFileLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.TVFileTVText) && tvFile.TVFileTVText.Length > 200)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileTVFileTVText, "200"), new[] { "TVFileTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileTVFileTVText, "200"), new[] { "TVFileTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.LastUpdateContactTVText) && tvFile.LastUpdateContactTVText.Length > 200)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.TemplateTVTypeText) && tvFile.TemplateTVTypeText.Length > 100)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileTemplateTVTypeText, "100"), new[] { "TemplateTVTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileTemplateTVTypeText, "100"), new[] { "TemplateTVTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.LanguageText) && tvFile.LanguageText.Length > 100)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileLanguageText, "100"), new[] { "LanguageText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileLanguageText, "100"), new[] { "LanguageText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.FilePurposeText) && tvFile.FilePurposeText.Length > 100)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileFilePurposeText, "100"), new[] { "FilePurposeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileFilePurposeText, "100"), new[] { "FilePurposeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFile.FileTypeText) && tvFile.FileTypeText.Length > 100)
             {
                 tvFile.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileFileTypeText, "100"), new[] { "FileTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileFileTypeText, "100"), new[] { "FileTypeText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

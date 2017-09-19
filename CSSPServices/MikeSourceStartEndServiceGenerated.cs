@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour MikeSourceStartEnd</para>
+    /// </summary>
     public partial class MikeSourceStartEndService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (mikeSourceStartEnd.MikeSourceStartEndID == 0)
                 {
                     mikeSourceStartEnd.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndMikeSourceStartEndID), new[] { "MikeSourceStartEndID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceStartEndMikeSourceStartEndID), new[] { "MikeSourceStartEndID" });
                 }
 
                 if (!GetRead().Where(c => c.MikeSourceStartEndID == mikeSourceStartEnd.MikeSourceStartEndID).Any())
                 {
                     mikeSourceStartEnd.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeSourceStartEnd, ModelsRes.MikeSourceStartEndMikeSourceStartEndID, mikeSourceStartEnd.MikeSourceStartEndID.ToString()), new[] { "MikeSourceStartEndID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MikeSourceStartEnd, CSSPModelsRes.MikeSourceStartEndMikeSourceStartEndID, mikeSourceStartEnd.MikeSourceStartEndID.ToString()), new[] { "MikeSourceStartEndID" });
                 }
             }
 
@@ -63,41 +66,41 @@ namespace CSSPServices
             if (MikeSourceMikeSourceID == null)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MikeSource, ModelsRes.MikeSourceStartEndMikeSourceID, mikeSourceStartEnd.MikeSourceID.ToString()), new[] { "MikeSourceID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MikeSource, CSSPModelsRes.MikeSourceStartEndMikeSourceID, mikeSourceStartEnd.MikeSourceID.ToString()), new[] { "MikeSourceID" });
             }
 
             if (mikeSourceStartEnd.StartDateAndTime_Local.Year == 1)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndStartDateAndTime_Local), new[] { "StartDateAndTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceStartEndStartDateAndTime_Local), new[] { "StartDateAndTime_Local" });
             }
             else
             {
                 if (mikeSourceStartEnd.StartDateAndTime_Local.Year < 1980)
                 {
                 mikeSourceStartEnd.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeSourceStartEndStartDateAndTime_Local, "1980"), new[] { "StartDateAndTime_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeSourceStartEndStartDateAndTime_Local, "1980"), new[] { "StartDateAndTime_Local" });
                 }
             }
 
             if (mikeSourceStartEnd.EndDateAndTime_Local.Year == 1)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndEndDateAndTime_Local), new[] { "EndDateAndTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceStartEndEndDateAndTime_Local), new[] { "EndDateAndTime_Local" });
             }
             else
             {
                 if (mikeSourceStartEnd.EndDateAndTime_Local.Year < 1980)
                 {
                 mikeSourceStartEnd.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeSourceStartEndEndDateAndTime_Local, "1980"), new[] { "EndDateAndTime_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeSourceStartEndEndDateAndTime_Local, "1980"), new[] { "EndDateAndTime_Local" });
                 }
             }
 
             if (mikeSourceStartEnd.StartDateAndTime_Local > mikeSourceStartEnd.EndDateAndTime_Local)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.MikeSourceStartEndEndDateAndTime_Local, ModelsRes.MikeSourceStartEndStartDateAndTime_Local), new[] { ModelsRes.MikeSourceStartEndEndDateAndTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, CSSPModelsRes.MikeSourceStartEndEndDateAndTime_Local, CSSPModelsRes.MikeSourceStartEndStartDateAndTime_Local), new[] { CSSPModelsRes.MikeSourceStartEndEndDateAndTime_Local });
             }
 
             //SourceFlowStart_m3_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -105,7 +108,7 @@ namespace CSSPServices
             if (mikeSourceStartEnd.SourceFlowStart_m3_day < 0 || mikeSourceStartEnd.SourceFlowStart_m3_day > 1000000)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowStart_m3_day, "0", "1000000"), new[] { "SourceFlowStart_m3_day" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceFlowStart_m3_day, "0", "1000000"), new[] { "SourceFlowStart_m3_day" });
             }
 
             //SourceFlowEnd_m3_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -113,7 +116,7 @@ namespace CSSPServices
             if (mikeSourceStartEnd.SourceFlowEnd_m3_day < 0 || mikeSourceStartEnd.SourceFlowEnd_m3_day > 1000000)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceFlowEnd_m3_day, "0", "1000000"), new[] { "SourceFlowEnd_m3_day" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceFlowEnd_m3_day, "0", "1000000"), new[] { "SourceFlowEnd_m3_day" });
             }
 
             //SourcePollutionStart_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -121,7 +124,7 @@ namespace CSSPServices
             if (mikeSourceStartEnd.SourcePollutionStart_MPN_100ml < 0 || mikeSourceStartEnd.SourcePollutionStart_MPN_100ml > 10000000)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionStart_MPN_100ml, "0", "10000000"), new[] { "SourcePollutionStart_MPN_100ml" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourcePollutionStart_MPN_100ml, "0", "10000000"), new[] { "SourcePollutionStart_MPN_100ml" });
             }
 
             //SourcePollutionEnd_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -129,7 +132,7 @@ namespace CSSPServices
             if (mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml < 0 || mikeSourceStartEnd.SourcePollutionEnd_MPN_100ml > 10000000)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourcePollutionEnd_MPN_100ml, "0", "10000000"), new[] { "SourcePollutionEnd_MPN_100ml" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourcePollutionEnd_MPN_100ml, "0", "10000000"), new[] { "SourcePollutionEnd_MPN_100ml" });
             }
 
             //SourceTemperatureStart_C (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -137,7 +140,7 @@ namespace CSSPServices
             if (mikeSourceStartEnd.SourceTemperatureStart_C < -10 || mikeSourceStartEnd.SourceTemperatureStart_C > 40)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureStart_C, "-10", "40"), new[] { "SourceTemperatureStart_C" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceTemperatureStart_C, "-10", "40"), new[] { "SourceTemperatureStart_C" });
             }
 
             //SourceTemperatureEnd_C (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -145,7 +148,7 @@ namespace CSSPServices
             if (mikeSourceStartEnd.SourceTemperatureEnd_C < -10 || mikeSourceStartEnd.SourceTemperatureEnd_C > 40)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceTemperatureEnd_C, "-10", "40"), new[] { "SourceTemperatureEnd_C" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceTemperatureEnd_C, "-10", "40"), new[] { "SourceTemperatureEnd_C" });
             }
 
             //SourceSalinityStart_PSU (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -153,7 +156,7 @@ namespace CSSPServices
             if (mikeSourceStartEnd.SourceSalinityStart_PSU < 0 || mikeSourceStartEnd.SourceSalinityStart_PSU > 40)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityStart_PSU, "0", "40"), new[] { "SourceSalinityStart_PSU" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceSalinityStart_PSU, "0", "40"), new[] { "SourceSalinityStart_PSU" });
             }
 
             //SourceSalinityEnd_PSU (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -161,20 +164,20 @@ namespace CSSPServices
             if (mikeSourceStartEnd.SourceSalinityEnd_PSU < 0 || mikeSourceStartEnd.SourceSalinityEnd_PSU > 40)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MikeSourceStartEndSourceSalinityEnd_PSU, "0", "40"), new[] { "SourceSalinityEnd_PSU" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MikeSourceStartEndSourceSalinityEnd_PSU, "0", "40"), new[] { "SourceSalinityEnd_PSU" });
             }
 
             if (mikeSourceStartEnd.LastUpdateDate_UTC.Year == 1)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MikeSourceStartEndLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MikeSourceStartEndLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mikeSourceStartEnd.LastUpdateDate_UTC.Year < 1980)
                 {
                 mikeSourceStartEnd.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MikeSourceStartEndLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MikeSourceStartEndLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -185,7 +188,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, mikeSourceStartEnd.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, mikeSourceStartEnd.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -196,14 +199,14 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mikeSourceStartEnd.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MikeSourceStartEndLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(mikeSourceStartEnd.LastUpdateContactTVText) && mikeSourceStartEnd.LastUpdateContactTVText.Length > 200)
             {
                 mikeSourceStartEnd.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MikeSourceStartEndLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MikeSourceStartEndLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

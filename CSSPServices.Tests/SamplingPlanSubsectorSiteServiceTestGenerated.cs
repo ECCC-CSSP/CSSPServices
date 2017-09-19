@@ -119,13 +119,13 @@ namespace CSSPServices.Tests
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID = 0;
                     samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     samplingPlanSubsectorSite = null;
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID = 10000000;
                     samplingPlanSubsectorSiteService.Update(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlanSubsectorSite, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID, samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.SamplingPlanSubsectorSite, CSSPModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorSiteID, samplingPlanSubsectorSite.SamplingPlanSubsectorSiteID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -138,7 +138,7 @@ namespace CSSPServices.Tests
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.SamplingPlanSubsectorID = 0;
                     samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlanSubsector, ModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorID, samplingPlanSubsectorSite.SamplingPlanSubsectorID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.SamplingPlanSubsector, CSSPModelsRes.SamplingPlanSubsectorSiteSamplingPlanSubsectorID, samplingPlanSubsectorSite.SamplingPlanSubsectorID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -151,13 +151,13 @@ namespace CSSPServices.Tests
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.MWQMSiteTVItemID = 0;
                     samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, samplingPlanSubsectorSite.MWQMSiteTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, samplingPlanSubsectorSite.MWQMSiteTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     samplingPlanSubsectorSite = null;
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.MWQMSiteTVItemID = 1;
                     samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, "MWQMSite"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVItemID, "MWQMSite"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -183,13 +183,13 @@ namespace CSSPServices.Tests
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.LastUpdateContactTVItemID = 0;
                     samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, samplingPlanSubsectorSite.LastUpdateContactTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, samplingPlanSubsectorSite.LastUpdateContactTVItemID.ToString()), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     samplingPlanSubsectorSite = null;
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.LastUpdateContactTVItemID = 1;
                     samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, "Contact"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVItemID, "Contact"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -204,7 +204,7 @@ namespace CSSPServices.Tests
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.MWQMSiteTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVText, "200"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSubsectorSiteMWQMSiteTVText, "200"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -219,7 +219,7 @@ namespace CSSPServices.Tests
                     samplingPlanSubsectorSite = GetFilledRandomSamplingPlanSubsectorSite("");
                     samplingPlanSubsectorSite.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, samplingPlanSubsectorSiteService.Add(samplingPlanSubsectorSite));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVText, "200"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSubsectorSiteLastUpdateContactTVText, "200"), samplingPlanSubsectorSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanSubsectorSiteService.GetRead().Count());
 
                     // -----------------------------------

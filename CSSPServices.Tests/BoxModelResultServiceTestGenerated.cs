@@ -131,13 +131,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.BoxModelResultID = 0;
                     boxModelResultService.Update(boxModelResult);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelResultBoxModelResultID), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelResultBoxModelResultID), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.BoxModelResultID = 10000000;
                     boxModelResultService.Update(boxModelResult);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModelResult, ModelsRes.BoxModelResultBoxModelResultID, boxModelResult.BoxModelResultID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.BoxModelResult, CSSPModelsRes.BoxModelResultBoxModelResultID, boxModelResult.BoxModelResultID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -150,7 +150,7 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.BoxModelID = 0;
                     boxModelResultService.Add(boxModelResult);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModel, ModelsRes.BoxModelResultBoxModelID, boxModelResult.BoxModelID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.BoxModel, CSSPModelsRes.BoxModelResultBoxModelID, boxModelResult.BoxModelID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -163,7 +163,7 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.BoxModelResultType = (BoxModelResultTypeEnum)1000000;
                     boxModelResultService.Add(boxModelResult);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelResultBoxModelResultType), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelResultBoxModelResultType), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -178,7 +178,7 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.Volume_m3 = -1.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultVolume_m3, "0"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.BoxModelResultVolume_m3, "0"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -193,7 +193,7 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.Surface_m2 = -1.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelResultSurface_m2, "0"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.BoxModelResultSurface_m2, "0"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -208,13 +208,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.Radius_m = -1.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRadius_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRadius_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.Radius_m = 100001.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRadius_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRadius_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -229,13 +229,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideDiameterLineAngle_deg = -1.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideDiameterLineAngle_deg = 361.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideDiameterLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -250,13 +250,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.CircleCenterLatitude = -91.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.CircleCenterLatitude = 91.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultCircleCenterLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -271,13 +271,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.CircleCenterLongitude = -181.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.CircleCenterLongitude = 181.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultCircleCenterLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -304,13 +304,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.RectLength_m = -1.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectLength_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRectLength_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.RectLength_m = 100001.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectLength_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRectLength_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -325,13 +325,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.RectWidth_m = -1.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectWidth_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRectWidth_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.RectWidth_m = 100001.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultRectWidth_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultRectWidth_m, "0", "100000"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -346,13 +346,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideLineAngle_deg = -1.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideLineAngle_deg = 361.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineAngle_deg, "0", "360"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -367,13 +367,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideLineStartLatitude = -91.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideLineStartLatitude = 91.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineStartLatitude, "-90", "90"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -388,13 +388,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideLineStartLongitude = -181.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LeftSideLineStartLongitude = 181.0D;
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelResultLeftSideLineStartLongitude, "-180", "180"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -414,13 +414,13 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LastUpdateContactTVItemID = 0;
                     boxModelResultService.Add(boxModelResult);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelResultLastUpdateContactTVItemID, boxModelResult.LastUpdateContactTVItemID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.BoxModelResultLastUpdateContactTVItemID, boxModelResult.LastUpdateContactTVItemID.ToString()), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     boxModelResult = null;
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LastUpdateContactTVItemID = 1;
                     boxModelResultService.Add(boxModelResult);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelResultLastUpdateContactTVItemID, "Contact"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.BoxModelResultLastUpdateContactTVItemID, "Contact"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -435,7 +435,7 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelResultLastUpdateContactTVText, "200"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelResultLastUpdateContactTVText, "200"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -449,7 +449,7 @@ namespace CSSPServices.Tests
                     boxModelResult = GetFilledRandomBoxModelResult("");
                     boxModelResult.BoxModelResultTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, boxModelResultService.Add(boxModelResult));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelResultBoxModelResultTypeText, "100"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelResultBoxModelResultTypeText, "100"), boxModelResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelResultService.GetRead().Count());
 
                     // -----------------------------------

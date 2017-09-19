@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour PolSourceObsInfoChild</para>
+    /// </summary>
     public partial class PolSourceObsInfoChildService : BaseService
     {
         #region Variables
@@ -43,26 +46,26 @@ namespace CSSPServices
             if (polSourceObsInfoChild.PolSourceObsInfo == PolSourceObsInfoEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 polSourceObsInfoChild.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObsInfoChildPolSourceObsInfo), new[] { "PolSourceObsInfo" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.PolSourceObsInfoChildPolSourceObsInfo), new[] { "PolSourceObsInfo" });
             }
 
             retStr = enums.EnumTypeOK(typeof(PolSourceObsInfoEnum), (int?)polSourceObsInfoChild.PolSourceObsInfoChildStart);
             if (polSourceObsInfoChild.PolSourceObsInfoChildStart == PolSourceObsInfoEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 polSourceObsInfoChild.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObsInfoChildPolSourceObsInfoChildStart), new[] { "PolSourceObsInfoChildStart" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.PolSourceObsInfoChildPolSourceObsInfoChildStart), new[] { "PolSourceObsInfoChildStart" });
             }
 
             if (!string.IsNullOrWhiteSpace(polSourceObsInfoChild.PolSourceObsInfoText) && polSourceObsInfoChild.PolSourceObsInfoText.Length > 100)
             {
                 polSourceObsInfoChild.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObsInfoChildPolSourceObsInfoText, "100"), new[] { "PolSourceObsInfoText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceObsInfoChildPolSourceObsInfoText, "100"), new[] { "PolSourceObsInfoText" });
             }
 
             if (!string.IsNullOrWhiteSpace(polSourceObsInfoChild.PolSourceObsInfoChildStartText) && polSourceObsInfoChild.PolSourceObsInfoChildStartText.Length > 100)
             {
                 polSourceObsInfoChild.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObsInfoChildPolSourceObsInfoChildStartText, "100"), new[] { "PolSourceObsInfoChildStartText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceObsInfoChildPolSourceObsInfoChildStartText, "100"), new[] { "PolSourceObsInfoChildStartText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

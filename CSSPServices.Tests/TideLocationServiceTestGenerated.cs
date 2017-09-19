@@ -118,13 +118,13 @@ namespace CSSPServices.Tests
                     tideLocation = GetFilledRandomTideLocation("");
                     tideLocation.TideLocationID = 0;
                     tideLocationService.Update(tideLocation);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TideLocationTideLocationID), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideLocationTideLocationID), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tideLocation = null;
                     tideLocation = GetFilledRandomTideLocation("");
                     tideLocation.TideLocationID = 10000000;
                     tideLocationService.Update(tideLocation);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TideLocation, ModelsRes.TideLocationTideLocationID, tideLocation.TideLocationID.ToString()), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TideLocation, CSSPModelsRes.TideLocationTideLocationID, tideLocation.TideLocationID.ToString()), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -137,13 +137,13 @@ namespace CSSPServices.Tests
                     tideLocation = GetFilledRandomTideLocation("");
                     tideLocation.Zone = -1;
                     Assert.AreEqual(false, tideLocationService.Add(tideLocation));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationZone, "0", "10000"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationZone, "0", "10000"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideLocationService.GetRead().Count());
                     tideLocation = null;
                     tideLocation = GetFilledRandomTideLocation("");
                     tideLocation.Zone = 10001;
                     Assert.AreEqual(false, tideLocationService.Add(tideLocation));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationZone, "0", "10000"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationZone, "0", "10000"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
                     // -----------------------------------
@@ -156,7 +156,7 @@ namespace CSSPServices.Tests
                     tideLocation = GetFilledRandomTideLocation("Name");
                     Assert.AreEqual(false, tideLocationService.Add(tideLocation));
                     Assert.AreEqual(1, tideLocation.ValidationResults.Count());
-                    Assert.IsTrue(tideLocation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TideLocationName)).Any());
+                    Assert.IsTrue(tideLocation.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideLocationName)).Any());
                     Assert.AreEqual(null, tideLocation.Name);
                     Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
@@ -164,7 +164,7 @@ namespace CSSPServices.Tests
                     tideLocation = GetFilledRandomTideLocation("");
                     tideLocation.Name = GetRandomString("", 101);
                     Assert.AreEqual(false, tideLocationService.Add(tideLocation));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideLocationName, "100"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideLocationName, "100"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
                     // -----------------------------------
@@ -177,7 +177,7 @@ namespace CSSPServices.Tests
                     tideLocation = GetFilledRandomTideLocation("Prov");
                     Assert.AreEqual(false, tideLocationService.Add(tideLocation));
                     Assert.AreEqual(1, tideLocation.ValidationResults.Count());
-                    Assert.IsTrue(tideLocation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TideLocationProv)).Any());
+                    Assert.IsTrue(tideLocation.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideLocationProv)).Any());
                     Assert.AreEqual(null, tideLocation.Prov);
                     Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
@@ -185,7 +185,7 @@ namespace CSSPServices.Tests
                     tideLocation = GetFilledRandomTideLocation("");
                     tideLocation.Prov = GetRandomString("", 101);
                     Assert.AreEqual(false, tideLocationService.Add(tideLocation));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideLocationProv, "100"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideLocationProv, "100"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
                     // -----------------------------------
@@ -198,13 +198,13 @@ namespace CSSPServices.Tests
                     tideLocation = GetFilledRandomTideLocation("");
                     tideLocation.sid = -1;
                     Assert.AreEqual(false, tideLocationService.Add(tideLocation));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationsid, "0", "100000"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationsid, "0", "100000"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideLocationService.GetRead().Count());
                     tideLocation = null;
                     tideLocation = GetFilledRandomTideLocation("");
                     tideLocation.sid = 100001;
                     Assert.AreEqual(false, tideLocationService.Add(tideLocation));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationsid, "0", "100000"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationsid, "0", "100000"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
                     // -----------------------------------
@@ -219,13 +219,13 @@ namespace CSSPServices.Tests
                     tideLocation = GetFilledRandomTideLocation("");
                     tideLocation.Lat = -91.0D;
                     Assert.AreEqual(false, tideLocationService.Add(tideLocation));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationLat, "-90", "90"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationLat, "-90", "90"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideLocationService.GetRead().Count());
                     tideLocation = null;
                     tideLocation = GetFilledRandomTideLocation("");
                     tideLocation.Lat = 91.0D;
                     Assert.AreEqual(false, tideLocationService.Add(tideLocation));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationLat, "-90", "90"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationLat, "-90", "90"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
                     // -----------------------------------
@@ -240,13 +240,13 @@ namespace CSSPServices.Tests
                     tideLocation = GetFilledRandomTideLocation("");
                     tideLocation.Lng = -181.0D;
                     Assert.AreEqual(false, tideLocationService.Add(tideLocation));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationLng, "-180", "180"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationLng, "-180", "180"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideLocationService.GetRead().Count());
                     tideLocation = null;
                     tideLocation = GetFilledRandomTideLocation("");
                     tideLocation.Lng = 181.0D;
                     Assert.AreEqual(false, tideLocationService.Add(tideLocation));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideLocationLng, "-180", "180"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideLocationLng, "-180", "180"), tideLocation.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideLocationService.GetRead().Count());
 
                     // -----------------------------------

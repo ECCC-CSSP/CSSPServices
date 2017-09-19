@@ -131,13 +131,13 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.AppTaskID = 0;
                     appTaskService.Update(appTask);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskID), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskAppTaskID), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.AppTaskID = 10000000;
                     appTaskService.Update(appTask);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppTask, ModelsRes.AppTaskAppTaskID, appTask.AppTaskID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AppTask, CSSPModelsRes.AppTaskAppTaskID, appTask.AppTaskID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -150,13 +150,13 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.TVItemID = 0;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID, appTask.TVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskTVItemID, appTask.TVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.TVItemID = 2;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppTaskTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -169,13 +169,13 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.TVItemID2 = 0;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskTVItemID2, appTask.TVItemID2.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskTVItemID2, appTask.TVItemID2.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.TVItemID2 = 2;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskTVItemID2, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppTaskTVItemID2, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite,VisualPlumesScenario"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -188,7 +188,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.AppTaskCommand = (AppTaskCommandEnum)1000000;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskCommand), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskAppTaskCommand), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -201,7 +201,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.AppTaskStatus = (AppTaskStatusEnum)1000000;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskAppTaskStatus), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskAppTaskStatus), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -214,13 +214,13 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.PercentCompleted = -1;
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskPercentCompleted, "0", "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.AppTaskPercentCompleted, "0", "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.PercentCompleted = 101;
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskPercentCompleted, "0", "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.AppTaskPercentCompleted, "0", "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
 
                     // -----------------------------------
@@ -232,7 +232,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("Parameters");
                     Assert.AreEqual(false, appTaskService.Add(appTask));
                     Assert.AreEqual(1, appTask.ValidationResults.Count());
-                    Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskParameters)).Any());
+                    Assert.IsTrue(appTask.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskParameters)).Any());
                     Assert.AreEqual(null, appTask.Parameters);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
 
@@ -247,7 +247,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.Language = (LanguageEnum)1000000;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AppTaskLanguage), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppTaskLanguage), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -275,13 +275,13 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.EstimatedLength_second = -1;
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.EstimatedLength_second = 1000001;
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.AppTaskEstimatedLength_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
 
                     // -----------------------------------
@@ -294,13 +294,13 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.RemainingTime_second = -1;
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.AppTaskRemainingTime_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.RemainingTime_second = 1000001;
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.AppTaskRemainingTime_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.AppTaskRemainingTime_second, "0", "1000000"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
 
                     // -----------------------------------
@@ -320,13 +320,13 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.LastUpdateContactTVItemID = 0;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppTaskLastUpdateContactTVItemID, appTask.LastUpdateContactTVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppTaskLastUpdateContactTVItemID, appTask.LastUpdateContactTVItemID.ToString()), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     appTask = null;
                     appTask = GetFilledRandomAppTask("");
                     appTask.LastUpdateContactTVItemID = 1;
                     appTaskService.Add(appTask);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppTaskLastUpdateContactTVItemID, "Contact"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppTaskLastUpdateContactTVItemID, "Contact"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -341,7 +341,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.TVItemTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskTVItemTVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskTVItemTVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
 
                     // -----------------------------------
@@ -356,7 +356,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.TVItem2TVText = GetRandomString("", 201);
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskTVItem2TVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskTVItem2TVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
 
                     // -----------------------------------
@@ -371,7 +371,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLastUpdateContactTVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskLastUpdateContactTVText, "200"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
 
                     // -----------------------------------
@@ -385,7 +385,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.AppTaskCommandText = GetRandomString("", 101);
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskAppTaskCommandText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskAppTaskCommandText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
 
                     // -----------------------------------
@@ -399,7 +399,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.AppTaskStatusText = GetRandomString("", 101);
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskAppTaskStatusText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskAppTaskStatusText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
 
                     // -----------------------------------
@@ -413,7 +413,7 @@ namespace CSSPServices.Tests
                     appTask = GetFilledRandomAppTask("");
                     appTask.LanguageText = GetRandomString("", 101);
                     Assert.AreEqual(false, appTaskService.Add(appTask));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppTaskLanguageText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppTaskLanguageText, "100"), appTask.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, appTaskService.GetRead().Count());
 
                     // -----------------------------------

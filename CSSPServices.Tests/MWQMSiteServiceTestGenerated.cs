@@ -122,13 +122,13 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteID = 0;
                     mwqmSiteService.Update(mwqmSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteID), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteMWQMSiteID), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSite = null;
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteID = 10000000;
                     mwqmSiteService.Update(mwqmSite);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSite, ModelsRes.MWQMSiteMWQMSiteID, mwqmSite.MWQMSiteID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MWQMSite, CSSPModelsRes.MWQMSiteMWQMSiteID, mwqmSite.MWQMSiteID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -141,13 +141,13 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteTVItemID = 0;
                     mwqmSiteService.Add(mwqmSite);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteMWQMSiteTVItemID, mwqmSite.MWQMSiteTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSiteMWQMSiteTVItemID, mwqmSite.MWQMSiteTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSite = null;
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteTVItemID = 1;
                     mwqmSiteService.Add(mwqmSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteMWQMSiteTVItemID, "MWQMSite"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSiteMWQMSiteTVItemID, "MWQMSite"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -160,7 +160,7 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("MWQMSiteNumber");
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
                     Assert.AreEqual(1, mwqmSite.ValidationResults.Count());
-                    Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteNumber)).Any());
+                    Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteMWQMSiteNumber)).Any());
                     Assert.AreEqual(null, mwqmSite.MWQMSiteNumber);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
@@ -168,7 +168,7 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteNumber = GetRandomString("", 9);
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteNumber, "8"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteMWQMSiteNumber, "8"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -181,7 +181,7 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("MWQMSiteDescription");
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
                     Assert.AreEqual(1, mwqmSite.ValidationResults.Count());
-                    Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteDescription)).Any());
+                    Assert.IsTrue(mwqmSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteMWQMSiteDescription)).Any());
                     Assert.AreEqual(null, mwqmSite.MWQMSiteDescription);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
@@ -189,7 +189,7 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteDescription = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteDescription, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteMWQMSiteDescription, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -202,7 +202,7 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteLatestClassification = (MWQMSiteLatestClassificationEnum)1000000;
                     mwqmSiteService.Add(mwqmSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteMWQMSiteLatestClassification), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteMWQMSiteLatestClassification), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -215,13 +215,13 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.Ordinal = -1;
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteOrdinal, "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSiteOrdinal, "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
                     mwqmSite = null;
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.Ordinal = 1001;
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteOrdinal, "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSiteOrdinal, "0", "1000"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -241,13 +241,13 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.LastUpdateContactTVItemID = 0;
                     mwqmSiteService.Add(mwqmSite);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteLastUpdateContactTVItemID, mwqmSite.LastUpdateContactTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSiteLastUpdateContactTVItemID, mwqmSite.LastUpdateContactTVItemID.ToString()), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSite = null;
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.LastUpdateContactTVItemID = 1;
                     mwqmSiteService.Add(mwqmSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteLastUpdateContactTVItemID, "Contact"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSiteLastUpdateContactTVItemID, "Contact"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -262,7 +262,7 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteTVText, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteMWQMSiteTVText, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -277,7 +277,7 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteLastUpdateContactTVText, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteLastUpdateContactTVText, "200"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -291,7 +291,7 @@ namespace CSSPServices.Tests
                     mwqmSite = GetFilledRandomMWQMSite("");
                     mwqmSite.MWQMSiteLatestClassificationText = GetRandomString("", 101);
                     Assert.AreEqual(false, mwqmSiteService.Add(mwqmSite));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteMWQMSiteLatestClassificationText, "100"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteMWQMSiteLatestClassificationText, "100"), mwqmSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSiteService.GetRead().Count());
 
                     // -----------------------------------

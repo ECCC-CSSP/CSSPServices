@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour SearchTagAndTerms</para>
+    /// </summary>
     public partial class SearchTagAndTermsService : BaseService
     {
         #region Variables
@@ -43,13 +46,13 @@ namespace CSSPServices
             if (searchTagAndTerms.SearchTag == SearchTagEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 searchTagAndTerms.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SearchTagAndTermsSearchTag), new[] { "SearchTag" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SearchTagAndTermsSearchTag), new[] { "SearchTag" });
             }
 
             if (!string.IsNullOrWhiteSpace(searchTagAndTerms.SearchTagText) && searchTagAndTerms.SearchTagText.Length > 100)
             {
                 searchTagAndTerms.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SearchTagAndTermsSearchTagText, "100"), new[] { "SearchTagText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SearchTagAndTermsSearchTagText, "100"), new[] { "SearchTagText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

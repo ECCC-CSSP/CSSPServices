@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour HydrometricDataValue</para>
+    /// </summary>
     public partial class HydrometricDataValueService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (hydrometricDataValue.HydrometricDataValueID == 0)
                 {
                     hydrometricDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricDataValueHydrometricDataValueID), new[] { "HydrometricDataValueID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.HydrometricDataValueHydrometricDataValueID), new[] { "HydrometricDataValueID" });
                 }
 
                 if (!GetRead().Where(c => c.HydrometricDataValueID == hydrometricDataValue.HydrometricDataValueID).Any())
                 {
                     hydrometricDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricDataValue, ModelsRes.HydrometricDataValueHydrometricDataValueID, hydrometricDataValue.HydrometricDataValueID.ToString()), new[] { "HydrometricDataValueID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.HydrometricDataValue, CSSPModelsRes.HydrometricDataValueHydrometricDataValueID, hydrometricDataValue.HydrometricDataValueID.ToString()), new[] { "HydrometricDataValueID" });
                 }
             }
 
@@ -63,20 +66,20 @@ namespace CSSPServices
             if (HydrometricSiteHydrometricSiteID == null)
             {
                 hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricSite, ModelsRes.HydrometricDataValueHydrometricSiteID, hydrometricDataValue.HydrometricSiteID.ToString()), new[] { "HydrometricSiteID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.HydrometricSite, CSSPModelsRes.HydrometricDataValueHydrometricSiteID, hydrometricDataValue.HydrometricSiteID.ToString()), new[] { "HydrometricSiteID" });
             }
 
             if (hydrometricDataValue.DateTime_Local.Year == 1)
             {
                 hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricDataValueDateTime_Local), new[] { "DateTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.HydrometricDataValueDateTime_Local), new[] { "DateTime_Local" });
             }
             else
             {
                 if (hydrometricDataValue.DateTime_Local.Year < 1980)
                 {
                 hydrometricDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.HydrometricDataValueDateTime_Local, "1980"), new[] { "DateTime_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricDataValueDateTime_Local, "1980"), new[] { "DateTime_Local" });
                 }
             }
 
@@ -86,7 +89,7 @@ namespace CSSPServices
             if (hydrometricDataValue.StorageDataType == StorageDataTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricDataValueStorageDataType), new[] { "StorageDataType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.HydrometricDataValueStorageDataType), new[] { "StorageDataType" });
             }
 
             //Flow_m3_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -94,7 +97,7 @@ namespace CSSPServices
             if (hydrometricDataValue.Flow_m3_s < 0 || hydrometricDataValue.Flow_m3_s > 10000)
             {
                 hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.HydrometricDataValueFlow_m3_s, "0", "10000"), new[] { "Flow_m3_s" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.HydrometricDataValueFlow_m3_s, "0", "10000"), new[] { "Flow_m3_s" });
             }
 
             //HourlyValues has no StringLength Attribute
@@ -102,14 +105,14 @@ namespace CSSPServices
             if (hydrometricDataValue.LastUpdateDate_UTC.Year == 1)
             {
                 hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.HydrometricDataValueLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.HydrometricDataValueLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (hydrometricDataValue.LastUpdateDate_UTC.Year < 1980)
                 {
                 hydrometricDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.HydrometricDataValueLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.HydrometricDataValueLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -120,7 +123,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.HydrometricDataValueLastUpdateContactTVItemID, hydrometricDataValue.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.HydrometricDataValueLastUpdateContactTVItemID, hydrometricDataValue.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -131,20 +134,20 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     hydrometricDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.HydrometricDataValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.HydrometricDataValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(hydrometricDataValue.LastUpdateContactTVText) && hydrometricDataValue.LastUpdateContactTVText.Length > 200)
             {
                 hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricDataValueLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.HydrometricDataValueLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(hydrometricDataValue.StorageDataTypeText) && hydrometricDataValue.StorageDataTypeText.Length > 100)
             {
                 hydrometricDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.HydrometricDataValueStorageDataTypeText, "100"), new[] { "StorageDataTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.HydrometricDataValueStorageDataTypeText, "100"), new[] { "StorageDataTypeText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

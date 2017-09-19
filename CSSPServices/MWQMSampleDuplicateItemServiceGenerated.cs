@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour MWQMSampleDuplicateItem</para>
+    /// </summary>
     public partial class MWQMSampleDuplicateItemService : BaseService
     {
         #region Variables
@@ -42,25 +45,25 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.ParentSite))
             {
                 mwqmSampleDuplicateItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleDuplicateItemParentSite), new[] { "ParentSite" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSampleDuplicateItemParentSite), new[] { "ParentSite" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.ParentSite) && (mwqmSampleDuplicateItem.ParentSite.Length < 1 || mwqmSampleDuplicateItem.ParentSite.Length > 200))
             {
                 mwqmSampleDuplicateItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMSampleDuplicateItemParentSite, "1", "200"), new[] { "ParentSite" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.MWQMSampleDuplicateItemParentSite, "1", "200"), new[] { "ParentSite" });
             }
 
             if (string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.DuplicateSite))
             {
                 mwqmSampleDuplicateItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleDuplicateItemDuplicateSite), new[] { "DuplicateSite" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSampleDuplicateItemDuplicateSite), new[] { "DuplicateSite" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmSampleDuplicateItem.DuplicateSite) && (mwqmSampleDuplicateItem.DuplicateSite.Length < 1 || mwqmSampleDuplicateItem.DuplicateSite.Length > 200))
             {
                 mwqmSampleDuplicateItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.MWQMSampleDuplicateItemDuplicateSite, "1", "200"), new[] { "DuplicateSite" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.MWQMSampleDuplicateItemDuplicateSite, "1", "200"), new[] { "DuplicateSite" });
             }
 
             //HasErrors (bool) is required but no testing needed 

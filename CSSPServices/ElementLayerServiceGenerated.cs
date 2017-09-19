@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour ElementLayer</para>
+    /// </summary>
     public partial class ElementLayerService : BaseService
     {
         #region Variables
@@ -44,7 +47,7 @@ namespace CSSPServices
             if (elementLayer.Layer < 1 || elementLayer.Layer > 1000)
             {
                 elementLayer.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ElementLayerLayer, "1", "1000"), new[] { "Layer" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ElementLayerLayer, "1", "1000"), new[] { "Layer" });
             }
 
             //ZMin (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

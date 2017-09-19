@@ -121,13 +121,13 @@ namespace CSSPServices.Tests
                     vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
                     vpScenarioLanguage.VPScenarioLanguageID = 0;
                     vpScenarioLanguageService.Update(vpScenarioLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageVPScenarioLanguageID), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioLanguageVPScenarioLanguageID), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     vpScenarioLanguage = null;
                     vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
                     vpScenarioLanguage.VPScenarioLanguageID = 10000000;
                     vpScenarioLanguageService.Update(vpScenarioLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenarioLanguage, ModelsRes.VPScenarioLanguageVPScenarioLanguageID, vpScenarioLanguage.VPScenarioLanguageID.ToString()), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPScenarioLanguage, CSSPModelsRes.VPScenarioLanguageVPScenarioLanguageID, vpScenarioLanguage.VPScenarioLanguageID.ToString()), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -140,7 +140,7 @@ namespace CSSPServices.Tests
                     vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
                     vpScenarioLanguage.VPScenarioID = 0;
                     vpScenarioLanguageService.Add(vpScenarioLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPScenarioLanguageVPScenarioID, vpScenarioLanguage.VPScenarioID.ToString()), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPScenario, CSSPModelsRes.VPScenarioLanguageVPScenarioID, vpScenarioLanguage.VPScenarioID.ToString()), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -153,7 +153,7 @@ namespace CSSPServices.Tests
                     vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
                     vpScenarioLanguage.Language = (LanguageEnum)1000000;
                     vpScenarioLanguageService.Add(vpScenarioLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageLanguage), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioLanguageLanguage), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -166,7 +166,7 @@ namespace CSSPServices.Tests
                     vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("VPScenarioName");
                     Assert.AreEqual(false, vpScenarioLanguageService.Add(vpScenarioLanguage));
                     Assert.AreEqual(1, vpScenarioLanguage.ValidationResults.Count());
-                    Assert.IsTrue(vpScenarioLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageVPScenarioName)).Any());
+                    Assert.IsTrue(vpScenarioLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioLanguageVPScenarioName)).Any());
                     Assert.AreEqual(null, vpScenarioLanguage.VPScenarioName);
                     Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
 
@@ -174,7 +174,7 @@ namespace CSSPServices.Tests
                     vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
                     vpScenarioLanguage.VPScenarioName = GetRandomString("", 101);
                     Assert.AreEqual(false, vpScenarioLanguageService.Add(vpScenarioLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLanguageVPScenarioName, "100"), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPScenarioLanguageVPScenarioName, "100"), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -187,7 +187,7 @@ namespace CSSPServices.Tests
                     vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
                     vpScenarioLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
                     vpScenarioLanguageService.Add(vpScenarioLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioLanguageTranslationStatus), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioLanguageTranslationStatus), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -207,13 +207,13 @@ namespace CSSPServices.Tests
                     vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
                     vpScenarioLanguage.LastUpdateContactTVItemID = 0;
                     vpScenarioLanguageService.Add(vpScenarioLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPScenarioLanguageLastUpdateContactTVItemID, vpScenarioLanguage.LastUpdateContactTVItemID.ToString()), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPScenarioLanguageLastUpdateContactTVItemID, vpScenarioLanguage.LastUpdateContactTVItemID.ToString()), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     vpScenarioLanguage = null;
                     vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
                     vpScenarioLanguage.LastUpdateContactTVItemID = 1;
                     vpScenarioLanguageService.Add(vpScenarioLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPScenarioLanguageLastUpdateContactTVItemID, "Contact"), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPScenarioLanguageLastUpdateContactTVItemID, "Contact"), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -228,7 +228,7 @@ namespace CSSPServices.Tests
                     vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
                     vpScenarioLanguage.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, vpScenarioLanguageService.Add(vpScenarioLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLanguageLastUpdateContactTVText, "200"), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPScenarioLanguageLastUpdateContactTVText, "200"), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -242,7 +242,7 @@ namespace CSSPServices.Tests
                     vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
                     vpScenarioLanguage.LanguageText = GetRandomString("", 101);
                     Assert.AreEqual(false, vpScenarioLanguageService.Add(vpScenarioLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLanguageLanguageText, "100"), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPScenarioLanguageLanguageText, "100"), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -256,7 +256,7 @@ namespace CSSPServices.Tests
                     vpScenarioLanguage = GetFilledRandomVPScenarioLanguage("");
                     vpScenarioLanguage.TranslationStatusText = GetRandomString("", 101);
                     Assert.AreEqual(false, vpScenarioLanguageService.Add(vpScenarioLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLanguageTranslationStatusText, "100"), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPScenarioLanguageTranslationStatusText, "100"), vpScenarioLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioLanguageService.GetRead().Count());
 
                     // -----------------------------------

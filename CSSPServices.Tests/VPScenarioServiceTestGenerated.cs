@@ -136,13 +136,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.VPScenarioID = 0;
                     vpScenarioService.Update(vpScenario);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioVPScenarioID), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioVPScenarioID), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.VPScenarioID = 10000000;
                     vpScenarioService.Update(vpScenario);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPScenarioVPScenarioID, vpScenario.VPScenarioID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPScenario, CSSPModelsRes.VPScenarioVPScenarioID, vpScenario.VPScenarioID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -155,13 +155,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.InfrastructureTVItemID = 0;
                     vpScenarioService.Add(vpScenario);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPScenarioInfrastructureTVItemID, vpScenario.InfrastructureTVItemID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPScenarioInfrastructureTVItemID, vpScenario.InfrastructureTVItemID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.InfrastructureTVItemID = 1;
                     vpScenarioService.Add(vpScenario);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPScenarioInfrastructureTVItemID, "Infrastructure"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPScenarioInfrastructureTVItemID, "Infrastructure"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -174,7 +174,7 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.VPScenarioStatus = (ScenarioStatusEnum)1000000;
                     vpScenarioService.Add(vpScenario);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPScenarioVPScenarioStatus), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPScenarioVPScenarioStatus), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -195,13 +195,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentFlow_m3_s = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentFlow_m3_s, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentFlow_m3_s, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentFlow_m3_s = 1001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentFlow_m3_s, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentFlow_m3_s, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -214,13 +214,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentConcentration_MPN_100ml = -1;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentConcentration_MPN_100ml, "0", "10000000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentConcentration_MPN_100ml, "0", "10000000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentConcentration_MPN_100ml = 10000001;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentConcentration_MPN_100ml, "0", "10000000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentConcentration_MPN_100ml, "0", "10000000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -235,13 +235,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.FroudeNumber = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioFroudeNumber, "0", "10000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioFroudeNumber, "0", "10000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.FroudeNumber = 10001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioFroudeNumber, "0", "10000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioFroudeNumber, "0", "10000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -256,13 +256,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortDiameter_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortDiameter_m, "0", "10"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortDiameter_m, "0", "10"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortDiameter_m = 11.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortDiameter_m, "0", "10"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortDiameter_m, "0", "10"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -277,13 +277,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortDepth_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortDepth_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortDepth_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortDepth_m = 1001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortDepth_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortDepth_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -298,13 +298,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortElevation_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortElevation_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortElevation_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortElevation_m = 1001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortElevation_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortElevation_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -319,13 +319,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.VerticalAngle_deg = -91.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioVerticalAngle_deg, "-90", "90"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioVerticalAngle_deg, "-90", "90"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.VerticalAngle_deg = 91.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioVerticalAngle_deg, "-90", "90"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioVerticalAngle_deg, "-90", "90"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -340,13 +340,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.HorizontalAngle_deg = -181.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioHorizontalAngle_deg, "-180", "180"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioHorizontalAngle_deg, "-180", "180"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.HorizontalAngle_deg = 181.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioHorizontalAngle_deg, "-180", "180"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioHorizontalAngle_deg, "-180", "180"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -359,13 +359,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.NumberOfPorts = 0;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioNumberOfPorts, "1", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioNumberOfPorts, "1", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.NumberOfPorts = 101;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioNumberOfPorts, "1", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioNumberOfPorts, "1", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -380,13 +380,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortSpacing_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortSpacing_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortSpacing_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.PortSpacing_m = 1001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioPortSpacing_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioPortSpacing_m, "0", "1000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -401,13 +401,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.AcuteMixZone_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioAcuteMixZone_m, "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioAcuteMixZone_m, "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.AcuteMixZone_m = 101.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioAcuteMixZone_m, "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioAcuteMixZone_m, "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -422,13 +422,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.ChronicMixZone_m = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioChronicMixZone_m, "0", "40000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioChronicMixZone_m, "0", "40000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.ChronicMixZone_m = 40001.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioChronicMixZone_m, "0", "40000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioChronicMixZone_m, "0", "40000"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -443,13 +443,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentSalinity_PSU = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentSalinity_PSU, "0", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentSalinity_PSU, "0", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentSalinity_PSU = 41.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentSalinity_PSU, "0", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentSalinity_PSU, "0", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -464,13 +464,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentTemperature_C = -11.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentTemperature_C, "-10", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentTemperature_C, "-10", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentTemperature_C = 41.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentTemperature_C, "-10", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentTemperature_C, "-10", "40"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -485,13 +485,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentVelocity_m_s = -1.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentVelocity_m_s, "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentVelocity_m_s, "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.EffluentVelocity_m_s = 101.0D;
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPScenarioEffluentVelocity_m_s, "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPScenarioEffluentVelocity_m_s, "0", "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -517,13 +517,13 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.LastUpdateContactTVItemID = 0;
                     vpScenarioService.Add(vpScenario);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPScenarioLastUpdateContactTVItemID, vpScenario.LastUpdateContactTVItemID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPScenarioLastUpdateContactTVItemID, vpScenario.LastUpdateContactTVItemID.ToString()), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     vpScenario = null;
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.LastUpdateContactTVItemID = 1;
                     vpScenarioService.Add(vpScenario);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPScenarioLastUpdateContactTVItemID, "Contact"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPScenarioLastUpdateContactTVItemID, "Contact"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -538,7 +538,7 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.SubsectorTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioSubsectorTVText, "200"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPScenarioSubsectorTVText, "200"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -553,7 +553,7 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioLastUpdateContactTVText, "200"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPScenarioLastUpdateContactTVText, "200"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------
@@ -567,7 +567,7 @@ namespace CSSPServices.Tests
                     vpScenario = GetFilledRandomVPScenario("");
                     vpScenario.VPScenarioStatusText = GetRandomString("", 101);
                     Assert.AreEqual(false, vpScenarioService.Add(vpScenario));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPScenarioVPScenarioStatusText, "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPScenarioVPScenarioStatusText, "100"), vpScenario.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpScenarioService.GetRead().Count());
 
                     // -----------------------------------

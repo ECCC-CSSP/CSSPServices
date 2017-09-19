@@ -124,13 +124,13 @@ namespace CSSPServices.Tests
                     emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
                     emailDistributionListContact.EmailDistributionListContactID = 0;
                     emailDistributionListContactService.Update(emailDistributionListContact);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactEmailDistributionListContactID), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactEmailDistributionListContactID), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     emailDistributionListContact = null;
                     emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
                     emailDistributionListContact.EmailDistributionListContactID = 10000000;
                     emailDistributionListContactService.Update(emailDistributionListContact);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.EmailDistributionListContact, ModelsRes.EmailDistributionListContactEmailDistributionListContactID, emailDistributionListContact.EmailDistributionListContactID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.EmailDistributionListContact, CSSPModelsRes.EmailDistributionListContactEmailDistributionListContactID, emailDistributionListContact.EmailDistributionListContactID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -143,7 +143,7 @@ namespace CSSPServices.Tests
                     emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
                     emailDistributionListContact.EmailDistributionListID = 0;
                     emailDistributionListContactService.Add(emailDistributionListContact);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.EmailDistributionList, ModelsRes.EmailDistributionListContactEmailDistributionListID, emailDistributionListContact.EmailDistributionListID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.EmailDistributionList, CSSPModelsRes.EmailDistributionListContactEmailDistributionListID, emailDistributionListContact.EmailDistributionListID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -162,7 +162,7 @@ namespace CSSPServices.Tests
                     emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Name");
                     Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
                     Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
-                    Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactName)).Any());
+                    Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactName)).Any());
                     Assert.AreEqual(null, emailDistributionListContact.Name);
                     Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
@@ -170,7 +170,7 @@ namespace CSSPServices.Tests
                     emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
                     emailDistributionListContact.Name = GetRandomString("", 101);
                     Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactName, "100"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListContactName, "100"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
                     // -----------------------------------
@@ -184,7 +184,7 @@ namespace CSSPServices.Tests
                     emailDistributionListContact = GetFilledRandomEmailDistributionListContact("Email");
                     Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
                     Assert.AreEqual(1, emailDistributionListContact.ValidationResults.Count());
-                    Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListContactEmail)).Any());
+                    Assert.IsTrue(emailDistributionListContact.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListContactEmail)).Any());
                     Assert.AreEqual(null, emailDistributionListContact.Email);
                     Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
@@ -192,7 +192,7 @@ namespace CSSPServices.Tests
                     emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
                     emailDistributionListContact.Email = GetRandomString("", 201);
                     Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactEmail, "200"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListContactEmail, "200"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
                     // -----------------------------------
@@ -242,13 +242,13 @@ namespace CSSPServices.Tests
                     emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
                     emailDistributionListContact.LastUpdateContactTVItemID = 0;
                     emailDistributionListContactService.Add(emailDistributionListContact);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, emailDistributionListContact.LastUpdateContactTVItemID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, emailDistributionListContact.LastUpdateContactTVItemID.ToString()), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     emailDistributionListContact = null;
                     emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
                     emailDistributionListContact.LastUpdateContactTVItemID = 1;
                     emailDistributionListContactService.Add(emailDistributionListContact);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, "Contact"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.EmailDistributionListContactLastUpdateContactTVItemID, "Contact"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -263,7 +263,7 @@ namespace CSSPServices.Tests
                     emailDistributionListContact = GetFilledRandomEmailDistributionListContact("");
                     emailDistributionListContact.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, emailDistributionListContactService.Add(emailDistributionListContact));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListContactLastUpdateContactTVText, "200"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListContactLastUpdateContactTVText, "200"), emailDistributionListContact.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, emailDistributionListContactService.GetRead().Count());
 
                     // -----------------------------------

@@ -376,7 +376,9 @@
     <Compile Include="DocTemplateServiceGenerated.cs" />
     <Compile Include="ElementLayerServiceGenerated.cs" />
     <Compile Include="ElementServiceGenerated.cs" />
+    <Compile Include="EmailDistributionListContactLanguageServiceGenerated.cs" />
     <Compile Include="EmailDistributionListContactServiceGenerated.cs" />
+    <Compile Include="EmailDistributionListLanguageServiceGenerated.cs" />
     <Compile Include="EmailDistributionListServiceGenerated.cs" />
     <Compile Include="EmailServiceGenerated.cs" />
     <Compile Include="FileItemListServiceGenerated.cs" />
@@ -434,6 +436,16 @@
     <Compile Include="RatingCurveValueServiceGenerated.cs" />
     <Compile Include="RegisterServiceGenerated.cs" />
     <Compile Include="ResetPasswordServiceGenerated.cs" />
+    <Compile Include="Resources\CSSPServicesRes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CSSPServicesRes.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\CSSPServicesRes.fr.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CSSPServicesRes.fr.resx</DependentUpon>
+    </Compile>
     <Compile Include="RTBStringPosServiceGenerated.cs" />
     <Compile Include="SamplingPlanAndFilesLabSheetCountServiceGenerated.cs" />
     <Compile Include="SamplingPlanServiceGenerated.cs" />
@@ -536,16 +548,6 @@
     <Compile Include="PolSourceObservationServiceExtra.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResetPasswordServiceExtra.cs" />
-    <Compile Include="Resources\ServicesRes.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ServicesRes.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Resources\ServicesRes.fr.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ServicesRes.fr.resx</DependentUpon>
-    </Compile>
     <Compile Include="TVItemLanguageServiceExtra.cs" />
     <Compile Include="TVItemLinkServiceExtra.cs" />
     <Compile Include="TVItemServiceExtra.cs" />
@@ -553,13 +555,13 @@
     <Compile Include="VPScenarioServiceGenerated.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\ServicesRes.fr.resx">
+    <EmbeddedResource Include="Resources\CSSPServicesRes.fr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ServicesRes.fr.Designer.cs</LastGenOutput>
+      <LastGenOutput>CSSPServicesRes.fr.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\ServicesRes.resx">
+    <EmbeddedResource Include="Resources\CSSPServicesRes.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ServicesRes.Designer.cs</LastGenOutput>
+      <LastGenOutput>CSSPServicesRes.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

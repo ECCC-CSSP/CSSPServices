@@ -132,13 +132,13 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.AddressID = 0;
                     addressService.Update(address);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AddressAddressID), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AddressAddressID), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     address = null;
                     address = GetFilledRandomAddress("");
                     address.AddressID = 10000000;
                     addressService.Update(address);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Address, ModelsRes.AddressAddressID, address.AddressID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Address, CSSPModelsRes.AddressAddressID, address.AddressID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -151,13 +151,13 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.AddressTVItemID = 0;
                     addressService.Add(address);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressAddressTVItemID, address.AddressTVItemID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressAddressTVItemID, address.AddressTVItemID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     address = null;
                     address = GetFilledRandomAddress("");
                     address.AddressTVItemID = 1;
                     addressService.Add(address);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressAddressTVItemID, "Address"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AddressAddressTVItemID, "Address"), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -170,7 +170,7 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.AddressType = (AddressTypeEnum)1000000;
                     addressService.Add(address);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AddressAddressType), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AddressAddressType), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -183,13 +183,13 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.CountryTVItemID = 0;
                     addressService.Add(address);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressCountryTVItemID, address.CountryTVItemID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressCountryTVItemID, address.CountryTVItemID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     address = null;
                     address = GetFilledRandomAddress("");
                     address.CountryTVItemID = 1;
                     addressService.Add(address);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressCountryTVItemID, "Country"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AddressCountryTVItemID, "Country"), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -202,13 +202,13 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.ProvinceTVItemID = 0;
                     addressService.Add(address);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressProvinceTVItemID, address.ProvinceTVItemID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressProvinceTVItemID, address.ProvinceTVItemID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     address = null;
                     address = GetFilledRandomAddress("");
                     address.ProvinceTVItemID = 1;
                     addressService.Add(address);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressProvinceTVItemID, "Province"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AddressProvinceTVItemID, "Province"), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -221,13 +221,13 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.MunicipalityTVItemID = 0;
                     addressService.Add(address);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressMunicipalityTVItemID, address.MunicipalityTVItemID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressMunicipalityTVItemID, address.MunicipalityTVItemID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     address = null;
                     address = GetFilledRandomAddress("");
                     address.MunicipalityTVItemID = 1;
                     addressService.Add(address);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressMunicipalityTVItemID, "Municipality"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AddressMunicipalityTVItemID, "Municipality"), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -240,7 +240,7 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.StreetName = GetRandomString("", 201);
                     Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressStreetName, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressStreetName, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, addressService.GetRead().Count());
 
                     // -----------------------------------
@@ -253,7 +253,7 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.StreetNumber = GetRandomString("", 51);
                     Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressStreetNumber, "50"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressStreetNumber, "50"), address.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, addressService.GetRead().Count());
 
                     // -----------------------------------
@@ -266,7 +266,7 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.StreetType = (StreetTypeEnum)1000000;
                     addressService.Add(address);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.AddressStreetType), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AddressStreetType), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -279,13 +279,13 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.PostalCode = GetRandomString("", 5);
                     Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressPostalCode, "6", "11"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.AddressPostalCode, "6", "11"), address.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, addressService.GetRead().Count());
                     address = null;
                     address = GetFilledRandomAddress("");
                     address.PostalCode = GetRandomString("", 12);
                     Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressPostalCode, "6", "11"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.AddressPostalCode, "6", "11"), address.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, addressService.GetRead().Count());
 
                     // -----------------------------------
@@ -298,13 +298,13 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.GoogleAddressText = GetRandomString("", 9);
                     Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressGoogleAddressText, "10", "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.AddressGoogleAddressText, "10", "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, addressService.GetRead().Count());
                     address = null;
                     address = GetFilledRandomAddress("");
                     address.GoogleAddressText = GetRandomString("", 201);
                     Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.AddressGoogleAddressText, "10", "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.AddressGoogleAddressText, "10", "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, addressService.GetRead().Count());
 
                     // -----------------------------------
@@ -324,13 +324,13 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.LastUpdateContactTVItemID = 0;
                     addressService.Add(address);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressLastUpdateContactTVItemID, address.LastUpdateContactTVItemID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressLastUpdateContactTVItemID, address.LastUpdateContactTVItemID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     address = null;
                     address = GetFilledRandomAddress("");
                     address.LastUpdateContactTVItemID = 1;
                     addressService.Add(address);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressLastUpdateContactTVItemID, "Contact"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AddressLastUpdateContactTVItemID, "Contact"), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -345,13 +345,13 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.ParentTVItemID = 0;
                     addressService.Add(address);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AddressParentTVItemID, address.ParentTVItemID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AddressParentTVItemID, address.ParentTVItemID.ToString()), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     address = null;
                     address = GetFilledRandomAddress("");
                     address.ParentTVItemID = 5;
                     addressService.Add(address);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AddressParentTVItemID, "Root,Infrastructure,Contact,PolSourceSite"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AddressParentTVItemID, "Root,Infrastructure,Contact,PolSourceSite"), address.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -366,7 +366,7 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.AddressTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressAddressTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressAddressTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, addressService.GetRead().Count());
 
                     // -----------------------------------
@@ -381,7 +381,7 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.CountryTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressCountryTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressCountryTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, addressService.GetRead().Count());
 
                     // -----------------------------------
@@ -396,7 +396,7 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.ProvinceTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressProvinceTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressProvinceTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, addressService.GetRead().Count());
 
                     // -----------------------------------
@@ -411,7 +411,7 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.MunicipalityTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressMunicipalityTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressMunicipalityTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, addressService.GetRead().Count());
 
                     // -----------------------------------
@@ -426,7 +426,7 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressLastUpdateContactTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressLastUpdateContactTVText, "200"), address.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, addressService.GetRead().Count());
 
                     // -----------------------------------
@@ -440,7 +440,7 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.AddressTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressAddressTypeText, "100"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressAddressTypeText, "100"), address.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, addressService.GetRead().Count());
 
                     // -----------------------------------
@@ -454,7 +454,7 @@ namespace CSSPServices.Tests
                     address = GetFilledRandomAddress("");
                     address.StreetTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, addressService.Add(address));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AddressStreetTypeText, "100"), address.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AddressStreetTypeText, "100"), address.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, addressService.GetRead().Count());
 
                     // -----------------------------------

@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour TVItemSubsectorAndMWQMSite</para>
+    /// </summary>
     public partial class TVItemSubsectorAndMWQMSiteService : BaseService
     {
         #region Variables

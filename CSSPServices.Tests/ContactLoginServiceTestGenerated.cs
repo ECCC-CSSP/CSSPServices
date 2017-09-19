@@ -130,13 +130,13 @@ namespace CSSPServices.Tests
                     contactLogin = GetFilledRandomContactLogin("");
                     contactLogin.ContactLoginID = 0;
                     contactLoginService.Update(contactLogin);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginContactLoginID), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginContactLoginID), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     contactLogin = null;
                     contactLogin = GetFilledRandomContactLogin("");
                     contactLogin.ContactLoginID = 10000000;
                     contactLoginService.Update(contactLogin);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ContactLogin, ModelsRes.ContactLoginContactLoginID, contactLogin.ContactLoginID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ContactLogin, CSSPModelsRes.ContactLoginContactLoginID, contactLogin.ContactLoginID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -149,7 +149,7 @@ namespace CSSPServices.Tests
                     contactLogin = GetFilledRandomContactLogin("");
                     contactLogin.ContactID = 0;
                     contactLoginService.Add(contactLogin);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactLoginContactID, contactLogin.ContactID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ContactLoginContactID, contactLogin.ContactID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -163,7 +163,7 @@ namespace CSSPServices.Tests
                     contactLogin = GetFilledRandomContactLogin("LoginEmail");
                     Assert.AreEqual(false, contactLoginService.Add(contactLogin));
                     Assert.AreEqual(1, contactLogin.ValidationResults.Count());
-                    Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginLoginEmail)).Any());
+                    Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginLoginEmail)).Any());
                     Assert.AreEqual(null, contactLogin.LoginEmail);
                     Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
@@ -171,7 +171,7 @@ namespace CSSPServices.Tests
                     contactLogin = GetFilledRandomContactLogin("");
                     contactLogin.LoginEmail = GetRandomString("", 201);
                     Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginLoginEmail, "200"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactLoginLoginEmail, "200"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
                     // -----------------------------------
@@ -207,13 +207,13 @@ namespace CSSPServices.Tests
                     contactLogin = GetFilledRandomContactLogin("");
                     contactLogin.LastUpdateContactTVItemID = 0;
                     contactLoginService.Add(contactLogin);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactLoginLastUpdateContactTVItemID, contactLogin.LastUpdateContactTVItemID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactLoginLastUpdateContactTVItemID, contactLogin.LastUpdateContactTVItemID.ToString()), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     contactLogin = null;
                     contactLogin = GetFilledRandomContactLogin("");
                     contactLogin.LastUpdateContactTVItemID = 1;
                     contactLoginService.Add(contactLogin);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactLoginLastUpdateContactTVItemID, "Contact"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ContactLoginLastUpdateContactTVItemID, "Contact"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -228,7 +228,7 @@ namespace CSSPServices.Tests
                     contactLogin = GetFilledRandomContactLogin("");
                     contactLogin.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginLastUpdateContactTVText, "200"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactLoginLastUpdateContactTVText, "200"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
                     // -----------------------------------
@@ -242,7 +242,7 @@ namespace CSSPServices.Tests
                     contactLogin = GetFilledRandomContactLogin("Password");
                     Assert.AreEqual(false, contactLoginService.Add(contactLogin));
                     Assert.AreEqual(1, contactLogin.ValidationResults.Count());
-                    Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginPassword)).Any());
+                    Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginPassword)).Any());
                     Assert.AreEqual(null, contactLogin.Password);
                     Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
@@ -250,13 +250,13 @@ namespace CSSPServices.Tests
                     contactLogin = GetFilledRandomContactLogin("");
                     contactLogin.Password = GetRandomString("", 5);
                     Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactLoginPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, contactLoginService.GetRead().Count());
                     contactLogin = null;
                     contactLogin = GetFilledRandomContactLogin("");
                     contactLogin.Password = GetRandomString("", 101);
                     Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactLoginPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
                     // -----------------------------------
@@ -270,7 +270,7 @@ namespace CSSPServices.Tests
                     contactLogin = GetFilledRandomContactLogin("ConfirmPassword");
                     Assert.AreEqual(false, contactLoginService.Add(contactLogin));
                     Assert.AreEqual(1, contactLogin.ValidationResults.Count());
-                    Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginConfirmPassword)).Any());
+                    Assert.IsTrue(contactLogin.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginConfirmPassword)).Any());
                     Assert.AreEqual(null, contactLogin.ConfirmPassword);
                     Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
@@ -278,13 +278,13 @@ namespace CSSPServices.Tests
                     contactLogin = GetFilledRandomContactLogin("");
                     contactLogin.ConfirmPassword = GetRandomString("", 5);
                     Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginConfirmPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactLoginConfirmPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, contactLoginService.GetRead().Count());
                     contactLogin = null;
                     contactLogin = GetFilledRandomContactLogin("");
                     contactLogin.ConfirmPassword = GetRandomString("", 101);
                     Assert.AreEqual(false, contactLoginService.Add(contactLogin));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginConfirmPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactLoginConfirmPassword, "6", "100"), contactLogin.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, contactLoginService.GetRead().Count());
 
                     // -----------------------------------

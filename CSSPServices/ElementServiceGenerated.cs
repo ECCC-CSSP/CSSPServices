@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour Element</para>
+    /// </summary>
     public partial class ElementService : BaseService
     {
         #region Variables
@@ -44,7 +47,7 @@ namespace CSSPServices
             if (element.ID < 1)
             {
                 element.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ElementID, "1"), new[] { "ID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ElementID, "1"), new[] { "ID" });
             }
 
             //Type (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -52,7 +55,7 @@ namespace CSSPServices
             if (element.Type < 1)
             {
                 element.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ElementType, "1"), new[] { "Type" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ElementType, "1"), new[] { "Type" });
             }
 
             //NumbOfNodes (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -60,7 +63,7 @@ namespace CSSPServices
             if (element.NumbOfNodes < 1)
             {
                 element.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ElementNumbOfNodes, "1"), new[] { "NumbOfNodes" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ElementNumbOfNodes, "1"), new[] { "NumbOfNodes" });
             }
 
             //Value (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

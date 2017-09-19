@@ -166,13 +166,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.MWQMRunID = 0;
                     mwqmRunService.Update(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunMWQMRunID), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunMWQMRunID), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.MWQMRunID = 10000000;
                     mwqmRunService.Update(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMRun, ModelsRes.MWQMRunMWQMRunID, mwqmRun.MWQMRunID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MWQMRun, CSSPModelsRes.MWQMRunMWQMRunID, mwqmRun.MWQMRunID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -185,13 +185,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.SubsectorTVItemID = 0;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunSubsectorTVItemID, mwqmRun.SubsectorTVItemID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMRunSubsectorTVItemID, mwqmRun.SubsectorTVItemID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.SubsectorTVItemID = 1;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunSubsectorTVItemID, "Subsector"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMRunSubsectorTVItemID, "Subsector"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -204,13 +204,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.MWQMRunTVItemID = 0;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunMWQMRunTVItemID, mwqmRun.MWQMRunTVItemID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMRunMWQMRunTVItemID, mwqmRun.MWQMRunTVItemID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.MWQMRunTVItemID = 1;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunMWQMRunTVItemID, "MWQMRun"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMRunMWQMRunTVItemID, "MWQMRun"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -223,7 +223,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RunSampleType = (SampleTypeEnum)1000000;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunRunSampleType), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunRunSampleType), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -243,13 +243,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RunNumber = 0;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRunNumber, "1", "1000"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRunNumber, "1", "1000"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RunNumber = 1001;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRunNumber, "1", "1000"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRunNumber, "1", "1000"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -286,13 +286,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.TemperatureControl1_C = -11.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl1_C, "-10", "40"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunTemperatureControl1_C, "-10", "40"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.TemperatureControl1_C = 41.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl1_C, "-10", "40"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunTemperatureControl1_C, "-10", "40"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -307,13 +307,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.TemperatureControl2_C = -11.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl2_C, "-10", "40"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunTemperatureControl2_C, "-10", "40"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.TemperatureControl2_C = 41.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl2_C, "-10", "40"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunTemperatureControl2_C, "-10", "40"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -326,7 +326,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.SeaStateAtStart_BeaufortScale = (BeaufortScaleEnum)1000000;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunSeaStateAtStart_BeaufortScale), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunSeaStateAtStart_BeaufortScale), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -339,7 +339,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.SeaStateAtEnd_BeaufortScale = (BeaufortScaleEnum)1000000;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunSeaStateAtEnd_BeaufortScale), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunSeaStateAtEnd_BeaufortScale), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -354,13 +354,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.WaterLevelAtBrook_m = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaterLevelAtBrook_m, "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunWaterLevelAtBrook_m, "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.WaterLevelAtBrook_m = 101.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaterLevelAtBrook_m, "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunWaterLevelAtBrook_m, "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -375,13 +375,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.WaveHightAtStart_m = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtStart_m, "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunWaveHightAtStart_m, "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.WaveHightAtStart_m = 101.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtStart_m, "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunWaveHightAtStart_m, "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -396,13 +396,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.WaveHightAtEnd_m = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtEnd_m, "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunWaveHightAtEnd_m, "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.WaveHightAtEnd_m = 101.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtEnd_m, "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunWaveHightAtEnd_m, "0", "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -415,7 +415,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.SampleCrewInitials = GetRandomString("", 21);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSampleCrewInitials, "20"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSampleCrewInitials, "20"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -428,7 +428,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.AnalyzeMethod = (AnalyzeMethodEnum)1000000;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunAnalyzeMethod), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunAnalyzeMethod), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -441,7 +441,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.SampleMatrix = (SampleMatrixEnum)1000000;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunSampleMatrix), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunSampleMatrix), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -454,7 +454,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.Laboratory = (LaboratoryEnum)1000000;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLaboratory), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunLaboratory), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -467,7 +467,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.SampleStatus = (SampleStatusEnum)1000000;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunSampleStatus), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunSampleStatus), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -480,13 +480,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.LabSampleApprovalContactTVItemID = 0;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, mwqmRun.LabSampleApprovalContactTVItemID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMRunLabSampleApprovalContactTVItemID, mwqmRun.LabSampleApprovalContactTVItemID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.LabSampleApprovalContactTVItemID = 1;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, "Contact"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMRunLabSampleApprovalContactTVItemID, "Contact"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -527,7 +527,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.Tide_Start = (TideTextEnum)1000000;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunTide_Start), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunTide_Start), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -540,7 +540,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.Tide_End = (TideTextEnum)1000000;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunTide_End), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunTide_End), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -555,13 +555,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay0_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay0_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay0_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay0_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay0_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay0_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -576,13 +576,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay1_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay1_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay1_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay1_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay1_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay1_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -597,13 +597,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay2_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay2_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay2_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay2_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay2_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay2_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -618,13 +618,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay3_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay3_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay3_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay3_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay3_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay3_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -639,13 +639,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay4_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay4_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay4_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay4_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay4_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay4_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -660,13 +660,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay5_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay5_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay5_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay5_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay5_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay5_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -681,13 +681,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay6_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay6_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay6_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay6_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay6_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay6_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -702,13 +702,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay7_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay7_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay7_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay7_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay7_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay7_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -723,13 +723,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay8_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay8_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay8_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay8_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay8_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay8_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -744,13 +744,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay9_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay9_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay9_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay9_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay9_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay9_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -765,13 +765,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay10_mm = -1.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay10_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay10_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RainDay10_mm = 301.0D;
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay10_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay10_mm, "0", "300"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -797,13 +797,13 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.LastUpdateContactTVItemID = 0;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLastUpdateContactTVItemID, mwqmRun.LastUpdateContactTVItemID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMRunLastUpdateContactTVItemID, mwqmRun.LastUpdateContactTVItemID.ToString()), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmRun = null;
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.LastUpdateContactTVItemID = 1;
                     mwqmRunService.Add(mwqmRun);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunLastUpdateContactTVItemID, "Contact"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMRunLastUpdateContactTVItemID, "Contact"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -818,7 +818,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.SubsectorTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSubsectorTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSubsectorTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -833,7 +833,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.MWQMRunTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunMWQMRunTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunMWQMRunTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -848,7 +848,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.LabSampleApprovalContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLabSampleApprovalContactTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLabSampleApprovalContactTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -863,7 +863,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLastUpdateContactTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLastUpdateContactTVText, "200"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -877,7 +877,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.RunSampleTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunRunSampleTypeText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunRunSampleTypeText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -891,7 +891,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.SeaStateAtStart_BeaufortScaleText = GetRandomString("", 101);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSeaStateAtStart_BeaufortScaleText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSeaStateAtStart_BeaufortScaleText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -905,7 +905,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.SeaStateAtEnd_BeaufortScaleText = GetRandomString("", 101);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSeaStateAtEnd_BeaufortScaleText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSeaStateAtEnd_BeaufortScaleText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -919,7 +919,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.AnalyzeMethodText = GetRandomString("", 101);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunAnalyzeMethodText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunAnalyzeMethodText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -933,7 +933,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.SampleMatrixText = GetRandomString("", 101);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSampleMatrixText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSampleMatrixText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -947,7 +947,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.LaboratoryText = GetRandomString("", 101);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLaboratoryText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLaboratoryText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -961,7 +961,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.SampleStatusText = GetRandomString("", 101);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSampleStatusText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSampleStatusText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -975,7 +975,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.Tide_StartText = GetRandomString("", 101);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunTide_StartText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunTide_StartText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------
@@ -989,7 +989,7 @@ namespace CSSPServices.Tests
                     mwqmRun = GetFilledRandomMWQMRun("");
                     mwqmRun.Tide_EndText = GetRandomString("", 101);
                     Assert.AreEqual(false, mwqmRunService.Add(mwqmRun));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunTide_EndText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunTide_EndText, "100"), mwqmRun.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmRunService.GetRead().Count());
 
                     // -----------------------------------

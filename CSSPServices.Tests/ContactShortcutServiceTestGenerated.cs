@@ -118,13 +118,13 @@ namespace CSSPServices.Tests
                     contactShortcut = GetFilledRandomContactShortcut("");
                     contactShortcut.ContactShortcutID = 0;
                     contactShortcutService.Update(contactShortcut);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutContactShortcutID), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactShortcutContactShortcutID), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     contactShortcut = null;
                     contactShortcut = GetFilledRandomContactShortcut("");
                     contactShortcut.ContactShortcutID = 10000000;
                     contactShortcutService.Update(contactShortcut);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ContactShortcut, ModelsRes.ContactShortcutContactShortcutID, contactShortcut.ContactShortcutID.ToString()), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ContactShortcut, CSSPModelsRes.ContactShortcutContactShortcutID, contactShortcut.ContactShortcutID.ToString()), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -137,7 +137,7 @@ namespace CSSPServices.Tests
                     contactShortcut = GetFilledRandomContactShortcut("");
                     contactShortcut.ContactID = 0;
                     contactShortcutService.Add(contactShortcut);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactShortcutContactID, contactShortcut.ContactID.ToString()), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ContactShortcutContactID, contactShortcut.ContactID.ToString()), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -150,7 +150,7 @@ namespace CSSPServices.Tests
                     contactShortcut = GetFilledRandomContactShortcut("ShortCutText");
                     Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
                     Assert.AreEqual(1, contactShortcut.ValidationResults.Count());
-                    Assert.IsTrue(contactShortcut.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutShortCutText)).Any());
+                    Assert.IsTrue(contactShortcut.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactShortcutShortCutText)).Any());
                     Assert.AreEqual(null, contactShortcut.ShortCutText);
                     Assert.AreEqual(count, contactShortcutService.GetRead().Count());
 
@@ -158,7 +158,7 @@ namespace CSSPServices.Tests
                     contactShortcut = GetFilledRandomContactShortcut("");
                     contactShortcut.ShortCutText = GetRandomString("", 101);
                     Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactShortcutShortCutText, "100"), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactShortcutShortCutText, "100"), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, contactShortcutService.GetRead().Count());
 
                     // -----------------------------------
@@ -171,7 +171,7 @@ namespace CSSPServices.Tests
                     contactShortcut = GetFilledRandomContactShortcut("ShortCutAddress");
                     Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
                     Assert.AreEqual(1, contactShortcut.ValidationResults.Count());
-                    Assert.IsTrue(contactShortcut.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.ContactShortcutShortCutAddress)).Any());
+                    Assert.IsTrue(contactShortcut.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactShortcutShortCutAddress)).Any());
                     Assert.AreEqual(null, contactShortcut.ShortCutAddress);
                     Assert.AreEqual(count, contactShortcutService.GetRead().Count());
 
@@ -179,7 +179,7 @@ namespace CSSPServices.Tests
                     contactShortcut = GetFilledRandomContactShortcut("");
                     contactShortcut.ShortCutAddress = GetRandomString("", 201);
                     Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactShortcutShortCutAddress, "200"), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactShortcutShortCutAddress, "200"), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, contactShortcutService.GetRead().Count());
 
                     // -----------------------------------
@@ -199,13 +199,13 @@ namespace CSSPServices.Tests
                     contactShortcut = GetFilledRandomContactShortcut("");
                     contactShortcut.LastUpdateContactTVItemID = 0;
                     contactShortcutService.Add(contactShortcut);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactShortcutLastUpdateContactTVItemID, contactShortcut.LastUpdateContactTVItemID.ToString()), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactShortcutLastUpdateContactTVItemID, contactShortcut.LastUpdateContactTVItemID.ToString()), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     contactShortcut = null;
                     contactShortcut = GetFilledRandomContactShortcut("");
                     contactShortcut.LastUpdateContactTVItemID = 1;
                     contactShortcutService.Add(contactShortcut);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactShortcutLastUpdateContactTVItemID, "Contact"), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ContactShortcutLastUpdateContactTVItemID, "Contact"), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -220,7 +220,7 @@ namespace CSSPServices.Tests
                     contactShortcut = GetFilledRandomContactShortcut("");
                     contactShortcut.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, contactShortcutService.Add(contactShortcut));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactShortcutLastUpdateContactTVText, "200"), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactShortcutLastUpdateContactTVText, "200"), contactShortcut.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, contactShortcutService.GetRead().Count());
 
                     // -----------------------------------

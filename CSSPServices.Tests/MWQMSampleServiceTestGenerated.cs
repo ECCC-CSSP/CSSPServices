@@ -132,13 +132,13 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.MWQMSampleID = 0;
                     mwqmSampleService.Update(mwqmSample);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleMWQMSampleID), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSampleMWQMSampleID), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.MWQMSampleID = 10000000;
                     mwqmSampleService.Update(mwqmSample);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSample, ModelsRes.MWQMSampleMWQMSampleID, mwqmSample.MWQMSampleID.ToString()), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MWQMSample, CSSPModelsRes.MWQMSampleMWQMSampleID, mwqmSample.MWQMSampleID.ToString()), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -151,13 +151,13 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.MWQMSiteTVItemID = 0;
                     mwqmSampleService.Add(mwqmSample);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSampleMWQMSiteTVItemID, mwqmSample.MWQMSiteTVItemID.ToString()), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSampleMWQMSiteTVItemID, mwqmSample.MWQMSiteTVItemID.ToString()), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.MWQMSiteTVItemID = 1;
                     mwqmSampleService.Add(mwqmSample);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSampleMWQMSiteTVItemID, "MWQMSite"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSampleMWQMSiteTVItemID, "MWQMSite"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -170,13 +170,13 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.MWQMRunTVItemID = 0;
                     mwqmSampleService.Add(mwqmSample);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSampleMWQMRunTVItemID, mwqmSample.MWQMRunTVItemID.ToString()), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSampleMWQMRunTVItemID, mwqmSample.MWQMRunTVItemID.ToString()), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.MWQMRunTVItemID = 1;
                     mwqmSampleService.Add(mwqmSample);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSampleMWQMRunTVItemID, "MWQMRun"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSampleMWQMRunTVItemID, "MWQMRun"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -198,13 +198,13 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Depth_m = -1.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleDepth_m, "0", "1000"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSampleDepth_m, "0", "1000"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Depth_m = 1001.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleDepth_m, "0", "1000"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSampleDepth_m, "0", "1000"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
@@ -217,13 +217,13 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.FecCol_MPN_100ml = -1;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleFecCol_MPN_100ml, "0", "10000000"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSampleFecCol_MPN_100ml, "0", "10000000"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.FecCol_MPN_100ml = 10000001;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleFecCol_MPN_100ml, "0", "10000000"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSampleFecCol_MPN_100ml, "0", "10000000"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
@@ -238,13 +238,13 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Salinity_PPT = -1.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleSalinity_PPT, "0", "40"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSampleSalinity_PPT, "0", "40"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Salinity_PPT = 41.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleSalinity_PPT, "0", "40"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSampleSalinity_PPT, "0", "40"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
@@ -259,13 +259,13 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.WaterTemp_C = -11.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleWaterTemp_C, "-10", "40"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSampleWaterTemp_C, "-10", "40"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.WaterTemp_C = 41.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleWaterTemp_C, "-10", "40"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSampleWaterTemp_C, "-10", "40"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
@@ -280,13 +280,13 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.PH = -1.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSamplePH, "0", "14"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSamplePH, "0", "14"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.PH = 15.0D;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSamplePH, "0", "14"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSamplePH, "0", "14"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
@@ -299,7 +299,7 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("SampleTypesText");
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
                     Assert.AreEqual(1, mwqmSample.ValidationResults.Count());
-                    Assert.IsTrue(mwqmSample.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleSampleTypesText)).Any());
+                    Assert.IsTrue(mwqmSample.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSampleSampleTypesText)).Any());
                     Assert.AreEqual(null, mwqmSample.SampleTypesText);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
@@ -307,7 +307,7 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.SampleTypesText = GetRandomString("", 51);
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleSampleTypesText, "50"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleSampleTypesText, "50"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
@@ -320,7 +320,7 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.SampleType_old = (SampleTypeEnum)1000000;
                     mwqmSampleService.Add(mwqmSample);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSampleSampleType_old), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSampleSampleType_old), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -333,13 +333,13 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Tube_10 = -1;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleTube_10, "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSampleTube_10, "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Tube_10 = 6;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleTube_10, "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSampleTube_10, "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
@@ -352,13 +352,13 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Tube_1_0 = -1;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleTube_1_0, "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSampleTube_1_0, "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Tube_1_0 = 6;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleTube_1_0, "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSampleTube_1_0, "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
@@ -371,13 +371,13 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Tube_0_1 = -1;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleTube_0_1, "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSampleTube_0_1, "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.Tube_0_1 = 6;
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSampleTube_0_1, "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSampleTube_0_1, "0", "5"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
@@ -390,7 +390,7 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.ProcessedBy = GetRandomString("", 11);
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleProcessedBy, "10"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleProcessedBy, "10"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
@@ -410,13 +410,13 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.LastUpdateContactTVItemID = 0;
                     mwqmSampleService.Add(mwqmSample);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSampleLastUpdateContactTVItemID, mwqmSample.LastUpdateContactTVItemID.ToString()), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSampleLastUpdateContactTVItemID, mwqmSample.LastUpdateContactTVItemID.ToString()), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSample = null;
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.LastUpdateContactTVItemID = 1;
                     mwqmSampleService.Add(mwqmSample);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSampleLastUpdateContactTVItemID, "Contact"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSampleLastUpdateContactTVItemID, "Contact"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -431,7 +431,7 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.MWQMSiteTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleMWQMSiteTVText, "200"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleMWQMSiteTVText, "200"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
@@ -446,7 +446,7 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.MWQMRunTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleMWQMRunTVText, "200"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleMWQMRunTVText, "200"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
@@ -461,7 +461,7 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleLastUpdateContactTVText, "200"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleLastUpdateContactTVText, "200"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------
@@ -475,7 +475,7 @@ namespace CSSPServices.Tests
                     mwqmSample = GetFilledRandomMWQMSample("");
                     mwqmSample.SampleType_oldText = GetRandomString("", 101);
                     Assert.AreEqual(false, mwqmSampleService.Add(mwqmSample));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSampleSampleType_oldText, "100"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSampleSampleType_oldText, "100"), mwqmSample.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSampleService.GetRead().Count());
 
                     // -----------------------------------

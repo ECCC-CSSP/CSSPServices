@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour CalDecay</para>
+    /// </summary>
     public partial class CalDecayService : BaseService
     {
         #region Variables
@@ -42,7 +45,7 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(calDecay.Error) && calDecay.Error.Length > 255)
             {
                 calDecay.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.CalDecayError, "255"), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.CalDecayError, "255"), new[] { "Error" });
             }
 
             //Decay (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -50,7 +53,7 @@ namespace CSSPServices
             if (calDecay.Decay < 0)
             {
                 calDecay.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.CalDecayDecay, "0"), new[] { "Decay" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.CalDecayDecay, "0"), new[] { "Decay" });
             }
 
             //HasErrors (bool) is required but no testing needed 

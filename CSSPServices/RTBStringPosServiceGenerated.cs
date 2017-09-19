@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour RTBStringPos</para>
+    /// </summary>
     public partial class RTBStringPosService : BaseService
     {
         #region Variables
@@ -44,7 +47,7 @@ namespace CSSPServices
             if (rTBStringPos.StartPos < 0)
             {
                 rTBStringPos.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.RTBStringPosStartPos, "0"), new[] { "StartPos" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.RTBStringPosStartPos, "0"), new[] { "StartPos" });
             }
 
             //EndPos (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -52,13 +55,13 @@ namespace CSSPServices
             if (rTBStringPos.EndPos < 0)
             {
                 rTBStringPos.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.RTBStringPosEndPos, "0"), new[] { "EndPos" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.RTBStringPosEndPos, "0"), new[] { "EndPos" });
             }
 
             if (string.IsNullOrWhiteSpace(rTBStringPos.Text))
             {
                 rTBStringPos.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RTBStringPosText), new[] { "Text" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RTBStringPosText), new[] { "Text" });
             }
 
             //Text has no StringLength Attribute
@@ -66,7 +69,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(rTBStringPos.TagText))
             {
                 rTBStringPos.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RTBStringPosTagText), new[] { "TagText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RTBStringPosTagText), new[] { "TagText" });
             }
 
             //TagText has no StringLength Attribute

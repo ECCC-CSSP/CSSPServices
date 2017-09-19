@@ -121,13 +121,13 @@ namespace CSSPServices.Tests
                     infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
                     infrastructureLanguage.InfrastructureLanguageID = 0;
                     infrastructureLanguageService.Update(infrastructureLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageInfrastructureLanguageID), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureLanguageInfrastructureLanguageID), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     infrastructureLanguage = null;
                     infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
                     infrastructureLanguage.InfrastructureLanguageID = 10000000;
                     infrastructureLanguageService.Update(infrastructureLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.InfrastructureLanguage, ModelsRes.InfrastructureLanguageInfrastructureLanguageID, infrastructureLanguage.InfrastructureLanguageID.ToString()), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.InfrastructureLanguage, CSSPModelsRes.InfrastructureLanguageInfrastructureLanguageID, infrastructureLanguage.InfrastructureLanguageID.ToString()), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -140,7 +140,7 @@ namespace CSSPServices.Tests
                     infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
                     infrastructureLanguage.InfrastructureID = 0;
                     infrastructureLanguageService.Add(infrastructureLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Infrastructure, ModelsRes.InfrastructureLanguageInfrastructureID, infrastructureLanguage.InfrastructureID.ToString()), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Infrastructure, CSSPModelsRes.InfrastructureLanguageInfrastructureID, infrastructureLanguage.InfrastructureID.ToString()), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -153,7 +153,7 @@ namespace CSSPServices.Tests
                     infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
                     infrastructureLanguage.Language = (LanguageEnum)1000000;
                     infrastructureLanguageService.Add(infrastructureLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageLanguage), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureLanguageLanguage), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -165,7 +165,7 @@ namespace CSSPServices.Tests
                     infrastructureLanguage = GetFilledRandomInfrastructureLanguage("Comment");
                     Assert.AreEqual(false, infrastructureLanguageService.Add(infrastructureLanguage));
                     Assert.AreEqual(1, infrastructureLanguage.ValidationResults.Count());
-                    Assert.IsTrue(infrastructureLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageComment)).Any());
+                    Assert.IsTrue(infrastructureLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureLanguageComment)).Any());
                     Assert.AreEqual(null, infrastructureLanguage.Comment);
                     Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
 
@@ -180,7 +180,7 @@ namespace CSSPServices.Tests
                     infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
                     infrastructureLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
                     infrastructureLanguageService.Add(infrastructureLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureLanguageTranslationStatus), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureLanguageTranslationStatus), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -200,13 +200,13 @@ namespace CSSPServices.Tests
                     infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
                     infrastructureLanguage.LastUpdateContactTVItemID = 0;
                     infrastructureLanguageService.Add(infrastructureLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureLanguageLastUpdateContactTVItemID, infrastructureLanguage.LastUpdateContactTVItemID.ToString()), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureLanguageLastUpdateContactTVItemID, infrastructureLanguage.LastUpdateContactTVItemID.ToString()), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     infrastructureLanguage = null;
                     infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
                     infrastructureLanguage.LastUpdateContactTVItemID = 1;
                     infrastructureLanguageService.Add(infrastructureLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureLanguageLastUpdateContactTVItemID, "Contact"), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.InfrastructureLanguageLastUpdateContactTVItemID, "Contact"), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -221,7 +221,7 @@ namespace CSSPServices.Tests
                     infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
                     infrastructureLanguage.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, infrastructureLanguageService.Add(infrastructureLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureLanguageLastUpdateContactTVText, "200"), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureLanguageLastUpdateContactTVText, "200"), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -235,7 +235,7 @@ namespace CSSPServices.Tests
                     infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
                     infrastructureLanguage.LanguageText = GetRandomString("", 101);
                     Assert.AreEqual(false, infrastructureLanguageService.Add(infrastructureLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureLanguageLanguageText, "100"), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureLanguageLanguageText, "100"), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -249,7 +249,7 @@ namespace CSSPServices.Tests
                     infrastructureLanguage = GetFilledRandomInfrastructureLanguage("");
                     infrastructureLanguage.TranslationStatusText = GetRandomString("", 101);
                     Assert.AreEqual(false, infrastructureLanguageService.Add(infrastructureLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureLanguageTranslationStatusText, "100"), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureLanguageTranslationStatusText, "100"), infrastructureLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureLanguageService.GetRead().Count());
 
                     // -----------------------------------

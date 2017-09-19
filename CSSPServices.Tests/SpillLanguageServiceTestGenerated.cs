@@ -121,13 +121,13 @@ namespace CSSPServices.Tests
                     spillLanguage = GetFilledRandomSpillLanguage("");
                     spillLanguage.SpillLanguageID = 0;
                     spillLanguageService.Update(spillLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageSpillLanguageID), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SpillLanguageSpillLanguageID), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     spillLanguage = null;
                     spillLanguage = GetFilledRandomSpillLanguage("");
                     spillLanguage.SpillLanguageID = 10000000;
                     spillLanguageService.Update(spillLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SpillLanguage, ModelsRes.SpillLanguageSpillLanguageID, spillLanguage.SpillLanguageID.ToString()), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.SpillLanguage, CSSPModelsRes.SpillLanguageSpillLanguageID, spillLanguage.SpillLanguageID.ToString()), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -140,7 +140,7 @@ namespace CSSPServices.Tests
                     spillLanguage = GetFilledRandomSpillLanguage("");
                     spillLanguage.SpillID = 0;
                     spillLanguageService.Add(spillLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Spill, ModelsRes.SpillLanguageSpillID, spillLanguage.SpillID.ToString()), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Spill, CSSPModelsRes.SpillLanguageSpillID, spillLanguage.SpillID.ToString()), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -153,7 +153,7 @@ namespace CSSPServices.Tests
                     spillLanguage = GetFilledRandomSpillLanguage("");
                     spillLanguage.Language = (LanguageEnum)1000000;
                     spillLanguageService.Add(spillLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageLanguage), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SpillLanguageLanguage), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -165,7 +165,7 @@ namespace CSSPServices.Tests
                     spillLanguage = GetFilledRandomSpillLanguage("SpillComment");
                     Assert.AreEqual(false, spillLanguageService.Add(spillLanguage));
                     Assert.AreEqual(1, spillLanguage.ValidationResults.Count());
-                    Assert.IsTrue(spillLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageSpillComment)).Any());
+                    Assert.IsTrue(spillLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SpillLanguageSpillComment)).Any());
                     Assert.AreEqual(null, spillLanguage.SpillComment);
                     Assert.AreEqual(count, spillLanguageService.GetRead().Count());
 
@@ -180,7 +180,7 @@ namespace CSSPServices.Tests
                     spillLanguage = GetFilledRandomSpillLanguage("");
                     spillLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
                     spillLanguageService.Add(spillLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLanguageTranslationStatus), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SpillLanguageTranslationStatus), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -200,13 +200,13 @@ namespace CSSPServices.Tests
                     spillLanguage = GetFilledRandomSpillLanguage("");
                     spillLanguage.LastUpdateContactTVItemID = 0;
                     spillLanguageService.Add(spillLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillLanguageLastUpdateContactTVItemID, spillLanguage.LastUpdateContactTVItemID.ToString()), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillLanguageLastUpdateContactTVItemID, spillLanguage.LastUpdateContactTVItemID.ToString()), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     spillLanguage = null;
                     spillLanguage = GetFilledRandomSpillLanguage("");
                     spillLanguage.LastUpdateContactTVItemID = 1;
                     spillLanguageService.Add(spillLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillLanguageLastUpdateContactTVItemID, "Contact"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SpillLanguageLastUpdateContactTVItemID, "Contact"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -221,7 +221,7 @@ namespace CSSPServices.Tests
                     spillLanguage = GetFilledRandomSpillLanguage("");
                     spillLanguage.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, spillLanguageService.Add(spillLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLanguageLastUpdateContactTVText, "200"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillLanguageLastUpdateContactTVText, "200"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, spillLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -235,7 +235,7 @@ namespace CSSPServices.Tests
                     spillLanguage = GetFilledRandomSpillLanguage("");
                     spillLanguage.LanguageText = GetRandomString("", 101);
                     Assert.AreEqual(false, spillLanguageService.Add(spillLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLanguageLanguageText, "100"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillLanguageLanguageText, "100"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, spillLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -249,7 +249,7 @@ namespace CSSPServices.Tests
                     spillLanguage = GetFilledRandomSpillLanguage("");
                     spillLanguage.TranslationStatusText = GetRandomString("", 101);
                     Assert.AreEqual(false, spillLanguageService.Add(spillLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLanguageTranslationStatusText, "100"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillLanguageTranslationStatusText, "100"), spillLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, spillLanguageService.GetRead().Count());
 
                     // -----------------------------------

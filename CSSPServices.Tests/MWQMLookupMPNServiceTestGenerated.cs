@@ -119,13 +119,13 @@ namespace CSSPServices.Tests
                     mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
                     mwqmLookupMPN.MWQMLookupMPNID = 0;
                     mwqmLookupMPNService.Update(mwqmLookupMPN);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMLookupMPNMWQMLookupMPNID), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMLookupMPNMWQMLookupMPNID), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmLookupMPN = null;
                     mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
                     mwqmLookupMPN.MWQMLookupMPNID = 10000000;
                     mwqmLookupMPNService.Update(mwqmLookupMPN);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMLookupMPN, ModelsRes.MWQMLookupMPNMWQMLookupMPNID, mwqmLookupMPN.MWQMLookupMPNID.ToString()), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MWQMLookupMPN, CSSPModelsRes.MWQMLookupMPNMWQMLookupMPNID, mwqmLookupMPN.MWQMLookupMPNID.ToString()), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -138,13 +138,13 @@ namespace CSSPServices.Tests
                     mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
                     mwqmLookupMPN.Tubes10 = -1;
                     Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes10, "0", "5"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMLookupMPNTubes10, "0", "5"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
                     mwqmLookupMPN = null;
                     mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
                     mwqmLookupMPN.Tubes10 = 6;
                     Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes10, "0", "5"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMLookupMPNTubes10, "0", "5"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
                     // -----------------------------------
@@ -157,13 +157,13 @@ namespace CSSPServices.Tests
                     mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
                     mwqmLookupMPN.Tubes1 = -1;
                     Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes1, "0", "5"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMLookupMPNTubes1, "0", "5"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
                     mwqmLookupMPN = null;
                     mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
                     mwqmLookupMPN.Tubes1 = 6;
                     Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes1, "0", "5"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMLookupMPNTubes1, "0", "5"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
                     // -----------------------------------
@@ -176,13 +176,13 @@ namespace CSSPServices.Tests
                     mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
                     mwqmLookupMPN.Tubes01 = -1;
                     Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes01, "0", "5"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMLookupMPNTubes01, "0", "5"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
                     mwqmLookupMPN = null;
                     mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
                     mwqmLookupMPN.Tubes01 = 6;
                     Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNTubes01, "0", "5"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMLookupMPNTubes01, "0", "5"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
                     // -----------------------------------
@@ -195,13 +195,13 @@ namespace CSSPServices.Tests
                     mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
                     mwqmLookupMPN.MPN_100ml = 0;
                     Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNMPN_100ml, "1", "10000"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMLookupMPNMPN_100ml, "1", "10000"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
                     mwqmLookupMPN = null;
                     mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
                     mwqmLookupMPN.MPN_100ml = 10001;
                     Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMLookupMPNMPN_100ml, "1", "10000"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMLookupMPNMPN_100ml, "1", "10000"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
                     // -----------------------------------
@@ -221,13 +221,13 @@ namespace CSSPServices.Tests
                     mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
                     mwqmLookupMPN.LastUpdateContactTVItemID = 0;
                     mwqmLookupMPNService.Add(mwqmLookupMPN);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMLookupMPNLastUpdateContactTVItemID, mwqmLookupMPN.LastUpdateContactTVItemID.ToString()), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMLookupMPNLastUpdateContactTVItemID, mwqmLookupMPN.LastUpdateContactTVItemID.ToString()), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmLookupMPN = null;
                     mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
                     mwqmLookupMPN.LastUpdateContactTVItemID = 1;
                     mwqmLookupMPNService.Add(mwqmLookupMPN);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMLookupMPNLastUpdateContactTVItemID, "Contact"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMLookupMPNLastUpdateContactTVItemID, "Contact"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -242,7 +242,7 @@ namespace CSSPServices.Tests
                     mwqmLookupMPN = GetFilledRandomMWQMLookupMPN("");
                     mwqmLookupMPN.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmLookupMPNService.Add(mwqmLookupMPN));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMLookupMPNLastUpdateContactTVText, "200"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMLookupMPNLastUpdateContactTVText, "200"), mwqmLookupMPN.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmLookupMPNService.GetRead().Count());
 
                     // -----------------------------------

@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour FileItem</para>
+    /// </summary>
     public partial class FileItemService : BaseService
     {
         #region Variables
@@ -42,13 +45,13 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(fileItem.Name))
             {
                 fileItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FileItemName), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.FileItemName), new[] { "Name" });
             }
 
             if (!string.IsNullOrWhiteSpace(fileItem.Name) && (fileItem.Name.Length < 0 || fileItem.Name.Length > 255))
             {
                 fileItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.FileItemName, "0", "255"), new[] { "Name" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.FileItemName, "0", "255"), new[] { "Name" });
             }
 
             //TVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -56,7 +59,7 @@ namespace CSSPServices
             if (fileItem.TVItemID < 1)
             {
                 fileItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.FileItemTVItemID, "1"), new[] { "TVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.FileItemTVItemID, "1"), new[] { "TVItemID" });
             }
 
             //HasErrors (bool) is required but no testing needed 

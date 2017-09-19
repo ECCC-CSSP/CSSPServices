@@ -120,13 +120,13 @@ namespace CSSPServices.Tests
                     log = GetFilledRandomLog("");
                     log.LogID = 0;
                     logService.Update(log);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LogLogID), log.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LogLogID), log.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     log = null;
                     log = GetFilledRandomLog("");
                     log.LogID = 10000000;
                     logService.Update(log);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Log, ModelsRes.LogLogID, log.LogID.ToString()), log.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Log, CSSPModelsRes.LogLogID, log.LogID.ToString()), log.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -139,7 +139,7 @@ namespace CSSPServices.Tests
                     log = GetFilledRandomLog("TableName");
                     Assert.AreEqual(false, logService.Add(log));
                     Assert.AreEqual(1, log.ValidationResults.Count());
-                    Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LogTableName)).Any());
+                    Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LogTableName)).Any());
                     Assert.AreEqual(null, log.TableName);
                     Assert.AreEqual(count, logService.GetRead().Count());
 
@@ -147,7 +147,7 @@ namespace CSSPServices.Tests
                     log = GetFilledRandomLog("");
                     log.TableName = GetRandomString("", 51);
                     Assert.AreEqual(false, logService.Add(log));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogTableName, "50"), log.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LogTableName, "50"), log.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, logService.GetRead().Count());
 
                     // -----------------------------------
@@ -160,7 +160,7 @@ namespace CSSPServices.Tests
                     log = GetFilledRandomLog("");
                     log.ID = 0;
                     Assert.AreEqual(false, logService.Add(log));
-                    Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.LogID, "1"), log.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.LogID, "1"), log.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, logService.GetRead().Count());
 
                     // -----------------------------------
@@ -173,7 +173,7 @@ namespace CSSPServices.Tests
                     log = GetFilledRandomLog("");
                     log.LogCommand = (LogCommandEnum)1000000;
                     logService.Add(log);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.LogLogCommand), log.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LogLogCommand), log.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -185,7 +185,7 @@ namespace CSSPServices.Tests
                     log = GetFilledRandomLog("Information");
                     Assert.AreEqual(false, logService.Add(log));
                     Assert.AreEqual(1, log.ValidationResults.Count());
-                    Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.LogInformation)).Any());
+                    Assert.IsTrue(log.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LogInformation)).Any());
                     Assert.AreEqual(null, log.Information);
                     Assert.AreEqual(count, logService.GetRead().Count());
 
@@ -207,13 +207,13 @@ namespace CSSPServices.Tests
                     log = GetFilledRandomLog("");
                     log.LastUpdateContactTVItemID = 0;
                     logService.Add(log);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.LogLastUpdateContactTVItemID, log.LastUpdateContactTVItemID.ToString()), log.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.LogLastUpdateContactTVItemID, log.LastUpdateContactTVItemID.ToString()), log.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     log = null;
                     log = GetFilledRandomLog("");
                     log.LastUpdateContactTVItemID = 1;
                     logService.Add(log);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.LogLastUpdateContactTVItemID, "Contact"), log.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.LogLastUpdateContactTVItemID, "Contact"), log.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -228,7 +228,7 @@ namespace CSSPServices.Tests
                     log = GetFilledRandomLog("");
                     log.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, logService.Add(log));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogLastUpdateContactTVText, "200"), log.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LogLastUpdateContactTVText, "200"), log.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, logService.GetRead().Count());
 
                     // -----------------------------------
@@ -242,7 +242,7 @@ namespace CSSPServices.Tests
                     log = GetFilledRandomLog("");
                     log.LogCommandText = GetRandomString("", 101);
                     Assert.AreEqual(false, logService.Add(log));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LogLogCommandText, "100"), log.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LogLogCommandText, "100"), log.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, logService.GetRead().Count());
 
                     // -----------------------------------

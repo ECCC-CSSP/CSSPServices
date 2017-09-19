@@ -122,13 +122,13 @@ namespace CSSPServices.Tests
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.VPResultID = 0;
                     vpResultService.Update(vpResult);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPResultVPResultID), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPResultVPResultID), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     vpResult = null;
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.VPResultID = 10000000;
                     vpResultService.Update(vpResult);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPResult, ModelsRes.VPResultVPResultID, vpResult.VPResultID.ToString()), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPResult, CSSPModelsRes.VPResultVPResultID, vpResult.VPResultID.ToString()), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -141,7 +141,7 @@ namespace CSSPServices.Tests
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.VPScenarioID = 0;
                     vpResultService.Add(vpResult);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPResultVPScenarioID, vpResult.VPScenarioID.ToString()), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPScenario, CSSPModelsRes.VPResultVPScenarioID, vpResult.VPScenarioID.ToString()), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -154,13 +154,13 @@ namespace CSSPServices.Tests
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.Ordinal = -1;
                     Assert.AreEqual(false, vpResultService.Add(vpResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultOrdinal, "0", "1000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultOrdinal, "0", "1000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpResultService.GetRead().Count());
                     vpResult = null;
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.Ordinal = 1001;
                     Assert.AreEqual(false, vpResultService.Add(vpResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultOrdinal, "0", "1000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultOrdinal, "0", "1000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -173,13 +173,13 @@ namespace CSSPServices.Tests
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.Concentration_MPN_100ml = -1;
                     Assert.AreEqual(false, vpResultService.Add(vpResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultConcentration_MPN_100ml, "0", "10000000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultConcentration_MPN_100ml, "0", "10000000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpResultService.GetRead().Count());
                     vpResult = null;
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.Concentration_MPN_100ml = 10000001;
                     Assert.AreEqual(false, vpResultService.Add(vpResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultConcentration_MPN_100ml, "0", "10000000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultConcentration_MPN_100ml, "0", "10000000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -194,13 +194,13 @@ namespace CSSPServices.Tests
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.Dilution = -1.0D;
                     Assert.AreEqual(false, vpResultService.Add(vpResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultDilution, "0", "1000000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultDilution, "0", "1000000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpResultService.GetRead().Count());
                     vpResult = null;
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.Dilution = 1000001.0D;
                     Assert.AreEqual(false, vpResultService.Add(vpResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultDilution, "0", "1000000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultDilution, "0", "1000000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -215,13 +215,13 @@ namespace CSSPServices.Tests
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.FarFieldWidth_m = -1.0D;
                     Assert.AreEqual(false, vpResultService.Add(vpResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultFarFieldWidth_m, "0", "10000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultFarFieldWidth_m, "0", "10000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpResultService.GetRead().Count());
                     vpResult = null;
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.FarFieldWidth_m = 10001.0D;
                     Assert.AreEqual(false, vpResultService.Add(vpResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultFarFieldWidth_m, "0", "10000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultFarFieldWidth_m, "0", "10000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -236,13 +236,13 @@ namespace CSSPServices.Tests
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.DispersionDistance_m = -1.0D;
                     Assert.AreEqual(false, vpResultService.Add(vpResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultDispersionDistance_m, "0", "100000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultDispersionDistance_m, "0", "100000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpResultService.GetRead().Count());
                     vpResult = null;
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.DispersionDistance_m = 100001.0D;
                     Assert.AreEqual(false, vpResultService.Add(vpResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultDispersionDistance_m, "0", "100000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultDispersionDistance_m, "0", "100000"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -257,13 +257,13 @@ namespace CSSPServices.Tests
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.TravelTime_hour = -1.0D;
                     Assert.AreEqual(false, vpResultService.Add(vpResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultTravelTime_hour, "0", "100"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultTravelTime_hour, "0", "100"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpResultService.GetRead().Count());
                     vpResult = null;
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.TravelTime_hour = 101.0D;
                     Assert.AreEqual(false, vpResultService.Add(vpResult));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPResultTravelTime_hour, "0", "100"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPResultTravelTime_hour, "0", "100"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpResultService.GetRead().Count());
 
                     // -----------------------------------
@@ -283,13 +283,13 @@ namespace CSSPServices.Tests
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.LastUpdateContactTVItemID = 0;
                     vpResultService.Add(vpResult);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPResultLastUpdateContactTVItemID, vpResult.LastUpdateContactTVItemID.ToString()), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPResultLastUpdateContactTVItemID, vpResult.LastUpdateContactTVItemID.ToString()), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     vpResult = null;
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.LastUpdateContactTVItemID = 1;
                     vpResultService.Add(vpResult);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPResultLastUpdateContactTVItemID, "Contact"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPResultLastUpdateContactTVItemID, "Contact"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -304,7 +304,7 @@ namespace CSSPServices.Tests
                     vpResult = GetFilledRandomVPResult("");
                     vpResult.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, vpResultService.Add(vpResult));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPResultLastUpdateContactTVText, "200"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPResultLastUpdateContactTVText, "200"), vpResult.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpResultService.GetRead().Count());
 
                     // -----------------------------------

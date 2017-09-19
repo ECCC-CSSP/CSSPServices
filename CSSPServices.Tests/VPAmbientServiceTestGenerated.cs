@@ -127,13 +127,13 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.VPAmbientID = 0;
                     vpAmbientService.Update(vpAmbient);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.VPAmbientVPAmbientID), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPAmbientVPAmbientID), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.VPAmbientID = 10000000;
                     vpAmbientService.Update(vpAmbient);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPAmbient, ModelsRes.VPAmbientVPAmbientID, vpAmbient.VPAmbientID.ToString()), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPAmbient, CSSPModelsRes.VPAmbientVPAmbientID, vpAmbient.VPAmbientID.ToString()), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -146,7 +146,7 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.VPScenarioID = 0;
                     vpAmbientService.Add(vpAmbient);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPAmbientVPScenarioID, vpAmbient.VPScenarioID.ToString()), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPScenario, CSSPModelsRes.VPAmbientVPScenarioID, vpAmbient.VPScenarioID.ToString()), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -159,13 +159,13 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.Row = -1;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientRow, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientRow, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.Row = 11;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientRow, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientRow, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
@@ -180,13 +180,13 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.MeasurementDepth_m = -1.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientMeasurementDepth_m, "0", "1000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientMeasurementDepth_m, "0", "1000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.MeasurementDepth_m = 1001.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientMeasurementDepth_m, "0", "1000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientMeasurementDepth_m, "0", "1000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
@@ -201,13 +201,13 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.CurrentSpeed_m_s = -1.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.CurrentSpeed_m_s = 11.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
@@ -222,13 +222,13 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.CurrentDirection_deg = -181.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.CurrentDirection_deg = 181.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
@@ -243,13 +243,13 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.AmbientSalinity_PSU = -1.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.AmbientSalinity_PSU = 41.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
@@ -264,13 +264,13 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.AmbientTemperature_C = -11.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientTemperature_C, "-10", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientAmbientTemperature_C, "-10", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.AmbientTemperature_C = 41.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientTemperature_C, "-10", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientAmbientTemperature_C, "-10", "40"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
@@ -283,13 +283,13 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.BackgroundConcentration_MPN_100ml = -1;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientBackgroundConcentration_MPN_100ml, "0", "10000000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientBackgroundConcentration_MPN_100ml, "0", "10000000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.BackgroundConcentration_MPN_100ml = 10000001;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientBackgroundConcentration_MPN_100ml, "0", "10000000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientBackgroundConcentration_MPN_100ml, "0", "10000000"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
@@ -304,13 +304,13 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.PollutantDecayRate_per_day = -1.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "100"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "100"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.PollutantDecayRate_per_day = 101.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "100"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "100"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
@@ -325,13 +325,13 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.FarFieldCurrentSpeed_m_s = -1.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.FarFieldCurrentSpeed_m_s = 11.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
@@ -346,13 +346,13 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.FarFieldCurrentDirection_deg = -181.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientFarFieldCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.FarFieldCurrentDirection_deg = 181.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientFarFieldCurrentDirection_deg, "-180", "180"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
@@ -367,13 +367,13 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.FarFieldDiffusionCoefficient = -1.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.FarFieldDiffusionCoefficient = 2.0D;
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------
@@ -393,13 +393,13 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.LastUpdateContactTVItemID = 0;
                     vpAmbientService.Add(vpAmbient);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPAmbientLastUpdateContactTVItemID, vpAmbient.LastUpdateContactTVItemID.ToString()), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPAmbientLastUpdateContactTVItemID, vpAmbient.LastUpdateContactTVItemID.ToString()), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     vpAmbient = null;
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.LastUpdateContactTVItemID = 1;
                     vpAmbientService.Add(vpAmbient);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPAmbientLastUpdateContactTVItemID, "Contact"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPAmbientLastUpdateContactTVItemID, "Contact"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -414,7 +414,7 @@ namespace CSSPServices.Tests
                     vpAmbient = GetFilledRandomVPAmbient("");
                     vpAmbient.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, vpAmbientService.Add(vpAmbient));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPAmbientLastUpdateContactTVText, "200"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPAmbientLastUpdateContactTVText, "200"), vpAmbient.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, vpAmbientService.GetRead().Count());
 
                     // -----------------------------------

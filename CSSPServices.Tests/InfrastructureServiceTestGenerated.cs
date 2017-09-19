@@ -174,13 +174,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.InfrastructureID = 0;
                     infrastructureService.Update(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureInfrastructureID), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureInfrastructureID), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.InfrastructureID = 10000000;
                     infrastructureService.Update(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Infrastructure, ModelsRes.InfrastructureInfrastructureID, infrastructure.InfrastructureID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Infrastructure, CSSPModelsRes.InfrastructureInfrastructureID, infrastructure.InfrastructureID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -193,13 +193,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.InfrastructureTVItemID = 0;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureInfrastructureTVItemID, infrastructure.InfrastructureTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureInfrastructureTVItemID, infrastructure.InfrastructureTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.InfrastructureTVItemID = 1;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureInfrastructureTVItemID, "Infrastructure"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.InfrastructureInfrastructureTVItemID, "Infrastructure"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -212,13 +212,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PrismID = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePrismID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePrismID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PrismID = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePrismID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePrismID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -231,13 +231,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TPID = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureTPID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureTPID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TPID = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureTPID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureTPID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -250,13 +250,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.LSID = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureLSID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureLSID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.LSID = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureLSID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureLSID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -269,13 +269,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.SiteID = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureSiteID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureSiteID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.SiteID = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureSiteID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureSiteID, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -288,13 +288,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.Site = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureSite, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureSite, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.Site = 100001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureSite, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureSite, "0", "100000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -309,7 +309,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.InfrastructureCategory = GetRandomString("", 2);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.InfrastructureInfrastructureCategory, "1", "1"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.InfrastructureInfrastructureCategory, "1", "1"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -322,7 +322,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.InfrastructureType = (InfrastructureTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureInfrastructureType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureInfrastructureType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -335,7 +335,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.FacilityType = (FacilityTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureFacilityType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureFacilityType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -354,13 +354,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfCells = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNumberOfCells, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNumberOfCells, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfCells = 11;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNumberOfCells, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNumberOfCells, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -373,13 +373,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfAeratedCells = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNumberOfAeratedCells, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNumberOfAeratedCells, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfAeratedCells = 11;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNumberOfAeratedCells, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNumberOfAeratedCells, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -392,7 +392,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AerationType = (AerationTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureAerationType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureAerationType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -405,7 +405,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PreliminaryTreatmentType = (PreliminaryTreatmentTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructurePreliminaryTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructurePreliminaryTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -418,7 +418,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PrimaryTreatmentType = (PrimaryTreatmentTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructurePrimaryTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructurePrimaryTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -431,7 +431,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.SecondaryTreatmentType = (SecondaryTreatmentTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureSecondaryTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureSecondaryTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -444,7 +444,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TertiaryTreatmentType = (TertiaryTreatmentTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureTertiaryTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureTertiaryTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -457,7 +457,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TreatmentType = (TreatmentTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureTreatmentType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -470,7 +470,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DisinfectionType = (DisinfectionTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureDisinfectionType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureDisinfectionType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -483,7 +483,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.CollectionSystemType = (CollectionSystemTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureCollectionSystemType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureCollectionSystemType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -496,7 +496,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AlarmSystemType = (AlarmSystemTypeEnum)1000000;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.InfrastructureAlarmSystemType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InfrastructureAlarmSystemType), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -511,13 +511,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DesignFlow_m3_day = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDesignFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureDesignFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DesignFlow_m3_day = 1000001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDesignFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureDesignFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -532,13 +532,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AverageFlow_m3_day = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureAverageFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AverageFlow_m3_day = 1000001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureAverageFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -553,13 +553,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PeakFlow_m3_day = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePeakFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePeakFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PeakFlow_m3_day = 1000001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePeakFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePeakFlow_m3_day, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -572,13 +572,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PopServed = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePopServed, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePopServed, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PopServed = 1000001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePopServed, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePopServed, "0", "1000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -599,13 +599,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PercFlowOfTotal = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePercFlowOfTotal, "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePercFlowOfTotal, "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PercFlowOfTotal = 101.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePercFlowOfTotal, "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePercFlowOfTotal, "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -620,13 +620,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TimeOffset_hour = -11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureTimeOffset_hour, "-10", "0"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureTimeOffset_hour, "-10", "0"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TimeOffset_hour = 1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureTimeOffset_hour, "-10", "0"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureTimeOffset_hour, "-10", "0"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -647,13 +647,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AverageDepth_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageDepth_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureAverageDepth_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AverageDepth_m = 1001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureAverageDepth_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureAverageDepth_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -666,13 +666,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfPorts = 0;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNumberOfPorts, "1", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNumberOfPorts, "1", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NumberOfPorts = 1001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNumberOfPorts, "1", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNumberOfPorts, "1", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -687,13 +687,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortDiameter_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortDiameter_m, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePortDiameter_m, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortDiameter_m = 11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortDiameter_m, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePortDiameter_m, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -708,13 +708,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortSpacing_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortSpacing_m, "0", "10000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePortSpacing_m, "0", "10000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortSpacing_m = 10001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortSpacing_m, "0", "10000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePortSpacing_m, "0", "10000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -729,13 +729,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortElevation_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortElevation_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePortElevation_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PortElevation_m = 1001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructurePortElevation_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructurePortElevation_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -750,13 +750,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.VerticalAngle_deg = -91.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureVerticalAngle_deg, "-90", "90"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureVerticalAngle_deg, "-90", "90"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.VerticalAngle_deg = 91.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureVerticalAngle_deg, "-90", "90"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureVerticalAngle_deg, "-90", "90"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -771,13 +771,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.HorizontalAngle_deg = -181.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureHorizontalAngle_deg, "-180", "180"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureHorizontalAngle_deg, "-180", "180"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.HorizontalAngle_deg = 181.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureHorizontalAngle_deg, "-180", "180"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureHorizontalAngle_deg, "-180", "180"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -792,13 +792,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DecayRate_per_day = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDecayRate_per_day, "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureDecayRate_per_day, "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DecayRate_per_day = 101.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDecayRate_per_day, "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureDecayRate_per_day, "0", "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -813,13 +813,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NearFieldVelocity_m_s = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNearFieldVelocity_m_s, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNearFieldVelocity_m_s, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.NearFieldVelocity_m_s = 11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureNearFieldVelocity_m_s, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureNearFieldVelocity_m_s, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -834,13 +834,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.FarFieldVelocity_m_s = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureFarFieldVelocity_m_s, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureFarFieldVelocity_m_s, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.FarFieldVelocity_m_s = 11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureFarFieldVelocity_m_s, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureFarFieldVelocity_m_s, "0", "10"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -855,13 +855,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWaterSalinity_PSU = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWaterSalinity_PSU, "0", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureReceivingWaterSalinity_PSU, "0", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWaterSalinity_PSU = 41.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWaterSalinity_PSU, "0", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureReceivingWaterSalinity_PSU, "0", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -876,13 +876,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWaterTemperature_C = -11.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWaterTemperature_C, "-10", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureReceivingWaterTemperature_C, "-10", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWaterTemperature_C = 41.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWaterTemperature_C, "-10", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureReceivingWaterTemperature_C, "-10", "40"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -895,13 +895,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWater_MPN_per_100ml = -1;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWater_MPN_per_100ml, "0", "10000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureReceivingWater_MPN_per_100ml, "0", "10000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.ReceivingWater_MPN_per_100ml = 10000001;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureReceivingWater_MPN_per_100ml, "0", "10000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureReceivingWater_MPN_per_100ml, "0", "10000000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -916,13 +916,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DistanceFromShore_m = -1.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDistanceFromShore_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureDistanceFromShore_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DistanceFromShore_m = 1001.0D;
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.InfrastructureDistanceFromShore_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.InfrastructureDistanceFromShore_m, "0", "1000"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -935,13 +935,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.SeeOtherTVItemID = 0;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureSeeOtherTVItemID, infrastructure.SeeOtherTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureSeeOtherTVItemID, infrastructure.SeeOtherTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.SeeOtherTVItemID = 1;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureSeeOtherTVItemID, "Infrastructure"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.InfrastructureSeeOtherTVItemID, "Infrastructure"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -954,13 +954,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.CivicAddressTVItemID = 0;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureCivicAddressTVItemID, infrastructure.CivicAddressTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureCivicAddressTVItemID, infrastructure.CivicAddressTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.CivicAddressTVItemID = 1;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureCivicAddressTVItemID, "Address"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.InfrastructureCivicAddressTVItemID, "Address"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -980,13 +980,13 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.LastUpdateContactTVItemID = 0;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.InfrastructureLastUpdateContactTVItemID, infrastructure.LastUpdateContactTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.InfrastructureLastUpdateContactTVItemID, infrastructure.LastUpdateContactTVItemID.ToString()), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     infrastructure = null;
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.LastUpdateContactTVItemID = 1;
                     infrastructureService.Add(infrastructure);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.InfrastructureLastUpdateContactTVItemID, "Contact"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.InfrastructureLastUpdateContactTVItemID, "Contact"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -1001,7 +1001,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.InfrastructureTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureInfrastructureTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureInfrastructureTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -1016,7 +1016,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.SeeOtherTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureSeeOtherTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureSeeOtherTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -1031,7 +1031,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.CivicAddressTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureCivicAddressTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureCivicAddressTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -1046,7 +1046,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureLastUpdateContactTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureLastUpdateContactTVText, "200"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -1060,7 +1060,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.InfrastructureTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureInfrastructureTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureInfrastructureTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -1074,7 +1074,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.FacilityTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureFacilityTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureFacilityTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -1088,7 +1088,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AerationTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureAerationTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureAerationTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -1102,7 +1102,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PreliminaryTreatmentTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructurePreliminaryTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructurePreliminaryTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -1116,7 +1116,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.PrimaryTreatmentTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructurePrimaryTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructurePrimaryTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -1130,7 +1130,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.SecondaryTreatmentTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureSecondaryTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureSecondaryTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -1144,7 +1144,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TertiaryTreatmentTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureTertiaryTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureTertiaryTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -1158,7 +1158,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.TreatmentTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureTreatmentTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -1172,7 +1172,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.DisinfectionTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureDisinfectionTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureDisinfectionTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -1186,7 +1186,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.CollectionSystemTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureCollectionSystemTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureCollectionSystemTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------
@@ -1200,7 +1200,7 @@ namespace CSSPServices.Tests
                     infrastructure = GetFilledRandomInfrastructure("");
                     infrastructure.AlarmSystemTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, infrastructureService.Add(infrastructure));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.InfrastructureAlarmSystemTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.InfrastructureAlarmSystemTypeText, "100"), infrastructure.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, infrastructureService.GetRead().Count());
 
                     // -----------------------------------

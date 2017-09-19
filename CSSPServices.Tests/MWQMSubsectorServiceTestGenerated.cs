@@ -119,13 +119,13 @@ namespace CSSPServices.Tests
                     mwqmSubsector = GetFilledRandomMWQMSubsector("");
                     mwqmSubsector.MWQMSubsectorID = 0;
                     mwqmSubsectorService.Update(mwqmSubsector);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorMWQMSubsectorID), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSubsectorMWQMSubsectorID), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSubsector = null;
                     mwqmSubsector = GetFilledRandomMWQMSubsector("");
                     mwqmSubsector.MWQMSubsectorID = 10000000;
                     mwqmSubsectorService.Update(mwqmSubsector);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSubsector, ModelsRes.MWQMSubsectorMWQMSubsectorID, mwqmSubsector.MWQMSubsectorID.ToString()), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MWQMSubsector, CSSPModelsRes.MWQMSubsectorMWQMSubsectorID, mwqmSubsector.MWQMSubsectorID.ToString()), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -138,13 +138,13 @@ namespace CSSPServices.Tests
                     mwqmSubsector = GetFilledRandomMWQMSubsector("");
                     mwqmSubsector.MWQMSubsectorTVItemID = 0;
                     mwqmSubsectorService.Add(mwqmSubsector);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSubsectorMWQMSubsectorTVItemID, mwqmSubsector.MWQMSubsectorTVItemID.ToString()), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSubsectorMWQMSubsectorTVItemID, mwqmSubsector.MWQMSubsectorTVItemID.ToString()), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSubsector = null;
                     mwqmSubsector = GetFilledRandomMWQMSubsector("");
                     mwqmSubsector.MWQMSubsectorTVItemID = 1;
                     mwqmSubsectorService.Add(mwqmSubsector);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSubsectorMWQMSubsectorTVItemID, "Subsector"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSubsectorMWQMSubsectorTVItemID, "Subsector"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -157,7 +157,7 @@ namespace CSSPServices.Tests
                     mwqmSubsector = GetFilledRandomMWQMSubsector("SubsectorHistoricKey");
                     Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
                     Assert.AreEqual(1, mwqmSubsector.ValidationResults.Count());
-                    Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSubsectorSubsectorHistoricKey)).Any());
+                    Assert.IsTrue(mwqmSubsector.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSubsectorSubsectorHistoricKey)).Any());
                     Assert.AreEqual(null, mwqmSubsector.SubsectorHistoricKey);
                     Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
@@ -165,7 +165,7 @@ namespace CSSPServices.Tests
                     mwqmSubsector = GetFilledRandomMWQMSubsector("");
                     mwqmSubsector.SubsectorHistoricKey = GetRandomString("", 21);
                     Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorSubsectorHistoricKey, "20"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSubsectorSubsectorHistoricKey, "20"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
                     // -----------------------------------
@@ -178,7 +178,7 @@ namespace CSSPServices.Tests
                     mwqmSubsector = GetFilledRandomMWQMSubsector("");
                     mwqmSubsector.TideLocationSIDText = GetRandomString("", 21);
                     Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorTideLocationSIDText, "20"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSubsectorTideLocationSIDText, "20"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
                     // -----------------------------------
@@ -198,13 +198,13 @@ namespace CSSPServices.Tests
                     mwqmSubsector = GetFilledRandomMWQMSubsector("");
                     mwqmSubsector.LastUpdateContactTVItemID = 0;
                     mwqmSubsectorService.Add(mwqmSubsector);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSubsectorLastUpdateContactTVItemID, mwqmSubsector.LastUpdateContactTVItemID.ToString()), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSubsectorLastUpdateContactTVItemID, mwqmSubsector.LastUpdateContactTVItemID.ToString()), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSubsector = null;
                     mwqmSubsector = GetFilledRandomMWQMSubsector("");
                     mwqmSubsector.LastUpdateContactTVItemID = 1;
                     mwqmSubsectorService.Add(mwqmSubsector);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSubsectorLastUpdateContactTVItemID, "Contact"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSubsectorLastUpdateContactTVItemID, "Contact"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -219,7 +219,7 @@ namespace CSSPServices.Tests
                     mwqmSubsector = GetFilledRandomMWQMSubsector("");
                     mwqmSubsector.SubsectorTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorSubsectorTVText, "200"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSubsectorSubsectorTVText, "200"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
                     // -----------------------------------
@@ -234,7 +234,7 @@ namespace CSSPServices.Tests
                     mwqmSubsector = GetFilledRandomMWQMSubsector("");
                     mwqmSubsector.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmSubsectorService.Add(mwqmSubsector));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSubsectorLastUpdateContactTVText, "200"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSubsectorLastUpdateContactTVText, "200"), mwqmSubsector.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSubsectorService.GetRead().Count());
 
                     // -----------------------------------

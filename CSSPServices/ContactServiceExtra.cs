@@ -44,29 +44,29 @@ namespace CSSPServices
         //    //if (contactLoggedIn == null)
         //    //{
         //    //    yield return new ValidationResult(
-        //    //          ServicesRes.NeedToBeLoggedIn,
-        //    //          new[] { ModelsRes.ContactContactID });
+        //    //          CSSPServicesRes.NeedToBeLoggedIn,
+        //    //          new[] { CSSPModelsRes.ContactContactID });
         //    //}
 
         //    if (contact.ContactTVItemID == 0)
         //    {
         //        yield return new ValidationResult(
-        //             string.Format(ServicesRes._IsRequired, ModelsRes.ContactContactTVItemID),
-        //             new[] { ModelsRes.ContactContactTVItemID });
+        //             string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactContactTVItemID),
+        //             new[] { CSSPModelsRes.ContactContactTVItemID });
         //    }
 
         //    if (contact.WebName.Length < 3 || contact.WebName.Length > 50)
         //    {
         //        yield return new ValidationResult(
-        //             string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactWebName, 3, 50),
-        //             new[] { ModelsRes.ContactWebName });
+        //             string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactWebName, 3, 50),
+        //             new[] { CSSPModelsRes.ContactWebName });
         //    }
 
         //    if (contact.FirstName.Length < 1 || contact.FirstName.Length > 100)
         //    {
         //        yield return new ValidationResult(
-        //             string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactFirstName, 1, 100),
-        //             new[] { ModelsRes.ContactFirstName });
+        //             string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactFirstName, 1, 100),
+        //             new[] { CSSPModelsRes.ContactFirstName });
         //    }
 
         //    if (!string.IsNullOrWhiteSpace(contact.Initial))
@@ -74,16 +74,16 @@ namespace CSSPServices
         //        if (contact.Initial.Length < 1 || contact.Initial.Length > 50)
         //        {
         //            yield return new ValidationResult(
-        //                 string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactInitial, 1, 50),
-        //                 new[] { ModelsRes.ContactInitial });
+        //                 string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactInitial, 1, 50),
+        //                 new[] { CSSPModelsRes.ContactInitial });
         //        }
         //    }
 
         //    if (contact.LastName.Length < 1 || contact.LastName.Length > 100)
         //    {
         //        yield return new ValidationResult(
-        //             string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLastName, 1, 100),
-        //             new[] { ModelsRes.ContactLastName });
+        //             string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactLastName, 1, 100),
+        //             new[] { CSSPModelsRes.ContactLastName });
         //    }
 
         //    Enums enums = new Enums(LanguageRequest);
@@ -93,29 +93,29 @@ namespace CSSPServices
         //    {
         //        yield return new ValidationResult(
         //             retStr,
-        //             new[] { ModelsRes.ContactContactTitle });
+        //             new[] { CSSPModelsRes.ContactContactTitle });
         //    }
 
         //    if (string.IsNullOrWhiteSpace(contact.LoginEmail))
         //    {
         //        yield return new ValidationResult(
-        //                string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail),
-        //                new[] { ModelsRes.ContactLoginEmail });
+        //                string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginEmail),
+        //                new[] { CSSPModelsRes.ContactLoginEmail });
         //    }
 
         //    if (contact.LoginEmail.Length > 255)
         //    {
         //        yield return new ValidationResult(
-        //               string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginEmail, 255),
-        //               new[] { ModelsRes.ContactLoginEmail });
+        //               string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactLoginEmail, 255),
+        //               new[] { CSSPModelsRes.ContactLoginEmail });
         //    }
 
         //    Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
         //    if (!regex.IsMatch(contact.LoginEmail))
         //    {
         //        yield return new ValidationResult(
-        //                   string.Format(ServicesRes._EmailNotWellFormed, contact.LoginEmail),
-        //                   new[] { ModelsRes.ContactLoginEmail });
+        //                   string.Format(CSSPServicesRes._EmailNotWellFormed, contact.LoginEmail),
+        //                   new[] { CSSPModelsRes.ContactLoginEmail });
         //    }
 
         //    //Contact contactExist = null;
@@ -145,8 +145,8 @@ namespace CSSPServices
         //    //            if (!contact.IsNew && contactLoggedIn == null)
         //    //            {
         //    //                yield return new ValidationResult(
-        //    //                    ServicesRes.NotAllowedToChangeContactInformation,
-        //    //                    new[] { ModelsRes.ContactLoginEmail });
+        //    //                    CSSPServicesRes.NotAllowedToChangeContactInformation,
+        //    //                    new[] { CSSPModelsRes.ContactLoginEmail });
         //    //            }
 
         //    //            if (contact.ContactID > 0)
@@ -172,8 +172,8 @@ namespace CSSPServices
         //    //    if (contactExist != null)
         //    //    {
         //    //        yield return new ValidationResult(
-        //    //                        string.Format(ServicesRes._HasToBeUnique, ModelsRes.ContactWebName),
-        //    //                        new[] { ModelsRes.ContactLoginEmail });
+        //    //                        string.Format(CSSPServicesRes._HasToBeUnique, CSSPModelsRes.ContactWebName),
+        //    //                        new[] { CSSPModelsRes.ContactLoginEmail });
         //    //    }
 
         //    //    // checking that the combination of FirstName, LastName and Initial is unique
@@ -206,8 +206,8 @@ namespace CSSPServices
         //    //            if (!contact.IsNew && contactLoggedIn == null)
         //    //            {
         //    //                yield return new ValidationResult(
-        //    //                           ServicesRes.NotAllowedToChangeContactInformation,
-        //    //                           new[] { ModelsRes.ContactLoginEmail });
+        //    //                           CSSPServicesRes.NotAllowedToChangeContactInformation,
+        //    //                           new[] { CSSPModelsRes.ContactLoginEmail });
         //    //            }
 
         //    //            if (contact.ContactID > 0)
@@ -237,8 +237,8 @@ namespace CSSPServices
         //    //    if (contactExist != null)
         //    //    {
         //    //        yield return new ValidationResult(
-        //    //                     string.Format(ServicesRes._HasToBeUnique, ServicesRes.FullName),
-        //    //                     new[] { ModelsRes.ContactLoginEmail });
+        //    //                     string.Format(CSSPServicesRes._HasToBeUnique, CSSPServicesRes.FullName),
+        //    //                     new[] { CSSPModelsRes.ContactLoginEmail });
         //    //    }
 
         //    //    // checking that Email is unique which is also the UserName of the Users
@@ -259,8 +259,8 @@ namespace CSSPServices
         //    //            if (!contact.IsNew && contactLoggedIn == null)
         //    //            {
         //    //                yield return new ValidationResult(
-        //    //                    ServicesRes.NotAllowedToChangeContactInformation,
-        //    //                    new[] { ModelsRes.ContactLoginEmail });
+        //    //                    CSSPServicesRes.NotAllowedToChangeContactInformation,
+        //    //                    new[] { CSSPModelsRes.ContactLoginEmail });
         //    //            }
 
         //    //            if (contact.ContactID > 0)
@@ -285,8 +285,8 @@ namespace CSSPServices
         //    //    if (contactExist != null)
         //    //    {
         //    //        yield return new ValidationResult(
-        //    //             string.Format(ServicesRes._HasToBeUnique, ModelsRes.ContactLoginEmail),
-        //    //             new[] { ModelsRes.ContactLoginEmail });
+        //    //             string.Format(CSSPServicesRes._HasToBeUnique, CSSPModelsRes.ContactLoginEmail),
+        //    //             new[] { CSSPModelsRes.ContactLoginEmail });
         //    //    }
         //    //}
         //}
@@ -302,7 +302,7 @@ namespace CSSPServices
             string[] strArr = CodeEmail.Split(",".ToCharArray()[0]);
             if (strArr.Length != 2)
             {
-                return string.Format(ServicesRes._IsNotComposedOf_Parts, ServicesRes.CodeEmail, 2);
+                return string.Format(CSSPServicesRes._IsNotComposedOf_Parts, CSSPServicesRes.CodeEmail, 2);
             }
 
             string Code = strArr[0].Trim();
@@ -310,28 +310,28 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(Code))
             {
-                return string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordCode);
+                return string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordCode);
             }
             if (Code.Length != 8)
             {
-                return ServicesRes.CodeNeedsToBe8Characters;
+                return CSSPServicesRes.CodeNeedsToBe8Characters;
             }
 
             if (string.IsNullOrWhiteSpace(Email))
             {
-                return string.Format(ServicesRes._IsRequired, ModelsRes.ResetPasswordEmail);
+                return string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ResetPasswordEmail);
 
             }
 
             if (Email.Length > 255)
             {
-                return string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ResetPasswordEmail, 255);
+                return string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ResetPasswordEmail, 255);
             }
 
             Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
             if (!regex.IsMatch(Email))
             {
-                return string.Format(ServicesRes._EmailNotWellFormed, Email);
+                return string.Format(CSSPServicesRes._EmailNotWellFormed, Email);
             }
 
             ResetPasswordService resetPasswordService = new ResetPasswordService(LanguageRequest, db, ContactID);
@@ -341,25 +341,25 @@ namespace CSSPServices
             if (resetPassword != null)
                 return "true";
             else
-                return string.Format(ServicesRes.Code_ForEmail_DoesNotExist, Code, Email);
+                return string.Format(CSSPServicesRes.Code_ForEmail_DoesNotExist, Code, Email);
 
         }
         public string CheckEmailExistDB(string Email)
         {
             if (string.IsNullOrWhiteSpace(Email))
             {
-                return string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail);
+                return string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginEmail);
             }
 
             if (Email.Length > 255)
             {
-                return string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginEmail, 255);
+                return string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactLoginEmail, 255);
             }
 
             Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
             if (!regex.IsMatch(Email))
             {
-                return string.Format(ServicesRes._EmailNotWellFormed, Email);
+                return string.Format(CSSPServicesRes._EmailNotWellFormed, Email);
             }
 
             using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.MemoryTestDB))
@@ -371,7 +371,7 @@ namespace CSSPServices
                 if (contact != null)
                     return "true";
                 else
-                    return string.Format(ServicesRes._DoesNotExist, Email);
+                    return string.Format(CSSPServicesRes._DoesNotExist, Email);
             }
         }
         public string CheckEmailUniquenessDB(string Email)
@@ -400,7 +400,7 @@ namespace CSSPServices
                 if (contact == null)
                     return "true";
                 else
-                    return string.Format(ServicesRes._IsAlreadyTaken, Email);
+                    return string.Format(CSSPServicesRes._IsAlreadyTaken, Email);
 
             }
         }
@@ -410,7 +410,7 @@ namespace CSSPServices
 
             if (strArr.Length != 3)
             {
-                return string.Format(ServicesRes._IsNotComposedOf_Parts, ServicesRes.FullName, 3);
+                return string.Format(CSSPServicesRes._IsNotComposedOf_Parts, CSSPServicesRes.FullName, 3);
             }
             string FirstName = strArr[0].Trim();
             string Initial = strArr[1].Trim();
@@ -459,7 +459,7 @@ namespace CSSPServices
                 if (contact == null)
                     return "true";
                 else
-                    return string.Format(ServicesRes._IsAlreadyTaken, strArr[0] + (string.IsNullOrEmpty(strArr[1]) ? " " : " " + strArr[1] + ", ") + strArr[2]);
+                    return string.Format(CSSPServicesRes._IsAlreadyTaken, strArr[0] + (string.IsNullOrEmpty(strArr[1]) ? " " : " " + strArr[1] + ", ") + strArr[2]);
             }
         }
         public string CheckWebNameUniquenessDB(string WebName)
@@ -487,14 +487,14 @@ namespace CSSPServices
                 if (contact == null)
                     return "true";
                 else
-                    return string.Format(ServicesRes._IsAlreadyTaken, WebName);
+                    return string.Format(CSSPServicesRes._IsAlreadyTaken, WebName);
             }
         }
         public bool Login(ContactLogin contactLogin)
         {
             if (string.IsNullOrWhiteSpace(contactLogin.LoginEmail))
             {
-                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail)) }.AsEnumerable();
+                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginEmail)) }.AsEnumerable();
                 return false;
             }
 
@@ -519,39 +519,39 @@ namespace CSSPServices
         {
             if (string.IsNullOrWhiteSpace(register.LoginEmail))
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RegisterLoginEmail)) }.AsEnumerable();
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterLoginEmail)) }.AsEnumerable();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(register.Password))
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RegisterPassword)) }.AsEnumerable();
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterPassword)) }.AsEnumerable();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(register.FirstName))
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RegisterFirstName)) }.AsEnumerable();
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterFirstName)) }.AsEnumerable();
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(register.LastName))
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RegisterLastName)) }.AsEnumerable();
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterLastName)) }.AsEnumerable();
                 return false;
             }
 
             Contact contact = GetRead().Where(c => c.LoginEmail == register.LoginEmail).FirstOrDefault();
             if (contact != null)
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.UserWithLoginEmail_AlreadyExist, register.LoginEmail)) }.AsEnumerable();
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.UserWithLoginEmail_AlreadyExist, register.LoginEmail)) }.AsEnumerable();
                 return false;
             }
 
             contact = GetRead().Where(c => c.FirstName == register.FirstName && c.Initial == register.Initial && c.LastName == register.LastName).FirstOrDefault();
             if (contact != null)
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._AlreadyExists, ServicesRes.FullName)) }.AsEnumerable();
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._AlreadyExists, CSSPServicesRes.FullName)) }.AsEnumerable();
                 return false;
             }
             // need to verify is LoginEmail is unique, full name is unique, web name is unique etc...
@@ -565,7 +565,7 @@ namespace CSSPServices
             TVItem tvItemRoot = tvItemService.GetRead().Where(c => c.TVLevel == 0 && c.TVItemID == 1).FirstOrDefault();
             if (tvItemRoot == null)
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.CouldNotFindRoot) }.AsEnumerable();
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.CouldNotFindRoot) }.AsEnumerable();
                 return false;
             }
 
@@ -587,7 +587,7 @@ namespace CSSPServices
             string TVText = CreateTVText(contact);
             if (string.IsNullOrWhiteSpace(TVText))
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ServicesRes.TVText)) }.AsEnumerable();
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPServicesRes.TVText)) }.AsEnumerable();
                 return false;
             }
 
@@ -631,7 +631,7 @@ namespace CSSPServices
 
             if (string.IsNullOrWhiteSpace(register.Password))
             {
-                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.RegisterPassword)) }.AsEnumerable();
+                register.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RegisterPassword)) }.AsEnumerable();
             }
 
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
@@ -645,15 +645,15 @@ namespace CSSPServices
         {
             if (string.IsNullOrWhiteSpace(contactLogin.Password))
             {
-                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginPassword)) }.AsEnumerable();
+                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginPassword)) }.AsEnumerable();
             }
             if (storedHash.Length != 64)
             {
-                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.InvalidLengthOfPasswordHashShouldBe64Bytes) }.AsEnumerable();
+                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.InvalidLengthOfPasswordHashShouldBe64Bytes) }.AsEnumerable();
             }
             if (storedSalt.Length != 128)
             {
-                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.InvalidLengthOfPasswordSaltShouldBe128Bytes) }.AsEnumerable();
+                contactLogin.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.InvalidLengthOfPasswordSaltShouldBe128Bytes) }.AsEnumerable();
             }
 
             using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
@@ -851,35 +851,35 @@ namespace CSSPServices
         }
         public string GetBodyForSendEmailWithCode(string Email, string Code)
         {
-            return ServicesRes.PlsUseFollowingUniqueCodeEtc
+            return CSSPServicesRes.PlsUseFollowingUniqueCodeEtc
                 + @"<br />"
                 + @"<br />"
-                + ServicesRes.YourEmailIs + " " + Email + @"<br />"
+                + CSSPServicesRes.YourEmailIs + " " + Email + @"<br />"
                 + @"<br />"
-                + ServicesRes.CodeIs + " " + Code + @"<br />"
+                + CSSPServicesRes.CodeIs + " " + Code + @"<br />"
                 + @"<br />"
-                + ServicesRes.AutoEmailFromServer + @"<br />";
+                + CSSPServicesRes.AutoEmailFromServer + @"<br />";
         }
         public string GetBodyOfCreateNewContactAndEmail(string FullNameLoggedIn, string FullNameAdded, string CreatorEmail)
         {
             if (CreatorEmail == "")
             {
-                return string.Format(ServicesRes._RegisteredAndAddedInWebSite, @"<b>" + FullNameAdded + @"</b>  @<br />");
+                return string.Format(CSSPServicesRes._RegisteredAndAddedInWebSite, @"<b>" + FullNameAdded + @"</b>  @<br />");
             }
             else
             {
-                return string.Format(ServicesRes._AddedInWebSiteBy_, @"<b>" + FullNameAdded + "</b>", FullNameLoggedIn + @"<br />");
+                return string.Format(CSSPServicesRes._AddedInWebSiteBy_, @"<b>" + FullNameAdded + "</b>", FullNameLoggedIn + @"<br />");
             }
         }
         public string GetSubjectOfCreateNewContactAndEmail(string FullNameLoggedIn, string FullNameAdded, string CreatorEmail)
         {
             if (CreatorEmail == "")
             {
-                return string.Format(ServicesRes._RegisteredAndAddedInWebSite, FullNameAdded);
+                return string.Format(CSSPServicesRes._RegisteredAndAddedInWebSite, FullNameAdded);
             }
             else
             {
-                return string.Format(ServicesRes.YouBeenAddedInWebSiteBy_, FullNameLoggedIn);
+                return string.Format(CSSPServicesRes.YouBeenAddedInWebSiteBy_, FullNameLoggedIn);
             }
         }
         //public bool SetContactRegister(Contact contact)
@@ -890,32 +890,32 @@ namespace CSSPServices
 
         //    if (string.IsNullOrWhiteSpace(contact.LoginEmail))
         //    {
-        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail)) }.AsEnumerable();
+        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginEmail)) }.AsEnumerable();
         //        return false;
         //    }
 
         //    if (contact.LoginEmail.Length > 255)
         //    {
-        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginEmail, 255)) }.AsEnumerable();
+        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactLoginEmail, 255)) }.AsEnumerable();
         //        return false;
         //    }
 
         //    Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
         //    if (!regex.IsMatch(contact.LoginEmail))
         //    {
-        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._EmailNotWellFormed, contact.LoginEmail)) }.AsEnumerable();
+        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._EmailNotWellFormed, contact.LoginEmail)) }.AsEnumerable();
         //        return false;
         //    }
 
         //    if (string.IsNullOrWhiteSpace(contact.FirstName))
         //    {
-        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactFirstName)) }.AsEnumerable();
+        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactFirstName)) }.AsEnumerable();
         //        return false;
         //    }
 
         //    if (string.IsNullOrWhiteSpace(contact.LastName))
         //    {
-        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLastName)) }.AsEnumerable();
+        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLastName)) }.AsEnumerable();
         //        return false;
         //    }
 
@@ -937,7 +937,7 @@ namespace CSSPServices
         //    Contact ContactLoggedIn = db.Contacts.Where(c => c.LoginEmail == User.Identity.Name).Select(c => c).FirstOrDefault();
         //    if (ContactLoggedIn == null)
         //    {
-        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.NeedToBeLoggedIn) };
+        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.NeedToBeLoggedIn) };
         //        return false;
         //    }
 
@@ -953,7 +953,7 @@ namespace CSSPServices
         //            TVItem tvItemParent = tvItemService.GetRead().Where(c => c.TVItemID == contact.ParentTVItemID).FirstOrDefault();
         //            if (tvItemParent == null)
         //            {
-        //                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemTVItemID, contact.ParentTVItemID.ToString())) };
+        //                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemTVItemID, contact.ParentTVItemID.ToString())) };
         //                return false;
         //            }
 
@@ -965,7 +965,7 @@ namespace CSSPServices
         //            TVItem tvItemContact = tvItemService.GetRead().Where(c => c.TVItemID == contact.ContactTVItemID).FirstOrDefault();
         //            if (tvItemContact == null)
         //            {
-        //                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemTVItemID, contact.ContactTVItemID.ToString())) };
+        //                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemTVItemID, contact.ContactTVItemID.ToString())) };
         //                return false;
         //            }
 
@@ -987,7 +987,7 @@ namespace CSSPServices
         //            {
         //                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageRequest, ContactID, DatabaseTypeEnum.MemoryTestDB);
         //                string TVText = tvItemLanguageService.GetRead().Where(c => c.TVItemID == tvItemContact.TVItemID && c.Language == LanguageRequest).Select(c => c.TVText).FirstOrDefault();
-        //                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._AlreadyExists, TVText)) };
+        //                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._AlreadyExists, TVText)) };
         //                return false;
         //            }
 
@@ -1007,7 +1007,7 @@ namespace CSSPServices
         //            TVItem tvItemParent = tvItemService.GetRead().Where(c => c.TVItemID == contact.ParentTVItemID).FirstOrDefault();
         //            if (tvItemParent == null)
         //            {
-        //                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemTVItemID, contact.ParentTVItemID.ToString())) };
+        //                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemTVItemID, contact.ParentTVItemID.ToString())) };
         //                return false;
         //            }
 
@@ -1021,7 +1021,7 @@ namespace CSSPServices
         //            Contact contactToChange = db.Contacts.Where(c => c.ContactTVItemID == contact.ContactTVItemID).FirstOrDefault();
         //            if (contactToChange == null)
         //            {
-        //                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactContactTVItemID, contact.ContactTVItemID.ToString())) };
+        //                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ContactContactTVItemID, contact.ContactTVItemID.ToString())) };
         //                return false;
         //            }
 
@@ -1106,7 +1106,7 @@ namespace CSSPServices
         //                    TVItemLanguage tvItemLanguageToChange = tvItemLanguageService.GetRead().Where(c => c.TVItemID == contactToChange.ContactTVItemID && c.Language == LanguageRequest).FirstOrDefault();
         //                    if (tvItemLanguageToChange == null)
         //                    {
-        //                        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItemLanguage, ModelsRes.TVItemTVItemID, contactToChange.ContactTVItemID.ToString())) };
+        //                        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItemLanguage, CSSPModelsRes.TVItemTVItemID, contactToChange.ContactTVItemID.ToString())) };
         //                        return false;
         //                    }
         //                    tvItemLanguageToChange.TVText = CreateTVText(contactToChange);
@@ -1129,7 +1129,7 @@ namespace CSSPServices
         //    Contact ContactLoggedIn = tvItemService.GetContactLoggedInDB();
         //    if (ContactLoggedIn == null)
         //    {
-        //        contactNew.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.NeedToBeLoggedIn) };
+        //        contactNew.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.NeedToBeLoggedIn) };
         //        return false;
         //    }
 
@@ -1192,7 +1192,7 @@ namespace CSSPServices
                 LoggedInContact = GetRead().Where(c => c.ContactID == ContactID).FirstOrDefault();
                 if (LoggedInContact == null)
                 {
-                    contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactContactID, ContactID), new[] { ModelsRes.ContactContactID }) };
+                    contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ContactContactID, ContactID), new[] { CSSPModelsRes.ContactContactID }) };
                     return false;
                 }
             }
@@ -1201,7 +1201,7 @@ namespace CSSPServices
             {
                 if (contactService.GetRead().Count() > 0)
                 {
-                    contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.ToAddFirst_Requires_TableToBeEmpty, ModelsRes.Contact, ModelsRes.Contact), new[] { ModelsRes.ContactContactID }) };
+                    contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.ToAddFirst_Requires_TableToBeEmpty, CSSPModelsRes.Contact, CSSPModelsRes.Contact), new[] { CSSPModelsRes.ContactContactID }) };
                     return false;
                 }
             }
@@ -1211,7 +1211,7 @@ namespace CSSPServices
                 tvItemRoot = tvItemService.GetRead().Where(c => c.TVLevel == 0).FirstOrDefault();
                 if (tvItemRoot == null)
                 {
-                    contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.CouldNotFindRoot, new[] { ModelsRes.TVItemTVItemID }) };
+                    contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.CouldNotFindRoot, new[] { CSSPModelsRes.TVItemTVItemID }) };
                     return false;
                 }
 
@@ -1337,14 +1337,14 @@ namespace CSSPServices
         //    Contact ContactLoggedIn = GetRead().Where(c => c.LoginEmail == User.Identity.Name).FirstOrDefault();
         //    if (ContactLoggedIn == null)
         //    {
-        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.NeedToBeLoggedIn) };
+        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.NeedToBeLoggedIn) };
         //        return false;
         //    }
 
         //    TVItem tvItemModelRoot = tvItemService.GetRead().Where(c => c.TVLevel == 0).FirstOrDefault();
         //    if (tvItemModelRoot == null)
         //    {
-        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.CouldNotFindRoot) };
+        //        contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.CouldNotFindRoot) };
         //        return false;
         //    }
 
@@ -1385,7 +1385,7 @@ namespace CSSPServices
         //        string TVText = CreateTVText(contactToAdd);
         //        if (string.IsNullOrWhiteSpace(TVText))
         //        {
-        //            contactToAdd.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, "TVText")) };
+        //            contactToAdd.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVText")) };
         //            return false;
         //        }
 
@@ -1451,7 +1451,7 @@ namespace CSSPServices
         //        TVItem tvItemRoot = tvItemService.GetRead().Where(c => c.TVLevel == 0).FirstOrDefault();
         //        if (tvItemRoot == null)
         //        {
-        //            contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.CouldNotFindRoot) };
+        //            contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.CouldNotFindRoot) };
         //            return false;
         //        }
 
@@ -1465,7 +1465,7 @@ namespace CSSPServices
         //        string TVText = CreateTVText(contact);
         //        if (string.IsNullOrWhiteSpace(TVText))
         //        {
-        //            contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, "TVText")) };
+        //            contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "TVText")) };
         //            return false;
         //        }
 
@@ -1490,7 +1490,7 @@ namespace CSSPServices
         //        Contact contactRet = contactService.GetEdit().Where(c => c.ContactID == contact.ContactID).FirstOrDefault();
         //        if (contactRet == null)
         //        {
-        //            contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactContactID, contact.ContactID.ToString())) };
+        //            contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ContactContactID, contact.ContactID.ToString())) };
         //            return false;
         //        }
 
@@ -1526,26 +1526,26 @@ namespace CSSPServices
         {
             if (contact == null)
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.Contact)) };
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.Contact)) };
                 return false;
             }
 
             if (contact.ContactTVItemID == 0)
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactContactTVItemID)) };
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactContactTVItemID)) };
                 return false;
             }
 
             Contact contactLoggedIn = GetRead().Where(c => c.ContactID == ContactID).Select(c => c).FirstOrDefault();
             if (contactLoggedIn == null)
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.NeedToBeLoggedIn) };
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.NeedToBeLoggedIn) };
                 return false;
             }
 
             if (!contactLoggedIn.IsAdmin)
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(ServicesRes.OnlyAdministratorsCanManageUsers) };
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(CSSPServicesRes.OnlyAdministratorsCanManageUsers) };
                 return false;
             }
 
@@ -1565,19 +1565,19 @@ namespace CSSPServices
         {
             if (contact == null)
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.Contact)) };
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.Contact)) };
                 return false;
             }
 
             if (contact.ContactTVItemID == 0)
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactContactTVItemID)) };
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactContactTVItemID)) };
                 return false;
             }
 
             if (ProvinceTVItemID == 0)
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, "ProvinceTVItemID")) };
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ProvinceTVItemID")) };
                 return false;
             }
 
@@ -1594,19 +1594,19 @@ namespace CSSPServices
         {
             if (contact == null)
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.Contact)) };
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.Contact)) };
                 return false;
             }
 
             if (contact.ContactTVItemID == 0)
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactContactTVItemID)) };
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactContactTVItemID)) };
                 return false;
             }
 
             if (ProvinceTVItemID == 0)
             {
-                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, "ProvinceTVItemID")) };
+                contact.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, "ProvinceTVItemID")) };
                 return false;
             }
 
@@ -1628,27 +1628,27 @@ namespace CSSPServices
             {
                 if (string.IsNullOrWhiteSpace(LoginEmail))
                 {
-                    resetPassword.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginEmail)) };
+                    resetPassword.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginEmail)) };
                     return false;
                 }
 
                 if (LoginEmail.Length > 255)
                 {
-                    resetPassword.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginEmail, 255)) };
+                    resetPassword.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactLoginEmail, 255)) };
                     return false;
                 }
 
                 Regex regex = new Regex(@"^([\w\!\#$\%\&\'*\+\-\/\=\?\^`{\|\}\~]+\.)*[\w\!\#$\%\&\'‌​*\+\-\/\=\?\^`{\|\}\~]+@((((([a-zA-Z0-9]{1}[a-zA-Z0-9\-]{0,62}[a-zA-Z0-9]{1})|[‌​a-zA-Z])\.)+[a-zA-Z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$");
                 if (!regex.IsMatch(LoginEmail))
                 {
-                    resetPassword.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._EmailNotWellFormed, LoginEmail)) };
+                    resetPassword.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._EmailNotWellFormed, LoginEmail)) };
                     return false;
                 }
 
                 Contact contact = GetRead().Where(c => c.LoginEmail == LoginEmail).FirstOrDefault();
                 if (contact == null)
                 {
-                    resetPassword.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactLoginEmail, LoginEmail)) };
+                    resetPassword.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ContactLoginEmail, LoginEmail)) };
                     return false;
                 }
 
@@ -1698,15 +1698,15 @@ namespace CSSPServices
             mail.To.Clear();
             mail.To.Add(resetPasswordNew.Email);
             mail.From = new MailAddress(FromEmail);
-            mail.Subject = ServicesRes.RequiredInformationToChangeYourPassword;
-            mail.Body = ServicesRes.PlsUseFollowingUniqueCodeEtc
+            mail.Subject = CSSPServicesRes.RequiredInformationToChangeYourPassword;
+            mail.Body = CSSPServicesRes.PlsUseFollowingUniqueCodeEtc
                 + @"<br />"
                 + @"<br />"
-                + ServicesRes.YourEmailIs + " " + resetPasswordNew.Email + @"<br />"
+                + CSSPServicesRes.YourEmailIs + " " + resetPasswordNew.Email + @"<br />"
                 + @"<br />"
-                + ServicesRes.CodeIs + " " + resetPasswordNew.Code + @"<br />"
+                + CSSPServicesRes.CodeIs + " " + resetPasswordNew.Code + @"<br />"
                 + @"<br />"
-                + ServicesRes.AutoEmailFromServer + @"<br />";
+                + CSSPServicesRes.AutoEmailFromServer + @"<br />";
             mail.IsBodyHtml = true;
 
             retStr = SendEmail(mail);
@@ -1731,7 +1731,7 @@ namespace CSSPServices
             }
             catch (Exception ex)
             {
-                return string.Format(ServicesRes.EmailWasNotSent_, (ex.InnerException != null ? " InnerException: " + ex.InnerException.Message : ""));
+                return string.Format(CSSPServicesRes.EmailWasNotSent_, (ex.InnerException != null ? " InnerException: " + ex.InnerException.Message : ""));
             }
 
             return "";

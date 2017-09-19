@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour LabSheetA1Measurement</para>
+    /// </summary>
     public partial class LabSheetA1MeasurementService : BaseService
     {
         #region Variables
@@ -42,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(labSheetA1Measurement.Site))
             {
                 labSheetA1Measurement.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementSite), new[] { "Site" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetA1MeasurementSite), new[] { "Site" });
             }
 
             //Site has no StringLength Attribute
@@ -52,7 +55,7 @@ namespace CSSPServices
             if (labSheetA1Measurement.TVItemID < 1)
             {
                 labSheetA1Measurement.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LabSheetA1MeasurementTVItemID, "1"), new[] { "TVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.LabSheetA1MeasurementTVItemID, "1"), new[] { "TVItemID" });
             }
 
             //MPN has no Range Attribute
@@ -72,7 +75,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(labSheetA1Measurement.ProcessedBy))
             {
                 labSheetA1Measurement.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementProcessedBy), new[] { "ProcessedBy" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetA1MeasurementProcessedBy), new[] { "ProcessedBy" });
             }
 
             //ProcessedBy has no StringLength Attribute
@@ -83,14 +86,14 @@ namespace CSSPServices
                 if (labSheetA1Measurement.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     labSheetA1Measurement.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementSampleType), new[] { "SampleType" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetA1MeasurementSampleType), new[] { "SampleType" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(labSheetA1Measurement.SiteComment))
             {
                 labSheetA1Measurement.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LabSheetA1MeasurementSiteComment), new[] { "SiteComment" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LabSheetA1MeasurementSiteComment), new[] { "SiteComment" });
             }
 
             //SiteComment has no StringLength Attribute
@@ -98,7 +101,7 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(labSheetA1Measurement.SampleTypeText) && labSheetA1Measurement.SampleTypeText.Length > 100)
             {
                 labSheetA1Measurement.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.LabSheetA1MeasurementSampleTypeText, "100"), new[] { "SampleTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.LabSheetA1MeasurementSampleTypeText, "100"), new[] { "SampleTypeText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

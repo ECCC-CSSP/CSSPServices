@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour Node</para>
+    /// </summary>
     public partial class NodeService : BaseService
     {
         #region Variables
@@ -44,7 +47,7 @@ namespace CSSPServices
             if (node.ID < 1 || node.ID > 1000000)
             {
                 node.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.NodeID, "1", "1000000"), new[] { "ID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.NodeID, "1", "1000000"), new[] { "ID" });
             }
 
             //X (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

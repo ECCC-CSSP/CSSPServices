@@ -120,13 +120,13 @@ namespace CSSPServices.Tests
                     tvItemStat = GetFilledRandomTVItemStat("");
                     tvItemStat.TVItemStatID = 0;
                     tvItemStatService.Update(tvItemStat);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemStatTVItemStatID), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemStatTVItemStatID), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tvItemStat = null;
                     tvItemStat = GetFilledRandomTVItemStat("");
                     tvItemStat.TVItemStatID = 10000000;
                     tvItemStatService.Update(tvItemStat);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItemStat, ModelsRes.TVItemStatTVItemStatID, tvItemStat.TVItemStatID.ToString()), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItemStat, CSSPModelsRes.TVItemStatTVItemStatID, tvItemStat.TVItemStatID.ToString()), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -139,13 +139,13 @@ namespace CSSPServices.Tests
                     tvItemStat = GetFilledRandomTVItemStat("");
                     tvItemStat.TVItemID = 0;
                     tvItemStatService.Add(tvItemStat);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemStatTVItemID, tvItemStat.TVItemID.ToString()), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemStatTVItemID, tvItemStat.TVItemID.ToString()), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tvItemStat = null;
                     tvItemStat = GetFilledRandomTVItemStat("");
                     tvItemStat.TVItemID = 2;
                     tvItemStatService.Add(tvItemStat);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemStatTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemStatTVItemID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -158,7 +158,7 @@ namespace CSSPServices.Tests
                     tvItemStat = GetFilledRandomTVItemStat("");
                     tvItemStat.TVType = (TVTypeEnum)1000000;
                     tvItemStatService.Add(tvItemStat);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemStatTVType), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemStatTVType), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -171,13 +171,13 @@ namespace CSSPServices.Tests
                     tvItemStat = GetFilledRandomTVItemStat("");
                     tvItemStat.ChildCount = -1;
                     Assert.AreEqual(false, tvItemStatService.Add(tvItemStat));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVItemStatChildCount, "0", "10000000"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVItemStatChildCount, "0", "10000000"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvItemStatService.GetRead().Count());
                     tvItemStat = null;
                     tvItemStat = GetFilledRandomTVItemStat("");
                     tvItemStat.ChildCount = 10000001;
                     Assert.AreEqual(false, tvItemStatService.Add(tvItemStat));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVItemStatChildCount, "0", "10000000"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVItemStatChildCount, "0", "10000000"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvItemStatService.GetRead().Count());
 
                     // -----------------------------------
@@ -197,13 +197,13 @@ namespace CSSPServices.Tests
                     tvItemStat = GetFilledRandomTVItemStat("");
                     tvItemStat.LastUpdateContactTVItemID = 0;
                     tvItemStatService.Add(tvItemStat);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemStatLastUpdateContactTVItemID, tvItemStat.LastUpdateContactTVItemID.ToString()), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemStatLastUpdateContactTVItemID, tvItemStat.LastUpdateContactTVItemID.ToString()), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tvItemStat = null;
                     tvItemStat = GetFilledRandomTVItemStat("");
                     tvItemStat.LastUpdateContactTVItemID = 1;
                     tvItemStatService.Add(tvItemStat);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemStatLastUpdateContactTVItemID, "Contact"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemStatLastUpdateContactTVItemID, "Contact"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -218,7 +218,7 @@ namespace CSSPServices.Tests
                     tvItemStat = GetFilledRandomTVItemStat("");
                     tvItemStat.TVText = GetRandomString("", 201);
                     Assert.AreEqual(false, tvItemStatService.Add(tvItemStat));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemStatTVText, "200"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemStatTVText, "200"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvItemStatService.GetRead().Count());
 
                     // -----------------------------------
@@ -233,7 +233,7 @@ namespace CSSPServices.Tests
                     tvItemStat = GetFilledRandomTVItemStat("");
                     tvItemStat.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, tvItemStatService.Add(tvItemStat));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemStatLastUpdateContactTVText, "200"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemStatLastUpdateContactTVText, "200"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvItemStatService.GetRead().Count());
 
                     // -----------------------------------
@@ -247,7 +247,7 @@ namespace CSSPServices.Tests
                     tvItemStat = GetFilledRandomTVItemStat("");
                     tvItemStat.TVTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, tvItemStatService.Add(tvItemStat));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemStatTVTypeText, "100"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemStatTVTypeText, "100"), tvItemStat.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvItemStatService.GetRead().Count());
 
                     // -----------------------------------

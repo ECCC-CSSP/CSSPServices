@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour ContactOK</para>
+    /// </summary>
     public partial class ContactOKService : BaseService
     {
         #region Variables
@@ -42,13 +45,13 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(contactOK.Error))
             {
                 contactOK.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactOKError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactOKError), new[] { "Error" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactOK.Error) && contactOK.Error.Length > 255)
             {
                 contactOK.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactOKError, "255"), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactOKError, "255"), new[] { "Error" });
             }
 
             //ContactID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -56,7 +59,7 @@ namespace CSSPServices
             if (contactOK.ContactID < 1)
             {
                 contactOK.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactOKContactID, "1"), new[] { "ContactID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ContactOKContactID, "1"), new[] { "ContactID" });
             }
 
             //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -64,7 +67,7 @@ namespace CSSPServices
             if (contactOK.ContactTVItemID < 1)
             {
                 contactOK.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactOKContactTVItemID, "1"), new[] { "ContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ContactOKContactTVItemID, "1"), new[] { "ContactTVItemID" });
             }
 
             //HasErrors (bool) is required but no testing needed 

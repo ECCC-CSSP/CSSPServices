@@ -120,13 +120,13 @@ namespace CSSPServices.Tests
                     email = GetFilledRandomEmail("");
                     email.EmailID = 0;
                     emailService.Update(email);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailID), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailEmailID), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     email = null;
                     email = GetFilledRandomEmail("");
                     email.EmailID = 10000000;
                     emailService.Update(email);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Email, ModelsRes.EmailEmailID, email.EmailID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Email, CSSPModelsRes.EmailEmailID, email.EmailID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -139,13 +139,13 @@ namespace CSSPServices.Tests
                     email = GetFilledRandomEmail("");
                     email.EmailTVItemID = 0;
                     emailService.Add(email);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailEmailTVItemID, email.EmailTVItemID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailEmailTVItemID, email.EmailTVItemID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     email = null;
                     email = GetFilledRandomEmail("");
                     email.EmailTVItemID = 1;
                     emailService.Add(email);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailEmailTVItemID, "Email"), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.EmailEmailTVItemID, "Email"), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -159,7 +159,7 @@ namespace CSSPServices.Tests
                     email = GetFilledRandomEmail("EmailAddress");
                     Assert.AreEqual(false, emailService.Add(email));
                     Assert.AreEqual(1, email.ValidationResults.Count());
-                    Assert.IsTrue(email.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailAddress)).Any());
+                    Assert.IsTrue(email.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailEmailAddress)).Any());
                     Assert.AreEqual(null, email.EmailAddress);
                     Assert.AreEqual(count, emailService.GetRead().Count());
 
@@ -167,7 +167,7 @@ namespace CSSPServices.Tests
                     email = GetFilledRandomEmail("");
                     email.EmailAddress = GetRandomString("", 256);
                     Assert.AreEqual(false, emailService.Add(email));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailAddress, "255"), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailEmailAddress, "255"), email.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, emailService.GetRead().Count());
 
                     // -----------------------------------
@@ -180,7 +180,7 @@ namespace CSSPServices.Tests
                     email = GetFilledRandomEmail("");
                     email.EmailType = (EmailTypeEnum)1000000;
                     emailService.Add(email);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailEmailType), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailEmailType), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -200,13 +200,13 @@ namespace CSSPServices.Tests
                     email = GetFilledRandomEmail("");
                     email.LastUpdateContactTVItemID = 0;
                     emailService.Add(email);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailLastUpdateContactTVItemID, email.LastUpdateContactTVItemID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailLastUpdateContactTVItemID, email.LastUpdateContactTVItemID.ToString()), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     email = null;
                     email = GetFilledRandomEmail("");
                     email.LastUpdateContactTVItemID = 1;
                     emailService.Add(email);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailLastUpdateContactTVItemID, "Contact"), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.EmailLastUpdateContactTVItemID, "Contact"), email.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -221,7 +221,7 @@ namespace CSSPServices.Tests
                     email = GetFilledRandomEmail("");
                     email.EmailTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, emailService.Add(email));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailTVText, "200"), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailEmailTVText, "200"), email.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, emailService.GetRead().Count());
 
                     // -----------------------------------
@@ -236,7 +236,7 @@ namespace CSSPServices.Tests
                     email = GetFilledRandomEmail("");
                     email.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, emailService.Add(email));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailLastUpdateContactTVText, "200"), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailLastUpdateContactTVText, "200"), email.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, emailService.GetRead().Count());
 
                     // -----------------------------------
@@ -250,7 +250,7 @@ namespace CSSPServices.Tests
                     email = GetFilledRandomEmail("");
                     email.EmailTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, emailService.Add(email));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailEmailTypeText, "100"), email.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailEmailTypeText, "100"), email.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, emailService.GetRead().Count());
 
                     // -----------------------------------

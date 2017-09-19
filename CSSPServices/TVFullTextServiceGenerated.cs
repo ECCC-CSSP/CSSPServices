@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour TVFullText</para>
+    /// </summary>
     public partial class TVFullTextService : BaseService
     {
         #region Variables
@@ -42,25 +45,25 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(tvFullText.TVPath))
             {
                 tvFullText.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFullTextTVPath), new[] { "TVPath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFullTextTVPath), new[] { "TVPath" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFullText.TVPath) && (tvFullText.TVPath.Length < 1 || tvFullText.TVPath.Length > 255))
             {
                 tvFullText.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFullTextTVPath, "1", "255"), new[] { "TVPath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.TVFullTextTVPath, "1", "255"), new[] { "TVPath" });
             }
 
             if (string.IsNullOrWhiteSpace(tvFullText.FullText))
             {
                 tvFullText.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVFullTextFullText), new[] { "FullText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFullTextFullText), new[] { "FullText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvFullText.FullText) && (tvFullText.FullText.Length < 1 || tvFullText.FullText.Length > 255))
             {
                 tvFullText.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVFullTextFullText, "1", "255"), new[] { "FullText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.TVFullTextFullText, "1", "255"), new[] { "FullText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

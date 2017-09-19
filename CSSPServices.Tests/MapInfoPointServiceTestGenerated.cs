@@ -119,13 +119,13 @@ namespace CSSPServices.Tests
                     mapInfoPoint = GetFilledRandomMapInfoPoint("");
                     mapInfoPoint.MapInfoPointID = 0;
                     mapInfoPointService.Update(mapInfoPoint);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MapInfoPointMapInfoPointID), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapInfoPointMapInfoPointID), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mapInfoPoint = null;
                     mapInfoPoint = GetFilledRandomMapInfoPoint("");
                     mapInfoPoint.MapInfoPointID = 10000000;
                     mapInfoPointService.Update(mapInfoPoint);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MapInfoPoint, ModelsRes.MapInfoPointMapInfoPointID, mapInfoPoint.MapInfoPointID.ToString()), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MapInfoPoint, CSSPModelsRes.MapInfoPointMapInfoPointID, mapInfoPoint.MapInfoPointID.ToString()), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -138,7 +138,7 @@ namespace CSSPServices.Tests
                     mapInfoPoint = GetFilledRandomMapInfoPoint("");
                     mapInfoPoint.MapInfoID = 0;
                     mapInfoPointService.Add(mapInfoPoint);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MapInfo, ModelsRes.MapInfoPointMapInfoID, mapInfoPoint.MapInfoID.ToString()), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MapInfo, CSSPModelsRes.MapInfoPointMapInfoID, mapInfoPoint.MapInfoID.ToString()), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -151,7 +151,7 @@ namespace CSSPServices.Tests
                     mapInfoPoint = GetFilledRandomMapInfoPoint("");
                     mapInfoPoint.Ordinal = -1;
                     Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
-                    Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.MapInfoPointOrdinal, "0"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.MapInfoPointOrdinal, "0"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
                     // -----------------------------------
@@ -166,13 +166,13 @@ namespace CSSPServices.Tests
                     mapInfoPoint = GetFilledRandomMapInfoPoint("");
                     mapInfoPoint.Lat = -91.0D;
                     Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointLat, "-90", "90"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoPointLat, "-90", "90"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
                     mapInfoPoint = null;
                     mapInfoPoint = GetFilledRandomMapInfoPoint("");
                     mapInfoPoint.Lat = 91.0D;
                     Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointLat, "-90", "90"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoPointLat, "-90", "90"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
                     // -----------------------------------
@@ -187,13 +187,13 @@ namespace CSSPServices.Tests
                     mapInfoPoint = GetFilledRandomMapInfoPoint("");
                     mapInfoPoint.Lng = -181.0D;
                     Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointLng, "-180", "180"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoPointLng, "-180", "180"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
                     mapInfoPoint = null;
                     mapInfoPoint = GetFilledRandomMapInfoPoint("");
                     mapInfoPoint.Lng = 181.0D;
                     Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MapInfoPointLng, "-180", "180"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MapInfoPointLng, "-180", "180"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
                     // -----------------------------------
@@ -213,13 +213,13 @@ namespace CSSPServices.Tests
                     mapInfoPoint = GetFilledRandomMapInfoPoint("");
                     mapInfoPoint.LastUpdateContactTVItemID = 0;
                     mapInfoPointService.Add(mapInfoPoint);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MapInfoPointLastUpdateContactTVItemID, mapInfoPoint.LastUpdateContactTVItemID.ToString()), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MapInfoPointLastUpdateContactTVItemID, mapInfoPoint.LastUpdateContactTVItemID.ToString()), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mapInfoPoint = null;
                     mapInfoPoint = GetFilledRandomMapInfoPoint("");
                     mapInfoPoint.LastUpdateContactTVItemID = 1;
                     mapInfoPointService.Add(mapInfoPoint);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MapInfoPointLastUpdateContactTVItemID, "Contact"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MapInfoPointLastUpdateContactTVItemID, "Contact"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -234,7 +234,7 @@ namespace CSSPServices.Tests
                     mapInfoPoint = GetFilledRandomMapInfoPoint("");
                     mapInfoPoint.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mapInfoPointService.Add(mapInfoPoint));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapInfoPointLastUpdateContactTVText, "200"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MapInfoPointLastUpdateContactTVText, "200"), mapInfoPoint.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mapInfoPointService.GetRead().Count());
 
                     // -----------------------------------

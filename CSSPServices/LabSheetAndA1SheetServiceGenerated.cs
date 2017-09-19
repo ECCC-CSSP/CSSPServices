@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour LabSheetAndA1Sheet</para>
+    /// </summary>
     public partial class LabSheetAndA1SheetService : BaseService
     {
         #region Variables

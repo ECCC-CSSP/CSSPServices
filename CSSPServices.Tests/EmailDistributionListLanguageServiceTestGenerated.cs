@@ -121,13 +121,13 @@ namespace CSSPServices.Tests
                     emailDistributionListLanguage = GetFilledRandomEmailDistributionListLanguage("");
                     emailDistributionListLanguage.EmailDistributionListLanguageID = 0;
                     emailDistributionListLanguageService.Update(emailDistributionListLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListLanguageEmailDistributionListLanguageID), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListLanguageEmailDistributionListLanguageID), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     emailDistributionListLanguage = null;
                     emailDistributionListLanguage = GetFilledRandomEmailDistributionListLanguage("");
                     emailDistributionListLanguage.EmailDistributionListLanguageID = 10000000;
                     emailDistributionListLanguageService.Update(emailDistributionListLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.EmailDistributionListLanguage, ModelsRes.EmailDistributionListLanguageEmailDistributionListLanguageID, emailDistributionListLanguage.EmailDistributionListLanguageID.ToString()), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.EmailDistributionListLanguage, CSSPModelsRes.EmailDistributionListLanguageEmailDistributionListLanguageID, emailDistributionListLanguage.EmailDistributionListLanguageID.ToString()), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -140,7 +140,7 @@ namespace CSSPServices.Tests
                     emailDistributionListLanguage = GetFilledRandomEmailDistributionListLanguage("");
                     emailDistributionListLanguage.EmailDistributionListID = 0;
                     emailDistributionListLanguageService.Add(emailDistributionListLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.EmailDistributionList, ModelsRes.EmailDistributionListLanguageEmailDistributionListID, emailDistributionListLanguage.EmailDistributionListID.ToString()), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.EmailDistributionList, CSSPModelsRes.EmailDistributionListLanguageEmailDistributionListID, emailDistributionListLanguage.EmailDistributionListID.ToString()), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -153,7 +153,7 @@ namespace CSSPServices.Tests
                     emailDistributionListLanguage = GetFilledRandomEmailDistributionListLanguage("");
                     emailDistributionListLanguage.Language = (LanguageEnum)1000000;
                     emailDistributionListLanguageService.Add(emailDistributionListLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListLanguageLanguage), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListLanguageLanguage), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -166,7 +166,7 @@ namespace CSSPServices.Tests
                     emailDistributionListLanguage = GetFilledRandomEmailDistributionListLanguage("RegionName");
                     Assert.AreEqual(false, emailDistributionListLanguageService.Add(emailDistributionListLanguage));
                     Assert.AreEqual(1, emailDistributionListLanguage.ValidationResults.Count());
-                    Assert.IsTrue(emailDistributionListLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListLanguageRegionName)).Any());
+                    Assert.IsTrue(emailDistributionListLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListLanguageRegionName)).Any());
                     Assert.AreEqual(null, emailDistributionListLanguage.RegionName);
                     Assert.AreEqual(count, emailDistributionListLanguageService.GetRead().Count());
 
@@ -176,7 +176,7 @@ namespace CSSPServices.Tests
                     emailDistributionListLanguage = GetFilledRandomEmailDistributionListLanguage("");
                     emailDistributionListLanguage.RegionName = GetRandomString("", 101);
                     Assert.AreEqual(false, emailDistributionListLanguageService.Add(emailDistributionListLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.EmailDistributionListLanguageRegionName, "1", "100"), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.EmailDistributionListLanguageRegionName, "1", "100"), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, emailDistributionListLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -189,7 +189,7 @@ namespace CSSPServices.Tests
                     emailDistributionListLanguage = GetFilledRandomEmailDistributionListLanguage("");
                     emailDistributionListLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
                     emailDistributionListLanguageService.Add(emailDistributionListLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.EmailDistributionListLanguageTranslationStatus), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.EmailDistributionListLanguageTranslationStatus), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -209,13 +209,13 @@ namespace CSSPServices.Tests
                     emailDistributionListLanguage = GetFilledRandomEmailDistributionListLanguage("");
                     emailDistributionListLanguage.LastUpdateContactTVItemID = 0;
                     emailDistributionListLanguageService.Add(emailDistributionListLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.EmailDistributionListLanguageLastUpdateContactTVItemID, emailDistributionListLanguage.LastUpdateContactTVItemID.ToString()), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.EmailDistributionListLanguageLastUpdateContactTVItemID, emailDistributionListLanguage.LastUpdateContactTVItemID.ToString()), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     emailDistributionListLanguage = null;
                     emailDistributionListLanguage = GetFilledRandomEmailDistributionListLanguage("");
                     emailDistributionListLanguage.LastUpdateContactTVItemID = 1;
                     emailDistributionListLanguageService.Add(emailDistributionListLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.EmailDistributionListLanguageLastUpdateContactTVItemID, "Contact"), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.EmailDistributionListLanguageLastUpdateContactTVItemID, "Contact"), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -230,7 +230,7 @@ namespace CSSPServices.Tests
                     emailDistributionListLanguage = GetFilledRandomEmailDistributionListLanguage("");
                     emailDistributionListLanguage.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, emailDistributionListLanguageService.Add(emailDistributionListLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListLanguageLastUpdateContactTVText, "200"), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListLanguageLastUpdateContactTVText, "200"), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, emailDistributionListLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -244,7 +244,7 @@ namespace CSSPServices.Tests
                     emailDistributionListLanguage = GetFilledRandomEmailDistributionListLanguage("");
                     emailDistributionListLanguage.LanguageText = GetRandomString("", 101);
                     Assert.AreEqual(false, emailDistributionListLanguageService.Add(emailDistributionListLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListLanguageLanguageText, "100"), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListLanguageLanguageText, "100"), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, emailDistributionListLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -258,7 +258,7 @@ namespace CSSPServices.Tests
                     emailDistributionListLanguage = GetFilledRandomEmailDistributionListLanguage("");
                     emailDistributionListLanguage.TranslationStatusText = GetRandomString("", 101);
                     Assert.AreEqual(false, emailDistributionListLanguageService.Add(emailDistributionListLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.EmailDistributionListLanguageTranslationStatusText, "100"), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.EmailDistributionListLanguageTranslationStatusText, "100"), emailDistributionListLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, emailDistributionListLanguageService.GetRead().Count());
 
                     // -----------------------------------

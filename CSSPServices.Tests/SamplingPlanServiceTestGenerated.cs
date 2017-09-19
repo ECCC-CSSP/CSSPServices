@@ -135,13 +135,13 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.SamplingPlanID = 0;
                     samplingPlanService.Update(samplingPlan);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanID), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSamplingPlanID), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.SamplingPlanID = 10000000;
                     samplingPlanService.Update(samplingPlan);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlan, ModelsRes.SamplingPlanSamplingPlanID, samplingPlan.SamplingPlanID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.SamplingPlan, CSSPModelsRes.SamplingPlanSamplingPlanID, samplingPlan.SamplingPlanID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -154,7 +154,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("SamplingPlanName");
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
-                    Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanName)).Any());
+                    Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSamplingPlanName)).Any());
                     Assert.AreEqual(null, samplingPlan.SamplingPlanName);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
@@ -162,7 +162,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.SamplingPlanName = GetRandomString("", 201);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanName, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSamplingPlanName, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -----------------------------------
@@ -175,7 +175,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("ForGroupName");
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
-                    Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanForGroupName)).Any());
+                    Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanForGroupName)).Any());
                     Assert.AreEqual(null, samplingPlan.ForGroupName);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
@@ -183,7 +183,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.ForGroupName = GetRandomString("", 101);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanForGroupName, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanForGroupName, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -----------------------------------
@@ -196,7 +196,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.SampleType = (SampleTypeEnum)1000000;
                     samplingPlanService.Add(samplingPlan);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSampleType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSampleType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -209,7 +209,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.SamplingPlanType = (SamplingPlanTypeEnum)1000000;
                     samplingPlanService.Add(samplingPlan);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSamplingPlanType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -222,7 +222,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.LabSheetType = (LabSheetTypeEnum)1000000;
                     samplingPlanService.Add(samplingPlan);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanLabSheetType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanLabSheetType), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -235,13 +235,13 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.ProvinceTVItemID = 0;
                     samplingPlanService.Add(samplingPlan);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanProvinceTVItemID, samplingPlan.ProvinceTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanProvinceTVItemID, samplingPlan.ProvinceTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.ProvinceTVItemID = 1;
                     samplingPlanService.Add(samplingPlan);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanProvinceTVItemID, "Province"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanProvinceTVItemID, "Province"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -254,13 +254,13 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.CreatorTVItemID = 0;
                     samplingPlanService.Add(samplingPlan);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanCreatorTVItemID, samplingPlan.CreatorTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanCreatorTVItemID, samplingPlan.CreatorTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.CreatorTVItemID = 1;
                     samplingPlanService.Add(samplingPlan);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanCreatorTVItemID, "Contact"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanCreatorTVItemID, "Contact"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -273,13 +273,13 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.Year = 1999;
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SamplingPlanYear, "2000", "2050"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.Year = 2051;
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SamplingPlanYear, "2000", "2050"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -----------------------------------
@@ -292,7 +292,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("AccessCode");
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
-                    Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanAccessCode)).Any());
+                    Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanAccessCode)).Any());
                     Assert.AreEqual(null, samplingPlan.AccessCode);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
@@ -300,7 +300,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.AccessCode = GetRandomString("", 16);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanAccessCode, "15"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanAccessCode, "15"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -----------------------------------
@@ -315,13 +315,13 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.DailyDuplicatePrecisionCriteria = -1.0D;
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.DailyDuplicatePrecisionCriteria = 101.0D;
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -----------------------------------
@@ -336,13 +336,13 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.IntertechDuplicatePrecisionCriteria = -1.0D;
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.IntertechDuplicatePrecisionCriteria = 101.0D;
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -----------------------------------
@@ -361,7 +361,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("ApprovalCode");
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
                     Assert.AreEqual(1, samplingPlan.ValidationResults.Count());
-                    Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanApprovalCode)).Any());
+                    Assert.IsTrue(samplingPlan.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanApprovalCode)).Any());
                     Assert.AreEqual(null, samplingPlan.ApprovalCode);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
@@ -369,7 +369,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.ApprovalCode = GetRandomString("", 16);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanApprovalCode, "15"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanApprovalCode, "15"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -----------------------------------
@@ -382,13 +382,13 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.SamplingPlanFileTVItemID = 0;
                     samplingPlanService.Add(samplingPlan);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, samplingPlan.SamplingPlanFileTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanSamplingPlanFileTVItemID, samplingPlan.SamplingPlanFileTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.SamplingPlanFileTVItemID = 1;
                     samplingPlanService.Add(samplingPlan);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, "File"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanSamplingPlanFileTVItemID, "File"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -408,13 +408,13 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.LastUpdateContactTVItemID = 0;
                     samplingPlanService.Add(samplingPlan);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanLastUpdateContactTVItemID, samplingPlan.LastUpdateContactTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanLastUpdateContactTVItemID, samplingPlan.LastUpdateContactTVItemID.ToString()), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     samplingPlan = null;
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.LastUpdateContactTVItemID = 1;
                     samplingPlanService.Add(samplingPlan);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanLastUpdateContactTVItemID, "Contact"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanLastUpdateContactTVItemID, "Contact"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -429,7 +429,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.ProvinceTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanProvinceTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanProvinceTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -----------------------------------
@@ -444,7 +444,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.CreatorTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanCreatorTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanCreatorTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -----------------------------------
@@ -459,7 +459,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.SamplingPlanFileTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanFileTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSamplingPlanFileTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -----------------------------------
@@ -474,7 +474,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanLastUpdateContactTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanLastUpdateContactTVText, "200"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -----------------------------------
@@ -488,7 +488,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.SampleTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSampleTypeText, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSampleTypeText, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -----------------------------------
@@ -502,7 +502,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.SamplingPlanTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanTypeText, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSamplingPlanTypeText, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -----------------------------------
@@ -516,7 +516,7 @@ namespace CSSPServices.Tests
                     samplingPlan = GetFilledRandomSamplingPlan("");
                     samplingPlan.LabSheetTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, samplingPlanService.Add(samplingPlan));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanLabSheetTypeText, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanLabSheetTypeText, "100"), samplingPlan.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, samplingPlanService.GetRead().Count());
 
                     // -----------------------------------

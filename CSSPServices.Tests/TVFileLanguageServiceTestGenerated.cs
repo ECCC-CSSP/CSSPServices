@@ -121,13 +121,13 @@ namespace CSSPServices.Tests
                     tvFileLanguage = GetFilledRandomTVFileLanguage("");
                     tvFileLanguage.TVFileLanguageID = 0;
                     tvFileLanguageService.Update(tvFileLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageTVFileLanguageID), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileLanguageTVFileLanguageID), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tvFileLanguage = null;
                     tvFileLanguage = GetFilledRandomTVFileLanguage("");
                     tvFileLanguage.TVFileLanguageID = 10000000;
                     tvFileLanguageService.Update(tvFileLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVFileLanguage, ModelsRes.TVFileLanguageTVFileLanguageID, tvFileLanguage.TVFileLanguageID.ToString()), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVFileLanguage, CSSPModelsRes.TVFileLanguageTVFileLanguageID, tvFileLanguage.TVFileLanguageID.ToString()), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -140,7 +140,7 @@ namespace CSSPServices.Tests
                     tvFileLanguage = GetFilledRandomTVFileLanguage("");
                     tvFileLanguage.TVFileID = 0;
                     tvFileLanguageService.Add(tvFileLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVFile, ModelsRes.TVFileLanguageTVFileID, tvFileLanguage.TVFileID.ToString()), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVFile, CSSPModelsRes.TVFileLanguageTVFileID, tvFileLanguage.TVFileID.ToString()), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -153,7 +153,7 @@ namespace CSSPServices.Tests
                     tvFileLanguage = GetFilledRandomTVFileLanguage("");
                     tvFileLanguage.Language = (LanguageEnum)1000000;
                     tvFileLanguageService.Add(tvFileLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageLanguage), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileLanguageLanguage), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -172,7 +172,7 @@ namespace CSSPServices.Tests
                     tvFileLanguage = GetFilledRandomTVFileLanguage("");
                     tvFileLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
                     tvFileLanguageService.Add(tvFileLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TVFileLanguageTranslationStatus), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVFileLanguageTranslationStatus), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -192,13 +192,13 @@ namespace CSSPServices.Tests
                     tvFileLanguage = GetFilledRandomTVFileLanguage("");
                     tvFileLanguage.LastUpdateContactTVItemID = 0;
                     tvFileLanguageService.Add(tvFileLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVFileLanguageLastUpdateContactTVItemID, tvFileLanguage.LastUpdateContactTVItemID.ToString()), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVFileLanguageLastUpdateContactTVItemID, tvFileLanguage.LastUpdateContactTVItemID.ToString()), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tvFileLanguage = null;
                     tvFileLanguage = GetFilledRandomTVFileLanguage("");
                     tvFileLanguage.LastUpdateContactTVItemID = 1;
                     tvFileLanguageService.Add(tvFileLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVFileLanguageLastUpdateContactTVItemID, "Contact"), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVFileLanguageLastUpdateContactTVItemID, "Contact"), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -213,7 +213,7 @@ namespace CSSPServices.Tests
                     tvFileLanguage = GetFilledRandomTVFileLanguage("");
                     tvFileLanguage.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, tvFileLanguageService.Add(tvFileLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileLanguageLastUpdateContactTVText, "200"), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileLanguageLastUpdateContactTVText, "200"), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -227,7 +227,7 @@ namespace CSSPServices.Tests
                     tvFileLanguage = GetFilledRandomTVFileLanguage("");
                     tvFileLanguage.LanguageText = GetRandomString("", 101);
                     Assert.AreEqual(false, tvFileLanguageService.Add(tvFileLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileLanguageLanguageText, "100"), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileLanguageLanguageText, "100"), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -241,7 +241,7 @@ namespace CSSPServices.Tests
                     tvFileLanguage = GetFilledRandomTVFileLanguage("");
                     tvFileLanguage.TranslationStatusText = GetRandomString("", 101);
                     Assert.AreEqual(false, tvFileLanguageService.Add(tvFileLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVFileLanguageTranslationStatusText, "100"), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVFileLanguageTranslationStatusText, "100"), tvFileLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tvFileLanguageService.GetRead().Count());
 
                     // -----------------------------------

@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour TVItemInfrastructureTypeTVItemLink</para>
+    /// </summary>
     public partial class TVItemInfrastructureTypeTVItemLinkService : BaseService
     {
         #region Variables
@@ -43,7 +46,7 @@ namespace CSSPServices
             if (tvItemInfrastructureTypeTVItemLink.InfrastructureType == InfrastructureTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItemInfrastructureTypeTVItemLink.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemInfrastructureTypeTVItemLinkInfrastructureType), new[] { "InfrastructureType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemInfrastructureTypeTVItemLinkInfrastructureType), new[] { "InfrastructureType" });
             }
 
             //SeeOtherTVItemID has no Range Attribute
@@ -51,7 +54,7 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(tvItemInfrastructureTypeTVItemLink.InfrastructureTypeText) && tvItemInfrastructureTypeTVItemLink.InfrastructureTypeText.Length > 100)
             {
                 tvItemInfrastructureTypeTVItemLink.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemInfrastructureTypeTVItemLinkInfrastructureTypeText, "100"), new[] { "InfrastructureTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemInfrastructureTypeTVItemLinkInfrastructureTypeText, "100"), new[] { "InfrastructureTypeText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

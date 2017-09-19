@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour Spill</para>
+    /// </summary>
     public partial class SpillService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (spill.SpillID == 0)
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillSpillID), new[] { "SpillID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SpillSpillID), new[] { "SpillID" });
                 }
 
                 if (!GetRead().Where(c => c.SpillID == spill.SpillID).Any())
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Spill, ModelsRes.SpillSpillID, spill.SpillID.ToString()), new[] { "SpillID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Spill, CSSPModelsRes.SpillSpillID, spill.SpillID.ToString()), new[] { "SpillID" });
                 }
             }
 
@@ -63,7 +66,7 @@ namespace CSSPServices
             if (TVItemMunicipalityTVItemID == null)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillMunicipalityTVItemID, spill.MunicipalityTVItemID.ToString()), new[] { "MunicipalityTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillMunicipalityTVItemID, spill.MunicipalityTVItemID.ToString()), new[] { "MunicipalityTVItemID" });
             }
             else
             {
@@ -74,7 +77,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemMunicipalityTVItemID.TVType))
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillMunicipalityTVItemID, "Municipality"), new[] { "MunicipalityTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SpillMunicipalityTVItemID, "Municipality"), new[] { "MunicipalityTVItemID" });
                 }
             }
 
@@ -85,7 +88,7 @@ namespace CSSPServices
                 if (TVItemInfrastructureTVItemID == null)
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillInfrastructureTVItemID, spill.InfrastructureTVItemID.ToString()), new[] { "InfrastructureTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillInfrastructureTVItemID, spill.InfrastructureTVItemID.ToString()), new[] { "InfrastructureTVItemID" });
                 }
                 else
                 {
@@ -96,7 +99,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemInfrastructureTVItemID.TVType))
                     {
                         spill.HasErrors = true;
-                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillInfrastructureTVItemID, "Infrastructure"), new[] { "InfrastructureTVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SpillInfrastructureTVItemID, "Infrastructure"), new[] { "InfrastructureTVItemID" });
                     }
                 }
             }
@@ -104,27 +107,27 @@ namespace CSSPServices
             if (spill.StartDateTime_Local.Year == 1)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillStartDateTime_Local), new[] { "StartDateTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SpillStartDateTime_Local), new[] { "StartDateTime_Local" });
             }
             else
             {
                 if (spill.StartDateTime_Local.Year < 1980)
                 {
                 spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SpillStartDateTime_Local, "1980"), new[] { "StartDateTime_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.SpillStartDateTime_Local, "1980"), new[] { "StartDateTime_Local" });
                 }
             }
 
             if (spill.EndDateTime_Local != null && ((DateTime)spill.EndDateTime_Local).Year < 1980)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SpillEndDateTime_Local, "1980"), new[] { ModelsRes.SpillEndDateTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.SpillEndDateTime_Local, "1980"), new[] { CSSPModelsRes.SpillEndDateTime_Local });
             }
 
             if (spill.StartDateTime_Local > spill.EndDateTime_Local)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.SpillEndDateTime_Local, ModelsRes.SpillStartDateTime_Local), new[] { ModelsRes.SpillEndDateTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, CSSPModelsRes.SpillEndDateTime_Local, CSSPModelsRes.SpillStartDateTime_Local), new[] { CSSPModelsRes.SpillEndDateTime_Local });
             }
 
             //AverageFlow_m3_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -132,20 +135,20 @@ namespace CSSPServices
             if (spill.AverageFlow_m3_day < 0 || spill.AverageFlow_m3_day > 1000000)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SpillAverageFlow_m3_day, "0", "1000000"), new[] { "AverageFlow_m3_day" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SpillAverageFlow_m3_day, "0", "1000000"), new[] { "AverageFlow_m3_day" });
             }
 
             if (spill.LastUpdateDate_UTC.Year == 1)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SpillLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SpillLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (spill.LastUpdateDate_UTC.Year < 1980)
                 {
                 spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SpillLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.SpillLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -156,7 +159,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SpillLastUpdateContactTVItemID, spill.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SpillLastUpdateContactTVItemID, spill.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -167,26 +170,26 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     spill.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SpillLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SpillLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(spill.MunicipalityTVText) && spill.MunicipalityTVText.Length > 200)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillMunicipalityTVText, "200"), new[] { "MunicipalityTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillMunicipalityTVText, "200"), new[] { "MunicipalityTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(spill.InfrastructureTVText) && spill.InfrastructureTVText.Length > 200)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillInfrastructureTVText, "200"), new[] { "InfrastructureTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillInfrastructureTVText, "200"), new[] { "InfrastructureTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(spill.LastUpdateContactTVText) && spill.LastUpdateContactTVText.Length > 200)
             {
                 spill.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SpillLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SpillLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

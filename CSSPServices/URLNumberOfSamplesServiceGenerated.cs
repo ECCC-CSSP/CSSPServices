@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour URLNumberOfSamples</para>
+    /// </summary>
     public partial class URLNumberOfSamplesService : BaseService
     {
         #region Variables
@@ -42,13 +45,13 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(uRLNumberOfSamples.url))
             {
                 uRLNumberOfSamples.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.URLNumberOfSamplesurl), new[] { "url" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.URLNumberOfSamplesurl), new[] { "url" });
             }
 
             if (!string.IsNullOrWhiteSpace(uRLNumberOfSamples.url) && (uRLNumberOfSamples.url.Length < 1 || uRLNumberOfSamples.url.Length > 255))
             {
                 uRLNumberOfSamples.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.URLNumberOfSamplesurl, "1", "255"), new[] { "url" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.URLNumberOfSamplesurl, "1", "255"), new[] { "url" });
             }
 
             //NumberOfSamples (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

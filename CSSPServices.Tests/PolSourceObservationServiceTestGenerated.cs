@@ -121,13 +121,13 @@ namespace CSSPServices.Tests
                     polSourceObservation = GetFilledRandomPolSourceObservation("");
                     polSourceObservation.PolSourceObservationID = 0;
                     polSourceObservationService.Update(polSourceObservation);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationPolSourceObservationID), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.PolSourceObservationPolSourceObservationID), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     polSourceObservation = null;
                     polSourceObservation = GetFilledRandomPolSourceObservation("");
                     polSourceObservation.PolSourceObservationID = 10000000;
                     polSourceObservationService.Update(polSourceObservation);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceObservation, ModelsRes.PolSourceObservationPolSourceObservationID, polSourceObservation.PolSourceObservationID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.PolSourceObservation, CSSPModelsRes.PolSourceObservationPolSourceObservationID, polSourceObservation.PolSourceObservationID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -140,7 +140,7 @@ namespace CSSPServices.Tests
                     polSourceObservation = GetFilledRandomPolSourceObservation("");
                     polSourceObservation.PolSourceSiteID = 0;
                     polSourceObservationService.Add(polSourceObservation);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.PolSourceSite, ModelsRes.PolSourceObservationPolSourceSiteID, polSourceObservation.PolSourceSiteID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.PolSourceSite, CSSPModelsRes.PolSourceObservationPolSourceSiteID, polSourceObservation.PolSourceSiteID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -160,13 +160,13 @@ namespace CSSPServices.Tests
                     polSourceObservation = GetFilledRandomPolSourceObservation("");
                     polSourceObservation.ContactTVItemID = 0;
                     polSourceObservationService.Add(polSourceObservation);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationContactTVItemID, polSourceObservation.ContactTVItemID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.PolSourceObservationContactTVItemID, polSourceObservation.ContactTVItemID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     polSourceObservation = null;
                     polSourceObservation = GetFilledRandomPolSourceObservation("");
                     polSourceObservation.ContactTVItemID = 1;
                     polSourceObservationService.Add(polSourceObservation);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationContactTVItemID, "Contact"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.PolSourceObservationContactTVItemID, "Contact"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -178,7 +178,7 @@ namespace CSSPServices.Tests
                     polSourceObservation = GetFilledRandomPolSourceObservation("Observation_ToBeDeleted");
                     Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
                     Assert.AreEqual(1, polSourceObservation.ValidationResults.Count());
-                    Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceObservationObservation_ToBeDeleted)).Any());
+                    Assert.IsTrue(polSourceObservation.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.PolSourceObservationObservation_ToBeDeleted)).Any());
                     Assert.AreEqual(null, polSourceObservation.Observation_ToBeDeleted);
                     Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
 
@@ -200,13 +200,13 @@ namespace CSSPServices.Tests
                     polSourceObservation = GetFilledRandomPolSourceObservation("");
                     polSourceObservation.LastUpdateContactTVItemID = 0;
                     polSourceObservationService.Add(polSourceObservation);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, polSourceObservation.LastUpdateContactTVItemID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.PolSourceObservationLastUpdateContactTVItemID, polSourceObservation.LastUpdateContactTVItemID.ToString()), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     polSourceObservation = null;
                     polSourceObservation = GetFilledRandomPolSourceObservation("");
                     polSourceObservation.LastUpdateContactTVItemID = 1;
                     polSourceObservationService.Add(polSourceObservation);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.PolSourceObservationLastUpdateContactTVItemID, "Contact"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.PolSourceObservationLastUpdateContactTVItemID, "Contact"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -221,7 +221,7 @@ namespace CSSPServices.Tests
                     polSourceObservation = GetFilledRandomPolSourceObservation("");
                     polSourceObservation.PolSourceSiteTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationPolSourceSiteTVText, "200"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceObservationPolSourceSiteTVText, "200"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
 
                     // -----------------------------------
@@ -236,7 +236,7 @@ namespace CSSPServices.Tests
                     polSourceObservation = GetFilledRandomPolSourceObservation("");
                     polSourceObservation.ContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationContactTVText, "200"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceObservationContactTVText, "200"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
 
                     // -----------------------------------
@@ -251,7 +251,7 @@ namespace CSSPServices.Tests
                     polSourceObservation = GetFilledRandomPolSourceObservation("");
                     polSourceObservation.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, polSourceObservationService.Add(polSourceObservation));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.PolSourceObservationLastUpdateContactTVText, "200"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.PolSourceObservationLastUpdateContactTVText, "200"), polSourceObservation.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, polSourceObservationService.GetRead().Count());
 
                     // -----------------------------------

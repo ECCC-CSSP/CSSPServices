@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour TVItem</para>
+    /// </summary>
     public partial class TVItemService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (tvItem.TVItemID == 0)
                 {
                     tvItem.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVItemID), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemTVItemID), new[] { "TVItemID" });
                 }
 
                 if (!GetRead().Where(c => c.TVItemID == tvItem.TVItemID).Any())
                 {
                     tvItem.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemTVItemID, tvItem.TVItemID.ToString()), new[] { "TVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemTVItemID, tvItem.TVItemID.ToString()), new[] { "TVItemID" });
                 }
             }
 
@@ -59,7 +62,7 @@ namespace CSSPServices
                 if (GetRead().Count() > 0)
                 {
                     tvItem.HasErrors = true;
-                    yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });
+                    yield return new ValidationResult(CSSPServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { CSSPModelsRes.TVItemTVItemID });
                 }
             }
 
@@ -70,26 +73,26 @@ namespace CSSPServices
             if (tvItem.TVLevel < 0 || tvItem.TVLevel > 100)
             {
                 tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TVItemTVLevel, "0", "100"), new[] { "TVLevel" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TVItemTVLevel, "0", "100"), new[] { "TVLevel" });
             }
 
             if (string.IsNullOrWhiteSpace(tvItem.TVPath))
             {
                 tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVPath), new[] { "TVPath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemTVPath), new[] { "TVPath" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItem.TVPath) && tvItem.TVPath.Length > 250)
             {
                 tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemTVPath, "250"), new[] { "TVPath" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemTVPath, "250"), new[] { "TVPath" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvItem.TVType);
             if (tvItem.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemTVType), new[] { "TVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemTVType), new[] { "TVType" });
             }
 
             //ParentID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -101,7 +104,7 @@ namespace CSSPServices
                 if (TVItemParentID == null)
                 {
                     tvItem.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemParentID, tvItem.ParentID.ToString()), new[] { "ParentID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemParentID, tvItem.ParentID.ToString()), new[] { "ParentID" });
                 }
                 else
                 {
@@ -133,7 +136,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemParentID.TVType))
                     {
                         tvItem.HasErrors = true;
-                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemParentID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "ParentID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemParentID, "Root,Country,Province,Area,Sector,Subsector,ClimateSite,File,HydrometricSite,Infrastructure,MikeBoundaryConditionMesh,MikeBoundaryConditionWebTide,MikeScenario,MikeSource,Municipality,MWQMRun,MWQMSite,MWQMSiteSample,PolSourceSite,SamplingPlan,Spill,TideSite"), new[] { "ParentID" });
                     }
                 }
             }
@@ -143,14 +146,14 @@ namespace CSSPServices
             if (tvItem.LastUpdateDate_UTC.Year == 1)
             {
                 tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVItemLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVItemLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tvItem.LastUpdateDate_UTC.Year < 1980)
                 {
                 tvItem.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TVItemLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TVItemLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -163,7 +166,7 @@ namespace CSSPServices
                 if (TVItemLastUpdateContactTVItemID == null)
                 {
                     tvItem.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemLastUpdateContactTVItemID, tvItem.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemLastUpdateContactTVItemID, tvItem.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
                 }
                 else
                 {
@@ -174,7 +177,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                     {
                         tvItem.HasErrors = true;
-                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TVItemLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TVItemLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                     }
                 }
             }
@@ -182,19 +185,19 @@ namespace CSSPServices
             if (!string.IsNullOrWhiteSpace(tvItem.TVText) && tvItem.TVText.Length > 200)
             {
                 tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemTVText, "200"), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemTVText, "200"), new[] { "TVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItem.LastUpdateContactTVText) && tvItem.LastUpdateContactTVText.Length > 200)
             {
                 tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvItem.TVTypeText) && tvItem.TVTypeText.Length > 100)
             {
                 tvItem.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVItemTVTypeText, "100"), new[] { "TVTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVItemTVTypeText, "100"), new[] { "TVTypeText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

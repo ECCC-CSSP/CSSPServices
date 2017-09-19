@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour LastUpdateAndContact</para>
+    /// </summary>
     public partial class LastUpdateAndContactService : BaseService
     {
         #region Variables
@@ -42,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(lastUpdateAndContact.Error))
             {
                 lastUpdateAndContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LastUpdateAndContactError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LastUpdateAndContactError), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
@@ -50,14 +53,14 @@ namespace CSSPServices
             if (lastUpdateAndContact.LastUpdateDate_UTC.Year == 1)
             {
                 lastUpdateAndContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LastUpdateAndContactLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LastUpdateAndContactLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (lastUpdateAndContact.LastUpdateDate_UTC.Year < 1980)
                 {
                 lastUpdateAndContact.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LastUpdateAndContactLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LastUpdateAndContactLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -66,7 +69,7 @@ namespace CSSPServices
             if (lastUpdateAndContact.LastUpdateContactTVItemID < 1)
             {
                 lastUpdateAndContact.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.LastUpdateAndContactLastUpdateContactTVItemID, "1"), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.LastUpdateAndContactLastUpdateContactTVItemID, "1"), new[] { "LastUpdateContactTVItemID" });
             }
 
             //HasErrors (bool) is required but no testing needed 

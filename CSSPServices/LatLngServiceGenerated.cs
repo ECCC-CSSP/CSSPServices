@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour LatLng</para>
+    /// </summary>
     public partial class LatLngService : BaseService
     {
         #region Variables
@@ -44,7 +47,7 @@ namespace CSSPServices
             if (latLng.Lat < -180 || latLng.Lat > 180)
             {
                 latLng.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LatLngLat, "-180", "180"), new[] { "Lat" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LatLngLat, "-180", "180"), new[] { "Lat" });
             }
 
             //Lng (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -52,7 +55,7 @@ namespace CSSPServices
             if (latLng.Lng < -90 || latLng.Lng > 90)
             {
                 latLng.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.LatLngLng, "-90", "90"), new[] { "Lng" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.LatLngLng, "-90", "90"), new[] { "Lng" });
             }
 
             //HasErrors (bool) is required but no testing needed 

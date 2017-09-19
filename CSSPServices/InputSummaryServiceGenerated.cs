@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour InputSummary</para>
+    /// </summary>
     public partial class InputSummaryService : BaseService
     {
         #region Variables
@@ -42,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(inputSummary.Error))
             {
                 inputSummary.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InputSummaryError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InputSummaryError), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
@@ -50,7 +53,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(inputSummary.Summary))
             {
                 inputSummary.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.InputSummarySummary), new[] { "Summary" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.InputSummarySummary), new[] { "Summary" });
             }
 
             //Summary has no StringLength Attribute

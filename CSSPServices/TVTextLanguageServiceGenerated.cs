@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour TVTextLanguage</para>
+    /// </summary>
     public partial class TVTextLanguageService : BaseService
     {
         #region Variables
@@ -42,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(tvTextLanguage.TVText))
             {
                 tvTextLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTextLanguageTVText), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVTextLanguageTVText), new[] { "TVText" });
             }
 
             //TVText has no StringLength Attribute
@@ -51,13 +54,13 @@ namespace CSSPServices
             if (tvTextLanguage.Language == LanguageEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvTextLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVTextLanguageLanguage), new[] { "Language" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVTextLanguageLanguage), new[] { "Language" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvTextLanguage.LanguageText) && tvTextLanguage.LanguageText.Length > 100)
             {
                 tvTextLanguage.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVTextLanguageLanguageText, "100"), new[] { "LanguageText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVTextLanguageLanguageText, "100"), new[] { "LanguageText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

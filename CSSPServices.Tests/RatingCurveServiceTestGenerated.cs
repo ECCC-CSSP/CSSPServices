@@ -117,13 +117,13 @@ namespace CSSPServices.Tests
                     ratingCurve = GetFilledRandomRatingCurve("");
                     ratingCurve.RatingCurveID = 0;
                     ratingCurveService.Update(ratingCurve);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveRatingCurveID), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RatingCurveRatingCurveID), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     ratingCurve = null;
                     ratingCurve = GetFilledRandomRatingCurve("");
                     ratingCurve.RatingCurveID = 10000000;
                     ratingCurveService.Update(ratingCurve);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RatingCurve, ModelsRes.RatingCurveRatingCurveID, ratingCurve.RatingCurveID.ToString()), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.RatingCurve, CSSPModelsRes.RatingCurveRatingCurveID, ratingCurve.RatingCurveID.ToString()), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -136,7 +136,7 @@ namespace CSSPServices.Tests
                     ratingCurve = GetFilledRandomRatingCurve("");
                     ratingCurve.HydrometricSiteID = 0;
                     ratingCurveService.Add(ratingCurve);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.HydrometricSite, ModelsRes.RatingCurveHydrometricSiteID, ratingCurve.HydrometricSiteID.ToString()), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.HydrometricSite, CSSPModelsRes.RatingCurveHydrometricSiteID, ratingCurve.HydrometricSiteID.ToString()), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -149,7 +149,7 @@ namespace CSSPServices.Tests
                     ratingCurve = GetFilledRandomRatingCurve("RatingCurveNumber");
                     Assert.AreEqual(false, ratingCurveService.Add(ratingCurve));
                     Assert.AreEqual(1, ratingCurve.ValidationResults.Count());
-                    Assert.IsTrue(ratingCurve.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.RatingCurveRatingCurveNumber)).Any());
+                    Assert.IsTrue(ratingCurve.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RatingCurveRatingCurveNumber)).Any());
                     Assert.AreEqual(null, ratingCurve.RatingCurveNumber);
                     Assert.AreEqual(count, ratingCurveService.GetRead().Count());
 
@@ -157,7 +157,7 @@ namespace CSSPServices.Tests
                     ratingCurve = GetFilledRandomRatingCurve("");
                     ratingCurve.RatingCurveNumber = GetRandomString("", 51);
                     Assert.AreEqual(false, ratingCurveService.Add(ratingCurve));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RatingCurveRatingCurveNumber, "50"), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RatingCurveRatingCurveNumber, "50"), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, ratingCurveService.GetRead().Count());
 
                     // -----------------------------------
@@ -177,13 +177,13 @@ namespace CSSPServices.Tests
                     ratingCurve = GetFilledRandomRatingCurve("");
                     ratingCurve.LastUpdateContactTVItemID = 0;
                     ratingCurveService.Add(ratingCurve);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RatingCurveLastUpdateContactTVItemID, ratingCurve.LastUpdateContactTVItemID.ToString()), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.RatingCurveLastUpdateContactTVItemID, ratingCurve.LastUpdateContactTVItemID.ToString()), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     ratingCurve = null;
                     ratingCurve = GetFilledRandomRatingCurve("");
                     ratingCurve.LastUpdateContactTVItemID = 1;
                     ratingCurveService.Add(ratingCurve);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RatingCurveLastUpdateContactTVItemID, "Contact"), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.RatingCurveLastUpdateContactTVItemID, "Contact"), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -198,7 +198,7 @@ namespace CSSPServices.Tests
                     ratingCurve = GetFilledRandomRatingCurve("");
                     ratingCurve.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, ratingCurveService.Add(ratingCurve));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RatingCurveLastUpdateContactTVText, "200"), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RatingCurveLastUpdateContactTVText, "200"), ratingCurve.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, ratingCurveService.GetRead().Count());
 
                     // -----------------------------------

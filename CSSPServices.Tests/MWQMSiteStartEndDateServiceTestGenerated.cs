@@ -119,13 +119,13 @@ namespace CSSPServices.Tests
                     mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
                     mwqmSiteStartEndDate.MWQMSiteStartEndDateID = 0;
                     mwqmSiteStartEndDateService.Update(mwqmSiteStartEndDate);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteStartEndDateMWQMSiteStartEndDateID), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteStartEndDateMWQMSiteStartEndDateID), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSiteStartEndDate = null;
                     mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
                     mwqmSiteStartEndDate.MWQMSiteStartEndDateID = 10000000;
                     mwqmSiteStartEndDateService.Update(mwqmSiteStartEndDate);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMSiteStartEndDate, ModelsRes.MWQMSiteStartEndDateMWQMSiteStartEndDateID, mwqmSiteStartEndDate.MWQMSiteStartEndDateID.ToString()), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MWQMSiteStartEndDate, CSSPModelsRes.MWQMSiteStartEndDateMWQMSiteStartEndDateID, mwqmSiteStartEndDate.MWQMSiteStartEndDateID.ToString()), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -138,13 +138,13 @@ namespace CSSPServices.Tests
                     mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
                     mwqmSiteStartEndDate.MWQMSiteTVItemID = 0;
                     mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID, mwqmSiteStartEndDate.MWQMSiteTVItemID.ToString()), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID, mwqmSiteStartEndDate.MWQMSiteTVItemID.ToString()), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSiteStartEndDate = null;
                     mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
                     mwqmSiteStartEndDate.MWQMSiteTVItemID = 1;
                     mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID, "MWQMSite"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSiteStartEndDateMWQMSiteTVItemID, "MWQMSite"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -179,13 +179,13 @@ namespace CSSPServices.Tests
                     mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
                     mwqmSiteStartEndDate.LastUpdateContactTVItemID = 0;
                     mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, mwqmSiteStartEndDate.LastUpdateContactTVItemID.ToString()), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, mwqmSiteStartEndDate.LastUpdateContactTVItemID.ToString()), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     mwqmSiteStartEndDate = null;
                     mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
                     mwqmSiteStartEndDate.LastUpdateContactTVItemID = 1;
                     mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, "Contact"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMSiteStartEndDateLastUpdateContactTVItemID, "Contact"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -200,7 +200,7 @@ namespace CSSPServices.Tests
                     mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
                     mwqmSiteStartEndDate.MWQMSiteTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteStartEndDateMWQMSiteTVText, "200"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteStartEndDateMWQMSiteTVText, "200"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
 
                     // -----------------------------------
@@ -215,7 +215,7 @@ namespace CSSPServices.Tests
                     mwqmSiteStartEndDate = GetFilledRandomMWQMSiteStartEndDate("");
                     mwqmSiteStartEndDate.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, mwqmSiteStartEndDateService.Add(mwqmSiteStartEndDate));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMSiteStartEndDateLastUpdateContactTVText, "200"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMSiteStartEndDateLastUpdateContactTVText, "200"), mwqmSiteStartEndDate.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, mwqmSiteStartEndDateService.GetRead().Count());
 
                     // -----------------------------------

@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour SamplingPlan</para>
+    /// </summary>
     public partial class SamplingPlanService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (samplingPlan.SamplingPlanID == 0)
                 {
                     samplingPlan.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanID), new[] { "SamplingPlanID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSamplingPlanID), new[] { "SamplingPlanID" });
                 }
 
                 if (!GetRead().Where(c => c.SamplingPlanID == samplingPlan.SamplingPlanID).Any())
                 {
                     samplingPlan.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.SamplingPlan, ModelsRes.SamplingPlanSamplingPlanID, samplingPlan.SamplingPlanID.ToString()), new[] { "SamplingPlanID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.SamplingPlan, CSSPModelsRes.SamplingPlanSamplingPlanID, samplingPlan.SamplingPlanID.ToString()), new[] { "SamplingPlanID" });
                 }
             }
 
@@ -59,46 +62,46 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(samplingPlan.SamplingPlanName))
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanName), new[] { "SamplingPlanName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSamplingPlanName), new[] { "SamplingPlanName" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.SamplingPlanName) && samplingPlan.SamplingPlanName.Length > 200)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanName, "200"), new[] { "SamplingPlanName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSamplingPlanName, "200"), new[] { "SamplingPlanName" });
             }
 
             if (string.IsNullOrWhiteSpace(samplingPlan.ForGroupName))
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanForGroupName), new[] { "ForGroupName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanForGroupName), new[] { "ForGroupName" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.ForGroupName) && samplingPlan.ForGroupName.Length > 100)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanForGroupName, "100"), new[] { "ForGroupName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanForGroupName, "100"), new[] { "ForGroupName" });
             }
 
             retStr = enums.EnumTypeOK(typeof(SampleTypeEnum), (int?)samplingPlan.SampleType);
             if (samplingPlan.SampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSampleType), new[] { "SampleType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSampleType), new[] { "SampleType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(SamplingPlanTypeEnum), (int?)samplingPlan.SamplingPlanType);
             if (samplingPlan.SamplingPlanType == SamplingPlanTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanSamplingPlanType), new[] { "SamplingPlanType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanSamplingPlanType), new[] { "SamplingPlanType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(LabSheetTypeEnum), (int?)samplingPlan.LabSheetType);
             if (samplingPlan.LabSheetType == LabSheetTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanLabSheetType), new[] { "LabSheetType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanLabSheetType), new[] { "LabSheetType" });
             }
 
             //ProvinceTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -108,7 +111,7 @@ namespace CSSPServices
             if (TVItemProvinceTVItemID == null)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanProvinceTVItemID, samplingPlan.ProvinceTVItemID.ToString()), new[] { "ProvinceTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanProvinceTVItemID, samplingPlan.ProvinceTVItemID.ToString()), new[] { "ProvinceTVItemID" });
             }
             else
             {
@@ -119,7 +122,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemProvinceTVItemID.TVType))
                 {
                     samplingPlan.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanProvinceTVItemID, "Province"), new[] { "ProvinceTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanProvinceTVItemID, "Province"), new[] { "ProvinceTVItemID" });
                 }
             }
 
@@ -130,7 +133,7 @@ namespace CSSPServices
             if (TVItemCreatorTVItemID == null)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanCreatorTVItemID, samplingPlan.CreatorTVItemID.ToString()), new[] { "CreatorTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanCreatorTVItemID, samplingPlan.CreatorTVItemID.ToString()), new[] { "CreatorTVItemID" });
             }
             else
             {
@@ -141,7 +144,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemCreatorTVItemID.TVType))
                 {
                     samplingPlan.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanCreatorTVItemID, "Contact"), new[] { "CreatorTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanCreatorTVItemID, "Contact"), new[] { "CreatorTVItemID" });
                 }
             }
 
@@ -150,19 +153,19 @@ namespace CSSPServices
             if (samplingPlan.Year < 2000 || samplingPlan.Year > 2050)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanYear, "2000", "2050"), new[] { "Year" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SamplingPlanYear, "2000", "2050"), new[] { "Year" });
             }
 
             if (string.IsNullOrWhiteSpace(samplingPlan.AccessCode))
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanAccessCode), new[] { "AccessCode" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanAccessCode), new[] { "AccessCode" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.AccessCode) && samplingPlan.AccessCode.Length > 15)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanAccessCode, "15"), new[] { "AccessCode" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanAccessCode, "15"), new[] { "AccessCode" });
             }
 
             //DailyDuplicatePrecisionCriteria (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -170,7 +173,7 @@ namespace CSSPServices
             if (samplingPlan.DailyDuplicatePrecisionCriteria < 0 || samplingPlan.DailyDuplicatePrecisionCriteria > 100)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), new[] { "DailyDuplicatePrecisionCriteria" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SamplingPlanDailyDuplicatePrecisionCriteria, "0", "100"), new[] { "DailyDuplicatePrecisionCriteria" });
             }
 
             //IntertechDuplicatePrecisionCriteria (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -178,7 +181,7 @@ namespace CSSPServices
             if (samplingPlan.IntertechDuplicatePrecisionCriteria < 0 || samplingPlan.IntertechDuplicatePrecisionCriteria > 100)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), new[] { "IntertechDuplicatePrecisionCriteria" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.SamplingPlanIntertechDuplicatePrecisionCriteria, "0", "100"), new[] { "IntertechDuplicatePrecisionCriteria" });
             }
 
             //IncludeLaboratoryQAQC (bool) is required but no testing needed 
@@ -186,13 +189,13 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(samplingPlan.ApprovalCode))
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanApprovalCode), new[] { "ApprovalCode" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanApprovalCode), new[] { "ApprovalCode" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.ApprovalCode) && samplingPlan.ApprovalCode.Length > 15)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanApprovalCode, "15"), new[] { "ApprovalCode" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanApprovalCode, "15"), new[] { "ApprovalCode" });
             }
 
             if (samplingPlan.SamplingPlanFileTVItemID != null)
@@ -202,7 +205,7 @@ namespace CSSPServices
                 if (TVItemSamplingPlanFileTVItemID == null)
                 {
                     samplingPlan.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, samplingPlan.SamplingPlanFileTVItemID.ToString()), new[] { "SamplingPlanFileTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanSamplingPlanFileTVItemID, samplingPlan.SamplingPlanFileTVItemID.ToString()), new[] { "SamplingPlanFileTVItemID" });
                 }
                 else
                 {
@@ -213,7 +216,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemSamplingPlanFileTVItemID.TVType))
                     {
                         samplingPlan.HasErrors = true;
-                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanSamplingPlanFileTVItemID, "File"), new[] { "SamplingPlanFileTVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanSamplingPlanFileTVItemID, "File"), new[] { "SamplingPlanFileTVItemID" });
                     }
                 }
             }
@@ -221,14 +224,14 @@ namespace CSSPServices
             if (samplingPlan.LastUpdateDate_UTC.Year == 1)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.SamplingPlanLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.SamplingPlanLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (samplingPlan.LastUpdateDate_UTC.Year < 1980)
                 {
                 samplingPlan.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.SamplingPlanLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.SamplingPlanLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -239,7 +242,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.SamplingPlanLastUpdateContactTVItemID, samplingPlan.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.SamplingPlanLastUpdateContactTVItemID, samplingPlan.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -250,50 +253,50 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     samplingPlan.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.SamplingPlanLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.SamplingPlanLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.ProvinceTVText) && samplingPlan.ProvinceTVText.Length > 200)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanProvinceTVText, "200"), new[] { "ProvinceTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanProvinceTVText, "200"), new[] { "ProvinceTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.CreatorTVText) && samplingPlan.CreatorTVText.Length > 200)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanCreatorTVText, "200"), new[] { "CreatorTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanCreatorTVText, "200"), new[] { "CreatorTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.SamplingPlanFileTVText) && samplingPlan.SamplingPlanFileTVText.Length > 200)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanFileTVText, "200"), new[] { "SamplingPlanFileTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSamplingPlanFileTVText, "200"), new[] { "SamplingPlanFileTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.LastUpdateContactTVText) && samplingPlan.LastUpdateContactTVText.Length > 200)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.SampleTypeText) && samplingPlan.SampleTypeText.Length > 100)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSampleTypeText, "100"), new[] { "SampleTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSampleTypeText, "100"), new[] { "SampleTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.SamplingPlanTypeText) && samplingPlan.SamplingPlanTypeText.Length > 100)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanSamplingPlanTypeText, "100"), new[] { "SamplingPlanTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanSamplingPlanTypeText, "100"), new[] { "SamplingPlanTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(samplingPlan.LabSheetTypeText) && samplingPlan.LabSheetTypeText.Length > 100)
             {
                 samplingPlan.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.SamplingPlanLabSheetTypeText, "100"), new[] { "LabSheetTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.SamplingPlanLabSheetTypeText, "100"), new[] { "LabSheetTypeText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

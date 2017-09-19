@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour NodeLayer</para>
+    /// </summary>
     public partial class NodeLayerService : BaseService
     {
         #region Variables
@@ -44,7 +47,7 @@ namespace CSSPServices
             if (nodeLayer.Layer < 1 || nodeLayer.Layer > 100)
             {
                 nodeLayer.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.NodeLayerLayer, "1", "100"), new[] { "Layer" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.NodeLayerLayer, "1", "100"), new[] { "Layer" });
             }
 
             //Z (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

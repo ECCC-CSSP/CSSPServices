@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour MWQMRun</para>
+    /// </summary>
     public partial class MWQMRunService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (mwqmRun.MWQMRunID == 0)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunMWQMRunID), new[] { "MWQMRunID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunMWQMRunID), new[] { "MWQMRunID" });
                 }
 
                 if (!GetRead().Where(c => c.MWQMRunID == mwqmRun.MWQMRunID).Any())
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.MWQMRun, ModelsRes.MWQMRunMWQMRunID, mwqmRun.MWQMRunID.ToString()), new[] { "MWQMRunID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.MWQMRun, CSSPModelsRes.MWQMRunMWQMRunID, mwqmRun.MWQMRunID.ToString()), new[] { "MWQMRunID" });
                 }
             }
 
@@ -63,7 +66,7 @@ namespace CSSPServices
             if (TVItemSubsectorTVItemID == null)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunSubsectorTVItemID, mwqmRun.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMRunSubsectorTVItemID, mwqmRun.SubsectorTVItemID.ToString()), new[] { "SubsectorTVItemID" });
             }
             else
             {
@@ -74,7 +77,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemSubsectorTVItemID.TVType))
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunSubsectorTVItemID, "Subsector"), new[] { "SubsectorTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMRunSubsectorTVItemID, "Subsector"), new[] { "SubsectorTVItemID" });
                 }
             }
 
@@ -85,7 +88,7 @@ namespace CSSPServices
             if (TVItemMWQMRunTVItemID == null)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunMWQMRunTVItemID, mwqmRun.MWQMRunTVItemID.ToString()), new[] { "MWQMRunTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMRunMWQMRunTVItemID, mwqmRun.MWQMRunTVItemID.ToString()), new[] { "MWQMRunTVItemID" });
             }
             else
             {
@@ -96,7 +99,7 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemMWQMRunTVItemID.TVType))
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunMWQMRunTVItemID, "MWQMRun"), new[] { "MWQMRunTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMRunMWQMRunTVItemID, "MWQMRun"), new[] { "MWQMRunTVItemID" });
                 }
             }
 
@@ -104,20 +107,20 @@ namespace CSSPServices
             if (mwqmRun.RunSampleType == SampleTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunRunSampleType), new[] { "RunSampleType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunRunSampleType), new[] { "RunSampleType" });
             }
 
             if (mwqmRun.DateTime_Local.Year == 1)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunDateTime_Local), new[] { "DateTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunDateTime_Local), new[] { "DateTime_Local" });
             }
             else
             {
                 if (mwqmRun.DateTime_Local.Year < 1980)
                 {
                 mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunDateTime_Local, "1980"), new[] { "DateTime_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunDateTime_Local, "1980"), new[] { "DateTime_Local" });
                 }
             }
 
@@ -126,31 +129,31 @@ namespace CSSPServices
             if (mwqmRun.RunNumber < 1 || mwqmRun.RunNumber > 1000)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRunNumber, "1", "1000"), new[] { "RunNumber" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRunNumber, "1", "1000"), new[] { "RunNumber" });
             }
 
             if (mwqmRun.StartDateTime_Local != null && ((DateTime)mwqmRun.StartDateTime_Local).Year < 1980)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunStartDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunStartDateTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunStartDateTime_Local, "1980"), new[] { CSSPModelsRes.MWQMRunStartDateTime_Local });
             }
 
             if (mwqmRun.EndDateTime_Local != null && ((DateTime)mwqmRun.EndDateTime_Local).Year < 1980)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunEndDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunEndDateTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunEndDateTime_Local, "1980"), new[] { CSSPModelsRes.MWQMRunEndDateTime_Local });
             }
 
             if (mwqmRun.StartDateTime_Local > mwqmRun.EndDateTime_Local)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes.MWQMRunEndDateTime_Local, ModelsRes.MWQMRunStartDateTime_Local), new[] { ModelsRes.MWQMRunEndDateTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, CSSPModelsRes.MWQMRunEndDateTime_Local, CSSPModelsRes.MWQMRunStartDateTime_Local), new[] { CSSPModelsRes.MWQMRunEndDateTime_Local });
             }
 
             if (mwqmRun.LabReceivedDateTime_Local != null && ((DateTime)mwqmRun.LabReceivedDateTime_Local).Year < 1980)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLabReceivedDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunLabReceivedDateTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunLabReceivedDateTime_Local, "1980"), new[] { CSSPModelsRes.MWQMRunLabReceivedDateTime_Local });
             }
 
             if (mwqmRun.TemperatureControl1_C != null)
@@ -158,7 +161,7 @@ namespace CSSPServices
                 if (mwqmRun.TemperatureControl1_C < -10 || mwqmRun.TemperatureControl1_C > 40)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl1_C, "-10", "40"), new[] { "TemperatureControl1_C" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunTemperatureControl1_C, "-10", "40"), new[] { "TemperatureControl1_C" });
                 }
             }
 
@@ -167,7 +170,7 @@ namespace CSSPServices
                 if (mwqmRun.TemperatureControl2_C < -10 || mwqmRun.TemperatureControl2_C > 40)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunTemperatureControl2_C, "-10", "40"), new[] { "TemperatureControl2_C" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunTemperatureControl2_C, "-10", "40"), new[] { "TemperatureControl2_C" });
                 }
             }
 
@@ -177,7 +180,7 @@ namespace CSSPServices
                 if (mwqmRun.SeaStateAtStart_BeaufortScale == BeaufortScaleEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunSeaStateAtStart_BeaufortScale), new[] { "SeaStateAtStart_BeaufortScale" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunSeaStateAtStart_BeaufortScale), new[] { "SeaStateAtStart_BeaufortScale" });
                 }
             }
 
@@ -187,7 +190,7 @@ namespace CSSPServices
                 if (mwqmRun.SeaStateAtEnd_BeaufortScale == BeaufortScaleEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunSeaStateAtEnd_BeaufortScale), new[] { "SeaStateAtEnd_BeaufortScale" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunSeaStateAtEnd_BeaufortScale), new[] { "SeaStateAtEnd_BeaufortScale" });
                 }
             }
 
@@ -196,7 +199,7 @@ namespace CSSPServices
                 if (mwqmRun.WaterLevelAtBrook_m < 0 || mwqmRun.WaterLevelAtBrook_m > 100)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaterLevelAtBrook_m, "0", "100"), new[] { "WaterLevelAtBrook_m" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunWaterLevelAtBrook_m, "0", "100"), new[] { "WaterLevelAtBrook_m" });
                 }
             }
 
@@ -205,7 +208,7 @@ namespace CSSPServices
                 if (mwqmRun.WaveHightAtStart_m < 0 || mwqmRun.WaveHightAtStart_m > 100)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtStart_m, "0", "100"), new[] { "WaveHightAtStart_m" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunWaveHightAtStart_m, "0", "100"), new[] { "WaveHightAtStart_m" });
                 }
             }
 
@@ -214,14 +217,14 @@ namespace CSSPServices
                 if (mwqmRun.WaveHightAtEnd_m < 0 || mwqmRun.WaveHightAtEnd_m > 100)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunWaveHightAtEnd_m, "0", "100"), new[] { "WaveHightAtEnd_m" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunWaveHightAtEnd_m, "0", "100"), new[] { "WaveHightAtEnd_m" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.SampleCrewInitials) && mwqmRun.SampleCrewInitials.Length > 20)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSampleCrewInitials, "20"), new[] { "SampleCrewInitials" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSampleCrewInitials, "20"), new[] { "SampleCrewInitials" });
             }
 
             if (mwqmRun.AnalyzeMethod != null)
@@ -230,7 +233,7 @@ namespace CSSPServices
                 if (mwqmRun.AnalyzeMethod == AnalyzeMethodEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunAnalyzeMethod), new[] { "AnalyzeMethod" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunAnalyzeMethod), new[] { "AnalyzeMethod" });
                 }
             }
 
@@ -240,7 +243,7 @@ namespace CSSPServices
                 if (mwqmRun.SampleMatrix == SampleMatrixEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunSampleMatrix), new[] { "SampleMatrix" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunSampleMatrix), new[] { "SampleMatrix" });
                 }
             }
 
@@ -250,7 +253,7 @@ namespace CSSPServices
                 if (mwqmRun.Laboratory == LaboratoryEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLaboratory), new[] { "Laboratory" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunLaboratory), new[] { "Laboratory" });
                 }
             }
 
@@ -260,7 +263,7 @@ namespace CSSPServices
                 if (mwqmRun.SampleStatus == SampleStatusEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunSampleStatus), new[] { "SampleStatus" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunSampleStatus), new[] { "SampleStatus" });
                 }
             }
 
@@ -271,7 +274,7 @@ namespace CSSPServices
                 if (TVItemLabSampleApprovalContactTVItemID == null)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, mwqmRun.LabSampleApprovalContactTVItemID.ToString()), new[] { "LabSampleApprovalContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMRunLabSampleApprovalContactTVItemID, mwqmRun.LabSampleApprovalContactTVItemID.ToString()), new[] { "LabSampleApprovalContactTVItemID" });
                 }
                 else
                 {
@@ -282,7 +285,7 @@ namespace CSSPServices
                     if (!AllowableTVTypes.Contains(TVItemLabSampleApprovalContactTVItemID.TVType))
                     {
                         mwqmRun.HasErrors = true;
-                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunLabSampleApprovalContactTVItemID, "Contact"), new[] { "LabSampleApprovalContactTVItemID" });
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMRunLabSampleApprovalContactTVItemID, "Contact"), new[] { "LabSampleApprovalContactTVItemID" });
                     }
                 }
             }
@@ -290,25 +293,25 @@ namespace CSSPServices
             if (mwqmRun.LabAnalyzeBath1IncubationStartDateTime_Local != null && ((DateTime)mwqmRun.LabAnalyzeBath1IncubationStartDateTime_Local).Year < 1980)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLabAnalyzeBath1IncubationStartDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunLabAnalyzeBath1IncubationStartDateTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunLabAnalyzeBath1IncubationStartDateTime_Local, "1980"), new[] { CSSPModelsRes.MWQMRunLabAnalyzeBath1IncubationStartDateTime_Local });
             }
 
             if (mwqmRun.LabAnalyzeBath2IncubationStartDateTime_Local != null && ((DateTime)mwqmRun.LabAnalyzeBath2IncubationStartDateTime_Local).Year < 1980)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLabAnalyzeBath2IncubationStartDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunLabAnalyzeBath2IncubationStartDateTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunLabAnalyzeBath2IncubationStartDateTime_Local, "1980"), new[] { CSSPModelsRes.MWQMRunLabAnalyzeBath2IncubationStartDateTime_Local });
             }
 
             if (mwqmRun.LabAnalyzeBath3IncubationStartDateTime_Local != null && ((DateTime)mwqmRun.LabAnalyzeBath3IncubationStartDateTime_Local).Year < 1980)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLabAnalyzeBath3IncubationStartDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunLabAnalyzeBath3IncubationStartDateTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunLabAnalyzeBath3IncubationStartDateTime_Local, "1980"), new[] { CSSPModelsRes.MWQMRunLabAnalyzeBath3IncubationStartDateTime_Local });
             }
 
             if (mwqmRun.LabRunSampleApprovalDateTime_Local != null && ((DateTime)mwqmRun.LabRunSampleApprovalDateTime_Local).Year < 1980)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLabRunSampleApprovalDateTime_Local, "1980"), new[] { ModelsRes.MWQMRunLabRunSampleApprovalDateTime_Local });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunLabRunSampleApprovalDateTime_Local, "1980"), new[] { CSSPModelsRes.MWQMRunLabRunSampleApprovalDateTime_Local });
             }
 
             if (mwqmRun.Tide_Start != null)
@@ -317,7 +320,7 @@ namespace CSSPServices
                 if (mwqmRun.Tide_Start == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunTide_Start), new[] { "Tide_Start" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunTide_Start), new[] { "Tide_Start" });
                 }
             }
 
@@ -327,7 +330,7 @@ namespace CSSPServices
                 if (mwqmRun.Tide_End == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunTide_End), new[] { "Tide_End" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunTide_End), new[] { "Tide_End" });
                 }
             }
 
@@ -336,7 +339,7 @@ namespace CSSPServices
                 if (mwqmRun.RainDay0_mm < 0 || mwqmRun.RainDay0_mm > 300)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay0_mm, "0", "300"), new[] { "RainDay0_mm" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay0_mm, "0", "300"), new[] { "RainDay0_mm" });
                 }
             }
 
@@ -345,7 +348,7 @@ namespace CSSPServices
                 if (mwqmRun.RainDay1_mm < 0 || mwqmRun.RainDay1_mm > 300)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay1_mm, "0", "300"), new[] { "RainDay1_mm" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay1_mm, "0", "300"), new[] { "RainDay1_mm" });
                 }
             }
 
@@ -354,7 +357,7 @@ namespace CSSPServices
                 if (mwqmRun.RainDay2_mm < 0 || mwqmRun.RainDay2_mm > 300)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay2_mm, "0", "300"), new[] { "RainDay2_mm" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay2_mm, "0", "300"), new[] { "RainDay2_mm" });
                 }
             }
 
@@ -363,7 +366,7 @@ namespace CSSPServices
                 if (mwqmRun.RainDay3_mm < 0 || mwqmRun.RainDay3_mm > 300)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay3_mm, "0", "300"), new[] { "RainDay3_mm" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay3_mm, "0", "300"), new[] { "RainDay3_mm" });
                 }
             }
 
@@ -372,7 +375,7 @@ namespace CSSPServices
                 if (mwqmRun.RainDay4_mm < 0 || mwqmRun.RainDay4_mm > 300)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay4_mm, "0", "300"), new[] { "RainDay4_mm" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay4_mm, "0", "300"), new[] { "RainDay4_mm" });
                 }
             }
 
@@ -381,7 +384,7 @@ namespace CSSPServices
                 if (mwqmRun.RainDay5_mm < 0 || mwqmRun.RainDay5_mm > 300)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay5_mm, "0", "300"), new[] { "RainDay5_mm" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay5_mm, "0", "300"), new[] { "RainDay5_mm" });
                 }
             }
 
@@ -390,7 +393,7 @@ namespace CSSPServices
                 if (mwqmRun.RainDay6_mm < 0 || mwqmRun.RainDay6_mm > 300)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay6_mm, "0", "300"), new[] { "RainDay6_mm" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay6_mm, "0", "300"), new[] { "RainDay6_mm" });
                 }
             }
 
@@ -399,7 +402,7 @@ namespace CSSPServices
                 if (mwqmRun.RainDay7_mm < 0 || mwqmRun.RainDay7_mm > 300)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay7_mm, "0", "300"), new[] { "RainDay7_mm" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay7_mm, "0", "300"), new[] { "RainDay7_mm" });
                 }
             }
 
@@ -408,7 +411,7 @@ namespace CSSPServices
                 if (mwqmRun.RainDay8_mm < 0 || mwqmRun.RainDay8_mm > 300)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay8_mm, "0", "300"), new[] { "RainDay8_mm" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay8_mm, "0", "300"), new[] { "RainDay8_mm" });
                 }
             }
 
@@ -417,7 +420,7 @@ namespace CSSPServices
                 if (mwqmRun.RainDay9_mm < 0 || mwqmRun.RainDay9_mm > 300)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay9_mm, "0", "300"), new[] { "RainDay9_mm" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay9_mm, "0", "300"), new[] { "RainDay9_mm" });
                 }
             }
 
@@ -426,21 +429,21 @@ namespace CSSPServices
                 if (mwqmRun.RainDay10_mm < 0 || mwqmRun.RainDay10_mm > 300)
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMRunRainDay10_mm, "0", "300"), new[] { "RainDay10_mm" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMRunRainDay10_mm, "0", "300"), new[] { "RainDay10_mm" });
                 }
             }
 
             if (mwqmRun.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMRunLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMRunLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (mwqmRun.LastUpdateDate_UTC.Year < 1980)
                 {
                 mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMRunLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMRunLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -451,7 +454,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.MWQMRunLastUpdateContactTVItemID, mwqmRun.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMRunLastUpdateContactTVItemID, mwqmRun.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -462,86 +465,86 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     mwqmRun.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.MWQMRunLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMRunLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.SubsectorTVText) && mwqmRun.SubsectorTVText.Length > 200)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSubsectorTVText, "200"), new[] { "SubsectorTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSubsectorTVText, "200"), new[] { "SubsectorTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.MWQMRunTVText) && mwqmRun.MWQMRunTVText.Length > 200)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunMWQMRunTVText, "200"), new[] { "MWQMRunTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunMWQMRunTVText, "200"), new[] { "MWQMRunTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.LabSampleApprovalContactTVText) && mwqmRun.LabSampleApprovalContactTVText.Length > 200)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLabSampleApprovalContactTVText, "200"), new[] { "LabSampleApprovalContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLabSampleApprovalContactTVText, "200"), new[] { "LabSampleApprovalContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.LastUpdateContactTVText) && mwqmRun.LastUpdateContactTVText.Length > 200)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.RunSampleTypeText) && mwqmRun.RunSampleTypeText.Length > 100)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunRunSampleTypeText, "100"), new[] { "RunSampleTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunRunSampleTypeText, "100"), new[] { "RunSampleTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.SeaStateAtStart_BeaufortScaleText) && mwqmRun.SeaStateAtStart_BeaufortScaleText.Length > 100)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSeaStateAtStart_BeaufortScaleText, "100"), new[] { "SeaStateAtStart_BeaufortScaleText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSeaStateAtStart_BeaufortScaleText, "100"), new[] { "SeaStateAtStart_BeaufortScaleText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.SeaStateAtEnd_BeaufortScaleText) && mwqmRun.SeaStateAtEnd_BeaufortScaleText.Length > 100)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSeaStateAtEnd_BeaufortScaleText, "100"), new[] { "SeaStateAtEnd_BeaufortScaleText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSeaStateAtEnd_BeaufortScaleText, "100"), new[] { "SeaStateAtEnd_BeaufortScaleText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.AnalyzeMethodText) && mwqmRun.AnalyzeMethodText.Length > 100)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunAnalyzeMethodText, "100"), new[] { "AnalyzeMethodText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunAnalyzeMethodText, "100"), new[] { "AnalyzeMethodText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.SampleMatrixText) && mwqmRun.SampleMatrixText.Length > 100)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSampleMatrixText, "100"), new[] { "SampleMatrixText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSampleMatrixText, "100"), new[] { "SampleMatrixText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.LaboratoryText) && mwqmRun.LaboratoryText.Length > 100)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunLaboratoryText, "100"), new[] { "LaboratoryText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunLaboratoryText, "100"), new[] { "LaboratoryText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.SampleStatusText) && mwqmRun.SampleStatusText.Length > 100)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunSampleStatusText, "100"), new[] { "SampleStatusText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunSampleStatusText, "100"), new[] { "SampleStatusText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.Tide_StartText) && mwqmRun.Tide_StartText.Length > 100)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunTide_StartText, "100"), new[] { "Tide_StartText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunTide_StartText, "100"), new[] { "Tide_StartText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmRun.Tide_EndText) && mwqmRun.Tide_EndText.Length > 100)
             {
                 mwqmRun.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MWQMRunTide_EndText, "100"), new[] { "Tide_EndText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMRunTide_EndText, "100"), new[] { "Tide_EndText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

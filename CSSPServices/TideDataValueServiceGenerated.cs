@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour TideDataValue</para>
+    /// </summary>
     public partial class TideDataValueService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (tideDataValue.TideDataValueID == 0)
                 {
                     tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueTideDataValueID), new[] { "TideDataValueID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueTideDataValueID), new[] { "TideDataValueID" });
                 }
 
                 if (!GetRead().Where(c => c.TideDataValueID == tideDataValue.TideDataValueID).Any())
                 {
                     tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TideDataValue, ModelsRes.TideDataValueTideDataValueID, tideDataValue.TideDataValueID.ToString()), new[] { "TideDataValueID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TideDataValue, CSSPModelsRes.TideDataValueTideDataValueID, tideDataValue.TideDataValueID.ToString()), new[] { "TideDataValueID" });
                 }
             }
 
@@ -63,7 +66,7 @@ namespace CSSPServices
             if (TVItemTideSiteTVItemID == null)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TideDataValueTideSiteTVItemID, tideDataValue.TideSiteTVItemID.ToString()), new[] { "TideSiteTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideDataValueTideSiteTVItemID, tideDataValue.TideSiteTVItemID.ToString()), new[] { "TideSiteTVItemID" });
             }
             else
             {
@@ -74,21 +77,21 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemTideSiteTVItemID.TVType))
                 {
                     tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TideDataValueTideSiteTVItemID, "TideSite"), new[] { "TideSiteTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TideDataValueTideSiteTVItemID, "TideSite"), new[] { "TideSiteTVItemID" });
                 }
             }
 
             if (tideDataValue.DateTime_Local.Year == 1)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueDateTime_Local), new[] { "DateTime_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueDateTime_Local), new[] { "DateTime_Local" });
             }
             else
             {
                 if (tideDataValue.DateTime_Local.Year < 1980)
                 {
                 tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TideDataValueDateTime_Local, "1980"), new[] { "DateTime_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TideDataValueDateTime_Local, "1980"), new[] { "DateTime_Local" });
                 }
             }
 
@@ -98,14 +101,14 @@ namespace CSSPServices
             if (tideDataValue.TideDataType == TideDataTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueTideDataType), new[] { "TideDataType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueTideDataType), new[] { "TideDataType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(StorageDataTypeEnum), (int?)tideDataValue.StorageDataType);
             if (tideDataValue.StorageDataType == StorageDataTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueStorageDataType), new[] { "StorageDataType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueStorageDataType), new[] { "StorageDataType" });
             }
 
             //Depth_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -113,7 +116,7 @@ namespace CSSPServices
             if (tideDataValue.Depth_m < 0 || tideDataValue.Depth_m > 10000)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueDepth_m, "0", "10000"), new[] { "Depth_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideDataValueDepth_m, "0", "10000"), new[] { "Depth_m" });
             }
 
             //UVelocity_m_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -121,7 +124,7 @@ namespace CSSPServices
             if (tideDataValue.UVelocity_m_s < 0 || tideDataValue.UVelocity_m_s > 10)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueUVelocity_m_s, "0", "10"), new[] { "UVelocity_m_s" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideDataValueUVelocity_m_s, "0", "10"), new[] { "UVelocity_m_s" });
             }
 
             //VVelocity_m_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -129,7 +132,7 @@ namespace CSSPServices
             if (tideDataValue.VVelocity_m_s < 0 || tideDataValue.VVelocity_m_s > 10)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideDataValueVVelocity_m_s, "0", "10"), new[] { "VVelocity_m_s" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideDataValueVVelocity_m_s, "0", "10"), new[] { "VVelocity_m_s" });
             }
 
             if (tideDataValue.TideStart != null)
@@ -138,7 +141,7 @@ namespace CSSPServices
                 if (tideDataValue.TideStart == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueTideStart), new[] { "TideStart" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueTideStart), new[] { "TideStart" });
                 }
             }
 
@@ -148,21 +151,21 @@ namespace CSSPServices
                 if (tideDataValue.TideEnd == TideTextEnum.Error || !string.IsNullOrWhiteSpace(retStr))
                 {
                     tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueTideEnd), new[] { "TideEnd" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueTideEnd), new[] { "TideEnd" });
                 }
             }
 
             if (tideDataValue.LastUpdateDate_UTC.Year == 1)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TideDataValueLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideDataValueLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (tideDataValue.LastUpdateDate_UTC.Year < 1980)
                 {
                 tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.TideDataValueLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.TideDataValueLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -173,7 +176,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TideDataValueLastUpdateContactTVItemID, tideDataValue.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideDataValueLastUpdateContactTVItemID, tideDataValue.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -184,44 +187,44 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     tideDataValue.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TideDataValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TideDataValueLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(tideDataValue.TideSiteTVText) && tideDataValue.TideSiteTVText.Length > 200)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueTideSiteTVText, "200"), new[] { "TideSiteTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideDataValueTideSiteTVText, "200"), new[] { "TideSiteTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tideDataValue.LastUpdateContactTVText) && tideDataValue.LastUpdateContactTVText.Length > 200)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideDataValueLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tideDataValue.TideDataTypeText) && tideDataValue.TideDataTypeText.Length > 100)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueTideDataTypeText, "100"), new[] { "TideDataTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideDataValueTideDataTypeText, "100"), new[] { "TideDataTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tideDataValue.StorageDataTypeText) && tideDataValue.StorageDataTypeText.Length > 100)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueStorageDataTypeText, "100"), new[] { "StorageDataTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideDataValueStorageDataTypeText, "100"), new[] { "StorageDataTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tideDataValue.TideStartText) && tideDataValue.TideStartText.Length > 100)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueTideStartText, "100"), new[] { "TideStartText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideDataValueTideStartText, "100"), new[] { "TideStartText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tideDataValue.TideEndText) && tideDataValue.TideEndText.Length > 100)
             {
                 tideDataValue.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideDataValueTideEndText, "100"), new[] { "TideEndText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideDataValueTideEndText, "100"), new[] { "TideEndText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

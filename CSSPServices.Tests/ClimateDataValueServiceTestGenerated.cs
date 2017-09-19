@@ -132,13 +132,13 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.ClimateDataValueID = 0;
                     climateDataValueService.Update(climateDataValue);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueClimateDataValueID), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateDataValueClimateDataValueID), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.ClimateDataValueID = 10000000;
                     climateDataValueService.Update(climateDataValue);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ClimateDataValue, ModelsRes.ClimateDataValueClimateDataValueID, climateDataValue.ClimateDataValueID.ToString()), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ClimateDataValue, CSSPModelsRes.ClimateDataValueClimateDataValueID, climateDataValue.ClimateDataValueID.ToString()), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -151,7 +151,7 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.ClimateSiteID = 0;
                     climateDataValueService.Add(climateDataValue);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ClimateSite, ModelsRes.ClimateDataValueClimateSiteID, climateDataValue.ClimateSiteID.ToString()), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ClimateSite, CSSPModelsRes.ClimateDataValueClimateSiteID, climateDataValue.ClimateSiteID.ToString()), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -177,7 +177,7 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.StorageDataType = (StorageDataTypeEnum)1000000;
                     climateDataValueService.Add(climateDataValue);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.ClimateDataValueStorageDataType), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ClimateDataValueStorageDataType), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -192,13 +192,13 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.Snow_cm = -1.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnow_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueSnow_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.Snow_cm = 10001.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnow_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueSnow_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -----------------------------------
@@ -213,13 +213,13 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.Rainfall_mm = -1.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfall_mm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueRainfall_mm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.Rainfall_mm = 10001.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfall_mm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueRainfall_mm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -----------------------------------
@@ -234,13 +234,13 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.RainfallEntered_mm = -1.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfallEntered_mm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueRainfallEntered_mm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.RainfallEntered_mm = 10001.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueRainfallEntered_mm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueRainfallEntered_mm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -----------------------------------
@@ -255,13 +255,13 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.TotalPrecip_mm_cm = -1.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueTotalPrecip_mm_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueTotalPrecip_mm_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.TotalPrecip_mm_cm = 10001.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueTotalPrecip_mm_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueTotalPrecip_mm_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -----------------------------------
@@ -276,13 +276,13 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.MaxTemp_C = -51.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMaxTemp_C, "-50", "50"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueMaxTemp_C, "-50", "50"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.MaxTemp_C = 51.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMaxTemp_C, "-50", "50"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueMaxTemp_C, "-50", "50"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -----------------------------------
@@ -297,13 +297,13 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.MinTemp_C = -51.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMinTemp_C, "-50", "50"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueMinTemp_C, "-50", "50"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.MinTemp_C = 51.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueMinTemp_C, "-50", "50"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueMinTemp_C, "-50", "50"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -----------------------------------
@@ -318,13 +318,13 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.HeatDegDays_C = -1001.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueHeatDegDays_C, "-1000", "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueHeatDegDays_C, "-1000", "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.HeatDegDays_C = 101.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueHeatDegDays_C, "-1000", "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueHeatDegDays_C, "-1000", "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -----------------------------------
@@ -339,13 +339,13 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.CoolDegDays_C = -1001.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueCoolDegDays_C, "-1000", "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueCoolDegDays_C, "-1000", "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.CoolDegDays_C = 101.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueCoolDegDays_C, "-1000", "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueCoolDegDays_C, "-1000", "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -----------------------------------
@@ -360,13 +360,13 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.SnowOnGround_cm = -1.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnowOnGround_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueSnowOnGround_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.SnowOnGround_cm = 10001.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSnowOnGround_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueSnowOnGround_cm, "0", "10000"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -----------------------------------
@@ -381,13 +381,13 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.DirMaxGust_0North = -1.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueDirMaxGust_0North, "0", "360"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueDirMaxGust_0North, "0", "360"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.DirMaxGust_0North = 361.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueDirMaxGust_0North, "0", "360"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueDirMaxGust_0North, "0", "360"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -----------------------------------
@@ -402,13 +402,13 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.SpdMaxGust_kmh = -1.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSpdMaxGust_kmh, "0", "300"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueSpdMaxGust_kmh, "0", "300"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.SpdMaxGust_kmh = 301.0D;
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ClimateDataValueSpdMaxGust_kmh, "0", "300"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ClimateDataValueSpdMaxGust_kmh, "0", "300"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -----------------------------------
@@ -434,13 +434,13 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.LastUpdateContactTVItemID = 0;
                     climateDataValueService.Add(climateDataValue);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ClimateDataValueLastUpdateContactTVItemID, climateDataValue.LastUpdateContactTVItemID.ToString()), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ClimateDataValueLastUpdateContactTVItemID, climateDataValue.LastUpdateContactTVItemID.ToString()), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     climateDataValue = null;
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.LastUpdateContactTVItemID = 1;
                     climateDataValueService.Add(climateDataValue);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ClimateDataValueLastUpdateContactTVItemID, "Contact"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ClimateDataValueLastUpdateContactTVItemID, "Contact"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -455,7 +455,7 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateDataValueLastUpdateContactTVText, "200"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateDataValueLastUpdateContactTVText, "200"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -----------------------------------
@@ -469,7 +469,7 @@ namespace CSSPServices.Tests
                     climateDataValue = GetFilledRandomClimateDataValue("");
                     climateDataValue.StorageDataTypeEnumText = GetRandomString("", 101);
                     Assert.AreEqual(false, climateDataValueService.Add(climateDataValue));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ClimateDataValueStorageDataTypeEnumText, "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ClimateDataValueStorageDataTypeEnumText, "100"), climateDataValue.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, climateDataValueService.GetRead().Count());
 
                     // -----------------------------------

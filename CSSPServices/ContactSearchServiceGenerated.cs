@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour ContactSearch</para>
+    /// </summary>
     public partial class ContactSearchService : BaseService
     {
         #region Variables
@@ -44,7 +47,7 @@ namespace CSSPServices
             if (contactSearch.ContactID < 1)
             {
                 contactSearch.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactSearchContactID, "1"), new[] { "ContactID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ContactSearchContactID, "1"), new[] { "ContactID" });
             }
 
             //ContactTVItemID (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -52,19 +55,19 @@ namespace CSSPServices
             if (contactSearch.ContactTVItemID < 1)
             {
                 contactSearch.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContactSearchContactTVItemID, "1"), new[] { "ContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ContactSearchContactTVItemID, "1"), new[] { "ContactTVItemID" });
             }
 
             if (string.IsNullOrWhiteSpace(contactSearch.FullName))
             {
                 contactSearch.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactSearchFullName), new[] { "FullName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactSearchFullName), new[] { "FullName" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactSearch.FullName) && contactSearch.FullName.Length > 255)
             {
                 contactSearch.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactSearchFullName, "255"), new[] { "FullName" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactSearchFullName, "255"), new[] { "FullName" });
             }
 
             //HasErrors (bool) is required but no testing needed 

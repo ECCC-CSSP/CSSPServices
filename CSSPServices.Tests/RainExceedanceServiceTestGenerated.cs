@@ -126,13 +126,13 @@ namespace CSSPServices.Tests
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.RainExceedanceID = 0;
                     rainExceedanceService.Update(rainExceedance);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceRainExceedanceID), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RainExceedanceRainExceedanceID), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     rainExceedance = null;
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.RainExceedanceID = 10000000;
                     rainExceedanceService.Update(rainExceedance);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.RainExceedance, ModelsRes.RainExceedanceRainExceedanceID, rainExceedance.RainExceedanceID.ToString()), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.RainExceedance, CSSPModelsRes.RainExceedanceRainExceedanceID, rainExceedance.RainExceedanceID.ToString()), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -168,13 +168,13 @@ namespace CSSPServices.Tests
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.RainMaximum_mm = -1.0D;
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainMaximum_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RainExceedanceRainMaximum_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
                     rainExceedance = null;
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.RainMaximum_mm = 301.0D;
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainMaximum_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RainExceedanceRainMaximum_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
                     // -----------------------------------
@@ -189,13 +189,13 @@ namespace CSSPServices.Tests
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.RainExtreme_mm = -1.0D;
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainExtreme_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RainExceedanceRainExtreme_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
                     rainExceedance = null;
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.RainExtreme_mm = 301.0D;
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceRainExtreme_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RainExceedanceRainExtreme_mm, "0", "300"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
                     // -----------------------------------
@@ -208,13 +208,13 @@ namespace CSSPServices.Tests
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.DaysPriorToStart = -1;
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceDaysPriorToStart, "0", "30"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RainExceedanceDaysPriorToStart, "0", "30"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
                     rainExceedance = null;
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.DaysPriorToStart = 31;
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.RainExceedanceDaysPriorToStart, "0", "30"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.RainExceedanceDaysPriorToStart, "0", "30"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
                     // -----------------------------------
@@ -233,7 +233,7 @@ namespace CSSPServices.Tests
                     rainExceedance = GetFilledRandomRainExceedance("ProvinceTVItemIDs");
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
                     Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
-                    Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceProvinceTVItemIDs)).Any());
+                    Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RainExceedanceProvinceTVItemIDs)).Any());
                     Assert.AreEqual(null, rainExceedance.ProvinceTVItemIDs);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
@@ -241,7 +241,7 @@ namespace CSSPServices.Tests
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.ProvinceTVItemIDs = GetRandomString("", 251);
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceProvinceTVItemIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RainExceedanceProvinceTVItemIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
                     // -----------------------------------
@@ -254,7 +254,7 @@ namespace CSSPServices.Tests
                     rainExceedance = GetFilledRandomRainExceedance("SubsectorTVItemIDs");
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
                     Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
-                    Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceSubsectorTVItemIDs)).Any());
+                    Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RainExceedanceSubsectorTVItemIDs)).Any());
                     Assert.AreEqual(null, rainExceedance.SubsectorTVItemIDs);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
@@ -262,7 +262,7 @@ namespace CSSPServices.Tests
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.SubsectorTVItemIDs = GetRandomString("", 251);
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceSubsectorTVItemIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RainExceedanceSubsectorTVItemIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
                     // -----------------------------------
@@ -275,7 +275,7 @@ namespace CSSPServices.Tests
                     rainExceedance = GetFilledRandomRainExceedance("ClimateSiteTVItemIDs");
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
                     Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
-                    Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceClimateSiteTVItemIDs)).Any());
+                    Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RainExceedanceClimateSiteTVItemIDs)).Any());
                     Assert.AreEqual(null, rainExceedance.ClimateSiteTVItemIDs);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
@@ -283,7 +283,7 @@ namespace CSSPServices.Tests
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.ClimateSiteTVItemIDs = GetRandomString("", 251);
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceClimateSiteTVItemIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RainExceedanceClimateSiteTVItemIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
                     // -----------------------------------
@@ -296,7 +296,7 @@ namespace CSSPServices.Tests
                     rainExceedance = GetFilledRandomRainExceedance("EmailDistributionListIDs");
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
                     Assert.AreEqual(1, rainExceedance.ValidationResults.Count());
-                    Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.RainExceedanceEmailDistributionListIDs)).Any());
+                    Assert.IsTrue(rainExceedance.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.RainExceedanceEmailDistributionListIDs)).Any());
                     Assert.AreEqual(null, rainExceedance.EmailDistributionListIDs);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
@@ -304,7 +304,7 @@ namespace CSSPServices.Tests
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.EmailDistributionListIDs = GetRandomString("", 251);
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceEmailDistributionListIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RainExceedanceEmailDistributionListIDs, "250"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
                     // -----------------------------------
@@ -324,13 +324,13 @@ namespace CSSPServices.Tests
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.LastUpdateContactTVItemID = 0;
                     rainExceedanceService.Add(rainExceedance);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.RainExceedanceLastUpdateContactTVItemID, rainExceedance.LastUpdateContactTVItemID.ToString()), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.RainExceedanceLastUpdateContactTVItemID, rainExceedance.LastUpdateContactTVItemID.ToString()), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     rainExceedance = null;
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.LastUpdateContactTVItemID = 1;
                     rainExceedanceService.Add(rainExceedance);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.RainExceedanceLastUpdateContactTVItemID, "Contact"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.RainExceedanceLastUpdateContactTVItemID, "Contact"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -345,7 +345,7 @@ namespace CSSPServices.Tests
                     rainExceedance = GetFilledRandomRainExceedance("");
                     rainExceedance.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, rainExceedanceService.Add(rainExceedance));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.RainExceedanceLastUpdateContactTVText, "200"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.RainExceedanceLastUpdateContactTVText, "200"), rainExceedance.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, rainExceedanceService.GetRead().Count());
 
                     // -----------------------------------

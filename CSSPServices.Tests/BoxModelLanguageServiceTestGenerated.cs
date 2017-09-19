@@ -121,13 +121,13 @@ namespace CSSPServices.Tests
                     boxModelLanguage = GetFilledRandomBoxModelLanguage("");
                     boxModelLanguage.BoxModelLanguageID = 0;
                     boxModelLanguageService.Update(boxModelLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLanguageBoxModelLanguageID), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelLanguageBoxModelLanguageID), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     boxModelLanguage = null;
                     boxModelLanguage = GetFilledRandomBoxModelLanguage("");
                     boxModelLanguage.BoxModelLanguageID = 10000000;
                     boxModelLanguageService.Update(boxModelLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModelLanguage, ModelsRes.BoxModelLanguageBoxModelLanguageID, boxModelLanguage.BoxModelLanguageID.ToString()), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.BoxModelLanguage, CSSPModelsRes.BoxModelLanguageBoxModelLanguageID, boxModelLanguage.BoxModelLanguageID.ToString()), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -140,7 +140,7 @@ namespace CSSPServices.Tests
                     boxModelLanguage = GetFilledRandomBoxModelLanguage("");
                     boxModelLanguage.BoxModelID = 0;
                     boxModelLanguageService.Add(boxModelLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModel, ModelsRes.BoxModelLanguageBoxModelID, boxModelLanguage.BoxModelID.ToString()), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.BoxModel, CSSPModelsRes.BoxModelLanguageBoxModelID, boxModelLanguage.BoxModelID.ToString()), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -153,7 +153,7 @@ namespace CSSPServices.Tests
                     boxModelLanguage = GetFilledRandomBoxModelLanguage("");
                     boxModelLanguage.Language = (LanguageEnum)1000000;
                     boxModelLanguageService.Add(boxModelLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLanguageLanguage), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelLanguageLanguage), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -166,7 +166,7 @@ namespace CSSPServices.Tests
                     boxModelLanguage = GetFilledRandomBoxModelLanguage("ScenarioName");
                     Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
                     Assert.AreEqual(1, boxModelLanguage.ValidationResults.Count());
-                    Assert.IsTrue(boxModelLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLanguageScenarioName)).Any());
+                    Assert.IsTrue(boxModelLanguage.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelLanguageScenarioName)).Any());
                     Assert.AreEqual(null, boxModelLanguage.ScenarioName);
                     Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
 
@@ -174,7 +174,7 @@ namespace CSSPServices.Tests
                     boxModelLanguage = GetFilledRandomBoxModelLanguage("");
                     boxModelLanguage.ScenarioName = GetRandomString("", 251);
                     Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLanguageScenarioName, "250"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelLanguageScenarioName, "250"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -187,7 +187,7 @@ namespace CSSPServices.Tests
                     boxModelLanguage = GetFilledRandomBoxModelLanguage("");
                     boxModelLanguage.TranslationStatus = (TranslationStatusEnum)1000000;
                     boxModelLanguageService.Add(boxModelLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelLanguageTranslationStatus), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelLanguageTranslationStatus), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -207,13 +207,13 @@ namespace CSSPServices.Tests
                     boxModelLanguage = GetFilledRandomBoxModelLanguage("");
                     boxModelLanguage.LastUpdateContactTVItemID = 0;
                     boxModelLanguageService.Add(boxModelLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelLanguageLastUpdateContactTVItemID, boxModelLanguage.LastUpdateContactTVItemID.ToString()), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.BoxModelLanguageLastUpdateContactTVItemID, boxModelLanguage.LastUpdateContactTVItemID.ToString()), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     boxModelLanguage = null;
                     boxModelLanguage = GetFilledRandomBoxModelLanguage("");
                     boxModelLanguage.LastUpdateContactTVItemID = 1;
                     boxModelLanguageService.Add(boxModelLanguage);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelLanguageLastUpdateContactTVItemID, "Contact"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.BoxModelLanguageLastUpdateContactTVItemID, "Contact"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -228,7 +228,7 @@ namespace CSSPServices.Tests
                     boxModelLanguage = GetFilledRandomBoxModelLanguage("");
                     boxModelLanguage.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLanguageLastUpdateContactTVText, "200"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelLanguageLastUpdateContactTVText, "200"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -242,7 +242,7 @@ namespace CSSPServices.Tests
                     boxModelLanguage = GetFilledRandomBoxModelLanguage("");
                     boxModelLanguage.LanguageText = GetRandomString("", 101);
                     Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLanguageLanguageText, "100"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelLanguageLanguageText, "100"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
 
                     // -----------------------------------
@@ -256,7 +256,7 @@ namespace CSSPServices.Tests
                     boxModelLanguage = GetFilledRandomBoxModelLanguage("");
                     boxModelLanguage.TranslationStatusText = GetRandomString("", 101);
                     Assert.AreEqual(false, boxModelLanguageService.Add(boxModelLanguage));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLanguageTranslationStatusText, "100"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelLanguageTranslationStatusText, "100"), boxModelLanguage.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelLanguageService.GetRead().Count());
 
                     // -----------------------------------

@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour OtherFilesToUpload</para>
+    /// </summary>
     public partial class OtherFilesToUploadService : BaseService
     {
         #region Variables
@@ -42,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(otherFilesToUpload.Error))
             {
                 otherFilesToUpload.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.OtherFilesToUploadError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.OtherFilesToUploadError), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
@@ -52,7 +55,7 @@ namespace CSSPServices
             if (otherFilesToUpload.MikeScenarioID < 1)
             {
                 otherFilesToUpload.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.OtherFilesToUploadMikeScenarioID, "1"), new[] { "MikeScenarioID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.OtherFilesToUploadMikeScenarioID, "1"), new[] { "MikeScenarioID" });
             }
 
             //HasErrors (bool) is required but no testing needed 

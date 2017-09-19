@@ -127,13 +127,13 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.BoxModelID = 0;
                     boxModelService.Update(boxModel);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.BoxModelBoxModelID), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.BoxModelBoxModelID), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.BoxModelID = 10000000;
                     boxModelService.Update(boxModel);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.BoxModel, ModelsRes.BoxModelBoxModelID, boxModel.BoxModelID.ToString()), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.BoxModel, CSSPModelsRes.BoxModelBoxModelID, boxModel.BoxModelID.ToString()), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -146,13 +146,13 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.InfrastructureTVItemID = 0;
                     boxModelService.Add(boxModel);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelInfrastructureTVItemID, boxModel.InfrastructureTVItemID.ToString()), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.BoxModelInfrastructureTVItemID, boxModel.InfrastructureTVItemID.ToString()), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.InfrastructureTVItemID = 1;
                     boxModelService.Add(boxModel);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelInfrastructureTVItemID, "Infrastructure"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.BoxModelInfrastructureTVItemID, "Infrastructure"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -167,13 +167,13 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.Flow_m3_day = -1.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlow_m3_day, "0", "10000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelFlow_m3_day, "0", "10000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.Flow_m3_day = 10001.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlow_m3_day, "0", "10000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelFlow_m3_day, "0", "10000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
 
                     // -----------------------------------
@@ -188,13 +188,13 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.Depth_m = -1.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDepth_m, "0", "1000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelDepth_m, "0", "1000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.Depth_m = 1001.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDepth_m, "0", "1000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelDepth_m, "0", "1000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
 
                     // -----------------------------------
@@ -209,13 +209,13 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.Temperature_C = -16.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelTemperature_C, "-15", "40"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelTemperature_C, "-15", "40"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.Temperature_C = 41.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelTemperature_C, "-15", "40"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelTemperature_C, "-15", "40"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
 
                     // -----------------------------------
@@ -228,13 +228,13 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.Dilution = -1;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDilution, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelDilution, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.Dilution = 10000001;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDilution, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelDilution, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
 
                     // -----------------------------------
@@ -249,13 +249,13 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.DecayRate_per_day = -1.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDecayRate_per_day, "0", "100"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelDecayRate_per_day, "0", "100"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.DecayRate_per_day = 101.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelDecayRate_per_day, "0", "100"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelDecayRate_per_day, "0", "100"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
 
                     // -----------------------------------
@@ -268,13 +268,13 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.FCUntreated_MPN_100ml = -1;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCUntreated_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelFCUntreated_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.FCUntreated_MPN_100ml = 10000001;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCUntreated_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelFCUntreated_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
 
                     // -----------------------------------
@@ -287,13 +287,13 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.FCPreDisinfection_MPN_100ml = -1;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCPreDisinfection_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelFCPreDisinfection_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.FCPreDisinfection_MPN_100ml = 10000001;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFCPreDisinfection_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelFCPreDisinfection_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
 
                     // -----------------------------------
@@ -306,13 +306,13 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.Concentration_MPN_100ml = -1;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelConcentration_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelConcentration_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.Concentration_MPN_100ml = 10000001;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelConcentration_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelConcentration_MPN_100ml, "0", "10000000"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
 
                     // -----------------------------------
@@ -327,7 +327,7 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.T90_hour = -1.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._MinValueIs_, ModelsRes.BoxModelT90_hour, "0"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.BoxModelT90_hour, "0"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
 
                     // -----------------------------------
@@ -342,13 +342,13 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.FlowDuration_hour = -1.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlowDuration_hour, "0", "24"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelFlowDuration_hour, "0", "24"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.FlowDuration_hour = 25.0D;
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.BoxModelFlowDuration_hour, "0", "24"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.BoxModelFlowDuration_hour, "0", "24"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
 
                     // -----------------------------------
@@ -368,13 +368,13 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.LastUpdateContactTVItemID = 0;
                     boxModelService.Add(boxModel);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.BoxModelLastUpdateContactTVItemID, boxModel.LastUpdateContactTVItemID.ToString()), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.BoxModelLastUpdateContactTVItemID, boxModel.LastUpdateContactTVItemID.ToString()), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     boxModel = null;
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.LastUpdateContactTVItemID = 1;
                     boxModelService.Add(boxModel);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.BoxModelLastUpdateContactTVItemID, "Contact"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.BoxModelLastUpdateContactTVItemID, "Contact"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -389,7 +389,7 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.InfrastructureTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelInfrastructureTVText, "200"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelInfrastructureTVText, "200"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
 
                     // -----------------------------------
@@ -404,7 +404,7 @@ namespace CSSPServices.Tests
                     boxModel = GetFilledRandomBoxModel("");
                     boxModel.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, boxModelService.Add(boxModel));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.BoxModelLastUpdateContactTVText, "200"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.BoxModelLastUpdateContactTVText, "200"), boxModel.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, boxModelService.GetRead().Count());
 
                     // -----------------------------------

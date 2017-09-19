@@ -131,13 +131,13 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.UseOfSiteID = 0;
                     useOfSiteService.Update(useOfSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteUseOfSiteID), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.UseOfSiteUseOfSiteID), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.UseOfSiteID = 10000000;
                     useOfSiteService.Update(useOfSite);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.UseOfSite, ModelsRes.UseOfSiteUseOfSiteID, useOfSite.UseOfSiteID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.UseOfSite, CSSPModelsRes.UseOfSiteUseOfSiteID, useOfSite.UseOfSiteID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -150,13 +150,13 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.SiteTVItemID = 0;
                     useOfSiteService.Add(useOfSite);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteSiteTVItemID, useOfSite.SiteTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.UseOfSiteSiteTVItemID, useOfSite.SiteTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.SiteTVItemID = 1;
                     useOfSiteService.Add(useOfSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.UseOfSiteSiteTVItemID, "ClimateSite,HydrometricSite,TideSite"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.UseOfSiteSiteTVItemID, "ClimateSite,HydrometricSite,TideSite"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -169,13 +169,13 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.SubsectorTVItemID = 0;
                     useOfSiteService.Add(useOfSite);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteSubsectorTVItemID, useOfSite.SubsectorTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.UseOfSiteSubsectorTVItemID, useOfSite.SubsectorTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.SubsectorTVItemID = 1;
                     useOfSiteService.Add(useOfSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.UseOfSiteSubsectorTVItemID, "Subsector"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.UseOfSiteSubsectorTVItemID, "Subsector"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -188,7 +188,7 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.SiteType = (SiteTypeEnum)1000000;
                     useOfSiteService.Add(useOfSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.UseOfSiteSiteType), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.UseOfSiteSiteType), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -201,13 +201,13 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Ordinal = -1;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteOrdinal, "0", "1000"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteOrdinal, "0", "1000"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Ordinal = 1001;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteOrdinal, "0", "1000"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteOrdinal, "0", "1000"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -220,13 +220,13 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.StartYear = 1979;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteStartYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteStartYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.StartYear = 2051;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteStartYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteStartYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -239,13 +239,13 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.EndYear = 1979;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteEndYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteEndYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.EndYear = 2051;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteEndYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteEndYear, "1980", "2050"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -266,13 +266,13 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Weight_perc = -1.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteWeight_perc, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteWeight_perc, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Weight_perc = 101.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteWeight_perc, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteWeight_perc, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -293,13 +293,13 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Param1 = -1.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam1, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteParam1, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Param1 = 101.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam1, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteParam1, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -314,13 +314,13 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Param2 = -1.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam2, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteParam2, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Param2 = 101.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam2, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteParam2, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -335,13 +335,13 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Param3 = -1.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam3, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteParam3, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Param3 = 101.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam3, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteParam3, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -356,13 +356,13 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Param4 = -1.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam4, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteParam4, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.Param4 = 101.0D;
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.UseOfSiteParam4, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.UseOfSiteParam4, "0", "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -382,13 +382,13 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.LastUpdateContactTVItemID = 0;
                     useOfSiteService.Add(useOfSite);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.UseOfSiteLastUpdateContactTVItemID, useOfSite.LastUpdateContactTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.UseOfSiteLastUpdateContactTVItemID, useOfSite.LastUpdateContactTVItemID.ToString()), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     useOfSite = null;
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.LastUpdateContactTVItemID = 1;
                     useOfSiteService.Add(useOfSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.UseOfSiteLastUpdateContactTVItemID, "Contact"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.UseOfSiteLastUpdateContactTVItemID, "Contact"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -403,7 +403,7 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.SiteTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteSiteTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.UseOfSiteSiteTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -418,7 +418,7 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.SubsectorTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteSubsectorTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.UseOfSiteSubsectorTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -433,7 +433,7 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteLastUpdateContactTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.UseOfSiteLastUpdateContactTVText, "200"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -447,7 +447,7 @@ namespace CSSPServices.Tests
                     useOfSite = GetFilledRandomUseOfSite("");
                     useOfSite.SiteTypeText = GetRandomString("", 101);
                     Assert.AreEqual(false, useOfSiteService.Add(useOfSite));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.UseOfSiteSiteTypeText, "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.UseOfSiteSiteTypeText, "100"), useOfSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, useOfSiteService.GetRead().Count());
 
                     // -----------------------------------

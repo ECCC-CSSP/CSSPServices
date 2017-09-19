@@ -83,7 +83,7 @@ namespace CSSPServices
                 TVItemLanguage tvItemLanguage = new TVItemLanguage()
                 {
                     Language = Lang,
-                    TVText = ServicesRes.Root,
+                    TVText = CSSPServicesRes.Root,
                     TVItemID = tvItem.TVItemID,
                     TranslationStatus = (Lang == LanguageRequest ? TranslationStatusEnum.Translated : TranslationStatusEnum.NotTranslated),
                 };
@@ -102,7 +102,7 @@ namespace CSSPServices
             TVItem tvItemParent = GetRead().Where(c => c.TVItemID == ParentTVItemID).FirstOrDefault();
             if (tvItemParent == null)
             {
-                tvItem.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemTVItemID, ParentTVItemID.ToString())) };
+                tvItem.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemTVItemID, ParentTVItemID.ToString())) };
                 return false;
             }
 
@@ -118,7 +118,7 @@ namespace CSSPServices
 
                 if (tvItemExist != null)
                 {
-                    tvItem.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._AlreadyExists, TVText)) };
+                    tvItem.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._AlreadyExists, TVText)) };
                     return false;
                 }
             }
@@ -174,7 +174,7 @@ namespace CSSPServices
             TVItem tvItemParent = GetRead().Where(c => c.TVItemID == ParentTVItemID).FirstOrDefault();
             if (tvItemParent == null)
             {
-                tvItem.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TVItemTVItemID, ParentTVItemID.ToString())) };
+                tvItem.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TVItemTVItemID, ParentTVItemID.ToString())) };
                 return false;
             }
 
@@ -190,7 +190,7 @@ namespace CSSPServices
 
                 if (tvItemExist != null)
                 {
-                    tvItem.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._AlreadyExists, TVText)) };
+                    tvItem.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._AlreadyExists, TVText)) };
                     return false;
                 }
             }

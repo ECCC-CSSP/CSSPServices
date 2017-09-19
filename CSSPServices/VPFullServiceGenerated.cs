@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour VPFull</para>
+    /// </summary>
     public partial class VPFullService : BaseService
     {
         #region Variables

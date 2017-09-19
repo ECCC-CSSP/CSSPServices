@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour PolSourceInactiveReasonEnumTextAndID</para>
+    /// </summary>
     public partial class PolSourceInactiveReasonEnumTextAndIDService : BaseService
     {
         #region Variables
@@ -42,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(polSourceInactiveReasonEnumTextAndID.Text))
             {
                 polSourceInactiveReasonEnumTextAndID.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.PolSourceInactiveReasonEnumTextAndIDText), new[] { "Text" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.PolSourceInactiveReasonEnumTextAndIDText), new[] { "Text" });
             }
 
             //Text has no StringLength Attribute
@@ -52,7 +55,7 @@ namespace CSSPServices
             if (polSourceInactiveReasonEnumTextAndID.ID < 1)
             {
                 polSourceInactiveReasonEnumTextAndID.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.PolSourceInactiveReasonEnumTextAndIDID, "1"), new[] { "ID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.PolSourceInactiveReasonEnumTextAndIDID, "1"), new[] { "ID" });
             }
 
             //HasErrors (bool) is required but no testing needed 

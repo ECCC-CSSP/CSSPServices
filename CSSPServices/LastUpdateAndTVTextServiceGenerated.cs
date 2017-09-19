@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour LastUpdateAndTVText</para>
+    /// </summary>
     public partial class LastUpdateAndTVTextService : BaseService
     {
         #region Variables
@@ -42,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(lastUpdateAndTVText.Error))
             {
                 lastUpdateAndTVText.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LastUpdateAndTVTextError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LastUpdateAndTVTextError), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
@@ -50,41 +53,41 @@ namespace CSSPServices
             if (lastUpdateAndTVText.LastUpdateDate_UTC.Year == 1)
             {
                 lastUpdateAndTVText.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LastUpdateAndTVTextLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LastUpdateAndTVTextLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (lastUpdateAndTVText.LastUpdateDate_UTC.Year < 1980)
                 {
                 lastUpdateAndTVText.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LastUpdateAndTVTextLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LastUpdateAndTVTextLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
             if (lastUpdateAndTVText.LastUpdateDate_Local.Year == 1)
             {
                 lastUpdateAndTVText.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LastUpdateAndTVTextLastUpdateDate_Local), new[] { "LastUpdateDate_Local" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LastUpdateAndTVTextLastUpdateDate_Local), new[] { "LastUpdateDate_Local" });
             }
             else
             {
                 if (lastUpdateAndTVText.LastUpdateDate_Local.Year < 1980)
                 {
                 lastUpdateAndTVText.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.LastUpdateAndTVTextLastUpdateDate_Local, "1980"), new[] { "LastUpdateDate_Local" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.LastUpdateAndTVTextLastUpdateDate_Local, "1980"), new[] { "LastUpdateDate_Local" });
                 }
             }
 
             if (string.IsNullOrWhiteSpace(lastUpdateAndTVText.TVText))
             {
                 lastUpdateAndTVText.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.LastUpdateAndTVTextTVText), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.LastUpdateAndTVTextTVText), new[] { "TVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(lastUpdateAndTVText.TVText) && (lastUpdateAndTVText.TVText.Length < 1 || lastUpdateAndTVText.TVText.Length > 200))
             {
                 lastUpdateAndTVText.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.LastUpdateAndTVTextTVText, "1", "200"), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.LastUpdateAndTVTextTVText, "1", "200"), new[] { "TVText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

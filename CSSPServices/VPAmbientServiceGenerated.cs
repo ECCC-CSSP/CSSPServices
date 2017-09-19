@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour VPAmbient</para>
+    /// </summary>
     public partial class VPAmbientService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (vpAmbient.VPAmbientID == 0)
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPAmbientVPAmbientID), new[] { "VPAmbientID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPAmbientVPAmbientID), new[] { "VPAmbientID" });
                 }
 
                 if (!GetRead().Where(c => c.VPAmbientID == vpAmbient.VPAmbientID).Any())
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPAmbient, ModelsRes.VPAmbientVPAmbientID, vpAmbient.VPAmbientID.ToString()), new[] { "VPAmbientID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPAmbient, CSSPModelsRes.VPAmbientVPAmbientID, vpAmbient.VPAmbientID.ToString()), new[] { "VPAmbientID" });
                 }
             }
 
@@ -63,7 +66,7 @@ namespace CSSPServices
             if (VPScenarioVPScenarioID == null)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.VPScenario, ModelsRes.VPAmbientVPScenarioID, vpAmbient.VPScenarioID.ToString()), new[] { "VPScenarioID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.VPScenario, CSSPModelsRes.VPAmbientVPScenarioID, vpAmbient.VPScenarioID.ToString()), new[] { "VPScenarioID" });
             }
 
             //Row (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -71,7 +74,7 @@ namespace CSSPServices
             if (vpAmbient.Row < 0 || vpAmbient.Row > 10)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientRow, "0", "10"), new[] { "Row" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientRow, "0", "10"), new[] { "Row" });
             }
 
             //MeasurementDepth_m (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -79,7 +82,7 @@ namespace CSSPServices
             if (vpAmbient.MeasurementDepth_m < 0 || vpAmbient.MeasurementDepth_m > 1000)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientMeasurementDepth_m, "0", "1000"), new[] { "MeasurementDepth_m" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientMeasurementDepth_m, "0", "1000"), new[] { "MeasurementDepth_m" });
             }
 
             //CurrentSpeed_m_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -87,7 +90,7 @@ namespace CSSPServices
             if (vpAmbient.CurrentSpeed_m_s < 0 || vpAmbient.CurrentSpeed_m_s > 10)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10"), new[] { "CurrentSpeed_m_s" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientCurrentSpeed_m_s, "0", "10"), new[] { "CurrentSpeed_m_s" });
             }
 
             //CurrentDirection_deg (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -95,7 +98,7 @@ namespace CSSPServices
             if (vpAmbient.CurrentDirection_deg < -180 || vpAmbient.CurrentDirection_deg > 180)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientCurrentDirection_deg, "-180", "180"), new[] { "CurrentDirection_deg" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientCurrentDirection_deg, "-180", "180"), new[] { "CurrentDirection_deg" });
             }
 
             //AmbientSalinity_PSU (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -103,7 +106,7 @@ namespace CSSPServices
             if (vpAmbient.AmbientSalinity_PSU < 0 || vpAmbient.AmbientSalinity_PSU > 40)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40"), new[] { "AmbientSalinity_PSU" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientAmbientSalinity_PSU, "0", "40"), new[] { "AmbientSalinity_PSU" });
             }
 
             //AmbientTemperature_C (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -111,7 +114,7 @@ namespace CSSPServices
             if (vpAmbient.AmbientTemperature_C < -10 || vpAmbient.AmbientTemperature_C > 40)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientAmbientTemperature_C, "-10", "40"), new[] { "AmbientTemperature_C" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientAmbientTemperature_C, "-10", "40"), new[] { "AmbientTemperature_C" });
             }
 
             //BackgroundConcentration_MPN_100ml (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -119,7 +122,7 @@ namespace CSSPServices
             if (vpAmbient.BackgroundConcentration_MPN_100ml < 0 || vpAmbient.BackgroundConcentration_MPN_100ml > 10000000)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientBackgroundConcentration_MPN_100ml, "0", "10000000"), new[] { "BackgroundConcentration_MPN_100ml" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientBackgroundConcentration_MPN_100ml, "0", "10000000"), new[] { "BackgroundConcentration_MPN_100ml" });
             }
 
             //PollutantDecayRate_per_day (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -127,7 +130,7 @@ namespace CSSPServices
             if (vpAmbient.PollutantDecayRate_per_day < 0 || vpAmbient.PollutantDecayRate_per_day > 100)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "100"), new[] { "PollutantDecayRate_per_day" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientPollutantDecayRate_per_day, "0", "100"), new[] { "PollutantDecayRate_per_day" });
             }
 
             //FarFieldCurrentSpeed_m_s (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -135,7 +138,7 @@ namespace CSSPServices
             if (vpAmbient.FarFieldCurrentSpeed_m_s < 0 || vpAmbient.FarFieldCurrentSpeed_m_s > 10)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10"), new[] { "FarFieldCurrentSpeed_m_s" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientFarFieldCurrentSpeed_m_s, "0", "10"), new[] { "FarFieldCurrentSpeed_m_s" });
             }
 
             //FarFieldCurrentDirection_deg (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -143,7 +146,7 @@ namespace CSSPServices
             if (vpAmbient.FarFieldCurrentDirection_deg < -180 || vpAmbient.FarFieldCurrentDirection_deg > 180)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldCurrentDirection_deg, "-180", "180"), new[] { "FarFieldCurrentDirection_deg" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientFarFieldCurrentDirection_deg, "-180", "180"), new[] { "FarFieldCurrentDirection_deg" });
             }
 
             //FarFieldDiffusionCoefficient (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -151,20 +154,20 @@ namespace CSSPServices
             if (vpAmbient.FarFieldDiffusionCoefficient < 0 || vpAmbient.FarFieldDiffusionCoefficient > 1)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1"), new[] { "FarFieldDiffusionCoefficient" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.VPAmbientFarFieldDiffusionCoefficient, "0", "1"), new[] { "FarFieldDiffusionCoefficient" });
             }
 
             if (vpAmbient.LastUpdateDate_UTC.Year == 1)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.VPAmbientLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.VPAmbientLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (vpAmbient.LastUpdateDate_UTC.Year < 1980)
                 {
                 vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.VPAmbientLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.VPAmbientLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -175,7 +178,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.VPAmbientLastUpdateContactTVItemID, vpAmbient.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.VPAmbientLastUpdateContactTVItemID, vpAmbient.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -186,14 +189,14 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     vpAmbient.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.VPAmbientLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.VPAmbientLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(vpAmbient.LastUpdateContactTVText) && vpAmbient.LastUpdateContactTVText.Length > 200)
             {
                 vpAmbient.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.VPAmbientLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.VPAmbientLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

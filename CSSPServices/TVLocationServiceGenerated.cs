@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour TVLocation</para>
+    /// </summary>
     public partial class TVLocationService : BaseService
     {
         #region Variables
@@ -42,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(tvLocation.Error))
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVLocationError), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
@@ -52,45 +55,45 @@ namespace CSSPServices
             if (tvLocation.TVItemID < 1)
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.TVLocationTVItemID, "1"), new[] { "TVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.TVLocationTVItemID, "1"), new[] { "TVItemID" });
             }
 
             if (string.IsNullOrWhiteSpace(tvLocation.TVText))
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationTVText), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVLocationTVText), new[] { "TVText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvLocation.TVText) && (tvLocation.TVText.Length < 1 || tvLocation.TVText.Length > 255))
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.TVLocationTVText, "1", "255"), new[] { "TVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.TVLocationTVText, "1", "255"), new[] { "TVText" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvLocation.TVType);
             if (tvLocation.TVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationTVType), new[] { "TVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVLocationTVType), new[] { "TVType" });
             }
 
             retStr = enums.EnumTypeOK(typeof(TVTypeEnum), (int?)tvLocation.SubTVType);
             if (tvLocation.SubTVType == TVTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.TVLocationSubTVType), new[] { "SubTVType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TVLocationSubTVType), new[] { "SubTVType" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvLocation.TVTypeText) && tvLocation.TVTypeText.Length > 100)
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVLocationTVTypeText, "100"), new[] { "TVTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVLocationTVTypeText, "100"), new[] { "TVTypeText" });
             }
 
             if (!string.IsNullOrWhiteSpace(tvLocation.SubTVTypeText) && tvLocation.SubTVTypeText.Length > 100)
             {
                 tvLocation.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TVLocationSubTVTypeText, "100"), new[] { "SubTVTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TVLocationSubTVTypeText, "100"), new[] { "SubTVTypeText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

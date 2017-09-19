@@ -119,13 +119,13 @@ namespace CSSPServices.Tests
                     tideSite = GetFilledRandomTideSite("");
                     tideSite.TideSiteID = 0;
                     tideSiteService.Update(tideSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsRequired, ModelsRes.TideSiteTideSiteID), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideSiteTideSiteID), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tideSite = null;
                     tideSite = GetFilledRandomTideSite("");
                     tideSite.TideSiteID = 10000000;
                     tideSiteService.Update(tideSite);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TideSite, ModelsRes.TideSiteTideSiteID, tideSite.TideSiteID.ToString()), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TideSite, CSSPModelsRes.TideSiteTideSiteID, tideSite.TideSiteID.ToString()), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -138,13 +138,13 @@ namespace CSSPServices.Tests
                     tideSite = GetFilledRandomTideSite("");
                     tideSite.TideSiteTVItemID = 0;
                     tideSiteService.Add(tideSite);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TideSiteTideSiteTVItemID, tideSite.TideSiteTVItemID.ToString()), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideSiteTideSiteTVItemID, tideSite.TideSiteTVItemID.ToString()), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tideSite = null;
                     tideSite = GetFilledRandomTideSite("");
                     tideSite.TideSiteTVItemID = 1;
                     tideSiteService.Add(tideSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TideSiteTideSiteTVItemID, "TideSite"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TideSiteTideSiteTVItemID, "TideSite"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -157,7 +157,7 @@ namespace CSSPServices.Tests
                     tideSite = GetFilledRandomTideSite("WebTideModel");
                     Assert.AreEqual(false, tideSiteService.Add(tideSite));
                     Assert.AreEqual(1, tideSite.ValidationResults.Count());
-                    Assert.IsTrue(tideSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(ServicesRes._IsRequired, ModelsRes.TideSiteWebTideModel)).Any());
+                    Assert.IsTrue(tideSite.ValidationResults.Where(c => c.ErrorMessage == string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.TideSiteWebTideModel)).Any());
                     Assert.AreEqual(null, tideSite.WebTideModel);
                     Assert.AreEqual(count, tideSiteService.GetRead().Count());
 
@@ -165,7 +165,7 @@ namespace CSSPServices.Tests
                     tideSite = GetFilledRandomTideSite("");
                     tideSite.WebTideModel = GetRandomString("", 101);
                     Assert.AreEqual(false, tideSiteService.Add(tideSite));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideSiteWebTideModel, "100"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideSiteWebTideModel, "100"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -180,13 +180,13 @@ namespace CSSPServices.Tests
                     tideSite = GetFilledRandomTideSite("");
                     tideSite.WebTideDatum_m = -101.0D;
                     Assert.AreEqual(false, tideSiteService.Add(tideSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideSiteWebTideDatum_m, "-100", "100"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideSiteWebTideDatum_m, "-100", "100"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideSiteService.GetRead().Count());
                     tideSite = null;
                     tideSite = GetFilledRandomTideSite("");
                     tideSite.WebTideDatum_m = 101.0D;
                     Assert.AreEqual(false, tideSiteService.Add(tideSite));
-                    Assert.AreEqual(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.TideSiteWebTideDatum_m, "-100", "100"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.TideSiteWebTideDatum_m, "-100", "100"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -206,13 +206,13 @@ namespace CSSPServices.Tests
                     tideSite = GetFilledRandomTideSite("");
                     tideSite.LastUpdateContactTVItemID = 0;
                     tideSiteService.Add(tideSite);
-                    Assert.AreEqual(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.TideSiteLastUpdateContactTVItemID, tideSite.LastUpdateContactTVItemID.ToString()), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.TideSiteLastUpdateContactTVItemID, tideSite.LastUpdateContactTVItemID.ToString()), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
                     tideSite = null;
                     tideSite = GetFilledRandomTideSite("");
                     tideSite.LastUpdateContactTVItemID = 1;
                     tideSiteService.Add(tideSite);
-                    Assert.AreEqual(string.Format(ServicesRes._IsNotOfType_, ModelsRes.TideSiteLastUpdateContactTVItemID, "Contact"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.TideSiteLastUpdateContactTVItemID, "Contact"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
 
 
                     // -----------------------------------
@@ -227,7 +227,7 @@ namespace CSSPServices.Tests
                     tideSite = GetFilledRandomTideSite("");
                     tideSite.TideSiteTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, tideSiteService.Add(tideSite));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideSiteTideSiteTVText, "200"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideSiteTideSiteTVText, "200"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideSiteService.GetRead().Count());
 
                     // -----------------------------------
@@ -242,7 +242,7 @@ namespace CSSPServices.Tests
                     tideSite = GetFilledRandomTideSite("");
                     tideSite.LastUpdateContactTVText = GetRandomString("", 201);
                     Assert.AreEqual(false, tideSiteService.Add(tideSite));
-                    Assert.AreEqual(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.TideSiteLastUpdateContactTVText, "200"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.TideSiteLastUpdateContactTVText, "200"), tideSite.ValidationResults.FirstOrDefault().ErrorMessage);
                     Assert.AreEqual(count, tideSiteService.GetRead().Count());
 
                     // -----------------------------------

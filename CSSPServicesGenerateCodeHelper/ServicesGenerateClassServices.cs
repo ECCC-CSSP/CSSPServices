@@ -297,7 +297,7 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"            if (" + TypeNameLower + "." + csspProp.PropName + " != null && ((DateTime)" + TypeNameLower + "." + csspProp.PropName + ").Year < " + csspProp.Year + ")");
                     sb.AppendLine(@"            {");
                     sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Year + @"""), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Year + @"""), new[] { CSSPModelsRes." + TypeName + csspProp.PropName + " });");
                     sb.AppendLine(@"            }");
                     sb.AppendLine(@"");
                 }
@@ -310,7 +310,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"            if (" + TypeNameLower + "." + csspProp.OtherField + " > " + TypeNameLower + "." + csspProp.PropName + ")");
                 sb.AppendLine(@"            {");
                 sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._DateIsBiggerThan_, ModelsRes." + TypeName + csspProp.PropName + ", ModelsRes." + TypeName + csspProp.OtherField + "), new[] { ModelsRes." + TypeName + csspProp.PropName + " });");
+                sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes._DateIsBiggerThan_, CSSPModelsRes." + TypeName + csspProp.PropName + ", CSSPModelsRes." + TypeName + csspProp.OtherField + "), new[] { CSSPModelsRes." + TypeName + csspProp.PropName + " });");
                 sb.AppendLine(@"            }");
                 sb.AppendLine(@"");
             }
@@ -325,7 +325,7 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"                if (!regex.IsMatch(" + TypeNameLower + @"." + prop.Name + @"))");
                 sb.AppendLine(@"                {");
                 sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
-                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
+                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, CSSPModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
                 sb.AppendLine(@"                }");
                 sb.AppendLine(@"            }");
                 sb.AppendLine(@"");
@@ -343,7 +343,7 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" == " + csspProp.PropType + ".Error || !string.IsNullOrWhiteSpace(retStr))");
                     sb.AppendLine(@"                {");
                     sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
-                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
+                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
                     sb.AppendLine(@"                }");
                     sb.AppendLine(@"            }");
                     sb.AppendLine(@"");
@@ -354,7 +354,7 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @" == " + prop.PropertyType.Name + @".Error || !string.IsNullOrWhiteSpace(retStr))");
                     sb.AppendLine(@"            {");
                     sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
+                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
                     sb.AppendLine(@"            }");
                     sb.AppendLine(@"");
                 }
@@ -406,7 +406,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.Min.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.Max.ToString() + @")");
                                         sb.AppendLine(@"                {");
                                         sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
-                                        sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
+                                        sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                         sb.AppendLine(@"                }");
                                         sb.AppendLine(@"            }");
                                         sb.AppendLine(@"");
@@ -416,7 +416,7 @@ namespace CSSPServicesGenerateCodeHelper
                                         sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.Min.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.Max.ToString() + @")");
                                         sb.AppendLine(@"            {");
                                         sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
+                                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                         sb.AppendLine(@"            }");
                                         sb.AppendLine(@"");
                                     }
@@ -431,7 +431,7 @@ namespace CSSPServicesGenerateCodeHelper
                                     sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.Min.ToString() + @")");
                                     sb.AppendLine(@"                {");
                                     sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
-                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
+                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                     sb.AppendLine(@"                }");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
@@ -441,7 +441,7 @@ namespace CSSPServicesGenerateCodeHelper
                                     sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" < " + csspProp.Min.ToString() + @")");
                                     sb.AppendLine(@"            {");
                                     sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
+                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
                                 }
@@ -456,7 +456,7 @@ namespace CSSPServicesGenerateCodeHelper
                                     sb.AppendLine(@"                if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.Max.ToString() + @")");
                                     sb.AppendLine(@"                {");
                                     sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
-                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
+                                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes._MaxValueIs_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                     sb.AppendLine(@"                }");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
@@ -466,7 +466,7 @@ namespace CSSPServicesGenerateCodeHelper
                                     sb.AppendLine(@"            if (" + TypeNameLower + @"." + csspProp.PropName + @" > " + csspProp.Max.ToString() + @")");
                                     sb.AppendLine(@"            {");
                                     sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxValueIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
+                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxValueIs_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
                                 }
@@ -496,7 +496,7 @@ namespace CSSPServicesGenerateCodeHelper
                                     sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && (" + TypeNameLower + @"." + csspProp.PropName + @".Length < " + csspProp.Min.ToString() + @" || " + TypeNameLower + @"." + csspProp.PropName + @".Length > " + csspProp.Max.ToString() + @"))");
                                     sb.AppendLine(@"            {");
                                     sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
+                                    sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @""", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                     sb.AppendLine(@"            }");
                                     sb.AppendLine(@"");
                                 }
@@ -506,7 +506,7 @@ namespace CSSPServicesGenerateCodeHelper
                                 sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + csspProp.PropName + @".Length < " + csspProp.Min.ToString() + @")");
                                 sb.AppendLine(@"            {");
                                 sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MinLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes._MinLengthIs_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Min.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                 sb.AppendLine(@"            }");
                                 sb.AppendLine(@"");
                             }
@@ -515,7 +515,7 @@ namespace CSSPServicesGenerateCodeHelper
                                 sb.AppendLine(@"            if (!string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @") && " + TypeNameLower + @"." + csspProp.PropName + @".Length > " + csspProp.Max.ToString() + @")");
                                 sb.AppendLine(@"            {");
                                 sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + csspProp.Max.ToString() + @"""), new[] { """ + csspProp.PropName + @""" });");
                                 sb.AppendLine(@"            }");
                                 sb.AppendLine(@"");
                             }
@@ -564,14 +564,14 @@ namespace CSSPServicesGenerateCodeHelper
                             sb.AppendLine(@"            if (" + TypeNameLower + @"." + prop.Name + @".Year == 1)");
                             sb.AppendLine(@"            {");
                             sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
+                            sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
                             sb.AppendLine(@"            }");
                             sb.AppendLine(@"            else");
                             sb.AppendLine(@"            {");
                             sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @".Year < " + csspProp.Year + ")");
                             sb.AppendLine(@"                {");
                             sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                            sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes." + TypeName + prop.Name + @", """ + csspProp.Year + @"""), new[] { """ + csspProp.PropName + @""" });");
+                            sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes." + TypeName + prop.Name + @", """ + csspProp.Year + @"""), new[] { """ + csspProp.PropName + @""" });");
                             sb.AppendLine(@"                }");
                             sb.AppendLine(@"            }");
                             sb.AppendLine(@"");
@@ -584,7 +584,7 @@ namespace CSSPServicesGenerateCodeHelper
                                 sb.AppendLine(@"            if (string.IsNullOrWhiteSpace(" + TypeNameLower + @"." + prop.Name + @"))");
                                 sb.AppendLine(@"            {");
                                 sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
+                                sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
                                 sb.AppendLine(@"            }");
                                 sb.AppendLine(@"");
                             }
@@ -610,13 +610,13 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"                if (" + TypeNameLower + @"." + prop.Name + @" == 0)");
                 sb.AppendLine(@"                {");
                 sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
-                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
+                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes." + TypeName + prop.Name + @"), new[] { """ + csspProp.PropName + @""" });");
                 sb.AppendLine(@"                }");
                 sb.AppendLine(@"");
                 sb.AppendLine(@"                if (!GetRead().Where(c => c." + TypeName + @"ID == " + TypeNameLower + @"." + TypeName + @"ID).Any())");
                 sb.AppendLine(@"                {");
                 sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
-                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + TypeName + @", ModelsRes." + TypeName + TypeName + @"ID, " + TypeNameLower + @"." + TypeName + @"ID.ToString()), new[] { """ + csspProp.PropName + @""" });");
+                sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + TypeName + @", CSSPModelsRes." + TypeName + TypeName + @"ID, " + TypeNameLower + @"." + TypeName + @"ID.ToString()), new[] { """ + csspProp.PropName + @""" });");
                 sb.AppendLine(@"                }");
                 sb.AppendLine(@"            }");
                 sb.AppendLine(@"");
@@ -628,7 +628,7 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                if (GetRead().Count() > 0)");
                     sb.AppendLine(@"                {");
                     sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
-                    sb.AppendLine(@"                    yield return new ValidationResult(ServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { ModelsRes.TVItemTVItemID });");
+                    sb.AppendLine(@"                    yield return new ValidationResult(CSSPServicesRes.TVItemRootShouldBeTheFirstOneAdded, new[] { CSSPModelsRes.TVItemTVItemID });");
                     sb.AppendLine(@"                }");
                     sb.AppendLine(@"            }");
                     sb.AppendLine(@"");
@@ -649,7 +649,7 @@ namespace CSSPServicesGenerateCodeHelper
                     sb.AppendLine(@"                if (" + csspProp.ExistTypeName + csspProp.PropName + " == null)");
                     sb.AppendLine(@"                {");
                     sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
-                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
+                    sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + csspProp.ExistTypeName + ", CSSPModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
                     sb.AppendLine(@"                }");
                     if (csspProp.ExistTypeName == "TVItem")
                     {
@@ -665,7 +665,7 @@ namespace CSSPServicesGenerateCodeHelper
                         sb.AppendLine(@"                    if (!AllowableTVTypes.Contains(" + csspProp.ExistTypeName + csspProp.PropName + ".TVType))");
                         sb.AppendLine(@"                    {");
                         sb.AppendLine(@"                        " + TypeNameLower + ".HasErrors = true;");
-                        sb.AppendLine(@"                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes." + TypeName + csspProp.PropName + @", """ + String.Join(",", csspProp.AllowableTVTypeList) + @"""), new[] { """ + csspProp.PropName + @""" });");
+                        sb.AppendLine(@"                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + String.Join(",", csspProp.AllowableTVTypeList) + @"""), new[] { """ + csspProp.PropName + @""" });");
                         sb.AppendLine(@"                    }");
                         sb.AppendLine(@"                }");
                     }
@@ -683,7 +683,7 @@ namespace CSSPServicesGenerateCodeHelper
                         sb.AppendLine(@"                if (" + csspProp.ExistTypeName + csspProp.PropName + " == null)");
                         sb.AppendLine(@"                {");
                         sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
-                        sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
+                        sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + csspProp.ExistTypeName + ", CSSPModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
                         sb.AppendLine(@"                }");
                         if (csspProp.ExistTypeName == "TVItem")
                         {
@@ -699,7 +699,7 @@ namespace CSSPServicesGenerateCodeHelper
                             sb.AppendLine(@"                    if (!AllowableTVTypes.Contains(" + csspProp.ExistTypeName + csspProp.PropName + ".TVType))");
                             sb.AppendLine(@"                    {");
                             sb.AppendLine(@"                        " + TypeNameLower + ".HasErrors = true;");
-                            sb.AppendLine(@"                        yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes." + TypeName + csspProp.PropName + @", """ + String.Join(",", csspProp.AllowableTVTypeList) + @"""), new[] { """ + csspProp.PropName + @""" });");
+                            sb.AppendLine(@"                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + String.Join(",", csspProp.AllowableTVTypeList) + @"""), new[] { """ + csspProp.PropName + @""" });");
                             sb.AppendLine(@"                    }");
                             sb.AppendLine(@"                }");
                         }
@@ -713,7 +713,7 @@ namespace CSSPServicesGenerateCodeHelper
                         sb.AppendLine(@"            if (" + csspProp.ExistTypeName + csspProp.PropName + " == null)");
                         sb.AppendLine(@"            {");
                         sb.AppendLine(@"                " + TypeNameLower + ".HasErrors = true;");
-                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes." + csspProp.ExistTypeName + ", ModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
+                        sb.AppendLine(@"                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes." + csspProp.ExistTypeName + ", CSSPModelsRes." + TypeName + csspProp.PropName + ", " + TypeNameLower + "." + csspProp.PropName + @".ToString()), new[] { """ + csspProp.PropName + @""" });");
                         sb.AppendLine(@"            }");
                         if (csspProp.ExistTypeName == "TVItem")
                         {
@@ -729,7 +729,7 @@ namespace CSSPServicesGenerateCodeHelper
                             sb.AppendLine(@"                if (!AllowableTVTypes.Contains(" + csspProp.ExistTypeName + csspProp.PropName + ".TVType))");
                             sb.AppendLine(@"                {");
                             sb.AppendLine(@"                    " + TypeNameLower + ".HasErrors = true;");
-                            sb.AppendLine(@"                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes." + TypeName + csspProp.PropName + @", """ + String.Join(",", csspProp.AllowableTVTypeList) + @"""), new[] { """ + csspProp.PropName + @""" });");
+                            sb.AppendLine(@"                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes." + TypeName + csspProp.PropName + @", """ + String.Join(",", csspProp.AllowableTVTypeList) + @"""), new[] { """ + csspProp.PropName + @""" });");
                             sb.AppendLine(@"                }");
                             sb.AppendLine(@"            }");
                         }
@@ -815,6 +815,9 @@ namespace CSSPServicesGenerateCodeHelper
                 sb.AppendLine(@"");
                 sb.AppendLine(@"namespace CSSPServices");
                 sb.AppendLine(@"{");
+                sb.AppendLine(@"    /// <summary>");
+                sb.AppendLine(@"    ///     <para>bonjour " + TypeName + "</para>");
+                sb.AppendLine(@"    /// </summary>");
                 sb.AppendLine(@"    public partial class " + TypeName + @"Service : BaseService");
                 sb.AppendLine(@"    {");
                 sb.AppendLine(@"        #region Variables");

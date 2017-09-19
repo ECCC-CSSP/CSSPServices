@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour VPResValues</para>
+    /// </summary>
     public partial class VPResValuesService : BaseService
     {
         #region Variables
@@ -44,7 +47,7 @@ namespace CSSPServices
             if (vpResValues.Conc < 0)
             {
                 vpResValues.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.VPResValuesConc, "0"), new[] { "Conc" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.VPResValuesConc, "0"), new[] { "Conc" });
             }
 
             //Dilu (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D

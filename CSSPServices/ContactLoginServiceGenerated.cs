@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour ContactLogin</para>
+    /// </summary>
     public partial class ContactLoginService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (contactLogin.ContactLoginID == 0)
                 {
                     contactLogin.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginContactLoginID), new[] { "ContactLoginID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginContactLoginID), new[] { "ContactLoginID" });
                 }
 
                 if (!GetRead().Where(c => c.ContactLoginID == contactLogin.ContactLoginID).Any())
                 {
                     contactLogin.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.ContactLogin, ModelsRes.ContactLoginContactLoginID, contactLogin.ContactLoginID.ToString()), new[] { "ContactLoginID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.ContactLogin, CSSPModelsRes.ContactLoginContactLoginID, contactLogin.ContactLoginID.ToString()), new[] { "ContactLoginID" });
                 }
             }
 
@@ -63,19 +66,19 @@ namespace CSSPServices
             if (ContactContactID == null)
             {
                 contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.Contact, ModelsRes.ContactLoginContactID, contactLogin.ContactID.ToString()), new[] { "ContactID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.Contact, CSSPModelsRes.ContactLoginContactID, contactLogin.ContactID.ToString()), new[] { "ContactID" });
             }
 
             if (string.IsNullOrWhiteSpace(contactLogin.LoginEmail))
             {
                 contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginLoginEmail), new[] { "LoginEmail" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginLoginEmail), new[] { "LoginEmail" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactLogin.LoginEmail) && contactLogin.LoginEmail.Length > 200)
             {
                 contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginLoginEmail, "200"), new[] { "LoginEmail" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactLoginLoginEmail, "200"), new[] { "LoginEmail" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactLogin.LoginEmail))
@@ -84,7 +87,7 @@ namespace CSSPServices
                 if (!regex.IsMatch(contactLogin.LoginEmail))
                 {
                     contactLogin.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotAValidEmail, ModelsRes.ContactLoginLoginEmail), new[] { "LoginEmail" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotAValidEmail, CSSPModelsRes.ContactLoginLoginEmail), new[] { "LoginEmail" });
                 }
             }
 
@@ -97,14 +100,14 @@ namespace CSSPServices
             if (contactLogin.LastUpdateDate_UTC.Year == 1)
             {
                 contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (contactLogin.LastUpdateDate_UTC.Year < 1980)
                 {
                 contactLogin.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.ContactLoginLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.ContactLoginLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -115,7 +118,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.ContactLoginLastUpdateContactTVItemID, contactLogin.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.ContactLoginLastUpdateContactTVItemID, contactLogin.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -126,38 +129,38 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     contactLogin.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.ContactLoginLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.ContactLoginLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(contactLogin.LastUpdateContactTVText) && contactLogin.LastUpdateContactTVText.Length > 200)
             {
                 contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.ContactLoginLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.ContactLoginLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             if (string.IsNullOrWhiteSpace(contactLogin.Password))
             {
                 contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginPassword), new[] { "Password" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginPassword), new[] { "Password" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactLogin.Password) && (contactLogin.Password.Length < 6 || contactLogin.Password.Length > 100))
             {
                 contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginPassword, "6", "100"), new[] { "Password" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactLoginPassword, "6", "100"), new[] { "Password" });
             }
 
             if (string.IsNullOrWhiteSpace(contactLogin.ConfirmPassword))
             {
                 contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.ContactLoginConfirmPassword), new[] { "ConfirmPassword" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.ContactLoginConfirmPassword), new[] { "ConfirmPassword" });
             }
 
             if (!string.IsNullOrWhiteSpace(contactLogin.ConfirmPassword) && (contactLogin.ConfirmPassword.Length < 6 || contactLogin.ConfirmPassword.Length > 100))
             {
                 contactLogin.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._LengthShouldBeBetween_And_, ModelsRes.ContactLoginConfirmPassword, "6", "100"), new[] { "ConfirmPassword" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.ContactLoginConfirmPassword, "6", "100"), new[] { "ConfirmPassword" });
             }
 
             //HasErrors (bool) is required but no testing needed 

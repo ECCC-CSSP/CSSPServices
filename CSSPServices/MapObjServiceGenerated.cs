@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour MapObj</para>
+    /// </summary>
     public partial class MapObjService : BaseService
     {
         #region Variables
@@ -44,20 +47,20 @@ namespace CSSPServices
             if (mapObj.MapInfoID < 1)
             {
                 mapObj.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.MapObjMapInfoID, "1"), new[] { "MapInfoID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.MapObjMapInfoID, "1"), new[] { "MapInfoID" });
             }
 
             retStr = enums.EnumTypeOK(typeof(MapInfoDrawTypeEnum), (int?)mapObj.MapInfoDrawType);
             if (mapObj.MapInfoDrawType == MapInfoDrawTypeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 mapObj.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MapObjMapInfoDrawType), new[] { "MapInfoDrawType" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MapObjMapInfoDrawType), new[] { "MapInfoDrawType" });
             }
 
             if (!string.IsNullOrWhiteSpace(mapObj.MapInfoDrawTypeText) && mapObj.MapInfoDrawTypeText.Length > 100)
             {
                 mapObj.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.MapObjMapInfoDrawTypeText, "100"), new[] { "MapInfoDrawTypeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MapObjMapInfoDrawTypeText, "100"), new[] { "MapInfoDrawTypeText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

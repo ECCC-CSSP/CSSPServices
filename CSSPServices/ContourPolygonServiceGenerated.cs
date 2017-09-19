@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour ContourPolygon</para>
+    /// </summary>
     public partial class ContourPolygonService : BaseService
     {
         #region Variables
@@ -44,7 +47,7 @@ namespace CSSPServices
             if (contourPolygon.ContourValue < 0)
             {
                 contourPolygon.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.ContourPolygonContourValue, "0"), new[] { "ContourValue" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.ContourPolygonContourValue, "0"), new[] { "ContourValue" });
             }
 
             //Layer (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -52,7 +55,7 @@ namespace CSSPServices
             if (contourPolygon.Layer < 1 || contourPolygon.Layer > 100)
             {
                 contourPolygon.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContourPolygonLayer, "1", "100"), new[] { "Layer" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ContourPolygonLayer, "1", "100"), new[] { "Layer" });
             }
 
             //Depth (Double) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -60,7 +63,7 @@ namespace CSSPServices
             if (contourPolygon.Depth < 1 || contourPolygon.Depth > 10000)
             {
                 contourPolygon.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.ContourPolygonDepth, "1", "10000"), new[] { "Depth" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.ContourPolygonDepth, "1", "10000"), new[] { "Depth" });
             }
 
             //HasErrors (bool) is required but no testing needed 

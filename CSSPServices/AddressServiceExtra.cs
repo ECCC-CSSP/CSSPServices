@@ -45,19 +45,19 @@ namespace CSSPServices
         {
             if (address.CountryTVItemID == 0)
             {
-                address.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AddressCountryTVItemID)) };
+                address.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AddressCountryTVItemID)) };
                 return;
             }
 
             if (address.ProvinceTVItemID == 0)
             {
-                address.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AddressProvinceTVItemID)) };
+                address.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AddressProvinceTVItemID)) };
                 return;
             }
 
             if (address.MunicipalityTVItemID == 0)
             {
-                address.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AddressMunicipalityTVItemID)) };
+                address.ValidationResults = new List<ValidationResult>() { new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AddressMunicipalityTVItemID)) };
                 return;
             }
 

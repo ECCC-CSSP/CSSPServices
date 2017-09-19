@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour AppErrLog</para>
+    /// </summary>
     public partial class AppErrLogService : BaseService
     {
         #region Variables
@@ -44,13 +47,13 @@ namespace CSSPServices
                 if (appErrLog.AppErrLogID == 0)
                 {
                     appErrLog.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogAppErrLogID), new[] { "AppErrLogID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogAppErrLogID), new[] { "AppErrLogID" });
                 }
 
                 if (!GetRead().Where(c => c.AppErrLogID == appErrLog.AppErrLogID).Any())
                 {
                     appErrLog.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.AppErrLog, ModelsRes.AppErrLogAppErrLogID, appErrLog.AppErrLogID.ToString()), new[] { "AppErrLogID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.AppErrLog, CSSPModelsRes.AppErrLogAppErrLogID, appErrLog.AppErrLogID.ToString()), new[] { "AppErrLogID" });
                 }
             }
 
@@ -59,13 +62,13 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(appErrLog.Tag))
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogTag), new[] { "Tag" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogTag), new[] { "Tag" });
             }
 
             if (!string.IsNullOrWhiteSpace(appErrLog.Tag) && appErrLog.Tag.Length > 100)
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogTag, "100"), new[] { "Tag" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppErrLogTag, "100"), new[] { "Tag" });
             }
 
             //LineNumber (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
@@ -73,13 +76,13 @@ namespace CSSPServices
             if (appErrLog.LineNumber < 1)
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MinValueIs_, ModelsRes.AppErrLogLineNumber, "1"), new[] { "LineNumber" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MinValueIs_, CSSPModelsRes.AppErrLogLineNumber, "1"), new[] { "LineNumber" });
             }
 
             if (string.IsNullOrWhiteSpace(appErrLog.Source))
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogSource), new[] { "Source" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogSource), new[] { "Source" });
             }
 
             //Source has no StringLength Attribute
@@ -87,7 +90,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(appErrLog.Message))
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogMessage), new[] { "Message" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogMessage), new[] { "Message" });
             }
 
             //Message has no StringLength Attribute
@@ -95,28 +98,28 @@ namespace CSSPServices
             if (appErrLog.DateTime_UTC.Year == 1)
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogDateTime_UTC), new[] { "DateTime_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogDateTime_UTC), new[] { "DateTime_UTC" });
             }
             else
             {
                 if (appErrLog.DateTime_UTC.Year < 1980)
                 {
                 appErrLog.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppErrLogDateTime_UTC, "1980"), new[] { "DateTime_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppErrLogDateTime_UTC, "1980"), new[] { "DateTime_UTC" });
                 }
             }
 
             if (appErrLog.LastUpdateDate_UTC.Year == 1)
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.AppErrLogLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.AppErrLogLastUpdateDate_UTC), new[] { "LastUpdateDate_UTC" });
             }
             else
             {
                 if (appErrLog.LastUpdateDate_UTC.Year < 1980)
                 {
                 appErrLog.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.AppErrLogLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.AppErrLogLastUpdateDate_UTC, "1980"), new[] { "LastUpdateDate_UTC" });
                 }
             }
 
@@ -127,7 +130,7 @@ namespace CSSPServices
             if (TVItemLastUpdateContactTVItemID == null)
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes.CouldNotFind_With_Equal_, ModelsRes.TVItem, ModelsRes.AppErrLogLastUpdateContactTVItemID, appErrLog.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.AppErrLogLastUpdateContactTVItemID, appErrLog.LastUpdateContactTVItemID.ToString()), new[] { "LastUpdateContactTVItemID" });
             }
             else
             {
@@ -138,14 +141,14 @@ namespace CSSPServices
                 if (!AllowableTVTypes.Contains(TVItemLastUpdateContactTVItemID.TVType))
                 {
                     appErrLog.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._IsNotOfType_, ModelsRes.AppErrLogLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.AppErrLogLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
             }
 
             if (!string.IsNullOrWhiteSpace(appErrLog.LastUpdateContactTVText) && appErrLog.LastUpdateContactTVText.Length > 200)
             {
                 appErrLog.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.AppErrLogLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.AppErrLogLastUpdateContactTVText, "200"), new[] { "LastUpdateContactTVText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

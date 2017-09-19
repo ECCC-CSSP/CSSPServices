@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour FilePurposeAndText</para>
+    /// </summary>
     public partial class FilePurposeAndTextService : BaseService
     {
         #region Variables
@@ -43,13 +46,13 @@ namespace CSSPServices
             if (filePurposeAndText.FilePurpose == FilePurposeEnum.Error || !string.IsNullOrWhiteSpace(retStr))
             {
                 filePurposeAndText.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.FilePurposeAndTextFilePurpose), new[] { "FilePurpose" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.FilePurposeAndTextFilePurpose), new[] { "FilePurpose" });
             }
 
             if (!string.IsNullOrWhiteSpace(filePurposeAndText.FilePurposeText) && filePurposeAndText.FilePurposeText.Length > 100)
             {
                 filePurposeAndText.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._MaxLengthIs_, ModelsRes.FilePurposeAndTextFilePurposeText, "100"), new[] { "FilePurposeText" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.FilePurposeAndTextFilePurposeText, "100"), new[] { "FilePurposeText" });
             }
 
             //HasErrors (bool) is required but no testing needed 

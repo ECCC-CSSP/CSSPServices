@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace CSSPServices
 {
+    /// <summary>
+    ///     <para>bonjour MWQMSiteSampleFC</para>
+    /// </summary>
     public partial class MWQMSiteSampleFCService : BaseService
     {
         #region Variables
@@ -42,7 +45,7 @@ namespace CSSPServices
             if (string.IsNullOrWhiteSpace(mwqmSiteSampleFC.Error))
             {
                 mwqmSiteSampleFC.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteSampleFCError), new[] { "Error" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteSampleFCError), new[] { "Error" });
             }
 
             //Error has no StringLength Attribute
@@ -50,14 +53,14 @@ namespace CSSPServices
             if (mwqmSiteSampleFC.SampleDate.Year == 1)
             {
                 mwqmSiteSampleFC.HasErrors = true;
-                yield return new ValidationResult(string.Format(ServicesRes._IsRequired, ModelsRes.MWQMSiteSampleFCSampleDate), new[] { "SampleDate" });
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMSiteSampleFCSampleDate), new[] { "SampleDate" });
             }
             else
             {
                 if (mwqmSiteSampleFC.SampleDate.Year < 1980)
                 {
                 mwqmSiteSampleFC.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._YearShouldBeBiggerThan_, ModelsRes.MWQMSiteSampleFCSampleDate, "1980"), new[] { "SampleDate" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._YearShouldBeBiggerThan_, CSSPModelsRes.MWQMSiteSampleFCSampleDate, "1980"), new[] { "SampleDate" });
                 }
             }
 
@@ -66,7 +69,7 @@ namespace CSSPServices
                 if (mwqmSiteSampleFC.FC < 1 || mwqmSiteSampleFC.FC > 100000000)
                 {
                     mwqmSiteSampleFC.HasErrors = true;
-                    yield return new ValidationResult(string.Format(ServicesRes._ValueShouldBeBetween_And_, ModelsRes.MWQMSiteSampleFCFC, "1", "100000000"), new[] { "FC" });
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMSiteSampleFCFC, "1", "100000000"), new[] { "FC" });
                 }
             }
 
