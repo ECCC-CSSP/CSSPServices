@@ -93,12 +93,13 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._LengthShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterAnalysisName, "5", "250"), new[] { "AnalysisName" });
             }
 
-            //AnalysisReportYear (Int32) is required but no testing needed as it is automatically set to 0 or 0.0f or 0.0D
-
-            if (mwqmAnalysisReportParameter.AnalysisReportYear < 1980 || mwqmAnalysisReportParameter.AnalysisReportYear > 2050)
+            if (mwqmAnalysisReportParameter.AnalysisReportYear != null)
             {
-                mwqmAnalysisReportParameter.HasErrors = true;
-                yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterAnalysisReportYear, "1980", "2050"), new[] { "AnalysisReportYear" });
+                if (mwqmAnalysisReportParameter.AnalysisReportYear < 1980 || mwqmAnalysisReportParameter.AnalysisReportYear > 2050)
+                {
+                    mwqmAnalysisReportParameter.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes._ValueShouldBeBetween_And_, CSSPModelsRes.MWQMAnalysisReportParameterAnalysisReportYear, "1980", "2050"), new[] { "AnalysisReportYear" });
+                }
             }
 
             if (mwqmAnalysisReportParameter.StartDate.Year == 1)
@@ -252,6 +253,36 @@ namespace CSSPServices
                 yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterRunsToOmit, "250"), new[] { "RunsToOmit" });
             }
 
+            if (mwqmAnalysisReportParameter.ExcelTVFileTVItemID != null)
+            {
+                TVItem TVItemExcelTVFileTVItemID = (from c in db.TVItems where c.TVItemID == mwqmAnalysisReportParameter.ExcelTVFileTVItemID select c).FirstOrDefault();
+
+                if (TVItemExcelTVFileTVItemID == null)
+                {
+                    mwqmAnalysisReportParameter.HasErrors = true;
+                    yield return new ValidationResult(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMAnalysisReportParameterExcelTVFileTVItemID, mwqmAnalysisReportParameter.ExcelTVFileTVItemID.ToString()), new[] { "ExcelTVFileTVItemID" });
+                }
+                else
+                {
+                    List<TVTypeEnum> AllowableTVTypes = new List<TVTypeEnum>()
+                    {
+                        TVTypeEnum.File,
+                    };
+                    if (!AllowableTVTypes.Contains(TVItemExcelTVFileTVItemID.TVType))
+                    {
+                        mwqmAnalysisReportParameter.HasErrors = true;
+                        yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMAnalysisReportParameterExcelTVFileTVItemID, "File"), new[] { "ExcelTVFileTVItemID" });
+                    }
+                }
+            }
+
+            retStr = enums.EnumTypeOK(typeof(AnalysisReportExportCommandEnum), (int?)mwqmAnalysisReportParameter.Command);
+            if (mwqmAnalysisReportParameter.Command == AnalysisReportExportCommandEnum.Error || !string.IsNullOrWhiteSpace(retStr))
+            {
+                mwqmAnalysisReportParameter.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterCommand), new[] { "Command" });
+            }
+
             if (mwqmAnalysisReportParameter.LastUpdateDate_UTC.Year == 1)
             {
                 mwqmAnalysisReportParameter.HasErrors = true;
@@ -286,6 +317,18 @@ namespace CSSPServices
                     mwqmAnalysisReportParameter.HasErrors = true;
                     yield return new ValidationResult(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMAnalysisReportParameterLastUpdateContactTVItemID, "Contact"), new[] { "LastUpdateContactTVItemID" });
                 }
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.ExcelTVFileTVText) && mwqmAnalysisReportParameter.ExcelTVFileTVText.Length > 200)
+            {
+                mwqmAnalysisReportParameter.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterExcelTVFileTVText, "200"), new[] { "ExcelTVFileTVText" });
+            }
+
+            if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.CommandText) && mwqmAnalysisReportParameter.CommandText.Length > 100)
+            {
+                mwqmAnalysisReportParameter.HasErrors = true;
+                yield return new ValidationResult(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterCommandText, "100"), new[] { "CommandText" });
             }
 
             if (!string.IsNullOrWhiteSpace(mwqmAnalysisReportParameter.LastUpdateContactTVText) && mwqmAnalysisReportParameter.LastUpdateContactTVText.Length > 200)
@@ -365,6 +408,10 @@ namespace CSSPServices
         private List<MWQMAnalysisReportParameter> FillMWQMAnalysisReportParameter(IQueryable<MWQMAnalysisReportParameter> mwqmAnalysisReportParameterQuery)
         {
             List<MWQMAnalysisReportParameter> MWQMAnalysisReportParameterList = (from c in mwqmAnalysisReportParameterQuery
+                                         let ExcelTVFileTVText = (from cl in db.TVItemLanguages
+                                                              where cl.TVItemID == c.ExcelTVFileTVItemID
+                                                              && cl.Language == LanguageRequest
+                                                              select cl.TVText).FirstOrDefault()
                                          let LastUpdateContactTVText = (from cl in db.TVItemLanguages
                                                               where cl.TVItemID == c.LastUpdateContactTVItemID
                                                               && cl.Language == LanguageRequest
@@ -392,8 +439,11 @@ namespace CSSPServices
                                              WetLimit72h = c.WetLimit72h,
                                              WetLimit96h = c.WetLimit96h,
                                              RunsToOmit = c.RunsToOmit,
+                                             ExcelTVFileTVItemID = c.ExcelTVFileTVItemID,
+                                             Command = c.Command,
                                              LastUpdateDate_UTC = c.LastUpdateDate_UTC,
                                              LastUpdateContactTVItemID = c.LastUpdateContactTVItemID,
+                                             ExcelTVFileTVText = ExcelTVFileTVText,
                                              LastUpdateContactTVText = LastUpdateContactTVText,
                                              ValidationResults = null,
                                          }).ToList();
@@ -402,6 +452,7 @@ namespace CSSPServices
 
             foreach (MWQMAnalysisReportParameter mwqmAnalysisReportParameter in MWQMAnalysisReportParameterList)
             {
+                mwqmAnalysisReportParameter.CommandText = enums.GetResValueForTypeAndID(typeof(AnalysisReportExportCommandEnum), (int?)mwqmAnalysisReportParameter.Command);
             }
 
             return MWQMAnalysisReportParameterList;

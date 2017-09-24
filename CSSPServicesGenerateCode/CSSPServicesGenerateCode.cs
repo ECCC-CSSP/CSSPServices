@@ -16,6 +16,8 @@ using CSSPServices;
 using CSSPEnums;
 using CSSPModels;
 using CSSPGenerateCodeBase;
+using System.Linq.Expressions;
+using System.Linq.Dynamic.Core;
 
 namespace CSSPServicesGenerateCode
 {
@@ -41,7 +43,7 @@ namespace CSSPServicesGenerateCode
         private void butRepopulateTesDB_Click(object sender, EventArgs e)
         {
             richTextBoxStatus.Text = "";
-            
+
             // -----------------------------------------------------------------
             // -----------------------------------------------------------------
             // Will generate CSSPServices/[ClassName]ServiceGenerated.cs files
@@ -66,7 +68,7 @@ namespace CSSPServicesGenerateCode
         private void butGenerateClassServiceTestGenerated_Click(object sender, EventArgs e)
         {
             richTextBoxStatus.Text = "";
-            
+
             // -----------------------------------------------------------------
             // -----------------------------------------------------------------
             // Will generate CSSPServices.Tests/[ClassName]TestGenerated.cs files
@@ -103,5 +105,53 @@ namespace CSSPServicesGenerateCode
         }
 
         #endregion Functions private
+
+        public enum FilterEnum
+        {
+            Error = 0,
+            Contains = 1,
+            StartsWith = 2,
+            EndsWith = 3,
+            Equals = 4,
+            GreaterThan = 5,
+            LessThan = 6,
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (CSSPWebToolsDBContext db = new CSSPWebToolsDBContext(DatabaseTypeEnum.SqlServerCSSPWebToolsDB))
+            {
+                TVItemService tvItemService = new TVItemService(LanguageEnum.en, db, 2);
+                TVItemLanguageService tvItemLanguageService = new TVItemLanguageService(LanguageEnum.en, db, 2);
+                TVItemStatService tvItemStatService = new TVItemStatService(LanguageEnum.en, db, 2);
+                var tvList = (from c in tvItemService.GetRead()
+                              from cl in tvItemLanguageService.GetRead()
+                              let p = (from a in tvItemStatService.GetRead()
+                                        where a.TVItemID == c.TVItemID
+                                       select a.ChildCount).Sum()
+                              where c.TVItemID == cl.TVItemID
+                              && cl.Language == LanguageEnum.en
+                              select new { c, cl, p });
+
+                //tvList = tvList.Where("c.TVType == @0", TVTypeEnum.Municipality).OrderBy("cl.TVText desc");
+
+                foreach (var tv in tvList.Take(20))
+                {
+                    richTextBoxStatus.AppendText(tv.c.TVItemID + "\t" + tv.c.TVPath + "\t" + (int)tv.c.TVType + "\t\t" + tv.cl.LastUpdateDate_UTC + "\t" + tv.cl.TVText + "\r\n");
+                }
+
+                foreach (var aa in tvList.Take(20).Select("new(c.TVItemID, c.TVPath, cl.TVText, p as Count)"))
+                {
+                    richTextBoxStatus.AppendText(aa + "\r\n");
+                }
+
+
+
+            }
+
+            lblStatus.Text = "Done...";
+        }
+
+
     }
 }

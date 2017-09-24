@@ -1556,7 +1556,9 @@ namespace CSSPServicesGenerateCodeHelper
             mwqmAnalysisReportParameter.WetLimit48h = 24;
             mwqmAnalysisReportParameter.WetLimit72h = 36;
             mwqmAnalysisReportParameter.WetLimit96h = 48;
-            mwqmAnalysisReportParameter.RunsToOmit = "";
+            mwqmAnalysisReportParameter.RunsToOmit = ",";
+            mwqmAnalysisReportParameter.ExcelTVFileTVItemID = null;
+            mwqmAnalysisReportParameter.Command = AnalysisReportExportCommandEnum.Report;
             mwqmAnalysisReportParameter.LastUpdateDate_UTC = DateTime.Now;
             mwqmAnalysisReportParameter.LastUpdateContactTVItemID = tvItemContactCharles.TVItemID;
             if (!AddObject("MWQMAnalysisReportParameter", mwqmAnalysisReportParameter)) return false;

@@ -408,6 +408,7 @@
     <Compile Include="MikeScenarioServiceGenerated.cs" />
     <Compile Include="MikeSourceServiceGenerated.cs" />
     <Compile Include="MikeSourceStartEndServiceGenerated.cs" />
+    <Compile Include="MWQMAnalysisReportParameterServiceGenerated.cs" />
     <Compile Include="MWQMLookupMPNServiceGenerated.cs" />
     <Compile Include="MWQMRunLanguageServiceGenerated.cs" />
     <Compile Include="MWQMRunServiceGenerated.cs" />

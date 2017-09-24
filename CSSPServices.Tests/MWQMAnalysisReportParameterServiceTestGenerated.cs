@@ -60,8 +60,12 @@ namespace CSSPServices.Tests
             if (OmitPropName != "WetLimit72h") mwqmAnalysisReportParameter.WetLimit72h = GetRandomInt(1, 100);
             if (OmitPropName != "WetLimit96h") mwqmAnalysisReportParameter.WetLimit96h = GetRandomInt(1, 100);
             if (OmitPropName != "RunsToOmit") mwqmAnalysisReportParameter.RunsToOmit = GetRandomString("", 5);
+            if (OmitPropName != "ExcelTVFileTVItemID") mwqmAnalysisReportParameter.ExcelTVFileTVItemID = 17;
+            if (OmitPropName != "Command") mwqmAnalysisReportParameter.Command = (AnalysisReportExportCommandEnum)GetRandomEnumType(typeof(AnalysisReportExportCommandEnum));
             if (OmitPropName != "LastUpdateDate_UTC") mwqmAnalysisReportParameter.LastUpdateDate_UTC = new DateTime(2005, 3, 6);
             if (OmitPropName != "LastUpdateContactTVItemID") mwqmAnalysisReportParameter.LastUpdateContactTVItemID = 2;
+            if (OmitPropName != "ExcelTVFileTVText") mwqmAnalysisReportParameter.ExcelTVFileTVText = GetRandomString("", 5);
+            if (OmitPropName != "CommandText") mwqmAnalysisReportParameter.CommandText = GetRandomString("", 5);
             if (OmitPropName != "LastUpdateContactTVText") mwqmAnalysisReportParameter.LastUpdateContactTVText = GetRandomString("", 5);
             if (OmitPropName != "HasErrors") mwqmAnalysisReportParameter.HasErrors = true;
 
@@ -191,7 +195,7 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
 
                     // -----------------------------------
-                    // Is NOT Nullable
+                    // Is Nullable
                     // [Range(1980, 2050)]
                     // mwqmAnalysisReportParameter.AnalysisReportYear   (Int32)
                     // -----------------------------------
@@ -495,6 +499,38 @@ namespace CSSPServices.Tests
                     Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
 
                     // -----------------------------------
+                    // Is Nullable
+                    // [CSSPExist(ExistTypeName = "TVItem", ExistPlurial = "s", ExistFieldID = "TVItemID", AllowableTVtypeList = File)]
+                    // mwqmAnalysisReportParameter.ExcelTVFileTVItemID   (Int32)
+                    // -----------------------------------
+
+                    mwqmAnalysisReportParameter = null;
+                    mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
+                    mwqmAnalysisReportParameter.ExcelTVFileTVItemID = 0;
+                    mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter);
+                    Assert.AreEqual(string.Format(CSSPServicesRes.CouldNotFind_With_Equal_, CSSPModelsRes.TVItem, CSSPModelsRes.MWQMAnalysisReportParameterExcelTVFileTVItemID, mwqmAnalysisReportParameter.ExcelTVFileTVItemID.ToString()), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
+
+                    mwqmAnalysisReportParameter = null;
+                    mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
+                    mwqmAnalysisReportParameter.ExcelTVFileTVItemID = 1;
+                    mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMAnalysisReportParameterExcelTVFileTVItemID, "File"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
+                    // Is NOT Nullable
+                    // [CSSPEnumType]
+                    // mwqmAnalysisReportParameter.Command   (AnalysisReportExportCommandEnum)
+                    // -----------------------------------
+
+                    mwqmAnalysisReportParameter = null;
+                    mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
+                    mwqmAnalysisReportParameter.Command = (AnalysisReportExportCommandEnum)1000000;
+                    mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter);
+                    Assert.AreEqual(string.Format(CSSPServicesRes._IsRequired, CSSPModelsRes.MWQMAnalysisReportParameterCommand), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
+
+
+                    // -----------------------------------
                     // Is NOT Nullable
                     // [CSSPAfter(Year = 1980)]
                     // mwqmAnalysisReportParameter.LastUpdateDate_UTC   (DateTime)
@@ -519,6 +555,35 @@ namespace CSSPServices.Tests
                     mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter);
                     Assert.AreEqual(string.Format(CSSPServicesRes._IsNotOfType_, CSSPModelsRes.MWQMAnalysisReportParameterLastUpdateContactTVItemID, "Contact"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
 
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [CSSPFill(FillTypeName = "TVItemLanguage", FillPlurial = "s", FillFieldID = "TVItemID", FillEqualField = "ExcelTVFileTVItemID", FillReturnField = "TVText", FillNeedLanguage = "TVText")]
+                    // [NotMapped]
+                    // [StringLength(200))]
+                    // mwqmAnalysisReportParameter.ExcelTVFileTVText   (String)
+                    // -----------------------------------
+
+                    mwqmAnalysisReportParameter = null;
+                    mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
+                    mwqmAnalysisReportParameter.ExcelTVFileTVText = GetRandomString("", 201);
+                    Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterExcelTVFileTVText, "200"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
+
+                    // -----------------------------------
+                    // Is Nullable
+                    // [NotMapped]
+                    // [StringLength(100))]
+                    // mwqmAnalysisReportParameter.CommandText   (String)
+                    // -----------------------------------
+
+                    mwqmAnalysisReportParameter = null;
+                    mwqmAnalysisReportParameter = GetFilledRandomMWQMAnalysisReportParameter("");
+                    mwqmAnalysisReportParameter.CommandText = GetRandomString("", 101);
+                    Assert.AreEqual(false, mwqmAnalysisReportParameterService.Add(mwqmAnalysisReportParameter));
+                    Assert.AreEqual(string.Format(CSSPServicesRes._MaxLengthIs_, CSSPModelsRes.MWQMAnalysisReportParameterCommandText, "100"), mwqmAnalysisReportParameter.ValidationResults.FirstOrDefault().ErrorMessage);
+                    Assert.AreEqual(count, mwqmAnalysisReportParameterService.GetRead().Count());
 
                     // -----------------------------------
                     // Is Nullable
@@ -572,7 +637,10 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.SubsectorTVItemID);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.AnalysisName);
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.AnalysisName));
-                    Assert.IsNotNull(mwqmAnalysisReportParameterRet.AnalysisReportYear);
+                    if (mwqmAnalysisReportParameterRet.AnalysisReportYear != null)
+                    {
+                       Assert.IsNotNull(mwqmAnalysisReportParameterRet.AnalysisReportYear);
+                    }
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.StartDate);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.EndDate);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.AnalysisCalculationType);
@@ -591,9 +659,21 @@ namespace CSSPServices.Tests
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.WetLimit96h);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.RunsToOmit);
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.RunsToOmit));
+                    if (mwqmAnalysisReportParameterRet.ExcelTVFileTVItemID != null)
+                    {
+                       Assert.IsNotNull(mwqmAnalysisReportParameterRet.ExcelTVFileTVItemID);
+                    }
+                    Assert.IsNotNull(mwqmAnalysisReportParameterRet.Command);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.LastUpdateDate_UTC);
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.LastUpdateContactTVItemID);
 
+                    if (mwqmAnalysisReportParameterRet.ExcelTVFileTVItemID != null)
+                    {
+                       Assert.IsNotNull(mwqmAnalysisReportParameterRet.ExcelTVFileTVText);
+                       Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.ExcelTVFileTVText));
+                    }
+                    Assert.IsNotNull(mwqmAnalysisReportParameterRet.CommandText);
+                    Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.CommandText));
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.LastUpdateContactTVText);
                     Assert.IsFalse(string.IsNullOrWhiteSpace(mwqmAnalysisReportParameterRet.LastUpdateContactTVText));
                     Assert.IsNotNull(mwqmAnalysisReportParameterRet.HasErrors);
